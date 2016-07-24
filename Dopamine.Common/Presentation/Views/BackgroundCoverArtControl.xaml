@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.BackgroundCoverArtControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dopamine.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True" SizeChanged="UserControl_SizeChanged">
+
+    <Border x:Name="CoverImage" Opacity="{Binding Opacity}">
+        <Border Opacity="0.15">
+            <controls:CrossFadeContentControl 
+                Content="{Binding CoverArtViewModel.CoverArt}"
+                Duration="1.0"
+                RenderOptions.BitmapScalingMode="LowQuality"/>
+        </Border>
+    </Border>
+</UserControl>

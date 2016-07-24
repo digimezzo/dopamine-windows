@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Views.MainScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:prism="http://www.codeplex.com/prism"
+             mc:Ignorable="d"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Margin="15">
+            <DockPanel x:Name="MenuPanel" HorizontalAlignment="Left">
+                <Grid Width="56" Height="56">
+                    <Viewbox Width="56" Height="56" Panel.ZIndex="0">
+                        <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
+                    </Viewbox>
+                    <Viewbox Width="56" Height="56" Panel.ZIndex="2">
+                        <Path x:Name="Overlay" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_IconGradientBrush}"/>
+                    </Viewbox>
+                    <Viewbox Width="40" Height="40" Panel.ZIndex="1" Opacity="1">
+                        <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource RG_WhiteBrush}"/>
+                    </Viewbox>
+                </Grid>
+                <DockPanel x:Name="Menu" Height="56">
+                    <ContentControl DockPanel.Dock="Top" Margin="15,5,0,0" Name="MainMenuRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MainMenuRegion}"/>
+                    <controls:TransitioningContentControl x:Name="SubMenuRegion" Margin="0,0,0,3"  FadeIn="True" FadeInTimeout="1" SlideIn="True" SlideInTimeout="0.5" SlideInFrom="{Binding SubMenuSlideInFrom}" SlideInTo="15" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.SubMenuRegion}"/>
+                </DockPanel>
+            </DockPanel>
+            <controls:TransitioningContentControl DockPanel.Dock="Top" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" FadeIn="True" FadeInTimeout="1" SlideIn="True" SlideInTimeout="0.5" SlideInFrom="{Binding SearchSlideInFrom}" SlideInTo="0" Name="FullPlayerSearchRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.FullPlayerSearchRegion}"/>
+        </Grid>
+        <ContentControl DockPanel.Dock="Top" Name="StatusRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.StatusRegion}"/>
+        <controls:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0" Name="ContentRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.ContentRegion}"/>
+    </DockPanel>
+</UserControl>

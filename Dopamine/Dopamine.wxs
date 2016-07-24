@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?define Version="1.1.665.0" ?>
+<?define VersionMin="1.0.0.0" ?>
+<?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Dopamine" Language="1033" Version="$(var.Version)" Manufacturer="Digimezzo" UpgradeCode="$(var.UpgradeCode)">
+    <Package Description="Dopamine" Comments="Dopamine" InstallerVersion="200" Compressed="yes" />
+    <Media Id="1" Cabinet="Dopamine.cab" EmbedCab="yes" />
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+    <Property Id="REINSTALLMODE" Value="amus"/>
+    <!-- This should replace all components, even if their version didn't change -->
+    <Upgrade Id="$(var.UpgradeCode)">
+      <UpgradeVersion Minimum="$(var.VersionMin)" Maximum="$(var.Version)" Property="PREVIOUSVERSIONSINSTALLED" IncludeMinimum="yes" IncludeMaximum="no" />
+      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="yes" OnlyDetect="yes" Property="NEWERVERSIONINSTALLED" />
+    </Upgrade>
+    <Condition Message="A newer version of this product has been detected on your system. Setup cannot continue and will now terminate."><![CDATA[NOT NEWERVERSIONINSTALLED]]></Condition>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallFinalize"></RemoveExistingProducts>
+    </InstallExecuteSequence>
+    <!--<WixVariable Id="WixUILicenseRtf" Value="Dopamine.License.rtf" />-->
+    <WixVariable Id="WixUIBannerBmp" Value="Dopamine.BannerBmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Dopamine.DialogBmp.bmp" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Start Menu -->
+      <Directory Id="ProgramMenuFolder" />
+      <!--<Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuDir" Name="Dopamine">
+          <Component Id="StartMenuShortcuts" Guid="3e9b4ec6-b9e5-4986-a914-11c02b41cd93">
+            <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+            <RegistryValue Root="HKCU" Key="Software\Digimezzo\Dopamine" Type="string" Value="" />
+            <Shortcut Id="UninstallProduct" Name="Uninstall Dopamine" Description="Uninstalls Dopamine" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
+          </Component>
+        </Directory>
+      </Directory>-->
+      <!-- Program Files -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="INSTALLFOLDER" Name="Dopamine">
+          <Directory Id="ICONSFOLDER" Name="Icons">
+            <Component Id="Dopamine.ico" DiskId="1" Guid="23af5287-517c-4ab5-8b5d-3ce3a25946ab">
+              <File Id="Dopamine.ico" Name="Dopamine.ico" Source="Icons\Dopamine.ico" />
+            </Component>
+            <Component Id="Dopamine_White.ico" DiskId="1" Guid="224da751-a2de-4eb1-8692-e2ecaae09795">
+              <File Id="Dopamine_White.ico" Name="Dopamine - White.ico" Source="Icons\Dopamine - White.ico" />
+            </Component>
+            <Component Id="Dopamine.png" DiskId="1" Guid="0e22efcc-c34d-4325-9c8a-99568aaf3186">
+              <File Id="Dopamine.png" Name="Dopamine.png" Source="Icons\Dopamine.png" />
+            </Component>
+            <Component Id="Dopamine_White.png" DiskId="1" Guid="4c62966d-bef2-4e88-b6b0-fc8ba26e4a09">
+              <File Id="Dopamine_White.png" Name="Dopamine - White.png" Source="Icons\Dopamine - White.png" />
+            </Component>
+            <Component Id="Flac.ico" DiskId="1" Guid="d94da98f-a695-4895-86ac-887fd9b12a6b">
+              <File Id="Flac.ico" Name="Flac.ico" Source="Icons\Flac.ico" />
+            </Component>
+            <Component Id="Generic.ico" DiskId="1" Guid="9cb173ce-8051-4c44-9b21-84b900f98e3a">
+              <File Id="Generic.ico" Name="Generic.ico" Source="Icons\Generic.ico" />
+            </Component>
+            <Component Id="M3u.ico" DiskId="1" Guid="19ce3f3c-751f-4534-bc6b-d0fb51263b2c">
+              <File Id="M3u.ico" Name="M3u.ico" Source="Icons\M3u.ico" />
+            </Component>
+            <Component Id="M4a.ico" DiskId="1" Guid="daafc3a8-8921-48f3-8c9d-be8f0d0d579e">
+              <File Id="M4a.ico" Name="M4a.ico" Source="Icons\M4a.ico" />
+            </Component>
+            <Component Id="Mp3.ico" DiskId="1" Guid="cb13922d-ae0d-42e0-a4f8-dbda2c34fa8f">
+              <File Id="Mp3.ico" Name="Mp3.ico" Source="Icons\Mp3.ico" />
+            </Component>
+            <Component Id="Ogg.ico" DiskId="1" Guid="a45d8b7a-57e0-4365-8f22-9bd1494b8319">
+              <File Id="Ogg.ico" Name="Ogg.ico" Source="Icons\Ogg.ico" />
+            </Component>
+            <Component Id="Tray.ico" DiskId="1" Guid="68472004-08ea-48e8-b8f2-54038ad039dd">
+              <File Id="Tray.ico" Name="Tray.ico" Source="Icons\Tray.ico" />
+            </Component>
+            <Component Id="Wav.ico" DiskId="1" Guid="e4c71864-e8c5-4c78-bff5-52a87f875224">
+              <File Id="Wav.ico" Name="Wav.ico" Source="Icons\Wav.ico" />
+            </Component>
+            <Component Id="Wma.ico" DiskId="1" Guid="cc1d7b1b-bb0e-40bb-8fd3-2a4dfe644cba">
+              <File Id="Wma.ico" Name="Wma.ico" Source="Icons\Wma.ico" />
+            </Component>
+            <Component Id="Zpl.ico" DiskId="1" Guid="694d467a-02a4-4e74-b09c-996c8f3f6805">
+              <File Id="Zpl.ico" Name="Zpl.ico" Source="Icons\Zpl.ico" />
+            </Component>
+          </Directory>
+          <Directory Id="LanguagesDIR" Name="Languages">
+            <Component Id="BG.xml" DiskId="1" Guid="988b1eae-7af7-43bc-8bf7-e36bd8070d8e">
+              <File Id="BG.xml" Name="BG.xml" Source="Languages\BG.xml" />
+            </Component>
+            <Component Id="CS.xml" DiskId="1" Guid="162db091-c094-4e13-a7af-4f9d9e4ca99d">
+              <File Id="CS.xml" Name="CS.xml" Source="Languages\CS.xml" />
+            </Component>
+            <Component Id="DA.xml" DiskId="1" Guid="7009ae3a-5e53-4382-b1b1-a9015e6c9207">
+              <File Id="DA.xml" Name="DA.xml" Source="Languages\DA.xml" />
+            </Component>
+            <Component Id="DU.xml" DiskId="1" Guid="184fcfc1-a909-4628-9617-07205c8834c5">
+              <File Id="DU.xml" Name="DU.xml" Source="Languages\DU.xml" />
+            </Component>
+            <Component Id="EL.xml" DiskId="1" Guid="0da56190-9dfc-461d-ab02-de4b618292bb">
+              <File Id="EL.xml" Name="EL.xml" Source="Languages\EL.xml" />
+            </Component>
+            <Component Id="EN.xml" DiskId="1" Guid="74844126-191b-44b6-a7f5-0d4956b31028">
+              <File Id="EN.xml" Name="EN.xml" Source="Languages\EN.xml" />
+            </Component>
+            <Component Id="ES.xml" DiskId="1" Guid="ea629c5d-2f9d-49b6-98b2-0897e7e326aa">
+              <File Id="ES.xml" Name="ES.xml" Source="Languages\ES.xml" />
+            </Component>
+            <Component Id="FR.xml" DiskId="1" Guid="72a49f9b-8a4f-4c32-8b65-95791b54e906">
+              <File Id="FR.xml" Name="FR.xml" Source="Languages\FR.xml" />
+            </Component>
+            <Component Id="HU.xml" DiskId="1" Guid="96cc1d5d-d7ac-4be1-aa48-f35fa4edba3d">
+              <File Id="HU.xml" Name="HU.xml" Source="Languages\HU.xml" />
+            </Component>
+            <Component Id="IT.xml" DiskId="1" Guid="8a12d777-dde3-4ce4-8c39-253c8e779899">
+              <File Id="IT.xml" Name="IT.xml" Source="Languages\IT.xml" />
+            </Component>
+            <Component Id="NL.xml" DiskId="1" Guid="1b245cb0-07d9-4411-b107-65da3c79cc3f">
+              <File Id="NL.xml" Name="NL.xml" Source="Languages\NL.xml" />
+            </Component>
+            <Component Id="PL.xml" DiskId="1" Guid="859c72e6-f01c-49d2-9e15-110c767314ab">
+              <File Id="PL.xml" Name="PL.xml" Source="Languages\PL.xml" />
+            </Component>
+            <Component Id="PT_BR.xml" DiskId="1" Guid="79ab0569-64ee-4290-9fcf-9f6bf3dc080e">
+              <File Id="PT_BR.xml" Name="PT-BR.xml" Source="Languages\PT-BR.xml" />
+            </Component>
+            <Component Id="PT_PT.xml" DiskId="1" Guid="1c6bb842-d6e5-4e94-a1de-3cf3c91df555">
+              <File Id="PT_PT.xml" Name="PT-PT.xml" Source="Languages\PT-PT.xml" />
+            </Component>
+            <Component Id="RU.xml" DiskId="1" Guid="f148d520-4ace-49af-8160-de9502631933">
+              <File Id="RU.xml" Name="RU.xml" Source="Languages\RU.xml" />
+            </Component>
+            <Component Id="SV.xml" DiskId="1" Guid="e5563517-3ebb-4112-92ff-e13c729ac702">
+              <File Id="SV.xml" Name="SV.xml" Source="Languages\SV.xml" />
+            </Component>
+            <Component Id="TR.xml" DiskId="1" Guid="bced21fb-06b2-4a00-ba7a-eaa46ccf5d24">
+              <File Id="TR.xml" Name="TR.xml" Source="Languages\TR.xml" />
+            </Component>
+            <Component Id="UA.xml" DiskId="1" Guid="ded6f719-c2cd-473d-b0ac-255d1d6816f9">
+              <File Id="UA.xml" Name="UA.xml" Source="Languages\UA.xml" />
+            </Component>
+            <Component Id="ZH_CN.xml" DiskId="1" Guid="7e49c00f-0f37-48a7-b848-ee969c4caab8">
+              <File Id="ZH_CN.xml" Name="ZH-CN.xml" Source="Languages\ZH-CN.xml" />
+            </Component>
+          <Component Id="ZH_TW.xml" DiskId="1" Guid="de64c6c7-bce9-4e08-af6c-3e6675a0f32e">
+              <File Id="ZH_TW.xml" Name="ZH-TW.xml" Source="Languages\ZH-TW.xml" />
+            </Component>
+          </Directory>
+          <!-- 3rd party licenses -->
+          <Directory Id="LicensesDIR" Name="Licenses">
+            <Component Id="CSCore.txt" DiskId="1" Guid="2ac6c84f-e158-4c8e-9789-3fda532fcf75">
+              <File Id="CSCore.txt" Name="CSCore.txt" Source="Licenses\CSCore.txt" />
+            </Component>
+            <Component Id="DotNetZip.txt" DiskId="1" Guid="c37cb76a-482f-4a14-92d1-c9039cf6a9f9">
+              <File Id="DotNetZip.txt" Name="DotNetZip.txt" Source="Licenses\DotNetZip.txt" />
+            </Component>
+            <Component Id="Entity_Framework.txt" DiskId="1" Guid="3cd21a1d-9d4d-48c0-bf89-ecea0e47466b">
+              <File Id="Entity_Framework.txt" Name="Entity Framework.txt" Source="Licenses\Entity Framework.txt" />
+            </Component>
+            <Component Id="NLog.txt" DiskId="1" Guid="9d173143-37df-4f1a-9d44-ec3bc3c79ff3">
+              <File Id="NLog.txt" Name="NLog.txt" Source="Licenses\NLog.txt" />
+            </Component>
+            <Component Id="NVorbis.txt" DiskId="1" Guid="244b3b69-e3fe-4c0e-91a5-d48922a9cd5a">
+              <File Id="NVorbis.txt" Name="NVorbis.txt" Source="Licenses\NVorbis.txt" />
+            </Component>
+            <Component Id="Prism.txt" DiskId="1" Guid="471bfbdc-9875-4c22-8deb-c80b4181be6d">
+              <File Id="Prism.txt" Name="Prism.txt" Source="Licenses\Prism.txt" />
+            </Component>
+            <Component Id="TagLibSharp.txt" DiskId="1" Guid="422fffe5-1233-4d7c-b0fc-ac93d9b49fc0">
+              <File Id="TagLibSharp.txt" Name="TagLib#.txt" Source="Licenses\TagLib#.txt" />
+            </Component>
+            <Component Id="Unity.txt" DiskId="1" Guid="6ccf893d-ade1-4612-85d3-69e73ab7d624">
+              <File Id="Unity.txt" Name="Unity.txt" Source="Licenses\Unity.txt" />
+            </Component>
+            <Component Id="Unity3.WCF.txt" DiskId="1" Guid="c8a8f2d7-76bf-4f8c-8119-4eec5abbc756">
+              <File Id="Unity3.WCF.txt" Name="Unity3.WCF.txt" Source="Licenses\Unity3.WCF.txt" />
+            </Component>
+            <Component Id="WiX.txt" DiskId="1" Guid="f680e2f8-725d-496e-b3c6-fae04e366ac6">
+              <File Id="WiX.txt" Name="WiX.txt" Source="Licenses\WiX.txt" />
+            </Component>
+            <Component Id="WPF_Native_Folder_Browser.txt" DiskId="1" Guid="931f6cc6-a403-4567-8cca-5d1699209b2f">
+              <File Id="WPF_Native_Folder_Browser.txt" Name="WPF Native Folder Browser.txt" Source="Licenses\WPF Native Folder Browser.txt" />
+            </Component>
+            <Component Id="WPF_Sound_Visualization_Library.txt" DiskId="1" Guid="34abdb49-f44c-4a3a-a5c9-227059e5cd81">
+              <File Id="WPF_Sound_Visualization_Library.txt" Name="WPF Sound Visualization Library.txt" Source="Licenses\WPF Sound Visualization Library.txt" />
+            </Component>
+          </Directory>
+          <!-- Application -->
+          <Component Id="Dopamine.exe" DiskId="1" Guid="95a171ee-9c8a-4f5a-b922-1e97d126d2d9">
+            <File Id="Dopamine.exe" Name="Dopamine.exe" Source="Dopamine.exe">
+              <!--<Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="Dopamine" WorkingDirectory="INSTALLFOLDER" Advertise="yes" Icon="Dopamine.exe" IconIndex="0" />-->
+              <Shortcut Id="ExeShortcut" Directory="ProgramMenuFolder" Name="Dopamine" WorkingDirectory="INSTALLFOLDER" Icon="Dopamine.exe" IconIndex="0" />
+            </File>
+            <!-- REGISTRY -->
+            <!-- The assembly needs to be COM visible to appear in the different lists in Windows! -->
+            <!-- Capabilities -->
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationName" Value="Dopamine" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationDescription" Value="Dopamine audio player" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".m3u" Value="Dopamine.m3u" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".zpl" Value="Dopamine.zpl" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".mp3" Value="Dopamine.mp3" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".ogg" Value="Dopamine.ogg" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".wma" Value="Dopamine.wma" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".flac" Value="Dopamine.flac" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".m4a" Value="Dopamine.m4a" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="Dopamine" Value="SOFTWARE\Dopamine\Capabilities" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\Dopamine.exe" Name="FriendlyAppName" Value="Dopamine" Type="string" />
+            <!-- ProgId's in HKLM -->
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u" Value="Dopamine m3u file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u\DefaultIcon" Value="[ICONSFOLDER]M3u.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.zpl" Value="Dopamine zpl file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.zpl\DefaultIcon" Value="[ICONSFOLDER]Zpl.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.zpl\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.mp3" Value="Dopamine mp3 file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.mp3\DefaultIcon" Value="[ICONSFOLDER]Mp3.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.mp3\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.ogg" Value="Dopamine ogg file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.ogg\DefaultIcon" Value="[ICONSFOLDER]Ogg.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.ogg\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.wma" Value="Dopamine wma file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.wma\DefaultIcon" Value="[ICONSFOLDER]Wma.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.wma\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.flac" Value="Dopamine flac file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.flac\DefaultIcon" Value="[ICONSFOLDER]Flac.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.flac\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m4a" Value="Dopamine m4a file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m4a\DefaultIcon" Value="[ICONSFOLDER]M4a.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m4a\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <!-- ProgId's in HKCR -->
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m3u" Value="Dopamine m3u file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m3u\DefaultIcon" Value="[ICONSFOLDER]M3u.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m3u\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.zpl" Value="Dopamine zpl file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.zpl\DefaultIcon" Value="[ICONSFOLDER]Zpl.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.zpl\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.mp3" Value="Dopamine mp3 file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.mp3\DefaultIcon" Value="[ICONSFOLDER]Mp3.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.mp3\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.ogg" Value="Dopamine ogg file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.ogg\DefaultIcon" Value="[ICONSFOLDER]Ogg.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.ogg\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.wma" Value="Dopamine wma file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.wma\DefaultIcon" Value="[ICONSFOLDER]Wma.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.wma\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.flac" Value="Dopamine flac file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.flac\DefaultIcon" Value="[ICONSFOLDER]Flac.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.flac\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a" Value="Dopamine m4a file" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a\DefaultIcon" Value="[ICONSFOLDER]M4a.ico,0" Type="string" />
+            <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+          </Component>
+          <Component Id="Dopamine.exe.config" DiskId="1" Guid="03c52991-d811-4d1c-b893-1a8ffa8874a9">
+            <File Id="Dopamine.exe.config" Name="Dopamine.exe.config" Source="Dopamine.exe.config" />
+          </Component>
+          <Component Id="License.txt" DiskId="1" Guid="e10d825f-ed3a-4709-8524-ac3a7bbe8812">
+            <File Id="License.txt" Name="License.txt" Source="License.txt" />
+          </Component>
+          <Component Id="Changelog.txt" DiskId="1" Guid="9efd2cc1-c9b6-43ad-ba74-5ea299247f70">
+            <File Id="Changelog.txt" Name="Changelog.txt" Source="Changelog.txt" />
+          </Component>
+          <Component Id="BaseSettings.xml" DiskId="1" Guid="62e26bed-5482-4eb9-8773-494701fee8f0">
+            <File Id="BaseSettings.xml" Name="BaseSettings.xml" Source="BaseSettings.xml" />
+          </Component>
+          <!-- Prism & Unity libraries -->
+          <Component Id="Microsoft.Practices.Prism.Composition.dll" DiskId="1" Guid="4c3d9fdd-12ae-4255-a14e-24a19b5578c7">
+            <File Id="Microsoft.Practices.Prism.Composition.dll" Name="Microsoft.Practices.Prism.Composition.dll" Source="Microsoft.Practices.Prism.Composition.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.Interactivity.dll" DiskId="1" Guid="1efa8209-0800-4e0c-b2b9-8b672baa8345">
+            <File Id="Microsoft.Practices.Prism.Interactivity.dll" Name="Microsoft.Practices.Prism.Interactivity.dll" Source="Microsoft.Practices.Prism.Interactivity.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" DiskId="1" Guid="c18599c6-8454-431f-8f70-6e2ca95bfdbd">
+            <File Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" Name="Microsoft.Practices.Prism.Mvvm.Desktop.dll" Source="Microsoft.Practices.Prism.Mvvm.Desktop.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.Mvvm.dll" DiskId="1" Guid="1723995d-38e8-4324-9d12-285ca0feba26">
+            <File Id="Microsoft.Practices.Prism.Mvvm.dll" Name="Microsoft.Practices.Prism.Mvvm.dll" Source="Microsoft.Practices.Prism.Mvvm.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.PubSubEvents.dll" DiskId="1" Guid="929de0b6-7821-45b2-83c0-0765937cec64">
+            <File Id="Microsoft.Practices.Prism.PubSubEvents.dll" Name="Microsoft.Practices.Prism.PubSubEvents.dll" Source="Microsoft.Practices.Prism.PubSubEvents.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.SharedInterfaces.dll" DiskId="1" Guid="618c4ca4-05a4-4c0c-b98a-15c86fb7881f">
+            <File Id="Microsoft.Practices.Prism.SharedInterfaces.dll" Name="Microsoft.Practices.Prism.SharedInterfaces.dll" Source="Microsoft.Practices.Prism.SharedInterfaces.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Prism.UnityExtensions.dll" DiskId="1" Guid="ecc3bdda-5cf7-438f-ab0b-37fd36429a9c">
+            <File Id="Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="Microsoft.Practices.Prism.UnityExtensions.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.ServiceLocation.dll" DiskId="1" Guid="f9676ca3-6645-41a0-be8f-50af101be52a">
+            <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="Microsoft.Practices.ServiceLocation.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Unity.Configuration.dll" DiskId="1" Guid="84805e2e-1bfb-48e3-acbb-8c2023c644f4">
+            <File Id="Microsoft.Practices.Unity.Configuration.dll" Name="Microsoft.Practices.Unity.Configuration.dll" Source="Microsoft.Practices.Unity.Configuration.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Unity.dll" DiskId="1" Guid="f96093ed-2dce-4900-8aca-0c87e6704a80">
+            <File Id="Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="Microsoft.Practices.Unity.dll" />
+          </Component>
+          <Component Id="Microsoft.Practices.Unity.RegistrationByConvention.dll" DiskId="1" Guid="cda49e3f-465f-4ab1-8216-54992b2e85f7">
+            <File Id="Microsoft.Practices.Unity.RegistrationByConvention.dll" Name="Microsoft.Practices.Unity.RegistrationByConvention.dll" Source="Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+          </Component>
+          <!-- Application libraries -->
+          <Component Id="Dopamine.Common.dll" DiskId="1" Guid="c7118fe1-7e43-4e8a-94ac-8f2c3aafb92e">
+            <File Id="Dopamine.Common.dll" Name="Dopamine.Common.dll" Source="Dopamine.Common.dll" />
+          </Component>
+          <Component Id="Dopamine.Core.dll" DiskId="1" Guid="628be4cc-09df-4b3e-ba53-331b51d4dbb3">
+            <File Id="Dopamine.Core.dll" Name="Dopamine.Core.dll" Source="Dopamine.Core.dll" />
+          </Component>
+          <Component Id="Dopamine.Icons.dll" DiskId="1" Guid="fae0ba8b-64bc-4da3-8681-ddabcd758b16">
+            <File Id="Dopamine.Icons.dll" Name="Dopamine.Icons.dll" Source="Dopamine.Icons.dll" />
+          </Component>
+          <Component Id="Dopamine.CollectionModule.dll" DiskId="1" Guid="c0117534-ac00-4147-a5f8-2fe74630f2a4">
+            <File Id="Dopamine.CollectionModule.dll" Name="Dopamine.CollectionModule.dll" Source="Dopamine.CollectionModule.dll" />
+          </Component>
+          <Component Id="Dopamine.ControlsModule.dll" DiskId="1" Guid="5b5d9520-7c10-4c50-9e4f-cfcb2a267588">
+            <File Id="Dopamine.ControlsModule.dll" Name="Dopamine.ControlsModule.dll" Source="Dopamine.ControlsModule.dll" />
+          </Component>
+          <Component Id="Dopamine.FullPlayerModule.dll" DiskId="1" Guid="83ec73ea-5686-4683-bef0-09021a8fa108">
+            <File Id="Dopamine.FullPlayerModule.dll" Name="Dopamine.FullPlayerModule.dll" Source="Dopamine.FullPlayerModule.dll" />
+          </Component>
+          <Component Id="Dopamine.InformationModule.dll" DiskId="1" Guid="de0c3b70-1178-49e7-bbfb-a6d90c3e8d93">
+            <File Id="Dopamine.InformationModule.dll" Name="Dopamine.InformationModule.dll" Source="Dopamine.InformationModule.dll" />
+          </Component>
+          <Component Id="Dopamine.MiniPlayerModule.dll" DiskId="1" Guid="b06fe50f-15f9-4933-95c1-c2c3ecb92ea9">
+            <File Id="Dopamine.MiniPlayerModule.dll" Name="Dopamine.MiniPlayerModule.dll" Source="Dopamine.MiniPlayerModule.dll" />
+          </Component>
+          <Component Id="Dopamine.OobeModule.dll" DiskId="1" Guid="51d6b85d-a995-48f9-99e8-0b90380fb93a">
+            <File Id="Dopamine.OobeModule.dll" Name="Dopamine.OobeModule.dll" Source="Dopamine.OobeModule.dll" />
+          </Component>
+          <Component Id="Dopamine.SettingsModule.dll" DiskId="1" Guid="8d60c56c-45d1-419c-a6c1-66dc298a3e9f">
+            <File Id="Dopamine.SettingsModule.dll" Name="Dopamine.SettingsModule.dll" Source="Dopamine.SettingsModule.dll" />
+          </Component>
+          <!-- 3rd party libraries -->
+          <Directory Id="x64DIR" Name="x64">
+            <Component Id="SQLite.Interop.x64.dll" DiskId="1" Guid="eb8114a2-5489-4b58-b8b4-70c0210f6b20">
+              <File Id="SQLite.Interop.x64.dll" Name="SQLite.Interop.dll" Source="x64\SQLite.Interop.dll" />
+            </Component>
+          </Directory>
+          <Directory Id="x86DIR" Name="x86">
+            <Component Id="SQLite.Interop.x86.dll" DiskId="1" Guid="1b5a3457-e3df-4f19-9c62-302685b634dd">
+              <File Id="SQLite.Interop.x86.dll" Name="SQLite.Interop.dll" Source="x86\SQLite.Interop.dll" />
+            </Component>
+          </Directory>
+          <Component Id="CSCore.dll" DiskId="1" Guid="0ce32e69-64f6-4934-9a6a-fd565a9f419e">
+            <File Id="CSCore.dll" Name="CSCore.dll" Source="CSCore.dll" />
+          </Component>
+          <Component Id="EntityFramework.dll" DiskId="1" Guid="ca3605cd-5b86-42f3-a802-7e8e03fc7d06">
+            <File Id="EntityFramework.dll" Name="EntityFramework.dll" Source="EntityFramework.dll" />
+          </Component>
+          <Component Id="EntityFramework.SqlServer.dll" DiskId="1" Guid="fdc57160-32d4-45d8-829a-55ef066483eb">
+            <File Id="EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="EntityFramework.SqlServer.dll" />
+          </Component>
+          <Component Id="Ionic.Zip.dll" DiskId="1" Guid="bcd931de-b648-407b-9e2d-b74d3520388b">
+            <File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="Ionic.Zip.dll" />
+          </Component>
+          <Component Id="NLog.dll" DiskId="1" Guid="84aea469-7c7d-4f31-b0cf-35340252fe69">
+            <File Id="NLog.dll" Name="NLog.dll" Source="NLog.dll" />
+          </Component>
+          <Component Id="NVorbis.dll" DiskId="1" Guid="f885e796-bbee-44be-9a2a-33ecf609c4b1">
+            <File Id="NVorbis.dll" Name="NVorbis.dll" Source="NVorbis.dll" />
+          </Component>
+          <Component Id="policy.2.0.taglib_sharp.dll" DiskId="1" Guid="1c5d2896-42aa-4f45-ba92-671f22386d11">
+            <File Id="policy.2.0.taglib_sharp.dll" Name="policy.2.0.taglib-sharp.dll" Source="policy.2.0.taglib-sharp.dll" />
+          </Component>
+          <Component Id="Digimezzo.WPFControls.dll" DiskId="1" Guid="64ba1fef-87a2-4a2e-9fe8-7353cd2ed4e2">
+            <File Id="Digimezzo.WPFControls.dll" Name="Digimezzo.WPFControls.dll" Source="Digimezzo.WPFControls.dll" />
+          </Component>
+          <Component Id="System.Data.SQLite.dll" DiskId="1" Guid="c9b9f726-1e2d-4159-b22a-6f58d53456f1">
+            <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="System.Data.SQLite.dll" />
+          </Component>
+          <Component Id="System.Data.SQLite.EF6.dll" DiskId="1" Guid="56a5bec1-82d6-426d-bbe4-dad7840a60cd">
+            <File Id="System.Data.SQLite.EF6.dll" Name="System.Data.SQLite.EF6.dll" Source="System.Data.SQLite.EF6.dll" />
+          </Component>
+          <Component Id="System.Data.SQLite.Linq.dll" DiskId="1" Guid="48b820da-92a7-4767-9620-0fbaf3f8dcce">
+            <File Id="System.Data.SQLite.Linq.dll" Name="System.Data.SQLite.Linq.dll" Source="System.Data.SQLite.Linq.dll" />
+          </Component>
+          <Component Id="System.Windows.Interactivity.dll" DiskId="1" Guid="66aa593f-60a8-4d26-9c04-f4e51bcc6136">
+            <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="System.Windows.Interactivity.dll" />
+          </Component>
+          <Component Id="taglib_sharp.dll" DiskId="1" Guid="22a37645-8612-46c8-824f-9d609f9cbbcf">
+            <File Id="taglib_sharp.dll" Name="taglib-sharp.dll" Source="taglib-sharp.dll" />
+          </Component>
+          <Component Id="Unity.Wcf.dll" DiskId="1" Guid="e73afdf0-7e0d-416f-8da9-f7c1c2a8346f">
+            <File Id="Unity.Wcf.dll" Name="Unity.Wcf.dll" Source="Unity.Wcf.dll" />
+          </Component>
+          <Component Id="WPFFolderBrowser.dll" DiskId="1" Guid="f1b1f4ba-2bd6-4d3f-958f-83db02d7879e">
+            <File Id="WPFFolderBrowser.dll" Name="WPFFolderBrowser.dll" Source="WPFFolderBrowser.dll" />
+          </Component>
+          <Component Id="WPFSoundVisualizationLib.dll" DiskId="1" Guid="ba9f9fdb-9e17-4b3e-a009-4e7835a94eeb">
+            <File Id="WPFSoundVisualizationLib.dll" Name="WPFSoundVisualizationLib.dll" Source="WPFSoundVisualizationLib.dll" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+      <!-- Icons -->
+      <ComponentRef Id="Dopamine.ico" />
+      <ComponentRef Id="Dopamine_White.ico" />
+      <ComponentRef Id="Dopamine.png" />
+      <ComponentRef Id="Dopamine_White.png" />
+      <ComponentRef Id="Flac.ico" />
+      <ComponentRef Id="Generic.ico" />
+      <ComponentRef Id="M3u.ico" />
+      <ComponentRef Id="M4a.ico" />
+      <ComponentRef Id="Mp3.ico" />
+      <ComponentRef Id="Ogg.ico" />
+      <ComponentRef Id="Tray.ico" />
+      <ComponentRef Id="Wav.ico" />
+      <ComponentRef Id="Wma.ico" />
+      <ComponentRef Id="Zpl.ico" />
+      <!-- Languages -->
+      <ComponentRef Id="BG.xml" />
+      <ComponentRef Id="CS.xml" />
+      <ComponentRef Id="DA.xml" />
+      <ComponentRef Id="DU.xml" />
+      <ComponentRef Id="EL.xml" />
+      <ComponentRef Id="EN.xml" />
+      <ComponentRef Id="ES.xml" />
+      <ComponentRef Id="FR.xml" />
+      <ComponentRef Id="HU.xml" />
+      <ComponentRef Id="IT.xml" />
+      <ComponentRef Id="NL.xml" />
+      <ComponentRef Id="PL.xml" />
+      <ComponentRef Id="PT_BR.xml" />
+      <ComponentRef Id="PT_PT.xml" />
+      <ComponentRef Id="RU.xml" />
+      <ComponentRef Id="SV.xml" />
+      <ComponentRef Id="TR.xml" />
+      <ComponentRef Id="UA.xml" />
+      <ComponentRef Id="ZH_CN.xml" />
+      <ComponentRef Id="ZH_TW.xml" />
+      <!-- 3rd party licenses -->
+      <ComponentRef Id="CSCore.txt" />
+      <ComponentRef Id="DotNetZip.txt" />
+      <ComponentRef Id="Entity_Framework.txt" />
+      <ComponentRef Id="NLog.txt" />
+      <ComponentRef Id="NVorbis.txt" />
+      <ComponentRef Id="Prism.txt" />
+      <ComponentRef Id="TagLibSharp.txt" />
+      <ComponentRef Id="Unity.txt" />
+      <ComponentRef Id="Unity3.WCF.txt" />
+      <ComponentRef Id="WiX.txt" />
+      <ComponentRef Id="WPF_Native_Folder_Browser.txt" />
+      <ComponentRef Id="WPF_Sound_Visualization_Library.txt" />
+      <!-- Application -->
+      <ComponentRef Id="Dopamine.exe" />
+      <ComponentRef Id="Dopamine.exe.config" />
+      <ComponentRef Id="License.txt" />
+      <ComponentRef Id="Changelog.txt" />
+      <ComponentRef Id="BaseSettings.xml" />
+      <!-- Prism & Unity libraries -->
+      <ComponentRef Id="Microsoft.Practices.Prism.Composition.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.Interactivity.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.Mvvm.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.PubSubEvents.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.SharedInterfaces.dll" />
+      <ComponentRef Id="Microsoft.Practices.Prism.UnityExtensions.dll" />
+      <ComponentRef Id="Microsoft.Practices.ServiceLocation.dll" />
+      <ComponentRef Id="Microsoft.Practices.Unity.Configuration.dll" />
+      <ComponentRef Id="Microsoft.Practices.Unity.dll" />
+      <ComponentRef Id="Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+      <!-- Application libraries -->
+      <ComponentRef Id="Dopamine.Common.dll" />
+      <ComponentRef Id="Dopamine.Core.dll" />
+      <ComponentRef Id="Dopamine.Icons.dll" />
+      <ComponentRef Id="Dopamine.CollectionModule.dll" />
+      <ComponentRef Id="Dopamine.ControlsModule.dll" />
+      <ComponentRef Id="Dopamine.FullPlayerModule.dll" />
+      <ComponentRef Id="Dopamine.InformationModule.dll" />
+      <ComponentRef Id="Dopamine.MiniPlayerModule.dll" />
+      <ComponentRef Id="Dopamine.OobeModule.dll" />
+      <ComponentRef Id="Dopamine.SettingsModule.dll" />
+      <!-- 3rd party libraries -->
+      <ComponentRef Id="CSCore.dll" />
+      <ComponentRef Id="EntityFramework.dll" />
+      <ComponentRef Id="EntityFramework.SqlServer.dll" />
+      <ComponentRef Id="Ionic.Zip.dll" />
+      <ComponentRef Id="NLog.dll" />
+      <ComponentRef Id="NVorbis.dll" />
+      <ComponentRef Id="policy.2.0.taglib_sharp.dll" />
+      <ComponentRef Id="Digimezzo.WPFControls.dll" />
+      <ComponentRef Id="System.Data.SQLite.dll" />
+      <ComponentRef Id="System.Data.SQLite.EF6.dll" />
+      <ComponentRef Id="System.Data.SQLite.Linq.dll" />
+      <ComponentRef Id="SQLite.Interop.x64.dll" />
+      <ComponentRef Id="SQLite.Interop.x86.dll" />
+      <ComponentRef Id="System.Windows.Interactivity.dll" />
+      <ComponentRef Id="taglib_sharp.dll" />
+      <ComponentRef Id="Unity.Wcf.dll" />
+      <ComponentRef Id="WPFFolderBrowser.dll" />
+      <ComponentRef Id="WPFSoundVisualizationLib.dll" />
+      <!-- Start Menu -->
+      <!--<ComponentRef Id="StartMenuShortcuts" />-->
+    </Feature>
+
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <!-- skip licence dialog -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+
+      <!-- Add option to launch application after install is finished -->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Dopamine" />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+    <!-- This just defines an icon that can be used anywhere else -->
+    <Icon Id="Dopamine.exe" SourceFile="Dopamine.exe" />
+
+    <!-- This adds an icon for Add/Remove Programs. The Value is the Id of the Icon defined above -->
+    <Property Id="ARPPRODUCTICON" Value="Dopamine.exe" />
+
+    <Property Id="WixShellExecTarget" Value="[#Dopamine.exe]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+  </Product>
+</Wix>

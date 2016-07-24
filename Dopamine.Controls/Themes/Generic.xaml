@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/CombiLabel.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/IconButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/IconTextButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/DopamineWindow.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/MainMenuButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/SearchBox.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/SpectrumAnimation.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/SubMenuButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Controls;component/Themes/Tile.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

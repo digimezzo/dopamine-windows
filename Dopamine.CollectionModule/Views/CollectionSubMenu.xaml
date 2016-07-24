@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Views.CollectionSubMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:myViews="clr-namespace:Dopamine.CollectionModule.Views"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             mc:Ignorable="d"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Orientation="Horizontal">
+        <controls:SubMenuButton x:Name="MenuCollectionArtists" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Artists}" IsChecked="{Binding IsArtistsSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="1"/>
+        <controls:SubMenuButton x:Name="MenuCollectionGenres" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Genres}" IsChecked="{Binding IsGenresSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="2"/>
+        <controls:SubMenuButton x:Name="MenuCollectionAlbums" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Albums}" IsChecked="{Binding IsAlbumsSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="3"/>
+        <controls:SubMenuButton x:Name="MenuCollectionTracks" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Songs}" IsChecked="{Binding IsTracksSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="4"/>
+        <controls:SubMenuButton x:Name="MenuCollectionPlaylists" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Playlists}" IsChecked="{Binding IsPlaylistsSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="5"/>
+        <controls:SubMenuButton x:Name="MenuCollectionCloud" GroupName="CollectionGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Cloud}" IsChecked="{Binding IsCloudSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenCollectionCommand}" CommandParameter="6"/>
+    </StackPanel>
+</UserControl>

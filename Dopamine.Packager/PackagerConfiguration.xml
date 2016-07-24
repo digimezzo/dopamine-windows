@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Packager>
+  <Packaging>
+    <PackageDirectory>C:\Temp\Dopamine</PackageDirectory>
+    <Installable>
+      <WixBinDirectory>C:\Program Files (x86)\WiX Toolset v3.10\bin</WixBinDirectory>
+    </Installable>
+    <Portable>
+      <Directories>
+        <Directory>Icons</Directory>
+        <Directory>Languages</Directory>
+        <Directory>Licenses</Directory>
+        <Directory>x64</Directory>
+        <Directory>x86</Directory>
+      </Directories>
+      <Files>
+        <File>Dopamine.exe</File>
+        <File>Dopamine.exe.config</File>
+        <File>License.txt</File>
+        <File>Changelog.txt</File>
+        <File>BaseSettings.xml</File>
+        <File>Microsoft.Practices.Prism.Composition.dll</File>
+        <File>Microsoft.Practices.Prism.Interactivity.dll</File>
+        <File>Microsoft.Practices.Prism.Mvvm.Desktop.dll</File>
+        <File>Microsoft.Practices.Prism.Mvvm.dll</File>
+        <File>Microsoft.Practices.Prism.PubSubEvents.dll</File>
+        <File>Microsoft.Practices.Prism.SharedInterfaces.dll</File>
+        <File>Microsoft.Practices.Prism.UnityExtensions.dll</File>
+        <File>Microsoft.Practices.ServiceLocation.dll</File>
+        <File>Microsoft.Practices.Unity.Configuration.dll</File>
+        <File>Microsoft.Practices.Unity.dll</File>
+        <File>Microsoft.Practices.Unity.RegistrationByConvention.dll</File>
+        <File>Dopamine.Common.dll</File>
+        <File>Dopamine.Core.dll</File>
+        <File>Dopamine.Icons.dll</File>
+        <File>Dopamine.CollectionModule.dll</File>
+        <File>Dopamine.ControlsModule.dll</File>
+        <File>Dopamine.FullPlayerModule.dll</File>
+        <File>Dopamine.InformationModule.dll</File>
+        <File>Dopamine.MiniPlayerModule.dll</File>
+        <File>Dopamine.OobeModule.dll</File>
+        <File>Dopamine.SettingsModule.dll</File>
+        <File>CSCore.dll</File>
+        <File>EntityFramework.dll</File>
+        <File>EntityFramework.SqlServer.dll</File>
+        <File>Ionic.Zip.dll</File>
+        <File>NLog.dll</File>
+        <File>NVorbis.dll</File>
+        <File>policy.2.0.taglib-sharp.dll</File>
+        <File>Digimezzo.WPFControls.dll</File>
+        <File>System.Data.SQLite.dll</File>
+        <File>System.Data.SQLite.EF6.dll</File>
+        <File>System.Data.SQLite.Linq.dll</File>
+        <File>System.Windows.Interactivity.dll</File>
+        <File>taglib-sharp.dll</File>
+        <File>Unity.Wcf.dll</File>
+        <File>WPFFolderBrowser.dll</File>
+        <File>WPFSoundVisualizationLib.dll</File>
+      </Files>
+    </Portable>
+  </Packaging>
+</Packager>
+

@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.PlaybackControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <!-- Loop -->
+        <Button x:Name="LoopButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Loop}" Command="{Binding LoopCommand}">
+            <Grid>
+                <TextBlock Text="&#xE8EE;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14" Visibility="{Binding ShowLoopNone,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xE8ED;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14" Visibility="{Binding ShowLoopOne,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xE8EE;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14" Visibility="{Binding ShowLoopAll,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Grid>
+        </Button>
+        <!-- Previous -->
+        <Button x:Name="PreviousButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Previous}" Command="{Binding PreviousCommand}">
+            <TextBlock Text="&#xE892;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+        </Button>
+        <!-- Play and pause -->
+        <Grid>
+            <!-- Ring -->
+            <dc:ProgressRing Width="20" Height="20" Foreground="{DynamicResource RG_ForegroundBrush}" IsActive="True" Visibility="{Binding IsLoadingTrack,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid Visibility="{Binding IsLoadingTrack,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
+                <!-- Play -->
+                <Button x:Name="PlayButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Play}" Visibility="{Binding ShowPause,Converter={StaticResource InvertingBooleanToVisibilityConverter}}" Command="{Binding PlayCommand}">
+                    <TextBlock Text="&#xE768;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                </Button>
+                <!-- Pause -->
+                <Button x:Name="PauseButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Pause}" Visibility="{Binding ShowPause,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding PauseCommand}">
+                    <TextBlock Text="&#xE769;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                </Button>
+            </Grid>
+        </Grid>
+        <!-- Next -->
+        <Button x:Name="NextButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Next}" Command="{Binding NextCommand}">
+            <TextBlock Text="&#xE893;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+        </Button>
+        <!-- Shuffle -->
+        <Button x:Name="ShuffleButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Shuffle}" Command="{Binding ShuffleCommand}">
+            <Grid>
+                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding Shuffle,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding Shuffle,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Grid>
+        </Button>
+    </StackPanel>
+</UserControl>

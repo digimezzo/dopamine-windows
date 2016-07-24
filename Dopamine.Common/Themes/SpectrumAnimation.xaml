@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Dopamine.Common.Controls">
+
+    <Style TargetType="{x:Type controls:SpectrumAnimation}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SpectrumAnimation}">
+                    <StackPanel x:Name="SpectrumPanel" Orientation="Horizontal" Height="13" UseLayoutRounding="True">
+                        <StackPanel.Resources>
+                            <Storyboard x:Key="SpectrumStoryBoard" AutoReverse="True" RepeatBehavior="Forever" Timeline.DesiredFrameRate="20">
+                                <DoubleAnimation Storyboard.TargetName="Bar1" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.7" From="3" To="10"/>
+                                <DoubleAnimation Storyboard.TargetName="Bar2" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.7" From="6" To="3"/>
+                                <DoubleAnimation Storyboard.TargetName="Bar3" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.7" From="13" To="6"/>
+                                <DoubleAnimation Storyboard.TargetName="Bar4" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.7" From="9" To="13"/>
+                                <DoubleAnimation Storyboard.TargetName="Bar5" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.7" From="6" To="10"/>
+                            </Storyboard>
+                        </StackPanel.Resources>
+                        <Border x:Name="Bar1" VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Accent, RelativeSource={RelativeSource TemplatedParent}}" Height="3" Width="3" Margin="2,0,0,0"/>
+                        <Border x:Name="Bar2" VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Accent, RelativeSource={RelativeSource TemplatedParent}}" Height="6" Width="3"/>
+                        <Border x:Name="Bar3" VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Accent, RelativeSource={RelativeSource TemplatedParent}}" Height="13" Width="3"/>
+                        <Border x:Name="Bar4" VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Accent, RelativeSource={RelativeSource TemplatedParent}}" Height="9" Width="3"/>
+                        <Border x:Name="Bar5" VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Accent, RelativeSource={RelativeSource TemplatedParent}}" Height="6" Width="3"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

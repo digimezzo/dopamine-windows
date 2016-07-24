@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Views.NanoPlayerControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:myPresentationViewModels="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="False">
+
+    <StackPanel Orientation="Horizontal">
+        <ToggleButton x:Name="ListButton" Style="{StaticResource TransparentToggleButton}" Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,10,0" ToolTip="{DynamicResource Language_Now_Playing}" Command="{x:Static coreprism:ApplicationCommands.NanoPlayerPlaylistButtonCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+            <Grid>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ListButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ListButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Grid>
+        </ToggleButton>
+        <commonviews:CompactPlaybackControls Margin="0,0,10,0"/>
+        <commonviews:PopupVolumeControls ToolTip="{DynamicResource Language_Volume}" Width="20" Height="20"/>
+    </StackPanel>
+</UserControl>

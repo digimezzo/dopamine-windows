@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Views.SettingsAppearanceTheme"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             mc:Ignorable="d" 
+             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel>
+        <TextBlock Text="{DynamicResource Language_Choose_Theme}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        <dc:Windows10ToggleSwitch x:Name="CheckBoxTheme" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Light}" OffLabel="{DynamicResource Language_Dark}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxThemeChecked}"/>
+        <Separator Height="20" Background="Transparent" />
+        <TextBlock Text="{DynamicResource Language_Follow_Windows_Color}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        <dc:Windows10ToggleSwitch x:Name="CheckBoxWindowsColor" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWindowsColorChecked}"/>
+        <Separator Height="20" Background="Transparent" />
+        <ListBox Name="ListBoxColorSchemes" HorizontalAlignment="Left" DockPanel.Dock="Left" Background="Transparent" ItemsSource="{Binding Path=ColorSchemes}" SelectedItem="{Binding SelectedColorScheme,Mode=TwoWay}" IsHitTestVisible="{Binding Path=CheckBoxWindowsColorChecked, Converter={StaticResource InvertingBooleanConverter}}" >
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.Style>
+                <StaticResource ResourceKey="ColorSchemeButtons"/>
+            </ListBox.Style>
+        </ListBox>
+    </StackPanel>
+</UserControl>

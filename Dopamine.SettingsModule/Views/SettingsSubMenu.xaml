@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Views.SettingsSubMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:myViews="clr-namespace:Dopamine.SettingsModule.Views"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal">
+        <controls:SubMenuButton x:Name="MenuSettingsCollection" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Collection}" IsChecked="True" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="1"/>
+        <controls:SubMenuButton x:Name="MenuSettingsAppearance" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Appearance}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="2"/>
+        <controls:SubMenuButton x:Name="MenuSettingsBehaviour" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Behaviour}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="3"/>
+        <controls:SubMenuButton x:Name="MenuSettingsAudio" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Playback}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="4"/>
+        <controls:SubMenuButton x:Name="MenuSettingsStartup" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Startup}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="5"/>
+    </StackPanel>
+</UserControl>

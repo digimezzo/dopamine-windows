@@ -1,0 +1,125 @@
+﻿<controls:DopamineWindow x:Class="Views.Shell"
+    x:Name="Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="http://www.codeplex.com/prism"
+    xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+    xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+    xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+    xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
+    xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+    xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    Title="{Binding TaskbarService.Description}" 
+    Width="950" 
+    Height="600" 
+    MinWidth="{x:Static myCoreBase:Constants.MinShellWidth}"
+    MinHeight="{x:Static myCoreBase:Constants.MinShellHeight}" 
+    ContentRendered="Shell_ContentRendered"
+    StateChanged="Shell_StateChanged"
+    SizeChanged="Shell_SizeChanged"
+    LocationChanged="Shell_LocationChanged"
+    KeyDown="Shell_KeyDown"
+    Closing="Shell_Closing"
+    OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+    IsOverlayVisible="{Binding Path=IsOverlayVisible}"
+    Background="Transparent"
+    Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
+    Accent="{DynamicResource RG_AccentBrush}"
+    Closed="Shell_Closed"
+    Deactivated="Shell_Deactivated"
+    MouseUp="Shell_MouseUp"
+    CloseToolTip="{DynamicResource Language_Close}"
+    MinimizeToolTip="{DynamicResource Language_Minimize}"
+    MaximizeToolTip="{DynamicResource Language_Maximize}"
+    RestoreToolTip="{DynamicResource Language_Restore}"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <!-- Resources -->
+    <controls:DopamineWindow.Resources>
+        <ResourceDictionary>
+            <!-- Tray icon context menu -->
+            <ContextMenu x:Key="TrayIconContextMenu" Placement="MousePoint">
+                <MenuItem x:Name="TrayIconContextMenuAppName" Header="{DynamicResource Language_Show_Dopamine}" FontWeight="Bold" Click="TrayIconContextMenuAppName_Click"/>
+                <Separator/>
+                <MenuItem x:Name="TrayIconContextMenuExit" Header="{DynamicResource Language_Exit}" Click="TrayIconContextMenuExit_Click"/>
+            </ContextMenu>
+        </ResourceDictionary>
+    </controls:DopamineWindow.Resources>
+
+    <controls:DopamineWindow.WindowCommands>
+        <!-- Mini Player switch button -->
+        <Button x:Name="PART_MiniPlayerButton" Style="{StaticResource WindowButton}" Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Mini_Player}"  Command="{x:Static coreprism:ApplicationCommands.TogglePlayerCommand}">
+            <Path x:Name="Icon" Data="{StaticResource MiniPlayer}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+    </controls:DopamineWindow.WindowCommands>
+
+    <!--  TaskbarItemInfo -->
+    <controls:DopamineWindow.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="TaskBarItemInfo" 
+                         ThumbnailClipMargin="0 0 0 0" 
+                         Description="{Binding TaskbarService.Description}" 
+                         ProgressValue="{Binding TaskbarService.ProgressValue}" 
+                         ProgressState="{Binding TaskbarService.ProgressState}">
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfoCollection>
+                    <ThumbButtonInfo
+                   x:Name="ThumbButtonInfoPrevious"
+                   Command="{Binding PreviousCommand}"
+                   Description="{DynamicResource Language_Previous}"
+                   ImageSource="/Icons/TaskbarItemInfo_Previous.ico" />
+                    <ThumbButtonInfo
+                   x:Name="ThumbButtonInfoPlayPause"
+                   Command="{x:Static coreprism:ApplicationCommands.TaskbarItemInfoPlayCommand}"
+                   Description="{Binding PlayPauseText}"
+                   ImageSource="{Binding PlayPauseIcon}"/>
+                    <ThumbButtonInfo
+                   x:Name="ThumbButtonInfoNext"
+                   Command="{Binding NextCommand}"
+                   Description="{DynamicResource Language_Next}"
+                   ImageSource="/Icons/TaskbarItemInfo_Next.ico"/>
+                </ThumbButtonInfoCollection>
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </controls:DopamineWindow.TaskbarItemInfo>
+
+    <Grid>
+        <Border x:Name="ClosingBorder" Panel.ZIndex="1" Visibility="Collapsed" Opacity="0" Background="{DynamicResource RG_WindowBackgroundBrush}">
+            <Border.Resources>
+                <Storyboard x:Key="ClosingAnimation">
+                    <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.3" />
+                </Storyboard>
+            </Border.Resources>
+            <TextBlock 
+                x:Name="ClosingText"
+                Text="{DynamicResource Language_See_You_Later}" 
+                Foreground="{DynamicResource RG_ForegroundBrush}" 
+                FontWeight="Light"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                TextWrapping="Wrap"/>
+        </Border>
+        <Border x:Name="WindowBorder" Panel.ZIndex="0">
+            <Border.Background>
+                <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+            </Border.Background>
+            <Border.Resources>
+                <Storyboard x:Key="BackgroundAnimation">
+                    <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="0:0:0.2" />
+                </Storyboard>
+            </Border.Resources>
+            <controls:TransitioningContentControl Grid.Row="0" Grid.Column="0" FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.PlayerTypeRegion}"/>
+        </Border>
+    </Grid>
+</controls:DopamineWindow>

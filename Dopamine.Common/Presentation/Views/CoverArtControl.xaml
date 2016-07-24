@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.CoverArtControl"
+             x:Name="ThisControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             Loaded="ThisControl_Loaded"
+             SizeChanged="ThisControl_SizeChanged"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type commonviewmodels:CoverArtViewModel}">
+            <Grid>
+                <Border Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
+                    <Viewbox Width="{Binding IconSize,ElementName=ThisControl}" Height="{Binding IconSize,ElementName=ThisControl}">
+                        <Path x:Name="FullLogo" Data="{StaticResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                    </Viewbox>
+                </Border>
+                <ContentControl Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Content="{Binding CoverArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <dc:SlidingContentControl 
+        Panel.ZIndex="0" 
+        Width="{Binding ActualWidth,ElementName=CoverArtControl}" 
+        Height="{Binding ActualHeight,ElementName=CoverArtControl}" 
+        EasingAmplitude="0" 
+        SlideDirection="{Binding SlideDirection}" 
+        Content="{Binding CoverArtViewModel}"
+        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+</UserControl>

@@ -1,0 +1,59 @@
+﻿<controls:DopamineWindow x:Class="Views.Oobe"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Oobe" 
+    Height="550" 
+    Width="400"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+    xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+    xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+    xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+    xmlns:prism="http://www.codeplex.com/prism"
+    xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+    Closing="MetroWindow_Closing"
+    OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+    IsOverlayVisible="{Binding Path=IsOverlayVisible}"
+    Background="Transparent"
+    Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
+    Accent="{DynamicResource RG_AccentBrush}"
+    Loaded="BorderlessWindow_Loaded"
+    CloseToolTip="{DynamicResource Language_Close}"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True" >
+
+    <!-- Triggers -->
+    <controls:DopamineWindow.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <!-- PART_Border -->
+                    <DoubleAnimation Storyboard.TargetName="WindowBorder" 
+                       Storyboard.TargetProperty="Opacity" From="0" To="1" 
+                       Duration="0:0:0.25" BeginTime="0:0:0"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </controls:DopamineWindow.Triggers>
+
+    <!-- Content -->
+    <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0">
+        <Border.Background>
+            <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+        </Border.Background>
+        <Border.Resources>
+            <Storyboard x:Key="BackgroundAnimation">
+                <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="0:0:0.2" />
+            </Storyboard>
+        </Border.Resources>
+        <DockPanel>
+            <dc:SlidingContentControl x:Name="OobeAppNameRegion" DockPanel.Dock="Top" Margin="0,30,0,0" Height="56" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeAppNameRegion}"/>
+            <DockPanel>
+                <dc:SlidingContentControl x:Name="OobeControlsRegion" DockPanel.Dock="Bottom" HorizontalAlignment="Right" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" Width="90" Height="55" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeControlsRegion}"/>
+                <dc:SlidingContentControl x:Name="OobeContentRegion" Margin="0,50,0,0" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeContentRegion}"/>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</controls:DopamineWindow>
+    

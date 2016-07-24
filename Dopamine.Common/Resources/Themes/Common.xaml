@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- White -->
+    <Color x:Key="RG_WhiteColor">White</Color>
+    <SolidColorBrush x:Key="RG_WhiteBrush" Color="{DynamicResource RG_WhiteColor}"/>
+    <SolidColorBrush x:Key="RG_WhiteMediumBrush" Color="#E2E2E2"/>
+    <SolidColorBrush x:Key="RG_InactiveWhiteBrush" Color="#5E5E5E"/>
+    
+    <!-- Black -->
+    <Color x:Key="RG_BlackColor">Black</Color>
+    <SolidColorBrush x:Key="RG_BlackBrush" Color="{DynamicResource RG_BlackColor}"/>
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="RG_PlaybackInfoGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+        <GradientStop Color="#00000000" Offset="0.0" />
+        <GradientStop Color="#11000000" Offset="0.6" />
+        <GradientStop Color="#33000000" Offset="0.7" />
+        <GradientStop Color="#77000000" Offset="0.8" />
+        <GradientStop Color="#FF000000" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="RG_CoverMicroPlayerWindowControlsGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+        <GradientStop Color="#FF000000" Offset="0.0" />
+        <GradientStop Color="#55000000" Offset="0.5" />
+        <GradientStop Color="#11000000" Offset="0.8" />
+        <GradientStop Color="#00000000" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="RG_IconGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.1">
+        <GradientStop Color="White" Offset="0.0" />
+        <GradientStop Color="Transparent" Offset="1.0" />
+    </LinearGradientBrush>
+</ResourceDictionary>

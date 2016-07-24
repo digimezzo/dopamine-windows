@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Themes/Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- This RG_AppearanceServiceBrush is used by the AppearanceService -->
+    <SolidColorBrush x:Key="RG_AppearanceServiceBrush" Color="White" Opacity="1.0"/>
+
+    <!-- Border Brushes -->
+    <SolidColorBrush x:Key="RG_BorderBrush" Color="#BBBBBB"/>
+
+    <!-- Separator Brushes -->
+    <SolidColorBrush x:Key="RG_ContextMenuSeparatorBrush" Color="#BBBBBB" />
+
+    <!-- Background Brushes -->
+    <Color x:Key="RG_WindowBackgroundColor">#FBFBFB</Color>
+    <SolidColorBrush x:Key="RG_WindowBackgroundBrush" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+    <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#F0F0F0"/>
+    <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#DFDFDF"/>
+    <SolidColorBrush x:Key="RG_ControlsBackgroundHighBrush" Color="#CBCBCB"/>
+
+    <SolidColorBrush x:Key="RG_TextBoxInvisibleBackgroundBrush" Color="#00FFFFFF"/>
+    <SolidColorBrush x:Key="RG_SliderTrackBackgroundBrush" Color="#BABABA"/>
+
+    <!-- Transparent Background Brushes (#090909 is equivalent to #E5E5E5 but with transparency) -->
+    <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#090909" Opacity="0.1"/>
+    <SolidColorBrush x:Key="RG_DimBackgroundBrush" Color="Black" Opacity="0.2"/>
+    <SolidColorBrush x:Key="RG_TooltipBackgroundBrush" Color="Black" Opacity="0.9"/>
+
+    <!-- Foreground Brushes -->
+    <Color x:Key="RG_ForegroundColor">Black</Color>
+    <SolidColorBrush x:Key="RG_ForegroundBrush" Color="{DynamicResource RG_ForegroundColor}"/>
+    <SolidColorBrush x:Key="RG_InactiveForegroundBrush" Color="#939393"/>
+    <SolidColorBrush x:Key="RG_WindowButtonForegroundBrush" Color="#999999"/>
+    <SolidColorBrush x:Key="RG_TooltipForegroundBrush" Color="White"/>
+
+    <!-- Selection Brushes -->
+    <SolidColorBrush x:Key="RG_ContextMenuHoveredBrush" Color="#DCDCDC"/>
+
+    <!-- Gradient Brushes -->
+    <RadialGradientBrush x:Key="RG_SpectrumGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.7" RadiusY="0.7" Opacity="0.7">
+        <RadialGradientBrush.GradientStops>
+            <GradientStop Color="{DynamicResource RG_AccentColor}" Offset="0" />
+            <GradientStop Color="#00FFFFFF" Offset="0.7" />
+        </RadialGradientBrush.GradientStops>
+    </RadialGradientBrush>
+
+    <LinearGradientBrush x:Key="RG_TransParentToBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#00000000" Offset="0.0" />
+        <GradientStop Color="{DynamicResource RG_WindowBackgroundColor}" Offset="0.2" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="RG_NanoPlayerWindowControlsGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FEFEFE" Offset="0.0" />
+        <GradientStop Color="#00FEFEFE" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Opacities -->
+    <core:Double x:Key="RG_CoverArtShadowOpacity">0.3</core:Double>
+</ResourceDictionary>
