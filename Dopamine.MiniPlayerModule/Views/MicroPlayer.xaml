@@ -1,9 +1,11 @@
-﻿<myViews:CommonMiniPlayerView x:Class="Views.MicroPlayer"
+﻿<myViews:CommonMiniPlayerView x:Class="Dopamine.MiniPlayerModule.Views.MicroPlayer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dopamine.MiniPlayerModule.Views"
              mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
@@ -12,8 +14,9 @@
              xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
-             prismMvvm:ViewModelLocator.AutoWireViewModel="True" ContextMenu="{StaticResource MicroPlayerContextMenu}">
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop" 
+             ContextMenu="{StaticResource MicroPlayerContextMenu}"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <myViews:CommonMiniPlayerView.Resources>
         <Storyboard x:Key="FadeIn">
@@ -69,4 +72,4 @@
         </DockPanel>
         <commonviews:ProgressControlsThin Panel.ZIndex="1" VerticalAlignment="Bottom" Height="16" Margin="0"/>
     </Grid>
-</myViews:CommonMiniPlayerView>
+    </myViews:CommonMiniPlayerView>
