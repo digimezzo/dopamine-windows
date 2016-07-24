@@ -18,5 +18,12 @@ namespace Dopamine.Common.Controls
         #region Dependency Properties
         public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(FullLogo), new PropertyMetadata(null));
         #endregion
+
+        #region Construction
+        public FullLogo()
+        {
+            InitializeComponent();
+        }
+        #endregion
     }
 }
