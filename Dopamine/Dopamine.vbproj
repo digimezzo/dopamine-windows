@@ -185,7 +185,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.5\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.3.6\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
@@ -554,8 +554,8 @@
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.vbproj">
-      <Project>{ca0aef83-7c24-4ff1-b55c-7f857a30b73e}</Project>
+    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
+      <Project>{91bf5d58-4c30-4a76-8bea-437994e529e7}</Project>
       <Name>Dopamine.SettingsModule</Name>
     </ProjectReference>
   </ItemGroup>
