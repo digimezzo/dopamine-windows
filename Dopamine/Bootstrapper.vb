@@ -29,7 +29,6 @@ Imports Microsoft.Practices.Prism.Mvvm
 Imports Microsoft.Practices.Prism.Regions
 Imports Microsoft.Practices.Prism.UnityExtensions
 Imports Microsoft.Practices.Unity
-Imports RaphaelGodart.Controls
 Imports Unity.Wcf
 
 Public Class Bootstrapper
