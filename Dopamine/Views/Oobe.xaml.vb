@@ -1,14 +1,13 @@
-﻿Imports Microsoft.Practices.Prism.Mvvm
-Imports Microsoft.Practices.Prism.PubSubEvents
-Imports Dopamine.Core.Prism
-Imports Dopamine.Common.Services.Appearance
-Imports System.Windows.Media.Animation
-Imports Dopamine.Common.Services.Indexing
-Imports RaphaelGodart.Controls
-Imports Microsoft.Practices.Prism.Regions
-Imports Dopamine.OobeModule.Views
-Imports Dopamine.Core.Settings
+﻿Imports System.Windows.Media.Animation
 Imports Dopamine.Common.Controls
+Imports Dopamine.Common.Services.Appearance
+Imports Dopamine.Common.Services.Indexing
+Imports Dopamine.Core.Prism
+Imports Dopamine.Core.Settings
+Imports Dopamine.OobeModule.Views
+Imports Microsoft.Practices.Prism.Mvvm
+Imports Microsoft.Practices.Prism.PubSubEvents
+Imports Microsoft.Practices.Prism.Regions
 
 Namespace Views
     Public Class Oobe
