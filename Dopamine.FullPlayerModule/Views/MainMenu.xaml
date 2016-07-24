@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Views.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             mc:Ignorable="d"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Orientation="Horizontal">
+        <controls:MainMenuButton x:Name="MenuCollection" GroupName="MainMenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Collection}" IsChecked="True" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenMainCommand}" CommandParameter="1"/>
+        <controls:MainMenuButton x:Name="MenuSettings" GroupName="MainMenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Settings}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenMainCommand}" CommandParameter="2"/>
+        <controls:MainMenuButton x:Name="MenuInformation" GroupName="MainMenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Information}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenMainCommand}" CommandParameter="3"/>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine", "Dopamine\Dopamine.vbproj", "{D7E91029-8238-4178-8D5D-282ACD0D9723}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{04E4F5AB-2748-449E-BE18-66B35225E5C4}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.CollectionModule", "Dopamine.CollectionModule\Dopamine.CollectionModule.vbproj", "{2BB2A31F-C76E-424F-9367-DDD83409FB43}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.ControlsModule", "Dopamine.ControlsModule\Dopamine.ControlsModule.vbproj", "{D30B78BC-783B-4888-90F9-93BC6EADC2B8}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.FullPlayerModule", "Dopamine.FullPlayerModule\Dopamine.FullPlayerModule.vbproj", "{945F63D9-2173-4022-9842-81DFB0669755}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.InformationModule", "Dopamine.InformationModule\Dopamine.InformationModule.vbproj", "{8539AA7F-0B5E-44DA-A00F-9568D9366FC6}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.MiniPlayerModule", "Dopamine.MiniPlayerModule\Dopamine.MiniPlayerModule.vbproj", "{0190ADF0-F9F2-402F-880F-3816E1CC5963}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.OobeModule", "Dopamine.OobeModule\Dopamine.OobeModule.vbproj", "{E3D7F38A-7EF1-4291-A34A-43335D086B3F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine.SettingsModule", "Dopamine.SettingsModule\Dopamine.SettingsModule.vbproj", "{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9EA6B1B-4B7E-4194-B858-24C4D70D9471}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Core", "Dopamine.Core\Dopamine.Core.csproj", "{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Packager", "Dopamine.Packager\Dopamine.Packager.csproj", "{F32533FD-96B4-4B94-8844-3EFA1F63F52A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Tests", "Dopamine.Tests\Dopamine.Tests.csproj", "{5C9DE16E-C69A-4182-9C0C-30FF7CC944CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Common", "Dopamine.Common\Dopamine.Common.csproj", "{839C5668-B96D-4826-9BF5-E00BF3D9B292}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB2A31F-C76E-424F-9367-DDD83409FB43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB2A31F-C76E-424F-9367-DDD83409FB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB2A31F-C76E-424F-9367-DDD83409FB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB2A31F-C76E-424F-9367-DDD83409FB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30B78BC-783B-4888-90F9-93BC6EADC2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30B78BC-783B-4888-90F9-93BC6EADC2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30B78BC-783B-4888-90F9-93BC6EADC2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30B78BC-783B-4888-90F9-93BC6EADC2B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{945F63D9-2173-4022-9842-81DFB0669755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{945F63D9-2173-4022-9842-81DFB0669755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{945F63D9-2173-4022-9842-81DFB0669755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{945F63D9-2173-4022-9842-81DFB0669755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8539AA7F-0B5E-44DA-A00F-9568D9366FC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8539AA7F-0B5E-44DA-A00F-9568D9366FC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8539AA7F-0B5E-44DA-A00F-9568D9366FC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8539AA7F-0B5E-44DA-A00F-9568D9366FC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0190ADF0-F9F2-402F-880F-3816E1CC5963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0190ADF0-F9F2-402F-880F-3816E1CC5963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0190ADF0-F9F2-402F-880F-3816E1CC5963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0190ADF0-F9F2-402F-880F-3816E1CC5963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D7F38A-7EF1-4291-A34A-43335D086B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D7F38A-7EF1-4291-A34A-43335D086B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D7F38A-7EF1-4291-A34A-43335D086B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D7F38A-7EF1-4291-A34A-43335D086B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F32533FD-96B4-4B94-8844-3EFA1F63F52A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F32533FD-96B4-4B94-8844-3EFA1F63F52A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F32533FD-96B4-4B94-8844-3EFA1F63F52A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F32533FD-96B4-4B94-8844-3EFA1F63F52A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C9DE16E-C69A-4182-9C0C-30FF7CC944CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9DE16E-C69A-4182-9C0C-30FF7CC944CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9DE16E-C69A-4182-9C0C-30FF7CC944CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9DE16E-C69A-4182-9C0C-30FF7CC944CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BB2A31F-C76E-424F-9367-DDD83409FB43} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{D30B78BC-783B-4888-90F9-93BC6EADC2B8} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{945F63D9-2173-4022-9842-81DFB0669755} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{8539AA7F-0B5E-44DA-A00F-9568D9366FC6} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{0190ADF0-F9F2-402F-880F-3816E1CC5963} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{E3D7F38A-7EF1-4291-A34A-43335D086B3F} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+	EndGlobalSection
+EndGlobal

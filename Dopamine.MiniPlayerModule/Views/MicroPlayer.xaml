@@ -1,0 +1,72 @@
+﻿<myViews:CommonMiniPlayerView x:Class="Views.MicroPlayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
+             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True" ContextMenu="{StaticResource MicroPlayerContextMenu}">
+
+    <myViews:CommonMiniPlayerView.Resources>
+        <Storyboard x:Key="FadeIn">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="FadeOut">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0.5" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="ShowCoverControls">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="CoverControls" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="HideCoverControls">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="CoverControls" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+    </myViews:CommonMiniPlayerView.Resources>
+
+    <Grid x:Name="PlayerPanel" Width="{x:Static corebase:Constants.MicroPlayerWidth}" Height="{x:Static corebase:Constants.MicroPlayerHeight}">
+        <DockPanel Panel.ZIndex="0" VerticalAlignment="Top">
+            <Grid x:Name="CoverGrid" DockPanel.Dock="Right" Width="135" Height="135" Cursor="Hand" MouseLeftButtonDown="CoverGrid_MouseLeftButtonDown">
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="Grid.MouseEnter">
+                        <BeginStoryboard Storyboard="{StaticResource ShowCoverControls}"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Grid.MouseLeave">
+                        <BeginStoryboard Storyboard="{StaticResource HideCoverControls}"/>
+                    </EventTrigger>
+                </Grid.Triggers>
+                <!-- Cover art -->
+                <commonviews:CoverArtControl x:Name="CoverArt" Panel.ZIndex="0" Width="135" Height="135"/>
+                <!-- Cover controls -->
+                <DockPanel x:Name="CoverControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
+                    <Grid>
+                        <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_CoverMicroPlayerWindowControlsGradientBrush}"/>
+                        <controlsModuleViews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+            <DockPanel>
+                <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" ArtistFontSize="22" ArtistFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" ShowTimeInfo="False" />
+                <Grid>
+                    <ContentControl Name="MicroPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerSpectrumAnalyzerRegion}"/>
+                    <ContentControl Name="MicroPlayerControlsRegion" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerControlsRegion}"/>
+                </Grid>
+            </DockPanel>
+        </DockPanel>
+        <commonviews:ProgressControlsThin Panel.ZIndex="1" VerticalAlignment="Bottom" Height="16" Margin="0"/>
+    </Grid>
+</myViews:CommonMiniPlayerView>

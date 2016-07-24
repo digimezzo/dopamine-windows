@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Views.NowPlayingPlaybackControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
+             xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             mc:Ignorable="d" 
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <DockPanel Height="100">
+        <!-- Progress slider -->
+        <commonviews:ProgressControls DockPanel.Dock="Top"/>
+        <Grid Margin="0,-4,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+                    <!-- Time -->
+            <StackPanel Grid.Column="0" DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,0">
+                <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
+                <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
+            </StackPanel>
+            <!-- List button -->
+            <ToggleButton 
+                Grid.Column="1" 
+                x:Name="ShowcaseButton" 
+                Style="{StaticResource TransparentToggleButton}" 
+                Width="30" 
+                Height="30" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center" 
+                ToolTip="{DynamicResource Language_Showcase}" 
+                Command="{x:Static coreprism:ApplicationCommands.FullPlayerShowcaseButtonCommand}" 
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
+                Visibility="{Binding IsShowcaseAvailable,Converter={StaticResource BooleanToCollapsedConverter}}">
+                <Grid>
+                    <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                    <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
+            </ToggleButton>
+            <!-- Playback controls -->
+            <commonviews:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+            <!-- Volume -->
+            <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
+        </Grid>
+    </DockPanel>
+</UserControl>

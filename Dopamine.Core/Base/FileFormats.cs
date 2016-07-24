@@ -1,0 +1,58 @@
+﻿using System.Linq;
+
+namespace Dopamine.Core.Base
+{
+    public static class FileFormats
+    {
+        // Audio extensions
+        public static string MP3 = ".mp3";
+        public static string OGG = ".ogg";
+        public static string WMA = ".wma";
+        public static string FLAC = ".flac";
+        public static string M4A = ".m4a";
+        public static string AAC = ".aac";
+        public static string WAV = ".wav";
+
+        // Playlist extensions
+        public static string M3U = ".m3u";
+        public static string ZPL = ".zpl";
+
+        // Image extensions
+        public static string PNG = ".png";
+        public static string JPG = ".jpg";
+        public static string JPEG = ".jpeg";
+        public static string BMP = ".bmp";
+
+        // Supported extensions
+        public static string[] SupportedMediaExtensions = {
+                                                            FileFormats.MP3,
+                                                            FileFormats.OGG,
+                                                            FileFormats.WMA,
+                                                            FileFormats.FLAC,
+                                                            FileFormats.M4A,
+                                                            FileFormats.AAC,
+                                                            FileFormats.WAV
+                                                          };
+        public static string[] SupportedPlaylistExtensions = {
+                                                                FileFormats.M3U,
+                                                                FileFormats.ZPL
+                                                             };
+        public static string[] SupportedImageExtensions = {
+                                                            FileFormats.PNG,
+                                                            FileFormats.JPG,
+                                                            FileFormats.JPEG,
+                                                            FileFormats.BMP
+
+                                                          };
+
+        public static bool IsSupportedAudioFile(string path)
+        {
+            return SupportedMediaExtensions.Contains(System.IO.Path.GetExtension(path.ToLower()));
+        }
+
+        public static bool IsSupportedPlaylistFile(string path)
+        {
+            return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path.ToLower()));
+        }
+    }
+}

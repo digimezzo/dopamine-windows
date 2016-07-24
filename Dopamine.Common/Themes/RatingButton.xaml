@@ -1,0 +1,121 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Dopamine.Common"
+    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
+    xmlns:dcconverters="clr-namespace:Digimezzo.WPFControls.Converters;assembly=Digimezzo.WPFControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/TransparentButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <dcconverters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
+    <dcconverters:InvertingBooleanToCollapsedConverter x:Key="InvertingBooleanToCollapsedConverter" />
+    
+    <converters:RatingToHeartConverter x:Key="RatingToHeartConverter" />
+    <converters:RatingToHeartFillConverter x:Key="RatingToHeartFillConverter" />
+    <converters:RatingToHeartBrokenConverter x:Key="RatingToHeartBrokenConverter" />
+
+    <converters:RatingToStar1Converter x:Key="RatingToStar1Converter" />
+    <converters:RatingToStar2Converter x:Key="RatingToStar2Converter" />
+    <converters:RatingToStar3Converter x:Key="RatingToStar3Converter" />
+    <converters:RatingToStar4Converter x:Key="RatingToStar4Converter" />
+    <converters:RatingToStar5Converter x:Key="RatingToStar5Converter" />
+
+    <Style x:Key="{x:Type controls:RatingButton}" TargetType="{x:Type controls:RatingButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:RatingButton}">
+                    <Grid Visibility="{Binding EnableRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
+                        <Grid.Resources>
+                            <Style x:Key="RatingButton" TargetType="{x:Type Button}">
+                                <Setter Property="OverridesDefaultStyle" Value="True" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#00000000">
+                                                <Label Padding="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="0.7" Duration="0:0:0.15" />
+                                                                </Storyboard>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="1.0" Duration="0:0:0.15" />
+                                                                </Storyboard>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="0.5" Duration="0:0:0.15" />
+                                                                </Storyboard>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="1.0" Duration="0:0:0.15" />
+                                                                </Storyboard>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Grid.Resources>
+                        <!-- Heart rating -->
+                        <Button Margin="5,0,0,0" x:Name="PART_HeartRatingButton" Style="{StaticResource RatingButton}" Visibility="{Binding UseStarRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                            <Grid>
+                                <TextBlock x:Name="PART_Heart" Text="&#xE006;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Opacity="0.2" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartConverter}}"/>
+                                <TextBlock x:Name="PART_HeartFill" Text="&#xE0A5;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartFillConverter}}"/>
+                                <TextBlock x:Name="PART_HeartBroken" Text="&#xE007;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Opacity="0.4" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartBrokenConverter}}"/>
+                            </Grid>
+                        </Button>
+                        <!-- Star rating -->
+                        <Button x:Name="PART_StarRatingButton" Style="{StaticResource RatingButton}" Visibility="{Binding UseStarRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
+                            <Grid>
+                                <StackPanel x:Name="PART_RatingStars" Orientation="Horizontal" Panel.ZIndex="0">
+                                    <TextBlock x:Name="PART_RatingStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_RatingStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar1Converter}}"/>
+                                    <TextBlock x:Name="PART_RatingStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar2Converter}}"/>
+                                    <TextBlock x:Name="PART_RatingStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar3Converter}}"/>
+                                    <TextBlock x:Name="PART_RatingStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar4Converter}}"/>
+                                    <TextBlock x:Name="PART_RatingStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar5Converter}}"/>
+                                </StackPanel>
+                                <StackPanel x:Name="PART_AdjustmentStars" Orientation="Horizontal" Panel.ZIndex="1">
+                                    <TextBlock x:Name="PART_AdjustmentStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_AdjustmentStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_AdjustmentStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_AdjustmentStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_AdjustmentStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                    <TextBlock x:Name="PART_AdjustmentStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

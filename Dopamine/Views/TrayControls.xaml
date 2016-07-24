@@ -1,0 +1,50 @@
+﻿<Window x:Class="Views.TrayControls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+    xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core" 
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+    Title="TrayControls"
+    Height="{x:Static corebase:Constants.TrayControlsHeight}" 
+    Width="{x:Static corebase:Constants.TrayControlsWidth}" 
+    Deactivated="Window_Deactivated"
+    WindowStyle="None"
+    ShowInTaskbar="False"
+    Background="Transparent">
+
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="shell:WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <shell:WindowChrome CaptionHeight="0"
+                                        CornerRadius="0"
+                                        GlassFrameThickness="0.1"
+                                        NonClientFrameEdges="None"
+                                        ResizeBorderThickness="0"
+                                        UseAeroCaptionButtons="False"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+
+    <Grid>
+        <Border x:Name="WindowBackground" Panel.ZIndex="0" BorderThickness="0" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <DockPanel Panel.ZIndex="1">
+            <!-- Playback information -->
+            <DockPanel x:Name="PlaybackInfoPanel" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="60" Width="260" Margin="10,10,10,15">
+                <commonviews:CoverArtControl DockPanel.Dock="Left" Width="60" Height="60"/>
+                <commonviews:PlaybackInfoControl Height="55" Margin="10,5,0,0" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Top" ShowTimeInfo="False"/>
+            </DockPanel>
+            <StackPanel VerticalAlignment="Bottom">
+                <!-- Volume control -->
+                <commonviews:HorizontalVolumeControls HorizontalAlignment="Left" Margin="51,0,0,20" SliderLength="120"/>
+                <!-- Progress control -->
+                <commonviews:ProgressControlsWithTime HorizontalAlignment="Stretch" Margin="19,0,0,20" SliderLength="120"/>
+                <!-- Playback controls -->
+                <commonviews:PlaybackControls UseLayoutRounding="True" SnapsToDevicePixels="True" HorizontalAlignment="Left" Margin="48,0,0,20"/>
+                <Button HorizontalAlignment="Right" Margin="0,0,10,10" Content="{DynamicResource Language_Show_Dopamine}" Style="{StaticResource TextButton}" Foreground="{DynamicResource RG_AccentBrush}" Command="{x:Static coreprism:ApplicationCommands.ShowMainWindowCommand}"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

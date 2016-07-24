@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="MetroButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid">
+                        <Border x:Name="theDarkBorder" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="1" Background="Black" Opacity="0.0" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Border x:Name="theBorder" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Label x:Name="theLabel" Content="{TemplateBinding Content}" Foreground="{DynamicResource RG_ForegroundBrush}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="theBorder" Property="Background" Value="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="theBorder" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter TargetName="theLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AccentMetroButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid">
+                        <Border x:Name="theBorder" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource RG_AccentBrush}" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Label x:Name="theLabel" Content="{TemplateBinding Content}" Foreground="{DynamicResource RG_WhiteBrush}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="theBorder" Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="theBorder" Property="Opacity" Value="0.9"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

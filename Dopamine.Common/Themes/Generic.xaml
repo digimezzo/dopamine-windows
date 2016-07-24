@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/AccentTextBox.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/CombiLabel.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/CrossFadeContentControl.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/IconButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/IconTextButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/DopamineWindow.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/ListCheckBox.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/MainMenuButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/RatingButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/SearchBox.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/SpectrumAnimation.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/SubMenuButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/SyncRing.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/Tile.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/TotalsInformation.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

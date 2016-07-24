@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.PopupVolumeControls"
+             x:Name="ThisControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid PreviewMouseWheel="Grid_PreviewMouseWheel">
+        <Button x:Name="VolumeButton" 
+                Style="{StaticResource TransparentButton}" 
+                ToolTip="{DynamicResource Language_Volume}" 
+                Click="VolumeButton_Click"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Width="{Binding Width,ElementName=ThisControl}" 
+                Height="{Binding Height,ElementName=ThisControl}"
+                IsHitTestVisible="{Binding IsOpen,ElementName=VolumeButtonPopup,Converter={StaticResource InvertingBooleanConverter}}">
+            <Grid>
+                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Grid>
+        </Button>
+        <controls:PopupEx x:Name="VolumeButtonPopup"
+         StaysOpen="False" PlacementTarget="{Binding ElementName=VolumeButton}"
+         Placement="Top" PopupAnimation="Fade" Width="40" Height="130" VerticalOffset="-5" HorizontalOffset="-7" AllowsTransparency="True">
+            <Grid>
+                <!-- Fake shadow -->
+                <Border Panel.ZIndex="0" Background="Gray" Opacity="0.05"/>
+                <Border Panel.ZIndex="1" Margin="1" Background="Gray" Opacity="0.1"/>
+                <Border Panel.ZIndex="2" Margin="2" Background="Gray" Opacity="0.15"/>
+                <Border Panel.ZIndex="3" Margin="3" Background="{DynamicResource RG_WindowBackgroundBrush}" MouseEnter="Border_MouseEnter"  MouseLeave="Border_MouseLeave">
+                    <StackPanel>
+                        <!-- Mute and unmute -->
+                        <Grid HorizontalAlignment="Center" Margin="0,3,0,0">
+                            <!-- Mute -->
+                            <Button x:Name="MuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Mute}" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}" Command="{Binding MuteCommand}">
+                                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                            </Button>
+                            <!-- Unmute -->
+                            <Button x:Name="UnmuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Unmute}" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding UnmuteCommand}">
+                                <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16"/>
+                            </Button>
+                        </Grid>
+                        <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="50" Margin="0,5,0,10" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                        <Label Padding="0" Content="{Binding VolumeValuePercent}" FontSize="12" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </controls:PopupEx>
+    </Grid>
+</UserControl>

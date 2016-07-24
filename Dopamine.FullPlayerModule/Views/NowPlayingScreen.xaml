@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="Views.NowPlayingScreen" x:Name="NowPlaying"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
+             MouseMove="NowPlaying_MouseMove" 
+             Loaded="NowPlaying_Loaded"
+             Background="Transparent" 
+             SizeChanged="NowPlaying_SizeChanged">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="Taller">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Height" BeginTime="0:0:1" From="20" To="40" Duration="0:0:0.5" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="Shorter">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Height" BeginTime="0:0:0" From="40" To="20" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <commonviews:BackgroundCoverArtControl Panel.ZIndex="0"/>
+        <DockPanel Panel.ZIndex="1">
+            <!-- Titlebar -->
+            <Border DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                <DockPanel Height="29">
+                    <Button x:Name="BackButton" 
+                            DockPanel.Dock="Left" 
+                            Style="{StaticResource ActiveWindowButton}" 
+                            Width="45" 
+                            Height="29" 
+                            BorderBrush="{x:Null}" 
+                            BorderThickness="0" 
+                            Background="{x:Null}"
+                            Command="{x:Static coreprism:ApplicationCommands.NavigateToMainScreenCommand}">
+                        <TextBlock 
+                            x:Name="Icon"
+                            Text="&#xE830;"
+                            Style="{StaticResource SegoeAssets}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                            FontSize="14"/>
+                    </Button>
+                    <controlsModuleViews:NowPlayingScreenWindowControls DockPanel.Dock="Right"/>
+                    <FrameworkElement Visibility="Collapsed"/>
+                </DockPanel>
+                <Border.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlaying}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <!-- Window -->
+            <Grid>
+                <!-- Playback controls + spectrum -->
+                <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
+                    <ContentControl Name="NowPlayingSpectrumAnalyzerRegion" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.NowPlayingSpectrumAnalyzerRegion}">
+                        <ContentControl.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlaying}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard ="{StaticResource Shorter}"/>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard Storyboard ="{StaticResource Taller}"/>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                    <ContentControl Name="NowPlayingPlaybackControlsRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.NowPlayingPlaybackControlsRegion}">
+                        <ContentControl.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlaying}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="Opacity">
+                                                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.75" Storyboard.TargetProperty="Opacity">
+                                                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </Grid>
+                <!-- Content -->
+                <dc:SlidingContentControl x:Name="NowPlayingContentRegion" Margin="120,90,120,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.NowPlayingContentRegion}"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

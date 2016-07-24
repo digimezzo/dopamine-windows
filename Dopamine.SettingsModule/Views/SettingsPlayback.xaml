@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Views.SettingsPlayback"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0">
+        <StackPanel>
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Output_Device}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Latency}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <ComboBox x:Name="ComboBoxLatency" Style="{StaticResource MetroComboBox}" Margin="0,15,0,0" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding Latencies}" SelectedItem="{Binding SelectedLatency}"/>
+            <Separator Height="20" Background="Transparent" />
+            <!--<StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Wasapi_Event_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiEventMode"  Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiEventModeChecked}"/>
+            </StackPanel>
+            <Separator Height="20" Background="Transparent" />-->
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Wasapi_Exclusive_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiExclusiveMode" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiExclusiveModeChecked}"/>
+            </StackPanel>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Notification}" />
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Song_Starts}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotification" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationChecked}"/>
+            </StackPanel>
+            <Separator Height="20" Background="Transparent" />
+            <StackPanel IsHitTestVisible="{Binding CheckBoxShowNotificationChecked}">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Language_Show_Notification_Only_When_Player_Not_Visible}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationOnlyWhenPlayerNotVisible" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked}"/>
+                </StackPanel>
+                <Separator Height="20" Background="Transparent" />
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Language_Show_Notification_Controls}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationControls" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationControlsChecked}"/>
+                </StackPanel>
+                <Separator Height="20" Background="Transparent" />
+                <TextBlock Text="{DynamicResource Language_Notification_Position}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0" >
+                    <ComboBox x:Name="ComboBoxNotificationPositions" Style="{StaticResource MetroComboBox}" DockPanel.Dock="Left" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding NotificationPositions}" SelectedItem="{Binding SelectedNotificationPosition}"/>
+                    <Button Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Test}" Margin="10,0,0,0" Width="80" Command="{Binding ShowTestNotificationCommand}"/>
+                </DockPanel>
+                <Separator Height="20" Background="Transparent" />
+                <TextBlock Text="{DynamicResource Language_Close_Notification_Automatically_After}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0">
+                    <ComboBox x:Name="ComboBoxNotificationSeconds" Style="{StaticResource MetroComboBox}" DockPanel.Dock="Left" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="75" ItemsSource="{Binding NotificationSeconds}" SelectedItem="{Binding SelectedNotificationSecond}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Seconds}" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                </DockPanel>
+            </StackPanel>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Taskbar}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Audio_Progress_In_Taskbar}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <dc:Windows10ToggleSwitch x:Name="CheckBoxShowProgressInTaskbar" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowProgressInTaskbarChecked}"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

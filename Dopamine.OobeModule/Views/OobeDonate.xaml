@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Views.OobeDonate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Margin="30,0,30,0">
+        <Label Padding="0" Content="{DynamicResource Language_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static myCoreBase:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
+        <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_You_Like_Dopamine_Please_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static myCoreBase:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+        <Button Style="{StaticResource MetroButton}" Margin="0,20,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.PayPalLink}" />
+    </StackPanel>
+</UserControl>
