@@ -538,6 +538,10 @@
       <Project>{945f63d9-2173-4022-9842-81dfb0669755}</Project>
       <Name>Dopamine.FullPlayerModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dopamine.InformationModule\Dopamine.InformationModule.csproj">
+      <Project>{de00539c-306f-4c30-8993-88a500ac0084}</Project>
+      <Name>Dopamine.InformationModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dopamine.MiniPlayerModule\Dopamine.MiniPlayerModule.vbproj">
       <Project>{0190adf0-f9f2-402f-880f-3816e1cc5963}</Project>
       <Name>Dopamine.MiniPlayerModule</Name>
