@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Tests", "Dopamine.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Common", "Dopamine.Common\Dopamine.Common.csproj", "{839C5668-B96D-4826-9BF5-E00BF3D9B292}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.InformationModule", "Dopamine.InformationModule\Dopamine.InformationModule.csproj", "{DE00539C-306F-4C30-8993-88A500AC0084}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{839C5668-B96D-4826-9BF5-E00BF3D9B292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE00539C-306F-4C30-8993-88A500AC0084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE00539C-306F-4C30-8993-88A500AC0084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE00539C-306F-4C30-8993-88A500AC0084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE00539C-306F-4C30-8993-88A500AC0084}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,5 +96,6 @@ Global
 		{0190ADF0-F9F2-402F-880F-3816E1CC5963} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
 		{E3D7F38A-7EF1-4291-A34A-43335D086B3F} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
 		{CA0AEF83-7C24-4FF1-B55C-7F857A30B73E} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
+		{DE00539C-306F-4C30-8993-88A500AC0084} = {04E4F5AB-2748-449E-BE18-66B35225E5C4}
 	EndGlobalSection
 EndGlobal

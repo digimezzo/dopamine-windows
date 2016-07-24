@@ -12,7 +12,6 @@ Imports Dopamine.Common.Services.JumpList
 Imports Dopamine.Common.Services.Metadata
 Imports Dopamine.Common.Services.Notification
 Imports Dopamine.Common.Services.Playback
-Imports Dopamine.Common.Services.Scrobbling
 Imports Dopamine.Common.Services.Search
 Imports Dopamine.Common.Services.Taskbar
 Imports Dopamine.Common.Services.Update

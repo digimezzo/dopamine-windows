@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Dopamine.InformationModule.Views.InformationAbout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dopamine.InformationModule.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0">
+        <StackPanel>
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
+            <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Version}" Margin="0,0,5,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{x:Static myCoreBase:ProductInformation.FormattedAssemblyVersion}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Border Background="{DynamicResource RG_AccentBrush}" Padding="4,2,4,2" CornerRadius="2">
+                    <TextBlock Text="{x:Static myCoreBase:ProductInformation.VersionTag}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                </Border>
+            </StackPanel>
+            <TextBlock Text="{x:Static myCoreBase:ProductInformation.Copyright}" Margin="0,5,0,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <Button Margin="0,5,0,0" Content="{DynamicResource Language_License}" Style="{StaticResource LinkButton}" Command="{Binding ShowLicenseCommand}"/>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Donate}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Do_You_Like_Dopamine}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <Button Style="{StaticResource MetroButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.PayPalLink}" />
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Contact_Us}" />
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Website}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="{x:Static myCoreBase:ContactInformation.WebsiteLink}" Style="{StaticResource LinkButton}" ToolTip="{x:Static myCoreBase:ContactInformation.WebsiteLink}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.WebsiteLink}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{x:Static myCoreBase:ContactInformation.FacebookLink}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.FacebookLink}"/>
+                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{x:Static myCoreBase:ContactInformation.TwitterLink}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.TwitterLink}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Mail}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="{x:Static myCoreBase:ContactInformation.ContactEmail}" Style="{StaticResource LinkButton}" ToolTip="{x:Static myCoreBase:ContactInformation.ContactEmail}" Command="{x:Static coreprism:ApplicationCommands.OpenMailCommand}" CommandParameter="{x:Static myCoreBase:ContactInformation.ContactEmail}"/>
+            </StackPanel>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Components}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_License_Information}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <ItemsControl Margin="0,10,0,0" ItemsSource="{x:Static myCoreBase:ProductInformation.Components}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Center">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Margin="0,2,0,2">
+                            <DockPanel Width="190" DockPanel.Dock="Left" >
+                                <Button Content="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Link}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Link}"/>
+                                <Label/>
+                            </DockPanel>
+                            <TextBlock Text="{Binding Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Thanks}"/>
+            <TextBlock Margin="0,5,0,4" TextWrapping="Wrap">
+                                                    <Run Text="To the people who donated." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </TextBlock>
+            <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
+                                                    <Run Text="To the translators." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </TextBlock>
+            <TextBlock Margin="0,0,0,0" TextWrapping="Wrap">
+                                                    <Run Text="To the talented developers who created the components mentioned above." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </TextBlock>
+            <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
+                                                <Run Text="To the" Foreground="{DynamicResource RG_ForegroundBrush}"/>                            
+                                                        <InlineUIContainer>
+                                                            <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
+                                                                 <Button.RenderTransform>
+                                                                    <TranslateTransform Y="4"/>
+                                                                    </Button.RenderTransform>
+                                                                </Button>
+                                                        </InlineUIContainer>
+                                                        <Run Text="community for its ideas, testing and bug reports." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
