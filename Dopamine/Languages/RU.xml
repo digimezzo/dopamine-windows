@@ -175,7 +175,7 @@
   <Text Key="Are_You_Sure_To_Remove_Songs">Вы уверены, что хотите удалить эти песни из коллекции? Это действие не удалит файлы с компьютера.</Text>
   <Text Key="Error_Removing_Songs">Возникла ошибка при удалении песен из коллекции. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="By_Date_Added">По дате добавления</Text>
-  <Text Key="Cover_Player">Плеер с обложкой</Text>
+  <Text Key="Cover_Player">Плеер-обложка</Text>
   <Text Key="Micro_Player">Микро-плеер</Text>
   <Text Key="Nano_Player">Нано-плеер</Text>
   <Text Key="Lock_Position">Закрепить позицию</Text>
@@ -310,7 +310,7 @@
   <Text Key="Dark">Тёмная</Text>
   <Text Key="Light">Светлая</Text>
   <Text Key="Components">Компоненты</Text>
-  <Text Key="Thanks">Спасибо</Text>
+  <Text Key="Thanks">Благодарности</Text>
   <Text Key="License_Information">Лицензии этих компонентов могут быть найдены в папке, в которую установлен Dopamine.</Text>
   <Text Key="License">Лицензия</Text>
 </Language>
