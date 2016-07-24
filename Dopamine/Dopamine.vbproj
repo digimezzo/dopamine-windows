@@ -440,6 +440,7 @@
     </Content>
     <Content Include="Languages\RU.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Languages\SV.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -542,8 +543,8 @@
       <Project>{de00539c-306f-4c30-8993-88a500ac0084}</Project>
       <Name>Dopamine.InformationModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.MiniPlayerModule\Dopamine.MiniPlayerModule.vbproj">
-      <Project>{0190adf0-f9f2-402f-880f-3816e1cc5963}</Project>
+    <ProjectReference Include="..\Dopamine.MiniPlayerModule\Dopamine.MiniPlayerModule.csproj">
+      <Project>{669136a2-1ac0-4377-900d-aa2c4ab1aa40}</Project>
       <Name>Dopamine.MiniPlayerModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.OobeModule\Dopamine.OobeModule.csproj">

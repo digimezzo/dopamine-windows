@@ -5,6 +5,7 @@
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation
+- Updated Russian translation
 
 
 29-06-2016: Dopamine 1.0.660.0 (Release)

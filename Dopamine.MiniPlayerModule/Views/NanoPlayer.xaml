@@ -1,19 +1,21 @@
-﻿<myViews:CommonMiniPlayerView x:Class="Views.NanoPlayer"
+﻿<myViews:CommonMiniPlayerView x:Class="Dopamine.MiniPlayerModule.Views.NanoPlayer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dopamine.MiniPlayerModule.Views"
              mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
-             prismMvvm:ViewModelLocator.AutoWireViewModel="True" ContextMenu="{StaticResource NanoPlayerContextMenu}">
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
+             ContextMenu="{StaticResource NanoPlayerContextMenu}">
 
     <myViews:CommonMiniPlayerView.Resources>
         <Storyboard x:Key="FadeIn">
