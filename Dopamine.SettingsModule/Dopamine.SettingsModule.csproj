@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8D430586-2B69-41EE-9C9E-D0BF7067FF38}</ProjectGuid>
+    <ProjectGuid>{91BF5D58-4C30-4A76-8BEA-437994E529E7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dopamine.OobeModule</RootNamespace>
-    <AssemblyName>Dopamine.OobeModule</AssemblyName>
+    <RootNamespace>Dopamine.SettingsModule</RootNamespace>
+    <AssemblyName>Dopamine.SettingsModule</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,8 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digimezzo.WPFControls">
-      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
+    <Reference Include="Digimezzo.WPFControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
@@ -81,6 +82,10 @@
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.6\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -95,9 +100,11 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFFolderBrowser">
+      <HintPath>..\Dopamine\Libraries\WPFFolderBrowser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OobeModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,37 +118,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\OobeAppearanceViewModel.cs" />
-    <Compile Include="ViewModels\OobeAppNameViewModel.cs" />
-    <Compile Include="ViewModels\OobeCollectionViewModel.cs" />
-    <Compile Include="ViewModels\OobeControlsViewModel.cs" />
-    <Compile Include="ViewModels\OobeDonateViewModel.cs" />
-    <Compile Include="ViewModels\OobeFinishViewModel.cs" />
-    <Compile Include="ViewModels\OobeLanguageViewModel.cs" />
-    <Compile Include="ViewModels\OobeWelcomeViewModel.cs" />
-    <Compile Include="Views\OobeAppearance.xaml.cs">
-      <DependentUpon>OobeAppearance.xaml</DependentUpon>
+    <Compile Include="SettingsModule.cs" />
+    <Compile Include="ViewModels\FolderViewModel.cs" />
+    <Compile Include="ViewModels\SettingsAppearanceLanguageViewModel.cs" />
+    <Compile Include="ViewModels\SettingsAppearanceThemeViewModel.cs" />
+    <Compile Include="ViewModels\SettingsAppearanceViewModel.cs" />
+    <Compile Include="ViewModels\SettingsBehaviourViewModel.cs" />
+    <Compile Include="ViewModels\SettingsCollectionFoldersViewModel.cs" />
+    <Compile Include="ViewModels\SettingsCollectionViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPlaybackViewModel.cs" />
+    <Compile Include="ViewModels\SettingsStartupViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeAppName.xaml.cs">
-      <DependentUpon>OobeAppName.xaml</DependentUpon>
+    <Compile Include="Views\SettingsAppearance.xaml.cs">
+      <DependentUpon>SettingsAppearance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeCollection.xaml.cs">
-      <DependentUpon>OobeCollection.xaml</DependentUpon>
+    <Compile Include="Views\SettingsAppearanceLanguage.xaml.cs">
+      <DependentUpon>SettingsAppearanceLanguage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeControls.xaml.cs">
-      <DependentUpon>OobeControls.xaml</DependentUpon>
+    <Compile Include="Views\SettingsAppearanceTheme.xaml.cs">
+      <DependentUpon>SettingsAppearanceTheme.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeDonate.xaml.cs">
-      <DependentUpon>OobeDonate.xaml</DependentUpon>
+    <Compile Include="Views\SettingsBehaviour.xaml.cs">
+      <DependentUpon>SettingsBehaviour.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeFinish.xaml.cs">
-      <DependentUpon>OobeFinish.xaml</DependentUpon>
+    <Compile Include="Views\SettingsCollection.xaml.cs">
+      <DependentUpon>SettingsCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeLanguage.xaml.cs">
-      <DependentUpon>OobeLanguage.xaml</DependentUpon>
+    <Compile Include="Views\SettingsCollectionFolders.xaml.cs">
+      <DependentUpon>SettingsCollectionFolders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeWelcome.xaml.cs">
-      <DependentUpon>OobeWelcome.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPlayback.xaml.cs">
+      <DependentUpon>SettingsPlayback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsStartup.xaml.cs">
+      <DependentUpon>SettingsStartup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsSubMenu.xaml.cs">
+      <DependentUpon>SettingsSubMenu.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -160,48 +176,52 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
-      <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
+      <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
       <Project>{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
-      <Project>{91bf5d58-4c30-4a76-8bea-437994e529e7}</Project>
-      <Name>Dopamine.SettingsModule</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\OobeAppearance.xaml">
+    <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeAppName.xaml">
+    <Page Include="Views\SettingsAppearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeCollection.xaml">
+    <Page Include="Views\SettingsAppearanceLanguage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeControls.xaml">
+    <Page Include="Views\SettingsAppearanceTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeDonate.xaml">
+    <Page Include="Views\SettingsBehaviour.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeFinish.xaml">
+    <Page Include="Views\SettingsCollection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeLanguage.xaml">
+    <Page Include="Views\SettingsCollectionFolders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeWelcome.xaml">
+    <Page Include="Views\SettingsPlayback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsStartup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsSubMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
