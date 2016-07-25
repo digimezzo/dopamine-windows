@@ -4,8 +4,8 @@ Imports Microsoft.Practices.Unity
 Imports Dopamine.CollectionModule.ViewModels
 Imports Dopamine.CollectionModule.Views
 Imports Dopamine.Core.Prism
-Imports Dopamine.ControlsModule.Views
 Imports Dopamine.Core.Settings
+Imports Dopamine.ControlsModule.Views
 
 Public Class CollectionModule
     Implements IModule

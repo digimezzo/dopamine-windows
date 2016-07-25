@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0032CFAA-6E3B-4BB3-875D-89A5D33262AC}</ProjectGuid>
+    <ProjectGuid>{7C852F68-0E22-4A26-BA7F-962A8B3B2AD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dopamine.FullPlayerModule</RootNamespace>
-    <AssemblyName>Dopamine.FullPlayerModule</AssemblyName>
+    <RootNamespace>Dopamine.ControlsModule</RootNamespace>
+    <AssemblyName>Dopamine.ControlsModule</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,9 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digimezzo.WPFControls">
-      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
       <Private>True</Private>
@@ -87,10 +84,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -103,9 +96,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFSoundVisualizationLib">
+      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FullPlayerModule.cs" />
+    <Compile Include="ControlsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,33 +115,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\FullPlayerViewModel.cs" />
-    <Compile Include="ViewModels\MainMenuViewModel.cs" />
-    <Compile Include="ViewModels\MainScreenViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenListViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenShowcaseViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenViewModel.cs" />
-    <Compile Include="ViewModels\StatusViewModel.cs" />
-    <Compile Include="Views\FullPlayer.xaml.cs">
-      <DependentUpon>FullPlayer.xaml</DependentUpon>
+    <Compile Include="ViewModels\CollectionPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
+    <Compile Include="ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\SearchControlViewModel.cs" />
+    <Compile Include="ViewModels\SpectrumAnalyzerControlViewModel.cs" />
+    <Compile Include="Views\CollectionPlaybackControls.xaml.cs">
+      <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainMenu.xaml.cs">
-      <DependentUpon>MainMenu.xaml</DependentUpon>
+    <Compile Include="Views\CoverPictureWindowControls.xaml.cs">
+      <DependentUpon>CoverPictureWindowControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainScreen.xaml.cs">
-      <DependentUpon>MainScreen.xaml</DependentUpon>
+    <Compile Include="Views\CoverPlayerControls.xaml.cs">
+      <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreen.xaml.cs">
-      <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
+    <Compile Include="Views\CoverPlayerWindowControls.xaml.cs">
+      <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenList.xaml.cs">
-      <DependentUpon>NowPlayingScreenList.xaml</DependentUpon>
+    <Compile Include="Views\MicroPlayerControls.xaml.cs">
+      <DependentUpon>MicroPlayerControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenShowcase.xaml.cs">
-      <DependentUpon>NowPlayingScreenShowcase.xaml</DependentUpon>
+    <Compile Include="Views\NanoPlayerControls.xaml.cs">
+      <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Status.xaml.cs">
-      <DependentUpon>Status.xaml</DependentUpon>
+    <Compile Include="Views\NanoPlayerWindowControls.xaml.cs">
+      <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NothingPlayingControl.xaml.cs">
+      <DependentUpon>NothingPlayingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NowPlayingPlaybackControls.xaml.cs">
+      <DependentUpon>NowPlayingPlaybackControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NowPlayingScreenWindowControls.xaml.cs">
+      <DependentUpon>NowPlayingScreenWindowControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchControl.xaml.cs">
+      <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpectrumAnalyzerControl.xaml.cs">
+      <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -161,62 +170,65 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.CollectionModule\Dopamine.CollectionModule.vbproj">
-      <Project>{2bb2a31f-c76e-424f-9367-ddd83409fb43}</Project>
-      <Name>Dopamine.CollectionModule</Name>
-    </ProjectReference>
+    <Page Include="Views\CollectionPlaybackControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CoverPictureWindowControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CoverPlayerControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CoverPlayerWindowControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MicroPlayerControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NanoPlayerControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NanoPlayerWindowControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NothingPlayingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NowPlayingPlaybackControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NowPlayingScreenWindowControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SpectrumAnalyzerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.ControlsModule\Dopamine.ControlsModule.csproj">
-      <Project>{7c852f68-0e22-4a26-ba7f-962a8b3b2ad0}</Project>
-      <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
       <Project>{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.InformationModule\Dopamine.InformationModule.csproj">
-      <Project>{de00539c-306f-4c30-8993-88a500ac0084}</Project>
-      <Name>Dopamine.InformationModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
-      <Project>{91bf5d58-4c30-4a76-8bea-437994e529e7}</Project>
-      <Name>Dopamine.SettingsModule</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Views\FullPlayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NowPlayingScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NowPlayingScreenList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NowPlayingScreenShowcase.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Status.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

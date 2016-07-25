@@ -174,8 +174,8 @@
       <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.ControlsModule\Dopamine.ControlsModule.vbproj">
-      <Project>{D30B78BC-783B-4888-90F9-93BC6EADC2B8}</Project>
+    <ProjectReference Include="..\Dopamine.ControlsModule\Dopamine.ControlsModule.csproj">
+      <Project>{7c852f68-0e22-4a26-ba7f-962a8b3b2ad0}</Project>
       <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
