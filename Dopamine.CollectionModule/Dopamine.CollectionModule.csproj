@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0032CFAA-6E3B-4BB3-875D-89A5D33262AC}</ProjectGuid>
+    <ProjectGuid>{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dopamine.FullPlayerModule</RootNamespace>
-    <AssemblyName>Dopamine.FullPlayerModule</AssemblyName>
+    <RootNamespace>Dopamine.CollectionModule</RootNamespace>
+    <AssemblyName>Dopamine.CollectionModule</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Digimezzo.WPFControls">
-      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
+      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
@@ -103,9 +103,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFFolderBrowser">
+      <HintPath>..\Dopamine\Libraries\WPFFolderBrowser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FullPlayerModule.cs" />
+    <Compile Include="CollectionModule.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,33 +123,42 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\FullPlayerViewModel.cs" />
-    <Compile Include="ViewModels\MainMenuViewModel.cs" />
-    <Compile Include="ViewModels\MainScreenViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenListViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenShowcaseViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenViewModel.cs" />
-    <Compile Include="ViewModels\StatusViewModel.cs" />
-    <Compile Include="Views\FullPlayer.xaml.cs">
-      <DependentUpon>FullPlayer.xaml</DependentUpon>
+    <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\CollectionAlbumsViewModel.cs" />
+    <Compile Include="ViewModels\CollectionArtistsViewModel.cs" />
+    <Compile Include="ViewModels\CollectionCloudViewModel.cs" />
+    <Compile Include="ViewModels\CollectionGenresViewModel.cs" />
+    <Compile Include="ViewModels\CollectionPlaylistsViewModel.cs" />
+    <Compile Include="ViewModels\CollectionSubMenuViewModel.cs" />
+    <Compile Include="ViewModels\CollectionTracksColumnsViewModel.cs" />
+    <Compile Include="ViewModels\CollectionTracksViewModel.cs" />
+    <Compile Include="ViewModels\CollectionViewModel.cs" />
+    <Compile Include="Views\Collection.xaml.cs">
+      <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainMenu.xaml.cs">
-      <DependentUpon>MainMenu.xaml</DependentUpon>
+    <Compile Include="Views\CollectionAlbums.xaml.cs">
+      <DependentUpon>CollectionAlbums.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainScreen.xaml.cs">
-      <DependentUpon>MainScreen.xaml</DependentUpon>
+    <Compile Include="Views\CollectionArtists.xaml.cs">
+      <DependentUpon>CollectionArtists.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreen.xaml.cs">
-      <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
+    <Compile Include="Views\CollectionCloud.xaml.cs">
+      <DependentUpon>CollectionCloud.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenList.xaml.cs">
-      <DependentUpon>NowPlayingScreenList.xaml</DependentUpon>
+    <Compile Include="Views\CollectionGenres.xaml.cs">
+      <DependentUpon>CollectionGenres.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenShowcase.xaml.cs">
-      <DependentUpon>NowPlayingScreenShowcase.xaml</DependentUpon>
+    <Compile Include="Views\CollectionPlaylists.xaml.cs">
+      <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Status.xaml.cs">
-      <DependentUpon>Status.xaml</DependentUpon>
+    <Compile Include="Views\CollectionSubMenu.xaml.cs">
+      <DependentUpon>CollectionSubMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectionTracks.xaml.cs">
+      <DependentUpon>CollectionTracks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectionTracksColumns.xaml.cs">
+      <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -161,59 +174,54 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.CollectionModule\Dopamine.CollectionModule.csproj">
-      <Project>{c54f9ef5-11d0-4d83-96fc-cf32f44f024d}</Project>
-      <Name>Dopamine.CollectionModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
-      <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
+      <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.ControlsModule\Dopamine.ControlsModule.csproj">
-      <Project>{7c852f68-0e22-4a26-ba7f-962a8b3b2ad0}</Project>
+      <Project>{7C852F68-0E22-4A26-BA7F-962A8B3B2AD0}</Project>
       <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}</Project>
+      <Project>{f4a6aa5e-5167-48ae-ac87-bcc0414fbd3d}</Project>
       <Name>Dopamine.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.InformationModule\Dopamine.InformationModule.csproj">
-      <Project>{de00539c-306f-4c30-8993-88a500ac0084}</Project>
-      <Name>Dopamine.InformationModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
-      <Project>{91bf5d58-4c30-4a76-8bea-437994e529e7}</Project>
-      <Name>Dopamine.SettingsModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\FullPlayer.xaml">
+    <Page Include="Views\Collection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainMenu.xaml">
+    <Page Include="Views\CollectionAlbums.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainScreen.xaml">
+    <Page Include="Views\CollectionArtists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NowPlayingScreen.xaml">
+    <Page Include="Views\CollectionCloud.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NowPlayingScreenList.xaml">
+    <Page Include="Views\CollectionGenres.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NowPlayingScreenShowcase.xaml">
+    <Page Include="Views\CollectionPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Status.xaml">
+    <Page Include="Views\CollectionSubMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectionTracks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectionTracksColumns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

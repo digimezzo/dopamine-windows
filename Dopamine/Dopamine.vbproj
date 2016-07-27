@@ -519,8 +519,8 @@
     <Resource Include="Dopamine.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.CollectionModule\Dopamine.CollectionModule.vbproj">
-      <Project>{2bb2a31f-c76e-424f-9367-ddd83409fb43}</Project>
+    <ProjectReference Include="..\Dopamine.CollectionModule\Dopamine.CollectionModule.csproj">
+      <Project>{c54f9ef5-11d0-4d83-96fc-cf32f44f024d}</Project>
       <Name>Dopamine.CollectionModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
