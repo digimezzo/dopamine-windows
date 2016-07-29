@@ -247,7 +247,7 @@ namespace Dopamine.CollectionModule.ViewModels
             dlg.DefaultExt = FileFormats.M3U; // Default file extension
 
             // Filter files by extension
-            dlg.Filter = ResourceUtils.GetStringResource("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.ZPL;
+            dlg.Filter = ResourceUtils.GetStringResource("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
 
             // Show the file dialog box
             bool? dialogResult = dlg.ShowDialog();

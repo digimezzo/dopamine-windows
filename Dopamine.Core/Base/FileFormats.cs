@@ -15,6 +15,7 @@ namespace Dopamine.Core.Base
 
         // Playlist extensions
         public static string M3U = ".m3u";
+        public static string WPL = ".wpl";
         public static string ZPL = ".zpl";
 
         // Image extensions
