@@ -56,7 +56,7 @@ namespace Dopamine.MiniPlayerModule.Views
         {
             this.Unsubscribe();
 
-            this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (str) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
+            this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
         }
 
         private void Unsubscribe()

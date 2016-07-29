@@ -98,7 +98,7 @@ namespace Dopamine.OobeModule.ViewModels
                 else if (this.activeViewModelName == typeof(OobeFinishViewModel).FullName)
                 {
                     // Close the OOBE window
-                    this.eventAggregator.GetEvent<CloseOobeEvent>().Publish("");
+                    this.eventAggregator.GetEvent<CloseOobeEvent>().Publish(null);
                 }else
                 {
                     // OobeWelcomeViewModel is not navigated to when the OOBE window is shown. So this is handled here.
@@ -106,11 +106,11 @@ namespace Dopamine.OobeModule.ViewModels
                 }
             });
 
-            this.eventAggregator.GetEvent<OobeNavigatedToEvent>().Subscribe(iActiveViewModelName =>
+            this.eventAggregator.GetEvent<OobeNavigatedToEvent>().Subscribe(activeViewModelName =>
             {
-                this.activeViewModelName = iActiveViewModelName;
+                this.activeViewModelName = activeViewModelName;
 
-                if (iActiveViewModelName == typeof(OobeWelcomeViewModel).FullName | iActiveViewModelName == typeof(OobeLanguageViewModel).FullName)
+                if (activeViewModelName == typeof(OobeWelcomeViewModel).FullName | activeViewModelName == typeof(OobeLanguageViewModel).FullName)
                 {
                     this.ShowPreviousButton = false;
                 }
@@ -119,7 +119,7 @@ namespace Dopamine.OobeModule.ViewModels
                     this.ShowPreviousButton = true;
                 }
 
-                if (iActiveViewModelName == typeof(OobeFinishViewModel).FullName)
+                if (activeViewModelName == typeof(OobeFinishViewModel).FullName)
                 {
                     this.IsDone = true;
                 }

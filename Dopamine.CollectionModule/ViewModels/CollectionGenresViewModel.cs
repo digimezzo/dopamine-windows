@@ -420,7 +420,7 @@ namespace Dopamine.CollectionModule.ViewModels
             ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
 
             // Events
-            this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((str) => this.IsGenresZoomVisible = false);
+            this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsGenresZoomVisible = false);
         }
 
         protected override void RefreshLanguage()

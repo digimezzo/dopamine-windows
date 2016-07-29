@@ -567,7 +567,7 @@ namespace Dopamine.Views
         #region Event Handlers
         private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            this.eventAggregator.GetEvent<ShellMouseUp>().Publish(string.Empty);
+            this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
         }
 
         private void Shell_ContentRendered(object sender, EventArgs e)
