@@ -138,8 +138,8 @@ namespace Dopamine.CollectionModule.ViewModels
             this.collectionService.PlaylistsChanged += async (s, e) => await this.FillListsAsync(); // Refreshes the lists when the playlists have changed
 
             // Events
-            this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (s) => await this.RenameSelectedPlaylistAsync());
-            this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Subscribe(async (s) => await this.DeleteSelectedPlaylistsAsync());
+            this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());
+            this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Subscribe(async (_) => await this.DeleteSelectedPlaylistsAsync());
 
             this.TrackOrder = TrackOrder.ByAlbum;
 

@@ -36,14 +36,14 @@ namespace Dopamine.CollectionModule.Views
             {
                 if (this.ListBoxPlaylists.SelectedItem != null)
                 {
-                    this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Publish(string.Empty);
+                    this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Publish(null);
                 }
             }
             else if (e.Key == Key.Delete)
             {
                 if (this.ListBoxPlaylists.SelectedItem != null)
                 {
-                    this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Publish(string.Empty);
+                    this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Publish(null);
                 }
             }
         }

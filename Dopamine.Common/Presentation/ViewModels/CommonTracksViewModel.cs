@@ -736,7 +736,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {
-                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(string.Empty);
+                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
                 }
             }
         }
