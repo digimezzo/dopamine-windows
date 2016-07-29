@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dopamine", "Dopamine\Dopamine.vbproj", "{D7E91029-8238-4178-8D5D-282ACD0D9723}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{04E4F5AB-2748-449E-BE18-66B35225E5C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9EA6B1B-4B7E-4194-B858-24C4D70D9471}"
@@ -31,16 +29,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.ControlsModule", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.CollectionModule", "Dopamine.CollectionModule\Dopamine.CollectionModule.csproj", "{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine", "Dopamine\Dopamine.csproj", "{CB66D1A5-AB9F-460F-9955-86EB2EB0DD5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7E91029-8238-4178-8D5D-282ACD0D9723}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,6 +81,10 @@ Global
 		{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB66D1A5-AB9F-460F-9955-86EB2EB0DD5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB66D1A5-AB9F-460F-9955-86EB2EB0DD5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB66D1A5-AB9F-460F-9955-86EB2EB0DD5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB66D1A5-AB9F-460F-9955-86EB2EB0DD5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
