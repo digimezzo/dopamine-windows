@@ -1,4 +1,4 @@
-23-07-2017: Dopamine 1.1.665.0 (Preview)
+29-07-2017: Dopamine 1.1.666.0 (Preview)
 ----------------------------------------
 
 - Dopamine is now Open Source Software!

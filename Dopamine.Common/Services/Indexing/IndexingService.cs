@@ -470,12 +470,12 @@ namespace Dopamine.Common.Services.Indexing
             await Task.Run(() =>
             {
                 List<string> dbPaths = this.context.Tracks.Select((trk) => trk.Path).ToList();
-                this.newDiskPaths = new List<Tuple<long, String, long>>();
+                this.newDiskPaths = new List<Tuple<long, string, long>>();
                 List<string> removedPaths = this.context.RemovedTracks.Select((t) => t.Path).ToList();
 
                 foreach (Tuple<long, string, long> diskpath in this.allDiskPaths)
                 {
-                    if (!dbPaths.Contains(diskpath.Item2) && ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Item2) : true)
+                    if (!dbPaths.Contains(diskpath.Item2) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Item2) : true))
                     {
                         this.newDiskPaths.Add(diskpath);
                     }
@@ -621,12 +621,12 @@ namespace Dopamine.Common.Services.Indexing
                     long saveItemCount = IndexerUtils.CalculateSaveItemCount(this.newDiskPaths.Count);
                     long unsavedItemCount = 0;
 
-                    foreach (Tuple<long, string, long> mNewDiskPath in this.newDiskPaths)
+                    foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
                     {
                         Track diskTrack = new Track
                         {
-                            FolderID = mNewDiskPath.Item1,
-                            Path = mNewDiskPath.Item2,
+                            FolderID = newDiskPath.Item1,
+                            Path = newDiskPath.Item2,
                             DateAdded = DateTime.Now.Ticks
                         };
 
@@ -700,9 +700,9 @@ namespace Dopamine.Common.Services.Indexing
         {
             bool processingSuccessful = false;
 
-            Album newAlbum = new Album();
-            Artist newArtist = new Artist();
-            Genre newGenre = new Genre();
+            var newAlbum = new Album();
+            var newArtist = new Artist();
+            var newGenre = new Genre();
 
             try
             {
