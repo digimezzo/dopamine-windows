@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Packager.cs" />
     <Compile Include="PackagerWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

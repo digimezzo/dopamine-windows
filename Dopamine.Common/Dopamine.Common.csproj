@@ -152,6 +152,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />

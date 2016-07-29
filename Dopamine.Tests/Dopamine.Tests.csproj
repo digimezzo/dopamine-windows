@@ -105,6 +105,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AudioFormatsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WasapiTest.cs" />

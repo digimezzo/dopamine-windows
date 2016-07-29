@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Dopamine.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Digimezzo.WPFControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -94,6 +98,10 @@
       <HintPath>..\packages\NLog.4.3.6\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -126,6 +134,10 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Unity.Wcf, Version=3.5.1404.0, Culture=neutral, PublicKeyToken=2ec651f14ef84543, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity3.Wcf.3.5.1404.0\lib\net45\Unity.Wcf.dll</HintPath>
       <Private>True</Private>
@@ -147,6 +159,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -245,18 +258,10 @@
     <Content Include="Icons\Ogg.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\TaskbarItemInfo_Next.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Icons\TaskbarItemInfo_Pause.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Icons\TaskbarItemInfo_Play.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Icons\TaskbarItemInfo_Previous.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Icons\TaskbarItemInfo_Next.ico" />
+    <Resource Include="Icons\TaskbarItemInfo_Pause.ico" />
+    <Resource Include="Icons\TaskbarItemInfo_Play.ico" />
+    <Resource Include="Icons\TaskbarItemInfo_Previous.ico" />
     <Content Include="Icons\Tray.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -410,6 +415,10 @@
     <ProjectReference Include="..\Dopamine.OobeModule\Dopamine.OobeModule.csproj">
       <Project>{8D430586-2B69-41EE-9C9E-D0BF7067FF38}</Project>
       <Name>Dopamine.OobeModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Packager\Dopamine.Packager.csproj">
+      <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
+      <Name>Dopamine.Packager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
       <Project>{91BF5D58-4C30-4A76-8BEA-437994E529E7}</Project>
