@@ -2,6 +2,7 @@
 ----------------------------------------
 
 - Dopamine is now Open Source Software!
+- Added importing of .wpl playlists
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation

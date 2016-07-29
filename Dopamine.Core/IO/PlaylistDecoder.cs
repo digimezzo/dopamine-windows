@@ -19,20 +19,20 @@ namespace Dopamine.Core.IO
         #endregion
 
         #region Public
-        public DecodePlaylistResult DecodePlaylist(string iFileName)
+        public DecodePlaylistResult DecodePlaylist(string fileName)
         {
             OperationResult decodeResult = new OperationResult { Result = false };
 
             string playlistName = string.Empty;
             List<string> paths = new List<string>();
 
-            if (System.IO.Path.GetExtension(iFileName) == FileFormats.M3U)
+            if (System.IO.Path.GetExtension(fileName) == FileFormats.M3U)
             {
-                decodeResult = this.DecodeM3uPlaylist(iFileName, ref playlistName, ref paths);
+                decodeResult = this.DecodeM3uPlaylist(fileName, ref playlistName, ref paths);
             }
-            else if (System.IO.Path.GetExtension(iFileName) == FileFormats.ZPL)
+            else if (System.IO.Path.GetExtension(fileName) == FileFormats.WPL | System.IO.Path.GetExtension(fileName) == FileFormats.ZPL)
             {
-                decodeResult = this.DecodeZplPlaylist(iFileName, ref playlistName, ref paths);
+                decodeResult = this.DecodeZplPlaylist(fileName, ref playlistName, ref paths);
             }
 
             return new DecodePlaylistResult
@@ -151,8 +151,8 @@ namespace Dopamine.Core.IO
 
                         var filePathPieces = mediaElement.Attribute("src").Value.Split('\\');
 
-                        // Some parts of the path contain a fake directory
-                        // starting with "-2". We filter this out
+                        // Some parts of the path may contain a fake directory
+                        // starting with "-2". We filter this out.
                         foreach (string filePathPiece in filePathPieces)
                         {
                             if (!filePathPiece.StartsWith("-2"))
