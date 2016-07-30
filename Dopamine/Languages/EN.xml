@@ -131,8 +131,6 @@
   <Text Key="All_Artists">All artists</Text>
   <Text Key="All_Albums">All albums</Text>
   <Text Key="All_Genres">All genres</Text>
-  <Text Key="Wasapi_Event_Mode">Event mode</Text>
-  <Text Key="Wasapi_Exclusive_Mode">Exclusive mode</Text>
   <Text Key="Volume">Volume</Text>
   <Text Key="Playlist">Playlist</Text>
   <Text Key="Automatically_Download_Updates">Automatically download updates</Text>
@@ -313,4 +311,5 @@
   <Text Key="Thanks">Thanks</Text>
   <Text Key="License_Information">The licenses for these components can be found in the folder where Dopamine is installed.</Text>
   <Text Key="License">License</Text>
+  <Text Key="Wasapi_Exclusive_Mode">Exclusive mode (this mutes sounds from other applications)</Text>
 </Language>

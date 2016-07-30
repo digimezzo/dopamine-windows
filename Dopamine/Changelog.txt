@@ -4,6 +4,7 @@
 - Dopamine is now Open Source Software!
 - Added importing of .wpl playlists
 - Fixed an issue importing playlists which have a relative path
+- Added information that WASAPI Exclusive Mode mutes sounds from other applications
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation

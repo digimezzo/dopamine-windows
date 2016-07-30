@@ -131,8 +131,6 @@
   <Text Key="All_Artists">Όλοι οι καλλιτέχνες</Text>
   <Text Key="All_Albums">Όλα τα άλμπουμ</Text>
   <Text Key="All_Genres">Όλα τα είδη</Text>
-  <Text Key="Wasapi_Event_Mode">Λειτουργία συμβάντων</Text>
-  <Text Key="Wasapi_Exclusive_Mode">Αποκλειστική λειτουργία</Text>
   <Text Key="Volume">Ένταση</Text>
   <Text Key="Playlist">Λίστα αναπαραγωγής</Text>
   <Text Key="Automatically_Download_Updates">Αυτόματη λήψη ενημερώσεων</Text>
@@ -313,4 +311,5 @@
   <Text Key="Thanks">Ευχαριστίες</Text>
   <Text Key="License_Information">Οι άδειες για αυτά τα τμήματα βρίσκονται στο φάκελο εγκατάστασης του Dopamine.</Text>
   <Text Key="License">License</Text>
+  <Text Key="Wasapi_Exclusive_Mode">Exclusive mode (this mutes sounds from other applications)</Text>
 </Language>
