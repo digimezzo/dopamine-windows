@@ -131,7 +131,6 @@
   <Text Key="All_Artists">Alle Künstler</Text>
   <Text Key="All_Albums">Alle Alben</Text>
   <Text Key="All_Genres">Alle Genres</Text>
-  <Text Key="Wasapi_Event_Mode">Event Modus</Text>
   <Text Key="Volume">Lautstärke</Text>
   <Text Key="Playlist">Playlist</Text>
   <Text Key="Automatically_Download_Updates">Updates automatisch herunterladen</Text>
