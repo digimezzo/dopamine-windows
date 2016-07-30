@@ -76,18 +76,24 @@ namespace Dopamine.Core.IO
                         {
                             // The line contains a relative path, let's construct the full path by ourselves.
                             string filePath = string.Empty;
+                            string parsedLine = line;
 
-                            if (System.IO.Path.IsPathRooted(line))
+                            if (line.StartsWith(@"\"))
                             {
-                                // Paths starting with "\"
-                                string pathRoot = System.IO.Path.GetPathRoot(playlistDirectory);
-                                filePath = pathRoot + line.TrimStart(Convert.ToChar("\\"));
+                                // Path starts with "\": add preceeding "." to make it a valid relative path.
+                                parsedLine = "." + line;
                             }
                             else
                             {
-                                // Normal relative paths, e.g.: ".\" and "..\"
-                                filePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(playlistDirectory, line));
+                                // Normal relative paths: 
+                                // ".\songs\tune.mp3""
+                                // "..\songs\tune.mp3"
+                                // "songs\tune.mp3"
+                                // "tune.mp3"
+                                parsedLine = line;
                             }
+
+                            filePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(playlistDirectory, parsedLine));
 
                             if (!string.IsNullOrEmpty(filePath) && FileOperations.IsAbsolutePath(filePath))
                             {

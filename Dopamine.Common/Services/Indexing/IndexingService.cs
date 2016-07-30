@@ -754,11 +754,11 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Events
-        public event EventHandler IndexingStopped;
-        public event EventHandler IndexingStarted;
-        public event Action<IndexingStatusEventArgs> IndexingStatusChanged;
-        public event EventHandler RefreshLists;
-        public event EventHandler RefreshArtwork;
+        public event EventHandler IndexingStopped = delegate { };
+        public event EventHandler IndexingStarted = delegate { };
+        public event Action<IndexingStatusEventArgs> IndexingStatusChanged = delegate { };
+        public event EventHandler RefreshLists = delegate { };
+        public event EventHandler RefreshArtwork = delegate { };
         #endregion
     }
 }

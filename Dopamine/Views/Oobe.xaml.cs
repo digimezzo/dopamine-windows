@@ -78,7 +78,7 @@ namespace Dopamine.Views
 
         private void BorderlessWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            ShowWelcome();
+            this.ShowWelcome();
         }
         #endregion
 
