@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -7,9 +8,9 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Presentation.Views;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

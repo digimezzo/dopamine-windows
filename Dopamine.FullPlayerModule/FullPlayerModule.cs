@@ -2,8 +2,8 @@
 using Dopamine.Core.Prism;
 using Dopamine.FullPlayerModule.ViewModels;
 using Dopamine.FullPlayerModule.Views;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Modularity;
+using Prism.Regions;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.FullPlayerModule

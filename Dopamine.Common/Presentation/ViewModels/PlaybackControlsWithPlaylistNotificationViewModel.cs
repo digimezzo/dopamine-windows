@@ -1,8 +1,8 @@
 ﻿using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Timers;
 

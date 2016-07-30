@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 
 namespace Dopamine.CollectionModule.ViewModels
 {

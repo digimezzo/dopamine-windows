@@ -1,11 +1,10 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class ProgressControlsWithTime : UserControl, IView
+    public partial class ProgressControlsWithTime : UserControl
     {
         #region Dependency Properties
         public static readonly DependencyProperty SliderLengthProperty = DependencyProperty.Register("SliderLength", typeof(double), typeof(ProgressControlsWithTime), new PropertyMetadata(100.0));

@@ -1,11 +1,11 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.SettingsModule.Views
 {
-    public partial class SettingsCollectionFolders : UserControl, IView
+    public partial class SettingsCollectionFolders : UserControl
     {
         #region Properties
         public bool ShowControls

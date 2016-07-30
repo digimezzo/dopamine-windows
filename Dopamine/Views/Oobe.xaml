@@ -15,7 +15,7 @@
         xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
         xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
         xmlns:prism="http://www.codeplex.com/prism"
-        xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+        xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
         xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
         Closing="MetroWindow_Closing"
         OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"

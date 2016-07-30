@@ -1,5 +1,5 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Events;
 
 namespace Dopamine.Core.Prism
 {

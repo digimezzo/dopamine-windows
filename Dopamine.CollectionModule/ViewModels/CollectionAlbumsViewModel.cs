@@ -4,7 +4,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

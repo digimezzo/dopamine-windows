@@ -1,12 +1,11 @@
 ﻿using Dopamine.Core.Base;
-using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class PlaybackInfoControl : UserControl, IView
+    public partial class PlaybackInfoControl : UserControl
     {
         #region Dependency Properties
         public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register("TextAlignment", typeof(TextAlignment), typeof(PlaybackInfoControl), new PropertyMetadata(TextAlignment.Left));

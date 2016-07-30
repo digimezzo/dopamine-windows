@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Dopamine.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" SizeChanged="UserControl_SizeChanged">

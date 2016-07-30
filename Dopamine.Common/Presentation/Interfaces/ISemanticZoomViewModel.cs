@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Prism.Commands;
+﻿using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 

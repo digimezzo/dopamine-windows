@@ -10,7 +10,7 @@
                          xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
                          xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                         xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:prism="http://www.codeplex.com/prism"
                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                          Height="300" 

@@ -1,6 +1,5 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Logging;
-using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Windows;
@@ -9,7 +8,7 @@ using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class HorizontalVolumeControls : UserControl, IView
+    public partial class HorizontalVolumeControls : UserControl
     {
         #region Variables
         private IPlaybackService playBackService;

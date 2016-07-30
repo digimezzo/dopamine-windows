@@ -1,7 +1,7 @@
 ﻿using Dopamine.OobeModule.ViewModels;
 using Dopamine.OobeModule.Views;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Modularity;
+using Prism.Regions;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.OobeModule

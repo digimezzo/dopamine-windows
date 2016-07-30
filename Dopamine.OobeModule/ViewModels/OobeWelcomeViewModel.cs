@@ -1,8 +1,8 @@
 ﻿using Dopamine.Core.Prism;
-using Microsoft.Practices.Prism;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
+using Prism;
+using Prism.Mvvm;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

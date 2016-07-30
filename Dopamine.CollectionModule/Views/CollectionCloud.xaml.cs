@@ -1,11 +1,11 @@
 ﻿using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Mvvm;
+using Prism.Regions;
 using System.Windows.Controls;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionCloud : UserControl, IView, INavigationAware
+    public partial class CollectionCloud : UserControl, INavigationAware
     {
         #region Construction
         public CollectionCloud()

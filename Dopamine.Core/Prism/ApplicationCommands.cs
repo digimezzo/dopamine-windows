@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Prism.Commands;
+﻿using Prism.Commands;
 
 namespace Dopamine.Core.Prism
 {

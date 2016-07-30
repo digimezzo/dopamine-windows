@@ -1,12 +1,11 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
     /// <summary>
     /// Interaction logic for PlaybackInfoControlNano.xaml
     /// </summary>
-    public partial class PlaybackInfoControlNano : UserControl, IView
+    public partial class PlaybackInfoControlNano : UserControl
     {
         #region Construction
         public PlaybackInfoControlNano()

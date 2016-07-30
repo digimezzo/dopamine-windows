@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Dopamine.OobeModule.Views"
              mc:Ignorable="d" 
              xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

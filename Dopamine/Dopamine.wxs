@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.1.666.0" ?>
+<?define Version="1.1.667.0" ?>
 <?define VersionMin="1.0.0.0" ?>
 <?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -258,27 +258,6 @@
             <File Id="BaseSettings.xml" Name="BaseSettings.xml" Source="BaseSettings.xml" />
           </Component>
           <!-- Prism & Unity libraries -->
-          <Component Id="Microsoft.Practices.Prism.Composition.dll" DiskId="1" Guid="4c3d9fdd-12ae-4255-a14e-24a19b5578c7">
-            <File Id="Microsoft.Practices.Prism.Composition.dll" Name="Microsoft.Practices.Prism.Composition.dll" Source="Microsoft.Practices.Prism.Composition.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.Interactivity.dll" DiskId="1" Guid="1efa8209-0800-4e0c-b2b9-8b672baa8345">
-            <File Id="Microsoft.Practices.Prism.Interactivity.dll" Name="Microsoft.Practices.Prism.Interactivity.dll" Source="Microsoft.Practices.Prism.Interactivity.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" DiskId="1" Guid="c18599c6-8454-431f-8f70-6e2ca95bfdbd">
-            <File Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" Name="Microsoft.Practices.Prism.Mvvm.Desktop.dll" Source="Microsoft.Practices.Prism.Mvvm.Desktop.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.Mvvm.dll" DiskId="1" Guid="1723995d-38e8-4324-9d12-285ca0feba26">
-            <File Id="Microsoft.Practices.Prism.Mvvm.dll" Name="Microsoft.Practices.Prism.Mvvm.dll" Source="Microsoft.Practices.Prism.Mvvm.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.PubSubEvents.dll" DiskId="1" Guid="929de0b6-7821-45b2-83c0-0765937cec64">
-            <File Id="Microsoft.Practices.Prism.PubSubEvents.dll" Name="Microsoft.Practices.Prism.PubSubEvents.dll" Source="Microsoft.Practices.Prism.PubSubEvents.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.SharedInterfaces.dll" DiskId="1" Guid="618c4ca4-05a4-4c0c-b98a-15c86fb7881f">
-            <File Id="Microsoft.Practices.Prism.SharedInterfaces.dll" Name="Microsoft.Practices.Prism.SharedInterfaces.dll" Source="Microsoft.Practices.Prism.SharedInterfaces.dll" />
-          </Component>
-          <Component Id="Microsoft.Practices.Prism.UnityExtensions.dll" DiskId="1" Guid="ecc3bdda-5cf7-438f-ab0b-37fd36429a9c">
-            <File Id="Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="Microsoft.Practices.Prism.UnityExtensions.dll" />
-          </Component>
           <Component Id="Microsoft.Practices.ServiceLocation.dll" DiskId="1" Guid="f9676ca3-6645-41a0-be8f-50af101be52a">
             <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="Microsoft.Practices.ServiceLocation.dll" />
           </Component>
@@ -290,6 +269,15 @@
           </Component>
           <Component Id="Microsoft.Practices.Unity.RegistrationByConvention.dll" DiskId="1" Guid="cda49e3f-465f-4ab1-8216-54992b2e85f7">
             <File Id="Microsoft.Practices.Unity.RegistrationByConvention.dll" Name="Microsoft.Practices.Unity.RegistrationByConvention.dll" Source="Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+          </Component>
+          <Component Id="Prism.dll" DiskId="1" Guid="1723995d-38e8-4324-9d12-285ca0feba26">
+            <File Id="Prism.dll" Name="Prism.dll" Source="Prism.dll" />
+          </Component>
+          <Component Id="Prism.Unity.Wpf.dll" DiskId="1" Guid="ecc3bdda-5cf7-438f-ab0b-37fd36429a9c">
+            <File Id="Prism.Unity.Wpf.dll" Name="Prism.Unity.Wpf.dll" Source="Prism.Unity.Wpf.dll" />
+          </Component>
+          <Component Id="Prism.Wpf.dll" DiskId="1" Guid="c18599c6-8454-431f-8f70-6e2ca95bfdbd">
+            <File Id="Prism.Wpf.dll" Name="Prism.Wpf.dll" Source="Prism.Wpf.dll" />
           </Component>
           <!-- Application libraries -->
           <Component Id="Dopamine.Common.dll" DiskId="1" Guid="c7118fe1-7e43-4e8a-94ac-8f2c3aafb92e">
@@ -442,13 +430,9 @@
       <ComponentRef Id="Changelog.txt" />
       <ComponentRef Id="BaseSettings.xml" />
       <!-- Prism & Unity libraries -->
-      <ComponentRef Id="Microsoft.Practices.Prism.Composition.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.Interactivity.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.Mvvm.Desktop.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.Mvvm.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.PubSubEvents.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.SharedInterfaces.dll" />
-      <ComponentRef Id="Microsoft.Practices.Prism.UnityExtensions.dll" />
+      <ComponentRef Id="Prism.dll" />
+      <ComponentRef Id="Prism.Unity.Wpf.dll" />
+      <ComponentRef Id="Prism.Wpf.dll" />
       <ComponentRef Id="Microsoft.Practices.ServiceLocation.dll" />
       <ComponentRef Id="Microsoft.Practices.Unity.Configuration.dll" />
       <ComponentRef Id="Microsoft.Practices.Unity.dll" />

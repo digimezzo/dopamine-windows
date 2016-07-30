@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Base;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Dopamine.FullPlayerModule.Views
 {
-    public partial class NowPlayingScreen : UserControl, IView
+    public partial class NowPlayingScreen : UserControl
     {
         #region Variables
         private Timer cleanupNowPlayingTimer = new Timer();

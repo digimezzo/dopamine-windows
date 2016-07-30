@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.FullPlayerModule.Views
 {
-    public partial class FullPlayer : UserControl, IView
+    public partial class FullPlayer : UserControl
     {
         #region Construction
         public FullPlayer()

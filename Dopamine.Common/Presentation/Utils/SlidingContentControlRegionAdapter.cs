@@ -1,5 +1,5 @@
 ﻿using Digimezzo.WPFControls;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Regions;
 using System;
 using System.Collections.Specialized;
 using System.Linq;

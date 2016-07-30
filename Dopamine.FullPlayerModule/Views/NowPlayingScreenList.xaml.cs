@@ -2,9 +2,9 @@
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;

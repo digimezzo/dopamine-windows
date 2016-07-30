@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.OobeModule.Views
 {
-    public partial class OobeFinish : UserControl, IView
+    public partial class OobeFinish : UserControl
     {
         #region Construction
         public OobeFinish()

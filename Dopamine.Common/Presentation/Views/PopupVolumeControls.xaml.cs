@@ -1,6 +1,5 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Logging;
-using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Timers;
@@ -13,7 +12,7 @@ namespace Dopamine.Common.Presentation.Views
     /// <summary>
     /// Interaction logic for PopupVolumeControls.xaml
     /// </summary>
-    public partial class PopupVolumeControls : UserControl, IView
+    public partial class PopupVolumeControls : UserControl
     {
         #region Variables
         private IPlaybackService playBackService;

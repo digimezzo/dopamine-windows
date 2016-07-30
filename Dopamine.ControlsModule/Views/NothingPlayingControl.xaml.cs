@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.ControlsModule.Views
 {
-    public partial class NothingPlayingControl : UserControl, IView
+    public partial class NothingPlayingControl : UserControl
     {
         #region Construction
         public NothingPlayingControl()

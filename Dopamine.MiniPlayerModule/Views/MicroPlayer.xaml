@@ -14,7 +14,7 @@
              xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop" 
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf" 
              ContextMenu="{StaticResource MicroPlayerContextMenu}"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

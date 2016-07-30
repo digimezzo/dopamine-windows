@@ -1,11 +1,10 @@
 ﻿using Dopamine.Common.Services.Playback;
-using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
 
 namespace Dopamine.ControlsModule.Views
 {
-    public partial class SpectrumAnalyzerControl : IView
+    public partial class SpectrumAnalyzerControl
     {
         #region Variables
         private IPlaybackService playbackService;

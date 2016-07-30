@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionSubMenu : UserControl, IView
+    public partial class CollectionSubMenu : UserControl
     {
         #region Construction
         public CollectionSubMenu()

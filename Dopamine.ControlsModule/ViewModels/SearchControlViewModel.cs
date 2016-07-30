@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Services.Search;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 
 namespace Dopamine.ControlsModule.ViewModels
 {

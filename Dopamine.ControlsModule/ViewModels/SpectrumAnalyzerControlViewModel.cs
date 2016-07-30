@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 
 namespace Dopamine.ControlsModule.ViewModels
 {

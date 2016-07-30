@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Services.Playback;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Events;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Dopamine.Common.Presentation.ViewModels

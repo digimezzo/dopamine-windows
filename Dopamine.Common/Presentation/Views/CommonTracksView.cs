@@ -4,11 +4,9 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +16,7 @@ using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public class CommonTracksView : UserControl, IView
+    public class CommonTracksView : UserControl
     {
         #region Variables
         protected IEventAggregator eventAggregator;

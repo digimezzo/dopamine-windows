@@ -1,6 +1,6 @@
 ﻿using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Commands;
+using Prism.Mvvm;
 using System.Threading.Tasks;
 
 namespace Dopamine.CollectionModule.ViewModels

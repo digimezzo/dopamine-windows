@@ -3,8 +3,8 @@ using Dopamine.CollectionModule.Views;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Modularity;
+using Prism.Regions;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.CollectionModule

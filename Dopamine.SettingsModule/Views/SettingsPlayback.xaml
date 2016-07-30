@@ -9,7 +9,7 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0">

@@ -10,7 +10,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel Height="100">

@@ -4,7 +4,7 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 

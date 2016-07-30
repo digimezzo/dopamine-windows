@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.InformationModule.Views
 {
-    public partial class Information : UserControl, IView
+    public partial class Information : UserControl
     {
         #region Construction
         public Information()
