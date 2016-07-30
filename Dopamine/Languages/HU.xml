@@ -131,8 +131,6 @@
   <Text Key="All_Artists">Összes előadó</Text>
   <Text Key="All_Albums">Összes album</Text>
   <Text Key="All_Genres">Összes műfaj</Text>
-  <Text Key="Wasapi_Event_Mode">Esemény mód</Text>
-  <Text Key="Wasapi_Exclusive_Mode">Előkelő mode</Text>
   <Text Key="Volume">Hangerő</Text>
   <Text Key="Playlist">Lejátszási lista</Text>
   <Text Key="Automatically_Download_Updates">Frissítések automatikus letöltése</Text>
@@ -313,4 +311,5 @@
   <Text Key="Thanks">Thanks</Text>
   <Text Key="License_Information">The licenses for these components can be found in the folder where Dopamine is installed.</Text>
   <Text Key="License">License</Text>
+  <Text Key="Wasapi_Exclusive_Mode">Exclusive mode (this mutes sounds from other applications)</Text>
 </Language>
