@@ -39,7 +39,7 @@ namespace Dopamine.Common.Presentation.Utils
 
                     foreach (ISemanticZoomable zoomable in semanticZoomables)
                     {
-                        dynamic selector = zoomSelectors.Select(s => s).Where(s => s.Header.ToLower() == zoomable.Header.ToLower()).FirstOrDefault();
+                        dynamic selector = zoomSelectors.Select((s) => s).Where((s) => s.Header.ToLower() == zoomable.Header.ToLower()).FirstOrDefault();
                         if (selector != null) selector.CanZoom = true;
                     }
                 }

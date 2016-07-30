@@ -47,7 +47,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.GetLanguagesAsync();
 
-            this.i18nService.LanguagesChanged += (sender, e) => this.GetLanguagesAsync();
+            this.i18nService.LanguagesChanged += (_, __) => this.GetLanguagesAsync();
         }
         #endregion
 

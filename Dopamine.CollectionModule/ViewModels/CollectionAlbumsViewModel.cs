@@ -38,7 +38,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public CollectionAlbumsViewModel()
         {
             // IndexingService
-            this.indexingService.RefreshArtwork += async (sender, e) => await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
 
             //  Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
@@ -46,9 +46,9 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             // Events
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (iEnableRating) =>
+            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
-                this.EnableRating = iEnableRating;
+                this.EnableRating = enableRating;
                 this.SetTrackOrder("AlbumsTrackOrder");
                 await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
             });

@@ -36,8 +36,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.playbackService = playbackService;
 
-            this.playbackService.PlaybackFailed += (sender, e) => this.ShowPlaybackInfoAsync(null);
-            this.playbackService.PlaybackStopped += (sender, e) => this.ShowPlaybackInfoAsync(null);
+            this.playbackService.PlaybackFailed += (_, __) => this.ShowPlaybackInfoAsync(null);
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowPlaybackInfoAsync(null);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -53,7 +53,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
             };
 
-            this.playbackService.PlaybackProgressChanged += (sender, e) => this.UpdateTime();
+            this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
             // If PlaybackService.PlayingTrack is Nothing, nothing is shown. This is handled in ShowPlaybackInfoAsync.
             // If it is not nothing, the Plackback information for the currently playing track is shown when this screen is created.

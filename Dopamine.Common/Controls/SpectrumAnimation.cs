@@ -53,7 +53,7 @@ namespace Dopamine.Common.Controls
             mSpectrumStoryBoard = (Storyboard)mSpectrumPanel.TryFindResource("SpectrumStoryBoard");
 
             DependencyPropertyDescriptor d1 = DependencyPropertyDescriptor.FromProperty(SpectrumAnimation.IsActiveProperty, typeof(SpectrumAnimation));
-            d1.AddValueChanged(this, new EventHandler((s,e) => this.ToggleAnimation()));
+            d1.AddValueChanged(this, new EventHandler((_,__) => this.ToggleAnimation()));
 
             this.ToggleAnimation();
         }

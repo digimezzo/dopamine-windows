@@ -53,7 +53,7 @@ namespace Dopamine.Core.Audio
         public CSCorePlayer()
         {
             // Register the NVorbis new codec
-            CodecFactory.Instance.Register("ogg-vorbis", new CodecFactoryEntry(s => new NVorbisSource(s).ToWaveSource(), ".ogg"));
+            CodecFactory.Instance.Register("ogg-vorbis", new CodecFactoryEntry((s) => new NVorbisSource(s).ToWaveSource(), ".ogg"));
 
             this.defaultDeviceChangedTimer.Interval = 250;
             this.defaultDeviceChangedTimer.Elapsed += this.DefaultDeviceChangedTimer_Elapsed;

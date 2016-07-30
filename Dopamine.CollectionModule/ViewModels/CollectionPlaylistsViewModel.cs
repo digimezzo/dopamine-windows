@@ -133,9 +133,9 @@ namespace Dopamine.CollectionModule.ViewModels
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // CollectionService
-            this.collectionService.AddedTracksToPlaylist += async (i, s) => await this.ReloadPlaylistsAsync();
-            this.collectionService.DeletedTracksFromPlaylists += async (s, e) => await this.ReloadPlaylistsAsync();
-            this.collectionService.PlaylistsChanged += async (s, e) => await this.FillListsAsync(); // Refreshes the lists when the playlists have changed
+            this.collectionService.AddedTracksToPlaylist += async (_,__) => await this.ReloadPlaylistsAsync();
+            this.collectionService.DeletedTracksFromPlaylists += async (_,__) => await this.ReloadPlaylistsAsync();
+            this.collectionService.PlaylistsChanged += async (_,__) => await this.FillListsAsync(); // Refreshes the lists when the playlists have changed
 
             // Events
             this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());

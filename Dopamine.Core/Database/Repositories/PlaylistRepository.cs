@@ -64,7 +64,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             Playlist newPlaylist = new Playlist { PlaylistName = trimmedPlaylistName };
 
-                            if (!db.Playlists.Select(pl => pl.PlaylistName.Trim()).Contains(newPlaylist.PlaylistName))
+                            if (!db.Playlists.Select((p) => p.PlaylistName.Trim()).Contains(newPlaylist.PlaylistName))
                             {
                                 db.Playlists.Add(newPlaylist);
                                 db.SaveChanges();
@@ -102,7 +102,7 @@ namespace Dopamine.Core.Database.Repositories
                 {
                     using (var db = new DopamineContext())
                     {
-                        dbPlaylist = db.Playlists.Select((pl) => pl).Where((pl) => pl.PlaylistName.Trim().Equals(playlistName.Trim())).FirstOrDefault();
+                        dbPlaylist = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(playlistName.Trim())).FirstOrDefault();
                     }
                 }
                 catch (Exception ex)
@@ -181,11 +181,11 @@ namespace Dopamine.Core.Database.Repositories
                     using (var db = new DopamineContext())
                     {
                         // Check if there is already a playlist with that name
-                        Playlist existingPlaylist = db.Playlists.Select((pl) => pl).Where((pl) => pl.PlaylistName.Trim().Equals(trimmedNewPlaylistName)).FirstOrDefault();
+                        Playlist existingPlaylist = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedNewPlaylistName)).FirstOrDefault();
 
                         if (existingPlaylist == null)
                         {
-                            Playlist playlistToRename = db.Playlists.Select((pl) => pl).Where((pl) => pl.PlaylistName.Trim().Equals(trimmedOldPlaylistName)).FirstOrDefault();
+                            Playlist playlistToRename = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedOldPlaylistName)).FirstOrDefault();
 
                             if (playlistToRename != null)
                             {
@@ -486,7 +486,7 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 try
                                 {
-                                    PlaylistEntry playlistEntryToDelete = db.PlaylistEntries.Select((pe) => pe).Where((pe) => pe.TrackID.Equals(ti.Track.TrackID) & pe.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
+                                    PlaylistEntry playlistEntryToDelete = db.PlaylistEntries.Select((p) => p).Where((p) => p.TrackID.Equals(ti.Track.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
                                     db.PlaylistEntries.Remove(playlistEntryToDelete);
                                 }
                                 catch (Exception ex)
@@ -529,7 +529,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         int number = 1;
 
-                        while (db.Playlists.Select((pl) => pl.PlaylistName).ToList().Contains(uniqueName))
+                        while (db.Playlists.Select((p) => p.PlaylistName).ToList().Contains(uniqueName))
                         {
                             number += 1;
                             uniqueName = name + " " + number;

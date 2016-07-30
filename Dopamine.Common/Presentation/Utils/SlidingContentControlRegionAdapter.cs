@@ -28,8 +28,8 @@ namespace Dopamine.Common.Presentation.Utils
 
             if (contentIsSet) throw new InvalidOperationException();
            
-            region.ActiveViews.CollectionChanged += (sender, e) => { regionTarget.Content = region.ActiveViews.FirstOrDefault(); };
-            region.Views.CollectionChanged += (sender, e) =>
+            region.ActiveViews.CollectionChanged += (_, __) => { regionTarget.Content = region.ActiveViews.FirstOrDefault(); };
+            region.Views.CollectionChanged += (_, e) =>
             {
                 if (e.Action.Equals(NotifyCollectionChangedAction.Add) & region.ActiveViews.Count() == 0)
                 {

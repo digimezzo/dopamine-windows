@@ -37,7 +37,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.eventAggregator.GetEvent<SettingUseStarRatingChanged>().Subscribe((useStarRating) => this.UseStarRating = useStarRating);
 
             // PlaybackService
-            this.playbackService.ShuffledTracksChanged += async (sender, e) =>
+            this.playbackService.ShuffledTracksChanged += async (_, __) =>
             {
                 if (this.allowFillAllLists)
                 {

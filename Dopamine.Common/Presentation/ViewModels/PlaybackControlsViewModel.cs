@@ -88,13 +88,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.PlayCommand = new DelegateCommand(async () => await this.playbackService.PlayOrPauseAsync());
 
             // Event handlers
-            this.playbackService.PlaybackFailed += (sender, e) => this.ShowPause = false;
-            this.playbackService.PlaybackPaused += (sender, e) => this.ShowPause = false;
-            this.playbackService.PlaybackResumed += (sender, e) => this.ShowPause = true;
-            this.playbackService.PlaybackStopped += (sender, e) => this.ShowPause = false;
+            this.playbackService.PlaybackFailed += (_,__) => this.ShowPause = false;
+            this.playbackService.PlaybackPaused += (_, __) => this.ShowPause = false;
+            this.playbackService.PlaybackResumed += (_, __) => this.ShowPause = true;
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowPause = false;
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.ShowPause = true;
-            this.playbackService.PlaybackLoopChanged += (sender, e) => this.GetPlayBackServiceLoop();
-            this.playbackService.PlaybackShuffleChanged += (sender, e) => this.GetPlayBackServiceShuffle();
+            this.playbackService.PlaybackLoopChanged += (_, __) => this.GetPlayBackServiceLoop();
+            this.playbackService.PlaybackShuffleChanged += (_, __) => this.GetPlayBackServiceShuffle();
 
             this.playbackService.LoadingTrack += (isLoadingTrack) =>
             {
