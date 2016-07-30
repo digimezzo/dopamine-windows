@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.OobeModule.Views
 {
-    public partial class OobeAppName : UserControl, IView
+    public partial class OobeAppName : UserControl
     {
         #region Construction
         public OobeAppName()

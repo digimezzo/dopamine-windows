@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Database;
 using System;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

@@ -5,16 +5,15 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Dopamine.Views
 {
-    public partial class Playlist : DopamineWindow, IView
+    public partial class Playlist : DopamineWindow
     {
         #region Variables
         private DopamineWindow parent;

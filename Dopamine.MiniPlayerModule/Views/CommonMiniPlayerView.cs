@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
 using System.Windows;
 using System.Windows.Input;
 

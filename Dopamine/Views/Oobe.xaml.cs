@@ -4,9 +4,8 @@ using Dopamine.Common.Services.Indexing;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.OobeModule.Views;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
-    public partial class Oobe : DopamineWindow, IView
+    public partial class Oobe : DopamineWindow
     {
         #region Variables
         private IEventAggregator eventAggregator;

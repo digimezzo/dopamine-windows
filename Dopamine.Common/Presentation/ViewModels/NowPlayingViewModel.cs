@@ -2,7 +2,7 @@
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

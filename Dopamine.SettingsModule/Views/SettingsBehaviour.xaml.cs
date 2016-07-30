@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows.Controls;
 
 namespace Dopamine.SettingsModule.Views
 {
-    public partial class SettingsBehaviour : UserControl, IView
+    public partial class SettingsBehaviour : UserControl
     {
         #region Construction
         public SettingsBehaviour()

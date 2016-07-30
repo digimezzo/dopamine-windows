@@ -10,7 +10,7 @@
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
              xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:prismMvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"

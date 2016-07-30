@@ -1,10 +1,10 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Prism;
 using Dopamine.OobeModule.Views;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Events;
+using Prism.Regions;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.OobeModule.ViewModels

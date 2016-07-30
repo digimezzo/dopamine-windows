@@ -1,10 +1,10 @@
 ﻿using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.Regions;
+using Prism;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 

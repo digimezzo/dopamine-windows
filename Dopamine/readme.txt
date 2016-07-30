@@ -1,6 +1,7 @@
-Getting started with Unity3.Wcf
--------------------------------
+﻿    public class WcfServiceFactory : UnityServiceHostFactory {
 
-Find out how to use Unity.Wcf by visiting https://bitbucket.org/rolosoft/components-wcf-unityintegrator/
-
-Please report all bugs and feature requests on BitBucket.
+        protected override void ConfigureContainer(IUnityContainer container) {
+            container.LoadConfiguration();
+            //UnityConfig.RegisterTypes(container);
+        }
+    }

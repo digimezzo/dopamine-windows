@@ -1,6 +1,6 @@
 ﻿using Dopamine.Core.Prism;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Commands;
+using Prism.Events;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {

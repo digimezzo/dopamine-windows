@@ -4,7 +4,7 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
 using Dopamine.Core.Database;
 using System;
 using System.Collections.Generic;

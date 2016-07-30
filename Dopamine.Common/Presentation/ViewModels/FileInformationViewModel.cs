@@ -4,7 +4,7 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using System;
 
 namespace Dopamine.Common.Presentation.ViewModels

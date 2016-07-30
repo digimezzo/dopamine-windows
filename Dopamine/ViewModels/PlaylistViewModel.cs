@@ -2,9 +2,9 @@
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
 using Dopamine.MiniPlayerModule.Views;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace Dopamine.ViewModels
 {

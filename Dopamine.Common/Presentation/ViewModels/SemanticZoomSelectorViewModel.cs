@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Presentation.Interfaces;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

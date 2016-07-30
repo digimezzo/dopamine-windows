@@ -1,9 +1,8 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class EditTrack : UserControl, IView
+    public partial class EditTrack : UserControl
     {
         #region Construction
         public EditTrack()

@@ -1,11 +1,11 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
 namespace Dopamine.FullPlayerModule.Views
 {
-    public partial class NowPlayingScreenShowcase : UserControl, IView
+    public partial class NowPlayingScreenShowcase : UserControl
     {
         #region Properties
         public new object DataContext

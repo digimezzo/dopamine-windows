@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Mvvm;
+using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows;
 

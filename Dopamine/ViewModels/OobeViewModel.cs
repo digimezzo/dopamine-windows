@@ -1,8 +1,8 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Core.Prism;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Mvvm;
+using Prism.Events;
 
 namespace Dopamine.ViewModels
 {

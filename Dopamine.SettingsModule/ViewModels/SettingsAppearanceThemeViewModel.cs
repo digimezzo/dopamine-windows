@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Appearance;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

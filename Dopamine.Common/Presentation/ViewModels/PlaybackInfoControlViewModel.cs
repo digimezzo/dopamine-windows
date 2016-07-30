@@ -3,7 +3,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using System;
 
 namespace Dopamine.Common.Presentation.ViewModels

@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Update;
 using Dopamine.Core.Settings;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using System.Threading.Tasks;
 
 namespace Dopamine.SettingsModule.ViewModels

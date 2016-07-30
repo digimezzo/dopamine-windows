@@ -10,7 +10,6 @@ namespace Dopamine.Core.Database
     {
         #region Shared Properties
         private static string databaseFile;
-        private static string connectionString;
         #endregion
 
         #region Properties

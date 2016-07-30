@@ -15,11 +15,10 @@ using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
-    public partial class Shell : DopamineWindow, IView
+    public partial class Shell : DopamineWindow
     {
         #region Variables
         private bool allowSaveWindowGeometry = false;

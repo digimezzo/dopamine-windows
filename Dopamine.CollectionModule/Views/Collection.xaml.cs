@@ -1,11 +1,11 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class Collection : UserControl, IView
+    public partial class Collection : UserControl
     {
         #region Construction
         public Collection()

@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,7 +7,7 @@ namespace Dopamine.Common.Presentation.Views
     /// <summary>
     /// Interaction logic for CoverArtControl.xaml
     /// </summary>
-    public partial class CoverArtControl : UserControl, IView
+    public partial class CoverArtControl : UserControl
     {
         #region Dependency Properties
         public static readonly DependencyProperty IconSizeProperty = DependencyProperty.Register("IconSize", typeof(double), typeof(CoverArtControl), new PropertyMetadata(null));

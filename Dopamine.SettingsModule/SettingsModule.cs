@@ -1,8 +1,8 @@
 ﻿using Dopamine.Core.Prism;
 using Dopamine.SettingsModule.ViewModels;
 using Dopamine.SettingsModule.Views;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Modularity;
+using Prism.Regions;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.SettingsModule
