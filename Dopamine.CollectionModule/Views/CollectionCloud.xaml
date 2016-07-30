@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Dopamine.CollectionModule.Views.CollectionCloud"
+             x:Name="Me"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -42,7 +43,7 @@
             </Storyboard>
         </Storyboard>
         <DataTemplate DataType="{x:Type commonviewmodels:AlbumViewModel}">
-            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Cursor="Hand" Command="{Binding DataContext.ClickCommand,ElementName=CollectionCloud}" CommandParameter="{Binding Album}">
+            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Cursor="Hand" Command="{Binding DataContext.ClickCommand,ElementName=Me}" CommandParameter="{Binding Album}">
                 <Grid>
                     <controls:Tile Panel.ZIndex="0"
                                    Width="{Binding ActualWidth,ElementName=TheButton}"
