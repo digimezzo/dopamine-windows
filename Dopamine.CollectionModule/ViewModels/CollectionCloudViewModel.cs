@@ -15,11 +15,11 @@ namespace Dopamine.CollectionModule.ViewModels
 {
     public class CollectionCloudViewModel : BindableBase
     {
-        #region "ariables
+        #region Variables
         private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
 
-        private bool mHasCloud;
+        private bool hasCloud;
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
@@ -44,8 +44,8 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Properties
         public bool HasCloud
         {
-            get { return mHasCloud; }
-            set { SetProperty<bool>(ref mHasCloud, value); }
+            get { return this.hasCloud; }
+            set { SetProperty<bool>(ref this.hasCloud, value); }
         }
         public AlbumViewModel AlbumViewModel1
         {
@@ -168,7 +168,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Private
-        private void UpdateAlbumViewModel(int number, List<Album> albums, AlbumViewModel albumViewModel)
+        private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
         {
             if (albums.Count < number)
             {
@@ -202,33 +202,74 @@ namespace Dopamine.CollectionModule.ViewModels
 
                 await Task.Run(() =>
                 {
-                    this.UpdateAlbumViewModel(1, albums, this.AlbumViewModel1);
+                    // Album 1
+                    this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
+                    OnPropertyChanged(() => this.AlbumViewModel1);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(2, albums, this.AlbumViewModel2);
+
+                    // Album 2
+                    this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
+                    OnPropertyChanged(() => this.AlbumViewModel2);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(3, albums, this.AlbumViewModel3);
+
+                    // Album 3
+                    this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
+                    OnPropertyChanged(() => this.AlbumViewModel3);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(4, albums, this.AlbumViewModel4);
+
+                    // Album 4
+                    this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
+                    OnPropertyChanged(() => this.AlbumViewModel4);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(5, albums, this.AlbumViewModel5);
+
+                    // Album 5
+                    this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
+                    OnPropertyChanged(() => this.AlbumViewModel5);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(6, albums, this.AlbumViewModel6);
+
+                    // Album 6
+                    this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
+                    OnPropertyChanged(() => this.AlbumViewModel6);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(7, albums, this.AlbumViewModel7);
+
+                    // Album 7
+                    this.UpdateAlbumViewModel(7, albums, ref this.albumViewModel7);
+                    OnPropertyChanged(() => this.AlbumViewModel7);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(8, albums, this.AlbumViewModel8);
+
+                    // Album 8
+                    this.UpdateAlbumViewModel(8, albums, ref this.albumViewModel8);
+                    OnPropertyChanged(() => this.AlbumViewModel8);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(9, albums, this.AlbumViewModel9);
+
+                    // Album 9
+                    this.UpdateAlbumViewModel(9, albums, ref this.albumViewModel9);
+                    OnPropertyChanged(() => this.AlbumViewModel9);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(10, albums, this.AlbumViewModel10);
+
+                    // Album 10
+                    this.UpdateAlbumViewModel(10, albums, ref this.albumViewModel10);
+                    OnPropertyChanged(() => this.AlbumViewModel10);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(11, albums, this.AlbumViewModel11);
+
+                    // Album 11
+                    this.UpdateAlbumViewModel(11, albums, ref this.albumViewModel11);
+                    OnPropertyChanged(() => this.AlbumViewModel11);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(12, albums, this.AlbumViewModel12);
+
+                    // Album 12
+                    this.UpdateAlbumViewModel(12, albums, ref this.albumViewModel12);
+                    OnPropertyChanged(() => this.AlbumViewModel12);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(13, albums, this.AlbumViewModel13);
+
+                    // Album 13
+                    this.UpdateAlbumViewModel(13, albums, ref this.albumViewModel13);
+                    OnPropertyChanged(() => this.AlbumViewModel13);
                     System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-                    this.UpdateAlbumViewModel(14, albums, this.AlbumViewModel14);
+
+                    // Album 14
+                    this.UpdateAlbumViewModel(14, albums, ref this.albumViewModel14);
+                    OnPropertyChanged(() => this.AlbumViewModel14);
                 });
              }
         }
