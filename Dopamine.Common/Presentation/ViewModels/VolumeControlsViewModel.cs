@@ -51,8 +51,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.playBackService = playBackService;
 
-            this.playBackService.PlaybackVolumeChanged += (sender,e) => this.GetPlayBackServiceVolume();
-            this.playBackService.PlaybackMuteChanged += (sender, e) => this.GetPlaybackServiceMute();
+            this.playBackService.PlaybackVolumeChanged += (_, __) => this.GetPlayBackServiceVolume();
+            this.playBackService.PlaybackMuteChanged += (_, __) => this.GetPlaybackServiceMute();
 
             this.MuteCommand = new DelegateCommand(() => this.SetPlayBackServiceMute(true));
             this.UnmuteCommand = new DelegateCommand(() => this.SetPlayBackServiceMute(false));

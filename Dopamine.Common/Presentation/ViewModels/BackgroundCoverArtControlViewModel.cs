@@ -30,7 +30,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService = playbackService;
             this.appearanceService = appearanceService;
 
-            this.appearanceService.ThemeChanged += (sender, e) => this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
+            this.appearanceService.ThemeChanged += (_, __) => this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
 
             this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
         }

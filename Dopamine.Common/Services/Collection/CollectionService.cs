@@ -231,7 +231,7 @@ namespace Dopamine.Common.Services.Collection
                         {
                             // Get an up to date version of this album from the database
 
-                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(albvm.Album.AlbumID)).Select(a => a).FirstOrDefault();
+                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(albvm.Album.AlbumID)).Select((a) => a).FirstOrDefault();
 
                             if (dbAlbum != null)
                             {
@@ -256,7 +256,7 @@ namespace Dopamine.Common.Services.Collection
                         try
                         {
                             // Get an up to date version of this album from the database
-                            Album dbAlbum = dbAlbums.Where(a => a.AlbumID.Equals(tivm.TrackInfo.Album.AlbumID)).Select(a => a).FirstOrDefault();
+                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(tivm.TrackInfo.Album.AlbumID)).Select((a) => a).FirstOrDefault();
 
                             if (dbAlbum != null)
                             {

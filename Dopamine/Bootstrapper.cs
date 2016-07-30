@@ -61,7 +61,7 @@ namespace Dopamine
             this.RegisterViews();
             this.RegisterViewModels();
 
-            ViewModelLocationProvider.SetDefaultViewModelFactory(type => { return Container.Resolve(type); });
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => { return Container.Resolve(type); });
         }
 
         protected override RegionAdapterMappings ConfigureRegionAdapterMappings()

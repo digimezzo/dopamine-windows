@@ -19,7 +19,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            db.PlaylistEntries.RemoveRange(db.PlaylistEntries.Where((ple) => !db.Tracks.Select((t) => t.TrackID).Distinct().Contains(ple.TrackID)));
+                            db.PlaylistEntries.RemoveRange(db.PlaylistEntries.Where((p) => !db.Tracks.Select((t) => t.TrackID).Distinct().Contains(p.TrackID)));
                             db.SaveChanges();
                         }
                         catch (Exception ex)

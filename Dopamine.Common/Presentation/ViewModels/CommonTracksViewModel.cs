@@ -267,24 +267,24 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
 
             // Initialize Handlers
-            this.playbackService.PlaybackFailed += (sender, e) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackPaused += (sender, e) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackResumed += (sender, e) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackStopped += (sender, e) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
 
-            this.collectionService.CollectionChanged += async (sender, e) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
-            this.collectionService.PlaylistsChanged += (sender, e) => this.GetContextMenuPlaylistsAsync();
+            this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
+            this.collectionService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
 
-            this.indexingService.RefreshLists += async (sender, e) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
-            this.indexingService.IndexingStarted += (sender, e) => this.SetEditCommands();
-            this.indexingService.IndexingStopped += (sender, e) => this.SetEditCommands();
+            this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
+            this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
+            this.indexingService.IndexingStopped += (_, __) => this.SetEditCommands();
 
             this.searchService.DoSearch += (searchText) => { if (this.IsActive) this.FilterLists(); };
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
 
-            this.i18nService.LanguageChanged += (sender, e) =>
+            this.i18nService.LanguageChanged += (_, __) =>
             {
                 OnPropertyChanged(() => this.TotalDurationInformation);
                 OnPropertyChanged(() => this.TotalSizeInformation);

@@ -40,11 +40,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.playbackService = playbackService;
 
-            this.playbackService.PlaybackFailed += (sender,e) => this.ShowCoverArtAsync(null);
-            this.playbackService.PlaybackStopped += (sender, e) => this.ShowCoverArtAsync(null);
+            this.playbackService.PlaybackFailed += (_, __) => this.ShowCoverArtAsync(null);
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowCoverArtAsync(null);
 
 
-            this.playbackService.PlaybackSuccess += isPlayingPreviousTrack =>
+            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 if (isPlayingPreviousTrack)
                 {
@@ -70,9 +70,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(TrackInfo iTrackInfo)
+        protected async virtual void ShowCoverArtAsync(TrackInfo trackInfo)
         {
-            if (iTrackInfo == null)
+            if (trackInfo == null)
             {
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
                 return;
@@ -82,7 +82,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = ArtworkUtils.GetArtworkPath(iTrackInfo.Album);
+                artworkPath = ArtworkUtils.GetArtworkPath(trackInfo.Album);
             });
 
             if (string.IsNullOrEmpty(artworkPath))
@@ -109,7 +109,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", iTrackInfo.Track.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo.Track.Path, ex.Message);
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             }
         }

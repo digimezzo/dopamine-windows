@@ -239,7 +239,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    fileMetadatas.AddRange(this.trackInfos.Select((ti) => new FileMetadata(ti.Track.Path)));
+                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Track.Path)));
                 }
                 catch (Exception ex)
                 {
@@ -254,51 +254,51 @@ namespace Dopamine.Common.Presentation.ViewModels
                 try
                 {
                     // Artists
-                    List<string> distinctArtists = fileMetadatas.Select(fm => fm.Artists.Value).Distinct().ToList();
+                    List<string> distinctArtists = fileMetadatas.Select((f) => f.Artists.Value).Distinct().ToList();
                     this.Artists.Value = distinctArtists.Count == 1 ? distinctArtists.First() : this.multipleValuesText;
 
                     // Title
-                    List<string> distinctTitles = fileMetadatas.Select(fm => fm.Title.Value).Distinct().ToList();
+                    List<string> distinctTitles = fileMetadatas.Select((f) => f.Title.Value).Distinct().ToList();
                     this.Title.Value = distinctTitles.Count == 1 ? distinctTitles.First() : this.multipleValuesText;
 
                     // Album
-                    List<string> distinctAlbums = fileMetadatas.Select(fm => fm.Album.Value).Distinct().ToList();
+                    List<string> distinctAlbums = fileMetadatas.Select((f) => f.Album.Value).Distinct().ToList();
                     this.Album.Value = distinctAlbums.Count == 1 ? distinctAlbums.First() : this.multipleValuesText;
 
                     // AlbumArtists
-                    List<string> distinctAlbumArtists = fileMetadatas.Select(fm => fm.AlbumArtists.Value).Distinct().ToList();
+                    List<string> distinctAlbumArtists = fileMetadatas.Select((f) => f.AlbumArtists.Value).Distinct().ToList();
                     this.AlbumArtists.Value = distinctAlbumArtists.Count == 1 ? distinctAlbumArtists.First() : this.multipleValuesText;
 
                     // Year
-                    List<string> distinctYears = fileMetadatas.Select(fm => fm.Year.Value).Distinct().ToList();
+                    List<string> distinctYears = fileMetadatas.Select((f) => f.Year.Value).Distinct().ToList();
                     this.Year.Value = distinctYears.Count == 1 ? distinctYears.First().ToString() : this.multipleValuesText;
 
                     // TrackNumber
-                    List<string> distinctTrackNumbers = fileMetadatas.Select(fm => fm.TrackNumber.Value).Distinct().ToList();
+                    List<string> distinctTrackNumbers = fileMetadatas.Select((f) => f.TrackNumber.Value).Distinct().ToList();
                     this.TrackNumber.Value = distinctTrackNumbers.Count == 1 ? distinctTrackNumbers.First().ToString() : this.multipleValuesText;
 
                     // TrackCount
-                    List<string> distinctTrackCounts = fileMetadatas.Select(fm => fm.TrackCount.Value).Distinct().ToList();
+                    List<string> distinctTrackCounts = fileMetadatas.Select((f) => f.TrackCount.Value).Distinct().ToList();
                     this.TrackCount.Value = distinctTrackCounts.Count == 1 ? distinctTrackCounts.First().ToString() : this.multipleValuesText;
 
                     // DiscNumber
-                    List<string> distinctDiscNumbers = fileMetadatas.Select(fm => fm.DiscNumber.Value).Distinct().ToList();
+                    List<string> distinctDiscNumbers = fileMetadatas.Select((f) => f.DiscNumber.Value).Distinct().ToList();
                     this.DiscNumber.Value = distinctDiscNumbers.Count == 1 ? distinctDiscNumbers.First().ToString() : this.multipleValuesText;
 
                     // DiscCount
-                    List<string> distinctDiscCounts = fileMetadatas.Select(fm => fm.DiscCount.Value).Distinct().ToList();
+                    List<string> distinctDiscCounts = fileMetadatas.Select((f) => f.DiscCount.Value).Distinct().ToList();
                     this.DiscCount.Value = distinctDiscCounts.Count == 1 ? distinctDiscCounts.First().ToString() : this.multipleValuesText;
 
                     // Genres
-                    List<string> distinctGenres = fileMetadatas.Select(fm => fm.Genres.Value).Distinct().ToList();
+                    List<string> distinctGenres = fileMetadatas.Select((f) => f.Genres.Value).Distinct().ToList();
                     this.Genres.Value = distinctGenres.Count == 1 ? distinctGenres.First() : this.multipleValuesText;
 
                     // Grouping
-                    List<string> distinctGroupings = fileMetadatas.Select(fm => fm.Grouping.Value).Distinct().ToList();
+                    List<string> distinctGroupings = fileMetadatas.Select((f) => f.Grouping.Value).Distinct().ToList();
                     this.Grouping.Value = distinctGroupings.Count == 1 ? distinctGroupings.First() : this.multipleValuesText;
 
                     // Comment
-                    List<string> distinctComments = fileMetadatas.Select(fm => fm.Comment.Value).Distinct().ToList();
+                    List<string> distinctComments = fileMetadatas.Select((f) => f.Comment.Value).Distinct().ToList();
                     this.Comment.Value = distinctComments.Count == 1 ? distinctComments.First() : this.multipleValuesText;
 
                     // Artwork 
@@ -315,7 +315,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             byte[] foundArtwork = null;
 
-            List<byte[]> artworks = fileMetadatas.Select(fm => fm.ArtworkData.DataValue).ToList();
+            List<byte[]> artworks = fileMetadatas.Select((f) => f.ArtworkData.DataValue).ToList();
             List<int> artworksSizes = new List<int>();
 
             foreach (byte[] eaw in artworks)

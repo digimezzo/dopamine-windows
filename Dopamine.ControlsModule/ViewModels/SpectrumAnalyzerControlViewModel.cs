@@ -33,11 +33,11 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.playbackService.SpectrumVisibilityChanged += isSpectrumVisible => this.ShowSpectrumAnalyzer = isSpectrumVisible;
 
-            this.playbackService.PlaybackFailed += (sender,e) => this.IsPlaying = false;
-            this.playbackService.PlaybackStopped += (sender, e) => this.IsPlaying = false;
-            this.playbackService.PlaybackPaused += (sender, e) => this.IsPlaying = false;
-            this.playbackService.PlaybackResumed += (sender, e) => this.IsPlaying = true;
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.IsPlaying = true;
+            this.playbackService.PlaybackFailed += (_, __) => this.IsPlaying = false;
+            this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
+            this.playbackService.PlaybackPaused += (_, __) => this.IsPlaying = false;
+            this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
+            this.playbackService.PlaybackSuccess += (_) => this.IsPlaying = true;
 
             this.ShowSpectrumAnalyzer = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 

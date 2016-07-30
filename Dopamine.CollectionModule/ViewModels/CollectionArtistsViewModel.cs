@@ -181,7 +181,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // IndexingService
-            this.indexingService.RefreshArtwork += async (sender, e) => await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
 
             // Set the initial ArtistType
             this.ArtistType = (ArtistType)XmlSettingsClient.Instance.Get<int>("Ordering", "ArtistType");

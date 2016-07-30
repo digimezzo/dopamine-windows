@@ -138,7 +138,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.albumRepository = albumRepository;
             this.playbackService = playbackService;
 
-            this.playbackService.TrackStatisticsChanged += async (sender, e) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.TrackStatisticsChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             this.ClickCommand = new DelegateCommand<object>((album) =>
             {

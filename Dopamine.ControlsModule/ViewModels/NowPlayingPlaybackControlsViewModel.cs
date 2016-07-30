@@ -32,17 +32,17 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             this.playbackService = playbackService;
 
-            this.playbackService.PlaybackProgressChanged += (sender,e) => this.UpdateTime();
-            this.playbackService.PlaybackStopped += (sender, e) =>
+            this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
+            this.playbackService.PlaybackStopped += (_, __) =>
             {
                 this.Reset();
                 OnPropertyChanged(() => this.IsShowcaseAvailable);
             };
 
-            this.playbackService.PlaybackFailed += (sender, e) => OnPropertyChanged(() => this.IsShowcaseAvailable);
-            this.playbackService.PlaybackPaused += (sender, e) => OnPropertyChanged(() => this.IsShowcaseAvailable);
-            this.playbackService.PlaybackResumed += (sender, e) => OnPropertyChanged(() => this.IsShowcaseAvailable);
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => OnPropertyChanged(() => this.IsShowcaseAvailable);
+            this.playbackService.PlaybackFailed += (_, __) => OnPropertyChanged(() => this.IsShowcaseAvailable);
+            this.playbackService.PlaybackPaused += (_, __) => OnPropertyChanged(() => this.IsShowcaseAvailable);
+            this.playbackService.PlaybackResumed += (_, __) => OnPropertyChanged(() => this.IsShowcaseAvailable);
+            this.playbackService.PlaybackSuccess += (_) => OnPropertyChanged(() => this.IsShowcaseAvailable);
 
             this.Reset();
         }

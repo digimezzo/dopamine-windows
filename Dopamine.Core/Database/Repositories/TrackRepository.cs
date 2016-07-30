@@ -245,7 +245,7 @@ namespace Dopamine.Core.Database.Repositories
 
                             if (playlists != null)
                             {
-                                playlistIds = playlists.Select((pl) => pl.PlaylistID).ToList();
+                                playlistIds = playlists.Select((p) => p.PlaylistID).ToList();
                             }
 
                             List<long> trackIds = db.PlaylistEntries.Where((t) => playlistIds.Contains(t.PlaylistID)).Select((t) => t.TrackID).ToList();
