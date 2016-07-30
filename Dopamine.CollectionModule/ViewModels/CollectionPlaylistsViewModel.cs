@@ -186,7 +186,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 IList<Playlist> playlists = await this.playlistRepository.GetPlaylistsAsync();
 
                 // Set the count
-                this.PlaylistsCount = Playlists.Count;
+                this.PlaylistsCount = playlists.Count;
 
                 // Populate an ObservableCollection
                 var playlistViewModels = new ObservableCollection<PlaylistViewModel>();

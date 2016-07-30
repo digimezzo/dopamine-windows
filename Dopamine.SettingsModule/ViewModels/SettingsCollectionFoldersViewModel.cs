@@ -121,8 +121,8 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.IsIndexing = true;
 
             // These events handle changes of Indexer status after the ViewModel is created
-            this.indexingService.IndexingStarted += (sender, e) => this.IsIndexing = true;
-            this.indexingService.IndexingStopped += (sender, e) => this.IsIndexing = false;
+            this.indexingService.IndexingStarted += (_, __) => this.IsIndexing = true;
+            this.indexingService.IndexingStopped += (_, __) => this.IsIndexing = false;
 
             this.GetFoldersAsync();
         }
