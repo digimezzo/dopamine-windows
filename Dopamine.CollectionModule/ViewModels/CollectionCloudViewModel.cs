@@ -186,6 +186,10 @@ namespace Dopamine.CollectionModule.ViewModels
                     };
                 }
             }
+
+            OnPropertyChanged("AlbumViewModel" + number.ToString());
+
+            System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
         }
 
         private async Task PopulateAlbumHistoryAsync()
@@ -202,74 +206,20 @@ namespace Dopamine.CollectionModule.ViewModels
 
                 await Task.Run(() =>
                 {
-                    // Album 1
                     this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-                    OnPropertyChanged(() => this.AlbumViewModel1);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 2
                     this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-                    OnPropertyChanged(() => this.AlbumViewModel2);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 3
                     this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-                    OnPropertyChanged(() => this.AlbumViewModel3);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 4
                     this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-                    OnPropertyChanged(() => this.AlbumViewModel4);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 5
                     this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-                    OnPropertyChanged(() => this.AlbumViewModel5);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 6
                     this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
-                    OnPropertyChanged(() => this.AlbumViewModel6);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 7
                     this.UpdateAlbumViewModel(7, albums, ref this.albumViewModel7);
-                    OnPropertyChanged(() => this.AlbumViewModel7);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 8
                     this.UpdateAlbumViewModel(8, albums, ref this.albumViewModel8);
-                    OnPropertyChanged(() => this.AlbumViewModel8);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 9
                     this.UpdateAlbumViewModel(9, albums, ref this.albumViewModel9);
-                    OnPropertyChanged(() => this.AlbumViewModel9);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 10
                     this.UpdateAlbumViewModel(10, albums, ref this.albumViewModel10);
-                    OnPropertyChanged(() => this.AlbumViewModel10);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 11
                     this.UpdateAlbumViewModel(11, albums, ref this.albumViewModel11);
-                    OnPropertyChanged(() => this.AlbumViewModel11);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 12
                     this.UpdateAlbumViewModel(12, albums, ref this.albumViewModel12);
-                    OnPropertyChanged(() => this.AlbumViewModel12);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 13
                     this.UpdateAlbumViewModel(13, albums, ref this.albumViewModel13);
-                    OnPropertyChanged(() => this.AlbumViewModel13);
-                    System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-
-                    // Album 14
                     this.UpdateAlbumViewModel(14, albums, ref this.albumViewModel14);
-                    OnPropertyChanged(() => this.AlbumViewModel14);
                 });
              }
         }
