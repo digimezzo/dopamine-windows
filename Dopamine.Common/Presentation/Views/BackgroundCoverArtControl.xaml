@@ -17,6 +17,9 @@
                 Content="{Binding CoverArtViewModel.CoverArt}"
                 Duration="1.0"
                 RenderOptions.BitmapScalingMode="LowQuality"/>
+            <!--<Border.Effect>
+                <BlurEffect Radius="20" KernelType="Gaussian"/>
+            </Border.Effect>-->
         </Border>
     </Border>
 </UserControl>
