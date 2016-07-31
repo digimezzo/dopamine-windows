@@ -122,8 +122,8 @@
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Unity.Wcf, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.WCF.4.1.0.2\lib\net45\Unity.Wcf.dll</HintPath>
+    <Reference Include="Unity.Wcf, Version=2.0.5849.32640, Culture=neutral, PublicKeyToken=525d148222f4b6a3, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnityWCF.2.0.5849.32640\lib\net40\Unity.Wcf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -162,6 +162,7 @@
     <Compile Include="Views\TrayControls.xaml.cs">
       <DependentUpon>TrayControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WcfServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
@@ -241,7 +242,7 @@
     <Content Include="Icons\Ogg.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Readme.txt" />
+    <Resource Include="Unity.Wcf.README.txt" />
     <Resource Include="Icons\TaskbarItemInfo_Next.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Pause.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Play.ico" />
@@ -352,7 +353,7 @@
     <Content Include="Licenses\Unity.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licenses\Unity3.WCF.txt">
+    <Content Include="Licenses\Unity.WCF.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Licenses\WiX.txt">
