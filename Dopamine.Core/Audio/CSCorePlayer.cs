@@ -1,9 +1,12 @@
 ﻿using CSCore;
 using CSCore.Codecs;
+using CSCore.Codecs.MP3;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
+using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
+using Dopamine.Core.Base;
 using System;
 using System.ComponentModel;
 using System.Threading;
@@ -120,11 +123,8 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public void InitializeSoundOut()
+        public void InitializeSoundOut(IWaveSource soundSource)
         {
-            // Contains the sound to play
-            IWaveSource soundSource = CodecFactory.Instance.GetCodec(this.filename);
-
             // SoundOut implementation which plays the sound
             this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
 
@@ -247,9 +247,30 @@ namespace Dopamine.Core.Audio
             this.canPause = true;
             this.canStop = true;
 
-            this.InitializeSoundOut();
+            if(System.IO.Path.GetExtension(this.filename) == FileFormats.MP3)
+            {
+                // HACK: MP3's get a special treatment
+                try
+                {
+                    // MediaFoundationDecoder opens MP3's from NAS faster than the default DmoMp3Decoder
+                    this.InitializeSoundOut(new MediaFoundationDecoder(this.filename));
+                    this.soundOut.Play();
+                }
+                catch (Exception)
+                {
+                    this.CloseSoundOut();
 
-            this.soundOut.Play();
+                    // Because MediaFoundationDecoder doesn't handle "exotic" MP3's (which don't fully follow the standard) 
+                    // very well, we give it a second try with DmoMp3Decoder. Opening from NAS is slow now however.
+                    this.InitializeSoundOut(new DmoMp3Decoder(this.filename));
+                    this.soundOut.Play();
+                }
+            }else
+            {
+                // Other file formats are handled normally
+                this.InitializeSoundOut(CodecFactory.Instance.GetCodec(this.filename));
+                this.soundOut.Play();
+            }
         }
 
         public void SetVolume(float volume)
