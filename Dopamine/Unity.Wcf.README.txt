@@ -1,0 +1,6 @@
+Getting started with Unity.Wcf
+------------------------------
+
+Find out how to use Unity.Wcf by visiting https://github.com/Uriil/unitywcf
+
+Please report all bugs and feature requests on GitHub.

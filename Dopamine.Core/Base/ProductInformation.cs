@@ -126,9 +126,9 @@ namespace Dopamine.Core.Base
         Link = "http://www.nuget.org/packages/taglib"
     },
     new ExternalComponent {
-        Name = "Unity3.WCF",
-        Description = "A library that allows the simple integration of Unity IoC container with WCF.",
-        Link = "https://bitbucket.org/rolosoft/components-wcf-unityintegrator"
+        Name = "Unity.WCF",
+        Description = "A library that allows the simple integration of Microsoft's Unity IoC container with WCF.",
+        Link = "https://github.com/Uriil/unitywcf"
     },
     new ExternalComponent {
         Name = "Unity",
