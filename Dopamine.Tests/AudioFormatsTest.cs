@@ -8,7 +8,6 @@ namespace Dopamine.Tests
     public class AudioFormatsTest
     {
         [TestMethod()]
-
         public void Mp3BasicTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
@@ -20,7 +19,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3ListenTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
@@ -33,7 +31,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3SkipTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
@@ -50,7 +47,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3BasicTest2()
         {
             string audioFile = @"Files\AudioFormatsTest\test2.mp3";
@@ -62,7 +58,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3ListenTest2()
         {
             string audioFile = @"Files\AudioFormatsTest\test2.mp3";
@@ -75,7 +70,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3BasicTest3()
         {
             string audioFile = @"Files\AudioFormatsTest\test3.mp3";
@@ -87,7 +81,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void Mp3ListenTest3()
         {
             string audioFile = @"Files\AudioFormatsTest\test3.mp3";
@@ -100,7 +93,29 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
+        public void Mp3BasicTest4()
+        {
+            string audioFile = @"Files\AudioFormatsTest\test4.mp3";
 
+            IPlayer player = CSCorePlayer.Instance;
+            player.SetOutputDevice(200, false, false);
+            player.SetVolume(0.0f);
+            player.Play(audioFile);
+        }
+
+        [TestMethod()]
+        public void Mp3ListenTest4()
+        {
+            string audioFile = @"Files\AudioFormatsTest\test4.mp3";
+
+            IPlayer player = CSCorePlayer.Instance;
+            player.SetOutputDevice(200, false, false);
+            player.SetVolume(0.3f);
+            player.Play(audioFile);
+            System.Threading.Thread.Sleep(5000);
+        }
+
+        [TestMethod()]
         public void WmaBasicTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.wma";
@@ -112,7 +127,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void WmaListenTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.wma";
@@ -125,7 +139,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void WmaSkipTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.wma";
@@ -142,7 +155,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void FlacBasicTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.flac";
@@ -154,7 +166,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void FlacListenTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.flac";
@@ -167,7 +178,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void FlacSkipTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.flac";
@@ -184,7 +194,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggBasicTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
@@ -196,7 +205,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggListenTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
@@ -209,7 +217,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggSkipTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
@@ -227,7 +234,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggBasicTest2()
         {
             string audioFile = @"Files\AudioFormatsTest\test2.ogg";
@@ -244,7 +250,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggListenTest2()
         {
             string audioFile = @"Files\AudioFormatsTest\test2.ogg";
@@ -262,7 +267,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggBasicTest3()
         {
             string audioFile = @"Files\AudioFormatsTest\test3.ogg";
@@ -281,7 +285,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void OggListenTest3()
         {
             string audioFile = @"Files\AudioFormatsTest\test3.ogg";

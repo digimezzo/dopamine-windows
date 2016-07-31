@@ -9,7 +9,6 @@ namespace Dopamine.Tests
     {
 
         [TestMethod()]
-
         public void WasapiExclusiveModeBasicTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
@@ -21,7 +20,6 @@ namespace Dopamine.Tests
         }
 
         [TestMethod()]
-
         public void WasapiExclusiveModeListenTest()
         {
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
