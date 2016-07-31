@@ -143,7 +143,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="App_Start\WcfServiceFactory.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
