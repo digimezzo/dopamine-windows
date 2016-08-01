@@ -1,10 +1,11 @@
-31-07-2017: Dopamine 1.1.668.0 (Preview)
+1-08-2017: Dopamine 1.1.669.0 (Preview)
 ----------------------------------------
 
 - Dopamine is now Open Source Software!
 - Added importing of .wpl playlists
 - Fixed an issue importing playlists which have a relative path
 - Added information that WASAPI Exclusive Mode mutes sounds from other applications
+- Fixed a bug updating the collection when a new collection folder is added just after removing another
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation

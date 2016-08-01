@@ -31,7 +31,7 @@ namespace Dopamine.Core.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 9;
+        protected const int CURRENT_VERSION = 10;
         private SQLiteConnection connection;
         private int userDatabaseVersion;
         #endregion
@@ -96,10 +96,9 @@ namespace Dopamine.Core.Database
                          "PRIMARY KEY(EntryID));");
 
             this.Execute("CREATE TABLE Folders (" +
-                         "FolderID	         INTEGER," +
+                         "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                          "Path	             TEXT," +
-                         "ShowInCollection   INTEGER," +
-                         "PRIMARY KEY(FolderID));");
+                         "ShowInCollection   INTEGER);");
 
             this.Execute("CREATE TABLE Tracks (" +
                          "TrackID	            INTEGER," +
@@ -594,6 +593,37 @@ namespace Dopamine.Core.Database
                          "Value                  TEXT," +
                          "PRIMARY KEY(IndexingStatisticID));");
        }
+        #endregion
+
+        #region Version 10
+        [DatabaseVersion(10)]
+        private void Migrate10()
+        {
+            this.Execute("BEGIN TRANSACTION;");
+
+            this.Execute("CREATE TABLE Folders_backup (" +
+                         "FolderID	         INTEGER," +
+                         "Path	             TEXT," +
+                         "ShowInCollection   INTEGER," +
+                         "PRIMARY KEY(FolderID));");
+
+            this.Execute("INSERT INTO Folders_backup SELECT * FROM Folders;");
+
+            this.Execute("DROP TABLE Folders;");
+
+            this.Execute("CREATE TABLE Folders (" +
+                         "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
+                         "Path	             TEXT," +
+                         "ShowInCollection   INTEGER);");
+           
+            this.Execute("INSERT INTO Folders SELECT * FROM Folders_backup;");
+
+            this.Execute("DROP TABLE Folders_backup;");
+
+            this.Execute("COMMIT;");
+
+            this.Execute("VACUUM;");
+        }
         #endregion
 
         #region Public
