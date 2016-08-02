@@ -25,8 +25,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IList<TrackInfo> trackInfos;
         private IMetadataService metadataService;
         private IDialogService dialogService;
-        private string multipleTracksWarningText;
-        private bool showMultipleTracksWarning;
 
         private string multipleValuesText;
         private bool hasMultipleArtwork;
