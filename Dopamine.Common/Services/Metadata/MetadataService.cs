@@ -74,7 +74,7 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region IMetadataService
-        public async Task UpdateSongRatingAsync(string path, int rating)
+        public async Task UpdateTrackRatingAsync(string path, int rating)
         {
             Track dbTrack = await this.trackRepository.GetTrackAsync(path);
 
@@ -99,7 +99,7 @@ namespace Dopamine.Common.Services.Metadata
             this.RatingChanged(new RatingChangedEventArgs { Path = path, Rating = rating });
         }
 
-        public async Task UpdateSongAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
+        public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             // Update the metadata in the database immediately
             await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
