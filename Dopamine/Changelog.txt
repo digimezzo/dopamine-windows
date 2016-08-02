@@ -6,6 +6,7 @@
 - Fixed an issue importing playlists which have a relative path
 - Added information that WASAPI Exclusive Mode mutes sounds from other applications
 - Fixed a bug updating the collection when a new collection folder is added just after removing another
+- Fixed a bug showing genres on the Genres screen when one or more songs have a white space as genre (needs refresh of collection to apply the fix)
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation
