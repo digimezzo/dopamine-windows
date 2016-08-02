@@ -31,7 +31,6 @@ namespace Dopamine.Core.Metadata
         #region Properties
         public string Value
         {
-            //Return If(mValue IsNot Nothing, mValue, String.Empty)
             get { return this.value; }
 
             set
