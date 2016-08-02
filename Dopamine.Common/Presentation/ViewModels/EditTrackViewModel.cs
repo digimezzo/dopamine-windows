@@ -405,19 +405,19 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         var fmd = new FileMetadata(ti.Track.Path);
 
-                        fmd.Artists = this.artists;
-                        fmd.Title = this.title;
-                        fmd.Album = this.album;
-                        fmd.AlbumArtists = this.albumArtists;
-                        fmd.Year = this.year;
-                        fmd.TrackNumber = this.trackNumber;
-                        fmd.TrackCount = this.trackCount;
-                        fmd.DiscNumber = this.discNumber;
-                        fmd.DiscCount = this.discCount;
-                        fmd.Genres = this.genres;
-                        fmd.Grouping = this.grouping;
-                        fmd.Comment = this.comment;
-                        fmd.ArtworkData = this.artwork;
+                        if (this.artists.IsValueChanged) fmd.Artists = this.artists;
+                        if (this.title.IsValueChanged) fmd.Title = this.title;
+                        if (this.album.IsValueChanged) fmd.Album = this.album;
+                        if (this.albumArtists.IsValueChanged) fmd.AlbumArtists = this.albumArtists;
+                        if (this.year.IsValueChanged) fmd.Year = this.year;
+                        if (this.trackNumber.IsValueChanged) fmd.TrackNumber = this.trackNumber;
+                        if (this.trackCount.IsValueChanged) fmd.TrackCount = this.trackCount;
+                        if (this.discNumber.IsValueChanged) fmd.DiscNumber = this.discNumber;
+                        if (this.discCount.IsValueChanged) fmd.DiscCount = this.discCount;
+                        if (this.genres.IsValueChanged) fmd.Genres = this.genres;
+                        if (this.grouping.IsValueChanged) fmd.Grouping = this.grouping;
+                        if (this.comment.IsValueChanged) fmd.Comment = this.comment;
+                        if (this.artwork.IsValueChanged) fmd.ArtworkData = this.artwork;
 
                         fmdList.Add(fmd);
                     }
