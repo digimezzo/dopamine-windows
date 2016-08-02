@@ -171,7 +171,7 @@ namespace Dopamine.Common.Services.Indexing
                 track.Rating = fmd.Rating.Value;
 
                 // Album information
-                album.AlbumTitle = string.IsNullOrEmpty(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
                 album.AlbumArtist = GetFirstAlbumArtist(fmd);
                 album.DateAdded = FileOperations.GetDateCreated(path);
 
@@ -203,18 +203,17 @@ namespace Dopamine.Common.Services.Indexing
 
         public static string GetFirstGenre(FileMetadata fmd)
         {
-            return string.IsNullOrEmpty(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);
+            return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);
         }
 
         public static string GetFirstArtist(FileMetadata iFileMetadata)
         {
-
-            return string.IsNullOrEmpty(iFileMetadata.Artists.Value) ? Defaults.UnknownArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistString));
+            return string.IsNullOrWhiteSpace(iFileMetadata.Artists.Value) ? Defaults.UnknownArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistString));
         }
 
         public static string GetFirstAlbumArtist(FileMetadata iFileMetadata)
         {
-            return string.IsNullOrEmpty(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownAlbumArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownAlbumArtistString));
+            return string.IsNullOrWhiteSpace(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownAlbumArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownAlbumArtistString));
         }
 
         public static TrackInfo Path2TrackInfo(string path, string artworkPrefix)
@@ -249,7 +248,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 ti.Album = new Album
                 {
-                    AlbumTitle = string.IsNullOrEmpty(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value),
+                    AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value),
                     AlbumArtist = GetFirstAlbumArtist(fmd)
                 };
 
