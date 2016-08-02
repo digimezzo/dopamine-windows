@@ -192,7 +192,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 if (this.AllowSaveRating)
                 {
-                    this.metadataService.UpdateSongRatingAsync(this.TrackInfo.Track.Path, value);
+                    this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Track.Path, value);
                 }
             }
         }

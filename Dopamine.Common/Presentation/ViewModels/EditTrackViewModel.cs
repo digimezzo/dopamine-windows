@@ -431,7 +431,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             });
 
-            if (fmdList.Count > 0) await this.metadataService.UpdateSongAsync(fmdList, this.UpdateAlbumArtwork);
+            if (fmdList.Count > 0) await this.metadataService.UpdateTrackAsync(fmdList, this.UpdateAlbumArtwork);
 
             this.IsBusy = false;
             return true;
