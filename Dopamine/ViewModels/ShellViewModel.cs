@@ -86,30 +86,30 @@ namespace Dopamine.ViewModels
             this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
 
             // Event handlers
-            this.dialogService.DialogVisibleChanged += iIsDialogVisible => { this.IsOverlayVisible = iIsDialogVisible; };
+            this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
-            this.OpenPathCommand = new DelegateCommand<string>((string ipath) =>
+            this.OpenPathCommand = new DelegateCommand<string>((string path) =>
             {
                 try
                 {
-                    Actions.TryOpenPath(ipath);
+                    Actions.TryOpenPath(path);
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the path {0} in Explorer. Exception: {1}", ipath, ex.Message);
+                    LogClient.Instance.Logger.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
                 }
             });
             ApplicationCommands.OpenPathCommand.RegisterCommand(this.OpenPathCommand);
 
-            this.OpenLinkCommand = new DelegateCommand<string>((string iLink) =>
+            this.OpenLinkCommand = new DelegateCommand<string>((string link) =>
             {
                 try
                 {
-                    Actions.TryOpenLink(iLink);
+                    Actions.TryOpenLink(link);
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", iLink, ex.Message);
+                    LogClient.Instance.Logger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);

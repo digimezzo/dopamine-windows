@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows;
+using Dopamine.Core.IO;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -30,7 +31,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Properties
-        public string ColorSchemesDirectory { get; set; }
+        public string ColorSchemesDirectory { get; set; } = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
 
         public bool CheckBoxCheckBoxShowWindowBorderChecked
         {
