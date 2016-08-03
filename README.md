@@ -1,3 +1,3 @@
-![Alt text](http://www.digimezzo.com/content/Images/Dopamine_logo.png)
+![Alt text](http://www.digimezzo.com/content/Images/Dopamine.png)
 
 Audio player
