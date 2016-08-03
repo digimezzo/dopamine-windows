@@ -68,7 +68,7 @@ namespace Dopamine.Core.IO
 
                 if (!string.IsNullOrEmpty(tempFullPath) && FileOperations.IsAbsolutePath(tempFullPath))
                 {
-                    fullPath = trackPath;
+                    fullPath = tempFullPath;
                 }
             }
 

@@ -1,0 +1,20 @@
+﻿#Absolute path
+C:\Users\Digimezzo\Desktop\Dummy.mp3
+
+# File in same directory as playlist
+Dummy1.mp3
+\Dummy1.mp3
+.\Dummy1.mp3
+
+# File in subdirectory of playlist
+Directory3\Dummy3.mp3
+\Directory3\Dummy3.mp3
+.\Directory3\Dummy3.mp3
+
+# File in parent directory of playlist
+..\Dummy.mp3
+
+# Fancy stuff
+..\Directory2\Dummy2.mp3
+..\Directory1\Directory3\Dummy3.mp3
+.\..\Directory2\Dummy2.mp3
