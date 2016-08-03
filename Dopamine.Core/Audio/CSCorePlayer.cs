@@ -101,7 +101,7 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
-        #region "Events"
+        #region Events
         public event EventHandler PlaybackFinished = delegate { };
         public event PlaybackInterruptedEventHandler PlaybackInterrupted = delegate { };
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -247,27 +247,17 @@ namespace Dopamine.Core.Audio
             this.canPause = true;
             this.canStop = true;
 
-            if(System.IO.Path.GetExtension(this.filename) == FileFormats.MP3)
+            if (System.IO.Path.GetExtension(this.filename) == FileFormats.MP3)
             {
-                // HACK: MP3's get a special treatment
-                try
-                {
-                    // MediaFoundationDecoder opens MP3's from NAS faster than the default DmoMp3Decoder
-                    this.InitializeSoundOut(new MediaFoundationDecoder(this.filename));
-                    this.soundOut.Play();
-                }
-                catch (Exception)
-                {
-                    this.CloseSoundOut();
-
-                    // Because MediaFoundationDecoder doesn't handle "exotic" MP3's (which don't fully follow the standard) 
-                    // very well, we give it a second try with DmoMp3Decoder. Opening from NAS is slow now however.
-                    this.InitializeSoundOut(new DmoMp3Decoder(this.filename));
-                    this.soundOut.Play();
-                }
-            }else
+                // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
+                // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
+                // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
+                this.InitializeSoundOut(new MediaFoundationDecoder(this.filename));
+                this.soundOut.Play();
+            }
+            else
             {
-                // Other file formats are handled normally
+                // Other file formats are using the default decoders
                 this.InitializeSoundOut(CodecFactory.Instance.GetCodec(this.filename));
                 this.soundOut.Play();
             }
