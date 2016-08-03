@@ -161,7 +161,7 @@ namespace Dopamine.Common.Services.File
             List<string> paths = new List<string>();
 
             var decoder = new PlaylistDecoder();
-            Dopamine.Core.IO.PlaylistDecoder.DecodePlaylistResult decodeResult = decoder.DecodePlaylist(playlistPath);
+            DecodePlaylistResult decodeResult = decoder.DecodePlaylist(playlistPath);
 
             if (!decodeResult.DecodeResult.Result)
             {

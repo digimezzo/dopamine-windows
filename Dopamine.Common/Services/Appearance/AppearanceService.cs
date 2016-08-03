@@ -53,7 +53,7 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Properties
-        public string ColorSchemesSubDirectory { get; set; } = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
+        public string ColorSchemesSubDirectory { get; set; }
         #endregion
 
         #region Construction
@@ -61,6 +61,8 @@ namespace Dopamine.Common.Services.Appearance
         {
             // Initialize the ColorSchemes directory
             // -------------------------------------
+
+            this.ColorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
 
             // If the ColorSchemes subdirectory doesn't exist, create it
             if (!Directory.Exists(this.ColorSchemesSubDirectory))
