@@ -7,17 +7,15 @@ using System.Xml.Linq;
 
 namespace Dopamine.Core.IO
 {
+    public class DecodePlaylistResult
+    {
+        public OperationResult DecodeResult { get; set; }
+        public string PlaylistName { get; set; }
+        public List<string> Paths { get; set; }
+    }
+
     public class PlaylistDecoder
     {
-        #region DecodePlaylistResult
-        public class DecodePlaylistResult
-        {
-            public OperationResult DecodeResult { get; set; }
-            public string PlaylistName { get; set; }
-            public List<string> Paths { get; set; }
-        }
-        #endregion
-
         #region Public
         public DecodePlaylistResult DecodePlaylist(string fileName)
         {
@@ -45,6 +43,38 @@ namespace Dopamine.Core.IO
         #endregion
 
         #region Private
+        private string GenerateFullTrackPath(string playlistPath, string trackPath)
+        {
+            var fullPath = string.Empty;
+            string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
+
+            if (FileOperations.IsAbsolutePath(trackPath))
+            {
+                // The line contains the full path.
+                fullPath = trackPath;
+            }
+            else
+            {
+                // The line contains a relative path, let's construct the full path by ourselves.
+                string tempFullPath = string.Empty;
+
+                if (trackPath.StartsWith(@"\"))
+                {
+                    // Path starts with "\": add preceeding "." to make it a valid relative path.
+                    trackPath = "." + trackPath;
+                }
+
+                tempFullPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(playlistDirectory, trackPath));
+
+                if (!string.IsNullOrEmpty(tempFullPath) && FileOperations.IsAbsolutePath(tempFullPath))
+                {
+                    fullPath = trackPath;
+                }
+            }
+
+            return fullPath;
+        }
+
         private OperationResult DecodeM3uPlaylist(string playlistPath, ref string playlistName, ref List<string> filePaths)
         {
             var op = new OperationResult();
@@ -52,8 +82,6 @@ namespace Dopamine.Core.IO
             try
             {
                 playlistName = System.IO.Path.GetFileNameWithoutExtension(playlistPath);
-
-                string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
                 System.IO.StreamReader sr = System.IO.File.OpenText("" + playlistPath + "");
 
@@ -64,41 +92,11 @@ namespace Dopamine.Core.IO
                     // We don't process empty lines and lines containing comments
                     if (!string.IsNullOrEmpty(line) && !line.StartsWith("#"))
                     {
-                        if (FileOperations.IsAbsolutePath(line))
+                        string fullTrackPath = this.GenerateFullTrackPath(playlistPath, line);
+
+                        if (!string.IsNullOrEmpty(fullTrackPath))
                         {
-                            // The line contains the full path.
-                            if (System.IO.File.Exists(line))
-                            {
-                                filePaths.Add(line);
-                            }
-                        }
-                        else
-                        {
-                            // The line contains a relative path, let's construct the full path by ourselves.
-                            string filePath = string.Empty;
-                            string parsedLine = line;
-
-                            if (line.StartsWith(@"\"))
-                            {
-                                // Path starts with "\": add preceeding "." to make it a valid relative path.
-                                parsedLine = "." + line;
-                            }
-                            else
-                            {
-                                // Normal relative paths: 
-                                // ".\songs\tune.mp3""
-                                // "..\songs\tune.mp3"
-                                // "songs\tune.mp3"
-                                // "tune.mp3"
-                                parsedLine = line;
-                            }
-
-                            filePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(playlistDirectory, parsedLine));
-
-                            if (!string.IsNullOrEmpty(filePath) && FileOperations.IsAbsolutePath(filePath))
-                            {
-                                filePaths.Add(filePath);
-                            }
+                            filePaths.Add(fullTrackPath);
                         }
                     }
 
@@ -153,29 +151,11 @@ namespace Dopamine.Core.IO
                 {
                     foreach (XElement mediaElement in mediaElements)
                     {
-                        string realFilePath = "";
+                        string fullTrackPath = this.GenerateFullTrackPath(playlistPath, mediaElement.Attribute("src").Value);
 
-                        var filePathPieces = mediaElement.Attribute("src").Value.Split('\\');
-
-                        // Some parts of the path may contain a fake directory
-                        // starting with "-2". We filter this out.
-                        foreach (string filePathPiece in filePathPieces)
+                        if (!string.IsNullOrEmpty(fullTrackPath))
                         {
-                            if (!filePathPiece.StartsWith("-2"))
-                            {
-                                realFilePath = System.IO.Path.Combine(realFilePath, filePathPiece);
-
-                                // Workaround for missing "\" after drive letter
-                                if (realFilePath.EndsWith(":"))
-                                {
-                                    realFilePath += "\\";
-                                }
-                            }
-                        }
-
-                        if (System.IO.File.Exists(realFilePath))
-                        {
-                            filePaths.Add(realFilePath);
+                            filePaths.Add(fullTrackPath);
                         }
                     }
                 }

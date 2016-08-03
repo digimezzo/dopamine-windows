@@ -26,12 +26,14 @@ namespace Dopamine.SettingsModule.ViewModels
             this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
 
+            this.ColorSchemesDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
+
             this.GetCheckBoxesAsync();
         }
         #endregion
 
         #region Properties
-        public string ColorSchemesDirectory { get; set; } = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
+        public string ColorSchemesDirectory { get; set; } 
 
         public bool CheckBoxCheckBoxShowWindowBorderChecked
         {

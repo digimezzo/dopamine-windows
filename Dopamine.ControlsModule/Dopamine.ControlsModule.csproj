@@ -82,7 +82,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFSoundVisualizationLib">
-      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
+      <HintPath>..\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static Dopamine.Core.IO.PlaylistDecoder;
 
 namespace Dopamine.Common.Services.Collection
 {
