@@ -1,12 +1,15 @@
-2-08-2017: Dopamine 1.1.670.0 (Preview)
-----------------------------------------
+3-08-2017: Dopamine 1.1.671.0 (Preview)
+---------------------------------------
 
-- Dopamine is now Open Source Software!
+- Dopamine is now Open Source Software! The source code is available here: https://github.com/digimezzo/Dopamine
+- Updated to the latest release of the CSCore audio engine
 - Added importing of .wpl playlists
-- Fixed an issue importing playlists which have a relative path
-- Added information that WASAPI Exclusive Mode mutes sounds from other applications
+- Fixed a bug importing .m3u playlists
+- Fixed a bug importing .zpl playlists
 - Fixed a bug updating the collection when a new collection folder is added just after removing another
 - Fixed a bug showing genres on the Genres screen when one or more songs have a white space as genre (needs refresh of collection to apply the fix)
+- Fixed a bug updating album metadata
+- Added information to the WASAPI Exclusive Mode setting that it mutes sounds from other applications
 - Added Italian translation
 - Added Polish translation
 - Added Ukrainian translation
