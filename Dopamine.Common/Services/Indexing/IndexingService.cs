@@ -123,7 +123,7 @@ namespace Dopamine.Common.Services.Indexing
             long.TryParse(lastFileCountString, out lastFileCount);
             long.TryParse(lastDateFileModifiedString, out lastDateFileModified);
 
-            if (this.allDiskPaths.Count > 0 && (lastFileCount != this.allDiskPaths.Count | lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First()))
+            if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
             {
                 this.needsIndexing = true;
                 await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
