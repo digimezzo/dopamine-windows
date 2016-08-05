@@ -24,6 +24,7 @@ namespace Dopamine.Core.Audio
         float GetVolume();
         TimeSpan GetCurrentTime();
         TimeSpan GetTotalTime();
+        void UpdateEqualizer(int filterIndex, double percentValue);
         #endregion
 
         #region Events

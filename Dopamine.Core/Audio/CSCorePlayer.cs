@@ -38,6 +38,10 @@ namespace Dopamine.Core.Audio
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
 
+        // Equalizer
+        private CSCore.Streams.Effects.Equalizer equalizer;
+        private double maxDB = 20;
+
         // Flags
         private bool isPlaying;
         private bool pauseAfterSwitchingDefaultDevice;
@@ -108,6 +112,17 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
+        public void UpdateEqualizer(int filterIndex, double percentValue)
+        {
+            if (this.equalizer != null)
+            {
+                var value = (float)(percentValue * this.maxDB);
+
+                CSCore.Streams.Effects.EqualizerFilter filter = this.equalizer.SampleFilters[filterIndex];
+                filter.AverageGainDB = value;
+            }
+        }
+
         public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode)
         {
             this.latency = latency;
@@ -247,20 +262,31 @@ namespace Dopamine.Core.Audio
             this.canPause = true;
             this.canStop = true;
 
+            this.InitializeSoundOut(this.GetCodec(this.filename));
+            this.soundOut.Play();
+        }
+
+        private IWaveSource GetCodec(string filename)
+        {
+            IWaveSource waveSource;
+
             if (System.IO.Path.GetExtension(this.filename) == FileFormats.MP3)
             {
                 // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
                 // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
                 // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
-                this.InitializeSoundOut(new MediaFoundationDecoder(this.filename));
-                this.soundOut.Play();
+                waveSource = new MediaFoundationDecoder(this.filename);
             }
             else
             {
                 // Other file formats are using the default decoders
-                this.InitializeSoundOut(CodecFactory.Instance.GetCodec(this.filename));
-                this.soundOut.Play();
+                waveSource = CodecFactory.Instance.GetCodec(this.filename);
             }
+
+            return waveSource
+                .ToSampleSource()
+                .AppendSource(CSCore.Streams.Effects.Equalizer.Create10BandEqualizer, out this.equalizer)
+                .ToWaveSource(); ;
         }
 
         public void SetVolume(float volume)
@@ -334,10 +360,8 @@ namespace Dopamine.Core.Audio
                     this.soundOut.Stopped -= this.SoundOutStoppedHandler;
                     this.soundOut.Stop();
 
-                    if (this.soundOut.WaveSource != null)
-                    {
-                        this.soundOut.WaveSource.Dispose();
-                    }
+                    if (this.soundOut.WaveSource != null) this.soundOut.WaveSource.Dispose();
+                    if (this.equalizer != null) this.equalizer.Dispose();
 
                     this.soundOut.Dispose();
                     this.soundOut = null;
