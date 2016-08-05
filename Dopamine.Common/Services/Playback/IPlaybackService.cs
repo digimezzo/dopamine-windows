@@ -63,6 +63,7 @@ namespace Dopamine.Common.Services.Playback
         Task SaveQueuedTracksAsync();
         Task SaveTrackStatisticsAsync();
         Task FadeOutAsync(int duration);
+        void UpdateEqualizer(int filterIndex, double percentValue);
         #endregion
 
         #region Events

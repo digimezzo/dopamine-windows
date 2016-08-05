@@ -319,6 +319,13 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public void UpdateEqualizer(int filterIndex, double percentValue)
+        {
+            if(this.player != null){
+                this.player.UpdateEqualizer( filterIndex,  percentValue);
+            }
+        }
+
         public async Task SaveQueuedTracksAsync()
         {
             this.saveQueuedTracksTimer.Stop();
@@ -1100,7 +1107,8 @@ namespace Dopamine.Common.Services.Playback
         {
             List<TrackInfo> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 lock (this.queueSyncObject)
                 {
                     // It could be that, while getting saved queued tracks from the database above, 
@@ -1115,7 +1123,7 @@ namespace Dopamine.Common.Services.Playback
             });
 
             await this.SetPlaybackSettingsAsync();
-         }
+        }
 
         private void HandleProgress()
         {
@@ -1141,7 +1149,8 @@ namespace Dopamine.Common.Services.Playback
         {
             bool needsEnqueue = false;
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 lock (this.queueSyncObject)
                 {
                     if (this.queuedTracks == null || this.queuedTracks.Count == 0 || tracks.Count != this.queuedTracks.Count)
@@ -1167,7 +1176,7 @@ namespace Dopamine.Common.Services.Playback
             }
 
             this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
-       }
+        }
 
         private void ResetSaveQueuedTracksTimer()
         {
