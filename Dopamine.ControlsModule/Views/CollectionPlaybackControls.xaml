@@ -33,11 +33,23 @@
             </Button>
             <!-- Playback controls -->
             <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-            <!-- List button -->
-            <!--
-            <Button Grid.Column="2" x:Name="ListButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" ToolTip="{DynamicResource Language_Now_Playing}" Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}">
-                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20"/>
-            </Button>-->
+            <!-- Equalizer button -->
+            <ToggleButton 
+                Grid.Column="2" 
+                x:Name="EqualizerButton" 
+                Style="{StaticResource TransparentToggleButton}" 
+                Width="30" 
+                Height="30" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center" 
+                ToolTip="{DynamicResource Language_Showcase}" 
+                Command="{x:Static coreprism:ApplicationCommands.FullPlayerShowcaseButtonCommand}" 
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+                <ToggleButton.Content>
+                    <Label Style="{StaticResource Equalizer}"/>
+                </ToggleButton.Content>
+            </ToggleButton>
             <!-- Volume -->
             <commonviews:HorizontalVolumeControls Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
         </Grid>
