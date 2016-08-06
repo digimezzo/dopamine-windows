@@ -5,6 +5,7 @@ using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Indexing;
@@ -90,6 +91,7 @@ namespace Dopamine
             Container.RegisterSingletonType<ICommandService, CommandService>();
             Container.RegisterSingletonType<IMetadataService, MetadataService>();
             Container.RegisterSingletonType<INotificationService, NotificationService>();
+            Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
         }
 
         private void InitializeServices()

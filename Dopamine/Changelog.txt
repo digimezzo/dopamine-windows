@@ -1,4 +1,4 @@
-5-08-2017: Dopamine 1.1.673.0 (Preview)
+6-08-2017: Dopamine 1.1.675.0 (Preview)
 ---------------------------------------
 
 - Fixed an indexing issue
