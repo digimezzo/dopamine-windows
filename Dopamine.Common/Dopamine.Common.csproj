@@ -305,6 +305,8 @@
     <Compile Include="Services\Dialog\NotificationDialog.xaml.cs">
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Equalizer\EqualizerService.cs" />
+    <Compile Include="Services\Equalizer\IEqualizerService.cs" />
     <Compile Include="Services\File\FileService.cs" />
     <Compile Include="Services\File\IFileService.cs" />
     <Compile Include="Services\I18n\I18nService.cs" />
