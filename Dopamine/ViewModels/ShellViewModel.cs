@@ -4,12 +4,15 @@ using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
+using Dopamine.ControlsModule.ViewModels;
+using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -32,6 +35,7 @@ namespace Dopamine.ViewModels
         private bool isOverlayVisible;
         private string playPauseText;
         private ImageSource playPauseIcon;
+        private IUnityContainer container;
         #endregion
 
         #region Commands
@@ -41,6 +45,7 @@ namespace Dopamine.ViewModels
         public DelegateCommand PreviousCommand { get; set; }
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
+        public DelegateCommand ShowEqualizerCommand { get; set; }
         #endregion
 
         #region Properties
@@ -70,8 +75,9 @@ namespace Dopamine.ViewModels
         #endregion
 
         #region Construction
-        public ShellViewModel(IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService)
+        public ShellViewModel(IUnityContainer container, IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService)
         {
+            this.container = container;
             this.regionManager = regionManager;
             this.dialogService = dialogService;
             this.playbackService = playbackService;
@@ -184,6 +190,27 @@ namespace Dopamine.ViewModels
             };
 
             this.playbackService.PlaybackProgressChanged += (_,__) => { this.TaskbarService.ProgressValue = this.playbackService.Progress; };
+
+            // Equalizer
+            this.ShowEqualizerCommand = new DelegateCommand(() => {
+                EqualizerControl view = this.container.Resolve<EqualizerControl>();
+                view.DataContext = this.container.Resolve<EqualizerControlViewModel>();
+
+                this.dialogService.ShowCustomDialog(
+                    0xe104, 
+                    14, 
+                    ResourceUtils.GetStringResource("Language_Equalizer"), 
+                    view, 
+                    570, 
+                    0, 
+                    false, 
+                    false, 
+                    ResourceUtils.GetStringResource("Language_Close"), 
+                    string.Empty, 
+                    null);
+            });
+
+            ApplicationCommands.ShowEqualizerCommand.RegisterCommand(this.ShowEqualizerCommand);
 
             // Populate the JumpList
             this.jumpListService.PopulateJumpListAsync();

@@ -43,9 +43,8 @@
                 HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
                 VerticalAlignment="Center" 
-                ToolTip="{DynamicResource Language_Showcase}" 
-                Command="{x:Static coreprism:ApplicationCommands.FullPlayerShowcaseButtonCommand}" 
-                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+                ToolTip="{DynamicResource Language_Equalizer}" 
+                Command="{x:Static coreprism:ApplicationCommands.ShowEqualizerCommand}">
                 <ToggleButton.Content>
                     <Label Style="{StaticResource Equalizer}"/>
                 </ToggleButton.Content>

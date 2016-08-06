@@ -1,6 +1,5 @@
 ﻿using CSCore;
 using CSCore.Codecs;
-using CSCore.Codecs.MP3;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
 using CSCore.MediaFoundation;
@@ -284,9 +283,10 @@ namespace Dopamine.Core.Audio
             }
 
             return waveSource
+                .ChangeSampleRate(32000)
                 .ToSampleSource()
                 .AppendSource(CSCore.Streams.Effects.Equalizer.Create10BandEqualizer, out this.equalizer)
-                .ToWaveSource(); ;
+                .ToWaveSource();
         }
 
         public void SetVolume(float volume)
