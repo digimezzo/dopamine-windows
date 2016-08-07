@@ -5,6 +5,7 @@ using CSCore.DSP;
 using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
+using CSCore.Streams.Effects;
 using Dopamine.Core.Base;
 using System;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace Dopamine.Core.Audio
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
-        private double maxDB = 20;
+        private double maxDB = 15;
 
         // Flags
         private bool isPlaying;
@@ -285,7 +286,7 @@ namespace Dopamine.Core.Audio
             return waveSource
                 .ChangeSampleRate(32000)
                 .ToSampleSource()
-                .AppendSource(CSCore.Streams.Effects.Equalizer.Create10BandEqualizer, out this.equalizer)
+                .AppendSource(this.Create10BandEqualizer, out this.equalizer)
                 .ToWaveSource();
         }
 
@@ -401,6 +402,45 @@ namespace Dopamine.Core.Audio
                 this.MMNotificationClient.Dispose();
                 this.MMNotificationClient = null;
             }
+        }
+
+        public CSCore.Streams.Effects.Equalizer Create10BandEqualizer(ISampleSource source)
+        {
+            return this.Create10BandEqualizer(source, 18, 0);
+        }
+
+        public CSCore.Streams.Effects.Equalizer Create10BandEqualizer(ISampleSource source, int bandWidth, int defaultGain)
+        {
+            int sampleRate = source.WaveFormat.SampleRate;
+            int channels = source.WaveFormat.Channels;
+
+            if (sampleRate < 32000)
+            {
+                throw new ArgumentException(
+                    "The sample rate of the source must not be less than 32kHz since the 10 band eq includes a 16kHz filter.",
+                    "source");
+            }
+
+            var sampleFilters = new[]
+            {
+                new EqualizerChannelFilter(sampleRate, 60, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 170, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 310, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 600, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 1000, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 3000, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 6000, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 12000, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 14000, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 16000, bandWidth, defaultGain)
+            };
+
+            var equalizer = new CSCore.Streams.Effects.Equalizer(source);
+            foreach (EqualizerChannelFilter equalizerChannelFilter in sampleFilters)
+            {
+                equalizer.SampleFilters.Add(new EqualizerFilter(channels, equalizerChannelFilter));
+            }
+            return equalizer;
         }
         #endregion
 
