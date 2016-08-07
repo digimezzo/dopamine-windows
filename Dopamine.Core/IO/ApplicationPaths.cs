@@ -6,6 +6,7 @@ namespace Dopamine.Core.IO
     {
         public static string LogSubDirectory = "Log";
         public static string ColorSchemesSubDirectory = "ColorSchemes";
+        public static string EqualizerSubDirectory = "Equalizer";
         public static string CacheSubDirectory = "Cache";
         public static string CoverArtCacheSubDirectory = "CoverArt";
         public static string IconsSubDirectory = "Icons";

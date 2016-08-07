@@ -24,6 +24,9 @@ namespace Dopamine.Core.Base
         public static string JPEG = ".jpeg";
         public static string BMP = ".bmp";
 
+        // Equalizer preset extension
+        public static string EQUALIZERPRESET = ".deq";
+
         // Supported extensions
         public static string[] SupportedMediaExtensions = {
                                                             FileFormats.MP3,
