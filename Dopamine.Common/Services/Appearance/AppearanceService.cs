@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
@@ -26,6 +24,7 @@ namespace Dopamine.Common.Services.Appearance
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
+        private string colorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
 
         private double colorSchemeTimeoutSeconds = 0.2;
         private ColorScheme[] builtInColorSchemes = {
@@ -52,27 +51,20 @@ namespace Dopamine.Common.Services.Appearance
                                                     };
         #endregion
 
-        #region Properties
-        public string ColorSchemesSubDirectory { get; set; }
-        #endregion
-
         #region Construction
         public AppearanceService()
         {
             // Initialize the ColorSchemes directory
             // -------------------------------------
-
-            this.ColorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
-
             // If the ColorSchemes subdirectory doesn't exist, create it
-            if (!Directory.Exists(this.ColorSchemesSubDirectory))
+            if (!Directory.Exists(this.colorSchemesSubDirectory))
             {
-                Directory.CreateDirectory(Path.Combine(this.ColorSchemesSubDirectory));
+                Directory.CreateDirectory(Path.Combine(this.colorSchemesSubDirectory));
             }
 
             // Create the example ColorScheme
             // ------------------------------
-            string exampleColorSchemeFile = Path.Combine(this.ColorSchemesSubDirectory, "Red.xml");
+            string exampleColorSchemeFile = Path.Combine(this.colorSchemesSubDirectory, "Red.xml");
 
             if (System.IO.File.Exists(exampleColorSchemeFile))
             {
@@ -85,7 +77,7 @@ namespace Dopamine.Common.Services.Appearance
             // Create the "How to create ColorSchemes.txt" file
             // ------------------------------------------------
 
-            string howToFile = Path.Combine(this.ColorSchemesSubDirectory, "How to create ColorSchemes.txt");
+            string howToFile = Path.Combine(this.colorSchemesSubDirectory, "How to create ColorSchemes.txt");
 
             if (System.IO.File.Exists(howToFile))
             {
@@ -114,7 +106,7 @@ namespace Dopamine.Common.Services.Appearance
 
             // Start the ColorSchemeWatcher
             // ----------------------------
-            this.colorSchemeWatcher = new FileSystemWatcher(this.ColorSchemesSubDirectory);
+            this.colorSchemeWatcher = new FileSystemWatcher(this.colorSchemesSubDirectory);
             this.colorSchemeWatcher.EnableRaisingEvents = true;
 
             this.colorSchemeWatcher.Changed += new FileSystemEventHandler(WatcherChangedHandler);
@@ -198,23 +190,21 @@ namespace Dopamine.Common.Services.Appearance
             return returnColor;
         }
 
-        // For now, we are returning a hardcoded list of themes
         private void GetBuiltInColorSchemes()
         {
+            // For now, we are returning a hardcoded list of themes
             foreach (ColorScheme cs in this.builtInColorSchemes)
             {
                 this.colorSchemes.Add(cs);
             }
         }
 
-
-
         private void GetAllColorSchemes()
         {
             this.colorSchemes.Clear();
             this.GetBuiltInColorSchemes();
 
-            var dirInfo = new DirectoryInfo(this.ColorSchemesSubDirectory);
+            var dirInfo = new DirectoryInfo(this.colorSchemesSubDirectory);
 
             foreach (FileInfo fileInfo in dirInfo.GetFiles("*.xml"))
             {

@@ -6,7 +6,6 @@ namespace Dopamine.Common.Services.Appearance
 {
     public interface IAppearanceService
     {
-        string ColorSchemesSubDirectory { get; set; }
         List<ColorScheme> GetColorSchemes();
         ColorScheme GetColorScheme(string name);
         void ApplyTheme(bool enableLightTheme);
