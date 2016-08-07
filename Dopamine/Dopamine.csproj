@@ -187,15 +187,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
-    <Content Include="Equalizer\Accoustic.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Bass Booster.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Bass Reducer.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Equalizer\Classical.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -205,34 +196,25 @@
     <Content Include="Equalizer\Dance.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Deep.deq">
+    <Content Include="Equalizer\Full bass.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Electronic.deq">
+    <Content Include="Equalizer\Full bass and treble.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Hip Hop.deq">
+    <Content Include="Equalizer\Full treble.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Jazz.deq">
+    <Content Include="Equalizer\Headphones.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Latin.deq">
+    <Content Include="Equalizer\Large hall.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Equalizer\Live.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Loudness.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Lounge.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Metal.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Piano.deq">
+    <Content Include="Equalizer\Party.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Equalizer\Pop.deq">
@@ -241,37 +223,19 @@
     <Content Include="Equalizer\Reggae.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\RnB.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Equalizer\Rock.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Equalizer\Ska.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Small Speakers.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Soft Rock.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Equalizer\Soft.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Equalizer\Spoken Word.deq">
+    <Content Include="Equalizer\Soft rock.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Equalizer\Techno.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Treble Booster.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Treble Reducer.deq">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Equalizer\Vocal Booster.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

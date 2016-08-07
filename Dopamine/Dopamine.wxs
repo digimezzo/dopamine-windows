@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.1.675.0" ?>
+<?define Version="1.1.677.0" ?>
 <?define VersionMin="1.0.0.0" ?>
 <?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -182,92 +182,56 @@
           </Directory>
           <!-- Equalizer presets -->
           <Directory Id="EqualizerDIR" Name="Equalizer">
-            <Component Id="Accoustic.deq" DiskId="1" Guid="fdd61fc2-36a3-4980-9fd8-fea88a60b4fe">
-              <File Id="Accoustic.deq" Name="Accoustic.deq" Source="Equalizer\Accoustic.deq" />
-            </Component>
-            <Component Id="Bass_Booster.deq" DiskId="1" Guid="91b9aa41-1e43-4c5c-b1a7-a3582aca4242">
-              <File Id="Bass_Booster.deq" Name="Bass Booster.deq" Source="Equalizer\Bass Booster.deq" />
-            </Component>
-            <Component Id="Bass_Reducer.deq" DiskId="1" Guid="6e034b1a-3a30-4ddd-a6aa-a7f9b7cc76fb">
-              <File Id="Bass_Reducer.deq" Name="Bass Reducer.deq" Source="Equalizer\Bass Reducer.deq" />
-            </Component>
-            <Component Id="Classical.deq" DiskId="1" Guid="89aeb867-d942-43f3-b579-7787e6e27c19">
+            <Component Id="Classical.deq" DiskId="1" Guid="6e907568-4804-4135-8636-eda47011a50c">
               <File Id="Classical.deq" Name="Classical.deq" Source="Equalizer\Classical.deq" />
             </Component>
-            <Component Id="Club.deq" DiskId="1" Guid="77c2698f-c5d1-418d-9cda-119eb8087f84">
+            <Component Id="Club.deq" DiskId="1" Guid="e18cd556-7741-4c1e-b6eb-9005b0ca26ab">
               <File Id="Club.deq" Name="Club.deq" Source="Equalizer\Club.deq" />
             </Component>
-            <Component Id="Dance.deq" DiskId="1" Guid="a7a99288-8e2a-4e7f-9e9f-c33d143b3c00">
+            <Component Id="Dance.deq" DiskId="1" Guid="58560d62-0846-4c66-a961-b923abc0aa04">
               <File Id="Dance.deq" Name="Dance.deq" Source="Equalizer\Dance.deq" />
             </Component>
-            <Component Id="Deep.deq" DiskId="1" Guid="8680fda8-470f-49e8-ab42-83336f405185">
-              <File Id="Deep.deq" Name="Deep.deq" Source="Equalizer\Deep.deq" />
+            <Component Id="Full_bass_and_treble.deq" DiskId="1" Guid="5a912291-7701-4a8e-9745-60417bdef08e">
+              <File Id="Full_bass_and_treble.deq" Name="Full bass and treble.deq" Source="Equalizer\Full bass and treble.deq" />
             </Component>
-            <Component Id="Electronic.deq" DiskId="1" Guid="4d0b6697-d20e-4e02-a6cf-b70a793f5fa1">
-              <File Id="Electronic.deq" Name="Electronic.deq" Source="Equalizer\Electronic.deq" />
+            <Component Id="Full_bass.deq" DiskId="1" Guid="f3835c41-a9af-46d3-b818-18c383d2bbac">
+              <File Id="Full_bass.deq" Name="Full bass.deq" Source="Equalizer\Full bass.deq" />
             </Component>
-            <Component Id="Hip_Hop.deq" DiskId="1" Guid="d3a86ae2-394c-4845-81da-31f6712c4528">
-              <File Id="Hip_Hop.deq" Name="Hip Hop.deq" Source="Equalizer\Hip Hop.deq" />
+            <Component Id="Full_treble.deq" DiskId="1" Guid="cb6f7acf-d7f1-43bb-be7c-fd768d081921">
+              <File Id="Full_treble.deq" Name="Full treble.deq" Source="Equalizer\Full treble.deq" />
             </Component>
-            <Component Id="Jazz.deq" DiskId="1" Guid="cbf24af0-8785-422a-9c73-a8762da789f8">
-              <File Id="Jazz.deq" Name="Jazz.deq" Source="Equalizer\Jazz.deq" />
+            <Component Id="Headphones.deq" DiskId="1" Guid="0a51624b-c3ff-40ee-9986-5119b798eb4b">
+              <File Id="Headphones.deq" Name="Headphones.deq" Source="Equalizer\Headphones.deq" />
             </Component>
-            <Component Id="Latin.deq" DiskId="1" Guid="c0faa06e-8277-43cd-8ca7-8793e1f5ee1e">
-              <File Id="Latin.deq" Name="Latin.deq" Source="Equalizer\Latin.deq" />
+            <Component Id="Large_hall.deq" DiskId="1" Guid="c9946787-77cb-48b6-aa9c-e8c6732d0d8f">
+              <File Id="Large_hall.deq" Name="Large hall.deq" Source="Equalizer\Large hall.deq" />
             </Component>
-            <Component Id="Live.deq" DiskId="1" Guid="f79858cd-d837-4a05-b5ac-7cb385f13363">
+            <Component Id="Live.deq" DiskId="1" Guid="d2bb2c31-0cd0-4c4e-94e0-17ddeb2f1e98">
               <File Id="Live.deq" Name="Live.deq" Source="Equalizer\Live.deq" />
             </Component>
-            <Component Id="Loudness.deq" DiskId="1" Guid="27dbdb3f-db72-444c-b319-e762122c183a">
-              <File Id="Loudness.deq" Name="Loudness.deq" Source="Equalizer\Loudness.deq" />
+            <Component Id="Party.deq" DiskId="1" Guid="ce98d5d4-91d2-46e3-931c-c3d2a8daafba">
+              <File Id="Party.deq" Name="Party.deq" Source="Equalizer\Party.deq" />
             </Component>
-            <Component Id="Lounge.deq" DiskId="1" Guid="33bc6095-9322-43aa-b472-6a002c220ba5">
-              <File Id="Lounge.deq" Name="Lounge.deq" Source="Equalizer\Lounge.deq" />
-            </Component>
-            <Component Id="Metal.deq" DiskId="1" Guid="4f534689-383d-4e67-9ddb-5e10845ce8c8">
-              <File Id="Metal.deq" Name="Metal.deq" Source="Equalizer\Metal.deq" />
-            </Component>
-            <Component Id="Piano.deq" DiskId="1" Guid="9d8e3aa1-b141-4952-b3e4-e8c547d18433">
-              <File Id="Piano.deq" Name="Piano.deq" Source="Equalizer\Piano.deq" />
-            </Component>
-            <Component Id="Pop.deq" DiskId="1" Guid="2b6448ca-a195-4414-acc1-9e13f076f966">
+            <Component Id="Pop.deq" DiskId="1" Guid="1e522341-f944-4421-88cc-1ea22bccc905">
               <File Id="Pop.deq" Name="Pop.deq" Source="Equalizer\Pop.deq" />
             </Component>
-            <Component Id="Reggae.deq" DiskId="1" Guid="35eab9e1-563e-4fd5-86db-db852610e0f8">
+            <Component Id="Reggae.deq" DiskId="1" Guid="615e51c6-2eaa-4cd6-9767-07d4057f4385">
               <File Id="Reggae.deq" Name="Reggae.deq" Source="Equalizer\Reggae.deq" />
             </Component>
-            <Component Id="RnB.deq" DiskId="1" Guid="97768ae5-28d5-44a7-b404-5faab1f568df">
-              <File Id="RnB.deq" Name="RnB.deq" Source="Equalizer\RnB.deq" />
-            </Component>
-            <Component Id="Rock.deq" DiskId="1" Guid="9112e1be-6c79-425d-b229-9761cf99f103">
+            <Component Id="Rock.deq" DiskId="1" Guid="33f0cf07-c267-4f51-b41b-56f458acde43">
               <File Id="Rock.deq" Name="Rock.deq" Source="Equalizer\Rock.deq" />
             </Component>
-            <Component Id="Ska.deq" DiskId="1" Guid="c6d4804d-e8cd-45b2-8eb6-98c113a554e1">
+            <Component Id="Ska.deq" DiskId="1" Guid="6ed6304c-5baf-4012-a76a-f8db23356e33">
               <File Id="Ska.deq" Name="Ska.deq" Source="Equalizer\Ska.deq" />
             </Component>
-            <Component Id="Small_Speakers.deq" DiskId="1" Guid="4649e034-0a81-4e10-9c19-f2b2c8816b00">
-              <File Id="Small_Speakers.deq" Name="Small Speakers.deq" Source="Equalizer\Small Speakers.deq" />
+            <Component Id="Soft_rock.deq" DiskId="1" Guid="b532e3b6-afc7-4899-89e9-9b0fc32a741e">
+              <File Id="Soft_rock.deq" Name="Soft rock.deq" Source="Equalizer\Soft rock.deq" />
             </Component>
-            <Component Id="Soft_Rock.deq" DiskId="1" Guid="9f5f4ea6-f2fc-4d84-bd08-c27848b921da">
-              <File Id="Soft_Rock.deq" Name="Soft Rock.deq" Source="Equalizer\Soft Rock.deq" />
-            </Component>
-            <Component Id="Soft.deq" DiskId="1" Guid="935c00a2-d925-434c-a42f-f62c3728e175">
+            <Component Id="Soft.deq" DiskId="1" Guid="b1a72907-d151-41f5-a95b-4718319d680e">
               <File Id="Soft.deq" Name="Soft.deq" Source="Equalizer\Soft.deq" />
             </Component>
-            <Component Id="Spoken_Word.deq" DiskId="1" Guid="69f756f1-62ea-4b8b-bcc1-f4a3b77f4cfd">
-              <File Id="Spoken_Word.deq" Name="Spoken Word.deq" Source="Equalizer\Spoken Word.deq" />
-            </Component>
-            <Component Id="Techno.deq" DiskId="1" Guid="5355efb6-457a-4671-b9f4-cb5faf7b2b77">
+            <Component Id="Techno.deq" DiskId="1" Guid="db161a99-8736-4e25-bff0-c5baf7ccfbf9">
               <File Id="Techno.deq" Name="Techno.deq" Source="Equalizer\Techno.deq" />
-            </Component>
-            <Component Id="Treble_Booster.deq" DiskId="1" Guid="57b536ae-c23a-41fc-9544-088b73f61323">
-              <File Id="Treble_Booster.deq" Name="Treble Booster.deq" Source="Equalizer\Treble Booster.deq" />
-            </Component>
-            <Component Id="Treble_Reducer.deq" DiskId="1" Guid="58a902d6-dd67-4314-a2aa-5209fe96d2fc">
-              <File Id="Treble_Reducer.deq" Name="Treble Reducer.deq" Source="Equalizer\Treble Reducer.deq" />
-            </Component>
-            <Component Id="Vocal_Booster.deq" DiskId="1" Guid="1688515c-49c9-4aca-a627-dfbbccbcbf71">
-              <File Id="Vocal_Booster.deq" Name="Vocal Booster.deq" Source="Equalizer\Vocal Booster.deq" />
             </Component>
           </Directory>
           <!-- Application -->
@@ -514,35 +478,23 @@
       <ComponentRef Id="WPF_Native_Folder_Browser.txt" />
       <ComponentRef Id="WPF_Sound_Visualization_Library.txt" />
       <!-- Equalizer presets -->
-      <ComponentRef Id="Accoustic.deq" />
-      <ComponentRef Id="Bass_Booster.deq" />
-      <ComponentRef Id="Bass_Reducer.deq" />
       <ComponentRef Id="Classical.deq" />
       <ComponentRef Id="Club.deq" />
       <ComponentRef Id="Dance.deq" />
-      <ComponentRef Id="Deep.deq" />
-      <ComponentRef Id="Electronic.deq" />
-      <ComponentRef Id="Hip_Hop.deq" />
-      <ComponentRef Id="Jazz.deq" />
-      <ComponentRef Id="Latin.deq" />
+      <ComponentRef Id="Full_bass_and_treble.deq" />
+      <ComponentRef Id="Full_bass.deq" />
+      <ComponentRef Id="Full_treble.deq" />
+      <ComponentRef Id="Headphones.deq" />
+      <ComponentRef Id="Large_hall.deq" />
       <ComponentRef Id="Live.deq" />
-      <ComponentRef Id="Loudness.deq" />
-      <ComponentRef Id="Lounge.deq" />
-      <ComponentRef Id="Metal.deq" />
-      <ComponentRef Id="Piano.deq" />
+      <ComponentRef Id="Party.deq" />
       <ComponentRef Id="Pop.deq" />
       <ComponentRef Id="Reggae.deq" />
-      <ComponentRef Id="RnB.deq" />
       <ComponentRef Id="Rock.deq" />
       <ComponentRef Id="Ska.deq" />
-      <ComponentRef Id="Small_Speakers.deq" />
-      <ComponentRef Id="Soft_Rock.deq" />
+      <ComponentRef Id="Soft_rock.deq" />
       <ComponentRef Id="Soft.deq" />
-      <ComponentRef Id="Spoken_Word.deq" />
       <ComponentRef Id="Techno.deq" />
-      <ComponentRef Id="Treble_Booster.deq" />
-      <ComponentRef Id="Treble_Reducer.deq" />
-      <ComponentRef Id="Vocal_Booster.deq" />
       <!-- Application -->
       <ComponentRef Id="Dopamine.exe" />
       <ComponentRef Id="Dopamine.exe.config" />

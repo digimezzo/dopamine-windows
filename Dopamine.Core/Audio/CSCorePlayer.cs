@@ -40,7 +40,7 @@ namespace Dopamine.Core.Audio
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
-        private double maxDB = 15;
+        private double maxDB = 20;
 
         // Flags
         private bool isPlaying;
