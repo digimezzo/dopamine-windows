@@ -135,7 +135,7 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public void InitializeSoundOut(IWaveSource soundSource)
+        private void InitializeSoundOut(IWaveSource soundSource)
         {
             // SoundOut implementation which plays the sound
             this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
