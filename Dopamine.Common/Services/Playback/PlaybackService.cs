@@ -319,10 +319,10 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
-        public void UpdateEqualizer(int filterIndex, double percentValue)
+        public void UpdateEqualizer(int filterIndex, double gainDB)
         {
             if(this.player != null){
-                this.player.UpdateEqualizer( filterIndex,  percentValue);
+                this.player.UpdateEqualizer( filterIndex, gainDB);
             }
         }
 
