@@ -145,8 +145,7 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             if (this.playbackService != null)
             {
-                // Because our sliders go from 0 to 1, we convert values < 0.5 to negative values
-                this.playbackService.UpdateEqualizer(index, (sliderValue - 0.5) / 0.5);
+                this.playbackService.UpdateEqualizer(index, sliderValue);
             }
 
             // TODO: also save in settings

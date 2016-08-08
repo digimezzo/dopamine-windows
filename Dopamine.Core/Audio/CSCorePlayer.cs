@@ -40,7 +40,6 @@ namespace Dopamine.Core.Audio
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
-        private double maxDB = 20;
 
         // Flags
         private bool isPlaying;
@@ -112,14 +111,12 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
-        public void UpdateEqualizer(int filterIndex, double percentValue)
+        public void UpdateEqualizer(int filterIndex, double gainDB)
         {
             if (this.equalizer != null)
             {
-                var value = (float)(percentValue * this.maxDB);
-
-                CSCore.Streams.Effects.EqualizerFilter filter = this.equalizer.SampleFilters[filterIndex];
-                filter.AverageGainDB = value;
+                EqualizerFilter filter = this.equalizer.SampleFilters[filterIndex];
+                filter.AverageGainDB = (float)(gainDB);
             }
         }
 

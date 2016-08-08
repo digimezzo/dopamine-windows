@@ -161,7 +161,6 @@
     <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
-    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Presentation\Converters\AddEllipsisConverter.cs" />
