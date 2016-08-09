@@ -29,6 +29,7 @@ namespace Dopamine.Core.Audio
         TimeSpan GetCurrentTime();
         TimeSpan GetTotalTime();
         void SetEqualizerBand(int band, double value);
+        void Dispose();
         #endregion
 
         #region Events
