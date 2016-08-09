@@ -565,6 +565,7 @@ namespace Dopamine.Core.Audio
             this.Skip(Convert.ToInt32(this.currentTime.TotalSeconds));
             this.currentTime = new TimeSpan(0);
         }
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -602,7 +603,6 @@ namespace Dopamine.Core.Audio
             // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
-        #endregion
         #endregion
     }
 }

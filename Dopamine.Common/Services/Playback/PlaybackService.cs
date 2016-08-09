@@ -907,6 +907,8 @@ namespace Dopamine.Common.Services.Playback
                     this.player.PlaybackFinished -= this.PlaybackFinishedHandler;
 
                     this.player.Stop();
+                    this.player.Dispose();
+                    this.player = null;
                 }
 
                 // Check that the file exists
