@@ -231,8 +231,8 @@
       <Value>True</Value>
     </Setting>
   </Namespace>
-  <Namespace Name="Equalizer">
-    <Setting Name="Preset">
+  <Namespace Name="EqualizerPreset">
+    <Setting Name="Name">
       <Value>None</Value>
     </Setting>
     <Setting Name="Bands">

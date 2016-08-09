@@ -1,6 +1,9 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Common.Services.Equalizer;
+using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
+using Dopamine.Core.Utils;
+using Dopamine.Core.Audio;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -20,7 +23,9 @@ namespace Dopamine.ControlsModule.ViewModels
         private double slider7Value;
         private double slider8Value;
         private double slider9Value;
+
         private IPlaybackService playbackService;
+        private IEqualizerService equalizerService;
         #endregion
 
         #region Properties
@@ -126,9 +131,10 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public EqualizerControlViewModel(IPlaybackService playbackService)
+        public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService)
         {
             this.playbackService = playbackService;
+            this.equalizerService = equalizerService;
 
             this.LoadFromSettingsAsync();
         }
@@ -139,36 +145,18 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                try
-                {
-                    double[] bands = Array.ConvertAll(XmlSettingsClient.Instance.Get<string>("Equalizer", "Bands").Split(';'), s => double.Parse(s));
+                EqualizerPreset preset = equalizerService.Preset;
 
-                    this.slider0Value = bands[0];
-                    this.slider1Value = bands[1];
-                    this.slider2Value = bands[2];
-                    this.slider3Value = bands[3];
-                    this.slider4Value = bands[4];
-                    this.slider5Value = bands[5];
-                    this.slider6Value = bands[6];
-                    this.slider7Value = bands[7];
-                    this.slider8Value = bands[8];
-                    this.slider9Value = bands[9];
-                }
-                catch (Exception ex)
-                {
-                    this.slider0Value = 0.0;
-                    this.slider1Value = 0.0;
-                    this.slider2Value = 0.0;
-                    this.slider3Value = 0.0;
-                    this.slider4Value = 0.0;
-                    this.slider5Value = 0.0;
-                    this.slider6Value = 0.0;
-                    this.slider7Value = 0.0;
-                    this.slider8Value = 0.0;
-                    this.slider9Value = 0.0;
-
-                    LogClient.Instance.Logger.Error("An exception occured while loading Equalizer bands from the settings. Exception: {0}", ex.Message);
-                }
+                this.slider0Value = preset.Bands[0];
+                this.slider1Value = preset.Bands[1];
+                this.slider2Value = preset.Bands[2];
+                this.slider3Value = preset.Bands[3];
+                this.slider4Value = preset.Bands[4];
+                this.slider5Value = preset.Bands[5];
+                this.slider6Value = preset.Bands[6];
+                this.slider7Value = preset.Bands[7];
+                this.slider8Value = preset.Bands[8];
+                this.slider9Value = preset.Bands[9];
             });
         }
 
