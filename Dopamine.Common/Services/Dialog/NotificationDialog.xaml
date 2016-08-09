@@ -10,8 +10,8 @@
     Background="Transparent"
     ShowWindowControls="False">
 
-    <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-1">
-        <DockPanel Margin="16">
+    <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">
+        <DockPanel Margin="17">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Grid>
                     <Viewbox Width="30" Height="30" Panel.ZIndex="0">
