@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>50</Value>
+      <Value>51</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -142,7 +142,7 @@
     <Setting Name="AlsoCheckForPreReleases">
       <Value>False</Value>
     </Setting>
-  <Setting Name="AutomaticDownload">
+    <Setting Name="AutomaticDownload">
       <Value>True</Value>
     </Setting>
   </Namespace>
@@ -229,6 +229,14 @@
     </Setting>
     <Setting Name="IgnoreRemovedFiles">
       <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Equalizer">
+    <Setting Name="Preset">
+      <Value>None</Value>
+    </Setting>
+    <Setting Name="Bands">
+      <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>
     </Setting>
   </Namespace>
 </Settings>

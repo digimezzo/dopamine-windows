@@ -1,5 +1,6 @@
 ﻿using Dopamine.Core.Base;
 using Dopamine.Core.IO;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Settings;
 using System.Collections.Generic;
 using System.IO;
