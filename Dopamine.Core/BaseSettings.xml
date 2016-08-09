@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>51</Value>
+      <Value>52</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">

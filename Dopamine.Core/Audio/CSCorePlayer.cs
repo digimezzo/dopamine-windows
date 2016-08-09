@@ -332,6 +332,8 @@ namespace Dopamine.Core.Audio
         #region Private
         private void SetEqualizerPreset()
         {
+            if (this.preset == null) return;
+
             for (var i = 0; i < this.preset.Bands.Length; i++)
             {
                 this.SetEqualizerBand(i, preset.Bands[i]);
@@ -577,8 +579,6 @@ namespace Dopamine.Core.Audio
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    this.MMNotificationClient.DefaultDeviceChanged -= MMNotificationClient_DefaultDeviceChanged;
-                    this.MMNotificationClient.Dispose();
                     this.CloseSoundOut();
                 }
 

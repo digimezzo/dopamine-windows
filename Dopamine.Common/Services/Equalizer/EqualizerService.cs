@@ -20,8 +20,6 @@ namespace Dopamine.Common.Services.Equalizer
         #endregion
 
         #region Properties
-
-
         public EqualizerPreset Preset
         {
             get
@@ -75,6 +73,7 @@ namespace Dopamine.Common.Services.Equalizer
         }
         #endregion
 
+        #region Private
         private async Task GetBuiltInEqualizerPresetsAsync()
         {
             var builtinEqualizerPresets = new List<EqualizerPreset>();
@@ -91,5 +90,6 @@ namespace Dopamine.Common.Services.Equalizer
                 }
             });
         }
+        #endregion
     }
 }
