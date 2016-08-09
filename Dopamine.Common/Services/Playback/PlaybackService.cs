@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Audio;
+﻿using Dopamine.Common.Services.Equalizer;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -33,6 +34,8 @@ namespace Dopamine.Common.Services.Playback
         private bool isPlayingPreviousTrack;
         private bool isSpectrumVisible;
         private IPlayer player;
+
+        private IEqualizerService equalizerService;
 
         private IPlayerFactory playerFactory;
         private object queueSyncObject = new object();
@@ -275,10 +278,11 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Construction
-        public PlaybackService(ITrackRepository trackRepository, IQueuedTrackRepository queuedTrackRepository)
+        public PlaybackService(ITrackRepository trackRepository, IQueuedTrackRepository queuedTrackRepository, IEqualizerService equalizerService)
         {
             this.trackRepository = trackRepository;
             this.queuedTrackRepository = queuedTrackRepository;
+            this.equalizerService = equalizerService;
 
             this.context = SynchronizationContext.Current;
 
