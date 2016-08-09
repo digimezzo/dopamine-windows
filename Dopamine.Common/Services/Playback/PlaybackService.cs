@@ -934,6 +934,9 @@ namespace Dopamine.Common.Services.Playback
                 // we already tried to play this track and it can find the next Track.
                 this.playingTrack = trackInfo;
 
+                // Set the equalizer preset
+                this.player.Preset = this.equalizerService.Preset;
+
                 // Play the Track
                 await Task.Run(() => this.player.Play(trackInfo.Track.Path));
 
