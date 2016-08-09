@@ -128,24 +128,29 @@ namespace Dopamine.Common.Controls
 
             if (this.HasBorder)
             {
-
                 if (!(this.WindowState == WindowState.Maximized))
                 {
-                    this.windowBorder.BorderThickness = new Thickness(1);
+                    this.SetBorderThickness(new Thickness(1));
                 }
                 else
                 {
-                    this.windowBorder.BorderThickness = new Thickness(0);
+                    this.SetBorderThickness(new Thickness(0));
                 }
             }
             else
             {
-                this.windowBorder.BorderThickness = new Thickness(0);
+                this.SetBorderThickness(new Thickness(0));
             }
         }
         #endregion
 
         #region Private
+        private void SetBorderThickness(Thickness borderThickness)
+        {
+            this.windowBorder.BorderThickness = borderThickness;
+            this.previousBorderThickness = borderThickness;
+        }
+
         /// <summary>
         /// The Deactivate function which goes together with ActivateNow
         /// </summary>
