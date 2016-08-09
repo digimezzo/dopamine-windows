@@ -1,7 +1,10 @@
-﻿using Dopamine.Core.Base;
+﻿using Dopamine.Core.Audio;
+using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Core.Audio;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
+using Dopamine.Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -12,7 +15,37 @@ namespace Dopamine.Common.Services.Equalizer
     public class EqualizerService : IEqualizerService
     {
         #region Variables
+        private EqualizerPreset preset;
         private string equalizerSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.EqualizerSubDirectory);
+        #endregion
+
+        #region Properties
+
+
+        public EqualizerPreset Preset
+        {
+            get
+            {
+                if (this.preset == null)
+                {
+                    this.preset = new EqualizerPreset(XmlSettingsClient.Instance.Get<string>("EqualizerPreset", "Name"), 10);
+
+                    try
+                    {
+                        this.preset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("EqualizerPreset", "Bands").Split(';')));
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("An exception occured while loading Equalizer bands from the settings. Exception: {0}", ex.Message);
+                        this.preset.LoadDefault();
+                    }
+                }
+
+                return this.preset;
+            }
+            set { this.preset = value; }
+        }
+
         #endregion
 
         #region Construction
