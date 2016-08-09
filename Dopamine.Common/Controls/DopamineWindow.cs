@@ -66,7 +66,6 @@ namespace Dopamine.Common.Controls
         protected override void BorderlessWindowBase_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             base.BorderlessWindowBase_SizeChanged(sender, e);
-            this.UpdateWindow();
         }
         #endregion
 
