@@ -1,11 +1,16 @@
 ﻿using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Logging;
+using Dopamine.Core.Settings;
 using Prism.Mvvm;
+using System;
+using System.Threading.Tasks;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
     public class EqualizerControlViewModel : BindableBase
     {
         #region Variables
+        private double slider0Value;
         private double slider1Value;
         private double slider2Value;
         private double slider3Value;
@@ -15,18 +20,27 @@ namespace Dopamine.ControlsModule.ViewModels
         private double slider7Value;
         private double slider8Value;
         private double slider9Value;
-        private double slider10Value;
         private IPlaybackService playbackService;
         #endregion
 
         #region Properties
+        public double Slider0Value
+        {
+            get { return this.slider0Value; }
+            set
+            {
+                SetProperty<double>(ref this.slider0Value, value);
+                this.ApplyEqualizerBand(0, value);
+            }
+        }
+
         public double Slider1Value
         {
             get { return this.slider1Value; }
             set
             {
                 SetProperty<double>(ref this.slider1Value, value);
-                this.ApplyEqualizerValue(0, value);
+                this.ApplyEqualizerBand(1, value);
             }
         }
 
@@ -36,7 +50,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider2Value, value);
-                this.ApplyEqualizerValue(1, value);
+                this.ApplyEqualizerBand(2, value);
             }
         }
 
@@ -46,7 +60,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider3Value, value);
-                this.ApplyEqualizerValue(2, value);
+                this.ApplyEqualizerBand(3, value);
             }
         }
 
@@ -56,7 +70,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider4Value, value);
-                this.ApplyEqualizerValue(3, value);
+                this.ApplyEqualizerBand(4, value);
             }
         }
 
@@ -66,7 +80,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider5Value, value);
-                this.ApplyEqualizerValue(4, value);
+                this.ApplyEqualizerBand(5, value);
             }
         }
 
@@ -76,7 +90,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider6Value, value);
-                this.ApplyEqualizerValue(5, value);
+                this.ApplyEqualizerBand(6, value);
             }
         }
 
@@ -86,7 +100,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider7Value, value);
-                this.ApplyEqualizerValue(6, value);
+                this.ApplyEqualizerBand(7, value);
             }
         }
 
@@ -96,7 +110,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider8Value, value);
-                this.ApplyEqualizerValue(7, value);
+                this.ApplyEqualizerBand(8, value);
             }
         }
 
@@ -106,17 +120,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider9Value, value);
-                this.ApplyEqualizerValue(8, value);
-            }
-        }
-
-        public double Slider10Value
-        {
-            get { return this.slider10Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider10Value, value);
-                this.ApplyEqualizerValue(9, value);
+                this.ApplyEqualizerBand(9, value);
             }
         }
         #endregion
@@ -126,26 +130,53 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             this.playbackService = playbackService;
 
-            // TODO: these values should come from settings
-            this.Slider1Value = 0.5;
-            this.Slider2Value = 0.5;
-            this.Slider3Value = 0.5;
-            this.Slider4Value = 0.5;
-            this.Slider5Value = 0.5;
-            this.Slider6Value = 0.5;
-            this.Slider7Value = 0.5;
-            this.Slider8Value = 0.5;
-            this.Slider9Value = 0.5;
-            this.Slider10Value = 0.5;
+            this.LoadFromSettingsAsync();
         }
         #endregion
 
         #region Private
-        private void ApplyEqualizerValue(int index, double sliderValue)
+        private async void LoadFromSettingsAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    double[] bands = Array.ConvertAll(XmlSettingsClient.Instance.Get<string>("Equalizer", "Bands").Split(';'), s => double.Parse(s));
+
+                    this.slider0Value = bands[0];
+                    this.slider1Value = bands[1];
+                    this.slider2Value = bands[2];
+                    this.slider3Value = bands[3];
+                    this.slider4Value = bands[4];
+                    this.slider5Value = bands[5];
+                    this.slider6Value = bands[6];
+                    this.slider7Value = bands[7];
+                    this.slider8Value = bands[8];
+                    this.slider9Value = bands[9];
+                }
+                catch (Exception ex)
+                {
+                    this.slider0Value = 0.0;
+                    this.slider1Value = 0.0;
+                    this.slider2Value = 0.0;
+                    this.slider3Value = 0.0;
+                    this.slider4Value = 0.0;
+                    this.slider5Value = 0.0;
+                    this.slider6Value = 0.0;
+                    this.slider7Value = 0.0;
+                    this.slider8Value = 0.0;
+                    this.slider9Value = 0.0;
+
+                    LogClient.Instance.Logger.Error("An exception occured while loading Equalizer bands from the settings. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        private void ApplyEqualizerBand(int band, double value)
         {
             if (this.playbackService != null)
             {
-                this.playbackService.UpdateEqualizer(index, sliderValue);
+                this.playbackService.SetEqualizerBand(band, value);
             }
 
             // TODO: also save in settings

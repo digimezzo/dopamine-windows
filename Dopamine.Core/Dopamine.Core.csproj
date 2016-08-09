@@ -144,6 +144,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Audio\CSCorePlayer.cs" />
+    <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
     <Compile Include="Audio\IPlayerFactory.cs" />
     <Compile Include="Audio\NVorbisSource.cs" />

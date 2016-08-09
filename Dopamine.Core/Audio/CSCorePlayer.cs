@@ -40,6 +40,7 @@ namespace Dopamine.Core.Audio
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
+        private EqualizerPreset preset;
 
         // Flags
         private bool isPlaying;
@@ -82,6 +83,18 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
+        #region Properties
+        public EqualizerPreset Preset
+        {
+            get { return this.preset; }
+            set
+            {
+                this.preset = value;
+                this.SetEqualizerPreset();
+            }
+        }
+        #endregion
+
         #region ReadOnly Properties
         public string Filename
         {
@@ -111,13 +124,12 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
-        public void UpdateEqualizer(int filterIndex, double gainDB)
+        public void SetEqualizerBand(int band, double value)
         {
-            if (this.equalizer != null)
-            {
-                EqualizerFilter filter = this.equalizer.SampleFilters[filterIndex];
-                filter.AverageGainDB = (float)(gainDB);
-            }
+            if (this.equalizer == null) return;
+
+            EqualizerFilter filter = this.equalizer.SampleFilters[band];
+            filter.AverageGainDB = (float)(value);
         }
 
         public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode)
@@ -133,28 +145,6 @@ namespace Dopamine.Core.Audio
             {
                 this.audioClientShareMode = AudioClientShareMode.Shared;
             }
-        }
-
-        private void InitializeSoundOut(IWaveSource soundSource)
-        {
-            // SoundOut implementation which plays the sound
-            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
-
-            // MMNotificationClient
-            this.MMNotificationClient = new MMNotificationClient();
-            this.MMNotificationClient.DefaultDeviceChanged += this.MMNotificationClient_DefaultDeviceChanged;
-
-            // Initialize the soundOut 
-            this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
-            this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
-
-            // Create the FFT provider
-            this.fftProvider = new FftProvider(this.soundOut.WaveSource.WaveFormat.Channels, FftSize.Fft2048);
-
-            this.notificationSource.SingleBlockRead += this.InputStream_Sample;
-            this.soundOut.Stopped += this.SoundOutStoppedHandler;
-
-            this.soundOut.Volume = this.volume;
         }
 
         public TimeSpan GetCurrentTime()
@@ -260,6 +250,7 @@ namespace Dopamine.Core.Audio
             this.canStop = true;
 
             this.InitializeSoundOut(this.GetCodec(this.filename));
+            this.SetEqualizerPreset();
             this.soundOut.Play();
         }
 
@@ -339,6 +330,36 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Private
+        private void SetEqualizerPreset()
+        {
+            for (var i = 0; i < this.preset.Bands.Length; i++)
+            {
+                this.SetEqualizerBand(i, preset.Bands[i]);
+            }
+        }
+
+        private void InitializeSoundOut(IWaveSource soundSource)
+        {
+            // SoundOut implementation which plays the sound
+            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
+
+            // MMNotificationClient
+            this.MMNotificationClient = new MMNotificationClient();
+            this.MMNotificationClient.DefaultDeviceChanged += this.MMNotificationClient_DefaultDeviceChanged;
+
+            // Initialize the soundOut 
+            this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
+            this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
+
+            // Create the FFT provider
+            this.fftProvider = new FftProvider(this.soundOut.WaveSource.WaveFormat.Channels, FftSize.Fft2048);
+
+            this.notificationSource.SingleBlockRead += this.InputStream_Sample;
+            this.soundOut.Stopped += this.SoundOutStoppedHandler;
+
+            this.soundOut.Volume = this.volume;
+        }
+
         private void NotifyPropertyChanged(string info)
         {
             this.PropertyChanged(this, new PropertyChangedEventArgs(info));
