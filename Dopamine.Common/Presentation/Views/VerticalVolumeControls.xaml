@@ -11,7 +11,7 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel VerticalAlignment="Center" Background="#00000000" HorizontalAlignment="Center" Width="30" PreviewMouseWheel="StackPanel_PreviewMouseWheel">
-        <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+        <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
         <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
     </StackPanel>
 </UserControl>
