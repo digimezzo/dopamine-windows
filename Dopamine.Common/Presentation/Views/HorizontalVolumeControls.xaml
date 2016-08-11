@@ -25,7 +25,7 @@
             </Button>
         </Grid>
 
-        <dc:HorizontalUWPSlider Width="{Binding SliderLength,ElementName=ThisControl}" Value="{Binding VolumeValue,Mode=TwoWay}" VerticalAlignment="Center" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+        <dc:HorizontalUWPSlider Width="{Binding SliderLength,ElementName=ThisControl}" Value="{Binding VolumeValue,Mode=TwoWay}" VerticalAlignment="Center" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
         <Label Padding="0" Width="20" Content="{Binding VolumeValuePercent}" HorizontalContentAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Margin="20,0,0,0" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding ShowPercent,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"/>
     </StackPanel>
 </UserControl>
