@@ -14,7 +14,6 @@ namespace Dopamine.FullPlayerModule.Views
         #region Variables
         private Timer cleanupNowPlayingTimer = new Timer();
         private int cleanupNowPlayingTimeout = 2; // 2 seconds
-        private bool isMouseOverBackButton = false;
         #endregion
 
         #region Dependency properties
