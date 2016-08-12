@@ -1,10 +1,10 @@
 [Equalizer]
-Band1=0
-Band2=0
-Band3=0
-Band4=0
-Band5=0
-Band6=0
+Band1=0.0
+Band2=0.0
+Band3=0.0
+Band4=0.0
+Band5=0.0
+Band6=0.0
 Band7=-7.1
 Band8=-7.1
 Band9=-7.1
