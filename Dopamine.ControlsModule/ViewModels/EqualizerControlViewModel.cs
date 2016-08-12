@@ -9,7 +9,6 @@ namespace Dopamine.ControlsModule.ViewModels
     public class EqualizerControlViewModel : BindableBase
     {
         #region Variables
-        private double slider0Value;
         private double slider1Value;
         private double slider2Value;
         private double slider3Value;
@@ -19,30 +18,20 @@ namespace Dopamine.ControlsModule.ViewModels
         private double slider7Value;
         private double slider8Value;
         private double slider9Value;
+        private double slider10Value;
 
         private IPlaybackService playbackService;
         private IEqualizerService equalizerService;
         #endregion
 
         #region Properties
-        public double Slider0Value
-        {
-            get { return this.slider0Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider0Value, value);
-                this.ApplyEqualizerBand(0, value);
-                OnPropertyChanged(() => this.Slider0Text);
-            }
-        }
-
         public double Slider1Value
         {
             get { return this.slider1Value; }
             set
             {
                 SetProperty<double>(ref this.slider1Value, value);
-                this.ApplyEqualizerBand(1, value);
+                this.ApplyEqualizerBand(0, value);
                 OnPropertyChanged(() => this.Slider1Text);
             }
         }
@@ -53,7 +42,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider2Value, value);
-                this.ApplyEqualizerBand(2, value);
+                this.ApplyEqualizerBand(1, value);
                 OnPropertyChanged(() => this.Slider2Text);
             }
         }
@@ -64,7 +53,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider3Value, value);
-                this.ApplyEqualizerBand(3, value);
+                this.ApplyEqualizerBand(2, value);
                 OnPropertyChanged(() => this.Slider3Text);
             }
         }
@@ -75,7 +64,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider4Value, value);
-                this.ApplyEqualizerBand(4, value);
+                this.ApplyEqualizerBand(3, value);
                 OnPropertyChanged(() => this.Slider4Text);
             }
         }
@@ -86,7 +75,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider5Value, value);
-                this.ApplyEqualizerBand(5, value);
+                this.ApplyEqualizerBand(4, value);
                 OnPropertyChanged(() => this.Slider5Text);
             }
         }
@@ -97,7 +86,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider6Value, value);
-                this.ApplyEqualizerBand(6, value);
+                this.ApplyEqualizerBand(5, value);
                 OnPropertyChanged(() => this.Slider6Text);
             }
         }
@@ -108,7 +97,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider7Value, value);
-                this.ApplyEqualizerBand(7, value);
+                this.ApplyEqualizerBand(6, value);
                 OnPropertyChanged(() => this.Slider7Text);
             }
         }
@@ -119,7 +108,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider8Value, value);
-                this.ApplyEqualizerBand(8, value);
+                this.ApplyEqualizerBand(7, value);
                 OnPropertyChanged(() => this.Slider8Text);
             }
         }
@@ -130,16 +119,19 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.slider9Value, value);
-                this.ApplyEqualizerBand(9, value);
+                this.ApplyEqualizerBand(8, value);
                 OnPropertyChanged(() => this.Slider9Text);
             }
         }
 
-        public string Slider0Text
+        public double Slider10Value
         {
-            get
+            get { return this.slider10Value; }
+            set
             {
-                return FormatSliderText(this.slider0Value);
+                SetProperty<double>(ref this.slider10Value, value);
+                this.ApplyEqualizerBand(9, value);
+                OnPropertyChanged(() => this.Slider10Text);
             }
         }
 
@@ -214,6 +206,14 @@ namespace Dopamine.ControlsModule.ViewModels
                 return FormatSliderText(this.slider9Value);
             }
         }
+
+        public string Slider10Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider10Value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -238,16 +238,16 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 EqualizerPreset preset = equalizerService.Preset;
 
-                this.slider0Value = preset.Bands[0];
-                this.slider1Value = preset.Bands[1];
-                this.slider2Value = preset.Bands[2];
-                this.slider3Value = preset.Bands[3];
-                this.slider4Value = preset.Bands[4];
-                this.slider5Value = preset.Bands[5];
-                this.slider6Value = preset.Bands[6];
-                this.slider7Value = preset.Bands[7];
-                this.slider8Value = preset.Bands[8];
-                this.slider9Value = preset.Bands[9];
+                this.slider1Value = preset.Bands[0];
+                this.slider2Value = preset.Bands[1];
+                this.slider3Value = preset.Bands[2];
+                this.slider4Value = preset.Bands[3];
+                this.slider5Value = preset.Bands[4];
+                this.slider6Value = preset.Bands[5];
+                this.slider7Value = preset.Bands[6];
+                this.slider8Value = preset.Bands[7];
+                this.slider9Value = preset.Bands[8];
+                this.slider10Value = preset.Bands[9];
             }); ;
 
             //OnPropertyChanged(() => this.Slider0Value);
