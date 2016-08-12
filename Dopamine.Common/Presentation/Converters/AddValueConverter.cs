@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dopamine.Core.Extensions;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using Dopamine.Core.Extensions;
 
 namespace Dopamine.Common.Presentation.Converters
 {

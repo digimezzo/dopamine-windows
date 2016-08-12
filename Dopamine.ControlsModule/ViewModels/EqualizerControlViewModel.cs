@@ -157,7 +157,11 @@ namespace Dopamine.ControlsModule.ViewModels
                 this.slider7Value = preset.Bands[7];
                 this.slider8Value = preset.Bands[8];
                 this.slider9Value = preset.Bands[9];
-            });
+
+                
+            });;
+
+            OnPropertyChanged(() => this.Slider0Value);
         }
 
         private void ApplyEqualizerBand(int band, double value)
