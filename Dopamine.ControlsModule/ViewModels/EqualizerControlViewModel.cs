@@ -2,7 +2,6 @@
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
 using Prism.Mvvm;
-using System;
 using System.Threading.Tasks;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -31,8 +30,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider0Value; }
             set
             {
-                SetProperty<double>(ref this.slider0Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(0, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider0Value, value);
+                this.ApplyEqualizerBand(0, value);
+                OnPropertyChanged(() => this.Slider0Text);
             }
         }
 
@@ -41,8 +41,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider1Value; }
             set
             {
-                SetProperty<double>(ref this.slider1Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(1, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider1Value, value);
+                this.ApplyEqualizerBand(1, value);
+                OnPropertyChanged(() => this.Slider1Text);
             }
         }
 
@@ -51,8 +52,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider2Value; }
             set
             {
-                SetProperty<double>(ref this.slider2Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(2, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider2Value, value);
+                this.ApplyEqualizerBand(2, value);
+                OnPropertyChanged(() => this.Slider2Text);
             }
         }
 
@@ -61,8 +63,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider3Value; }
             set
             {
-                SetProperty<double>(ref this.slider3Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(3, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider3Value, value);
+                this.ApplyEqualizerBand(3, value);
+                OnPropertyChanged(() => this.Slider3Text);
             }
         }
 
@@ -71,8 +74,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider4Value; }
             set
             {
-                SetProperty<double>(ref this.slider4Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(4, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider4Value, value);
+                this.ApplyEqualizerBand(4, value);
+                OnPropertyChanged(() => this.Slider4Text);
             }
         }
 
@@ -81,8 +85,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider5Value; }
             set
             {
-                SetProperty<double>(ref this.slider5Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(5, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider5Value, value);
+                this.ApplyEqualizerBand(5, value);
+                OnPropertyChanged(() => this.Slider5Text);
             }
         }
 
@@ -91,8 +96,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider6Value; }
             set
             {
-                SetProperty<double>(ref this.slider6Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(6, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider6Value, value);
+                this.ApplyEqualizerBand(6, value);
+                OnPropertyChanged(() => this.Slider6Text);
             }
         }
 
@@ -101,8 +107,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider7Value; }
             set
             {
-                SetProperty<double>(ref this.slider7Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(7, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider7Value, value);
+                this.ApplyEqualizerBand(7, value);
+                OnPropertyChanged(() => this.Slider7Text);
             }
         }
 
@@ -111,8 +118,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider8Value; }
             set
             {
-                SetProperty<double>(ref this.slider8Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(8, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider8Value, value);
+                this.ApplyEqualizerBand(8, value);
+                OnPropertyChanged(() => this.Slider8Text);
             }
         }
 
@@ -121,8 +129,89 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider9Value; }
             set
             {
-                SetProperty<double>(ref this.slider9Value, Math.Round(value, 1));
-                this.ApplyEqualizerBand(9, Math.Round(value, 1));
+                SetProperty<double>(ref this.slider9Value, value);
+                this.ApplyEqualizerBand(9, value);
+                OnPropertyChanged(() => this.Slider9Text);
+            }
+        }
+
+        public string Slider0Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider0Value);
+            }
+        }
+
+        public string Slider1Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider1Value);
+            }
+        }
+
+        public string Slider2Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider2Value);
+            }
+        }
+
+        public string Slider3Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider3Value);
+            }
+        }
+
+        public string Slider4Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider4Value);
+            }
+        }
+
+        public string Slider5Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider5Value);
+            }
+        }
+
+        public string Slider6Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider6Value);
+            }
+        }
+
+        public string Slider7Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider7Value);
+            }
+        }
+
+        public string Slider8Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider8Value);
+            }
+        }
+
+        public string Slider9Text
+        {
+            get
+            {
+                return FormatSliderText(this.slider9Value);
             }
         }
         #endregion
@@ -138,6 +227,11 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Private
+        private string FormatSliderText(double value)
+        {
+            return value >= 0 ? value.ToString("+0.0") : value.ToString("0.0");
+        }
+
         private async void LoadFromSettingsAsync()
         {
             await Task.Run(() =>
@@ -154,8 +248,6 @@ namespace Dopamine.ControlsModule.ViewModels
                 this.slider7Value = preset.Bands[7];
                 this.slider8Value = preset.Bands[8];
                 this.slider9Value = preset.Bands[9];
-
-
             }); ;
 
             //OnPropertyChanged(() => this.Slider0Value);
