@@ -1,5 +1,4 @@
 ﻿using Dopamine.Core.Base;
-using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;

@@ -34,8 +34,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider0Value; }
             set
             {
-                SetProperty<double>(ref this.slider0Value, value);
-                this.ApplyEqualizerBand(0, value);
+                SetProperty<double>(ref this.slider0Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(0, Math.Round(value, 1));
             }
         }
 
@@ -44,8 +44,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider1Value; }
             set
             {
-                SetProperty<double>(ref this.slider1Value, value);
-                this.ApplyEqualizerBand(1, value);
+                SetProperty<double>(ref this.slider1Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(1, Math.Round(value, 1));
             }
         }
 
@@ -54,8 +54,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider2Value; }
             set
             {
-                SetProperty<double>(ref this.slider2Value, value);
-                this.ApplyEqualizerBand(2, value);
+                SetProperty<double>(ref this.slider2Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(2, Math.Round(value, 1));
             }
         }
 
@@ -64,8 +64,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider3Value; }
             set
             {
-                SetProperty<double>(ref this.slider3Value, value);
-                this.ApplyEqualizerBand(3, value);
+                SetProperty<double>(ref this.slider3Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(3, Math.Round(value, 1));
             }
         }
 
@@ -74,8 +74,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider4Value; }
             set
             {
-                SetProperty<double>(ref this.slider4Value, value);
-                this.ApplyEqualizerBand(4, value);
+                SetProperty<double>(ref this.slider4Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(4, Math.Round(value, 1));
             }
         }
 
@@ -84,8 +84,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider5Value; }
             set
             {
-                SetProperty<double>(ref this.slider5Value, value);
-                this.ApplyEqualizerBand(5, value);
+                SetProperty<double>(ref this.slider5Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(5, Math.Round(value, 1));
             }
         }
 
@@ -94,8 +94,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider6Value; }
             set
             {
-                SetProperty<double>(ref this.slider6Value, value);
-                this.ApplyEqualizerBand(6, value);
+                SetProperty<double>(ref this.slider6Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(6, Math.Round(value, 1));
             }
         }
 
@@ -104,8 +104,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider7Value; }
             set
             {
-                SetProperty<double>(ref this.slider7Value, value);
-                this.ApplyEqualizerBand(7, value);
+                SetProperty<double>(ref this.slider7Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(7, Math.Round(value, 1));
             }
         }
 
@@ -114,8 +114,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider8Value; }
             set
             {
-                SetProperty<double>(ref this.slider8Value, value);
-                this.ApplyEqualizerBand(8, value);
+                SetProperty<double>(ref this.slider8Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(8, Math.Round(value, 1));
             }
         }
 
@@ -124,8 +124,8 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.slider9Value; }
             set
             {
-                SetProperty<double>(ref this.slider9Value, value);
-                this.ApplyEqualizerBand(9, value);
+                SetProperty<double>(ref this.slider9Value, Math.Round(value, 1));
+                this.ApplyEqualizerBand(9, Math.Round(value, 1));
             }
         }
         #endregion
@@ -158,10 +158,10 @@ namespace Dopamine.ControlsModule.ViewModels
                 this.slider8Value = preset.Bands[8];
                 this.slider9Value = preset.Bands[9];
 
-                
-            });;
 
-            OnPropertyChanged(() => this.Slider0Value);
+            }); ;
+
+            //OnPropertyChanged(() => this.Slider0Value);
         }
 
         private void ApplyEqualizerBand(int band, double value)
