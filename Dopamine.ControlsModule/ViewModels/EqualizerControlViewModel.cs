@@ -1,8 +1,5 @@
 ﻿using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Dopamine.Core.Audio;
 using Prism.Mvvm;
 using System;

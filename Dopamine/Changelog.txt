@@ -1,7 +1,9 @@
-7-08-2017: Dopamine 1.1.677.0 (Preview)
----------------------------------------
+12-08-2017: Dopamine 1.1.678.0 (Preview)
+----------------------------------------
 
-- Fixed an indexing issue
+- Fixed an indexing issue where files, which are removed in Windows, were not removed from the collection.
+- Fixed cut off album art on lower left playback information on the main screen
+- Fixed dialogs showing a 1px bottom border at some resolutions
 
 
 3-08-2017: Dopamine 1.1.672.0 (Preview)
