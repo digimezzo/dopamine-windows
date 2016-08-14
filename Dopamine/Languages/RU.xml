@@ -313,4 +313,6 @@
   <Text Key="License">Лицензия</Text>
   <Text Key="Wasapi_Exclusive_Mode">Exclusive mode (this mutes sounds from other applications)</Text>
   <Text Key="Equalizer">Equalizer</Text>
+  <Text Key="Enable_Equalizer">Enable equalizer</Text>
+  <Text Key="Reset">Reset</Text>
 </Language>
