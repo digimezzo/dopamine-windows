@@ -170,15 +170,19 @@ namespace Dopamine.Common.Services.Indexing
                 track.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
                 track.Rating = fmd.Rating.Value;
 
+                // Before proceeding, get the available artists
+                string albumArtist = GetFirstAlbumArtist(fmd);
+                string trackArtist = GetFirstArtist(fmd); // will be used for the album if no album artist is found
+
                 // Album information
                 album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                album.AlbumArtist = GetFirstAlbumArtist(fmd);
+                album.AlbumArtist = (albumArtist == Defaults.UnknownAlbumArtistString ? trackArtist : albumArtist);
                 album.DateAdded = FileOperations.GetDateCreated(path);
 
                 IndexerUtils.UpdateAlbumYear(album, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
                 // Artist information
-                artist.ArtistName = GetFirstArtist(fmd);
+                artist.ArtistName = trackArtist;
 
                 // Genre information
                 genre.GenreName = GetFirstGenre(fmd);
