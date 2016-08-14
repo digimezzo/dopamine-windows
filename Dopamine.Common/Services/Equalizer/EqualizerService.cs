@@ -43,7 +43,11 @@ namespace Dopamine.Common.Services.Equalizer
             }
             set { this.preset = value; }
         }
+        #endregion
 
+        #region Events
+        public event EqualizerPresetChangedEventhandler EqualizerPresetChanged = delegate { };
+        public event EqualizerBandChangedEventhandler EqualizerBandChanged = delegate { };
         #endregion
 
         #region Construction
@@ -60,6 +64,20 @@ namespace Dopamine.Common.Services.Equalizer
         #endregion
 
         #region IEqualizerService
+        public void SetEqualizerBand(int band, double value)
+        {
+            this.Preset.Bands[band] = value;
+            this.EqualizerBandChanged(band,value);
+            // Update settings
+        }
+
+        public void SetEqualizerPreset(EqualizerPreset preset)
+        {
+            this.Preset = preset;
+            this.EqualizerPresetChanged(preset);
+            // Update settings
+        }
+
         public async Task<List<EqualizerPreset>> GetEqualizerPresetsAsync()
         {
             var equalizerPresets = new List<EqualizerPreset>();

@@ -255,12 +255,10 @@ namespace Dopamine.ControlsModule.ViewModels
 
         private void ApplyEqualizerBand(int band, double value)
         {
-            if (this.playbackService != null)
+            if (this.equalizerService != null)
             {
-                this.playbackService.SetEqualizerBand(band, value);
+                this.equalizerService.SetEqualizerBand(band, value);
             }
-
-            // TODO: also save in settings
         }
         #endregion
     }
