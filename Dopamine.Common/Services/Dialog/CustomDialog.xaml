@@ -16,15 +16,16 @@
                         <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
                     </Viewbox>
                     <TextBlock
-                  x:Name="Icon"
-                  Panel.ZIndex="1"
-                  Style="{StaticResource SegoeAssets}"
-                  HorizontalAlignment="Center" 
-                  VerticalAlignment="Center" 
-                  Foreground="{DynamicResource RG_WhiteBrush}" />
+                      x:Name="Icon"
+                      Panel.ZIndex="1"
+                      Style="{StaticResource SegoeAssets}"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" 
+                      Foreground="{DynamicResource RG_WhiteBrush}" />   
                     <Viewbox Width="30" Height="30" Panel.ZIndex="2">
                         <Path x:Name="Overlay" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_IconGradientBrush}"/>
                     </Viewbox>
+                    <ContentControl x:Name="IconContentControl" Width="30" Height="30"/>
                 </Grid>
                 <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </StackPanel>

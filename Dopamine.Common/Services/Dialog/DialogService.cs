@@ -93,6 +93,28 @@ namespace Dopamine.Common.Services.Dialog
             return returnValue;
         }
 
+        public bool ShowCustomDialog(UserControl icon, string title, UserControl content, int width, int height, bool canResize, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+        {
+            bool returnValue = false;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CustomDialog dialog = new CustomDialog(icon: icon, title: title, content: content, width: width, height: height, canResize: canResize, showCancelButton: showCancelButton, okText: okText, cancelText: cancelText, callback: callback);
+                this.ShowDialog(dialog);
+
+                if (dialog.DialogResult.HasValue & dialog.DialogResult.Value)
+                {
+                    returnValue = true;
+                }
+                else
+                {
+                    returnValue = false;
+                }
+            });
+
+            return returnValue;
+        }
+
         public bool ShowInputDialog(int iconCharCode, int iconSize, string title, string content, string okText, string cancelText, ref string responeText)
         {
             bool returnValue = false;
@@ -122,7 +144,7 @@ namespace Dopamine.Common.Services.Dialog
         }
         #endregion
 
-        #region "vents
+        #region Events
         public event Action<bool> DialogVisibleChanged;
         #endregion
     }
