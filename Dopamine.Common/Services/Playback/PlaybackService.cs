@@ -299,6 +299,22 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Interval = TimeSpan.FromSeconds(this.saveTrackStatisticsTimeoutSeconds).TotalMilliseconds;
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
+            // Handle events
+            this.equalizerService.EqualizerBandChanged += (band, value) =>
+            {
+                if (this.player != null)
+                {
+                    this.player.SetEqualizerBand(band, value);
+                }
+            };
+
+            this.equalizerService.EqualizerPresetChanged += (preset) => {
+                if (this.player != null)
+                {
+                    this.player.Preset = preset;
+                }
+            };
+
             // Queued tracks
             this.GetSavedQueuedTracksAsync();
         }
@@ -323,14 +339,6 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
-        public void SetEqualizerBand(int band, double value)
-        {
-            if (this.player != null)
-            {
-                this.player.SetEqualizerBand(band, value);
-            }
-        }
-
         public async Task SaveQueuedTracksAsync()
         {
             this.saveQueuedTracksTimer.Stop();
@@ -610,8 +618,8 @@ namespace Dopamine.Common.Services.Playback
                     {
                         try
                         {
-                    // Remove from this.queuedTracks. The index doesn't matter.
-                    if (this.queuedTracks.Contains(ti))
+                            // Remove from this.queuedTracks. The index doesn't matter.
+                            if (this.queuedTracks.Contains(ti))
                             {
                                 this.queuedTracks.Remove(ti);
                                 removedQueuedTracks.Add(ti);
@@ -626,9 +634,9 @@ namespace Dopamine.Common.Services.Playback
 
                     foreach (TrackInfo ti in removedQueuedTracks)
                     {
-                // Remove from this.shuffledTracks. The index does matter,
-                // as we might have to play the next remaining Track.
-                try
+                        // Remove from this.shuffledTracks. The index does matter,
+                        // as we might have to play the next remaining Track.
+                        try
                         {
                             int index = this.shuffledTracks.IndexOf(ti);
 
@@ -816,9 +824,9 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queuedTracks.Count > 0)
                     {
-                // To make sure the original mQueuedTracks doesn't get cleared when randomizing, we first
-                // create a new list by calling ListFunctions.CopyList(mQueuedTracks) before we randomize.
-                this.shuffledTracks = new List<TrackInfo>(this.queuedTracks).Randomize();
+                        // To make sure the original mQueuedTracks doesn't get cleared when randomizing, we first
+                        // create a new list by calling ListFunctions.CopyList(mQueuedTracks) before we randomize.
+                        this.shuffledTracks = new List<TrackInfo>(this.queuedTracks).Randomize();
                     }
                 }
             });
@@ -1104,7 +1112,7 @@ namespace Dopamine.Common.Services.Playback
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
                 await this.UpdateTrackStatisticsAsync(this.playingTrack.Track.Path, true, false); // Increase PlayCount
-        await this.TryPlayNextAsync();
+                await this.TryPlayNextAsync();
             }), null);
         }
 
@@ -1121,11 +1129,11 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueSyncObject)
                 {
-            // It could be that, while getting saved queued tracks from the database above, 
-            // tracks were enqueued from the command line. To prevent overwriting the existing 
-            // queue (which was built based on command line files), we check if the queue is
-            // empty first, and fill it up with saved queued tracks only if it is empty.
-            if (this.queuedTracks == null || this.queuedTracks.Count == 0)
+                    // It could be that, while getting saved queued tracks from the database above, 
+                    // tracks were enqueued from the command line. To prevent overwriting the existing 
+                    // queue (which was built based on command line files), we check if the queue is
+                    // empty first, and fill it up with saved queued tracks only if it is empty.
+                    if (this.queuedTracks == null || this.queuedTracks.Count == 0)
                     {
                         this.queuedTracks = new List<TrackInfo>(savedQueuedTracks);
                     }
