@@ -15,14 +15,11 @@ namespace Dopamine.Common.Services.Dialog
         #endregion
 
         #region Construction
-        public CustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
-            : base()
+        public CustomDialog(string title, UserControl content, int width, int height, bool canResize, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback) : base()
         {
             InitializeComponent();
 
             this.TitleBarHeight = Constants.DefaultWindowButtonHeight + 10;
-            this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
-            this.Icon.FontSize = iconSize;
             this.Title = title;
             this.TextBlockTitle.Text = title;
             this.Width = width;
@@ -57,6 +54,19 @@ namespace Dopamine.Common.Services.Dialog
             this.callback = callback;
 
             WindowUtils.CenterWindow(this);
+        }
+
+        public CustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+            : this(title, content, width, height, canResize, showCancelButton, okText, cancelText, callback)
+        {
+            this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
+            this.Icon.FontSize = iconSize;
+        }
+
+        public CustomDialog(UserControl icon, string title, UserControl content, int width, int height, bool canResize, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+            : this(title, content, width, height, canResize, showCancelButton, okText, cancelText, callback)
+        {
+            this.IconContentControl.Content = icon.Content;
         }
         #endregion
 

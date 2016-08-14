@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.JumpList;
@@ -197,8 +198,7 @@ namespace Dopamine.ViewModels
                 view.DataContext = this.container.Resolve<EqualizerControlViewModel>();
 
                 this.dialogService.ShowCustomDialog(
-                    0xe104, 
-                    14, 
+                    new EqualizerIcon(),
                     ResourceUtils.GetStringResource("Language_Equalizer"), 
                     view, 
                     570, 

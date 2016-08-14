@@ -1,4 +1,4 @@
-12-08-2017: Dopamine 1.1.678.0 (Preview)
+14-08-2017: Dopamine 1.1.679.0 (Preview)
 ----------------------------------------
 
 - Fixed an indexing issue where files, which are removed in Windows, were not removed from the collection.
