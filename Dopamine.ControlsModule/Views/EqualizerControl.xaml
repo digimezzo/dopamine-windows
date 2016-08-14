@@ -8,76 +8,105 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeIn">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="FadeOut">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="0.5" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+    </UserControl.Resources>
+
     <StackPanel>
-        <DockPanel Margin="0,0,0,10">
-            <CheckBox DockPanel.Dock="Left" Style="{StaticResource MetroCheckBox}" Content="{DynamicResource Language_Enable_Equalizer}" Margin="0,0,10,0"/>
-            <Button Style="{StaticResource MetroButton}" DockPanel.Dock="Right" Content="{DynamicResource Language_Reset}"/>
-            <Button Style="{StaticResource MetroButton}" DockPanel.Dock="Right" Margin="0,0,10,0">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource Language_Save}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <TextBlock Text="..." Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0"/>
-        </DockPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10">
-            <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
-                <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="+0 dB" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="-20 dB" VerticalAlignment="Bottom" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            </Grid>
-            <StackPanel Margin="0,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider1Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="60" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider1Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider2Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="170" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider2Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider3Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="310" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider3Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider4Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="600" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider4Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider5Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="1K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider5Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider6Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="3K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider6Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider7Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="6K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider7Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider8Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="12K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider8Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider9Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="14K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider9Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
-            </StackPanel>
-            <StackPanel Margin="15,0,0,0" Width="30">
-                <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider10Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                <TextBlock HorizontalAlignment="Center" Text="16K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Slider10Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+        <StackPanel IsHitTestVisible="{Binding IsEqualizerEnabled}">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEqualizerEnabled}" Value="False">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeOut}" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <DockPanel Margin="0,0,0,10">
+                <Button Style="{StaticResource MetroButton}" DockPanel.Dock="Right" Content="{DynamicResource Language_Reset}"/>
+                <Button Style="{StaticResource MetroButton}" DockPanel.Dock="Right" Margin="0,0,10,0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource Language_Save}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                            <TextBlock Text="..." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0"/>
+            </DockPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" IsHitTestVisible="{Binding IsEqualizerEnabled}">
+                <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
+                    <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Text="+0 dB" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Text="-20 dB" VerticalAlignment="Bottom" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                </Grid>
+                <StackPanel Margin="0,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider1Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="60" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider1Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider2Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="170" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider2Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider3Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="310" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider3Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider4Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="600" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider4Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider5Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="1K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider5Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider6Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="3K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider6Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider7Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="6K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider7Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider8Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="12K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider8Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider9Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="14K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider9Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0" Width="30">
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Slider10Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="16K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Slider10Text}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
+        <CheckBox DockPanel.Dock="Left" Style="{StaticResource MetroCheckBox}" Content="{DynamicResource Language_Enable_Equalizer}" Margin="0,10,0,0" IsChecked="{Binding IsEqualizerEnabled}"/>
     </StackPanel>
 </UserControl>
