@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>52</Value>
+      <Value>53</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -231,11 +231,14 @@
       <Value>True</Value>
     </Setting>
   </Namespace>
-  <Namespace Name="EqualizerPreset">
-    <Setting Name="Name">
+  <Namespace Name="Equalizer">
+    <Setting Name="IsEnabled">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="SelectedPreset">
       <Value>None</Value>
     </Setting>
-    <Setting Name="Bands">
+    <Setting Name="ManualPreset">
       <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>
     </Setting>
   </Namespace>

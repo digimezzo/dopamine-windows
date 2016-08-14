@@ -9,6 +9,8 @@ namespace Dopamine.ControlsModule.ViewModels
     public class EqualizerControlViewModel : BindableBase
     {
         #region Variables
+        private bool isEqualizerEnabled;
+
         private double slider1Value;
         private double slider2Value;
         private double slider3Value;
@@ -25,6 +27,15 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Properties
+        public bool IsEqualizerEnabled
+        {
+            get { return this.isEqualizerEnabled; }
+            set
+            {
+                SetProperty<bool>(ref this.isEqualizerEnabled, value);
+            }
+        }
+
         public double Slider1Value
         {
             get { return this.slider1Value; }
@@ -223,6 +234,8 @@ namespace Dopamine.ControlsModule.ViewModels
             this.equalizerService = equalizerService;
 
             this.LoadFromSettingsAsync();
+
+            this.IsEqualizerEnabled = true;
         }
         #endregion
 

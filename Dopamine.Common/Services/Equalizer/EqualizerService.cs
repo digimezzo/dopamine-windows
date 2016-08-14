@@ -26,11 +26,11 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 if (this.preset == null)
                 {
-                    this.preset = new EqualizerPreset(XmlSettingsClient.Instance.Get<string>("EqualizerPreset", "Name"), 10);
+                    this.preset = new EqualizerPreset(XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset"), 10);
 
                     try
                     {
-                        this.preset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("EqualizerPreset", "Bands").Split(';')));
+                        this.preset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualBands").Split(';')));
                     }
                     catch (Exception ex)
                     {
