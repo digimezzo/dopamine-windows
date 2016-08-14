@@ -10,12 +10,12 @@
     
     <Canvas Width="30" Height="30">
         <!-- Vertical lines -->
-        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="8" X2="8" Y1="8" Y2="22"/>
-        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="15" X2="15" Y1="8" Y2="22"/>
-        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="22" X2="22" Y1="8" Y2="22"/>
+        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="8.5" X2="8.5" Y1="8" Y2="22"/>
+        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="15.5" X2="15.5" Y1="8" Y2="22"/>
+        <Line Stroke="{DynamicResource RG_ForegroundBrush}" StrokeThickness="1" X1="22.5" X2="22.5" Y1="8" Y2="22"/>
         <!-- Circles -->
-        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="6" Canvas.Top="11"/>
-        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="13" Canvas.Top="15"/>
-        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="20" Canvas.Top="12"/>
+        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="6.5" Canvas.Top="11"/>
+        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="13.5" Canvas.Top="15"/>
+        <Ellipse Width="4" Height="4" Fill="{DynamicResource RG_ForegroundBrush}" Canvas.Left="20.5" Canvas.Top="12"/>
     </Canvas>
 </UserControl>
