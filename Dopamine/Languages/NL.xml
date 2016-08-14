@@ -313,4 +313,6 @@
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">Exclusieve modus (dit schakelt het geluid van andere applicaties uit)</Text>
   <Text Key="Equalizer">Equalizer</Text>
+  <Text Key="Enable_Equalizer">Equalizer inschakelen</Text>
+  <Text Key="Reset">Reset</Text>
 </Language>
