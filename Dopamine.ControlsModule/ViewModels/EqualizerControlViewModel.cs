@@ -2,6 +2,7 @@
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
 using Prism.Mvvm;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -9,6 +10,9 @@ namespace Dopamine.ControlsModule.ViewModels
     public class EqualizerControlViewModel : BindableBase
     {
         #region Variables
+        private ObservableCollection<EqualizerPreset> presets;
+        private EqualizerPreset selectedPreset;
+
         private bool isEqualizerEnabled;
 
         private double slider1Value;
@@ -27,12 +31,32 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Properties
+        public ObservableCollection<EqualizerPreset> Presets
+        {
+            get { return this.presets; }
+            set
+            {
+                SetProperty<ObservableCollection<EqualizerPreset>>(ref this.presets, value);
+            }
+        }
+
+        public EqualizerPreset SelectedPreset
+        {
+            get { return this.selectedPreset; }
+            set
+            {
+                SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
+                this.ApplyEqualizerPreset(value);
+            }
+        }
+
         public bool IsEqualizerEnabled
         {
             get { return this.isEqualizerEnabled; }
             set
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
+                if (this.equalizerService != null) this.equalizerService.IsEnabled = value;
             }
         }
 
@@ -233,9 +257,7 @@ namespace Dopamine.ControlsModule.ViewModels
             this.playbackService = playbackService;
             this.equalizerService = equalizerService;
 
-            this.LoadFromSettingsAsync();
-
-            this.IsEqualizerEnabled = true;
+            this.InitializeAsync();
         }
         #endregion
 
@@ -245,25 +267,20 @@ namespace Dopamine.ControlsModule.ViewModels
             return value >= 0 ? value.ToString("+0.0") : value.ToString("0.0");
         }
 
-        private async void LoadFromSettingsAsync()
+        private async void InitializeAsync()
         {
-            await Task.Run(() =>
+            this.IsEqualizerEnabled = equalizerService.IsEnabled;
+
+            ObservableCollection<EqualizerPreset> localEqualizerPresets = new ObservableCollection<EqualizerPreset>();
+
+            foreach (EqualizerPreset preset in await this.equalizerService.GetEqualizerPresetsAsync())
             {
-                EqualizerPreset preset = equalizerService.Preset;
+                localEqualizerPresets.Add(preset);
+            }
 
-                this.slider1Value = preset.Bands[0];
-                this.slider2Value = preset.Bands[1];
-                this.slider3Value = preset.Bands[2];
-                this.slider4Value = preset.Bands[3];
-                this.slider5Value = preset.Bands[4];
-                this.slider6Value = preset.Bands[5];
-                this.slider7Value = preset.Bands[6];
-                this.slider8Value = preset.Bands[7];
-                this.slider9Value = preset.Bands[8];
-                this.slider10Value = preset.Bands[9];
-            }); ;
+            this.Presets = localEqualizerPresets;
 
-            //OnPropertyChanged(() => this.Slider0Value);
+            this.SetSliderValues(equalizerService.Preset);
         }
 
         private void ApplyEqualizerBand(int band, double value)
@@ -272,6 +289,54 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 this.equalizerService.SetEqualizerBand(band, value);
             }
+        }
+
+        private void ApplyEqualizerPreset(EqualizerPreset preset)
+        {
+            if (this.equalizerService != null)
+            {
+                this.equalizerService.SetEqualizerPreset(preset);
+            }
+
+            this.SetSliderValues(preset);
+        }
+
+        private void SetSliderValues(EqualizerPreset preset)
+        {
+            // Don't change the properties directly, change their backing fields. 
+            // This prevents ApplyEqualizerBand from beng called by the setter of the properties.
+            this.slider1Value = preset.Bands[0];
+            this.slider2Value = preset.Bands[1];
+            this.slider3Value = preset.Bands[2];
+            this.slider4Value = preset.Bands[3];
+            this.slider5Value = preset.Bands[4];
+            this.slider6Value = preset.Bands[5];
+            this.slider7Value = preset.Bands[6];
+            this.slider8Value = preset.Bands[7];
+            this.slider9Value = preset.Bands[8];
+            this.slider10Value = preset.Bands[9];
+
+            OnPropertyChanged(() => this.Slider1Value);
+            OnPropertyChanged(() => this.Slider2Value);
+            OnPropertyChanged(() => this.Slider3Value);
+            OnPropertyChanged(() => this.Slider4Value);
+            OnPropertyChanged(() => this.Slider5Value);
+            OnPropertyChanged(() => this.Slider6Value);
+            OnPropertyChanged(() => this.Slider7Value);
+            OnPropertyChanged(() => this.Slider8Value);
+            OnPropertyChanged(() => this.Slider9Value);
+            OnPropertyChanged(() => this.Slider10Value);
+
+            OnPropertyChanged(() => this.Slider1Text);
+            OnPropertyChanged(() => this.Slider2Text);
+            OnPropertyChanged(() => this.Slider3Text);
+            OnPropertyChanged(() => this.Slider4Text);
+            OnPropertyChanged(() => this.Slider5Text);
+            OnPropertyChanged(() => this.Slider6Text);
+            OnPropertyChanged(() => this.Slider7Text);
+            OnPropertyChanged(() => this.Slider8Text);
+            OnPropertyChanged(() => this.Slider9Text);
+            OnPropertyChanged(() => this.Slider10Text);
         }
         #endregion
     }

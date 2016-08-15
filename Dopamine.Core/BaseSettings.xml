@@ -236,7 +236,7 @@
       <Value>False</Value>
     </Setting>
     <Setting Name="SelectedPreset">
-      <Value>None</Value>
+      <Value></Value>
     </Setting>
     <Setting Name="ManualPreset">
       <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>

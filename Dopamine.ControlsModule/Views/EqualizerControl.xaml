@@ -47,7 +47,15 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0"/>
+                <Button Style="{StaticResource MetroButton}" DockPanel.Dock="Right" Margin="0,0,10,0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource Language_Delete}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                            <TextBlock Text="..." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
             </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" IsHitTestVisible="{Binding IsEqualizerEnabled}">
                 <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
