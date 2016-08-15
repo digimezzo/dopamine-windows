@@ -46,7 +46,7 @@
                 ToolTip="{DynamicResource Language_Equalizer}" 
                 Command="{x:Static coreprism:ApplicationCommands.ShowEqualizerCommand}">
                 <ToggleButton.Content>
-                    <commonviews:EqualizerIcon IsHitTestVisible="True"/>
+                    <commonviews:EqualizerIcon/>
                 </ToggleButton.Content>
             </ToggleButton>
             <!-- Volume -->

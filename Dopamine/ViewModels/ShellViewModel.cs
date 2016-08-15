@@ -198,7 +198,7 @@ namespace Dopamine.ViewModels
                 view.DataContext = this.container.Resolve<EqualizerControlViewModel>();
 
                 this.dialogService.ShowCustomDialog(
-                    new EqualizerIcon() { IsHitTestVisible = false },
+                    new EqualizerIcon() { IsDialogIcon = true },
                     ResourceUtils.GetStringResource("Language_Equalizer"), 
                     view, 
                     570, 

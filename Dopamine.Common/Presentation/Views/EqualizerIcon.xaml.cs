@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    /// <summary>
-    /// Interaction logic for EqualizerIcon.xaml
-    /// </summary>
     public partial class EqualizerIcon : UserControl
     {
+        #region Properties
+        public bool IsDialogIcon
+        {
+            get { return (bool)GetValue(IsDialogIconProperty); }
+            set { SetValue(IsDialogIconProperty, value); }
+        }
+        #endregion
+
+        #region Dependecy Properties
+        public static readonly DependencyProperty IsDialogIconProperty = DependencyProperty.Register("IsDialogIcon", typeof(bool), typeof(EqualizerIcon), new PropertyMetadata(false));
+        #endregion
+
+        #region Construction
         public EqualizerIcon()
         {
             InitializeComponent();
         }
+        #endregion
     }
 }
