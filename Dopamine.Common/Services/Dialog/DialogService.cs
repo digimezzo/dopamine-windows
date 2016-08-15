@@ -20,14 +20,14 @@ namespace Dopamine.Common.Services.Dialog
         #endregion
 
         #region Private
-        private void ShowDialog(Window iWindow)
+        private void ShowDialog(Window win)
         {
             this.openDialogCount += 1;
             if (DialogVisibleChanged != null)
             {
                 DialogVisibleChanged(this.openDialogCount > 0);
             }
-            iWindow.ShowDialog();
+            win.ShowDialog();
             this.openDialogCount -= 1;
             if (DialogVisibleChanged != null)
             {
