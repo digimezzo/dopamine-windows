@@ -22,11 +22,11 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <StackPanel IsHitTestVisible="{Binding IsEqualizerEnabled}">
+        <StackPanel IsHitTestVisible="{Binding EqualizerService.IsEnabled}">
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsEqualizerEnabled}" Value="False">
+                        <DataTrigger Binding="{Binding EqualizerService.IsEnabled}" Value="False">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource FadeOut}" />
                             </DataTrigger.EnterActions>
@@ -38,7 +38,7 @@
                 </Style>
             </StackPanel.Style>
             <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" IsHitTestVisible="{Binding IsEqualizerEnabled}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" IsHitTestVisible="{Binding EqualizerService.IsEnabled}">
                 <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
                     <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     <TextBlock Text="+0 dB" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
@@ -96,6 +96,6 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <CheckBox DockPanel.Dock="Left" Style="{StaticResource MetroCheckBox}" Content="{DynamicResource Language_Enable_Equalizer}" Margin="0,10,0,0" IsChecked="{Binding IsEqualizerEnabled}"/>
+        <CheckBox DockPanel.Dock="Left" Style="{StaticResource MetroCheckBox}" Content="{DynamicResource Language_Enable_Equalizer}" Margin="0,10,0,0" IsChecked="{Binding EqualizerService.IsEnabled}"/>
     </StackPanel>
 </UserControl>
