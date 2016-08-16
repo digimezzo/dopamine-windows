@@ -3,6 +3,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -20,9 +21,6 @@ namespace Dopamine.ControlsModule.ViewModels
         public IEqualizerService EqualizerService
         {
             get { return this.equalizerService; }
-            set {
-                SetProperty<IEqualizerService>(ref this.equalizerService, value);
-            }
         }
         
         public ObservableCollection<EqualizerPreset> Presets
@@ -65,6 +63,8 @@ namespace Dopamine.ControlsModule.ViewModels
             }
 
             this.Presets = localEqualizerPresets;
+
+            this.SelectedPreset = this.Presets.First();
         }
         #endregion
     }
