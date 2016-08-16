@@ -299,22 +299,6 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Interval = TimeSpan.FromSeconds(this.saveTrackStatisticsTimeoutSeconds).TotalMilliseconds;
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
-            // Handle events
-            this.equalizerService.EqualizerBandChanged += (band, value) =>
-            {
-                if (this.player != null)
-                {
-                    this.player.SetEqualizerBand(band, value);
-                }
-            };
-
-            this.equalizerService.EqualizerPresetChanged += (preset) => {
-                if (this.player != null)
-                {
-                    this.player.Preset = preset;
-                }
-            };
-
             // Queued tracks
             this.GetSavedQueuedTracksAsync();
         }
@@ -932,7 +916,7 @@ namespace Dopamine.Common.Services.Playback
                 // Play the Track from its runtime path (current or temporary)
                 this.player = this.playerFactory.Create(Path.GetExtension(trackInfo.Track.Path));
 
-                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode);
+                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, null);
 
                 this.ToggleMute();
 
@@ -941,9 +925,6 @@ namespace Dopamine.Common.Services.Playback
                 // at least, the next time TryPlayNext is called, it will know that 
                 // we already tried to play this track and it can find the next Track.
                 this.playingTrack = trackInfo;
-
-                // Set the equalizer preset
-                this.player.Preset = this.equalizerService.Preset;
 
                 // Play the Track
                 await Task.Run(() => this.player.Play(trackInfo.Track.Path));

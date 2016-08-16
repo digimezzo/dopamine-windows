@@ -1,18 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Mvvm;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dopamine.Core.Audio
 {
 
-    public class EqualizerPreset
+    public class EqualizerPreset : BindableBase
     {
         #region Variables
+        private ObservableCollection<EqualizerBand> bands;
         private string name;
         private bool isRemovable;
         #endregion
 
         #region Properties
-        public double[] Bands { get; set; }
-     
+        public ObservableCollection<EqualizerBand> Bands
+        {
+            get { return this.bands; }
+            set
+            {
+                SetProperty<ObservableCollection<EqualizerBand>>(ref this.bands, value);
+            }
+        }
+
         public bool IsRemovable
         {
             get { return this.isRemovable; }
@@ -29,33 +40,41 @@ namespace Dopamine.Core.Audio
         {
             this.name = name;
             this.isRemovable = isRemovable;
-            this.LoadDefault();
+            this.Initialize();
+        }
+        #endregion
+
+        #region Private
+        private void Initialize()
+        {
+            var localBands = new ObservableCollection<EqualizerBand>();
+
+            // Add 10 default bands (all at 0.0)
+            for (int i = 0; i < 10; i++)
+            {
+                localBands.Add(new EqualizerBand("60"));
+                localBands.Add(new EqualizerBand("170"));
+                localBands.Add(new EqualizerBand("310"));
+                localBands.Add(new EqualizerBand("600"));
+                localBands.Add(new EqualizerBand("1K"));
+                localBands.Add(new EqualizerBand("3K"));
+                localBands.Add(new EqualizerBand("6K"));
+                localBands.Add(new EqualizerBand("12K"));
+                localBands.Add(new EqualizerBand("14K"));
+                localBands.Add(new EqualizerBand("16K"));
+            }
+
+            this.Bands = localBands;
         }
         #endregion
 
         #region Public
-        public void Load(double[] bands)
+        public void SetBandValue(int index, double value)
         {
-            if (bands != null && bands.Length == 10)
+            if (this.Bands != null && this.Bands.Count -1 >= index)
             {
-                this.Bands = bands;
+                this.Bands[index].Value = value;
             }
-            else
-            {
-                this.LoadDefault();
-            }
-        }
-
-        public void LoadDefault()
-        {
-            var bandsList = new List<double>();
-
-            for (int i = 0; i < 10; i++)
-            {
-                bandsList.Add(0.0);
-            }
-
-            this.Bands = bandsList.ToArray();
         }
         #endregion
 

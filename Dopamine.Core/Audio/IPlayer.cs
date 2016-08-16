@@ -6,10 +6,6 @@ namespace Dopamine.Core.Audio
 
     public interface IPlayer
     {
-        #region Properties
-        EqualizerPreset Preset { get; set; }
-        #endregion
-
         #region ReadOnly Properties
         bool CanPlay { get; }
         bool CanPause { get; }
@@ -22,13 +18,12 @@ namespace Dopamine.Core.Audio
         void Play(string filename);
         void Skip(int gotoSeconds);
         void SetVolume(float volume);
-        void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode);
+        void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, EqualizerPreset preset);
         void Pause();
         bool Resume();
         float GetVolume();
         TimeSpan GetCurrentTime();
         TimeSpan GetTotalTime();
-        void SetEqualizerBand(int band, double value);
         void Dispose();
         #endregion
 
