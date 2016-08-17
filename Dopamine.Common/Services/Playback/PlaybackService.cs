@@ -36,6 +36,7 @@ namespace Dopamine.Common.Services.Playback
         private IPlayer player;
 
         private IEqualizerService equalizerService;
+        private EqualizerPreset preset;
 
         private IPlayerFactory playerFactory;
         private object queueSyncObject = new object();
@@ -323,6 +324,29 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async void SetEqualizerEnabledState(bool isEnabled)
+        {
+            // Make sure the selected preset is set
+            if (this.preset == null) this.preset = await this.equalizerService.GetSelectedPresetAsync();
+
+            if (isEnabled)
+            {
+                this.SwitchPreset(this.preset);
+            }
+            else
+            {
+                this.SwitchPreset(new EqualizerPreset("Disabled",false)); // name doesn't matter
+            }
+        }
+
+        public void SwitchPreset(EqualizerPreset preset)
+        {
+            if(this.player != null)
+            {
+                this.player.SwitchPreset(preset);
+            }
+        }
+
         public async Task SaveQueuedTracksAsync()
         {
             this.saveQueuedTracksTimer.Stop();
@@ -913,10 +937,13 @@ namespace Dopamine.Common.Services.Playback
                     throw new FileNotFoundException(string.Format("File '{0}' was not found", trackInfo.Track.Path));
                 }
 
+                // Make sure the selected preset is set
+                if(this.preset == null) this.preset = await this.equalizerService.GetSelectedPresetAsync();
+
                 // Play the Track from its runtime path (current or temporary)
                 this.player = this.playerFactory.Create(Path.GetExtension(trackInfo.Track.Path));
 
-                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, null);
+                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.preset);
 
                 this.ToggleMute();
 

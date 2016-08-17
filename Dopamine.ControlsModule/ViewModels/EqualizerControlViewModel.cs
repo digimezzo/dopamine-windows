@@ -4,7 +4,6 @@ using Dopamine.Core.Audio;
 using Dopamine.Core.Settings;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -20,11 +19,6 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Properties
-        public IEqualizerService EqualizerService
-        {
-            get { return this.equalizerService; }
-        }
-        
         public ObservableCollection<EqualizerPreset> Presets
         {
             get { return this.presets; }
@@ -40,6 +34,8 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
+                XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
+                if(this.playbackService != null) this.playbackService.SwitchPreset(value);
             }
         }
 
@@ -49,6 +45,7 @@ namespace Dopamine.ControlsModule.ViewModels
             set {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
                 XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
+                if (this.playbackService != null) this.playbackService.SetEqualizerEnabledState(value);
             }
         }
         #endregion
@@ -70,14 +67,17 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             ObservableCollection<EqualizerPreset> localEqualizerPresets = new ObservableCollection<EqualizerPreset>();
 
-            foreach (EqualizerPreset preset in await this.equalizerService.GetEqualizerPresetsAsync())
+            foreach (EqualizerPreset preset in await this.equalizerService.GetPresetsAsync())
             {
                 localEqualizerPresets.Add(preset);
             }
 
             this.Presets = localEqualizerPresets;
 
-            this.SelectedPreset = this.Presets.First();
+            // Don't use the SelectedPreset setter directly, because 
+            // that saves SelectedPreset to the settings file.
+            this.selectedPreset = await this.equalizerService.GetSelectedPresetAsync();
+            OnPropertyChanged(() => this.SelectedPreset);
         }
         #endregion
     }

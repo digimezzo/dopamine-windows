@@ -6,6 +6,7 @@ namespace Dopamine.Common.Services.Equalizer
 {
     public interface IEqualizerService
     {
-        Task<List<EqualizerPreset>> GetEqualizerPresetsAsync();
+        Task<List<EqualizerPreset>> GetPresetsAsync();
+        Task<EqualizerPreset> GetSelectedPresetAsync();
     }
 }
