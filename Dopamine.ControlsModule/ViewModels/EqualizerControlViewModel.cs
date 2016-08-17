@@ -1,6 +1,7 @@
 ﻿using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
+using Dopamine.Core.Settings;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
         private ObservableCollection<EqualizerPreset> presets;
         private EqualizerPreset selectedPreset;
+        private bool isEqualizerEnabled;
         #endregion
 
         #region Properties
@@ -40,6 +42,15 @@ namespace Dopamine.ControlsModule.ViewModels
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
             }
         }
+
+        public bool IsEqualizerEnabled
+        {
+            get { return this.isEqualizerEnabled; }
+            set {
+                SetProperty<bool>(ref this.isEqualizerEnabled, value);
+                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -47,6 +58,8 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             this.playbackService = playbackService;
             this.equalizerService = equalizerService;
+
+            this.IsEqualizerEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
 
             this.InitializeAsync();
         }
