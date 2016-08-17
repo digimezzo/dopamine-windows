@@ -3,7 +3,6 @@ using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,30 +11,10 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Equalizer
 {
-    public class EqualizerService : BindableBase, IEqualizerService
+    public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private bool isEnabled;
         private string equalizerSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.EqualizerSubDirectory);
-        #endregion
-
-        #region Properties
-        public bool IsEnabled
-        {
-            get
-            {
-                return this.isEnabled;
-            }
-            set
-            {
-                SetProperty<bool>(ref this.isEnabled,value);
-                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
-            }
-        }
-        #endregion
-
-        #region Events
-        public event EqualizerIsEnabledChangedEventHandler EqualizerIsEnabledChanged = delegate { };
         #endregion
 
         #region Construction
@@ -48,8 +27,6 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 Directory.CreateDirectory(Path.Combine(this.equalizerSubDirectory));
             }
-
-            this.isEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
         }
         #endregion
 
