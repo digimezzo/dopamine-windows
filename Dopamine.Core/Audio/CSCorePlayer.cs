@@ -112,6 +112,12 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
+        public void SwitchPreset(EqualizerPreset preset)
+        {
+            this.preset = preset;
+            this.ApplyPreset();
+        }
+
         public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, EqualizerPreset preset)
         {
             this.latency = latency;
@@ -231,6 +237,7 @@ namespace Dopamine.Core.Audio
             this.canStop = true;
 
             this.InitializeSoundOut(this.GetCodec(this.filename));
+            this.ApplyPreset();
             this.soundOut.Play();
         }
 
@@ -310,6 +317,24 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Private
+        private void ApplyPresetBand(int band, double value)
+        {
+            if (this.equalizer == null) return;
+
+            EqualizerFilter filter = this.equalizer.SampleFilters[band];
+            filter.AverageGainDB = (float)(value);
+        }
+
+        private void ApplyPreset()
+        {
+            if (this.preset == null) return;
+
+            for (var i = 0; i < this.preset.Bands.Count; i++)
+            {
+                this.ApplyPresetBand(i, preset.Bands[i].Value);
+            }
+        }
+
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // SoundOut implementation which plays the sound

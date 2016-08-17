@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>54</Value>
+      <Value>55</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -234,6 +234,12 @@
   <Namespace Name="Equalizer">
     <Setting Name="IsEnabled">
       <Value>False</Value>
+    </Setting>
+    <Setting Name="SelectedPreset">
+      <Value>Manual</Value>
+    </Setting>
+    <Setting Name="ManualPreset">
+      <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>
     </Setting>
   </Namespace>
 </Settings>

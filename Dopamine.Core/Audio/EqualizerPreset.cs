@@ -50,30 +50,29 @@ namespace Dopamine.Core.Audio
             var localBands = new ObservableCollection<EqualizerBand>();
 
             // Add 10 default bands (all at 0.0)
-            for (int i = 0; i < 10; i++)
-            {
-                localBands.Add(new EqualizerBand("60"));
-                localBands.Add(new EqualizerBand("170"));
-                localBands.Add(new EqualizerBand("310"));
-                localBands.Add(new EqualizerBand("600"));
-                localBands.Add(new EqualizerBand("1K"));
-                localBands.Add(new EqualizerBand("3K"));
-                localBands.Add(new EqualizerBand("6K"));
-                localBands.Add(new EqualizerBand("12K"));
-                localBands.Add(new EqualizerBand("14K"));
-                localBands.Add(new EqualizerBand("16K"));
-            }
+            localBands.Add(new EqualizerBand("60"));
+            localBands.Add(new EqualizerBand("170"));
+            localBands.Add(new EqualizerBand("310"));
+            localBands.Add(new EqualizerBand("600"));
+            localBands.Add(new EqualizerBand("1K"));
+            localBands.Add(new EqualizerBand("3K"));
+            localBands.Add(new EqualizerBand("6K"));
+            localBands.Add(new EqualizerBand("12K"));
+            localBands.Add(new EqualizerBand("14K"));
+            localBands.Add(new EqualizerBand("16K"));
 
             this.Bands = localBands;
         }
         #endregion
 
         #region Public
-        public void SetBandValue(int index, double value)
+        public void Load(double[] bandValues)
         {
-            if (this.Bands != null && this.Bands.Count -1 >= index)
+            if (bandValues.Count() != this.Bands.Count()) return;
+
+            for (int i = 0; i < bandValues.Count(); i++)
             {
-                this.Bands[index].Value = value;
+                this.Bands[i].Value = bandValues[i];
             }
         }
         #endregion
@@ -82,6 +81,21 @@ namespace Dopamine.Core.Audio
         public override string ToString()
         {
             return this.name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+
+            return this.name.Equals(((EqualizerPreset)obj).name);
+        }
+
+        public override int GetHashCode()
+        {
+            return new { this.name }.GetHashCode();
         }
         #endregion
     }
