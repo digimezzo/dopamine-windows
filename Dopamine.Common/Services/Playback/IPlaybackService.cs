@@ -65,6 +65,7 @@ namespace Dopamine.Common.Services.Playback
         Task FadeOutAsync(int duration);
         void SwitchPreset(EqualizerPreset preset);
         void SetEqualizerEnabledState(bool isEnabled);
+        void AdjustPreset(string bandLabel, double newValue);
         #endregion
 
         #region Events
