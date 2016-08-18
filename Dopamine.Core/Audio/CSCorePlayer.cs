@@ -118,6 +118,12 @@ namespace Dopamine.Core.Audio
             this.ApplyPreset();
         }
 
+        public void AdjustPreset(string bandLabel, double newValue)
+        {
+            this.preset.UpdateBandValue(bandLabel, newValue);
+            this.ApplyPreset();
+        }
+
         public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, EqualizerPreset preset)
         {
             this.latency = latency;

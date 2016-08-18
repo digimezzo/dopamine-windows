@@ -1,9 +1,4 @@
 ﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dopamine.Core.Audio
 {
@@ -18,7 +13,8 @@ namespace Dopamine.Core.Audio
         public double Value
         {
             get { return this.value; }
-            set {
+            set
+            {
                 SetProperty<double>(ref this.value, value);
                 OnPropertyChanged(() => this.TextValue);
             }
@@ -26,7 +22,8 @@ namespace Dopamine.Core.Audio
 
         public string TextValue
         {
-            get {
+            get
+            {
                 return this.value >= 0 ? this.value.ToString("+0.0") : this.value.ToString("0.0");
             }
         }

@@ -347,6 +347,14 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
+        public void AdjustPreset(string bandLabel, double newValue)
+        {
+            if (this.player != null)
+            {
+                this.player.AdjustPreset(bandLabel, newValue);
+            }
+        }
+
         public async Task SaveQueuedTracksAsync()
         {
             this.saveQueuedTracksTimer.Stop();

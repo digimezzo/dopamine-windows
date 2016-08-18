@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -73,6 +72,14 @@ namespace Dopamine.Core.Audio
             for (int i = 0; i < bandValues.Count(); i++)
             {
                 this.Bands[i].Value = bandValues[i];
+            }
+        }
+
+        public void UpdateBandValue(string bandLabel, double newValue)
+        {
+            foreach (EqualizerBand band in this.Bands)
+            {
+                if (band.Label == bandLabel) band.Value = newValue;
             }
         }
         #endregion
