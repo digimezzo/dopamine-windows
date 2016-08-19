@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Dopamine.ControlsModule.Views"
              mc:Ignorable="d" 
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
