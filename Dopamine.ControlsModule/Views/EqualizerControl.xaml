@@ -38,7 +38,10 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
-            <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Reset}" Command="{Binding ResetCommand}"/>
+                <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
+            </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" IsHitTestVisible="{Binding IsEqualizerEnabled}">
                 <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
                     <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource RG_ForegroundBrush}"/>

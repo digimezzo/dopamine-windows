@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
+using Prism.Commands;
 using System.Collections.ObjectModel;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -18,6 +19,10 @@ namespace Dopamine.ControlsModule.ViewModels
         private ObservableCollection<EqualizerPreset> presets;
         private EqualizerPreset selectedPreset;
         private bool isEqualizerEnabled;
+        #endregion
+
+        #region Commands
+        public DelegateCommand ResetCommand { get; set; }
         #endregion
 
         #region Properties
@@ -36,8 +41,9 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 value.BandValueChanged -= SelectedPreset_BandValueChanged;
+                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
-                if(XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset") != value.Name) XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
+                if (XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset") != value.Name) XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
                 this.playbackService.SwitchPreset(ref value); // Make sure that playbackService has a reference to the selected preset
                 value.BandValueChanged += SelectedPreset_BandValueChanged;
             }
@@ -63,6 +69,20 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.IsEqualizerEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
 
+            this.ResetCommand = new DelegateCommand(() =>
+            {
+                if (this.SelectedPreset.Name == Defaults.ManualPresetName)
+                {
+                    this.SelectedPreset.Reset();
+                }
+                else
+                {
+                    this.SelectedPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
+                }
+                
+                this.SaveManualPresetToSettings();
+            });
+
             this.InitializeAsync();
         }
         #endregion
@@ -81,18 +101,22 @@ namespace Dopamine.ControlsModule.ViewModels
             this.Presets = localEqualizerPresets;
 
             this.SelectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
-            if (this.SelectedPreset.Name == Defaults.ManualPresetName) this.SelectedPreset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
         }
-        #endregion
 
-        #region Event Handlers
-        private void SelectedPreset_BandValueChanged(int bandIndex, double newValue)
+        private void SaveManualPresetToSettings()
         {
             // When the value of a slider changes, default to the manual preset the next time.
             XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
 
             // Also store the values for the manual preset
             XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", this.SelectedPreset.ToValueString());
+        }
+        #endregion
+
+        #region Event Handlers
+        private void SelectedPreset_BandValueChanged(int bandIndex, double newValue)
+        {
+            this.SaveManualPresetToSettings();
         }
         #endregion
     }
