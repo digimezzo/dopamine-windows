@@ -36,7 +36,7 @@ namespace Dopamine.Common.Services.Equalizer
         #region IEqualizerService
         public async Task<EqualizerPreset> GetSelectedPresetAsync()
         {
-            if(this.presets == null) presets = await this.GetPresetsAsync();
+            if(this.presets == null) await this.GetPresetsAsync();
 
             string selectedPresetName = XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset");
             EqualizerPreset selectedPreset = this.presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
@@ -51,10 +51,10 @@ namespace Dopamine.Common.Services.Equalizer
 
         public async Task<List<EqualizerPreset>> GetPresetsAsync()
         {
-            var presets = new List<EqualizerPreset>();
+            this.presets = new List<EqualizerPreset>();
 
             // First, get the builtin equalizer presets
-            presets = await this.GetBuiltInPresetsAsync();
+            this.presets = await this.GetBuiltInPresetsAsync();
 
             // Then, get custom equalizer presets
             var customPresets = await this.GetCustomEqualizerPresetsAsync();
@@ -63,15 +63,15 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 // Give priority to built-in presets. If the user messed up and created a custom preset 
                 // file which has the same name as a built-in preset file, the custom file is ignored.
-                if (!presets.Contains(preset)) presets.Add(preset);
+                if (!this.presets.Contains(preset)) this.presets.Add(preset);
             }
 
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
             manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
-            presets.Insert(0, manualPreset);
+            this.presets.Insert(0, manualPreset);
 
-            return presets;
+            return this.presets;
         }
         #endregion
 

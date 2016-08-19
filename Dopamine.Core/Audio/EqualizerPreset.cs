@@ -94,6 +94,11 @@ namespace Dopamine.Core.Audio
                 this.Bands[i].Value = bandValues[i];
             }
         }
+
+        public string ToValueString()
+        {
+            return string.Join(";", this.Bands.Select((b) => b.Value.ToString()));
+        }
         #endregion
 
         #region Overrides

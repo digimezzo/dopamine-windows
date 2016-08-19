@@ -35,9 +35,11 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
+                value.BandValueChanged -= SelectedPreset_BandValueChanged;
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
-                XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
+                if(XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset") != value.Name) XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
                 this.playbackService.SwitchPreset(ref value); // Make sure that playbackService has a reference to the selected preset
+                value.BandValueChanged += SelectedPreset_BandValueChanged;
             }
         }
 
@@ -78,10 +80,19 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.Presets = localEqualizerPresets;
 
-            this.selectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
-            if (this.selectedPreset.Name == Defaults.ManualPresetName) this.selectedPreset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
-            this.playbackService.SwitchPreset(ref this.selectedPreset); // Make sure that playbackService has a reference to the selected preset
-            OnPropertyChanged(() => this.SelectedPreset);
+            this.SelectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
+            if (this.SelectedPreset.Name == Defaults.ManualPresetName) this.SelectedPreset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
+        }
+        #endregion
+
+        #region Event Handlers
+        private void SelectedPreset_BandValueChanged(int bandIndex, double newValue)
+        {
+            // When the value of a slider changes, default to the manual preset the next time.
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+
+            // Also store the values for the manual preset
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", this.SelectedPreset.ToValueString());
         }
         #endregion
     }
