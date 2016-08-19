@@ -43,7 +43,7 @@ namespace Dopamine.Common.Services.Equalizer
 
             if(selectedPreset == null)
             {
-                selectedPreset = new EqualizerPreset("Manual", false);
+                selectedPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
             }
 
             return selectedPreset;
@@ -67,7 +67,7 @@ namespace Dopamine.Common.Services.Equalizer
             }
 
             // Insert manual preset in first position
-            var manualPreset = new EqualizerPreset("Manual", false);
+            var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
             manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
             presets.Insert(0, manualPreset);
 
