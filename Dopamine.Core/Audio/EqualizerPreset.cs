@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Dopamine.Core.Audio
 {
-    public delegate void BandValueChangedEventHandler(int bandIndex, double newValue); 
+    public delegate void BandValueChangedEventHandler(int bandIndex, double newValue);
 
     public class EqualizerPreset : BindableBase
     {
@@ -35,7 +35,16 @@ namespace Dopamine.Core.Audio
             get { return this.name; }
         }
 
-        public string DisplayName {get; set;}
+        private string displayName;
+
+        public string DisplayName
+        {
+            get { return this.displayName; }
+            set
+            {
+                SetProperty<string>(ref this.displayName, value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -49,7 +58,7 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Events
-        public event BandValueChangedEventHandler BandValueChanged = delegate { }; 
+        public event BandValueChangedEventHandler BandValueChanged = delegate { };
         #endregion
 
         #region Private
@@ -70,8 +79,8 @@ namespace Dopamine.Core.Audio
             localBands.Add(new EqualizerBand("16K"));
 
             this.Bands = localBands;
-            this.Bands.ItemChanged -= Bands_ItemChanged; 
-            this.Bands.ItemChanged += Bands_ItemChanged; 
+            this.Bands.ItemChanged -= Bands_ItemChanged;
+            this.Bands.ItemChanged += Bands_ItemChanged;
         }
         #endregion
 
