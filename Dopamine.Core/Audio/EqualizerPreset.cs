@@ -34,12 +34,15 @@ namespace Dopamine.Core.Audio
         {
             get { return this.name; }
         }
+
+        public string DisplayName {get; set;}
         #endregion
 
         #region Construction
         public EqualizerPreset(string name, bool isRemovable)
         {
             this.name = name;
+            this.DisplayName = name;
             this.isRemovable = isRemovable;
             this.Initialize();
         }
@@ -87,7 +90,7 @@ namespace Dopamine.Core.Audio
         #region Overrides
         public override string ToString()
         {
-            return this.name;
+            return this.DisplayName;
         }
 
         public override bool Equals(object obj)

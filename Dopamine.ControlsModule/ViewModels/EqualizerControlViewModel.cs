@@ -1,7 +1,9 @@
 ﻿using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
+using Dopamine.Core.Base;
 using Dopamine.Core.Settings;
+using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
@@ -70,6 +72,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
             foreach (EqualizerPreset preset in await this.equalizerService.GetPresetsAsync())
             {
+                if (preset.Name == Defaults.ManualPresetName) preset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
                 localEqualizerPresets.Add(preset);
             }
 
