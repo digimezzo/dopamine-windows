@@ -33,11 +33,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
-                this.RemoveSelectedPresetEvents();
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
                 XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
-                this.playbackService.SwitchPreset(value);
-                this.AddSelectedPresetEvents();
+                this.playbackService.SwitchPreset(ref value); // Make sure that playbackService has a reference to the selected preset
             }
         }
 
@@ -77,33 +75,9 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.Presets = localEqualizerPresets;
 
-            // Don't use the SelectedPreset setter directly, because 
-            // that saves SelectedPreset to the settings file.
-            this.selectedPreset = await this.equalizerService.GetSelectedPresetAsync();
+            this.selectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
+            this.playbackService.SwitchPreset(ref this.selectedPreset); // Make sure that playbackService has a reference to the selected preset
             OnPropertyChanged(() => this.SelectedPreset);
-        }
-
-        private void AddSelectedPresetEvents()
-        {
-            foreach (EqualizerBand band in SelectedPreset.Bands)
-            {
-                band.ValueChanged += BandValueChangedHandler;
-            }
-        }
-
-        private void RemoveSelectedPresetEvents()
-        {
-            foreach (var item in this.SelectedPreset.Bands)
-            {
-                item.ValueChanged -= BandValueChangedHandler;
-            }
-        }
-        #endregion
-
-        #region Event Handlers
-        private void BandValueChangedHandler(string bandLabel, double newValue)
-        {
-            this.playbackService.AdjustPreset(bandLabel, newValue);
         }
         #endregion
     }
