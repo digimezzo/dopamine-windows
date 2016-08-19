@@ -85,6 +85,14 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
+        public void Reset()
+        {
+            foreach (EqualizerBand band in this.Bands)
+            {
+                band.Value = 0.0;
+            }
+        }
+
         public void Load(double[] bandValues)
         {
             if (bandValues.Count() != this.Bands.Count()) return;
