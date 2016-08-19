@@ -2,8 +2,6 @@
 
 namespace Dopamine.Core.Audio
 {
-    public delegate void ValueChangedEventHandler(string bandLabel, double newValue);
-
     public class EqualizerBand : BindableBase
     {
         #region Variables
@@ -19,7 +17,6 @@ namespace Dopamine.Core.Audio
             {
                 SetProperty<double>(ref this.value, value);
                 OnPropertyChanged(() => this.TextValue);
-                this.ValueChanged(this.label, value);
             }
         }
 
@@ -47,8 +44,26 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
-        #region Events
-        public event ValueChangedEventHandler ValueChanged = delegate { };
+        #region Overrides
+        public override string ToString()
+        {
+            return this.TextValue;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+
+            return this.Label.Equals(((EqualizerBand)obj).Label);
+        }
+
+        public override int GetHashCode()
+        {
+            return new { this.Label }.GetHashCode();
+        }
         #endregion
     }
 }

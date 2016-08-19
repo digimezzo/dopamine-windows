@@ -331,27 +331,20 @@ namespace Dopamine.Common.Services.Playback
 
             if (isEnabled)
             {
-                this.SwitchPreset(this.preset);
+                this.SwitchPreset(ref this.preset);
             }
             else
             {
-                this.SwitchPreset(new EqualizerPreset("Disabled",false)); // name doesn't matter
+                var disabledPreset = new EqualizerPreset("Disabled", false); // name doesn't matter
+                this.SwitchPreset(ref disabledPreset);
             }
         }
 
-        public void SwitchPreset(EqualizerPreset preset)
+        public void SwitchPreset(ref EqualizerPreset preset)
         {
             if(this.player != null)
             {
-                this.player.SwitchPreset(preset);
-            }
-        }
-
-        public void AdjustPreset(string bandLabel, double newValue)
-        {
-            if (this.player != null)
-            {
-                this.player.AdjustPreset(bandLabel, newValue);
+                this.player.SwitchPreset(ref preset);
             }
         }
 

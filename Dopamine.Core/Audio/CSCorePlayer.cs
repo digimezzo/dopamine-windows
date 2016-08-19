@@ -112,15 +112,11 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
-        public void SwitchPreset(EqualizerPreset preset)
+        public void SwitchPreset(ref EqualizerPreset preset)
         {
+            if (this.preset != null)  this.preset.BandValueChanged -= ApplyPresetBand;
             this.preset = preset;
-            this.ApplyPreset();
-        }
-
-        public void AdjustPreset(string bandLabel, double newValue)
-        {
-            this.preset.UpdateBandValue(bandLabel, newValue);
+            this.preset.BandValueChanged += ApplyPresetBand;
             this.ApplyPreset();
         }
 
@@ -128,7 +124,10 @@ namespace Dopamine.Core.Audio
         {
             this.latency = latency;
             this.eventSync = eventMode;
+
+            if(this.preset != null) this.preset.BandValueChanged -= ApplyPresetBand;
             this.preset = preset;
+            this.preset.BandValueChanged += ApplyPresetBand;
 
             if (exclusiveMode)
             {

@@ -13,7 +13,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -24,7 +24,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -36,7 +36,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
             player.Skip(60);
@@ -52,7 +52,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test2.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -63,7 +63,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test2.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -75,7 +75,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test3.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -86,7 +86,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test3.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -98,7 +98,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test4.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -109,7 +109,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test4.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -121,7 +121,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.wma";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -132,7 +132,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.wma";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -144,7 +144,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.wma";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
             player.Skip(60);
@@ -160,7 +160,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.flac";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -171,7 +171,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.flac";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -183,7 +183,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.flac";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
             player.Skip(60);
@@ -199,7 +199,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -210,7 +210,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -222,7 +222,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.ogg";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
 
@@ -244,7 +244,7 @@ namespace Dopamine.Tests
             // This was fixed by ioctlLR on 19-03-2015.
             // This test is to make sure the issue doesn't come back.
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -260,7 +260,7 @@ namespace Dopamine.Tests
             // This was fixed by ioctlLR on 19-03-2015.
             // This test is to make sure the issue doesn't come back.
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
@@ -279,7 +279,7 @@ namespace Dopamine.Tests
             // He advised me to comment out line 133 in OggPacketReader.cs: "if (!_last.IsContinued) throw new InvalidDataException();"
             // This test is to make sure the issue doesn't come back.
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -297,7 +297,7 @@ namespace Dopamine.Tests
             // He advised me to comment out line 133 in OggPacketReader.cs: "if (!_last.IsContinued) throw new InvalidDataException();"
             // This test is to make sure the issue doesn't come back.
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, false);
+            player.SetOutputDevice(200, false, false, new EqualizerPreset("Dummy", false));
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);

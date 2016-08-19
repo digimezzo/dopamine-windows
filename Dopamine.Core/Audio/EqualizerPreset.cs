@@ -1,25 +1,27 @@
-﻿using Prism.Mvvm;
+﻿using Dopamine.Core.Helpers;
+using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Dopamine.Core.Audio
 {
+    public delegate void BandValueChangedEventHandler(int bandIndex, double newValue); 
 
     public class EqualizerPreset : BindableBase
     {
         #region Variables
-        private ObservableCollection<EqualizerBand> bands;
+        private NotifiableCollection<EqualizerBand> bands;
         private string name;
         private bool isRemovable;
         #endregion
 
         #region Properties
-        public ObservableCollection<EqualizerBand> Bands
+        public NotifiableCollection<EqualizerBand> Bands
         {
             get { return this.bands; }
             set
             {
-                SetProperty<ObservableCollection<EqualizerBand>>(ref this.bands, value);
+                SetProperty<NotifiableCollection<EqualizerBand>>(ref this.bands, value);
             }
         }
 
@@ -43,10 +45,14 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
+        #region Events
+        public event BandValueChangedEventHandler BandValueChanged = delegate { }; 
+        #endregion
+
         #region Private
         private void Initialize()
         {
-            var localBands = new ObservableCollection<EqualizerBand>();
+            var localBands = new NotifiableCollection<EqualizerBand>();
 
             // Add 10 default bands (all at 0.0)
             localBands.Add(new EqualizerBand("60"));
@@ -61,6 +67,8 @@ namespace Dopamine.Core.Audio
             localBands.Add(new EqualizerBand("16K"));
 
             this.Bands = localBands;
+            this.Bands.ItemChanged -= Bands_ItemChanged; 
+            this.Bands.ItemChanged += Bands_ItemChanged; 
         }
         #endregion
 
@@ -72,14 +80,6 @@ namespace Dopamine.Core.Audio
             for (int i = 0; i < bandValues.Count(); i++)
             {
                 this.Bands[i].Value = bandValues[i];
-            }
-        }
-
-        public void UpdateBandValue(string bandLabel, double newValue)
-        {
-            foreach (EqualizerBand band in this.Bands)
-            {
-                if (band.Label == bandLabel) band.Value = newValue;
             }
         }
         #endregion
@@ -103,6 +103,13 @@ namespace Dopamine.Core.Audio
         public override int GetHashCode()
         {
             return new { this.name }.GetHashCode();
+        }
+        #endregion
+
+        #region Event Handlers
+        private void Bands_ItemChanged(object sender, NotifyCollectionChangeEventArgs e)
+        {
+            this.BandValueChanged(e.Index, this.Bands[e.Index].Value);
         }
         #endregion
     }
