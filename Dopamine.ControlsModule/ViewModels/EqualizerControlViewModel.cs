@@ -23,6 +23,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
         #region Commands
         public DelegateCommand ResetCommand { get; set; }
+        public DelegateCommand SaveCommand { get; set; }
         #endregion
 
         #region Properties
@@ -64,11 +65,13 @@ namespace Dopamine.ControlsModule.ViewModels
         #region Construction
         public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService)
         {
+            // Variables
             this.playbackService = playbackService;
             this.equalizerService = equalizerService;
 
             this.IsEqualizerEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
 
+            // Commands
             this.ResetCommand = new DelegateCommand(() =>
             {
                 if (this.SelectedPreset.Name == Defaults.ManualPresetName)
@@ -83,6 +86,9 @@ namespace Dopamine.ControlsModule.ViewModels
                 this.SaveManualPresetToSettings();
             });
 
+            this.SaveCommand = new DelegateCommand(() => { this.SavePresetToFile(); });
+
+            // Initialize
             this.InitializeAsync();
         }
         #endregion
@@ -110,6 +116,40 @@ namespace Dopamine.ControlsModule.ViewModels
 
             // Also store the values for the manual preset
             XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", this.SelectedPreset.ToValueString());
+        }
+
+        private void SavePresetToFile()
+        {
+            var dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = ResourceUtils.GetStringResource("Language_Save_Preset");
+            dlg.DefaultExt = FileFormats.EQUALIZERPRESET;
+            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Presets"), " (", FileFormats.EQUALIZERPRESET, ")|*", FileFormats.EQUALIZERPRESET);
+
+            if ((bool)dlg.ShowDialog())
+            {
+            //            try
+            //            {
+            //                ExportPlaylistsResult result = await this.collectionService.ExportPlaylistAsync(this.SelectedPlaylists[0], dlg.FileName, false);
+
+            //                if (result == ExportPlaylistsResult.Error)
+            //                {
+            //                    this.dialogService.ShowNotification(
+            //                            0xe711,
+            //                            16,
+            //                            ResourceUtils.GetStringResource("Language_Error"),
+            //                            ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"),
+            //                            ResourceUtils.GetStringResource("Language_Ok"),
+            //                            true,
+            //                            ResourceUtils.GetStringResource("Language_Log_File"));
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+
+            //                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            //            }
+            }
         }
         #endregion
 

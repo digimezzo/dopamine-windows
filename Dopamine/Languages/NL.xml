@@ -316,4 +316,6 @@
   <Text Key="Enable_Equalizer">Equalizer inschakelen</Text>
   <Text Key="Reset">Reset</Text>
   <Text Key="Manual">Handmatig</Text>
+  <Text Key="Save_Preset">Preset opslaan</Text>
+  <Text Key="Presets">Presets</Text>
 </Language>
