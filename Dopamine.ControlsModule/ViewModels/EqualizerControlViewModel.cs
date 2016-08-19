@@ -79,6 +79,7 @@ namespace Dopamine.ControlsModule.ViewModels
             this.Presets = localEqualizerPresets;
 
             this.selectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
+            if (this.selectedPreset.Name == Defaults.ManualPresetName) this.selectedPreset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
             this.playbackService.SwitchPreset(ref this.selectedPreset); // Make sure that playbackService has a reference to the selected preset
             OnPropertyChanged(() => this.SelectedPreset);
         }
