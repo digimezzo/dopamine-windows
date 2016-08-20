@@ -66,6 +66,9 @@ namespace Dopamine.Common.Services.Equalizer
                 if (!this.presets.Contains(preset)) this.presets.Add(preset);
             }
 
+            // Sort the presets
+            this.presets = this.presets.OrderBy((p) => p.Name.ToLower()).ToList();
+
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
             manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));

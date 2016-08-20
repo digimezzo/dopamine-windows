@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dopamine.Common.Controls;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,30 +10,35 @@ namespace Dopamine.Common.Services.Dialog
     public class DialogService : IDialogService
     {
         #region Variables
-        private int openDialogCount = 0;
+        private List<DopamineWindow> openDialogs;
         #endregion
 
 
         #region Construction
         public DialogService()
         {
-            this.openDialogCount = 0;
+            this.openDialogs = new List<DopamineWindow>();
         }
         #endregion
 
         #region Private
-        private void ShowDialog(Window win)
+        private void ShowDialog(DopamineWindow win)
         {
-            this.openDialogCount += 1;
-            if (DialogVisibleChanged != null)
+            foreach (DopamineWindow dlg in this.openDialogs)
             {
-                DialogVisibleChanged(this.openDialogCount > 0);
+                dlg.IsOverlayVisible = true;
             }
+
+            this.openDialogs.Add(win);
+            this.DialogVisibleChanged(this.openDialogs.Count > 0);
+
             win.ShowDialog();
-            this.openDialogCount -= 1;
-            if (DialogVisibleChanged != null)
+            this.openDialogs.Remove(win);
+            this.DialogVisibleChanged(this.openDialogs.Count > 0);
+
+            foreach (DopamineWindow dlg in this.openDialogs)
             {
-                DialogVisibleChanged(this.openDialogCount > 0);
+                dlg.IsOverlayVisible = false;
             }
         }
         #endregion
@@ -145,7 +152,7 @@ namespace Dopamine.Common.Services.Dialog
         #endregion
 
         #region Events
-        public event Action<bool> DialogVisibleChanged;
+        public event Action<bool> DialogVisibleChanged = delegate { };
         #endregion
     }
 }

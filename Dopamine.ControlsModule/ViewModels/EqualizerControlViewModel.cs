@@ -1,16 +1,18 @@
-﻿using Dopamine.Common.Services.Equalizer;
+﻿using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
+using Dopamine.Core.IO;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
-using Prism.Mvvm;
 using Prism.Commands;
+using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Dopamine.Core.IO;
-using Dopamine.Common.Services.Dialog;
-using System.Collections.Generic;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -131,26 +133,63 @@ namespace Dopamine.ControlsModule.ViewModels
 
         private void SavePresetToFile()
         {
+            var showSaveDialog = true;
+
             var dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.EQUALIZERPRESET;
             dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.EQUALIZERPRESET, ")|*", FileFormats.EQUALIZERPRESET);
             dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory);
 
-            if ((bool)dlg.ShowDialog())
+            while (showSaveDialog)
             {
-                List<string> names = this.presets.Select((p) => p.Name.ToLower()).ToList();
-
-                if (names.Contains(System.IO.Path.GetFileNameWithoutExtension(dlg.FileName.ToLower())))
+                if ((bool)dlg.ShowDialog())
                 {
-                    this.dialogService.ShowNotification(
-                                            0xe711,
-                                            16,
-                                            ResourceUtils.GetStringResource("Language_Error"),
-                                            ResourceUtils.GetStringResource("Language_Preset_Name_Already_Taken"),
-                                            ResourceUtils.GetStringResource("Language_Ok"),
-                                            false,
-                                            string.Empty);
+                    List<string> names = this.presets.Select((p) => p.Name.ToLower()).ToList();
+
+                    if (names.Contains(System.IO.Path.GetFileNameWithoutExtension(dlg.FileName.ToLower())))
+                    {
+                        dlg.FileName = string.Empty;
+
+                        this.dialogService.ShowNotification(
+                                                0xe711,
+                                                16,
+                                                ResourceUtils.GetStringResource("Language_Error"),
+                                                ResourceUtils.GetStringResource("Language_Preset_Already_Taken"),
+                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                false,
+                                                string.Empty);
+                    }
+                    else
+                    {
+                        showSaveDialog = false;
+
+                        try
+                        {
+                            string[] lines = this.SelectedPreset.Bands.Select((b) => b.Value.ToString()).ToArray();
+                            System.IO.File.WriteAllLines(dlg.FileName, lines);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
+
+                            this.dialogService.ShowNotification(
+                                                0xe711,
+                                                16,
+                                                ResourceUtils.GetStringResource("Language_Error"),
+                                                ResourceUtils.GetStringResource("Language_Error_While_Saving_Preset"),
+                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                true,
+                                                ResourceUtils.GetStringResource("Language_Log_File"));
+
+                        }
+                        XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", System.IO.Path.GetFileNameWithoutExtension(dlg.FileName));
+                        this.InitializeAsync();
+                    }
+                }
+                else
+                {
+                    showSaveDialog = false; // Makes sure the dialog doesn't re-appear when pressing cancel
                 }
             }
         }
