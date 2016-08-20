@@ -316,7 +316,8 @@
   <Text Key="Enable_Equalizer">Equalizer inschakelen</Text>
   <Text Key="Reset">Reset</Text>
   <Text Key="Manual">Handmatig</Text>
-  <Text Key="Save_Equalizer_Preset">Equalizer preset opslaan</Text>
-  <Text Key="Equalizer_Presets">Equalizer presets</Text>
-  <Text Key="Preset_Name_Already_Taken">Deze preset naam is al in gebruik.</Text>
+  <Text Key="Save_Equalizer_Preset">Equalizer voorkeur opslaan</Text>
+  <Text Key="Equalizer_Presets">Equalizer voorkeuren</Text>
+  <Text Key="Preset_Already_Taken">Deze voorkeur is al in gebruik. Probeer opnieuw.</Text>
+  <Text Key="Error_While_Saving_Preset">De voorkeur kon niet worden opgeslagen. Raadpleeg het log bestand voor meer informatie.</Text>
 </Language>

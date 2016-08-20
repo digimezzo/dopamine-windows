@@ -318,5 +318,6 @@
   <Text Key="Manual">Manuel</Text>
   <Text Key="Save_Equalizer_Preset">Sauvegarder préréglage d'égaliseur</Text>
   <Text Key="Equalizer_Presets">Préréglages d'égaliseur</Text>
-  <Text Key="Preset_Name_Already_Taken">Ce nom de préréglage est déjà utilisé.</Text>
+  <Text Key="Preset_Already_Taken">Ce préréglage est déjà utilisé. Essayez à nouveau.</Text>
+  <Text Key="Error_While_Saving_Preset">The preset could not be saved. Please consult the log file for more information.</Text>
 </Language>
