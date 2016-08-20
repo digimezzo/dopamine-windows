@@ -67,9 +67,9 @@ namespace Dopamine.Core.Audio
             var localBands = new NotifiableCollection<EqualizerBand>();
 
             // Add 10 default bands (all at 0.0)
-            localBands.Add(new EqualizerBand("60"));
-            localBands.Add(new EqualizerBand("170"));
-            localBands.Add(new EqualizerBand("310"));
+            localBands.Add(new EqualizerBand("70"));
+            localBands.Add(new EqualizerBand("180"));
+            localBands.Add(new EqualizerBand("320"));
             localBands.Add(new EqualizerBand("600"));
             localBands.Add(new EqualizerBand("1K"));
             localBands.Add(new EqualizerBand("3K"));
