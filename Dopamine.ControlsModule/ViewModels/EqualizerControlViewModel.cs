@@ -7,6 +7,7 @@ using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using Prism.Commands;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -57,7 +58,7 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
                 XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
-                this.playbackService.SetEqualizerEnabledState(value);
+                this.playbackService.SetIsEqualizerEnabled(value);
             }
         }
         #endregion
@@ -82,8 +83,8 @@ namespace Dopamine.ControlsModule.ViewModels
                 {
                     this.SelectedPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
                 }
-                
-                this.SaveManualPresetToSettings();
+
+                this.SaveManualPreset();
             });
 
             this.SaveCommand = new DelegateCommand(() => { this.SavePresetToFile(); });
@@ -109,13 +110,18 @@ namespace Dopamine.ControlsModule.ViewModels
             this.SelectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
         }
 
-        private void SaveManualPresetToSettings()
+        private void SaveManualPreset()
         {
             // When the value of a slider changes, default to the manual preset the next time.
             XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
 
             // Also store the values for the manual preset
             XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", this.SelectedPreset.ToValueString());
+
+            // Set the selected preset to the manual preset
+            var preset = new EqualizerPreset(Defaults.ManualPresetName, false) { Bands = this.SelectedPreset.Bands };
+            preset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
+            this.SelectedPreset = preset;
         }
 
         private void SavePresetToFile()
@@ -127,28 +133,28 @@ namespace Dopamine.ControlsModule.ViewModels
 
             if ((bool)dlg.ShowDialog())
             {
-            //            try
-            //            {
-            //                ExportPlaylistsResult result = await this.collectionService.ExportPlaylistAsync(this.SelectedPlaylists[0], dlg.FileName, false);
+                //            try
+                //            {
+                //                ExportPlaylistsResult result = await this.collectionService.ExportPlaylistAsync(this.SelectedPlaylists[0], dlg.FileName, false);
 
-            //                if (result == ExportPlaylistsResult.Error)
-            //                {
-            //                    this.dialogService.ShowNotification(
-            //                            0xe711,
-            //                            16,
-            //                            ResourceUtils.GetStringResource("Language_Error"),
-            //                            ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"),
-            //                            ResourceUtils.GetStringResource("Language_Ok"),
-            //                            true,
-            //                            ResourceUtils.GetStringResource("Language_Log_File"));
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                //                if (result == ExportPlaylistsResult.Error)
+                //                {
+                //                    this.dialogService.ShowNotification(
+                //                            0xe711,
+                //                            16,
+                //                            ResourceUtils.GetStringResource("Language_Error"),
+                //                            ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"),
+                //                            ResourceUtils.GetStringResource("Language_Ok"),
+                //                            true,
+                //                            ResourceUtils.GetStringResource("Language_Log_File"));
+                //                }
+                //            }
+                //            catch (Exception ex)
+                //            {
+                //                LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
 
-            //                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-            //            }
+                //                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                //            }
             }
         }
         #endregion
@@ -156,7 +162,7 @@ namespace Dopamine.ControlsModule.ViewModels
         #region Event Handlers
         private void SelectedPreset_BandValueChanged(int bandIndex, double newValue)
         {
-            this.SaveManualPresetToSettings();
+            this.SaveManualPreset();
         }
         #endregion
     }
