@@ -319,5 +319,8 @@
   <Text Key="Save_Equalizer_Preset">Sauvegarder préréglage d'égaliseur</Text>
   <Text Key="Equalizer_Presets">Préréglages d'égaliseur</Text>
   <Text Key="Preset_Already_Taken">Ce préréglage est déjà utilisé. Essayez à nouveau.</Text>
-  <Text Key="Error_While_Saving_Preset">The preset could not be saved. Please consult the log file for more information.</Text>
+  <Text Key="Error_While_Saving_Preset">Le préréglage n'a pas pu être sauvegardé. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="Delete_Preset">Supprimer préréglage</Text>
+  <Text Key="Delete_Preset_Confirmation">Êtes-vous sûr de vouloir supprimer le préréglage '%preset%'?</Text>
+  <Text Key="Error_While_Deleting_Preset">Le préréglage n'a pas pu être supprimé. Consultez le fichier log pour plus de détails.</Text>
 </Language>

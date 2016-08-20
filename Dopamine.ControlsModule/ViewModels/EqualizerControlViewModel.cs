@@ -12,7 +12,9 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -31,6 +33,7 @@ namespace Dopamine.ControlsModule.ViewModels
         #region Commands
         public DelegateCommand ResetCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand DeleteCommand { get; set; }
         #endregion
 
         #region Properties
@@ -54,6 +57,8 @@ namespace Dopamine.ControlsModule.ViewModels
                 if (XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset") != value.Name) XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
                 this.playbackService.SwitchPreset(ref value); // Make sure that playbackService has a reference to the selected preset
                 value.BandValueChanged += SelectedPreset_BandValueChanged;
+
+                this.DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -94,7 +99,19 @@ namespace Dopamine.ControlsModule.ViewModels
                 this.SaveManualPreset();
             });
 
-            this.SaveCommand = new DelegateCommand(() => { this.SavePresetToFile(); });
+            this.DeleteCommand = new DelegateCommand(async() => { await this.DeletePresetAsync(); }, () =>
+            {
+                if (this.SelectedPreset != null)
+                {
+                    return this.SelectedPreset.IsRemovable;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
+            this.SaveCommand = new DelegateCommand(async() => { await this.SavePresetToFileAsync(); });
 
             // Initialize
             this.InitializeAsync();
@@ -131,7 +148,7 @@ namespace Dopamine.ControlsModule.ViewModels
             this.SelectedPreset = preset;
         }
 
-        private void SavePresetToFile()
+        private async Task SavePresetToFileAsync()
         {
             var showSaveDialog = true;
 
@@ -166,8 +183,10 @@ namespace Dopamine.ControlsModule.ViewModels
 
                         try
                         {
-                            string[] lines = this.SelectedPreset.Bands.Select((b) => b.Value.ToString()).ToArray();
-                            System.IO.File.WriteAllLines(dlg.FileName, lines);
+                            await Task.Run(() => {
+                                string[] lines = this.SelectedPreset.Bands.Select((b) => b.Value.ToString()).ToArray();
+                                System.IO.File.WriteAllLines(dlg.FileName, lines);
+                            });
                         }
                         catch (Exception ex)
                         {
@@ -190,6 +209,42 @@ namespace Dopamine.ControlsModule.ViewModels
                 else
                 {
                     showSaveDialog = false; // Makes sure the dialog doesn't re-appear when pressing cancel
+                }
+            }
+        }
+
+        private async Task DeletePresetAsync()
+        {
+            if (this.dialogService.ShowConfirmation(
+                0xe11b,
+                16,
+                ResourceUtils.GetStringResource("Language_Delete_Preset"),
+                ResourceUtils.GetStringResource("Language_Delete_Preset_Confirmation").Replace("%preset%",this.SelectedPreset.Name),
+                ResourceUtils.GetStringResource("Language_Yes"),
+                ResourceUtils.GetStringResource("Language_No")))
+            {
+                try
+                {
+                    await Task.Run(() => {
+                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory, this.SelectedPreset.Name + FileFormats.EQUALIZERPRESET);
+                        System.IO.File.Delete(presetPath);
+                    });
+                    
+                    XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+                    this.InitializeAsync();
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset, ex.Message);
+
+                    this.dialogService.ShowNotification(
+                                        0xe711,
+                                        16,
+                                        ResourceUtils.GetStringResource("Language_Error"),
+                                        ResourceUtils.GetStringResource("Language_Error_While_Deleting_Preset"),
+                                        ResourceUtils.GetStringResource("Language_Ok"),
+                                        true,
+                                        ResourceUtils.GetStringResource("Language_Log_File"));
                 }
             }
         }

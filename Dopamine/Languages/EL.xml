@@ -320,4 +320,7 @@
   <Text Key="Equalizer_Presets">Equalizer presets</Text>
   <Text Key="Preset_Already_Taken">That preset is already taken. Try again.</Text>
   <Text Key="Error_While_Saving_Preset">The preset could not be saved. Please consult the log file for more information.</Text>
+  <Text Key="Delete_Preset">Delete preset</Text>
+  <Text Key="Delete_Preset_Confirmation">Are you sure you want to delete the preset '%preset%'?</Text>
+  <Text Key="Error_While_Deleting_Preset">The preset could not be deleted. Please consult the log file for more information.</Text>
 </Language>
