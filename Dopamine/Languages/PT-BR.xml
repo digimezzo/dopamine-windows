@@ -316,6 +316,7 @@
   <Text Key="Enable_Equalizer">Enable equalizer</Text>
   <Text Key="Reset">Reset</Text>
   <Text Key="Manual">Manual</Text>
-  <Text Key="Save_Preset">Save preset</Text>
-  <Text Key="Presets">Presets</Text>
+  <Text Key="Save_Equalizer_Preset">Save equalizer preset</Text>
+  <Text Key="Equalizer_Presets">Equalizer presets</Text>
+  <Text Key="Preset_Name_Already_Taken">That preset name is already taken.</Text>
 </Language>

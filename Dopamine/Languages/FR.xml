@@ -316,6 +316,7 @@
   <Text Key="Enable_Equalizer">Activer l'égaliseur</Text>
   <Text Key="Reset">Reset</Text>
   <Text Key="Manual">Manuel</Text>
-  <Text Key="Save_Preset">Sauvegarder preset</Text>
-  <Text Key="Presets">Presets</Text>
+  <Text Key="Save_Equalizer_Preset">Sauvegarder préréglage d'égaliseur</Text>
+  <Text Key="Equalizer_Presets">Préréglages d'égaliseur</Text>
+  <Text Key="Preset_Name_Already_Taken">Ce nom de préréglage est déjà utilisé.</Text>
 </Language>

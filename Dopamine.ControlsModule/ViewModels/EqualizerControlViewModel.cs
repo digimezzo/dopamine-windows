@@ -8,6 +8,9 @@ using Prism.Mvvm;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Dopamine.Core.IO;
+using Dopamine.Common.Services.Dialog;
+using System.Collections.Generic;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -16,6 +19,7 @@ namespace Dopamine.ControlsModule.ViewModels
         #region Variables
         private IPlaybackService playbackService;
         private IEqualizerService equalizerService;
+        private IDialogService dialogService;
 
         private ObservableCollection<EqualizerPreset> presets;
         private EqualizerPreset selectedPreset;
@@ -64,11 +68,12 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService)
+        public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService, IDialogService dialogService)
         {
             // Variables
             this.playbackService = playbackService;
             this.equalizerService = equalizerService;
+            this.dialogService = dialogService;
 
             this.IsEqualizerEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
 
@@ -127,34 +132,26 @@ namespace Dopamine.ControlsModule.ViewModels
         private void SavePresetToFile()
         {
             var dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = ResourceUtils.GetStringResource("Language_Save_Preset");
+            dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.EQUALIZERPRESET;
-            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Presets"), " (", FileFormats.EQUALIZERPRESET, ")|*", FileFormats.EQUALIZERPRESET);
+            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.EQUALIZERPRESET, ")|*", FileFormats.EQUALIZERPRESET);
+            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory);
 
             if ((bool)dlg.ShowDialog())
             {
-                //            try
-                //            {
-                //                ExportPlaylistsResult result = await this.collectionService.ExportPlaylistAsync(this.SelectedPlaylists[0], dlg.FileName, false);
+                List<string> names = this.presets.Select((p) => p.Name.ToLower()).ToList();
 
-                //                if (result == ExportPlaylistsResult.Error)
-                //                {
-                //                    this.dialogService.ShowNotification(
-                //                            0xe711,
-                //                            16,
-                //                            ResourceUtils.GetStringResource("Language_Error"),
-                //                            ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"),
-                //                            ResourceUtils.GetStringResource("Language_Ok"),
-                //                            true,
-                //                            ResourceUtils.GetStringResource("Language_Log_File"));
-                //                }
-                //            }
-                //            catch (Exception ex)
-                //            {
-                //                LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
-
-                //                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                //            }
+                if (names.Contains(System.IO.Path.GetFileNameWithoutExtension(dlg.FileName.ToLower())))
+                {
+                    this.dialogService.ShowNotification(
+                                            0xe711,
+                                            16,
+                                            ResourceUtils.GetStringResource("Language_Error"),
+                                            ResourceUtils.GetStringResource("Language_Preset_Name_Already_Taken"),
+                                            ResourceUtils.GetStringResource("Language_Ok"),
+                                            false,
+                                            string.Empty);
+                }
             }
         }
         #endregion
