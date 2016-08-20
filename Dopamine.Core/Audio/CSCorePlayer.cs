@@ -443,9 +443,9 @@ namespace Dopamine.Core.Audio
 
             var sampleFilters = new[]
             {
-                new EqualizerChannelFilter(sampleRate, 60, bandWidth, defaultGain),
-                new EqualizerChannelFilter(sampleRate, 170, bandWidth, defaultGain),
-                new EqualizerChannelFilter(sampleRate, 310, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 70, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 180, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 320, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 600, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 1000, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 3000, bandWidth, defaultGain),
