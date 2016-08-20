@@ -93,7 +93,7 @@ namespace Dopamine.Common.Services.Equalizer
                 {
                     try
                     {
-                        builtinEqualizerPresets.Add(this.CreatePresetFromFile(fileInfo.FullName, true));
+                        builtinEqualizerPresets.Add(this.CreatePresetFromFile(fileInfo.FullName, false));
                     }
                     catch (Exception ex)
                     {
