@@ -64,7 +64,7 @@ namespace Dopamine.Common.Services.Playback
         Task SaveTrackStatisticsAsync();
         Task FadeOutAsync(int duration);
         void SwitchPreset(ref EqualizerPreset preset);
-        void SetEqualizerEnabledState(bool isEnabled);
+        void SetIsEqualizerEnabled(bool isEnabled);
         #endregion
 
         #region Events
