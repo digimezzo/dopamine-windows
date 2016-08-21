@@ -65,54 +65,54 @@
                     <TextBlock Text="-15 dB" VerticalAlignment="Bottom" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 </Grid>
                 <StackPanel Margin="0,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[0].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[0].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[0].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band0,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="70" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band0Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[1].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[1].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[1].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band1,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="180" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band1Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[2].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[2].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[2].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band2,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="320" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band2Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[3].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[3].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[3].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band3,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="600" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band3Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[4].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[4].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[4].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band4,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="1K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band4Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[5].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[5].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[5].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band5,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="3K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band5Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[6].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[6].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[6].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band6,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="6K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band6Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[7].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[7].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[7].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band7,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="12K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band7Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[8].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[8].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[8].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band8,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="14K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band8Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding SelectedPreset.Bands[9].Value,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[9].Label}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedPreset.Bands[9].TextValue}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-15" Maximum="15" Margin="0,10,0,20" Value="{Binding Band9,Mode=TwoWay}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="16K" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Band9Label}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

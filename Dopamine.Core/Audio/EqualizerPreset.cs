@@ -1,27 +1,27 @@
-﻿using Dopamine.Core.Helpers;
-using Prism.Mvvm;
-using System.Collections.ObjectModel;
+﻿using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dopamine.Core.Audio
 {
     public delegate void BandValueChangedEventHandler(int bandIndex, double newValue);
 
-    public class EqualizerPreset : BindableBase
+    public class EqualizerPreset
     {
         #region Variables
-        private NotifiableCollection<EqualizerBand> bands;
+        private double[] bands;
         private string name;
         private bool isRemovable;
         #endregion
 
         #region Properties
-        public NotifiableCollection<EqualizerBand> Bands
+        public double[] Bands
         {
             get { return this.bands; }
             set
             {
-                SetProperty<NotifiableCollection<EqualizerBand>>(ref this.bands, value);
+                this.bands= value;
             }
         }
 
@@ -42,7 +42,7 @@ namespace Dopamine.Core.Audio
             get { return this.displayName; }
             set
             {
-                SetProperty<string>(ref this.displayName, value);
+                this.displayName = value;
             }
         }
         #endregion
@@ -55,57 +55,56 @@ namespace Dopamine.Core.Audio
             this.isRemovable = isRemovable;
             this.Initialize();
         }
-        #endregion
 
-        #region Events
-        public event BandValueChangedEventHandler BandValueChanged = delegate { };
+        public EqualizerPreset()
+        {
+            this.name = Guid.NewGuid().ToString();
+            this.DisplayName = name;
+            this.isRemovable = false;
+            this.Initialize();
+        }
         #endregion
 
         #region Private
         private void Initialize()
         {
-            var localBands = new NotifiableCollection<EqualizerBand>();
+            var bandsList = new List<double>();
 
-            // Add 10 default bands (all at 0.0)
-            localBands.Add(new EqualizerBand("70"));
-            localBands.Add(new EqualizerBand("180"));
-            localBands.Add(new EqualizerBand("320"));
-            localBands.Add(new EqualizerBand("600"));
-            localBands.Add(new EqualizerBand("1K"));
-            localBands.Add(new EqualizerBand("3K"));
-            localBands.Add(new EqualizerBand("6K"));
-            localBands.Add(new EqualizerBand("12K"));
-            localBands.Add(new EqualizerBand("14K"));
-            localBands.Add(new EqualizerBand("16K"));
+            for (int i = 0; i < 10; i++)
+            {
+                bandsList.Add(0.0);
+            }
 
-            this.Bands = localBands;
-            this.Bands.ItemChanged -= Bands_ItemChanged;
-            this.Bands.ItemChanged += Bands_ItemChanged;
+            this.Bands = bandsList.ToArray();
         }
         #endregion
 
         #region Public
-        public void Reset()
+        public void Load(double[] values)
         {
-            foreach (EqualizerBand band in this.Bands)
+            for (int i = 0; i < values.Count(); i++)
             {
-                band.Value = 0.0;
+                this.Bands[i] = values[i];
             }
         }
 
-        public void Load(double[] bandValues)
+        public void Load(double zero, double one, double two, double three, double four, double five, double six, double seven, double eight, double nine)
         {
-            if (bandValues.Count() != this.Bands.Count()) return;
-
-            for (int i = 0; i < bandValues.Count(); i++)
-            {
-                this.Bands[i].Value = bandValues[i];
-            }
+            this.Bands[0] = zero;
+            this.Bands[1] = one;
+            this.Bands[2] = two;
+            this.Bands[3] = three;
+            this.Bands[4] = four;
+            this.Bands[5] = five;
+            this.Bands[6] = six;
+            this.Bands[7] = seven;
+            this.Bands[8] = eight;
+            this.Bands[9] = nine;
         }
 
         public string ToValueString()
         {
-            return string.Join(";", this.Bands.Select((b) => b.Value.ToString()));
+            return string.Join(";", this.Bands);
         }
         #endregion
 
@@ -128,13 +127,6 @@ namespace Dopamine.Core.Audio
         public override int GetHashCode()
         {
             return new { this.name }.GetHashCode();
-        }
-        #endregion
-
-        #region Event Handlers
-        private void Bands_ItemChanged(object sender, NotifyCollectionChangeEventArgs e)
-        {
-            this.BandValueChanged(e.Index, this.Bands[e.Index].Value);
         }
         #endregion
     }

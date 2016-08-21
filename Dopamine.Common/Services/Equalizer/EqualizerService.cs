@@ -17,7 +17,6 @@ namespace Dopamine.Common.Services.Equalizer
     {
         #region Variables
         private string equalizerSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.EqualizerSubDirectory);
-        private List<EqualizerPreset> presets;
         #endregion
 
         #region Construction
@@ -36,10 +35,10 @@ namespace Dopamine.Common.Services.Equalizer
         #region IEqualizerService
         public async Task<EqualizerPreset> GetSelectedPresetAsync()
         {
-            if(this.presets == null) await this.GetPresetsAsync();
+            var presets = await this.GetPresetsAsync();
 
             string selectedPresetName = XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset");
-            EqualizerPreset selectedPreset = this.presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
+            EqualizerPreset selectedPreset = presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
 
             if(selectedPreset == null)
             {
@@ -51,10 +50,10 @@ namespace Dopamine.Common.Services.Equalizer
 
         public async Task<List<EqualizerPreset>> GetPresetsAsync()
         {
-            this.presets = new List<EqualizerPreset>();
+            var presets = new List<EqualizerPreset>();
 
             // First, get the builtin equalizer presets
-            this.presets = await this.GetBuiltInPresetsAsync();
+            presets = await this.GetBuiltInPresetsAsync();
 
             // Then, get custom equalizer presets
             var customPresets = await this.GetCustomEqualizerPresetsAsync();
@@ -63,18 +62,18 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 // Give priority to built-in presets. If the user messed up and created a custom preset 
                 // file which has the same name as a built-in preset file, the custom file is ignored.
-                if (!this.presets.Contains(preset)) this.presets.Add(preset);
+                if (!presets.Contains(preset)) presets.Add(preset);
             }
 
             // Sort the presets
-            this.presets = this.presets.OrderBy((p) => p.Name.ToLower()).ToList();
+            presets = presets.OrderBy((p) => p.Name.ToLower()).ToList();
 
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
             manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
-            this.presets.Insert(0, manualPreset);
+            presets.Insert(0, manualPreset);
 
-            return this.presets;
+            return presets;
         }
         #endregion
 

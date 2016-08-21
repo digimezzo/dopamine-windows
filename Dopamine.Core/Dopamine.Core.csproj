@@ -144,7 +144,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Audio\CSCorePlayer.cs" />
-    <Compile Include="Audio\EqualizerBand.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
     <Compile Include="Audio\IPlayerFactory.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AddToPlaylistResult.cs" />
     <Compile Include="Helpers\NameValue.cs" />
-    <Compile Include="Helpers\NotifiableCollection.cs" />
     <Compile Include="Helpers\OperationResult.cs" />
     <Compile Include="IO\Actions.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
