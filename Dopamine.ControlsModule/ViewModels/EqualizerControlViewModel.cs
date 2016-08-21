@@ -10,9 +10,7 @@ using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +26,19 @@ namespace Dopamine.ControlsModule.ViewModels
         private ObservableCollection<EqualizerPreset> presets;
         private EqualizerPreset selectedPreset;
         private bool isEqualizerEnabled;
+
+        private bool canApplyManualPreset;
+
+        private double band0;
+        private double band1;
+        private double band2;
+        private double band3;
+        private double band4;
+        private double band5;
+        private double band6;
+        private double band7;
+        private double band8;
+        private double band9;
         #endregion
 
         #region Commands
@@ -37,6 +48,166 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Properties
+        public double Band0
+        {
+            get { return this.band0; }
+            set
+            {
+                SetProperty<double>(ref this.band0, value);
+                OnPropertyChanged(() => this.Band0Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band0Label
+        {
+            get { return this.FormatLabel(this.band0); }
+        }
+
+        public double Band1
+        {
+            get { return this.band1; }
+            set
+            {
+                SetProperty<double>(ref this.band1, value);
+                OnPropertyChanged(() => this.Band1Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band1Label
+        {
+            get { return this.FormatLabel(this.band1); }
+        }
+
+        public double Band2
+        {
+            get { return this.band2; }
+            set
+            {
+                SetProperty<double>(ref this.band2, value);
+                OnPropertyChanged(() => this.Band2Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band2Label
+        {
+            get { return this.FormatLabel(this.band2); }
+        }
+
+        public double Band3
+        {
+            get { return this.band3; }
+            set
+            {
+                SetProperty<double>(ref this.band3, value);
+                OnPropertyChanged(() => this.Band3Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band3Label
+        {
+            get { return this.FormatLabel(this.band3); }
+        }
+
+        public double Band4
+        {
+            get { return this.band4; }
+            set
+            {
+                SetProperty<double>(ref this.band4, value);
+                OnPropertyChanged(() => this.Band4Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band4Label
+        {
+            get { return this.FormatLabel(this.band4); }
+        }
+
+        public double Band5
+        {
+            get { return this.band5; }
+            set
+            {
+                SetProperty<double>(ref this.band5, value);
+                OnPropertyChanged(() => this.Band5Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band5Label
+        {
+            get { return this.FormatLabel(this.band5); }
+        }
+
+        public double Band6
+        {
+            get { return this.band6; }
+            set
+            {
+                SetProperty<double>(ref this.band6, value);
+                OnPropertyChanged(() => this.Band6Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band6Label
+        {
+            get { return this.FormatLabel(this.band6); }
+        }
+
+        public double Band7
+        {
+            get { return this.band7; }
+            set
+            {
+                SetProperty<double>(ref this.band7, value);
+                OnPropertyChanged(() => this.Band7Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band7Label
+        {
+            get { return this.FormatLabel(this.band7); }
+        }
+
+        public double Band8
+        {
+            get { return this.band8; }
+            set
+            {
+                SetProperty<double>(ref this.band8, value);
+                OnPropertyChanged(() => this.Band8Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band8Label
+        {
+            get { return this.FormatLabel(this.band8); }
+        }
+
+        public double Band9
+        {
+            get { return this.band9; }
+            set
+            {
+                SetProperty<double>(ref this.band9, value);
+                OnPropertyChanged(() => this.Band9Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band9Label
+        {
+            get { return this.FormatLabel(this.band9); }
+        }
+
         public ObservableCollection<EqualizerPreset> Presets
         {
             get { return this.presets; }
@@ -51,13 +222,9 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
-                value.BandValueChanged -= SelectedPreset_BandValueChanged;
-                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
-                if (XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset") != value.Name) XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", value.Name);
-                this.playbackService.SwitchPreset(ref value); // Make sure that playbackService has a reference to the selected preset
-                value.BandValueChanged += SelectedPreset_BandValueChanged;
-
+                this.SetBandValues();
+                this.ApplySelectedPreset();
                 this.DeleteCommand.RaiseCanExecuteChanged();
             }
         }
@@ -68,7 +235,6 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
-                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
                 this.playbackService.SetIsEqualizerEnabled(value);
             }
         }
@@ -87,31 +253,26 @@ namespace Dopamine.ControlsModule.ViewModels
             // Commands
             this.ResetCommand = new DelegateCommand(() =>
             {
-                if (this.SelectedPreset.Name == Defaults.ManualPresetName)
-                {
-                    this.SelectedPreset.Reset();
-                }
-                else
-                {
-                    this.SelectedPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
-                }
+                this.canApplyManualPreset = false;
+                this.Band0 = this.Band1 = this.Band2 = this.Band3 = this.Band4 = this.Band5 = this.Band6 = this.Band7 = this.Band8 = this.Band9 = 0.0;
+                this.canApplyManualPreset = true;
 
-                this.SaveManualPreset();
+                this.ApplyManualPreset();
             });
 
-            this.DeleteCommand = new DelegateCommand(async() => { await this.DeletePresetAsync(); }, () =>
-            {
-                if (this.SelectedPreset != null)
-                {
-                    return this.SelectedPreset.IsRemovable;
-                }
-                else
-                {
-                    return false;
-                }
-            });
+            this.DeleteCommand = new DelegateCommand(async () => { await this.DeletePresetAsync(); }, () =>
+             {
+                 if (this.SelectedPreset != null)
+                 {
+                     return this.SelectedPreset.IsRemovable;
+                 }
+                 else
+                 {
+                     return false;
+                 }
+             });
 
-            this.SaveCommand = new DelegateCommand(async() => { await this.SavePresetToFileAsync(); });
+            this.SaveCommand = new DelegateCommand(async () => { await this.SavePresetToFileAsync(); });
 
             // Initialize
             this.InitializeAsync();
@@ -119,6 +280,36 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Private
+        private void ApplySelectedPreset()
+        {
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", this.SelectedPreset.Name);
+            this.playbackService.ApplyPreset(new EqualizerPreset(this.SelectedPreset.Name, this.SelectedPreset.IsRemovable) { Bands = this.SelectedPreset.Bands });
+        }
+
+        private void ApplyManualPreset()
+        {
+            if (!this.canApplyManualPreset) return;
+
+            EqualizerPreset manualPreset = this.Presets.Select((p) => p).Where((p) => p.Name == Defaults.ManualPresetName).FirstOrDefault();
+            manualPreset.Load(this.Band0, this.Band1, this.Band2, this.Band3, this.Band4, this.Band5, this.Band6, this.Band7, this.Band8, this.Band9);
+
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", manualPreset.ToValueString());
+
+            // Once a slider has moved, revert to the manual preset (also in the settings).
+            if (this.SelectedPreset.Name != Defaults.ManualPresetName)
+            {
+                this.SelectedPreset = manualPreset;
+                XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+            }
+
+            this.playbackService.ApplyPreset(manualPreset);
+        }
+
+        private string FormatLabel(double value)
+        {
+            return value >= 0 ? value.ToString("+0.0") : value.ToString("0.0");
+        }
+
         private async void InitializeAsync()
         {
             ObservableCollection<EqualizerPreset> localEqualizerPresets = new ObservableCollection<EqualizerPreset>();
@@ -132,20 +323,26 @@ namespace Dopamine.ControlsModule.ViewModels
             this.Presets = localEqualizerPresets;
 
             this.SelectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
+
+            this.SetBandValues();
         }
 
-        private void SaveManualPreset()
+        private void SetBandValues()
         {
-            // When the value of a slider changes, default to the manual preset the next time.
-            XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+            this.canApplyManualPreset = false;
 
-            // Also store the values for the manual preset
-            XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", this.SelectedPreset.ToValueString());
+            this.Band0 = this.SelectedPreset.Bands[0];
+            this.Band1 = this.SelectedPreset.Bands[1];
+            this.Band2 = this.SelectedPreset.Bands[2];
+            this.Band3 = this.SelectedPreset.Bands[3];
+            this.Band4 = this.SelectedPreset.Bands[4];
+            this.Band5 = this.SelectedPreset.Bands[5];
+            this.Band6 = this.SelectedPreset.Bands[6];
+            this.Band7 = this.SelectedPreset.Bands[7];
+            this.Band8 = this.SelectedPreset.Bands[8];
+            this.Band9 = this.SelectedPreset.Bands[9];
 
-            // Set the selected preset to the manual preset
-            var preset = new EqualizerPreset(Defaults.ManualPresetName, false) { Bands = this.SelectedPreset.Bands };
-            preset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
-            this.SelectedPreset = preset;
+            this.canApplyManualPreset = true;
         }
 
         private async Task SavePresetToFileAsync()
@@ -162,9 +359,9 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 if ((bool)dlg.ShowDialog())
                 {
-                    List<string> names = this.presets.Select((p) => p.Name.ToLower()).ToList();
+                    int existingCount = this.presets.Select((p) => p).Where((p) => p.Name.ToLower() == System.IO.Path.GetFileNameWithoutExtension(dlg.FileName).ToLower() & !p.IsRemovable).Count();
 
-                    if (names.Contains(System.IO.Path.GetFileNameWithoutExtension(dlg.FileName.ToLower())))
+                    if (existingCount > 0)
                     {
                         dlg.FileName = string.Empty;
 
@@ -184,7 +381,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         try
                         {
                             await Task.Run(() => {
-                                string[] lines = this.SelectedPreset.Bands.Select((b) => b.Value.ToString()).ToArray();
+                                string[] lines = this.SelectedPreset.Bands.Select((b) => b.ToString()).ToArray();
                                 System.IO.File.WriteAllLines(dlg.FileName, lines);
                             });
                         }
@@ -219,7 +416,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 0xe11b,
                 16,
                 ResourceUtils.GetStringResource("Language_Delete_Preset"),
-                ResourceUtils.GetStringResource("Language_Delete_Preset_Confirmation").Replace("%preset%",this.SelectedPreset.Name),
+                ResourceUtils.GetStringResource("Language_Delete_Preset_Confirmation").Replace("%preset%", this.SelectedPreset.Name),
                 ResourceUtils.GetStringResource("Language_Yes"),
                 ResourceUtils.GetStringResource("Language_No")))
             {
@@ -229,7 +426,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory, this.SelectedPreset.Name + FileFormats.EQUALIZERPRESET);
                         System.IO.File.Delete(presetPath);
                     });
-                    
+
                     XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
                     this.InitializeAsync();
                 }
@@ -247,13 +444,6 @@ namespace Dopamine.ControlsModule.ViewModels
                                         ResourceUtils.GetStringResource("Language_Log_File"));
                 }
             }
-        }
-        #endregion
-
-        #region Event Handlers
-        private void SelectedPreset_BandValueChanged(int bandIndex, double newValue)
-        {
-            this.SaveManualPreset();
         }
         #endregion
     }

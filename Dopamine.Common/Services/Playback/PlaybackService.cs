@@ -338,21 +338,24 @@ namespace Dopamine.Common.Services.Playback
             if (isEnabled)
             {
                 this.activePreset = this.desiredPreset;
-
             }
             else
             {
-                this.activePreset = new EqualizerPreset("Disabled", false); // name doesn't matter
+                this.activePreset = new EqualizerPreset();
             }
 
-            if (this.player != null) this.player.SwitchPreset(ref this.activePreset);
+            if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
         }
 
-        public void SwitchPreset(ref EqualizerPreset preset)
+        public void ApplyPreset(EqualizerPreset preset)
         {
             this.desiredPreset = preset;
-            if (this.isEqualizerEnabled) this.activePreset = this.desiredPreset;
-            if (this.player != null) this.player.SwitchPreset(ref this.activePreset);
+
+            if (this.isEqualizerEnabled)
+            {
+                this.activePreset = desiredPreset;
+                if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
+            } 
         }
 
         public async Task SaveQueuedTracksAsync()
@@ -948,7 +951,7 @@ namespace Dopamine.Common.Services.Playback
                 // Play the Track from its runtime path (current or temporary)
                 this.player = this.playerFactory.Create(Path.GetExtension(trackInfo.Track.Path));
 
-                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset);
+                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
 
                 this.ToggleMute();
 
