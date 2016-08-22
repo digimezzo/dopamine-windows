@@ -566,8 +566,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         foreach (TrackInfoViewModel tivm in viewCopy)
                         {
-                            this.totalDuration += tivm.TrackInfo.Track.Duration.Value;
-                            this.totalSize += tivm.TrackInfo.Track.FileSize.Value;
+                            this.totalDuration += tivm.TrackInfo.Duration.Value;
+                            this.totalSize += tivm.TrackInfo.FileSize.Value;
                         }
                     }
                     catch (Exception ex)
@@ -625,7 +625,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.playbackService.PlayingTrack == null)
                 return;
 
-            string path = this.playbackService.PlayingTrack.Track.Path;
+            string path = this.playbackService.PlayingTrack.Path;
 
             await Task.Run(() =>
             {
@@ -636,7 +636,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         tivm.IsPlaying = false;
                         tivm.IsPaused = true;
 
-                        if (tivm.TrackInfo.Track.Path == path)
+                        if (tivm.TrackInfo.Path == path)
                         {
                             if (!this.playbackService.IsStopped)
                             {
@@ -704,7 +704,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (tivm.TrackInfo.Track.Path.Equals(e.Path) && tivm.Rating != e.Rating)
+                    if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Rating != e.Rating)
                     {
                         tivm.AllowSaveRating = false;
                         tivm.Rating = e.Rating;

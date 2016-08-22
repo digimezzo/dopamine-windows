@@ -134,7 +134,7 @@ namespace Dopamine.Common.Services.Metadata
             if (updateFileArtwork)
             {
                 List<TrackInfo> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
-                List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Track.Path) { ArtworkData = artwork }).ToList();
+                List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
                 // Queue update of the file metadata
                 await this.QueueFileMetadata(fileMetadatas);

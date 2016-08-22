@@ -34,11 +34,12 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            albums = (from alb in conn.Table<Album>()
-                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
-                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                      where fol.ShowInCollection == 1
-                                      select alb).Distinct().ToList();
+                            string q = "SELECT DISTINCT * FROM Album a" +
+                                       " INNER JOIN Track t ON a.AlbumID=t.AlbumID" +
+                                       " INNER JOIN Folder f ON t.FolderID=f.FolderID" +
+                                       " WHERE f.ShowInCollection=1;";
+
+                            albums = conn.Query<Album>(q);
                         }
                         catch (Exception ex)
                         {
@@ -67,16 +68,12 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            // Extracting these lists is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
-                            List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
-                            List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
+                            string q = "SELECT DISTINCT * FROM Album alb" +
+                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                       " WHERE (tra.ArtistID IN (?) OR alb.AlbumArtist IN (?)) AND fol.ShowInCollection=1;";
 
-                            albums = (from alb in conn.Table<Album>()
-                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
-                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                      where (artistIDs.Contains(tra.ArtistID) | artistNames.Contains(alb.AlbumArtist)) & fol.ShowInCollection == 1
-                                      select alb).Distinct().ToList();
+                            albums = conn.Query<Album>(q, Utils.ToQueryList(artists.Select((a) => a.ArtistID).ToList()), Utils.ToQueryList(artists.Select((a) => a.ArtistName).ToList()));
                         }
                         catch (Exception ex)
                         {
@@ -106,15 +103,12 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            // Extracting this list is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
-                            List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
+                            string q = "SELECT DISTINCT * FROM Album alb" +
+                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                       " WHERE tra.GenreID IN (?) AND fol.ShowInCollection=1;";
 
-                            albums = (from alb in conn.Table<Album>()
-                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
-                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                      where genreIDs.Contains(tra.GenreID) & fol.ShowInCollection == 1
-                                      select alb).Distinct().ToList();
+                            albums = conn.Query<Album>(q, Utils.ToQueryList(genres.Select((g) => g.GenreID).ToList()));
                         }
                         catch (Exception ex)
                         {
@@ -172,13 +166,11 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string query = "SELECT Albums.AlbumID, Albums.AlbumTitle, Albums.AlbumArtist, Albums.Year, Albums.ArtworkID, Albums.DateLastSynced, Albums.DateAdded, MAX(Tracks.DateLastPlayed) AS maxdatelastplayed, SUM(Tracks.PlayCount) AS playcountsum FROM Albums " +
-                                           "LEFT JOIN Tracks ON Albums.AlbumID = Tracks.AlbumID " +
-                                           "WHERE Tracks.PlayCount IS NOT NULL AND Tracks.PlayCount > 0 " +
-                                           "GROUP BY Albums.AlbumID " +
-                                           "ORDER BY playcountsum DESC, maxdatelastplayed DESC";
-
-                            albums = conn.Query<Album>(query).ToList();
+                            albums = conn.Query<Album>("SELECT Album.AlbumID, Album.AlbumTitle, Album.AlbumArtist, Album.Year, Album.ArtworkID, Album.DateLastSynced, Album.DateAdded, MAX(Track.DateLastPlayed) AS maxdatelastplayed, SUM(Track.PlayCount) AS playcountsum FROM Album" +
+                                                       " LEFT JOIN Track ON Album.AlbumID = Track.AlbumID" +
+                                                       " WHERE Track.PlayCount IS NOT NULL AND Track.PlayCount > 0" +
+                                                       " GROUP BY Album.AlbumID" +
+                                                       " ORDER BY playcountsum DESC, maxdatelastplayed DESC");
                         }
                         catch (Exception ex)
                         {

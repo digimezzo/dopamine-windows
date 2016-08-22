@@ -6,7 +6,7 @@ namespace Dopamine.Core.Database.Entities
     public class Playlist
     {
         #region Properties
-        [PrimaryKey()]
+        [PrimaryKey(), AutoIncrement()]
         public long PlaylistID { get; set; }
         public string PlaylistName { get; set; }
         #endregion

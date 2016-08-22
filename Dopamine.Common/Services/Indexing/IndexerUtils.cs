@@ -229,36 +229,36 @@ namespace Dopamine.Common.Services.Indexing
                 var fmd = new FileMetadata(path);
                 var fi = new FileInformation(path);
 
-                ti.Track = new Track
+                ti.Path = path;
+                ti.FileName = fi.NameWithoutExtension;
+                ti.MimeType = fmd.MimeType;
+                ti.FileSize = fi.SizeInBytes;
+                ti.BitRate = fmd.BitRate;
+                ti.SampleRate = fmd.SampleRate;
+                ti.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
+                ti.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
+                ti.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
+                ti.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
+                ti.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
+                ti.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
+                ti.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
+
+                ti.ArtistName = GetFirstArtist(fmd);
+
+                ti.GenreName = GetFirstGenre(fmd);
+
+                ti.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                ti.AlbumArtist = GetFirstAlbumArtist(fmd);
+
+                var dummyAlbum = new Album
                 {
-                    Path = path,
-                    FileName = fi.NameWithoutExtension,
-                    MimeType = fmd.MimeType,
-                    FileSize = fi.SizeInBytes,
-                    BitRate = fmd.BitRate,
-                    SampleRate = fmd.SampleRate,
-                    TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value),
-                    TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value),
-                    TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value),
-                    DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value),
-                    DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value),
-                    Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds),
-                    Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value)
+                    AlbumTitle = ti.AlbumTitle,
+                    AlbumArtist = ti.AlbumArtist
                 };
 
-                ti.Artist = new Artist { ArtistName = GetFirstArtist(fmd) };
+                IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
-                ti.Genre = new Genre { GenreName = GetFirstGenre(fmd) };
-
-                ti.Album = new Album
-                {
-                    AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value),
-                    AlbumArtist = GetFirstAlbumArtist(fmd)
-                };
-
-                IndexerUtils.UpdateAlbumYear(ti.Album, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
-
-                IndexerUtils.CacheArtwork(ti.Album, ti.Track.Path);
+                IndexerUtils.CacheArtwork(dummyAlbum, ti.Path);
 
             }
             catch (Exception ex)
@@ -268,21 +268,15 @@ namespace Dopamine.Common.Services.Indexing
                 // Make sure the file can be opened by creating a TrackInfo with some default values
                 ti = new TrackInfo();
 
-                ti.Track = new Track
-                {
-                    Path = path,
-                    FileName = System.IO.Path.GetFileNameWithoutExtension(path)
-                };
+                ti.Path = path;
+                ti.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
 
-                ti.Artist = new Artist { ArtistName = Defaults.UnknownArtistString };
+                ti.ArtistName = Defaults.UnknownArtistString;
 
-                ti.Genre = new Genre { GenreName = Defaults.UnknownGenreString };
+                ti.GenreName = Defaults.UnknownGenreString;
 
-                ti.Album = new Album
-                {
-                    AlbumTitle = Defaults.UnknownAlbumString,
-                    AlbumArtist = Defaults.UnknownAlbumArtistString
-                };
+                ti.AlbumTitle = Defaults.UnknownAlbumString;
+                ti.AlbumArtist = Defaults.UnknownAlbumArtistString;
             }
 
             return ti;

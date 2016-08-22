@@ -34,11 +34,10 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            genres = (from gen in conn.Table<Genre>()
-                                      join tra in conn.Table<Track>() on gen.GenreID equals tra.GenreID
-                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                      where fol.ShowInCollection == 1
-                                      select gen).Distinct().ToList();
+                            genres = conn.Query<Genre>("SELECT DISTINCT * FROM Genre gen"+
+                                                       " INNER JOIN Track tra ON gen.GenreID=tra.GenreID" +
+                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                       " WHERE fol.ShowInCollection=1");
 
                             // Orders the Genres
                             genres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName)).ToList();

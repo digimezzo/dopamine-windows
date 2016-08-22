@@ -5,7 +5,7 @@ namespace Dopamine.Core.Database.Entities
     public class QueuedTrack
     {
         #region Properties
-        [PrimaryKey()]
+        [PrimaryKey(), AutoIncrement()]
         public long QueuedTrackID { get; set; }
         public string Path { get; set; }
         public long OrderID { get; set; }

@@ -245,7 +245,7 @@ namespace Dopamine.Core.Database.Repositories
                                 var possiblePlaylistEntry = new PlaylistEntry
                                 {
                                     PlaylistID = playlistID,
-                                    TrackID = ti.Track.TrackID
+                                    TrackID = ti.TrackID
                                 };
 
                                 if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
@@ -292,15 +292,15 @@ namespace Dopamine.Core.Database.Repositories
                             // Get all the Tracks for the selected Artist
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            List<Track> tracks = (from tra in conn.Table<Track>()
-                                                  join alb in conn.Table<Album>() on tra.AlbumID equals alb.AlbumID
-                                                  join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
-                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                                  where (artistNames.Contains(alb.AlbumArtist) | artistNames.Contains(art.ArtistName)) & fol.ShowInCollection == 1
-                                                  select tra).ToList();
+                            string q = "SELECT DISTINCT * FROM Track" +
+                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                       " WHERE (alb.AlbumArtist IN(?) OR art.ArtistName IN (?)) AND fol.ShowInCollection=1;";
+
+                            List<Track> tracks = conn.Query<Track>(q, Utils.ToQueryList(artistNames), Utils.ToQueryList(artistNames));
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
-
                             foreach (Track trk in tracks)
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry { PlaylistID = playlistID, TrackID = trk.TrackID };
@@ -347,12 +347,11 @@ namespace Dopamine.Core.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Genre
-                            List<long> genreIds = genres.Select((g) => g.GenreID).ToList();
+                            long[] genreIds = genres.Select((g) => g.GenreID).ToArray();
 
-                            List<Track> tracks = (from tra in conn.Table<Track>()
-                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                                  where genreIds.Contains(tra.GenreID) & fol.ShowInCollection == 1
-                                                  select tra).ToList();
+                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT * FROM Track tra" +
+                                                                   " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                                   " WHERE tra.GenreID IN (" + string.Join(",", genreIds) + ") AND fol.ShowInCollection=1");
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (Track trk in tracks)
@@ -401,12 +400,11 @@ namespace Dopamine.Core.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Album
-                            List<long> albumIds = albums.Select((a) => a.AlbumID).ToList();
+                            long[] albumIds = albums.Select((a) => a.AlbumID).ToArray();
 
-                            List<Track> tracks = (from tra in conn.Table<Track>()
-                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                                  where albumIds.Contains(tra.AlbumID) & fol.ShowInCollection == 1
-                                                  select tra).ToList();
+                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT * FROM Track tra" +
+                                                                   " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                                   " WHERE tra.AlbumID IN (" + string.Join(",", albumIds) + ") AND fol.ShowInCollection=1");
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (Track trk in tracks)
@@ -454,12 +452,12 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 try
                                 {
-                                    PlaylistEntry playlistEntryToDelete = conn.Table<PlaylistEntry>().Select((p) => p).Where((p) => p.TrackID.Equals(ti.Track.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
+                                    PlaylistEntry playlistEntryToDelete = conn.Table<PlaylistEntry>().Select((p) => p).Where((p) => p.TrackID.Equals(ti.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
                                     conn.Delete(playlistEntryToDelete);
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogClient.Instance.Logger.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", ti.Track.Path, ex.Message);
+                                    LogClient.Instance.Logger.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", ti.Path, ex.Message);
                                     result = DeleteTracksFromPlaylistsResult.Error;
                                 }
                             }

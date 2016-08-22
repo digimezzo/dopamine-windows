@@ -60,21 +60,21 @@ namespace Dopamine.Core.Database
         {
             using (var conn = this.factory.GetConnection())
             {
-                conn.Execute("CREATE TABLE Artists (" +
+                conn.Execute("CREATE TABLE Artist (" +
                              "ArtistID           INTEGER," +
                              "ArtistName	     TEXT," +
                              "PRIMARY KEY(ArtistID));");
 
-                conn.Execute("CREATE INDEX ArtistsIndex ON Artists(ArtistName)");
+                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName)");
 
-                conn.Execute("CREATE TABLE Genres (" +
+                conn.Execute("CREATE TABLE Genre (" +
                              "GenreID           INTEGER," +
                              "GenreName	        TEXT," +
                              "PRIMARY KEY(GenreID));");
 
-                conn.Execute("CREATE INDEX GenresIndex ON Genres(GenreName)");
+                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName)");
 
-                conn.Execute("CREATE TABLE Albums (" +
+                conn.Execute("CREATE TABLE Album (" +
                              "AlbumID	        INTEGER," +
                              "AlbumTitle	    TEXT," +
                              "AlbumArtist	    TEXT," +
@@ -84,26 +84,26 @@ namespace Dopamine.Core.Database
                              "DateAdded	        INTEGER," +
                              "PRIMARY KEY(AlbumID));");
 
-                conn.Execute("CREATE INDEX AlbumsIndex ON Albums(AlbumTitle, AlbumArtist)");
-                conn.Execute("CREATE INDEX AlbumsYearIndex ON Albums(Year);");
+                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist)");
+                conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
 
-                conn.Execute("CREATE TABLE Playlists (" +
+                conn.Execute("CREATE TABLE Playlist (" +
                              "PlaylistID	    INTEGER," +
                              "PlaylistName	    TEXT," +
                              "PRIMARY KEY(PlaylistID));");
 
-                conn.Execute("CREATE TABLE PlaylistEntries (" +
+                conn.Execute("CREATE TABLE PlaylistEntry (" +
                              "EntryID	        INTEGER," +
                              "PlaylistID	    INTEGER," +
                              "TrackID	        INTEGER," +
                              "PRIMARY KEY(EntryID));");
 
-                conn.Execute("CREATE TABLE Folders (" +
+                conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Path	             TEXT," +
                              "ShowInCollection   INTEGER);");
 
-                conn.Execute("CREATE TABLE Tracks (" +
+                conn.Execute("CREATE TABLE Track (" +
                              "TrackID	            INTEGER," +
                              "ArtistID	            INTEGER," +
                              "GenreID	            INTEGER," +
@@ -132,25 +132,25 @@ namespace Dopamine.Core.Database
                              "MetaDataHash	        TEXT," +
                              "PRIMARY KEY(TrackID));");
 
-                conn.Execute("CREATE INDEX TracksArtistIDIndex ON Tracks(ArtistID);");
-                conn.Execute("CREATE INDEX TracksAlbumIDIndex ON Tracks(AlbumID);");
-                conn.Execute("CREATE INDEX TracksGenreIDIndex ON Tracks(GenreID);");
-                conn.Execute("CREATE INDEX TracksFolderIDIndex ON Tracks(FolderID);");
-                conn.Execute("CREATE INDEX TracksPathIndex ON Tracks(Path)");
+                conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
+                conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
+                conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
+                conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
+                conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path)");
 
-                conn.Execute("CREATE TABLE RemovedTracks (" +
+                conn.Execute("CREATE TABLE RemovedTrack (" +
                              "TrackID	            INTEGER," +
                              "Path	                TEXT," +
                              "DateRemoved           INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
-                conn.Execute("CREATE TABLE QueuedTracks (" +
+                conn.Execute("CREATE TABLE QueuedTrack (" +
                              "QueuedTrackID         INTEGER," +
                              "Path	                TEXT," +
                              "OrderID               INTEGER," +
                              "PRIMARY KEY(QueuedTrackID));");
 
-                conn.Execute("CREATE TABLE IndexingStatistics (" +
+                conn.Execute("CREATE TABLE IndexingStatistic (" +
                             "IndexingStatisticID    INTEGER," +
                             "Key                    TEXT," +
                             "Value                  TEXT," +

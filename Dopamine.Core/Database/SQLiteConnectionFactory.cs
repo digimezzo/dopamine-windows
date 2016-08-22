@@ -21,7 +21,7 @@ namespace Dopamine.Core.Database
         #region Construction
         public SQLiteConnectionFactory()
         {
-            this.databaseFile = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName + ".db");
+            this.databaseFile = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ProductInformation.ApplicationAssemblyName + ".db");
         }
         #endregion
 

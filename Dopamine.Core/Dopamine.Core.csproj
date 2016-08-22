@@ -158,7 +158,6 @@
     <Compile Include="Database\Entities\Album.cs" />
     <Compile Include="Database\Entities\Artist.cs" />
     <Compile Include="Database\Entities\Configuration.cs" />
-    <Compile Include="Database\Entities\FileStatistic.cs" />
     <Compile Include="Database\Entities\Folder.cs" />
     <Compile Include="Database\Entities\Genre.cs" />
     <Compile Include="Database\Entities\IndexingStatistic.cs" />

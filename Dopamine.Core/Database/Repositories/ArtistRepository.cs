@@ -38,19 +38,19 @@ namespace Dopamine.Core.Database.Repositories
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            trackArtists = (from art in conn.Table<Artist>()
-                                            join tra in conn.Table<Track>() on art.ArtistID equals tra.ArtistID
-                                            join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                            where fol.ShowInCollection == 1
-                                            select art).Distinct().ToList();
+                            trackArtists = conn.Query<Artist>("SELECT DISTINCT * FROM Artist art" +
+                                                              " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
+                                                              " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                              " WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
-                            albumArtists = (from alb in conn.Table<Album>()
-                                            join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
-                                            join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
-                                            join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
-                                            where tra.AlbumID == alb.AlbumID & tra.ArtistID == tra.ArtistID & fol.ShowInCollection == 1
-                                            select alb.AlbumArtist).Distinct().ToList();
+                            var albums = conn.Query<Album>("SELECT DISTINCT * FROM Album alb" +
+                                                           " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
+
+                            albumArtists = albums.Select((a) => a.AlbumArtist).ToList();
 
                             if (artistType == ArtistType.All | artistType == ArtistType.Track)
                             {
