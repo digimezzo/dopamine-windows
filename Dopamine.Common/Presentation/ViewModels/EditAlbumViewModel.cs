@@ -99,7 +99,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private async Task GetAlbumArtworkAsync()
         {
             await Task.Run(() => {
-                string artworkPath = ArtworkUtils.GetArtworkPath(this.Album);
+                string artworkPath = ArtworkUtils.GetArtworkPath(this.Album.ArtworkID);
 
                 try
                 {

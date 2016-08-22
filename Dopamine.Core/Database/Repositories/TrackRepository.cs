@@ -40,7 +40,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                        " FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
@@ -81,7 +81,7 @@ namespace Dopamine.Core.Database.Repositories
                                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                        " FROM Track tra" +
                                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
@@ -124,7 +124,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                        " FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
@@ -170,7 +170,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                        " FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
@@ -216,7 +216,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                        " FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
@@ -267,7 +267,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                        " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                        " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                        " FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +

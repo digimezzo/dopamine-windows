@@ -235,7 +235,7 @@ namespace Dopamine.Common.Services.Collection
                             if (dbAlbum != null)
                             {
                                 albvm.Album.ArtworkID = dbAlbum.ArtworkID;
-                                albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum);
+                                albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
@@ -260,7 +260,7 @@ namespace Dopamine.Common.Services.Collection
                             if (dbAlbum != null)
                             {
                                 tivm.TrackInfo.AlbumArtworkID = dbAlbum.ArtworkID;
-                                tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum);
+                                tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
@@ -284,7 +284,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(tivm.TrackInfo.Album);
+                            tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(tivm.TrackInfo.AlbumArtworkID);
                         }
                         catch (Exception ex)
                         {
@@ -311,7 +311,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(albvm.Album);
+                            albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(albvm.Album.ArtworkID);
                         }
                         catch (Exception ex)
                         {
