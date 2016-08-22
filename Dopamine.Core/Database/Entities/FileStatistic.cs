@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class FileStatistic
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long FileStatisticID { get; set; }
         public string Path { get; set; }
         public long? Rating { get; set; }

@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class Album
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long AlbumID { get; set; }
         public string AlbumTitle { get; set; }
         public string AlbumArtist { get; set; }
@@ -18,13 +17,13 @@ namespace Dopamine.Core.Database.Entities
         #endregion
 
         #region ReadOnly Properties
-        [NotMapped()]
+        [Ignore()]
         public string AlbumTitleTrim
         {
             get { return AlbumTitle.Trim(); }
         }
 
-        [NotMapped()]
+        [Ignore()]
         public string AlbumArtistTrim
         {
             get { return AlbumArtist.Trim(); }

@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class IndexingStatistic
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long IndexingStatisticID { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }

@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class RemovedTrack
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long TrackID { get; set; }
         public string Path { get; set; }
         public long DateRemoved { get; set; }

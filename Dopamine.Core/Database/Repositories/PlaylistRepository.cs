@@ -11,6 +11,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class PlaylistRepository : IPlaylistRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public PlaylistRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IPlaylistRepository
         public async Task<List<Playlist>> GetPlaylistsAsync()
         {
@@ -20,11 +31,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            selectedPlaylists = db.Playlists.Select((p) => p).ToList();
+                            selectedPlaylists = conn.Table<Playlist>().Select((p) => p).ToList();
                             selectedPlaylists = selectedPlaylists.OrderBy((p) => Utils.GetSortableString(p.PlaylistName)).ToList();
                         }
                         catch (Exception ex)
@@ -58,16 +69,15 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             Playlist newPlaylist = new Playlist { PlaylistName = trimmedPlaylistName };
 
-                            if (!db.Playlists.Select((p) => p.PlaylistName.Trim()).Contains(newPlaylist.PlaylistName))
+                            if (!conn.Table<Playlist>().Select((p) => p.PlaylistName.Trim()).Contains(newPlaylist.PlaylistName))
                             {
-                                db.Playlists.Add(newPlaylist);
-                                db.SaveChanges();
+                                conn.Insert(newPlaylist);
                                 LogClient.Instance.Logger.Info("Added the Playlist {0}", trimmedPlaylistName);
                             }
                             else
@@ -100,9 +110,9 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
-                        dbPlaylist = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(playlistName.Trim())).FirstOrDefault();
+                        dbPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(playlistName.Trim())).FirstOrDefault();
                     }
                 }
                 catch (Exception ex)
@@ -122,23 +132,23 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         foreach (Playlist pl in playlists)
                         {
                             string trimmedPlaylistName = pl.PlaylistName.Trim();
 
                             // Get the Playlist in the database
-                            Playlist dbPlaylist = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedPlaylistName)).FirstOrDefault();
+                            Playlist dbPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedPlaylistName)).FirstOrDefault();
 
 
                             if (dbPlaylist != null)
                             {
                                 // Get the PlaylistEntries which contain the PlaylistID of the Playlist to delete
-                                List<PlaylistEntry> playlistEntries = db.PlaylistEntries.Where((p) => p.PlaylistID == dbPlaylist.PlaylistID).Select((p) => p).ToList();
+                                List<PlaylistEntry> playlistEntries = conn.Table<PlaylistEntry>().Where((p) => p.PlaylistID == dbPlaylist.PlaylistID).Select((p) => p).ToList();
 
-                                db.Playlists.Remove(dbPlaylist);
-                                db.PlaylistEntries.RemoveRange(playlistEntries);
+                                conn.Delete(dbPlaylist);
+                                conn.Delete(playlistEntries);
 
                                 LogClient.Instance.Logger.Info("Deleted the Playlist {0}", trimmedPlaylistName);
                             }
@@ -148,8 +158,6 @@ namespace Dopamine.Core.Database.Repositories
                                 result = DeletePlaylistResult.Error;
                             }
                         }
-
-                        db.SaveChanges();
                     }
                 }
                 catch (Exception ex)
@@ -178,19 +186,19 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         // Check if there is already a playlist with that name
-                        Playlist existingPlaylist = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedNewPlaylistName)).FirstOrDefault();
+                        Playlist existingPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedNewPlaylistName)).FirstOrDefault();
 
                         if (existingPlaylist == null)
                         {
-                            Playlist playlistToRename = db.Playlists.Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedOldPlaylistName)).FirstOrDefault();
+                            Playlist playlistToRename = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedOldPlaylistName)).FirstOrDefault();
 
                             if (playlistToRename != null)
                             {
                                 playlistToRename.PlaylistName = trimmedNewPlaylistName;
-                                db.SaveChanges();
+                                conn.Update(playlistToRename);
 
                                 result = RenamePlaylistResult.Success;
                             }
@@ -224,12 +232,12 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = db.Playlists.Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (TrackInfo ti in tracks)
@@ -240,21 +248,11 @@ namespace Dopamine.Core.Database.Repositories
                                     TrackID = ti.Track.TrackID
                                 };
 
-                                if (!db.PlaylistEntries.ToList().Contains(possiblePlaylistEntry))
+                                if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
                                 {
-                                    db.PlaylistEntries.Add(possiblePlaylistEntry);
+                                    conn.Insert(possiblePlaylistEntry);
                                     numberTracksAdded += 1;
                                 }
-                            }
-
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                                result.IsSuccess = false;
                             }
                         }
                         catch (Exception ex)
@@ -284,20 +282,20 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = db.Playlists.Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Artist
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            List<Track> tracks = (from tra in db.Tracks
-                                                  join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                                  join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                                  join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            List<Track> tracks = (from tra in conn.Table<Track>()
+                                                  join alb in conn.Table<Album>() on tra.AlbumID equals alb.AlbumID
+                                                  join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
+                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                                   where (artistNames.Contains(alb.AlbumArtist) | artistNames.Contains(art.ArtistName)) & fol.ShowInCollection == 1
                                                   select tra).ToList();
 
@@ -307,20 +305,11 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry { PlaylistID = playlistID, TrackID = trk.TrackID };
 
-                                if (!db.PlaylistEntries.ToList().Contains(possiblePlaylistEntry))
+                                if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
                                 {
-                                    db.PlaylistEntries.Add(possiblePlaylistEntry);
+                                    conn.Insert(possiblePlaylistEntry);
                                     numberTracksAdded += 1;
                                 }
-                            }
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                                result.IsSuccess = false;
                             }
                         }
                         catch (Exception ex)
@@ -350,18 +339,18 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = db.Playlists.Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Genre
                             List<long> genreIds = genres.Select((g) => g.GenreID).ToList();
 
-                            List<Track> tracks = (from tra in db.Tracks
-                                                  join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            List<Track> tracks = (from tra in conn.Table<Track>()
+                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                                   where genreIds.Contains(tra.GenreID) & fol.ShowInCollection == 1
                                                   select tra).ToList();
 
@@ -370,23 +359,12 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry { PlaylistID = playlistID, TrackID = trk.TrackID };
 
-                                if (!db.PlaylistEntries.ToList().Contains(possiblePlaylistEntry))
+                                if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
                                 {
-                                    db.PlaylistEntries.Add(possiblePlaylistEntry);
+                                    conn.Insert(possiblePlaylistEntry);
                                     numberTracksAdded += 1;
                                 }
                             }
-
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                                result.IsSuccess = false;
-                            }
-
                         }
                         catch (Exception ex)
                         {
@@ -415,18 +393,18 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = db.Playlists.Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Album
                             List<long> albumIds = albums.Select((a) => a.AlbumID).ToList();
 
-                            List<Track> tracks = (from tra in db.Tracks
-                                                  join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            List<Track> tracks = (from tra in conn.Table<Track>()
+                                                  join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                                   where albumIds.Contains(tra.AlbumID) & fol.ShowInCollection == 1
                                                   select tra).ToList();
 
@@ -435,21 +413,11 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry { PlaylistID = playlistID, TrackID = trk.TrackID };
 
-                                if (!db.PlaylistEntries.ToList().Contains(possiblePlaylistEntry))
+                                if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
                                 {
-                                    db.PlaylistEntries.Add(possiblePlaylistEntry);
+                                    conn.Insert(possiblePlaylistEntry);
                                     numberTracksAdded += 1;
                                 }
-                            }
-
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                                result.IsSuccess = false;
                             }
                         }
                         catch (Exception ex)
@@ -478,7 +446,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         if (tracks != null)
                         {
@@ -486,8 +454,8 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 try
                                 {
-                                    PlaylistEntry playlistEntryToDelete = db.PlaylistEntries.Select((p) => p).Where((p) => p.TrackID.Equals(ti.Track.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
-                                    db.PlaylistEntries.Remove(playlistEntryToDelete);
+                                    PlaylistEntry playlistEntryToDelete = conn.Table<PlaylistEntry>().Select((p) => p).Where((p) => p.TrackID.Equals(ti.Track.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
+                                    conn.Delete(playlistEntryToDelete);
                                 }
                                 catch (Exception ex)
                                 {
@@ -495,16 +463,6 @@ namespace Dopamine.Core.Database.Repositories
                                     result = DeleteTracksFromPlaylistsResult.Error;
                                 }
                             }
-                        }
-
-                        try
-                        {
-                            db.SaveChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                            result = DeleteTracksFromPlaylistsResult.Error;
                         }
                     }
                 }
@@ -525,11 +483,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         int number = 1;
 
-                        while (db.Playlists.Select((p) => p.PlaylistName).ToList().Contains(uniqueName))
+                        while (conn.Table<Playlist>().Select((p) => p.PlaylistName).ToList().Contains(uniqueName))
                         {
                             number += 1;
                             uniqueName = name + " " + number;

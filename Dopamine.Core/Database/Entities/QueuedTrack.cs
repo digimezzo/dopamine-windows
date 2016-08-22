@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class QueuedTrack
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long QueuedTrackID { get; set; }
         public string Path { get; set; }
         public long OrderID { get; set; }

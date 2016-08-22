@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class ArtistRepository : IArtistRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public ArtistRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IArtistRepository
         public async Task<List<Artist>> GetArtistsAsync(ArtistType artistType)
         {
@@ -19,7 +30,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -27,17 +38,17 @@ namespace Dopamine.Core.Database.Repositories
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            trackArtists = (from art in db.Artists
-                                            join tra in db.Tracks on art.ArtistID equals tra.ArtistID
-                                            join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            trackArtists = (from art in conn.Table<Artist>()
+                                            join tra in conn.Table<Track>() on art.ArtistID equals tra.ArtistID
+                                            join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                             where fol.ShowInCollection == 1
                                             select art).Distinct().ToList();
 
                             // Get the Album Artists
-                            albumArtists = (from alb in db.Albums
-                                            join tra in db.Tracks on alb.AlbumID equals tra.AlbumID
-                                            join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                            join art in db.Artists on tra.ArtistID equals art.ArtistID
+                            albumArtists = (from alb in conn.Table<Album>()
+                                            join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
+                                            join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
+                                            join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
                                             where tra.AlbumID == alb.AlbumID & tra.ArtistID == tra.ArtistID & fol.ShowInCollection == 1
                                             select alb.AlbumArtist).Distinct().ToList();
 
@@ -86,11 +97,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            artist = db.Artists.Select((a) => a).Where((a) => a.ArtistName.Equals(artistName)).FirstOrDefault();
+                            artist = conn.Table<Artist>().Select((a) => a).Where((a) => a.ArtistName.Equals(artistName)).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -113,12 +124,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Artists.Add(artist);
-                            db.SaveChanges();
+                            conn.Insert(artist);
                         }
                         catch (Exception ex)
                         {
@@ -142,12 +152,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Artists.RemoveRange(db.Artists.Where((a) => !db.Tracks.Select((t) => t.ArtistID).Distinct().Contains(a.ArtistID)));
-                            db.SaveChanges();
+                            conn.Execute("DELETE FROM Artist WHERE ArtistID NOT IN (SELECT ArtistID FROM Track);");
                         }
                         catch (Exception ex)
                         {

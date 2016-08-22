@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +9,6 @@ namespace Dopamine.Core.Database
 {
     public sealed class Utils
     {
-        public static async Task InitializeEntityFrameworkMetaDataAsync()
-        {
-            try
-            {
-                if (!DbCreator.DatabaseExists()) return;
-
-                // Small dummy query to load EntityFramework Metadata
-                await Task.Run(() =>
-                {
-                    using (var db = new DopamineContext())
-                    {
-                        db.Configurations.Select((s) => s);
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Info("A problem occurred while preloading entity Framework Metadata. Exception: {0}", ex.Message);
-            }
-        }
-
         public static bool FilterAlbums(Album album, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
