@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class Artist
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long ArtistID { get; set; }
         public string ArtistName { get; set; }
         #endregion
 
         #region ReadOnly Properties
-        [NotMapped()]
+        [Ignore()]
         public string ArtistNameTrim
         {
             get { return ArtistName.Trim(); }

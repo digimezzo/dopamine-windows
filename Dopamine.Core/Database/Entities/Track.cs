@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLite.Net.Attributes;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class Track
     {
         #region Properties
-        [Key()]
+        [PrimaryKey()]
         public long TrackID { get; set; }
         public long ArtistID { get; set; }
         public long GenreID { get; set; }

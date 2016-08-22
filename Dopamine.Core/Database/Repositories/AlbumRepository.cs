@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class AlbumRepository : IAlbumRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public AlbumRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IAlbumRepository
         public async Task<List<Album>> GetAlbumsAsync()
         {
@@ -19,13 +30,13 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            albums = (from alb in db.Albums
-                                      join tra in db.Tracks on alb.AlbumID equals tra.AlbumID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            albums = (from alb in conn.Table<Album>()
+                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
+                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                       where fol.ShowInCollection == 1
                                       select alb).Distinct().ToList();
                         }
@@ -52,7 +63,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -61,9 +72,9 @@ namespace Dopamine.Core.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            albums = (from alb in db.Albums
-                                      join tra in db.Tracks on alb.AlbumID equals tra.AlbumID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            albums = (from alb in conn.Table<Album>()
+                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
+                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                       where (artistIDs.Contains(tra.ArtistID) | artistNames.Contains(alb.AlbumArtist)) & fol.ShowInCollection == 1
                                       select alb).Distinct().ToList();
                         }
@@ -91,7 +102,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -99,9 +110,9 @@ namespace Dopamine.Core.Database.Repositories
                             // That is why it is done outside the Linq to SQL query.
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            albums = (from alb in db.Albums
-                                      join tra in db.Tracks on alb.AlbumID equals tra.AlbumID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
+                            albums = (from alb in conn.Table<Album>()
+                                      join tra in conn.Table<Track>() on alb.AlbumID equals tra.AlbumID
+                                      join fol in conn.Table<Folder>() on tra.FolderID equals fol.FolderID
                                       where genreIDs.Contains(tra.GenreID) & fol.ShowInCollection == 1
                                       select alb).Distinct().ToList();
                         }
@@ -128,11 +139,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            album = db.Albums.Select((a) => a).Where((a) => a.AlbumTitle.Equals(albumTitle) & a.AlbumArtist.Equals(albumArtist)).FirstOrDefault();
+                            album = conn.Table<Album>().Select((a) => a).Where((a) => a.AlbumTitle.Equals(albumTitle) & a.AlbumArtist.Equals(albumArtist)).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -157,7 +168,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -167,7 +178,7 @@ namespace Dopamine.Core.Database.Repositories
                                            "GROUP BY Albums.AlbumID " +
                                            "ORDER BY playcountsum DESC, maxdatelastplayed DESC";
 
-                            albums = db.Albums.SqlQuery(query).ToList();
+                            albums = conn.Query<Album>(query).ToList();
                         }
                         catch (Exception ex)
                         {
@@ -190,12 +201,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Albums.Add(album);
-                            db.SaveChanges();
+                            conn.Insert(album);
                         }
                         catch (Exception ex)
                         {
@@ -221,12 +231,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Entry(album).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
+                            conn.Update(album);
                             isUpdateSuccess = true;
                         }
                         catch (Exception ex)
@@ -252,17 +261,17 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            Album dbAlbum = db.Albums.Select((a) => a).Where((a) => a.AlbumTitle.Equals(albumTitle) & a.AlbumArtist.Equals(albumArtist)).FirstOrDefault();
+                            Album dbAlbum = conn.Table<Album>().Select((a) => a).Where((a) => a.AlbumTitle.Equals(albumTitle) & a.AlbumArtist.Equals(albumArtist)).FirstOrDefault();
 
                             if (dbAlbum != null)
                             {
                                 dbAlbum.ArtworkID = artworkID;
                                 dbAlbum.DateLastSynced = DateTime.Now.Ticks;
-                                db.SaveChanges();
+                                conn.Update(dbAlbum);
                                 isUpdateSuccess = true;
                             }
                         }
@@ -287,12 +296,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Albums.RemoveRange(db.Albums.Where((a) => !db.Tracks.Select((t) => t.AlbumID).Distinct().Contains(a.AlbumID)));
-                            db.SaveChanges();
+                            conn.Execute("DELETE FROM Album WHERE AlbumID NOT IN (SELECT AlbumID FROM Track);");
                         }
                         catch (Exception ex)
                         {

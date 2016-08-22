@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class QueuedTrackRepository : IQueuedTrackRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public QueuedTrackRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IQueuedTrackRepository
         public async Task<List<TrackInfo>> GetSavedQueuedTracksAsync()
         {
@@ -19,15 +30,15 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            tracks = (from qtra in db.QueuedTracks
-                                      join tra in db.Tracks on qtra.Path equals tra.Path
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
+                            tracks = (from qtra in conn.Table<QueuedTrack>()
+                                      join tra in conn.Table<Track>() on qtra.Path equals tra.Path
+                                      join alb in conn.Table<Album>() on tra.AlbumID equals alb.AlbumID
+                                      join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
+                                      join gen in conn.Table<Genre>() on tra.GenreID equals gen.GenreID
                                       orderby qtra.OrderID
                                       select new TrackInfo
                                       {
@@ -60,24 +71,22 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // First, clear old queued tracks
-                            db.Database.ExecuteSqlCommand("DELETE FROM QueuedTracks;");
+                            conn.Execute("DELETE FROM QueuedTracks;");
 
                             // Then, add new queued tracks
                             for (int index = 1; index <= tracks.Count; index++)
                             {
-                                db.QueuedTracks.Add(new QueuedTrack
+                                conn.Insert(new QueuedTrack
                                 {
                                     OrderID = index,
                                     Path = tracks[index - 1].Path
                                 });
                             }
-
-                            db.SaveChanges();
                         }
                         catch (Exception ex)
                         {
