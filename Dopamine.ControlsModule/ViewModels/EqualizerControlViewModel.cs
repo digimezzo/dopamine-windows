@@ -236,6 +236,7 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
                 this.playbackService.SetIsEqualizerEnabled(value);
+                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled",value);
             }
         }
         #endregion
