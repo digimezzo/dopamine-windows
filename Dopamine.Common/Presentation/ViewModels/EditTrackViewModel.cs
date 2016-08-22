@@ -403,7 +403,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     foreach (TrackInfo ti in this.trackInfos)
                     {
-                        var fmd = new FileMetadata(ti.Track.Path);
+                        var fmd = new FileMetadata(ti.Path);
 
                         if (this.artists.IsValueChanged) fmd.Artists = this.artists;
                         if (this.title.IsValueChanged) fmd.Title = this.title;

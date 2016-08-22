@@ -364,20 +364,17 @@ namespace Dopamine.Common.Services.Playback
 
             this.isSavingQueuedTracks = true;
 
-            IList<Track> tracks = null;
+            IList<string> paths = null;
 
             await Task.Run(() =>
             {
                 lock (this.queueSyncObject)
                 {
-                    tracks = this.queuedTracks.Select((t) => t.Track).ToList();
+                    paths = this.queuedTracks.Select((t) => t.Path).ToList();
                 }
             });
 
-            if (tracks != null)
-            {
-                await this.queuedTrackRepository.SaveQueuedTracksAsync(tracks);
-            }
+            if (paths != null) await this.queuedTrackRepository.SaveQueuedTracksAsync(paths);
 
             LogClient.Instance.Logger.Info("Saved queued tracks");
 

@@ -39,7 +39,7 @@ namespace Dopamine.Core.Database.Repositories
                                                            " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
                                                            " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced,"+
                                                            " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                           " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                            " FROM QueuedTrack qtra" +
                                                            " INNER JOIN Track tra ON qtra.Path=tra.Path" +
                                                            " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
@@ -64,10 +64,8 @@ namespace Dopamine.Core.Database.Repositories
             return tracks;
         }
 
-        public async Task SaveQueuedTracksAsync(IList<Track> tracks)
+        public async Task SaveQueuedTracksAsync(IList<string> paths)
         {
-            if (tracks == null) return;
-
             await Task.Run(() =>
             {
                 try
@@ -80,12 +78,12 @@ namespace Dopamine.Core.Database.Repositories
                             conn.Execute("DELETE FROM QueuedTrack;");
 
                             // Then, add new queued tracks
-                            for (int index = 1; index <= tracks.Count; index++)
+                            for (int index = 1; index <= paths.Count; index++)
                             {
                                 conn.Insert(new QueuedTrack
                                 {
                                     OrderID = index,
-                                    Path = tracks[index - 1].Path
+                                    Path = paths[index - 1]
                                 });
                             }
                         }

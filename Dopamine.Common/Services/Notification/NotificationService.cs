@@ -100,7 +100,7 @@ namespace Dopamine.Common.Services.Notification
                 {
                     if (this.playbackService.PlayingTrack != null)
                     {
-                        artworkPath = ArtworkUtils.GetArtworkPath(this.playbackService.PlayingTrack.Album);
+                        artworkPath = ArtworkUtils.GetArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
                         playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
                         playingTrackinfoVm.TrackInfo = this.playbackService.PlayingTrack;
                     }

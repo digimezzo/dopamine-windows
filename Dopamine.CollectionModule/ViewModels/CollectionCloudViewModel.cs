@@ -182,7 +182,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     albumViewModel = new AlbumViewModel
                     {
                         Album = alb,
-                        ArtworkPath = ArtworkUtils.GetArtworkPath(alb)
+                        ArtworkPath = ArtworkUtils.GetArtworkPath(alb.ArtworkID)
                     };
                 }
             }

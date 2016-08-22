@@ -353,9 +353,9 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    foreach (Album alb in conn.Table<Album>().Where(t => !string.IsNullOrEmpty(t.ArtworkID)))
+                    foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
                     {
-                        if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb)))
+                        if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb.ArtworkID)))
                         {
                             alb.ArtworkID = string.Empty;
                             this.context.Update<Album>(alb);
@@ -391,7 +391,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    List<String> artworkIDs = conn.Table<Album>().Where((t) => !string.IsNullOrEmpty(t.ArtworkID)).Select((t) => t.ArtworkID).ToList();
+                    List<String> artworkIDs = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t.ArtworkID).ToList();
 
                     foreach (string artworkFile in artworkFiles)
                     {
