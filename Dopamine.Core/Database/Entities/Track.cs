@@ -5,7 +5,7 @@ namespace Dopamine.Core.Database.Entities
     public class Track
     {
         #region Properties
-        [PrimaryKey()]
+        [PrimaryKey(), AutoIncrement()]
         public long TrackID { get; set; }
         public long ArtistID { get; set; }
         public long GenreID { get; set; }

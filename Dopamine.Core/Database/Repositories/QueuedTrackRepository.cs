@@ -34,19 +34,20 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            tracks = (from qtra in conn.Table<QueuedTrack>()
-                                      join tra in conn.Table<Track>() on qtra.Path equals tra.Path
-                                      join alb in conn.Table<Album>() on tra.AlbumID equals alb.AlbumID
-                                      join art in conn.Table<Artist>() on tra.ArtistID equals art.ArtistID
-                                      join gen in conn.Table<Genre>() on tra.GenreID equals gen.GenreID
-                                      orderby qtra.OrderID
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path,"+
+                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle,"+
+                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
+                                                           " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced,"+
+                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                           " alb.AlbumArtist, alb.AlbumYear, alb.AlbumArtworkID" +
+                                                           " FROM QueuedTrack qtra" +
+                                                           " INNER JOIN Track tra ON qtra.Path=tra.Path" +
+                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID"+
+                                                           " ORDER BY qtra.OrderID");
+
+        
                         }
                         catch (Exception ex)
                         {
@@ -76,7 +77,7 @@ namespace Dopamine.Core.Database.Repositories
                         try
                         {
                             // First, clear old queued tracks
-                            conn.Execute("DELETE FROM QueuedTracks;");
+                            conn.Execute("DELETE FROM QueuedTrack;");
 
                             // Then, add new queued tracks
                             for (int index = 1; index <= tracks.Count; index++)

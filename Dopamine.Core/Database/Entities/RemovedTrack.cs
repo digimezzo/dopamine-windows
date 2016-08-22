@@ -5,7 +5,7 @@ namespace Dopamine.Core.Database.Entities
     public class RemovedTrack
     {
         #region Properties
-        [PrimaryKey()]
+        [PrimaryKey(), AutoIncrement()]
         public long TrackID { get; set; }
         public string Path { get; set; }
         public long DateRemoved { get; set; }

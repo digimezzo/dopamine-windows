@@ -237,7 +237,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Track.Path)));
+                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Path)));
                 }
                 catch (Exception ex)
                 {
