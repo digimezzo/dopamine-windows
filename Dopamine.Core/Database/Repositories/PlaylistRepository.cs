@@ -292,17 +292,17 @@ namespace Dopamine.Core.Database.Repositories
                             // Get all the Tracks for the selected Artist
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = "SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE (alb.AlbumArtist IN(?) OR art.ArtistName IN (?)) AND fol.ShowInCollection=1;";
+                            string q = string.Format("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE (alb.AlbumArtist IN({0}) OR art.ArtistName IN ({0})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistNames));
 
-                            List<Track> tracks = conn.Query<Track>(q, Utils.ToQueryList(artistNames), Utils.ToQueryList(artistNames));
+                            List<Track> tracks = conn.Query<Track>(q);
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (Track trk in tracks)
@@ -351,15 +351,17 @@ namespace Dopamine.Core.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Genre
-                            long[] genreIds = genres.Select((g) => g.GenreID).ToArray();
+                            List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                                                   " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                                   " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                                   " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                                   " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
-                                                                   " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                                   " WHERE tra.GenreID IN (" + string.Join(",", genreIds) + ") AND fol.ShowInCollection=1");
+                            string q = string.Format("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1", Utils.ToQueryList(genreIDs));
+
+                            List<Track> tracks = conn.Query<Track>(q);
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (Track trk in tracks)
@@ -408,15 +410,17 @@ namespace Dopamine.Core.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Album
-                            long[] albumIds = albums.Select((a) => a.AlbumID).ToArray();
+                            List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
-                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                                                   " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                                   " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                                   " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                                   " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
-                                                                   " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                                   " WHERE tra.AlbumID IN (" + string.Join(",", albumIds) + ") AND fol.ShowInCollection=1");
+                            string q = string.Format("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1", Utils.ToQueryList(albumIDs));
+
+                            List<Track> tracks = conn.Query<Track>(q);
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (Track trk in tracks)

@@ -35,19 +35,19 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                       " FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                       " WHERE tra.Path IN (?);";
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " WHERE tra.Path IN ({0});", Utils.ToQueryList(paths));
 
-                            tracks = conn.Query<TrackInfo>(q, Utils.ToQueryList(paths));                                  
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -76,18 +76,18 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                        tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                                       " FROM Track tra" +
-                                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                       " WHERE fol.ShowInCollection=1;");
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                           " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                           " FROM Track tra" +
+                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                           " WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
@@ -119,20 +119,20 @@ namespace Dopamine.Core.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                       " FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE (tra.ArtistID IN (?) OR alb.AlbumArtist IN (?)) AND fol.ShowInCollection=1;";
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
-                            tracks = conn.Query<TrackInfo>(q,Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -161,24 +161,22 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            // Extracting this list is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            string q = "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                       " FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE tra.GenreID IN (?) AND fol.ShowInCollection=1;";
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
 
-                            tracks = conn.Query<TrackInfo>(q, Utils.ToQueryList(genreIDs));
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -207,24 +205,22 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            // Extracting this list is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
-                            string q = "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                       " FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE tra.AlbumID IN (?) AND fol.ShowInCollection=1;";
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
 
-                            tracks = conn.Query<TrackInfo>(q, Utils.ToQueryList(albumIDs));
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -255,26 +251,23 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             var playlistIDs = new List<long>();
 
-                            if (playlists != null)
-                            {
-                                playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
-                            }
+                            if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
 
                             List<long> trackIDs = conn.Table<PlaylistEntry>().Where((t) => playlistIDs.Contains(t.PlaylistID)).Select((t) => t.TrackID).ToList();
 
-                            string q = "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
-                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                       " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                       " FROM Track tra" +
-                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                       " WHERE tra.TrackID IN (?);";
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " WHERE tra.TrackID IN ({0});", Utils.ToQueryList(trackIDs));
 
-                            tracks = conn.Query<TrackInfo>(q, Utils.ToQueryList(trackIDs));
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
