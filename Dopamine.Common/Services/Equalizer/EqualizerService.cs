@@ -7,6 +7,7 @@ using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -15,39 +16,7 @@ namespace Dopamine.Common.Services.Equalizer
     public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private EqualizerPreset preset;
-        private bool isEnabled;
         private string equalizerSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.EqualizerSubDirectory);
-        #endregion
-
-        #region Properties
-        public bool IsEnabled
-        {
-            get
-            {
-                return this.isEnabled;
-            }
-            set
-            {
-                this.isEnabled = value;
-                this.EqualizerIsEnabledChanged(value);
-                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
-            }
-        }
-
-        public EqualizerPreset Preset
-        {
-            get
-            {
-                return this.preset;
-            }
-        }
-        #endregion
-
-        #region Events
-        public event EqualizerPresetChangedEventhandler EqualizerPresetChanged = delegate { };
-        public event EqualizerBandChangedEventhandler EqualizerBandChanged = delegate { };
-        public event EqualizerIsEnabledChangedEventHandler EqualizerIsEnabledChanged = delegate { };
         #endregion
 
         #region Construction
@@ -60,32 +29,31 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 Directory.CreateDirectory(Path.Combine(this.equalizerSubDirectory));
             }
-
-            this.isEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
         }
         #endregion
 
         #region IEqualizerService
-        public void SetEqualizerBand(int band, double value)
+        public async Task<EqualizerPreset> GetSelectedPresetAsync()
         {
-            this.Preset.Bands[band] = value;
-            this.EqualizerBandChanged(band, value);
-            // TODO: update settings
+            var presets = await this.GetPresetsAsync();
+
+            string selectedPresetName = XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset");
+            EqualizerPreset selectedPreset = presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
+
+            if(selectedPreset == null)
+            {
+                selectedPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
+            }
+
+            return selectedPreset;
         }
 
-        public void SetEqualizerPreset(EqualizerPreset preset)
+        public async Task<List<EqualizerPreset>> GetPresetsAsync()
         {
-            this.preset = preset;
-            this.EqualizerPresetChanged(preset);
-            // TODO: update settings
-        }
-
-        public async Task<List<EqualizerPreset>> GetEqualizerPresetsAsync()
-        {
-            var equalizerPresets = new List<EqualizerPreset>();
+            var presets = new List<EqualizerPreset>();
 
             // First, get the builtin equalizer presets
-            equalizerPresets = await this.GetBuiltInEqualizerPresetsAsync();
+            presets = await this.GetBuiltInPresetsAsync();
 
             // Then, get custom equalizer presets
             var customPresets = await this.GetCustomEqualizerPresetsAsync();
@@ -94,39 +62,23 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 // Give priority to built-in presets. If the user messed up and created a custom preset 
                 // file which has the same name as a built-in preset file, the custom file is ignored.
-                if (!equalizerPresets.Contains(preset)) equalizerPresets.Add(preset);
+                if (!presets.Contains(preset)) presets.Add(preset);
             }
 
-            // Get the saved selected preset from the settings
-            string savedSelectedPresetName = XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset");
+            // Sort the presets
+            presets = presets.OrderBy((p) => p.Name.ToLower()).ToList();
 
-            foreach (EqualizerPreset preset in equalizerPresets)
-            {
-                if (preset.Name == savedSelectedPresetName)
-                {
-                    this.preset = preset;
-                }
-                break;
-            }
+            // Insert manual preset in first position
+            var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
+            manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
+            presets.Insert(0, manualPreset);
 
-            // The saved preset name was not found among the available presets:
-            // Provide the manual preset fom the settings.
-            if (this.Preset == null)
-            {
-                var manualPreset = new EqualizerPreset("%manual%", false);
-                manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
-                this.preset = manualPreset;
-            }
-
-            // Add Manual preset
-            equalizerPresets.Insert(0, new EqualizerPreset("%manual%", false));
-
-            return equalizerPresets;
+            return presets;
         }
         #endregion
 
         #region Private
-        private async Task<List<EqualizerPreset>> GetBuiltInEqualizerPresetsAsync()
+        private async Task<List<EqualizerPreset>> GetBuiltInPresetsAsync()
         {
             var builtinEqualizerPresets = new List<EqualizerPreset>();
 
@@ -140,7 +92,7 @@ namespace Dopamine.Common.Services.Equalizer
                 {
                     try
                     {
-                        builtinEqualizerPresets.Add(this.CreatePresetFromFile(fileInfo.FullName, true));
+                        builtinEqualizerPresets.Add(this.CreatePresetFromFile(fileInfo.FullName, false));
                     }
                     catch (Exception ex)
                     {
@@ -182,52 +134,16 @@ namespace Dopamine.Common.Services.Equalizer
 
             using (var reader = new StreamReader(filename))
             {
+                var bandValuesList = new List<double>();
+
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
-
-                    if (line.Contains("="))
-                    {
-                        var pieces = line.Split('=');
-
-                        if (pieces.Length == 2)
-                        {
-                            switch (pieces[0])
-                            {
-                                case "Band1":
-                                    preset.Bands[0] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band2":
-                                    preset.Bands[1] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band3":
-                                    preset.Bands[2] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band4":
-                                    preset.Bands[3] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band5":
-                                    preset.Bands[4] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band6":
-                                    preset.Bands[5] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band7":
-                                    preset.Bands[6] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band8":
-                                    preset.Bands[7] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band9":
-                                    preset.Bands[8] = Convert.ToDouble(pieces[1]);
-                                    break;
-                                case "Band10":
-                                    preset.Bands[9] = Convert.ToDouble(pieces[1]);
-                                    break;
-                            }
-                        }
-                    }
+                    double value;
+                    if (double.TryParse(line, out value)) bandValuesList.Add(value);
                 }
+
+                preset.Load(bandValuesList.ToArray());
             }
 
             return preset;

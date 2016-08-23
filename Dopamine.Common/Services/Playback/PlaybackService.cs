@@ -36,6 +36,9 @@ namespace Dopamine.Common.Services.Playback
         private IPlayer player;
 
         private IEqualizerService equalizerService;
+        private EqualizerPreset desiredPreset;
+        private EqualizerPreset activePreset;
+        private bool isEqualizerEnabled;
 
         private IPlayerFactory playerFactory;
         private object queueSyncObject = new object();
@@ -299,21 +302,8 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Interval = TimeSpan.FromSeconds(this.saveTrackStatisticsTimeoutSeconds).TotalMilliseconds;
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
-            // Handle events
-            this.equalizerService.EqualizerBandChanged += (band, value) =>
-            {
-                if (this.player != null)
-                {
-                    this.player.SetEqualizerBand(band, value);
-                }
-            };
-
-            this.equalizerService.EqualizerPresetChanged += (preset) => {
-                if (this.player != null)
-                {
-                    this.player.Preset = preset;
-                }
-            };
+            // Equalizer
+            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer","IsEnabled"));
 
             // Queued tracks
             this.GetSavedQueuedTracksAsync();
@@ -339,6 +329,35 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async void SetIsEqualizerEnabled(bool isEnabled)
+        {
+            this.isEqualizerEnabled = isEnabled;
+
+            this.desiredPreset = await this.equalizerService.GetSelectedPresetAsync();
+
+            if (isEnabled)
+            {
+                this.activePreset = this.desiredPreset;
+            }
+            else
+            {
+                this.activePreset = new EqualizerPreset();
+            }
+
+            if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
+        }
+
+        public void ApplyPreset(EqualizerPreset preset)
+        {
+            this.desiredPreset = preset;
+
+            if (this.isEqualizerEnabled)
+            {
+                this.activePreset = desiredPreset;
+                if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
+            } 
+        }
+
         public async Task SaveQueuedTracksAsync()
         {
             this.saveQueuedTracksTimer.Stop();
@@ -932,7 +951,7 @@ namespace Dopamine.Common.Services.Playback
                 // Play the Track from its runtime path (current or temporary)
                 this.player = this.playerFactory.Create(Path.GetExtension(trackInfo.Track.Path));
 
-                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode);
+                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
 
                 this.ToggleMute();
 
@@ -941,9 +960,6 @@ namespace Dopamine.Common.Services.Playback
                 // at least, the next time TryPlayNext is called, it will know that 
                 // we already tried to play this track and it can find the next Track.
                 this.playingTrack = trackInfo;
-
-                // Set the equalizer preset
-                this.player.Preset = this.equalizerService.Preset;
 
                 // Play the Track
                 await Task.Run(() => this.player.Play(trackInfo.Track.Path));

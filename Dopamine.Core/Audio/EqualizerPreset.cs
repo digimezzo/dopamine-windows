@@ -1,18 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Dopamine.Core.Audio
 {
+    public delegate void BandValueChangedEventHandler(int bandIndex, double newValue);
 
     public class EqualizerPreset
     {
         #region Variables
+        private double[] bands;
         private string name;
         private bool isRemovable;
         #endregion
 
         #region Properties
-        public double[] Bands { get; set; }
-     
+        public double[] Bands
+        {
+            get { return this.bands; }
+            set
+            {
+                this.bands= value;
+            }
+        }
+
         public bool IsRemovable
         {
             get { return this.isRemovable; }
@@ -22,31 +34,39 @@ namespace Dopamine.Core.Audio
         {
             get { return this.name; }
         }
+
+        private string displayName;
+
+        public string DisplayName
+        {
+            get { return this.displayName; }
+            set
+            {
+                this.displayName = value;
+            }
+        }
         #endregion
 
         #region Construction
         public EqualizerPreset(string name, bool isRemovable)
         {
             this.name = name;
+            this.DisplayName = name;
             this.isRemovable = isRemovable;
-            this.LoadDefault();
+            this.Initialize();
+        }
+
+        public EqualizerPreset()
+        {
+            this.name = Guid.NewGuid().ToString();
+            this.DisplayName = name;
+            this.isRemovable = false;
+            this.Initialize();
         }
         #endregion
 
-        #region Public
-        public void Load(double[] bands)
-        {
-            if (bands != null && bands.Length == 10)
-            {
-                this.Bands = bands;
-            }
-            else
-            {
-                this.LoadDefault();
-            }
-        }
-
-        public void LoadDefault()
+        #region Private
+        private void Initialize()
         {
             var bandsList = new List<double>();
 
@@ -59,10 +79,54 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
+        #region Public
+        public void Load(double[] values)
+        {
+            for (int i = 0; i < values.Count(); i++)
+            {
+                this.Bands[i] = values[i];
+            }
+        }
+
+        public void Load(double zero, double one, double two, double three, double four, double five, double six, double seven, double eight, double nine)
+        {
+            this.Bands[0] = zero;
+            this.Bands[1] = one;
+            this.Bands[2] = two;
+            this.Bands[3] = three;
+            this.Bands[4] = four;
+            this.Bands[5] = five;
+            this.Bands[6] = six;
+            this.Bands[7] = seven;
+            this.Bands[8] = eight;
+            this.Bands[9] = nine;
+        }
+
+        public string ToValueString()
+        {
+            return string.Join(";", this.Bands);
+        }
+        #endregion
+
         #region Overrides
         public override string ToString()
         {
-            return this.name;
+            return this.DisplayName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+
+            return this.name.Equals(((EqualizerPreset)obj).name);
+        }
+
+        public override int GetHashCode()
+        {
+            return new { this.name }.GetHashCode();
         }
         #endregion
     }

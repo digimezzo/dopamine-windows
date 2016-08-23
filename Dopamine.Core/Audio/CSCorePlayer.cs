@@ -40,7 +40,7 @@ namespace Dopamine.Core.Audio
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
-        private EqualizerPreset preset;
+        private double[] filterValues;
 
         // Flags
         private bool isPlaying;
@@ -83,18 +83,6 @@ namespace Dopamine.Core.Audio
         }
         #endregion
 
-        #region Properties
-        public EqualizerPreset Preset
-        {
-            get { return this.preset; }
-            set
-            {
-                this.preset = value;
-                this.SetEqualizerPreset();
-            }
-        }
-        #endregion
-
         #region ReadOnly Properties
         public string Filename
         {
@@ -124,18 +112,29 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Public
-        public void SetEqualizerBand(int band, double value)
+        public void ApplyFilterValue(int index, double value)
         {
             if (this.equalizer == null) return;
 
-            EqualizerFilter filter = this.equalizer.SampleFilters[band];
+            EqualizerFilter filter = this.equalizer.SampleFilters[index];
             filter.AverageGainDB = (float)(value);
         }
 
-        public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode)
+        public void ApplyFilter(double[] filterValues)
+        {
+            if (filterValues == null) return;
+
+            for (var i = 0; i < filterValues.Length; i++)
+            {
+                this.ApplyFilterValue(i, filterValues[i]);
+            }
+        }
+
+        public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, double[] filterValues)
         {
             this.latency = latency;
             this.eventSync = eventMode;
+            this.filterValues = filterValues;
 
             if (exclusiveMode)
             {
@@ -250,7 +249,7 @@ namespace Dopamine.Core.Audio
             this.canStop = true;
 
             this.InitializeSoundOut(this.GetCodec(this.filename));
-            this.SetEqualizerPreset();
+            this.ApplyFilter(this.filterValues);
             this.soundOut.Play();
         }
 
@@ -330,16 +329,6 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Private
-        private void SetEqualizerPreset()
-        {
-            if (this.preset == null) return;
-
-            for (var i = 0; i < this.preset.Bands.Length; i++)
-            {
-                this.SetEqualizerBand(i, preset.Bands[i]);
-            }
-        }
-
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // SoundOut implementation which plays the sound
@@ -443,9 +432,9 @@ namespace Dopamine.Core.Audio
 
             var sampleFilters = new[]
             {
-                new EqualizerChannelFilter(sampleRate, 60, bandWidth, defaultGain),
-                new EqualizerChannelFilter(sampleRate, 170, bandWidth, defaultGain),
-                new EqualizerChannelFilter(sampleRate, 310, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 70, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 180, bandWidth, defaultGain),
+                new EqualizerChannelFilter(sampleRate, 320, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 600, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 1000, bandWidth, defaultGain),
                 new EqualizerChannelFilter(sampleRate, 3000, bandWidth, defaultGain),

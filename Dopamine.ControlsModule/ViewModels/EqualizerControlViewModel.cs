@@ -1,8 +1,17 @@
-﻿using Dopamine.Common.Services.Equalizer;
+﻿using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
+using Dopamine.Core.Base;
+using Dopamine.Core.IO;
+using Dopamine.Core.Logging;
+using Dopamine.Core.Settings;
+using Dopamine.Core.Utils;
+using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -10,27 +19,195 @@ namespace Dopamine.ControlsModule.ViewModels
     public class EqualizerControlViewModel : BindableBase
     {
         #region Variables
-        private ObservableCollection<EqualizerPreset> presets;
-        private EqualizerPreset selectedPreset;
-
-        private bool isEqualizerEnabled;
-
-        private double slider1Value;
-        private double slider2Value;
-        private double slider3Value;
-        private double slider4Value;
-        private double slider5Value;
-        private double slider6Value;
-        private double slider7Value;
-        private double slider8Value;
-        private double slider9Value;
-        private double slider10Value;
-
         private IPlaybackService playbackService;
         private IEqualizerService equalizerService;
+        private IDialogService dialogService;
+
+        private ObservableCollection<EqualizerPreset> presets;
+        private EqualizerPreset selectedPreset;
+        private bool isEqualizerEnabled;
+
+        private bool canApplyManualPreset;
+
+        private double band0;
+        private double band1;
+        private double band2;
+        private double band3;
+        private double band4;
+        private double band5;
+        private double band6;
+        private double band7;
+        private double band8;
+        private double band9;
+        #endregion
+
+        #region Commands
+        public DelegateCommand ResetCommand { get; set; }
+        public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand DeleteCommand { get; set; }
         #endregion
 
         #region Properties
+        public double Band0
+        {
+            get { return this.band0; }
+            set
+            {
+                SetProperty<double>(ref this.band0, value);
+                OnPropertyChanged(() => this.Band0Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band0Label
+        {
+            get { return this.FormatLabel(this.band0); }
+        }
+
+        public double Band1
+        {
+            get { return this.band1; }
+            set
+            {
+                SetProperty<double>(ref this.band1, value);
+                OnPropertyChanged(() => this.Band1Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band1Label
+        {
+            get { return this.FormatLabel(this.band1); }
+        }
+
+        public double Band2
+        {
+            get { return this.band2; }
+            set
+            {
+                SetProperty<double>(ref this.band2, value);
+                OnPropertyChanged(() => this.Band2Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band2Label
+        {
+            get { return this.FormatLabel(this.band2); }
+        }
+
+        public double Band3
+        {
+            get { return this.band3; }
+            set
+            {
+                SetProperty<double>(ref this.band3, value);
+                OnPropertyChanged(() => this.Band3Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band3Label
+        {
+            get { return this.FormatLabel(this.band3); }
+        }
+
+        public double Band4
+        {
+            get { return this.band4; }
+            set
+            {
+                SetProperty<double>(ref this.band4, value);
+                OnPropertyChanged(() => this.Band4Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band4Label
+        {
+            get { return this.FormatLabel(this.band4); }
+        }
+
+        public double Band5
+        {
+            get { return this.band5; }
+            set
+            {
+                SetProperty<double>(ref this.band5, value);
+                OnPropertyChanged(() => this.Band5Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band5Label
+        {
+            get { return this.FormatLabel(this.band5); }
+        }
+
+        public double Band6
+        {
+            get { return this.band6; }
+            set
+            {
+                SetProperty<double>(ref this.band6, value);
+                OnPropertyChanged(() => this.Band6Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band6Label
+        {
+            get { return this.FormatLabel(this.band6); }
+        }
+
+        public double Band7
+        {
+            get { return this.band7; }
+            set
+            {
+                SetProperty<double>(ref this.band7, value);
+                OnPropertyChanged(() => this.Band7Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band7Label
+        {
+            get { return this.FormatLabel(this.band7); }
+        }
+
+        public double Band8
+        {
+            get { return this.band8; }
+            set
+            {
+                SetProperty<double>(ref this.band8, value);
+                OnPropertyChanged(() => this.Band8Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band8Label
+        {
+            get { return this.FormatLabel(this.band8); }
+        }
+
+        public double Band9
+        {
+            get { return this.band9; }
+            set
+            {
+                SetProperty<double>(ref this.band9, value);
+                OnPropertyChanged(() => this.Band9Label);
+                this.ApplyManualPreset();
+            }
+        }
+
+        public string Band9Label
+        {
+            get { return this.FormatLabel(this.band9); }
+        }
+
         public ObservableCollection<EqualizerPreset> Presets
         {
             get { return this.presets; }
@@ -46,7 +223,9 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
-                this.ApplyEqualizerPreset(value);
+                this.SetBandValues();
+                this.ApplySelectedPreset();
+                this.DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -56,287 +235,216 @@ namespace Dopamine.ControlsModule.ViewModels
             set
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
-                if (this.equalizerService != null) this.equalizerService.IsEnabled = value;
-            }
-        }
-
-        public double Slider1Value
-        {
-            get { return this.slider1Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider1Value, value);
-                this.ApplyEqualizerBand(0, value);
-                OnPropertyChanged(() => this.Slider1Text);
-            }
-        }
-
-        public double Slider2Value
-        {
-            get { return this.slider2Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider2Value, value);
-                this.ApplyEqualizerBand(1, value);
-                OnPropertyChanged(() => this.Slider2Text);
-            }
-        }
-
-        public double Slider3Value
-        {
-            get { return this.slider3Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider3Value, value);
-                this.ApplyEqualizerBand(2, value);
-                OnPropertyChanged(() => this.Slider3Text);
-            }
-        }
-
-        public double Slider4Value
-        {
-            get { return this.slider4Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider4Value, value);
-                this.ApplyEqualizerBand(3, value);
-                OnPropertyChanged(() => this.Slider4Text);
-            }
-        }
-
-        public double Slider5Value
-        {
-            get { return this.slider5Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider5Value, value);
-                this.ApplyEqualizerBand(4, value);
-                OnPropertyChanged(() => this.Slider5Text);
-            }
-        }
-
-        public double Slider6Value
-        {
-            get { return this.slider6Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider6Value, value);
-                this.ApplyEqualizerBand(5, value);
-                OnPropertyChanged(() => this.Slider6Text);
-            }
-        }
-
-        public double Slider7Value
-        {
-            get { return this.slider7Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider7Value, value);
-                this.ApplyEqualizerBand(6, value);
-                OnPropertyChanged(() => this.Slider7Text);
-            }
-        }
-
-        public double Slider8Value
-        {
-            get { return this.slider8Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider8Value, value);
-                this.ApplyEqualizerBand(7, value);
-                OnPropertyChanged(() => this.Slider8Text);
-            }
-        }
-
-        public double Slider9Value
-        {
-            get { return this.slider9Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider9Value, value);
-                this.ApplyEqualizerBand(8, value);
-                OnPropertyChanged(() => this.Slider9Text);
-            }
-        }
-
-        public double Slider10Value
-        {
-            get { return this.slider10Value; }
-            set
-            {
-                SetProperty<double>(ref this.slider10Value, value);
-                this.ApplyEqualizerBand(9, value);
-                OnPropertyChanged(() => this.Slider10Text);
-            }
-        }
-
-        public string Slider1Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider1Value);
-            }
-        }
-
-        public string Slider2Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider2Value);
-            }
-        }
-
-        public string Slider3Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider3Value);
-            }
-        }
-
-        public string Slider4Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider4Value);
-            }
-        }
-
-        public string Slider5Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider5Value);
-            }
-        }
-
-        public string Slider6Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider6Value);
-            }
-        }
-
-        public string Slider7Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider7Value);
-            }
-        }
-
-        public string Slider8Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider8Value);
-            }
-        }
-
-        public string Slider9Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider9Value);
-            }
-        }
-
-        public string Slider10Text
-        {
-            get
-            {
-                return FormatSliderText(this.slider10Value);
+                this.playbackService.SetIsEqualizerEnabled(value);
+                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled",value);
             }
         }
         #endregion
 
         #region Construction
-        public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService)
+        public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService, IDialogService dialogService)
         {
+            // Variables
             this.playbackService = playbackService;
             this.equalizerService = equalizerService;
+            this.dialogService = dialogService;
 
+            this.IsEqualizerEnabled = XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled");
+
+            // Commands
+            this.ResetCommand = new DelegateCommand(() =>
+            {
+                this.canApplyManualPreset = false;
+                this.Band0 = this.Band1 = this.Band2 = this.Band3 = this.Band4 = this.Band5 = this.Band6 = this.Band7 = this.Band8 = this.Band9 = 0.0;
+                this.canApplyManualPreset = true;
+
+                this.ApplyManualPreset();
+            });
+
+            this.DeleteCommand = new DelegateCommand(async () => { await this.DeletePresetAsync(); }, () =>
+             {
+                 if (this.SelectedPreset != null)
+                 {
+                     return this.SelectedPreset.IsRemovable;
+                 }
+                 else
+                 {
+                     return false;
+                 }
+             });
+
+            this.SaveCommand = new DelegateCommand(async () => { await this.SavePresetToFileAsync(); });
+
+            // Initialize
             this.InitializeAsync();
         }
         #endregion
 
         #region Private
-        private string FormatSliderText(double value)
+        private void ApplySelectedPreset()
+        {
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", this.SelectedPreset.Name);
+            this.playbackService.ApplyPreset(new EqualizerPreset(this.SelectedPreset.Name, this.SelectedPreset.IsRemovable) { Bands = this.SelectedPreset.Bands });
+        }
+
+        private void ApplyManualPreset()
+        {
+            if (!this.canApplyManualPreset) return;
+
+            EqualizerPreset manualPreset = this.Presets.Select((p) => p).Where((p) => p.Name == Defaults.ManualPresetName).FirstOrDefault();
+            manualPreset.Load(this.Band0, this.Band1, this.Band2, this.Band3, this.Band4, this.Band5, this.Band6, this.Band7, this.Band8, this.Band9);
+
+            XmlSettingsClient.Instance.Set<string>("Equalizer", "ManualPreset", manualPreset.ToValueString());
+
+            // Once a slider has moved, revert to the manual preset (also in the settings).
+            if (this.SelectedPreset.Name != Defaults.ManualPresetName)
+            {
+                this.SelectedPreset = manualPreset;
+                XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+            }
+
+            this.playbackService.ApplyPreset(manualPreset);
+        }
+
+        private string FormatLabel(double value)
         {
             return value >= 0 ? value.ToString("+0.0") : value.ToString("0.0");
         }
 
         private async void InitializeAsync()
         {
-            this.IsEqualizerEnabled = equalizerService.IsEnabled;
-
             ObservableCollection<EqualizerPreset> localEqualizerPresets = new ObservableCollection<EqualizerPreset>();
 
-            foreach (EqualizerPreset preset in await this.equalizerService.GetEqualizerPresetsAsync())
+            foreach (EqualizerPreset preset in await this.equalizerService.GetPresetsAsync())
             {
+                if (preset.Name == Defaults.ManualPresetName) preset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
                 localEqualizerPresets.Add(preset);
             }
 
             this.Presets = localEqualizerPresets;
 
-            this.SetSliderValues(equalizerService.Preset);
+            this.SelectedPreset = await this.equalizerService.GetSelectedPresetAsync(); // Don't use the SelectedPreset setter directly, because that saves SelectedPreset to the settings file.
+
+            this.SetBandValues();
         }
 
-        private void ApplyEqualizerBand(int band, double value)
+        private void SetBandValues()
         {
-            if (this.equalizerService != null)
+            this.canApplyManualPreset = false;
+
+            this.Band0 = this.SelectedPreset.Bands[0];
+            this.Band1 = this.SelectedPreset.Bands[1];
+            this.Band2 = this.SelectedPreset.Bands[2];
+            this.Band3 = this.SelectedPreset.Bands[3];
+            this.Band4 = this.SelectedPreset.Bands[4];
+            this.Band5 = this.SelectedPreset.Bands[5];
+            this.Band6 = this.SelectedPreset.Bands[6];
+            this.Band7 = this.SelectedPreset.Bands[7];
+            this.Band8 = this.SelectedPreset.Bands[8];
+            this.Band9 = this.SelectedPreset.Bands[9];
+
+            this.canApplyManualPreset = true;
+        }
+
+        private async Task SavePresetToFileAsync()
+        {
+            var showSaveDialog = true;
+
+            var dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = string.Empty;
+            dlg.DefaultExt = FileFormats.EQUALIZERPRESET;
+            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.EQUALIZERPRESET, ")|*", FileFormats.EQUALIZERPRESET);
+            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory);
+
+            while (showSaveDialog)
             {
-                this.equalizerService.SetEqualizerBand(band, value);
+                if ((bool)dlg.ShowDialog())
+                {
+                    int existingCount = this.presets.Select((p) => p).Where((p) => p.Name.ToLower() == System.IO.Path.GetFileNameWithoutExtension(dlg.FileName).ToLower() & !p.IsRemovable).Count();
+
+                    if (existingCount > 0)
+                    {
+                        dlg.FileName = string.Empty;
+
+                        this.dialogService.ShowNotification(
+                                                0xe711,
+                                                16,
+                                                ResourceUtils.GetStringResource("Language_Error"),
+                                                ResourceUtils.GetStringResource("Language_Preset_Already_Taken"),
+                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                false,
+                                                string.Empty);
+                    }
+                    else
+                    {
+                        showSaveDialog = false;
+
+                        try
+                        {
+                            await Task.Run(() => {
+                                string[] lines = this.SelectedPreset.Bands.Select((b) => b.ToString()).ToArray();
+                                System.IO.File.WriteAllLines(dlg.FileName, lines);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
+
+                            this.dialogService.ShowNotification(
+                                                0xe711,
+                                                16,
+                                                ResourceUtils.GetStringResource("Language_Error"),
+                                                ResourceUtils.GetStringResource("Language_Error_While_Saving_Preset"),
+                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                true,
+                                                ResourceUtils.GetStringResource("Language_Log_File"));
+
+                        }
+                        XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", System.IO.Path.GetFileNameWithoutExtension(dlg.FileName));
+                        this.InitializeAsync();
+                    }
+                }
+                else
+                {
+                    showSaveDialog = false; // Makes sure the dialog doesn't re-appear when pressing cancel
+                }
             }
         }
 
-        private void ApplyEqualizerPreset(EqualizerPreset preset)
+        private async Task DeletePresetAsync()
         {
-            if (this.equalizerService != null)
+            if (this.dialogService.ShowConfirmation(
+                0xe11b,
+                16,
+                ResourceUtils.GetStringResource("Language_Delete_Preset"),
+                ResourceUtils.GetStringResource("Language_Delete_Preset_Confirmation").Replace("%preset%", this.SelectedPreset.Name),
+                ResourceUtils.GetStringResource("Language_Yes"),
+                ResourceUtils.GetStringResource("Language_No")))
             {
-                this.equalizerService.SetEqualizerPreset(preset);
+                try
+                {
+                    await Task.Run(() => {
+                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory, this.SelectedPreset.Name + FileFormats.EQUALIZERPRESET);
+                        System.IO.File.Delete(presetPath);
+                    });
+
+                    XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+                    this.InitializeAsync();
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset, ex.Message);
+
+                    this.dialogService.ShowNotification(
+                                        0xe711,
+                                        16,
+                                        ResourceUtils.GetStringResource("Language_Error"),
+                                        ResourceUtils.GetStringResource("Language_Error_While_Deleting_Preset"),
+                                        ResourceUtils.GetStringResource("Language_Ok"),
+                                        true,
+                                        ResourceUtils.GetStringResource("Language_Log_File"));
+                }
             }
-
-            this.SetSliderValues(preset);
-        }
-
-        private void SetSliderValues(EqualizerPreset preset)
-        {
-            // Don't change the properties directly, change their backing fields. 
-            // This prevents ApplyEqualizerBand from beng called by the setter of the properties.
-            this.slider1Value = preset.Bands[0];
-            this.slider2Value = preset.Bands[1];
-            this.slider3Value = preset.Bands[2];
-            this.slider4Value = preset.Bands[3];
-            this.slider5Value = preset.Bands[4];
-            this.slider6Value = preset.Bands[5];
-            this.slider7Value = preset.Bands[6];
-            this.slider8Value = preset.Bands[7];
-            this.slider9Value = preset.Bands[8];
-            this.slider10Value = preset.Bands[9];
-
-            OnPropertyChanged(() => this.Slider1Value);
-            OnPropertyChanged(() => this.Slider2Value);
-            OnPropertyChanged(() => this.Slider3Value);
-            OnPropertyChanged(() => this.Slider4Value);
-            OnPropertyChanged(() => this.Slider5Value);
-            OnPropertyChanged(() => this.Slider6Value);
-            OnPropertyChanged(() => this.Slider7Value);
-            OnPropertyChanged(() => this.Slider8Value);
-            OnPropertyChanged(() => this.Slider9Value);
-            OnPropertyChanged(() => this.Slider10Value);
-
-            OnPropertyChanged(() => this.Slider1Text);
-            OnPropertyChanged(() => this.Slider2Text);
-            OnPropertyChanged(() => this.Slider3Text);
-            OnPropertyChanged(() => this.Slider4Text);
-            OnPropertyChanged(() => this.Slider5Text);
-            OnPropertyChanged(() => this.Slider6Text);
-            OnPropertyChanged(() => this.Slider7Text);
-            OnPropertyChanged(() => this.Slider8Text);
-            OnPropertyChanged(() => this.Slider9Text);
-            OnPropertyChanged(() => this.Slider10Text);
         }
         #endregion
     }

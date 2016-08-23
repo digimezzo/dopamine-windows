@@ -14,7 +14,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, true);
+            player.SetOutputDevice(200, false, true, new EqualizerPreset().Bands);
             player.SetVolume(0.0f);
             player.Play(audioFile);
         }
@@ -25,7 +25,7 @@ namespace Dopamine.Tests
             string audioFile = @"Files\AudioFormatsTest\test.mp3";
 
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, false, true);
+            player.SetOutputDevice(200, false, true, new EqualizerPreset().Bands);
             player.SetVolume(0.3f);
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
