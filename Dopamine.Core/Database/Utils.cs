@@ -154,7 +154,8 @@ namespace Dopamine.Core.Database
 
         public static string ToQueryList(IList<string> list)
         {
-            return string.Join(",", list.Select((item) => "'"+item+"'").ToArray());
+            var str = string.Join(",", list.Select((item) => "'" + item.Replace("'","''") + "'").ToArray());
+            return str;
         }
     }
 }
