@@ -34,7 +34,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            genres = conn.Query<Genre>("SELECT DISTINCT * FROM Genre gen"+
+                            genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, gen.GenreName FROM Genre gen" +
                                                        " INNER JOIN Track tra ON gen.GenreID=tra.GenreID" +
                                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                        " WHERE fol.ShowInCollection=1");

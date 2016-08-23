@@ -38,13 +38,13 @@ namespace Dopamine.Core.Database.Repositories
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            trackArtists = conn.Query<Artist>("SELECT DISTINCT * FROM Artist art" +
+                            trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, art.ArtistName FROM Artist art" +
                                                               " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
                                                               " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                               " WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
-                            var albums = conn.Query<Album>("SELECT DISTINCT * FROM Album alb" +
+                            var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
                                                            " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                                            " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                            " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +

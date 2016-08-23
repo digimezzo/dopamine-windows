@@ -292,7 +292,11 @@ namespace Dopamine.Core.Database.Repositories
                             // Get all the Tracks for the selected Artist
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = "SELECT DISTINCT * FROM Track" +
+                            string q = "SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                       " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                       " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
                                        " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                        " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
@@ -349,7 +353,11 @@ namespace Dopamine.Core.Database.Repositories
                             // Get all the Tracks for the selected Genre
                             long[] genreIds = genres.Select((g) => g.GenreID).ToArray();
 
-                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT * FROM Track tra" +
+                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                                   " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                                   " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                                   " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                                   " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
                                                                    " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                                    " WHERE tra.GenreID IN (" + string.Join(",", genreIds) + ") AND fol.ShowInCollection=1");
 
@@ -402,7 +410,11 @@ namespace Dopamine.Core.Database.Repositories
                             // Get all the Tracks for the selected Album
                             long[] albumIds = albums.Select((a) => a.AlbumID).ToArray();
 
-                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT * FROM Track tra" +
+                            List<Track> tracks = conn.Query<Track>("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                                   " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                                   " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                                   " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                                   " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
                                                                    " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                                    " WHERE tra.AlbumID IN (" + string.Join(",", albumIds) + ") AND fol.ShowInCollection=1");
 

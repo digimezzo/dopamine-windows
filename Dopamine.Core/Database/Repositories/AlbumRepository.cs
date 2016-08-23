@@ -1,6 +1,7 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
+using SQLite.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +35,10 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT DISTINCT * FROM Album a" +
-                                       " INNER JOIN Track t ON a.AlbumID=t.AlbumID" +
-                                       " INNER JOIN Folder f ON t.FolderID=f.FolderID" +
-                                       " WHERE f.ShowInCollection=1;";
-
-                            albums = conn.Query<Album>(q);
+                            albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                       " WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
@@ -68,11 +67,11 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT DISTINCT * FROM Album alb" +
+                            string q = "SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                        " WHERE (tra.ArtistID IN (?) OR alb.AlbumArtist IN (?)) AND fol.ShowInCollection=1;";
-
+                            
                             albums = conn.Query<Album>(q, Utils.ToQueryList(artists.Select((a) => a.ArtistID).ToList()), Utils.ToQueryList(artists.Select((a) => a.ArtistName).ToList()));
                         }
                         catch (Exception ex)
@@ -103,7 +102,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT DISTINCT * FROM Album alb" +
+                            string q = "SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                        " WHERE tra.GenreID IN (?) AND fol.ShowInCollection=1;";
