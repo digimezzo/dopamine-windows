@@ -67,12 +67,15 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                            List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
+                            List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
+
+                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE (tra.ArtistID IN (?) OR alb.AlbumArtist IN (?)) AND fol.ShowInCollection=1;";
+                                       " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
-                            albums = conn.Query<Album>(q, Utils.ToQueryList(artists.Select((a) => a.ArtistID).ToList()), Utils.ToQueryList(artists.Select((a) => a.ArtistName).ToList()));
+                            albums = conn.Query<Album>(q);
                         }
                         catch (Exception ex)
                         {
