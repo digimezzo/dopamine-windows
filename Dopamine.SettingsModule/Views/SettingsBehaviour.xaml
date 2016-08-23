@@ -11,7 +11,7 @@
              xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0" PanningMode="Both">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_System_Tray}" />
             <StackPanel Margin="0,5,0,0">
