@@ -5,6 +5,7 @@
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
     Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
     Accent="{DynamicResource RG_AccentBrush}"
+    OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
     Background="Transparent"
     ShowWindowControls="False">
 

@@ -16,6 +16,9 @@
                                                                         "folder.jpeg",
                                                                         "folder.png"
                                                                    };
+
+        public static readonly string ManualPresetName = "Manual";
+
         public static readonly string UnknownAlbumString = "Unknown Album";
         public static readonly string UnknownArtistString = "Unknown Artist";
         public static readonly string UnknownGenreString = "Unknown Genre";

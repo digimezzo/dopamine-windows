@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dopamine.Views"
         mc:Ignorable="d"
-        Title="Oobe"
+        Title="Dopamine"
         Height="550" 
         Width="400"
         ResizeMode="NoResize"
