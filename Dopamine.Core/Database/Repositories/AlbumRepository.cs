@@ -71,7 +71,7 @@ namespace Dopamine.Core.Database.Repositories
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                        " WHERE (tra.ArtistID IN (?) OR alb.AlbumArtist IN (?)) AND fol.ShowInCollection=1;";
-                            
+
                             albums = conn.Query<Album>(q, Utils.ToQueryList(artists.Select((a) => a.ArtistID).ToList()), Utils.ToQueryList(artists.Select((a) => a.ArtistName).ToList()));
                         }
                         catch (Exception ex)
@@ -102,12 +102,14 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            string q = "SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
-                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE tra.GenreID IN (?) AND fol.ShowInCollection=1;";
+                            List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            albums = conn.Query<Album>(q, Utils.ToQueryList(genres.Select((g) => g.GenreID).ToList()));
+                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                                                     " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
+
+                            albums = conn.Query<Album>(q);
                         }
                         catch (Exception ex)
                         {
@@ -165,10 +167,10 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT Album.AlbumID, Album.AlbumTitle, Album.AlbumArtist, Album.Year, Album.ArtworkID, Album.DateLastSynced, Album.DateAdded, MAX(Track.DateLastPlayed) AS maxdatelastplayed, SUM(Track.PlayCount) AS playcountsum FROM Album" +
-                                                       " LEFT JOIN Track ON Album.AlbumID = Track.AlbumID" +
-                                                       " WHERE Track.PlayCount IS NOT NULL AND Track.PlayCount > 0" +
-                                                       " GROUP BY Album.AlbumID" +
+                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, MAX(tra.DateLastPlayed) AS maxdatelastplayed, SUM(tra.PlayCount) AS playcountsum FROM Album alb" +
+                                                       " LEFT JOIN Track tra ON alb.AlbumID = tra.AlbumID" +
+                                                       " WHERE tra.PlayCount IS NOT NULL AND tra.PlayCount > 0" +
+                                                       " GROUP BY alb.AlbumID" +
                                                        " ORDER BY playcountsum DESC, maxdatelastplayed DESC");
                         }
                         catch (Exception ex)
