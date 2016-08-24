@@ -1,4 +1,4 @@
-22-08-2017: Dopamine 1.1.681.0 (Preview)
+24-08-2017: Dopamine 1.1.682.0 (Preview)
 ----------------------------------------
 
 - Fixed a bug where the equalizer didn't remain enabled
