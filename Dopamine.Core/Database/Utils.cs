@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +9,6 @@ namespace Dopamine.Core.Database
 {
     public sealed class Utils
     {
-        public static async Task InitializeEntityFrameworkMetaDataAsync()
-        {
-            try
-            {
-                if (!DbCreator.DatabaseExists()) return;
-
-                // Small dummy query to load EntityFramework Metadata
-                await Task.Run(() =>
-                {
-                    using (var db = new DopamineContext())
-                    {
-                        db.Configurations.Select((s) => s);
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Info("A problem occurred while preloading entity Framework Metadata. Exception: {0}", ex.Message);
-            }
-        }
-
         public static bool FilterAlbums(Album album, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
@@ -73,13 +51,13 @@ namespace Dopamine.Core.Database
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
             // Just making sure that all fields are not Nothing
-            if (trackInfo.Track.TrackTitle == null) trackInfo.Track.TrackTitle = string.Empty;
-            if (trackInfo.Artist.ArtistName == null) trackInfo.Artist.ArtistName = string.Empty;
-            if (trackInfo.Album.AlbumTitle == null) trackInfo.Album.AlbumTitle = string.Empty;
-            if (trackInfo.Track.FileName == null) trackInfo.Track.FileName = string.Empty;
-            if (trackInfo.Track.Year == null) trackInfo.Track.Year = 0;
+            if (trackInfo.TrackTitle == null) trackInfo.TrackTitle = string.Empty;
+            if (trackInfo.ArtistName == null) trackInfo.ArtistName = string.Empty;
+            if (trackInfo.AlbumTitle == null) trackInfo.AlbumTitle = string.Empty;
+            if (trackInfo.FileName == null) trackInfo.FileName = string.Empty;
+            if (trackInfo.Year == null) trackInfo.Year = 0;
 
-            return pieces.All((s) => trackInfo.Track.TrackTitle.ToLower().Contains(s.ToLower()) | trackInfo.Artist.ArtistName.ToLower().Contains(s.ToLower()) | trackInfo.Album.AlbumTitle.ToLower().Contains(s.ToLower()) | trackInfo.Track.FileName.ToLower().Contains(s.ToLower()) | trackInfo.Track.Year.ToString().Contains(s.ToLower()));
+            return pieces.All((s) => trackInfo.TrackTitle.ToLower().Contains(s.ToLower()) | trackInfo.ArtistName.ToLower().Contains(s.ToLower()) | trackInfo.AlbumTitle.ToLower().Contains(s.ToLower()) | trackInfo.FileName.ToLower().Contains(s.ToLower()) | trackInfo.Year.ToString().Contains(s.ToLower()));
         }
 
         public static string GetSortableString(string originalString, bool removePrefix = false)
@@ -142,31 +120,42 @@ namespace Dopamine.Core.Database
                 switch (trackOrder)
                 {
                     case TrackOrder.Alphabetical:
-                        orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(GetSortableString(t.Track.TrackTitle)) ? GetSortableString(t.Track.TrackTitle) : GetSortableString(t.Track.FileName)).ToList();
+                        orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByAlbum:
-                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.Album.AlbumTitle)).ThenBy((t) => t.Track.DiscNumber > 0 ? t.Track.DiscNumber : 1).ThenBy((t) => t.Track.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                     case TrackOrder.ByFileName:
-                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.Track.FileName)).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByRating:
-                        orderedTracks = tracks.OrderByDescending((t) => t.Track.Rating.HasValue ? t.Track.Rating : 0).ToList();
+                        orderedTracks = tracks.OrderByDescending((t) => t.Rating.HasValue ? t.Rating : 0).ToList();
                         break;
                     case TrackOrder.ReverseAlphabetical:
-                        orderedTracks = tracks.OrderByDescending((t) => !string.IsNullOrEmpty(GetSortableString(t.Track.TrackTitle)) ? GetSortableString(t.Track.TrackTitle) : GetSortableString(t.Track.FileName)).ToList();
+                        orderedTracks = tracks.OrderByDescending((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.None:
                         orderedTracks = tracks.ToList();
                         break;
                     default:
                         // By album
-                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.Album.AlbumTitle)).ThenBy((t) => t.Track.DiscNumber > 0 ? t.Track.DiscNumber : 1).ThenBy((t) => t.Track.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                 }
             });
 
             return orderedTracks;
+        }
+
+        public static string ToQueryList(IList<long> list)
+        {
+            return string.Join(",", list.ToArray());
+        }
+
+        public static string ToQueryList(IList<string> list)
+        {
+            var str = string.Join(",", list.Select((item) => "'" + item.Replace("'","''") + "'").ToArray());
+            return str;
         }
     }
 }

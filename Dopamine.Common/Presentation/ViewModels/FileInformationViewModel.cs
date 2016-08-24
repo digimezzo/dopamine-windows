@@ -144,7 +144,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             try
             {
-                var fm = new FileMetadata(selectedTrackInfo.Track.Path);
+                var fm = new FileMetadata(selectedTrackInfo.Path);
 
                 this.SongTitle = fm.Title.Value;
                 this.SongAlbum = fm.Album.Value;
@@ -167,11 +167,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             try
             {
-                var fi = new FileInformation(selectedTrackInfo.Track.Path);
+                var fi = new FileInformation(selectedTrackInfo.Path);
 
                 this.FileName = fi.Name;
                 this.FileFolder = fi.Folder;
-                this.FilePath = selectedTrackInfo.Track.Path;
+                this.FilePath = selectedTrackInfo.Path;
                 this.FileSize = FormatUtils.FormatFileSize(fi.SizeInBytes);
                 this.FileLastModified = fi.DateModified.ToString("D");
             }

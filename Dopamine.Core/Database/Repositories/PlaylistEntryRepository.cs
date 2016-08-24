@@ -8,6 +8,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class PlaylistEntryRepository : IPlaylistEntryRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public PlaylistEntryRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IPlaylistEntryRepository
         public async Task DeleteOrphanedPlaylistEntriesAsync()
         {
@@ -15,12 +26,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.PlaylistEntries.RemoveRange(db.PlaylistEntries.Where((p) => !db.Tracks.Select((t) => t.TrackID).Distinct().Contains(p.TrackID)));
-                            db.SaveChanges();
+                            conn.Execute("DELETE FROM PlaylistEntry WHERE TrackID NOT IN (SELECT TrackID FROM Track);");
                         }
                         catch (Exception ex)
                         {

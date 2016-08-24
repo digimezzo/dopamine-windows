@@ -71,7 +71,7 @@ namespace Dopamine.CollectionModule.Views
             {
                 try
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)iDataGrid.SelectedItem).TrackInfo.Track.Path);
+                    Actions.TryViewInExplorer(((TrackInfoViewModel)iDataGrid.SelectedItem).TrackInfo.Path);
                 }
                 catch (Exception ex)
                 {
@@ -134,7 +134,7 @@ namespace Dopamine.CollectionModule.Views
             {
                 if (dg.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)dg.SelectedItem).TrackInfo.Track.Path);
+                    Actions.TryViewInExplorer(((TrackInfoViewModel)dg.SelectedItem).TrackInfo.Path);
                 }
             }
             else if (e.Key == Key.Delete)
