@@ -253,7 +253,7 @@ namespace Dopamine.Core.Database.Repositories
 
                             if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
 
-                            List<long> trackIDs = conn.Table<PlaylistEntry>().Where((t) => playlistIDs.Contains(t.PlaylistID)).Select((t) => t.TrackID).ToList();
+                            List<long> trackIDs = conn.Table<PlaylistEntry>().Select((t) => t).Where((t) => playlistIDs.Contains(t.PlaylistID)).ToList().Select((t) => t.TrackID).ToList();
 
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
