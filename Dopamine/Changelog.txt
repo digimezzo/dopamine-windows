@@ -1,11 +1,17 @@
-24-08-2017: Dopamine 1.1.682.0 (Preview)
+24-08-2016: Dopamine 1.1.683.0 (Preview)
+---------------------------------------- 
+
+- Fixed a bug which caused duplicate semantic Artist and Genre groups after performing a search
+
+
+22-08-2016: Dopamine 1.1.681.0 (Preview)
 ----------------------------------------
 
 - Fixed a bug where the equalizer didn't remain enabled
 - Updated the Greek translation
 
 
-20-08-2017: Dopamine 1.1.680.0 (Preview)
+20-08-2016: Dopamine 1.1.680.0 (Preview)
 ----------------------------------------
 
 - Fixed an indexing issue where files, which are removed in Windows, were not removed from the collection.
@@ -14,7 +20,7 @@
 - Added an Equalizer
 
 
-3-08-2017: Dopamine 1.1.672.0 (Preview)
+3-08-2016: Dopamine 1.1.672.0 (Preview)
 ---------------------------------------
 
 - Dopamine is now Open Source Software! The source code is available here: https://github.com/digimezzo/Dopamine

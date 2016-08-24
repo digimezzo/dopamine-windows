@@ -206,6 +206,10 @@ namespace Dopamine.CollectionModule.ViewModels
                     previousHeader = gvm.Header;
                     gvm.IsHeader = true;
                 }
+                else
+                {
+                    gvm.IsHeader = false;
+                }
             }
         }
         #endregion
