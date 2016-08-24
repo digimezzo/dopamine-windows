@@ -664,7 +664,139 @@ namespace Dopamine.Core.Database
         [DatabaseVersion(11)]
         private void Migrate11()
         {
-            // TODO: rename all tables to singular form
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("CREATE TABLE Configuration (" +
+                             "ConfigurationID    INTEGER," +
+                             "Key                TEXT," +
+                             "Value              TEXT," +
+                             "PRIMARY KEY(ConfigurationID));");
+
+                conn.Execute("CREATE TABLE Artist (" +
+                             "ArtistID           INTEGER," +
+                             "ArtistName	     TEXT," +
+                             "PRIMARY KEY(ArtistID));");
+
+                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName)");
+
+                conn.Execute("CREATE TABLE Genre (" +
+                             "GenreID           INTEGER," +
+                             "GenreName	        TEXT," +
+                             "PRIMARY KEY(GenreID));");
+
+                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName)");
+
+                conn.Execute("CREATE TABLE Album (" +
+                             "AlbumID	        INTEGER," +
+                             "AlbumTitle	    TEXT," +
+                             "AlbumArtist	    TEXT," +
+                             "Year	            INTEGER," +
+                             "ArtworkID	        TEXT," +
+                             "DateLastSynced	INTEGER," +
+                             "DateAdded	        INTEGER," +
+                             "PRIMARY KEY(AlbumID));");
+
+                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist)");
+                conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
+
+                conn.Execute("CREATE TABLE Playlist (" +
+                             "PlaylistID	    INTEGER," +
+                             "PlaylistName	    TEXT," +
+                             "PRIMARY KEY(PlaylistID));");
+
+                conn.Execute("CREATE TABLE PlaylistEntry (" +
+                             "EntryID	        INTEGER," +
+                             "PlaylistID	    INTEGER," +
+                             "TrackID	        INTEGER," +
+                             "PRIMARY KEY(EntryID));");
+
+                conn.Execute("CREATE TABLE Folder (" +
+                             "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
+                             "Path	             TEXT," +
+                             "ShowInCollection   INTEGER);");
+
+                conn.Execute("CREATE TABLE Track (" +
+                             "TrackID	            INTEGER," +
+                             "ArtistID	            INTEGER," +
+                             "GenreID	            INTEGER," +
+                             "AlbumID	            INTEGER," +
+                             "FolderID	            INTEGER," +
+                             "Path	                TEXT," +
+                             "FileName	            TEXT," +
+                             "MimeType	            TEXT," +
+                             "FileSize	            INTEGER," +
+                             "BitRate	            INTEGER," +
+                             "SampleRate	        INTEGER," +
+                             "TrackTitle	        TEXT," +
+                             "TrackNumber	        INTEGER," +
+                             "TrackCount	        INTEGER," +
+                             "DiscNumber	        INTEGER," +
+                             "DiscCount	            INTEGER," +
+                             "Duration	            INTEGER," +
+                             "Year	                INTEGER," +
+                             "Rating	            INTEGER," +
+                             "PlayCount	            INTEGER," +
+                             "SkipCount	            INTEGER," +
+                             "DateAdded  	        INTEGER," +
+                             "DateLastPlayed        INTEGER," +
+                             "DateLastSynced	    INTEGER," +
+                             "DateFileModified	    INTEGER," +
+                             "MetaDataHash	        TEXT," +
+                             "PRIMARY KEY(TrackID));");
+
+                conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
+                conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
+                conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
+                conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
+                conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path)");
+
+                conn.Execute("CREATE TABLE RemovedTrack (" +
+                             "TrackID	            INTEGER," +
+                             "Path	                TEXT," +
+                             "DateRemoved           INTEGER," +
+                             "PRIMARY KEY(TrackID));");
+
+                conn.Execute("CREATE TABLE QueuedTrack (" +
+                             "QueuedTrackID         INTEGER," +
+                             "Path	                TEXT," +
+                             "OrderID               INTEGER," +
+                             "PRIMARY KEY(QueuedTrackID));");
+
+                conn.Execute("CREATE TABLE IndexingStatistic (" +
+                            "IndexingStatisticID    INTEGER," +
+                            "Key                    TEXT," +
+                            "Value                  TEXT," +
+                            "PRIMARY KEY(IndexingStatisticID));");
+
+                conn.Execute("INSERT INTO Configuration SELECT * FROM Configurations;");
+                conn.Execute("INSERT INTO Artist SELECT * FROM Artists;");
+                conn.Execute("INSERT INTO Genre SELECT * FROM Genres;");
+                conn.Execute("INSERT INTO Album SELECT * FROM Albums;");
+                conn.Execute("INSERT INTO Playlist SELECT * FROM Playlists;");
+                conn.Execute("INSERT INTO PlaylistEntry SELECT * FROM PlaylistEntries;");
+                conn.Execute("INSERT INTO Folder SELECT * FROM Folders;");
+                conn.Execute("INSERT INTO Track SELECT * FROM Tracks;");
+                conn.Execute("INSERT INTO RemovedTrack SELECT * FROM RemovedTracks;");
+                conn.Execute("INSERT INTO QueuedTrack SELECT * FROM QueuedTracks;");
+                conn.Execute("INSERT INTO IndexingStatistic SELECT * FROM IndexingStatistics;");
+
+                conn.Execute("DROP TABLE Configurations;");
+                conn.Execute("DROP TABLE Artists;");
+                conn.Execute("DROP TABLE Genres;");
+                conn.Execute("DROP TABLE Albums;");
+                conn.Execute("DROP TABLE Playlists;");
+                conn.Execute("DROP TABLE PlaylistEntries;");
+                conn.Execute("DROP TABLE Folders;");
+                conn.Execute("DROP TABLE Tracks;");
+                conn.Execute("DROP TABLE RemovedTracks;");
+                conn.Execute("DROP TABLE QueuedTracks;");
+                conn.Execute("DROP TABLE IndexingStatistics;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
         }
         #endregion
 
@@ -678,7 +810,17 @@ namespace Dopamine.Core.Database
         {
             using (var conn = this.factory.GetConnection())
             {
-                this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configuration WHERE Key = 'DatabaseVersion'"));
+                try
+                {
+                    this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configuration WHERE Key = 'DatabaseVersion'"));
+                }
+                catch (Exception)
+                {
+                    // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                    // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
+                    // At some later point in time, this try catch can be removed.
+                    this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configurations WHERE Key = 'DatabaseVersion'"));
+                }
             }
 
             return this.userDatabaseVersion < CURRENT_VERSION;
