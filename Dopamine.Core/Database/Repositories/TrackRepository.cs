@@ -11,6 +11,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class TrackRepository : ITrackRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public TrackRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region ITrackRepository
         public async Task<List<TrackInfo>> GetTracksAsync(IList<string> paths)
         {
@@ -20,22 +31,23 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      where paths.Contains(tra.Path)
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " WHERE tra.Path IN ({0});", Utils.ToQueryList(paths));
+
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -60,23 +72,22 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                      where fol.ShowInCollection == 1
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                           " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                           " FROM Track tra" +
+                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                           " WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
@@ -101,28 +112,27 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            // Extracting these lists is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                      where (artistIDs.Contains(tra.ArtistID) | artistNames.Contains(alb.AlbumArtist)) & fol.ShowInCollection == 1
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
+
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -147,27 +157,26 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            // Extracting this list is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                      where genreIDs.Contains(tra.GenreID) & fol.ShowInCollection == 1
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
+
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -192,27 +201,26 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            // Extracting this list is not supported in the Linq to SQL query.
-                            // That is why it is done outside the Linq to SQL query.
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                      where albumIDs.Contains(tra.AlbumID) & fol.ShowInCollection == 1
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                     " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
+
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -237,31 +245,29 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            var playlistIds = new List<long>();
+                            var playlistIDs = new List<long>();
 
-                            if (playlists != null)
-                            {
-                                playlistIds = playlists.Select((p) => p.PlaylistID).ToList();
-                            }
+                            if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
 
-                            List<long> trackIds = db.PlaylistEntries.Where((t) => playlistIds.Contains(t.PlaylistID)).Select((t) => t.TrackID).ToList();
+                            List<long> trackIDs = conn.Table<PlaylistEntry>().Select((t) => t).Where((t) => playlistIDs.Contains(t.PlaylistID)).ToList().Select((t) => t.TrackID).ToList();
 
-                            tracks = (from tra in db.Tracks
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      where trackIds.Contains(tra.TrackID)
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " WHERE tra.TrackID IN ({0});", Utils.ToQueryList(trackIDs));
+
+                            tracks = conn.Query<TrackInfo>(q);
                         }
                         catch (Exception ex)
                         {
@@ -286,11 +292,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            track = db.Tracks.Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
+                            track = conn.Table<Track>().Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -315,18 +321,18 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
-                        List<string> pathsToRemove = tracks.Select((t) => t.Track.Path).ToList();
-                        List<string> removedPaths = db.RemovedTracks.Select((t) => t.Path).ToList();
-                        List<string> pathsToRemoveAndRecord = pathsToRemove.Except(removedPaths).ToList();
+                        List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
+                        List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
+                        List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
 
                         // Add the Track to the table of Removed Tracks (only if it is not already in there)
-                        foreach (string path in pathsToRemoveAndRecord)
+                        foreach (string path in pathsToRemoveNow)
                         {
                             try
                             {
-                                db.RemovedTracks.Add(new RemovedTrack { DateRemoved = DateTime.Now.Ticks, Path = path });
+                                conn.Insert(new RemovedTrack { DateRemoved = DateTime.Now.Ticks, Path = path });
                             }
                             catch (Exception ex)
                             {
@@ -335,18 +341,11 @@ namespace Dopamine.Core.Database.Repositories
                             }
                         }
 
-                        List<Track> tracksToRemove = db.Tracks.Select((t) => t).Where((t) => pathsToRemove.Contains(t.Path)).ToList();
-                        db.Tracks.RemoveRange(tracksToRemove);
+                        List<Track> tracksToRemove = conn.Table<Track>().Select((t) => t).Where((t) => pathsToRemove.Contains(t.Path)).ToList();
 
-                        // Save the changes to the database
-                        try
+                        foreach (Track trk in tracksToRemove)
                         {
-                            db.SaveChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Could not save the changes to the database. Exception: {0}", ex.Message);
-                            result = RemoveTracksResult.Error;
+                            conn.Delete(trk);   
                         }
                     }
                 }
@@ -367,12 +366,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Entry(track).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
+                            conn.Update(track);
 
                             isUpdateSuccess = true;
                         }
@@ -398,11 +396,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            Track dbTrack = db.Tracks.Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
+                            Track dbTrack = conn.Table<Track>().Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
 
                             if (dbTrack != null)
                             {
@@ -410,7 +408,7 @@ namespace Dopamine.Core.Database.Repositories
                                 dbTrack.DateFileModified = FileOperations.GetDateModified(path);
                                 dbTrack.DateLastSynced = DateTime.Now.Ticks;
 
-                                db.SaveChanges();
+                                conn.Update(dbTrack);
 
                                 updateSuccess = true;
                             }
@@ -437,13 +435,13 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             foreach (TrackStatistic stat in trackStatistics)
                             {
-                                Track dbTrack = db.Tracks.Select((t) => t).Where((t) => t.Path == stat.Path).FirstOrDefault();
+                                Track dbTrack = conn.Table<Track>().Select((t) => t).Where((t) => t.Path == stat.Path).FirstOrDefault();
 
                                 if (dbTrack != null)
                                 {
@@ -453,11 +451,10 @@ namespace Dopamine.Core.Database.Repositories
 
                                     if (dbTrack.SkipCount == null) dbTrack.SkipCount = 0;
                                     dbTrack.SkipCount += stat.SkipCount;
+
+                                    conn.Update(dbTrack);
                                 }
-
                             }
-
-                            db.SaveChanges();
                         }
                         catch (Exception ex)
                         {

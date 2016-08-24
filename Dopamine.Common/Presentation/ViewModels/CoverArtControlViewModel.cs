@@ -82,7 +82,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = ArtworkUtils.GetArtworkPath(trackInfo.Album);
+                artworkPath = ArtworkUtils.GetArtworkPath(trackInfo.AlbumArtworkID);
             });
 
             if (string.IsNullOrEmpty(artworkPath))
@@ -109,7 +109,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo.Track.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             }
         }

@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class QueuedTrackRepository : IQueuedTrackRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public QueuedTrackRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IQueuedTrackRepository
         public async Task<List<TrackInfo>> GetSavedQueuedTracksAsync()
         {
@@ -19,23 +30,24 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            tracks = (from qtra in db.QueuedTracks
-                                      join tra in db.Tracks on qtra.Path equals tra.Path
-                                      join alb in db.Albums on tra.AlbumID equals alb.AlbumID
-                                      join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                      join gen in db.Genres on tra.GenreID equals gen.GenreID
-                                      orderby qtra.OrderID
-                                      select new TrackInfo
-                                      {
-                                          Track = tra,
-                                          Artist = art,
-                                          Genre = gen,
-                                          Album = alb
-                                      }).ToList();
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path,"+
+                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle,"+
+                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
+                                                           " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced,"+
+                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                           " FROM QueuedTrack qtra" +
+                                                           " INNER JOIN Track tra ON qtra.Path=tra.Path" +
+                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID"+
+                                                           " ORDER BY qtra.OrderID");
+
+        
                         }
                         catch (Exception ex)
                         {
@@ -52,32 +64,28 @@ namespace Dopamine.Core.Database.Repositories
             return tracks;
         }
 
-        public async Task SaveQueuedTracksAsync(IList<Track> tracks)
+        public async Task SaveQueuedTracksAsync(IList<string> paths)
         {
-            if (tracks == null) return;
-
             await Task.Run(() =>
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             // First, clear old queued tracks
-                            db.Database.ExecuteSqlCommand("DELETE FROM QueuedTracks;");
+                            conn.Execute("DELETE FROM QueuedTrack;");
 
                             // Then, add new queued tracks
-                            for (int index = 1; index <= tracks.Count; index++)
+                            for (int index = 1; index <= paths.Count; index++)
                             {
-                                db.QueuedTracks.Add(new QueuedTrack
+                                conn.Insert(new QueuedTrack
                                 {
                                     OrderID = index,
-                                    Path = tracks[index - 1].Path
+                                    Path = paths[index - 1]
                                 });
                             }
-
-                            db.SaveChanges();
                         }
                         catch (Exception ex)
                         {
