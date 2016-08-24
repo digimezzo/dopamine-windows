@@ -111,14 +111,9 @@ namespace Dopamine.Core.Base
         Link = "http://compositewpf.codeplex.com"
     },
     new ExternalComponent {
-        Name = "System.Data.Sqlite",
-        Description = "An ADO.NET provider for SQLite.",
-        Link = "http://http://system.data.sqlite.org"
-    },
-    new ExternalComponent {
-        Name = "SQLite.Net-PCL",
+        Name = "Sqlite-net",
         Description = "A minimal library to allow .NET and Mono applications to store data in SQLite 3 databases.",
-        Link = "https://github.com/oysteinkrog/SQLite.Net-PCL"
+        Link = "https://github.com/praeclarum/sqlite-net"
     },
     new ExternalComponent {
         Name = "TagLib#",

@@ -5,7 +5,7 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
-using SQLite.Net;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -118,25 +118,29 @@ namespace Dopamine.Common.Services.Indexing
 
             await this.InitializeAsync();
 
-            string lastFileCountString = string.Empty;
-            string lastDateFileModifiedString = string.Empty;
-
-            using (var conn = this.factory.GetConnection())
+            try
             {
-                lastFileCountString = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastFileCount")).Select((t) => t.Value).FirstOrDefault();
-                lastDateFileModifiedString = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastDateFileModified")).Select((t) => t.Value).FirstOrDefault();
+                using (var conn = this.factory.GetConnection())
+                {
+                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastFileCount")).Select((t) => t).FirstOrDefault();
+                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastDateFileModified")).Select((t) => t).FirstOrDefault();
+
+                    long lastFileCount = 0;
+                    long lastDateFileModified = 0;
+
+                    long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
+                    long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
+
+                    if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+                    {
+                        this.needsIndexing = true;
+                        await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
+                    }
+                }
             }
-
-            long lastFileCount = 0;
-            long lastDateFileModified = 0;
-
-            long.TryParse(lastFileCountString, out lastFileCount);
-            long.TryParse(lastDateFileModifiedString, out lastDateFileModified);
-
-            if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+            catch (Exception ex)
             {
-                this.needsIndexing = true;
-                await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
+                LogClient.Instance.Logger.Error("Could not get indexing statistics from database. Exception: {0}", ex.Message);
             }
         }
 
@@ -391,7 +395,9 @@ namespace Dopamine.Common.Services.Indexing
 
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    List<String> artworkIDs = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t.ArtworkID).ToList();
+                    List<Album> albumsWithArtwork = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t).ToList();
+
+                    List<string> artworkIDs = albumsWithArtwork.Select((a) => a.ArtworkID).ToList();
 
                     foreach (string artworkFile in artworkFiles)
                     {
@@ -504,14 +510,14 @@ namespace Dopamine.Common.Services.Indexing
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    dbPaths = conn.Table<Track>().Select((trk) => trk.Path).ToList();
+                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.Path).ToList();
                 }
 
                 var removedPaths = new List<string>();
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    removedPaths = conn.Table<RemovedTrack>().Select((t) => t.Path).ToList();
+                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.Path).ToList();
                 }
 
                 this.newDiskPaths = new List<Tuple<long, string, long>>();
@@ -553,7 +559,11 @@ namespace Dopamine.Common.Services.Indexing
                             this.IndexingStatusChanged(this.eventArgs);
 
                             // Delete
-                            conn.Delete(tracksToProcessInvalidFolderID);
+                            foreach (Track trk in tracksToProcessInvalidFolderID)
+                            {
+                                conn.Delete(trk);
+                            }
+                            
                             numberRemovedTracks += tracksToProcessInvalidFolderID.Count;
                         }
 

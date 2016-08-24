@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using SQLite.Net;
-using SQLite.Net.Platform.Win32;
+using Dopamine.Core.Settings;
+using SQLite;
 
 namespace Dopamine.Core.Database
 {
@@ -21,14 +21,14 @@ namespace Dopamine.Core.Database
         #region Construction
         public SQLiteConnectionFactory()
         {
-            this.databaseFile = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ProductInformation.ApplicationAssemblyName + ".db");
+            this.databaseFile = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ProductInformation.ApplicationAssemblyName + ".db");
         }
         #endregion
 
         #region Public
         public SQLiteConnection GetConnection()
         {
-            return new SQLiteConnection(new SQLitePlatformWin32(), this.databaseFile);
+            return new SQLiteConnection(this.databaseFile);
         }
         #endregion
     }

@@ -158,8 +158,8 @@
             <Component Id="Prism.txt" DiskId="1" Guid="471bfbdc-9875-4c22-8deb-c80b4181be6d">
               <File Id="Prism.txt" Name="Prism.txt" Source="Licenses\Prism.txt" />
             </Component>
-            <Component Id="SQLite.Net_PCL.txt" DiskId="1" Guid="cae70498-1ffc-4397-a35e-cee5136034c9">
-              <File Id="SQLite.Net_PCL.txt" Name="SQLite.Net_PCL.txt" Source="Licenses\SQLite.Net-PCL.txt" />
+            <Component Id="SQLite_net.txt" DiskId="1" Guid="cae70498-1ffc-4397-a35e-cde5136034c9">
+              <File Id="SQLite_net.txt" Name="SQLite-net.txt" Source="Licenses\SQLite-net.txt" />
             </Component>
             <Component Id="TagLibSharp.txt" DiskId="1" Guid="422fffe5-1233-4d7c-b0fc-ac93d9b49fc0">
               <File Id="TagLibSharp.txt" Name="TagLib#.txt" Source="Licenses\TagLib#.txt" />
@@ -366,13 +366,13 @@
           </Component>
           <!-- 3rd party libraries -->
           <Directory Id="x64DIR" Name="x64">
-            <Component Id="SQLite.Interop.x64.dll" DiskId="1" Guid="eb8114a2-5489-4b58-b8b4-70c0210f6b20">
-              <File Id="SQLite.Interop.x64.dll" Name="SQLite.Interop.dll" Source="x64\SQLite.Interop.dll" />
+            <Component Id="esqlite3_x64.dll" DiskId="1" Guid="604a6918-08eb-4629-9a18-80f9abf64be3">
+              <File Id="esqlite3_x64.dll" Name="esqlite3.dll" Source="x64\esqlite3.dll" />
             </Component>
           </Directory>
           <Directory Id="x86DIR" Name="x86">
-            <Component Id="SQLite.Interop.x86.dll" DiskId="1" Guid="1b5a3457-e3df-4f19-9c62-302685b634dd">
-              <File Id="SQLite.Interop.x86.dll" Name="SQLite.Interop.dll" Source="x86\SQLite.Interop.dll" />
+            <Component Id="esqlite3_x86.dll" DiskId="1" Guid="32397268-ee07-4306-802f-9e352da398e6">
+              <File Id="esqlite3_x86.dll" Name="esqlite3.dll" Source="x86\esqlite3.dll" />
             </Component>
           </Directory>
           <Component Id="CSCore.dll" DiskId="1" Guid="0ce32e69-64f6-4934-9a6a-fd565a9f419e">
@@ -393,14 +393,17 @@
           <Component Id="Digimezzo.WPFControls.dll" DiskId="1" Guid="64ba1fef-87a2-4a2e-9fe8-7353cd2ed4e2">
             <File Id="Digimezzo.WPFControls.dll" Name="Digimezzo.WPFControls.dll" Source="Digimezzo.WPFControls.dll" />
           </Component>
-          <Component Id="SQLite.Net.dll" DiskId="1" Guid="b36af6fe-794a-425e-ad6c-274bd26ad188">
-            <File Id="SQLite.Net.dll" Name="SQLite.Net.dll" Source="SQLite.Net.dll" />
+          <Component Id="SQLite_net.dll" DiskId="1" Guid="28b2e0b2-a956-4300-97fd-505473c4d68c">
+            <File Id="SQLite_net.dll" Name="SQLite-net.dll" Source="SQLite-net.dll" />
           </Component>
-          <Component Id="SQLite.Net.Platform.Win32.dll" DiskId="1" Guid="314de2d5-519a-4293-9f2f-242acb087c99">
-            <File Id="SQLite.Net.Platform.Win32.dll" Name="SQLite.Net.Platform.Win32.dll" Source="SQLite.Net.Platform.Win32.dll" />
+          <Component Id="SQLitePCL.batteries.dll" DiskId="1" Guid="0952192c-63d1-454c-a45e-72da64431791">
+            <File Id="SQLitePCL.batteries.dll" Name="SQLitePCL.batteries.dll" Source="SQLitePCL.batteries.dll" />
           </Component>
-          <Component Id="System.Data.SQLite.dll" DiskId="1" Guid="c9b9f726-1e2d-4159-b22a-6f58d53456f1">
-            <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="System.Data.SQLite.dll" />
+          <Component Id="SQLitePCL.raw.dll" DiskId="1" Guid="32810dc6-4bd6-494d-9111-1b032c8fc16f">
+            <File Id="SQLitePCL.raw.dll" Name="SQLitePCL.raw.dll" Source="SQLitePCL.raw.dll" />
+          </Component>
+          <Component Id="SQLitePCLPlugin_esqlite3.dll" DiskId="1" Guid="8cc12040-be33-4ada-8268-ba38b0717bce">
+            <File Id="SQLitePCLPlugin_esqlite3.dll" Name="SQLitePCLPlugin_esqlite3.dll" Source="SQLitePCLPlugin_esqlite3.dll" />
           </Component>
           <Component Id="System.Windows.Interactivity.dll" DiskId="1" Guid="66aa593f-60a8-4d26-9c04-f4e51bcc6136">
             <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="System.Windows.Interactivity.dll" />
@@ -464,7 +467,7 @@
       <ComponentRef Id="NLog.txt" />
       <ComponentRef Id="NVorbis.txt" />
       <ComponentRef Id="Prism.txt" />
-      <ComponentRef Id="SQLite.Net_PCL.txt" />
+      <ComponentRef Id="SQLite_net.txt" />
       <ComponentRef Id="TagLibSharp.txt" />
       <ComponentRef Id="Unity.txt" />
       <ComponentRef Id="Unity.WCF.txt" />
@@ -521,11 +524,12 @@
       <ComponentRef Id="NVorbis.dll" />
       <ComponentRef Id="policy.2.0.taglib_sharp.dll" />
       <ComponentRef Id="Digimezzo.WPFControls.dll" />
-      <ComponentRef Id="SQLite.Net.dll" />
-      <ComponentRef Id="SQLite.Net.Platform.Win32.dll" />
-      <ComponentRef Id="System.Data.SQLite.dll" />
-      <ComponentRef Id="SQLite.Interop.x64.dll" />
-      <ComponentRef Id="SQLite.Interop.x86.dll" />
+      <ComponentRef Id="SQLite_net.dll" />
+      <ComponentRef Id="SQLitePCL.batteries.dll" />
+      <ComponentRef Id="SQLitePCL.raw.dll" />
+      <ComponentRef Id="SQLitePCLPlugin_esqlite3.dll" />
+      <ComponentRef Id="esqlite3_x64.dll" />
+      <ComponentRef Id="esqlite3_x86.dll" />
       <ComponentRef Id="System.Windows.Interactivity.dll" />
       <ComponentRef Id="taglib_sharp.dll" />
       <ComponentRef Id="Unity.Wcf.dll" />

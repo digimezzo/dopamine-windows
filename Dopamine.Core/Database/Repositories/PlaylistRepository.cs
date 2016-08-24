@@ -74,8 +74,9 @@ namespace Dopamine.Core.Database.Repositories
                         try
                         {
                             Playlist newPlaylist = new Playlist { PlaylistName = trimmedPlaylistName };
+                            var existingPlaylistCount = conn.Query<Playlist>("SELECT * FROM Playlist WHERE TRIM(PlaylistName)=?", newPlaylist.PlaylistName).Count();
 
-                            if (!conn.Table<Playlist>().Select((p) => p.PlaylistName.Trim()).Contains(newPlaylist.PlaylistName))
+                            if (existingPlaylistCount == 0)
                             {
                                 conn.Insert(newPlaylist);
                                 LogClient.Instance.Logger.Info("Added the Playlist {0}", trimmedPlaylistName);
@@ -112,7 +113,7 @@ namespace Dopamine.Core.Database.Repositories
                 {
                     using (var conn = this.factory.GetConnection())
                     {
-                        dbPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(playlistName.Trim())).FirstOrDefault();
+                        dbPlaylist = conn.Query<Playlist>("SELECT * FROM Playlist WHERE TRIM(PlaylistName)=?", playlistName.Trim()).FirstOrDefault();
                     }
                 }
                 catch (Exception ex)
@@ -139,7 +140,7 @@ namespace Dopamine.Core.Database.Repositories
                             string trimmedPlaylistName = pl.PlaylistName.Trim();
 
                             // Get the Playlist in the database
-                            Playlist dbPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedPlaylistName)).FirstOrDefault();
+                            Playlist dbPlaylist = conn.Query<Playlist>("SELECT * FROM Playlist WHERE TRIM(PlaylistName)=?", trimmedPlaylistName).FirstOrDefault();
 
 
                             if (dbPlaylist != null)
@@ -148,7 +149,11 @@ namespace Dopamine.Core.Database.Repositories
                                 List<PlaylistEntry> playlistEntries = conn.Table<PlaylistEntry>().Where((p) => p.PlaylistID == dbPlaylist.PlaylistID).Select((p) => p).ToList();
 
                                 conn.Delete(dbPlaylist);
-                                conn.Delete(playlistEntries);
+
+                                foreach (var entry in playlistEntries)
+                                {
+                                    conn.Delete(entry);
+                                }
 
                                 LogClient.Instance.Logger.Info("Deleted the Playlist {0}", trimmedPlaylistName);
                             }
@@ -189,11 +194,11 @@ namespace Dopamine.Core.Database.Repositories
                     using (var conn = this.factory.GetConnection())
                     {
                         // Check if there is already a playlist with that name
-                        Playlist existingPlaylist = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedNewPlaylistName)).FirstOrDefault();
+                        var existingPlaylistCount = conn.Query<Playlist>("SELECT * FROM Playlist WHERE TRIM(PlaylistName)=?", trimmedNewPlaylistName).Count();
 
-                        if (existingPlaylist == null)
+                        if (existingPlaylistCount == 0)
                         {
-                            Playlist playlistToRename = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Trim().Equals(trimmedOldPlaylistName)).FirstOrDefault();
+                            Playlist playlistToRename = conn.Query<Playlist>("SELECT * FROM Playlist WHERE TRIM(PlaylistName)=?", trimmedOldPlaylistName).ToList().FirstOrDefault();
 
                             if (playlistToRename != null)
                             {

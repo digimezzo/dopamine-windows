@@ -43,8 +43,10 @@
         <File>NVorbis.dll</File>
         <File>policy.2.0.taglib-sharp.dll</File>
         <File>Digimezzo.WPFControls.dll</File>
-        <File>SQLite.Net.dll</File>
-        <File>SQLite.Net.Platform.Win32.dll</File>
+        <File>SQLite-net.dll</File>
+        <File>SQLitePCL.batteries.dll</File>
+        <File>SQLitePCL.raw.dll</File>
+        <File>SQLitePCLPlugin_esqlite3.dll</File>
         <File>System.Windows.Interactivity.dll</File>
         <File>taglib-sharp.dll</File>
         <File>Unity.Wcf.dll</File>

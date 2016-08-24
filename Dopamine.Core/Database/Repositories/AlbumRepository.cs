@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
-using SQLite.Net;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;

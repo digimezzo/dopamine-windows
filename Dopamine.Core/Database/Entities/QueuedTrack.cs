@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 
 namespace Dopamine.Core.Database.Entities
 {

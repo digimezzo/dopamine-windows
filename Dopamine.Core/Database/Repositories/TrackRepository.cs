@@ -324,11 +324,11 @@ namespace Dopamine.Core.Database.Repositories
                     using (var conn = this.factory.GetConnection())
                     {
                         List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
-                        List<string> removedPaths = conn.Table<RemovedTrack>().Select((t) => t.Path).ToList();
-                        List<string> pathsToRemoveAndRecord = pathsToRemove.Except(removedPaths).ToList();
+                        List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
+                        List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
 
                         // Add the Track to the table of Removed Tracks (only if it is not already in there)
-                        foreach (string path in pathsToRemoveAndRecord)
+                        foreach (string path in pathsToRemoveNow)
                         {
                             try
                             {
@@ -342,7 +342,11 @@ namespace Dopamine.Core.Database.Repositories
                         }
 
                         List<Track> tracksToRemove = conn.Table<Track>().Select((t) => t).Where((t) => pathsToRemove.Contains(t.Path)).ToList();
-                        conn.Delete(tracksToRemove);
+
+                        foreach (Track trk in tracksToRemove)
+                        {
+                            conn.Delete(trk);   
+                        }
                     }
                 }
                 catch (Exception ex)
