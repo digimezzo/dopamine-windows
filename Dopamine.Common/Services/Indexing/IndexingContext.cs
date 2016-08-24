@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
-using SQLite.Net;
+using SQLite;
 
 namespace Dopamine.Common.Services.Indexing
 {
