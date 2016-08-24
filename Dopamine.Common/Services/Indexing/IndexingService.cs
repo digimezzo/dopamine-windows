@@ -122,14 +122,14 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (var conn = this.factory.GetConnection())
                 {
-                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastFileCount")).Select((t) => t).FirstOrDefault();
-                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Where((t) => t.Key.Equals("LastDateFileModified")).Select((t) => t).FirstOrDefault();
+                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
+                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
 
                     long lastFileCount = 0;
                     long lastDateFileModified = 0;
 
-                    long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
-                    long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
+                    if(lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
+                    if(lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
 
                     if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
                     {
@@ -396,7 +396,6 @@ namespace Dopamine.Common.Services.Indexing
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
                     List<Album> albumsWithArtwork = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t).ToList();
-
                     List<string> artworkIDs = albumsWithArtwork.Select((a) => a.ArtworkID).ToList();
 
                     foreach (string artworkFile in artworkFiles)
