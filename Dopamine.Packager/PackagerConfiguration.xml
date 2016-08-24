@@ -38,16 +38,13 @@
         <File>Dopamine.OobeModule.dll</File>
         <File>Dopamine.SettingsModule.dll</File>
         <File>CSCore.dll</File>
-        <File>EntityFramework.dll</File>
-        <File>EntityFramework.SqlServer.dll</File>
         <File>Ionic.Zip.dll</File>
         <File>NLog.dll</File>
         <File>NVorbis.dll</File>
         <File>policy.2.0.taglib-sharp.dll</File>
         <File>Digimezzo.WPFControls.dll</File>
-        <File>System.Data.SQLite.dll</File>
-        <File>System.Data.SQLite.EF6.dll</File>
-        <File>System.Data.SQLite.Linq.dll</File>
+        <File>SQLite.Net.dll</File>
+        <File>SQLite.Net.Platform.Win32.dll</File>
         <File>System.Windows.Interactivity.dll</File>
         <File>taglib-sharp.dll</File>
         <File>Unity.Wcf.dll</File>

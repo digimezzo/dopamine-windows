@@ -378,12 +378,6 @@
           <Component Id="CSCore.dll" DiskId="1" Guid="0ce32e69-64f6-4934-9a6a-fd565a9f419e">
             <File Id="CSCore.dll" Name="CSCore.dll" Source="CSCore.dll" />
           </Component>
-          <Component Id="EntityFramework.dll" DiskId="1" Guid="ca3605cd-5b86-42f3-a802-7e8e03fc7d06">
-            <File Id="EntityFramework.dll" Name="EntityFramework.dll" Source="EntityFramework.dll" />
-          </Component>
-          <Component Id="EntityFramework.SqlServer.dll" DiskId="1" Guid="fdc57160-32d4-45d8-829a-55ef066483eb">
-            <File Id="EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="EntityFramework.SqlServer.dll" />
-          </Component>
           <Component Id="Ionic.Zip.dll" DiskId="1" Guid="bcd931de-b648-407b-9e2d-b74d3520388b">
             <File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="Ionic.Zip.dll" />
           </Component>
@@ -399,14 +393,14 @@
           <Component Id="Digimezzo.WPFControls.dll" DiskId="1" Guid="64ba1fef-87a2-4a2e-9fe8-7353cd2ed4e2">
             <File Id="Digimezzo.WPFControls.dll" Name="Digimezzo.WPFControls.dll" Source="Digimezzo.WPFControls.dll" />
           </Component>
+          <Component Id="SQLite.Net.dll" DiskId="1" Guid="b36af6fe-794a-425e-ad6c-274bd26ad188">
+            <File Id="SQLite.Net.dll" Name="SQLite.Net.dll" Source="SQLite.Net.dll" />
+          </Component>
+          <Component Id="SQLite.Net.Platform.Win32.dll" DiskId="1" Guid="314de2d5-519a-4293-9f2f-242acb087c99">
+            <File Id="SQLite.Net.Platform.Win32.dll" Name="SQLite.Net.Platform.Win32.dll" Source="SQLite.Net.Platform.Win32.dll" />
+          </Component>
           <Component Id="System.Data.SQLite.dll" DiskId="1" Guid="c9b9f726-1e2d-4159-b22a-6f58d53456f1">
             <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="System.Data.SQLite.dll" />
-          </Component>
-          <Component Id="System.Data.SQLite.EF6.dll" DiskId="1" Guid="56a5bec1-82d6-426d-bbe4-dad7840a60cd">
-            <File Id="System.Data.SQLite.EF6.dll" Name="System.Data.SQLite.EF6.dll" Source="System.Data.SQLite.EF6.dll" />
-          </Component>
-          <Component Id="System.Data.SQLite.Linq.dll" DiskId="1" Guid="48b820da-92a7-4767-9620-0fbaf3f8dcce">
-            <File Id="System.Data.SQLite.Linq.dll" Name="System.Data.SQLite.Linq.dll" Source="System.Data.SQLite.Linq.dll" />
           </Component>
           <Component Id="System.Windows.Interactivity.dll" DiskId="1" Guid="66aa593f-60a8-4d26-9c04-f4e51bcc6136">
             <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="System.Windows.Interactivity.dll" />
@@ -522,16 +516,14 @@
       <ComponentRef Id="Dopamine.SettingsModule.dll" />
       <!-- 3rd party libraries -->
       <ComponentRef Id="CSCore.dll" />
-      <ComponentRef Id="EntityFramework.dll" />
-      <ComponentRef Id="EntityFramework.SqlServer.dll" />
       <ComponentRef Id="Ionic.Zip.dll" />
       <ComponentRef Id="NLog.dll" />
       <ComponentRef Id="NVorbis.dll" />
       <ComponentRef Id="policy.2.0.taglib_sharp.dll" />
       <ComponentRef Id="Digimezzo.WPFControls.dll" />
+      <ComponentRef Id="SQLite.Net.dll" />
+      <ComponentRef Id="SQLite.Net.Platform.Win32.dll" />
       <ComponentRef Id="System.Data.SQLite.dll" />
-      <ComponentRef Id="System.Data.SQLite.EF6.dll" />
-      <ComponentRef Id="System.Data.SQLite.Linq.dll" />
       <ComponentRef Id="SQLite.Interop.x64.dll" />
       <ComponentRef Id="SQLite.Interop.x86.dll" />
       <ComponentRef Id="System.Windows.Interactivity.dll" />
