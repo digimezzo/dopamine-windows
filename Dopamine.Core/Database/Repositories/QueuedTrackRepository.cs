@@ -77,15 +77,17 @@ namespace Dopamine.Core.Database.Repositories
                             // First, clear old queued tracks
                             conn.Execute("DELETE FROM QueuedTrack;");
 
-                            // Then, add new queued tracks
-                            for (int index = 1; index <= paths.Count; index++)
+                            // Then, insert new queued tracks (using a common transaction speeds up inserts and updates)
+                            conn.Execute("BEGIN TRANSACTION;");
+
+                            foreach (string path in paths)
                             {
-                                conn.Insert(new QueuedTrack
-                                {
-                                    OrderID = index,
-                                    Path = paths[index - 1]
-                                });
+                                conn.Execute("INSERT INTO QueuedTrack(OrderID,Path) VALUES(0,?);", path);
                             }
+
+                            conn.Execute("UPDATE QueuedTrack SET OrderID=QueuedTrackID;");
+
+                            conn.Execute("COMMIT;");
                         }
                         catch (Exception ex)
                         {
