@@ -149,9 +149,6 @@
             <Component Id="DotNetZip.txt" DiskId="1" Guid="c37cb76a-482f-4a14-92d1-c9039cf6a9f9">
               <File Id="DotNetZip.txt" Name="DotNetZip.txt" Source="Licenses\DotNetZip.txt" />
             </Component>
-            <Component Id="Entity_Framework.txt" DiskId="1" Guid="3cd21a1d-9d4d-48c0-bf89-ecea0e47466b">
-              <File Id="Entity_Framework.txt" Name="Entity Framework.txt" Source="Licenses\Entity Framework.txt" />
-            </Component>
             <Component Id="NLog.txt" DiskId="1" Guid="9d173143-37df-4f1a-9d44-ec3bc3c79ff3">
               <File Id="NLog.txt" Name="NLog.txt" Source="Licenses\NLog.txt" />
             </Component>
@@ -160,6 +157,9 @@
             </Component>
             <Component Id="Prism.txt" DiskId="1" Guid="471bfbdc-9875-4c22-8deb-c80b4181be6d">
               <File Id="Prism.txt" Name="Prism.txt" Source="Licenses\Prism.txt" />
+            </Component>
+            <Component Id="SQLite.Net_PCL.txt" DiskId="1" Guid="cae70498-1ffc-4397-a35e-cee5136034c9">
+              <File Id="SQLite.Net_PCL.txt" Name="SQLite.Net_PCL.txt" Source="Licenses\SQLite.Net-PCL.txt" />
             </Component>
             <Component Id="TagLibSharp.txt" DiskId="1" Guid="422fffe5-1233-4d7c-b0fc-ac93d9b49fc0">
               <File Id="TagLibSharp.txt" Name="TagLib#.txt" Source="Licenses\TagLib#.txt" />
@@ -467,10 +467,10 @@
       <!-- 3rd party licenses -->
       <ComponentRef Id="CSCore.txt" />
       <ComponentRef Id="DotNetZip.txt" />
-      <ComponentRef Id="Entity_Framework.txt" />
       <ComponentRef Id="NLog.txt" />
       <ComponentRef Id="NVorbis.txt" />
       <ComponentRef Id="Prism.txt" />
+      <ComponentRef Id="SQLite.Net_PCL.txt" />
       <ComponentRef Id="TagLibSharp.txt" />
       <ComponentRef Id="Unity.txt" />
       <ComponentRef Id="Unity.WCF.txt" />
