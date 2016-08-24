@@ -242,7 +242,7 @@ namespace Dopamine.Core.Database.Repositories
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
                             foreach (TrackInfo ti in tracks)
@@ -292,7 +292,7 @@ namespace Dopamine.Core.Database.Repositories
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Artist
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
@@ -353,7 +353,7 @@ namespace Dopamine.Core.Database.Repositories
                         try
                         {
                             // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Genre
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
@@ -411,8 +411,8 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            // Get the PlaylistID of the Playlist with PlaylistName = iPlaylistName
-                            var playlistID = conn.Table<Playlist>().Where((p) => p.PlaylistName.Equals(playlistName)).Select((p) => p.PlaylistID).FirstOrDefault();
+                            // Get the Playlist with that PlaylistName
+                            var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Get all the Tracks for the selected Album
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
