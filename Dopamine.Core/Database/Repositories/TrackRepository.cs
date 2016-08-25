@@ -327,26 +327,22 @@ namespace Dopamine.Core.Database.Repositories
                         List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
                         List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
 
-                        // Add the Track to the table of Removed Tracks (only if it is not already in there)
+                        
+                        conn.Execute("BEGIN TRANSACTION");
+
                         foreach (string path in pathsToRemoveNow)
                         {
-                            try
-                            {
-                                conn.Insert(new RemovedTrack { DateRemoved = DateTime.Now.Ticks, Path = path });
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not add the track with path '{0}' to the table of removed tracks. Exception: {1}", path, ex.Message);
-                                result = RemoveTracksResult.Error;
-                            }
+                            // Add to table RemovedTrack
+                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path) VALUES(?,?)", DateTime.Now.Ticks, path);
+
+                            // Remove from QueuedTrack
+                            conn.Execute("DELETE FROM QueuedTrack WHERE Path=?",path);
+
+                            // Remove from Track
+                            conn.Execute("DELETE FROM Track WHERE Path=?", path);
                         }
 
-                        List<Track> tracksToRemove = conn.Table<Track>().Select((t) => t).Where((t) => pathsToRemove.Contains(t.Path)).ToList();
-
-                        foreach (Track trk in tracksToRemove)
-                        {
-                            conn.Delete(trk);   
-                        }
+                        conn.Execute("COMMIT");
                     }
                 }
                 catch (Exception ex)

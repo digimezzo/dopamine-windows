@@ -1,7 +1,8 @@
-24-08-2016: Dopamine 1.1.683.0 (Preview)
+25-08-2016: Dopamine 1.1.684.0 (Preview)
 ---------------------------------------- 
 
 - Fixed a bug which caused duplicate semantic Artist and Genre groups after performing a search
+- Fixed a bug where removed songs could still be played when pressing the play button
 
 
 22-08-2016: Dopamine 1.1.681.0 (Preview)
