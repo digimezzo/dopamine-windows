@@ -672,6 +672,9 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (result == RemoveTracksResult.Error)
                 {
                     this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                }else
+                {
+                    await this.playbackService.Dequeue(selectedTracks);
                 }
             }
         }
