@@ -310,7 +310,6 @@
     <Compile Include="Services\Indexing\IIndexingService.cs" />
     <Compile Include="Services\Indexing\IndexerCache.cs" />
     <Compile Include="Services\Indexing\IndexerUtils.cs" />
-    <Compile Include="Services\Indexing\IndexingContext.cs" />
     <Compile Include="Services\Indexing\IndexingService.cs" />
     <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="Services\JumpList\IJumpListService.cs" />

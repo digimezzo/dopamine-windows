@@ -39,9 +39,6 @@ namespace Dopamine.Common.Services.Indexing
         // Cache
         private IndexerCache cache;
 
-        // Context
-        private IndexingContext context;
-
         // Factory
         private SQLiteConnectionFactory factory;
 
@@ -128,8 +125,8 @@ namespace Dopamine.Common.Services.Indexing
                     long lastFileCount = 0;
                     long lastDateFileModified = 0;
 
-                    if(lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
-                    if(lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
+                    if (lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
+                    if (lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
 
                     if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
                     {
@@ -203,9 +200,6 @@ namespace Dopamine.Common.Services.Indexing
 
             // Initialize Cache
             this.cache = new IndexerCache();
-
-            // Initialize Context
-            this.context = new IndexingContext();
 
             // IndexingEventArgs
             this.eventArgs = new IndexingStatusEventArgs();
@@ -308,6 +302,8 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
+                    conn.BeginTransaction();
+
                     foreach (Album alb in conn.Table<Album>())
                     {
                         try
@@ -320,7 +316,7 @@ namespace Dopamine.Common.Services.Indexing
 
                                 if (IndexerUtils.CacheArtwork(alb, trk.Path))
                                 {
-                                    this.context.Update<Album>(alb);
+                                    conn.Update(alb);
                                     numberUpdated += 1;
                                 }
                             }
@@ -339,10 +335,7 @@ namespace Dopamine.Common.Services.Indexing
                         }
                     }
 
-                    if (numberUpdated > 0)
-                    {
-                        this.context.SaveChanges();
-                    }
+                    conn.Commit();
                 }
             });
 
@@ -357,12 +350,14 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
+                    conn.BeginTransaction();
+
                     foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
                     {
                         if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb.ArtworkID)))
                         {
                             alb.ArtworkID = string.Empty;
-                            this.context.Update<Album>(alb);
+                            conn.Update(alb);
                             numberDeleted += 1;
                         }
 
@@ -375,10 +370,7 @@ namespace Dopamine.Common.Services.Indexing
                         }
                     }
 
-                    if (numberDeleted > 0)
-                    {
-                        this.context.SaveChanges();
-                    }
+                    conn.Commit();
                 }
             });
 
@@ -541,6 +533,8 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     using (var conn = this.factory.GetConnection())
                     {
+                        conn.BeginTransaction();
+
                         List<long> folderIDs = conn.Table<Folder>().Select((t) => t.FolderID).ToList();
 
                         // Ignore Tracks which are in an unreachable folder
@@ -562,7 +556,7 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 conn.Delete(trk);
                             }
-                            
+
                             numberRemovedTracks += tracksToProcessInvalidFolderID.Count;
                         }
 
@@ -583,6 +577,8 @@ namespace Dopamine.Common.Services.Indexing
                                 this.IndexingStatusChanged(this.eventArgs);
                             }
                         }
+
+                        conn.Commit();
                     }
                 }
                 catch (Exception ex)
@@ -604,6 +600,8 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     using (var conn = this.factory.GetConnection())
                     {
+                        conn.BeginTransaction();
+
                         // Ignore Tracks which are in an unreachable folder
                         List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where((t) => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
 
@@ -616,9 +614,9 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 if (IndexerUtils.IsTrackOutdated(dbTrack))
                                 {
-                                    if (this.ProcessTrack(dbTrack))
+                                    if (this.ProcessTrack(dbTrack, conn))
                                     {
-                                        context.Update<Track>(dbTrack);
+                                        conn.Update(dbTrack);
                                         numberUpdatedTracks += 1;
                                     }
                                 }
@@ -641,7 +639,7 @@ namespace Dopamine.Common.Services.Indexing
                             }
                         }
 
-                        this.context.SaveChanges();
+                        conn.Commit();
                     }
                 }
                 catch (Exception ex)
@@ -667,22 +665,24 @@ namespace Dopamine.Common.Services.Indexing
                     long saveItemCount = IndexerUtils.CalculateSaveItemCount(this.newDiskPaths.Count);
                     long unsavedItemCount = 0;
 
-                    foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
+                    using (var conn = this.factory.GetConnection())
                     {
-                        Track diskTrack = new Track
-                        {
-                            FolderID = newDiskPath.Item1,
-                            Path = newDiskPath.Item2,
-                            DateAdded = DateTime.Now.Ticks
-                        };
+                        conn.BeginTransaction();
 
-                        try
+                        foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
                         {
-                            using (var conn = this.factory.GetConnection())
+                            Track diskTrack = new Track
                             {
-                                if (this.ProcessTrack(diskTrack))
+                                FolderID = newDiskPath.Item1,
+                                Path = newDiskPath.Item2,
+                                DateAdded = DateTime.Now.Ticks
+                            };
+
+                            try
+                            {
+                                if (this.ProcessTrack(diskTrack, conn))
                                 {
-                                    this.context.Insert<Track>(diskTrack);
+                                    conn.Insert(diskTrack);
                                     numberAddedTracks += 1;
                                     unsavedItemCount += 1;
                                 }
@@ -691,30 +691,31 @@ namespace Dopamine.Common.Services.Indexing
                                 if (unsavedItemCount == saveItemCount)
                                 {
                                     unsavedItemCount = 0;
-                                    this.context.SaveChanges();
+                                    conn.Commit(); // Intermediate save
+                                    conn.BeginTransaction();
                                 }
+
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
+                            }
+
+                            currentValue += 1;
+
+                            // Report progress if at least 1 track is updated
+                            if (numberAddedTracks > 0)
+                            {
+                                this.eventArgs.IndexingAction = IndexingAction.AddTracks;
+                                this.eventArgs.ProgressCurrent = currentValue;
+                                this.eventArgs.ProgressTotal = totalValue;
+                                this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                this.IndexingStatusChanged(this.eventArgs);
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
-                        }
 
-                        currentValue += 1;
-
-                        // Report progress if at least 1 track is updated
-                        if (numberAddedTracks > 0)
-                        {
-                            this.eventArgs.IndexingAction = IndexingAction.AddTracks;
-                            this.eventArgs.ProgressCurrent = currentValue;
-                            this.eventArgs.ProgressTotal = totalValue;
-                            this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-                            this.IndexingStatusChanged(this.eventArgs);
-                        }
+                        conn.Commit(); // Final save
                     }
-
-                    // Final save
-                    this.context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -725,7 +726,7 @@ namespace Dopamine.Common.Services.Indexing
             return numberAddedTracks;
         }
 
-        private bool ProcessTrack(Track track)
+        private bool ProcessTrack(Track track, SQLiteConnection conn)
         {
             bool processingSuccessful = false;
 
@@ -750,35 +751,33 @@ namespace Dopamine.Common.Services.Indexing
                 if (!this.cache.GetCachedArtist(ref newArtist))
                 {
                     // If not, add it.
-                    this.context.Insert<Artist>(newArtist);
+                    conn.Insert(newArtist);
                 }
 
                 // Check if such Genre already exists in the database 
                 if (!this.cache.GetCachedGenre(ref newGenre))
                 {
                     // If not, add it.
-                    this.context.Insert<Genre>(newGenre);
+                    conn.Insert(newGenre);
                 }
 
                 // Check if such Album already exists in the database
                 if (!this.cache.GetCachedAlbum(ref newAlbum))
                 {
                     // If Not, add it.
-                    this.context.Insert<Album>(newAlbum);
+                    conn.Insert(newAlbum);
                 }
                 else
                 {
                     // Make sure the Year of the existing album is updated
                     // TODO: can we prevent a database query here?
-                    using (SQLiteConnection conn = this.factory.GetConnection())
-                    {
-                        Album dbAlbum = conn.Table<Album>().Where((a) => a.AlbumID.Equals(newAlbum.AlbumID)).FirstOrDefault();
 
-                        if (dbAlbum != null)
-                        {
-                            dbAlbum.Year = newAlbum.Year;
-                            context.Update<Album>(dbAlbum);
-                        }
+                    Album dbAlbum = conn.Table<Album>().Where((a) => a.AlbumID.Equals(newAlbum.AlbumID)).FirstOrDefault();
+
+                    if (dbAlbum != null)
+                    {
+                        dbAlbum.Year = newAlbum.Year;
+                        conn.Update(dbAlbum);
                     }
                 }
 
