@@ -48,7 +48,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -86,7 +86,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -122,7 +122,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -184,7 +184,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -212,7 +212,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -242,7 +242,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -279,7 +279,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -306,7 +306,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
