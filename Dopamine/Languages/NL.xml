@@ -323,4 +323,6 @@
   <Text Key="Delete_Preset">Preset verwijderen</Text>
   <Text Key="Delete_Preset_Confirmation">Ben je zeker dat je de preset '%preset%' wilt verwijderen?</Text>
   <Text Key="Error_While_Deleting_Preset">De voorkeur kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="Exclusive_Mode">Exclusieve modus</Text>
+  <Text Key="Exclusive_Mode_Confirmation">Ben je zeker dat je Exclusieve modus wilt inschakelen? Andere applicaties zullen niet meer in staat zijn om geluid af te spelen.</Text>
 </Language>

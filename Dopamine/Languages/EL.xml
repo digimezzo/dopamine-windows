@@ -323,4 +323,6 @@
   <Text Key="Delete_Preset">Διαγραφή προεπιλογής</Text>
   <Text Key="Delete_Preset_Confirmation">Είστε σίγουροι για τη διαγραφή της προεπιλογής '%preset%'?</Text>
   <Text Key="Error_While_Deleting_Preset">Δεν ήταν δυνατή η διαγραφή της προεπιλογής. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Exclusive_Mode">Exclusive mode</Text>
+  <Text Key="Exclusive_Mode_Confirmation">Are you sure you want to enable Exclusive mode? Other applications won't be able to play any sound anymore.</Text>
 </Language>
