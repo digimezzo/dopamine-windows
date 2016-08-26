@@ -17,6 +17,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public string Bitrate
+        {
+            get {
+                return this.TrackInfo.BitRate != null ? this.TrackInfo.BitRate + " kbps" : "";
+            }
+        }
+
+
         public bool AllowSaveRating { get; set; }
 
         public TrackInfo TrackInfo
