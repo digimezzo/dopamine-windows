@@ -323,4 +323,6 @@
   <Text Key="Delete_Preset">Supprimer préréglage</Text>
   <Text Key="Delete_Preset_Confirmation">Êtes-vous sûr de vouloir supprimer le préréglage '%preset%'?</Text>
   <Text Key="Error_While_Deleting_Preset">Le préréglage n'a pas pu être supprimé. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="Exclusive_Mode">Mode exclusif</Text>
+  <Text Key="Exclusive_Mode_Confirmation">Etes-vous sûr de vouloir activer le Mode exclusif? D'autres applications ne pouront plus jouer aucun son.</Text>
 </Language>

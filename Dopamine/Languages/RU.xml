@@ -323,4 +323,6 @@
   <Text Key="Delete_Preset">Delete preset</Text>
   <Text Key="Delete_Preset_Confirmation">Are you sure you want to delete the preset '%preset%'?</Text>
   <Text Key="Error_While_Deleting_Preset">The preset could not be deleted. Please consult the log file for more information.</Text>
+  <Text Key="Exclusive_Mode">Exclusive mode</Text>
+  <Text Key="Exclusive_Mode_Confirmation">Are you sure you want to enable Exclusive mode? Other applications won't be able to play any sound anymore.</Text>
 </Language>
