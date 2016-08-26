@@ -6,7 +6,7 @@ namespace Dopamine.CollectionModule
 {
     public class Utils
     {
-        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible)
+        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
         {
             ratingVisible = false;
             artistVisible = false;
@@ -16,6 +16,7 @@ namespace Dopamine.CollectionModule
             albumArtistVisible = false;
             trackNumberVisible = false;
             yearVisible = false;
+            bitrateVisible = false;
 
             string visibleColumnsSettings = XmlSettingsClient.Instance.Get<string>("TracksGrid", "VisibleColumns");
             string[] visibleColumns = null;
@@ -63,13 +64,16 @@ namespace Dopamine.CollectionModule
                         case "year":
                             yearVisible = true;
                             break;
+                        case "bitrate":
+                            bitrateVisible = true;
+                            break;
                     }
                 }
             }
         }
 
 
-        public static void SetVisibleSongsColumns(bool ratingVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible)
+        public static void SetVisibleSongsColumns(bool ratingVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
         {
             List<string> visibleColumns = new List<string>();
 
@@ -89,6 +93,8 @@ namespace Dopamine.CollectionModule
                 visibleColumns.Add("tracknumber");
             if (yearVisible)
                 visibleColumns.Add("year");
+            if (bitrateVisible)
+                visibleColumns.Add("bitrate");
 
             XmlSettingsClient.Instance.Set<string>("TracksGrid", "VisibleColumns", string.Join(";", visibleColumns.ToArray()));
         }

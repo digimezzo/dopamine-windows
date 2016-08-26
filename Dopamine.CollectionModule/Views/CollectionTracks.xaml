@@ -133,6 +133,11 @@
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Year}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+                <DataGridTextColumn Width="1.5*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding Bitrate}" Visibility="{Binding (FrameworkElement.DataContext).BitrateVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <DataGridTextColumn.Header>
+                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Bitrate}"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
             </controls:DataGridEx.Columns>
         </controls:DataGridEx>
     </DockPanel>
