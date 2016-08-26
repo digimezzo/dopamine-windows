@@ -1,47 +1,47 @@
-26-08-2016: Dopamine 1.1.685.0 (Preview)
+2016-08-26: Dopamine 1.1.685.0 (Preview)
 ---------------------------------------- 
 
-[FEATURES] Added a confirmation dialog when enabling WASAPI Exclusive mode
-[FEATURES] Added Bitrate column on Songs screen
-[FIXES] Duplicate semantic Artist and Genre groups appear after performing a search
-[FIXES] Removed songs can still be played when pressing the play button
+- [Added] Added a confirmation dialog when enabling WASAPI Exclusive mode
+- [Added] Added Bitrate column on Songs screen
+- [Fixed] Duplicate semantic Artist and Genre groups appear after performing a search
+- [Fixed] Removed songs can still be played when pressing the play button
 
 
-22-08-2016: Dopamine 1.1.681.0 (Preview)
+2016-08-22: Dopamine 1.1.681.0 (Preview)
 ----------------------------------------
 
-[FIXES] Equalizer doesn't remain enabled
-[TRANSLATIONS] Updated the Greek translation
+- [Changed] Updated the Greek translation
+- [Fixed] Equalizer doesn't remain enabled
 
 
-20-08-2016: Dopamine 1.1.680.0 (Preview)
+2016-08-20: Dopamine 1.1.680.0 (Preview)
 ----------------------------------------
 
-[FEATURES] Added an Equalizer
-[FIXES] Files removed in Windows are not removed from the collection
-[FIXES] Album art is cut off on lower left playback information on the main screen
-[FIXES] Dialogs show a 1px bottom border at some resolutions
+- [Added] Added an Equalizer
+- [Fixed] Files removed in Windows are not removed from the collection
+- [Fixed] Album art is cut off on lower left playback information on the main screen
+- [Fixed] Dialogs show a 1px bottom border at some resolutions
 
 
-3-08-2016: Dopamine 1.1.672.0 (Preview)
----------------------------------------
+2016-08-03: Dopamine 1.1.672.0 (Preview)
+----------------------------------------
 
-[INFO] Dopamine is now Open Source Software! The source code is available here: https://github.com/digimezzo/Dopamine
-[INFO] This version requires .NET Framework 4.6.1
-[INFO] Added information to the WASAPI Exclusive Mode setting that it mutes sounds from other applications
-[FEATURES] Updated to the latest release of the CSCore audio library
-[FEATURES] Added importing of .wpl playlists
-[FIXES] Impossible to import some .m3u and .zpl playlists
-[FIXES] Collection updating incorrectly when a new collection folder is added just after removing another
-[FIXES] Songs having a white space as Genre cause Genres list to be empty (A refresh of the collection is required to apply this fix)
-[FIXES] Updating album metadata causes album with title 'Multiple Values' to appear
-[TRANSLATIONS] Added Italian translation
-[TRANSLATIONS] Added Polish translation
-[TRANSLATIONS] Added Ukrainian translation
-[TRANSLATIONS] Updated Russian translation
+- [Changed] Dopamine is now Open Source Software! The source code is available here: https://github.com/digimezzo/Dopamine
+- [Changed] This version requires .NET Framework 4.6.1
+- [Changed] Updated Russian translation
+- [Added] Added information to the WASAPI Exclusive Mode setting that it mutes sounds from other applications
+- [Added] Updated to the latest release of the CSCore audio library
+- [Added] Added importing of .wpl playlists
+- [Added] Added Italian translation
+- [Added] Added Polish translation
+- [Added] Added Ukrainian translation
+- [Fixed] Impossible to import some .m3u and .zpl playlists
+- [Fixed] Collection updating incorrectly when a new collection folder is added just after removing another
+- [Fixed] Songs having a white space as Genre cause Genres list to be empty (A refresh of the collection is required to apply this fix)
+- [Fixed] Updating album metadata causes album with title 'Multiple Values' to appear
 
 
-29-06-2016: Dopamine 1.0.660.0 (Release)
+2016-06-29: Dopamine 1.0.660.0 (Release)
 ----------------------------------------
 
 - Final 1.0 release!
