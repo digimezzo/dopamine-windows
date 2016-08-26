@@ -1,7 +1,8 @@
-26-08-2016: Dopamine 1.1.684.0 (Preview)
+26-08-2016: Dopamine 1.1.685.0 (Preview)
 ---------------------------------------- 
 
 [FEATURES] Added a confirmation dialog when enabling WASAPI Exclusive mode
+[FEATURES] Added Bitrate column on Songs screen
 [FIXES] Duplicate semantic Artist and Genre groups appear after performing a search
 [FIXES] Removed songs can still be played when pressing the play button
 
