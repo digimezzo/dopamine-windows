@@ -1,3 +1,9 @@
+2016-08-26: Dopamine 1.1.686.0 (Preview)
+----------------------------------------
+
+- [Fixed] Playlist window visibility incorrect when switching between Mini players
+
+
 2016-08-26: Dopamine 1.1.685.0 (Preview)
 ---------------------------------------- 
 
