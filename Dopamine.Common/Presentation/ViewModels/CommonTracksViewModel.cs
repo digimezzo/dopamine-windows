@@ -715,8 +715,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                 }
             });
-
-            this.TracksCvs.View.Refresh();
         }
 
         private void SelectedTracksHandler(object parameter)
