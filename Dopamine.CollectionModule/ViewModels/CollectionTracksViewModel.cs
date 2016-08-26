@@ -22,55 +22,62 @@ namespace Dopamine.CollectionModule.ViewModels
         private bool albumArtistVisible;
         private bool trackNumberVisible;
         private bool yearVisible;
+        private bool bitrateVisible;
         #endregion
 
         #region Properties
         public bool RatingVisible
         {
-            get { return ratingVisible; }
+            get { return this.ratingVisible; }
             set { SetProperty<bool>(ref this.ratingVisible, value); }
         }
 
         public bool ArtistVisible
         {
-            get { return artistVisible; }
+            get { return this.artistVisible; }
             set { SetProperty<bool>(ref this.artistVisible, value); }
         }
 
         public bool AlbumVisible
         {
-            get { return albumVisible; }
+            get { return this.albumVisible; }
             set { SetProperty<bool>(ref this.albumVisible, value); }
         }
 
         public bool GenreVisible
         {
-            get { return genreVisible; }
+            get { return this.genreVisible; }
             set { SetProperty<bool>(ref this.genreVisible, value); }
         }
 
         public bool LengthVisible
         {
-            get { return lengthVisible; }
+            get { return this.lengthVisible; }
             set { SetProperty<bool>(ref this.lengthVisible, value); }
         }
 
         public bool AlbumArtistVisible
         {
-            get { return albumArtistVisible; }
+            get { return this.albumArtistVisible; }
             set { SetProperty<bool>(ref this.albumArtistVisible, value); }
         }
 
         public bool TrackNumberVisible
         {
-            get { return trackNumberVisible; }
+            get { return this.trackNumberVisible; }
             set { SetProperty<bool>(ref this.trackNumberVisible, value); }
         }
 
         public bool YearVisible
         {
-            get { return yearVisible; }
+            get { return this.yearVisible; }
             set { SetProperty<bool>(ref this.yearVisible, value); }
+        }
+
+        public bool BitrateVisible
+        {
+            get { return this.bitrateVisible; }
+            set { SetProperty<bool>(ref this.bitrateVisible, value); }
         }
 
         public override bool CanOrderByAlbum
@@ -155,7 +162,8 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.lengthVisible,
                 ref this.albumArtistVisible,
                 ref this.trackNumberVisible,
-                ref this.yearVisible);
+                ref this.yearVisible,
+                ref this.bitrateVisible);
 
             OnPropertyChanged(() => this.ArtistVisible);
             OnPropertyChanged(() => this.AlbumVisible);
@@ -164,7 +172,8 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.AlbumArtistVisible);
             OnPropertyChanged(() => this.TrackNumberVisible);
             OnPropertyChanged(() => this.YearVisible);
-           
+            OnPropertyChanged(() => this.BitrateVisible);
+
             if (this.EnableRating && savedRatingVisible)
             {
                 this.RatingVisible = true;
