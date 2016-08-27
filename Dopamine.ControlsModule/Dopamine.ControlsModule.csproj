@@ -114,7 +114,9 @@
     <Compile Include="ViewModels\EqualizerControlViewModel.cs" />
     <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
     <Compile Include="ViewModels\SearchControlViewModel.cs" />
+    <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Views\CollectionPlaybackControls.xaml.cs">
       <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
@@ -149,8 +151,14 @@
     <Compile Include="Views\NowPlayingScreenWindowControls.xaml.cs">
       <DependentUpon>NowPlayingScreenWindowControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PlayAllControl.xaml.cs">
+      <DependentUpon>PlayAllControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShuffleAllControl.xaml.cs">
+      <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SpectrumAnalyzerControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
@@ -214,7 +222,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PlayAllControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SearchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShuffleAllControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

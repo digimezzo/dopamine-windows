@@ -8,14 +8,13 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="{DynamicResource Language_Nothing_Is_Playing}" FontSize="{x:Static base:Constants.MediumBackgroundFontSize}" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         <StackPanel HorizontalAlignment="Center" Margin="30">
-            <controls:IconTextButton Glyph="&#xE768;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Play_All}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding PlayAllCommand}"/>
-            <controls:IconTextButton Glyph="&#xE8B1;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Shuffle_All}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding ShuffleAllCommand}"/>
+            <local:PlayAllControl Margin="5" HorizontalAlignment="Left"/>
+            <local:ShuffleAllControl Margin="5" HorizontalAlignment="Left"/>
         </StackPanel>
     </DockPanel>
 </UserControl>

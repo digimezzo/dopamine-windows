@@ -35,6 +35,10 @@ namespace Dopamine.ControlsModule
             this.container.RegisterType<object, CoverPlayerControls>(typeof(CoverPlayerControls).FullName);
             this.container.RegisterType<object, MicroPlayerControls>(typeof(MicroPlayerControls).FullName);
             this.container.RegisterType<object, NanoPlayerControls>(typeof(NanoPlayerControls).FullName);
+            this.container.RegisterType<object, PlayAllControl>(typeof(PlayAllControl).FullName);
+            this.container.RegisterType<object, PlayAllControlViewModel>(typeof(PlayAllControlViewModel).FullName);
+            this.container.RegisterType<object, ShuffleAllControl>(typeof(ShuffleAllControl).FullName);
+            this.container.RegisterType<object, ShuffleAllControlViewModel>(typeof(ShuffleAllControlViewModel).FullName);
             this.container.RegisterType<object, NothingPlayingControl>(typeof(NothingPlayingControl).FullName);
             this.container.RegisterType<object, NothingPlayingControlViewModel>(typeof(NothingPlayingControlViewModel).FullName);
         }
