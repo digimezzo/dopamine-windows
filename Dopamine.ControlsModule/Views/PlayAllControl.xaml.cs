@@ -2,10 +2,10 @@
 
 namespace Dopamine.ControlsModule.Views
 {
-    public partial class NothingPlayingControl : UserControl
+    public partial class PlayAllControl : UserControl
     {
         #region Construction
-        public NothingPlayingControl()
+        public PlayAllControl()
         {
             InitializeComponent();
         }
