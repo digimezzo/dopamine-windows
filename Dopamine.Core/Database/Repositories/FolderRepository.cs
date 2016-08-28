@@ -38,7 +38,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            if (!conn.Table<Folder>().Select((t) => t.Path.ToLower()).ToList().Contains(folder.Path.ToLower()))
+                            if (!conn.Table<Folder>().Select((t) => t).ToList().Select((t)=> t.Path.ToLower()).Contains(folder.Path.ToLower()))
                             {
                                 conn.Insert(folder);
                                 LogClient.Instance.Logger.Info("Added the Folder {0}", folder.Path);
