@@ -1,6 +1,7 @@
-2016-08-26: Dopamine 1.1.686.0 (Preview)
+2016-08-28: Dopamine 1.1.687.0 (Preview)
 ----------------------------------------
 
+- [Changed] Updated the Portuguese translation
 - [Fixed] Playlist window visibility incorrect when switching between Mini players
 - [Fixed] Left part of Mini player playlist is unclickable
 
