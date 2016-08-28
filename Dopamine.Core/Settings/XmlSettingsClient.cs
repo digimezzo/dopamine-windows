@@ -255,7 +255,7 @@ namespace Dopamine.Core.Settings
                                     where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
                                     select v).FirstOrDefault();
 
-                // For numbers, we need provide CultureInfo.InvariantCulture. 
+                // For numbers, we need to provide CultureInfo.InvariantCulture. 
                 // Otherwise, deserializing from XML can cause a FormatException.
                 if (typeof(T) == typeof(float))
                 {
@@ -287,7 +287,7 @@ namespace Dopamine.Core.Settings
                                         where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
                                         select v).FirstOrDefault();
 
-                // For numbers, we need provide CultureInfo.InvariantCulture. 
+                // For numbers, we need to provide CultureInfo.InvariantCulture. 
                 // Otherwise, deserializing from XML can cause a FormatException.
                 if (typeof(T) == typeof(float))
                 {
