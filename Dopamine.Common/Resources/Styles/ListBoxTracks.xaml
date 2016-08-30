@@ -285,11 +285,12 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -347,11 +348,12 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -409,11 +411,12 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -450,11 +453,12 @@
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -478,11 +482,12 @@
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -516,11 +521,12 @@
             </MenuItem.Header>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.SearchTrackVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
