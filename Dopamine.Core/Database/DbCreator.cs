@@ -52,7 +52,7 @@ namespace Dopamine.Core.Database
                              "Value              TEXT," +
                              "PRIMARY KEY(ConfigurationID));");
 
-                conn.Execute(String.Format("INSERT INTO Configuration (ConfigurationID, Key, Value) VALUES (null,'DatabaseVersion', {0})", CURRENT_VERSION));
+                conn.Execute(String.Format("INSERT INTO Configuration (ConfigurationID, Key, Value) VALUES (null,'DatabaseVersion', {0});", CURRENT_VERSION));
             }
         }
 
@@ -65,14 +65,14 @@ namespace Dopamine.Core.Database
                              "ArtistName	     TEXT," +
                              "PRIMARY KEY(ArtistID));");
 
-                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName)");
+                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName);");
 
                 conn.Execute("CREATE TABLE Genre (" +
                              "GenreID           INTEGER," +
                              "GenreName	        TEXT," +
                              "PRIMARY KEY(GenreID));");
 
-                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName)");
+                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName);");
 
                 conn.Execute("CREATE TABLE Album (" +
                              "AlbumID	        INTEGER," +
@@ -84,7 +84,7 @@ namespace Dopamine.Core.Database
                              "DateAdded	        INTEGER," +
                              "PRIMARY KEY(AlbumID));");
 
-                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist)");
+                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
                 conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
 
                 conn.Execute("CREATE TABLE Playlist (" +
@@ -136,7 +136,7 @@ namespace Dopamine.Core.Database
                 conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
                 conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
                 conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
-                conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path)");
+                conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
 
                 conn.Execute("CREATE TABLE RemovedTrack (" +
                              "TrackID	            INTEGER," +
@@ -668,131 +668,37 @@ namespace Dopamine.Core.Database
             {
                 conn.Execute("BEGIN TRANSACTION;");
 
-                conn.Execute("CREATE TABLE Configuration (" +
-                             "ConfigurationID    INTEGER," +
-                             "Key                TEXT," +
-                             "Value              TEXT," +
-                             "PRIMARY KEY(ConfigurationID));");
+                conn.Execute("DROP INDEX IF EXISTS ArtistsIndex;");
+                conn.Execute("DROP INDEX IF EXISTS GenresIndex;");
+                conn.Execute("DROP INDEX IF EXISTS AlbumsIndex;");
+                conn.Execute("DROP INDEX IF EXISTS AlbumsYearIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TracksArtistIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TracksAlbumIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TracksGenreIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TracksFolderIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TracksPathIndex;");
 
-                conn.Execute("CREATE TABLE Artist (" +
-                             "ArtistID           INTEGER," +
-                             "ArtistName	     TEXT," +
-                             "PRIMARY KEY(ArtistID));");
+                conn.Execute("ALTER TABLE Configurations RENAME TO Configuration;");
+                conn.Execute("ALTER TABLE Artists RENAME TO Artist;");
+                conn.Execute("ALTER TABLE Genres RENAME TO Genre;");
+                conn.Execute("ALTER TABLE Albums RENAME TO Album;");
+                conn.Execute("ALTER TABLE Playlists RENAME TO Playlist;");
+                conn.Execute("ALTER TABLE PlaylistEntries RENAME TO PlaylistEntry;");
+                conn.Execute("ALTER TABLE Folders RENAME TO Folder;");
+                conn.Execute("ALTER TABLE Tracks RENAME TO Track;");
+                conn.Execute("ALTER TABLE RemovedTracks RENAME TO RemovedTrack;");
+                conn.Execute("ALTER TABLE QueuedTracks RENAME TO QueuedTrack;");
+                conn.Execute("ALTER TABLE IndexingStatistics RENAME TO IndexingStatistic;");
 
                 conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName)");
-
-                conn.Execute("CREATE TABLE Genre (" +
-                             "GenreID           INTEGER," +
-                             "GenreName	        TEXT," +
-                             "PRIMARY KEY(GenreID));");
-
                 conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName)");
-
-                conn.Execute("CREATE TABLE Album (" +
-                             "AlbumID	        INTEGER," +
-                             "AlbumTitle	    TEXT," +
-                             "AlbumArtist	    TEXT," +
-                             "Year	            INTEGER," +
-                             "ArtworkID	        TEXT," +
-                             "DateLastSynced	INTEGER," +
-                             "DateAdded	        INTEGER," +
-                             "PRIMARY KEY(AlbumID));");
-
                 conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist)");
                 conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
-
-                conn.Execute("CREATE TABLE Playlist (" +
-                             "PlaylistID	    INTEGER," +
-                             "PlaylistName	    TEXT," +
-                             "PRIMARY KEY(PlaylistID));");
-
-                conn.Execute("CREATE TABLE PlaylistEntry (" +
-                             "EntryID	        INTEGER," +
-                             "PlaylistID	    INTEGER," +
-                             "TrackID	        INTEGER," +
-                             "PRIMARY KEY(EntryID));");
-
-                conn.Execute("CREATE TABLE Folder (" +
-                             "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
-                             "Path	             TEXT," +
-                             "ShowInCollection   INTEGER);");
-
-                conn.Execute("CREATE TABLE Track (" +
-                             "TrackID	            INTEGER," +
-                             "ArtistID	            INTEGER," +
-                             "GenreID	            INTEGER," +
-                             "AlbumID	            INTEGER," +
-                             "FolderID	            INTEGER," +
-                             "Path	                TEXT," +
-                             "FileName	            TEXT," +
-                             "MimeType	            TEXT," +
-                             "FileSize	            INTEGER," +
-                             "BitRate	            INTEGER," +
-                             "SampleRate	        INTEGER," +
-                             "TrackTitle	        TEXT," +
-                             "TrackNumber	        INTEGER," +
-                             "TrackCount	        INTEGER," +
-                             "DiscNumber	        INTEGER," +
-                             "DiscCount	            INTEGER," +
-                             "Duration	            INTEGER," +
-                             "Year	                INTEGER," +
-                             "Rating	            INTEGER," +
-                             "PlayCount	            INTEGER," +
-                             "SkipCount	            INTEGER," +
-                             "DateAdded  	        INTEGER," +
-                             "DateLastPlayed        INTEGER," +
-                             "DateLastSynced	    INTEGER," +
-                             "DateFileModified	    INTEGER," +
-                             "MetaDataHash	        TEXT," +
-                             "PRIMARY KEY(TrackID));");
-
                 conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
                 conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
                 conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
                 conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path)");
-
-                conn.Execute("CREATE TABLE RemovedTrack (" +
-                             "TrackID	            INTEGER," +
-                             "Path	                TEXT," +
-                             "DateRemoved           INTEGER," +
-                             "PRIMARY KEY(TrackID));");
-
-                conn.Execute("CREATE TABLE QueuedTrack (" +
-                             "QueuedTrackID         INTEGER," +
-                             "Path	                TEXT," +
-                             "OrderID               INTEGER," +
-                             "PRIMARY KEY(QueuedTrackID));");
-
-                conn.Execute("CREATE TABLE IndexingStatistic (" +
-                            "IndexingStatisticID    INTEGER," +
-                            "Key                    TEXT," +
-                            "Value                  TEXT," +
-                            "PRIMARY KEY(IndexingStatisticID));");
-
-                conn.Execute("INSERT INTO Configuration SELECT * FROM Configurations;");
-                conn.Execute("INSERT INTO Artist SELECT * FROM Artists;");
-                conn.Execute("INSERT INTO Genre SELECT * FROM Genres;");
-                conn.Execute("INSERT INTO Album SELECT * FROM Albums;");
-                conn.Execute("INSERT INTO Playlist SELECT * FROM Playlists;");
-                conn.Execute("INSERT INTO PlaylistEntry SELECT * FROM PlaylistEntries;");
-                conn.Execute("INSERT INTO Folder SELECT * FROM Folders;");
-                conn.Execute("INSERT INTO Track SELECT * FROM Tracks;");
-                conn.Execute("INSERT INTO RemovedTrack SELECT * FROM RemovedTracks;");
-                conn.Execute("INSERT INTO QueuedTrack SELECT * FROM QueuedTracks;");
-                conn.Execute("INSERT INTO IndexingStatistic SELECT * FROM IndexingStatistics;");
-
-                conn.Execute("DROP TABLE Configurations;");
-                conn.Execute("DROP TABLE Artists;");
-                conn.Execute("DROP TABLE Genres;");
-                conn.Execute("DROP TABLE Albums;");
-                conn.Execute("DROP TABLE Playlists;");
-                conn.Execute("DROP TABLE PlaylistEntries;");
-                conn.Execute("DROP TABLE Folders;");
-                conn.Execute("DROP TABLE Tracks;");
-                conn.Execute("DROP TABLE RemovedTracks;");
-                conn.Execute("DROP TABLE QueuedTracks;");
-                conn.Execute("DROP TABLE IndexingStatistics;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
