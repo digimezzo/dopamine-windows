@@ -39,6 +39,15 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchVideoClipCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
         <MenuItem 
             InputGestureText="{DynamicResource Language_Key_Del}" 
             Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}">

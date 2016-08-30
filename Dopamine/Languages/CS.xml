@@ -325,4 +325,5 @@
   <Text Key="Error_While_Deleting_Preset">The preset could not be deleted. Please consult the log file for more information.</Text>
   <Text Key="Exclusive_Mode">Exclusive mode</Text>
   <Text Key="Exclusive_Mode_Confirmation">Are you sure you want to enable Exclusive mode? Other applications won't be able to play any sound anymore.</Text>
+  <Text Key="Search_Video_Clip">Search video clip</Text>
 </Language>

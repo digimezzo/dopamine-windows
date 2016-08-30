@@ -325,4 +325,5 @@
   <Text Key="Error_While_Deleting_Preset">Le préréglage n'a pas pu être supprimé. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Exclusive_Mode">Mode exclusif</Text>
   <Text Key="Exclusive_Mode_Confirmation">Etes-vous sûr de vouloir activer le Mode exclusif? D'autres applications ne pouront plus jouer aucun son.</Text>
+  <Text Key="Search_Video_Clip">Checher clip vidéo</Text>
 </Language>

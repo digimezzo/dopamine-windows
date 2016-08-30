@@ -325,4 +325,5 @@
   <Text Key="Error_While_Deleting_Preset">Impossível apagar. Clique em "Mais informações" para saber mais.</Text>
   <Text Key="Exclusive_Mode">Modo exclusivo</Text>
   <Text Key="Exclusive_Mode_Confirmation">Tem certeza de que quer ativar o modo exclusivo? Os outros programas serão incapazes de reproduzir som.</Text>
+  <Text Key="Search_Video_Clip">Search video clip</Text>
 </Language>
