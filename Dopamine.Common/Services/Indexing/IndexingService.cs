@@ -535,7 +535,7 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
-                        List<long> folderIDs = conn.Table<Folder>().Select((t) => t.FolderID).ToList();
+                        List<long> folderIDs = conn.Table<Folder>().ToList().Select((t) => t.FolderID).ToList();
 
                         // Ignore Tracks which are in an unreachable folder
                         List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where(t => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
