@@ -59,7 +59,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         // Lists
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        private ObservableCollection<VideoProvider> contextMenuVideoProviders;
+        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<TrackInfoViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackInfo> selectedTracks;
@@ -92,7 +92,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
-        public DelegateCommand<string> SearchTrackVideoCommand { get; set; }
+        public DelegateCommand<string> SearchOnlineCommand { get; set; }
         #endregion
 
         #region ReadOnly Properties
@@ -108,9 +108,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
         }
 
-        public bool HasContextMenuVideoProviders
+        public bool HasContextMenuSearchProviders
         {
-            get { return this.ContextMenuVideoProviders != null && this.ContextMenuVideoProviders.Count > 0; }
+            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
         }
 
         public string TrackOrderText
@@ -152,13 +152,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public ObservableCollection<VideoProvider> ContextMenuVideoProviders
+        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
         {
-            get { return this.contextMenuVideoProviders; }
+            get { return this.contextMenuSearchProviders; }
             set
             {
-                SetProperty<ObservableCollection<VideoProvider>>(ref this.contextMenuVideoProviders, value);
-                OnPropertyChanged(() => this.HasContextMenuVideoProviders);
+                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
+                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
             }
         }
 
@@ -289,10 +289,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
             
-            this.SearchTrackVideoCommand = new DelegateCommand<string>((name) => {
+            this.SearchOnlineCommand = new DelegateCommand<string>((name) => {
 
                 if(this.selectedTracks != null && this.selectedTracks.Count > 0){
-                     this.providerService.SearchVideo(name, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
+                     this.providerService.SearchOnline(name, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
                 }
             });
 
@@ -333,8 +333,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Initialize the playlists in the ContextMenu
             this.GetContextMenuPlaylistsAsync();
 
-            // Initialize the video providers in the ContextMenu
-            this.GetVideoProvidersAsync();
+            // Initialize the search providers in the ContextMenu
+            this.GetSearchProvidersAsync();
         }
 
         private void ShowSelectedTrackInformation()
@@ -383,20 +383,20 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private async void GetVideoProvidersAsync()
+        private async void GetSearchProvidersAsync()
         {
-            List<VideoProvider> videoProvidersList = await this.providerService.GetVideoProvidersAsync();
-            var localVideoProviders = new ObservableCollection<VideoProvider>();
+            List<SearchProvider> providersList = await this.providerService.GetSearchProvidersAsync();
+            var localProviders = new ObservableCollection<SearchProvider>();
 
             await Task.Run(() =>
             {
-                foreach (VideoProvider vp in videoProvidersList)
+                foreach (SearchProvider vp in providersList)
                 {
-                    localVideoProviders.Add(vp);
+                    localProviders.Add(vp);
                 }
             });
 
-            this.ContextMenuVideoProviders = localVideoProviders;
+            this.ContextMenuSearchProviders = localProviders;
         }
         #endregion
 

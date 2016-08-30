@@ -40,13 +40,18 @@ namespace Dopamine.Common.Services.Provider
                 XDocument providersDocument = XDocument.Parse(
                "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
                "<Providers>" +
-               "<VideoProviders>" +
-               "<VideoProvider>" +
-               "<Name>Youtube</Name>" +
+               "<SearchProviders>" +
+               "<SearchProvider>" +
+               "<Name>Video (Youtube)</Name>" +
                "<Url>https://www.youtube.com/results?search_query=</Url>" +
                "<Separator>+</Separator>" +
-               "</VideoProvider>" +
-               "</VideoProviders>" +
+               "</SearchProvider>" +
+               "<SearchProvider>" +
+               "<Name>Lyrics (Musixmatch)</Name>" +
+               "<Url>https://www.musixmatch.com/search/</Url>" +
+               "<Separator>%20</Separator>" +
+               "</SearchProvider>" +
+               "</SearchProviders>" +
                "</Providers>");
 
                 providersDocument.Save(this.providersXmlPath);
@@ -63,7 +68,7 @@ namespace Dopamine.Common.Services.Provider
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not load Providers XML. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not load providers XML. Exception: {0}", ex.Message);
                 }
 
             }
@@ -71,9 +76,9 @@ namespace Dopamine.Common.Services.Provider
         #endregion
 
         #region IProviderService
-        public async Task<List<VideoProvider>> GetVideoProvidersAsync()
+        public async Task<List<SearchProvider>> GetSearchProvidersAsync()
         {
-            var videoProviders = new List<VideoProvider>();
+            var providers = new List<SearchProvider>();
 
             await Task.Run(() =>
             {
@@ -81,38 +86,38 @@ namespace Dopamine.Common.Services.Provider
                 {
                     if (this.providersDocument != null)
                     {
-                        videoProviders = (from v in this.providersDocument.Element("Providers").Elements("VideoProviders")
-                                          from p in v.Elements("VideoProvider")
-                                          from n in p.Elements("Name")
-                                          from u in p.Elements("Url")
-                                          from s in p.Elements("Separator")
-                                          select new VideoProvider
-                                          {
-                                              Name = n.Value,
-                                              Url = u.Value,
-                                              Separator = s.Value
-                                          }).ToList();
+                        providers = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                     from p in t.Elements("SearchProvider")
+                                     from n in p.Elements("Name")
+                                     from u in p.Elements("Url")
+                                     from s in p.Elements("Separator")
+                                     select new SearchProvider
+                                     {
+                                         Name = n.Value,
+                                         Url = u.Value,
+                                         Separator = s.Value
+                                     }).ToList();
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not load VideoProviders. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not load search providers. Exception: {0}", ex.Message);
                 }
 
             });
 
-            return videoProviders;
+            return providers;
         }
 
-        public void SearchVideo(string providerName, string[] searchArguments)
+        public void SearchOnline(string providerName, string[] searchArguments)
         {
-            var videoProvider = (from v in this.providersDocument.Element("Providers").Elements("VideoProviders")
-                                 from p in v.Elements("VideoProvider")
+            var provider = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                 from p in t.Elements("SearchProvider")
                                  from n in p.Elements("Name")
                                  from u in p.Elements("Url")
                                  from s in p.Elements("Separator")
                                  where n.Value == providerName
-                                 select new VideoProvider
+                                 select new SearchProvider
                                  {
                                      Name = n.Value,
                                      Url = u.Value,
@@ -121,12 +126,12 @@ namespace Dopamine.Common.Services.Provider
 
             try
             {
-                string url = videoProvider.Url + string.Join(videoProvider.Separator, searchArguments);
-                Actions.TryOpenLink(url.Replace("&", videoProvider.Separator)); // Because Youtube forgets the part of he URL that comes after "&"
+                string url = provider.Url + string.Join(provider.Separator, searchArguments);
+                Actions.TryOpenLink(url.Replace("&", provider.Separator)); // Because Youtube forgets the part of he URL that comes after "&"
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not search for video. Exception: {0}", ex.Message);
+                LogClient.Instance.Logger.Error("Could not search online. Exception: {0}", ex.Message);
             }
         }
         #endregion

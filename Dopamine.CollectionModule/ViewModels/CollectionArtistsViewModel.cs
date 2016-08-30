@@ -56,7 +56,6 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand SemanticJumpCommand { get; set; }
         public DelegateCommand ToggleArtistTypeCommand { get; set; }
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
-        public DelegateCommand<string> SearchArtistVideoCommand { get; set; }
         #endregion
 
         #region Properties
@@ -167,15 +166,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.SemanticJumpCommand = new DelegateCommand(() => this.HideSemanticZoom());
             this.ToggleArtistTypeCommand = new DelegateCommand(async () => await this.ToggleArtistTypeAsync());
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
-
-            this.SearchArtistVideoCommand = new DelegateCommand<string>((name) =>
-            {
-
-                if (this.selectedArtists != null && this.selectedArtists.Count > 0)
-                {
-                    this.providerService.SearchVideo(name, new string[] { this.selectedArtists.First().ArtistName});
-                }
-            });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>

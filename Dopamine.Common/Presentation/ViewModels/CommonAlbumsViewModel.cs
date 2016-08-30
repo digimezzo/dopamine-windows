@@ -53,7 +53,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand AddAlbumsToNowPlayingCommand { get; set; }
         public DelegateCommand<string> SetCoverSizeCommand { get; set; }
         public DelegateCommand DelaySelectedAlbumsCommand { get; set; }
-        public DelegateCommand<string> SearchAlbumVideoCommand { get; set; }
         #endregion
 
         #region Properties
@@ -195,15 +194,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
-
-            this.SearchAlbumVideoCommand = new DelegateCommand<string>((name) =>
-            {
-
-                if (this.selectedAlbums != null && this.selectedAlbums.Count > 0)
-                {
-                    this.providerService.SearchVideo(name, new string[] { this.selectedAlbums.First().AlbumArtist, this.selectedAlbums.First().AlbumTitle });
-                }
-            });
         }
 
         private void EditSelectedAlbum()

@@ -5,7 +5,7 @@ namespace Dopamine.Common.Services.Provider
 {
     public interface IProviderService
     {
-        Task<List<VideoProvider>> GetVideoProvidersAsync();
-        void SearchVideo(string providerName, string[] searchArguments);
+        Task<List<SearchProvider>> GetSearchProvidersAsync();
+        void SearchOnline(string providerName, string[] searchArguments);
     }
 }

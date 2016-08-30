@@ -325,5 +325,5 @@
   <Text Key="Error_While_Deleting_Preset">De voorkeur kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Exclusive_Mode">Exclusieve modus</Text>
   <Text Key="Exclusive_Mode_Confirmation">Ben je zeker dat je Exclusieve modus wilt inschakelen? Andere applicaties zullen niet meer in staat zijn om geluid af te spelen.</Text>
-  <Text Key="Search_Video_Clip">Video clip zoeken</Text>
+  <Text Key="Search_Online">Online zoeken</Text>
 </Language>
