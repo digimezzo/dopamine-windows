@@ -53,6 +53,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand ShowGenresZoomCommand { get; set; }
         public DelegateCommand SemanticJumpCommand { get; set; }
         public DelegateCommand AddGenresToNowPlayingCommand { get; set; }
+        public DelegateCommand<string> SearchGenreVideoCommand { get; set; }
         #endregion
 
         #region Properties
@@ -147,6 +148,15 @@ namespace Dopamine.CollectionModule.ViewModels
             this.ShowGenresZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.SemanticJumpCommand = new DelegateCommand(() => this.IsGenresZoomVisible = false);
             this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenres));
+
+            this.SearchGenreVideoCommand = new DelegateCommand<string>((name) =>
+            {
+
+                if (this.selectedGenres != null && this.selectedGenres.Count > 0)
+                {
+                    this.providerService.SearchVideo(name, new string[] { this.selectedGenres.First().GenreName });
+                }
+            });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>

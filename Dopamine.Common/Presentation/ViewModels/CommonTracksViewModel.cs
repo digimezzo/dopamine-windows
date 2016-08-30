@@ -49,6 +49,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected ICollectionService collectionService;
         protected IMetadataService metadataService;
         protected II18nService i18nService;
+        protected IProviderService providerService;
+
+        // Event aggregator
         protected IEventAggregator eventAggregator;
 
         // Repositories
@@ -89,6 +92,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
+        public DelegateCommand<string> SearchTrackVideoCommand { get; set; }
         #endregion
 
         #region ReadOnly Properties
@@ -102,6 +106,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool HasContextMenuPlaylists
         {
             get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
+        }
+
+        public bool HasContextMenuVideoProviders
+        {
+            get { return this.ContextMenuVideoProviders != null && this.ContextMenuVideoProviders.Count > 0; }
         }
 
         public string TrackOrderText
@@ -149,6 +158,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<ObservableCollection<VideoProvider>>(ref this.contextMenuVideoProviders, value);
+                OnPropertyChanged(() => this.HasContextMenuVideoProviders);
             }
         }
 
@@ -213,7 +223,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         /// <param name="trackRepository"></param>
         /// <param name="i18nService"></param>
         /// <remarks></remarks>
-        public CommonTracksViewModel(IUnityContainer container, IIndexingService indexingService, IEventAggregator eventAggregator, IPlaybackService playbackService, ISearchService searchService, IDialogService dialogService, ICollectionService collectionService, ITrackRepository trackRepository, IMetadataService metadataService, II18nService i18nService)
+        public CommonTracksViewModel(IUnityContainer container, IIndexingService indexingService, IEventAggregator eventAggregator, IPlaybackService playbackService, ISearchService searchService, IDialogService dialogService, ICollectionService collectionService, ITrackRepository trackRepository, IMetadataService metadataService, II18nService i18nService, IProviderService providerService)
         {
             // Unity Container
             this.container = container;
@@ -229,6 +239,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.collectionService = collectionService;
             this.metadataService = metadataService;
             this.i18nService = i18nService;
+            this.providerService = providerService;
 
             // Repositories
             this.trackRepository = trackRepository;
@@ -257,6 +268,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.collectionService = ServiceLocator.Current.GetInstance<ICollectionService>();
             this.metadataService = ServiceLocator.Current.GetInstance<IMetadataService>();
             this.i18nService = ServiceLocator.Current.GetInstance<II18nService>();
+            this.providerService = ServiceLocator.Current.GetInstance<IProviderService>();
 
             // Repositories
             this.trackRepository = ServiceLocator.Current.GetInstance<ITrackRepository>();
@@ -276,6 +288,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
+            
+            this.SearchTrackVideoCommand = new DelegateCommand<string>((name) => {
+
+                if(this.selectedTracks != null && this.selectedTracks.Count > 0){
+                     this.providerService.SearchVideo(name, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
+                }
+            });
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -313,6 +332,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Initialize the playlists in the ContextMenu
             this.GetContextMenuPlaylistsAsync();
+
+            // Initialize the video providers in the ContextMenu
+            this.GetVideoProvidersAsync();
         }
 
         private void ShowSelectedTrackInformation()
@@ -359,6 +381,22 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // If loading from the database failed, create and empty Collection.
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
+        }
+
+        private async void GetVideoProvidersAsync()
+        {
+            List<VideoProvider> videoProvidersList = await this.providerService.GetVideoProvidersAsync();
+            var localVideoProviders = new ObservableCollection<VideoProvider>();
+
+            await Task.Run(() =>
+            {
+                foreach (VideoProvider vp in videoProvidersList)
+                {
+                    localVideoProviders.Add(vp);
+                }
+            });
+
+            this.ContextMenuVideoProviders = localVideoProviders;
         }
         #endregion
 
@@ -683,7 +721,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (result == RemoveTracksResult.Error)
                 {
                     this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                }else
+                }
+                else
                 {
                     await this.playbackService.Dequeue(selectedTracks);
                 }
