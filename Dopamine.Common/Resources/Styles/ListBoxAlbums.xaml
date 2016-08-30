@@ -170,16 +170,6 @@
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchAlbumVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
     </ContextMenu>
 
     <Style x:Key="Artists_ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxAlbumsItem}">
@@ -219,16 +209,6 @@
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchAlbumVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
     </ContextMenu>
 
     <Style x:Key="Genres_ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxAlbumsItem}">
@@ -264,16 +244,6 @@
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddAlbumsToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Video_Clip}" ItemsSource="{Binding DataContext.ContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuVideoProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchAlbumVideoCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>

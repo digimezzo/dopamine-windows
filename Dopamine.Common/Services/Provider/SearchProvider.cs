@@ -1,6 +1,6 @@
 ﻿namespace Dopamine.Common.Services.Provider
 {
-    public class VideoProvider
+    public class SearchProvider
     {
         public string Name { get; set; }
         public string Url { get; set; }
