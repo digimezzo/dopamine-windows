@@ -760,7 +760,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Rating != e.Rating)
                     {
                         tivm.AllowSaveRating = false;
-                        tivm.Rating = e.Rating;
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => tivm.Rating = e.Rating);
                         tivm.AllowSaveRating = true;
                     }
                 }
