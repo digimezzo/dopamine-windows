@@ -31,6 +31,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Dopamine.Common.Services.Provider;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -55,6 +56,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         // Lists
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
+        private ObservableCollection<VideoProvider> contextMenuVideoProviders;
         private ObservableCollection<TrackInfoViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackInfo> selectedTracks;
@@ -138,6 +140,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
+            }
+        }
+
+        public ObservableCollection<VideoProvider> ContextMenuVideoProviders
+        {
+            get { return this.contextMenuVideoProviders; }
+            set
+            {
+                SetProperty<ObservableCollection<VideoProvider>>(ref this.contextMenuVideoProviders, value);
             }
         }
 

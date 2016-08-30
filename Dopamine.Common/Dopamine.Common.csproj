@@ -330,6 +330,9 @@
     <Compile Include="Services\Playback\PlaybackFailedEventArgs.cs" />
     <Compile Include="Services\Playback\PlaybackFailureReason.cs" />
     <Compile Include="Services\Playback\PlaybackService.cs" />
+    <Compile Include="Services\Provider\IProviderService.cs" />
+    <Compile Include="Services\Provider\ProviderService.cs" />
+    <Compile Include="Services\Provider\VideoProvider.cs" />
     <Compile Include="Services\Search\ISearchService.cs" />
     <Compile Include="Services\Search\SearchService.cs" />
     <Compile Include="Services\Taskbar\ITaskbarService.cs" />
