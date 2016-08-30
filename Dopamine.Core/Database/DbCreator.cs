@@ -742,6 +742,10 @@ namespace Dopamine.Core.Database
 
         public void UpgradeDatabase()
         {
+            // Create a copy of the database file
+            System.IO.File.Copy(this.factory.DatabaseFile, this.factory.DatabaseFile+".old");
+
+            // Perform the upgrade
             MethodInfo[] methods = typeof(DbCreator).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
 
             for (int i = this.userDatabaseVersion + 1; i <= CURRENT_VERSION; i++)
