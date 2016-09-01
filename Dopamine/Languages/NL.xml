@@ -333,8 +333,8 @@
   <Text Key="Error_Removing_Online_Search_Provider">De online search provider '%provider%' kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Url">Url</Text>
   <Text Key="Separator">Scheidingsteken</Text>
-  <Text Key="Error_Adding_Online_Search_Provider">The online search provider could not be added. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
-  <Text Key="Error_Updating_Online_Search_Provider">The online search provider could not be updated. Please consult the log file for more information.</Text>
-  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider">De online search provider kon niet toegevoegd worden. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">De online search provider kon niet toegevoegd worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider">De online search provider kon niet aangepast worden. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">De online search provider kon niet aangepast worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
 </Language>
