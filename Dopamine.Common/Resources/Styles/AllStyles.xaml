@@ -21,6 +21,7 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroCheckBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroComboBox.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroListBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroTextBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/PlayerContextMenu.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SpectrumAnalyzer.xaml" />

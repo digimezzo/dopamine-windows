@@ -289,10 +289,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
             
-            this.SearchOnlineCommand = new DelegateCommand<string>((name) => {
+            this.SearchOnlineCommand = new DelegateCommand<string>((id) => {
 
                 if(this.selectedTracks != null && this.selectedTracks.Count > 0){
-                     this.providerService.SearchOnline(name, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
+                     this.providerService.SearchOnline(id, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
                 }
             });
 
@@ -313,6 +313,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.searchService.DoSearch += (searchText) => { if (this.IsActive) this.FilterLists(); };
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
+
+            this.providerService.SearchProvidersChanged += (_,__) => { this.GetSearchProvidersAsync(); };
 
             this.i18nService.LanguageChanged += (_, __) =>
             {
@@ -385,6 +387,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void GetSearchProvidersAsync()
         {
+            this.ContextMenuSearchProviders = null;
+
             List<SearchProvider> providersList = await this.providerService.GetSearchProvidersAsync();
             var localProviders = new ObservableCollection<SearchProvider>();
 

@@ -92,6 +92,9 @@ namespace Dopamine.SettingsModule.ViewModels
                 case 5:
                     page = typeof(Views.SettingsStartup).FullName;
                     break;
+                case 6:
+                    page = typeof(Views.SettingsOnline).FullName;
+                    break;
                 default:
                     page = typeof(Views.SettingsCollection).FullName;
                     break;

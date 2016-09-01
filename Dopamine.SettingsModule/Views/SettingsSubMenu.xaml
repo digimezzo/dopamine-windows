@@ -16,5 +16,6 @@
         <controls:SubMenuButton x:Name="MenuSettingsBehaviour" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Behaviour}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="3"/>
         <controls:SubMenuButton x:Name="MenuSettingsAudio" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Playback}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="4"/>
         <controls:SubMenuButton x:Name="MenuSettingsStartup" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Startup}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="5"/>
+        <controls:SubMenuButton x:Name="MenuSettingsOnline" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Online}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="6"/>
     </StackPanel>
 </UserControl>
