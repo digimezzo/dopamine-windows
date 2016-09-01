@@ -96,6 +96,8 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
+                            long maxGenreID = conn.ExecuteScalar<long>("SELECT MAX(GenreID) FROM Genre;");
+                            genre.GenreID = maxGenreID + 1;
                             conn.Insert(genre);
                         }
                         catch (Exception ex)

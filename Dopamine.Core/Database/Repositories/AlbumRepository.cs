@@ -201,6 +201,8 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
+                            long maxAlbumID = conn.ExecuteScalar<long>("SELECT MAX(AlbumID) FROM Album;");
+                            album.AlbumID = maxAlbumID + 1;
                             conn.Insert(album);
                         }
                         catch (Exception ex)
