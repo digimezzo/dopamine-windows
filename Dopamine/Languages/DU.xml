@@ -334,4 +334,7 @@
   <Text Key="Url">Url</Text>
   <Text Key="Separator">Separator</Text>
   <Text Key="Error_Adding_Online_Search_Provider">The online search provider could not be added. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider">The online search provider could not be updated. Please consult the log file for more information.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
 </Language>

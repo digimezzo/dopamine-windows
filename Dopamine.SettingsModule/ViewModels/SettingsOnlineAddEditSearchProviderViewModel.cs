@@ -35,11 +35,25 @@ namespace Dopamine.SettingsModule.ViewModels
         }
         #endregion
 
-        public async Task<bool> UpdateSearchProviderAsync()
+        public async Task<bool> AddSearchProviderAsync()
         {
-            if (!this.providerService.UpdateSearchProvider(this.provider))
+            UpdateSearchProviderResult result = this.providerService.AddSearchProvider(this.provider);
+
+            switch (result)
             {
-                this.dialogService.ShowNotification(
+                case UpdateSearchProviderResult.MissingFields:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Adding_Online_Search_Provider_Missing_Fields"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+
+                    return false;
+                case UpdateSearchProviderResult.Failure:
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -48,10 +62,43 @@ namespace Dopamine.SettingsModule.ViewModels
                         true,
                         ResourceUtils.GetStringResource("Language_Log_File"));
 
-                return false;
-            }
+                    return false;
+                default:
+                    return true;
+            }  
+        }
 
-            return true;
+        public async Task<bool> UpdateSearchProviderAsync()
+        {
+            UpdateSearchProviderResult result = this.providerService.UpdateSearchProvider(this.provider);
+
+            switch (result)
+            {
+                case UpdateSearchProviderResult.MissingFields:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Updating_Online_Search_Provider_Missing_Fields"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+
+                    return false;
+                case UpdateSearchProviderResult.Failure:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Updating_Online_Search_Provider"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+
+                    return false;
+                default:
+                    return true;
+            }  
         }
     }
 }
