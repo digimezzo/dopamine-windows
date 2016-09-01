@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class GenreRepository : IGenreRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public GenreRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IGenreRepository
         public async Task<List<Genre>> GetGenresAsync()
         {
@@ -19,15 +30,14 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            genres = (from gen in db.Genres
-                                      join tra in db.Tracks on gen.GenreID equals tra.GenreID
-                                      join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                      where fol.ShowInCollection == 1
-                                      select gen).Distinct().ToList();
+                            genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, gen.GenreName FROM Genre gen" +
+                                                       " INNER JOIN Track tra ON gen.GenreID=tra.GenreID" +
+                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                       " WHERE fol.ShowInCollection=1");
 
                             // Orders the Genres
                             genres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName)).ToList();
@@ -40,7 +50,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -55,11 +65,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            genre = db.Genres.Select((g) => g).Where((g) => g.GenreName.Equals(genreName)).FirstOrDefault();
+                            genre = conn.Table<Genre>().Select((g) => g).Where((g) => g.GenreName.Equals(genreName)).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -82,12 +92,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Genres.Add(genre);
-                            db.SaveChanges();
+                            conn.Insert(genre);
                         }
                         catch (Exception ex)
                         {
@@ -98,7 +107,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -111,12 +120,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Genres.RemoveRange(db.Genres.Where((g) => !db.Tracks.Select((t) => t.GenreID).Distinct().Contains(g.GenreID)));
-                            db.SaveChanges();
+                            conn.Execute("DELETE FROM Genre WHERE GenreID NOT IN (SELECT GenreID FROM Track);");
                         }
                         catch (Exception ex)
                         {
@@ -126,8 +134,8 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
-                }             
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
             });
         }
         #endregion

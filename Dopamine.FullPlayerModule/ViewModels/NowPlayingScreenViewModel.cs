@@ -43,7 +43,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.regionManager = regionManager;
             this.playbackService = playbackService;
 
-            this.playbackService.PlaybackSuccess += (x) => this.SetNowPlaying();
+            this.playbackService.PlaybackSuccess += (_) => this.SetNowPlaying();
 
             this.FullPlayerShowcaseButtonCommand = new DelegateCommand<bool?>(iIsShowcaseButtonChecked =>
             {

@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Notification;
+﻿using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Core.Base;
@@ -17,20 +18,21 @@ namespace Dopamine.SettingsModule.ViewModels
     public class SettingsPlaybackViewModel : BindableBase
     {
         #region Variables
-        private ObservableCollection<NameValue> mLatencies;
-        private NameValue mSelectedLatency;
-        private IPlaybackService mPlaybackService;
-        private ITaskbarService mTaskbarService;
-        private INotificationService mNotificationService;
-        private bool mCheckBoxWasapiExclusiveModeChecked;
-        private bool mCheckBoxShowNotificationChecked;
-        private bool mCheckBoxShowNotificationControlsChecked;
-        private bool mCheckBoxShowProgressInTaskbarChecked;
-        private bool mCheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
-        private ObservableCollection<NameValue> mNotificationPositions;
-        private NameValue mSelectedNotificationPosition;
-        private ObservableCollection<int> mNotificationSeconds;
-        private int mSelectedNotificationSecond;
+        private ObservableCollection<NameValue> latencies;
+        private NameValue selectedLatency;
+        private IPlaybackService playbackService;
+        private ITaskbarService taskbarService;
+        private INotificationService notificationService;
+        private IDialogService dialogService;
+        private bool checkBoxWasapiExclusiveModeChecked;
+        private bool checkBoxShowNotificationChecked;
+        private bool checkBoxShowNotificationControlsChecked;
+        private bool checkBoxShowProgressInTaskbarChecked;
+        private bool checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
+        private ObservableCollection<NameValue> notificationPositions;
+        private NameValue selectedNotificationPosition;
+        private ObservableCollection<int> notificationSeconds;
+        private int selectedNotificationSecond;
         #endregion
 
         #region Commands
@@ -40,126 +42,129 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Properties
         public ObservableCollection<NameValue> Latencies
         {
-            get { return mLatencies; }
-            set { SetProperty<ObservableCollection<NameValue>>(ref mLatencies, value); }
+            get { return this.latencies; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.latencies, value); }
         }
 
         public NameValue SelectedLatency
         {
-            get { return mSelectedLatency; }
+            get { return this.selectedLatency; }
             set
             {
                 XmlSettingsClient.Instance.Set<int>("Playback", "AudioLatency", value.Value);
-                SetProperty<NameValue>(ref mSelectedLatency, value);
+                SetProperty<NameValue>(ref this.selectedLatency, value);
 
-                if (mPlaybackService != null)
+                if (this.playbackService != null)
                 {
-                    mPlaybackService.Latency = value.Value;
+                    this.playbackService.Latency = value.Value;
                 }
             }
         }
 
         public bool CheckBoxWasapiExclusiveModeChecked
         {
-            get { return this.mCheckBoxWasapiExclusiveModeChecked; }
+            get { return this.checkBoxWasapiExclusiveModeChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Playback", "WasapiExclusiveMode", value);
-                SetProperty<bool>(ref mCheckBoxWasapiExclusiveModeChecked, value);
-
-                if (mPlaybackService != null)
+                if (value)
                 {
-                    mPlaybackService.ExclusiveMode = value;
+                    this.ConfirmEnableExclusiveMode();
                 }
+                else
+                {
+                    this.ApplyExclusiveMode(false);
+                }
+
             }
         }
 
         public bool CheckBoxShowNotificationChecked
         {
-            get { return mCheckBoxShowNotificationChecked; }
+            get { return this.checkBoxShowNotificationChecked; }
             set
             {
                 XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotification", value);
-                SetProperty<bool>(ref mCheckBoxShowNotificationChecked, value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationChecked, value);
             }
         }
 
         public bool CheckBoxShowNotificationControlsChecked
         {
-            get { return mCheckBoxShowNotificationControlsChecked; }
+            get { return this.checkBoxShowNotificationControlsChecked; }
             set
             {
                 XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationControls", value);
-                SetProperty<bool>(ref mCheckBoxShowNotificationControlsChecked, value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationControlsChecked, value);
             }
         }
 
         public bool CheckBoxShowProgressInTaskbarChecked
         {
-            get { return mCheckBoxShowProgressInTaskbarChecked; }
+            get { return this.checkBoxShowProgressInTaskbarChecked; }
             set
             {
                 XmlSettingsClient.Instance.Set<bool>("Playback", "ShowProgressInTaskbar", value);
-                SetProperty<bool>(ref this.mCheckBoxShowProgressInTaskbarChecked, value);
+                SetProperty<bool>(ref this.checkBoxShowProgressInTaskbarChecked, value);
 
-                if (mTaskbarService != null && mPlaybackService != null)
+                if (this.taskbarService != null && this.playbackService != null)
                 {
-                    mTaskbarService.SetTaskbarProgressState(value, mPlaybackService.IsPlaying);
+                    this.taskbarService.SetTaskbarProgressState(value, this.playbackService.IsPlaying);
                 }
             }
         }
 
         public bool CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked
         {
-            get { return mCheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked; }
+            get { return this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked; }
             set
             {
                 XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible", value);
-                SetProperty<bool>(ref mCheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked, value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked, value);
             }
         }
 
         public ObservableCollection<NameValue> NotificationPositions
         {
-            get { return mNotificationPositions; }
-            set { SetProperty<ObservableCollection<NameValue>>(ref mNotificationPositions, value); }
+            get { return this.notificationPositions; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.notificationPositions, value); }
         }
 
         public NameValue SelectedNotificationPosition
         {
-            get { return mSelectedNotificationPosition; }
+            get { return this.selectedNotificationPosition; }
             set
             {
                 XmlSettingsClient.Instance.Set<int>("Behaviour", "NotificationPosition", value.Value);
-                SetProperty<NameValue>(ref mSelectedNotificationPosition, value);
+                SetProperty<NameValue>(ref this.selectedNotificationPosition, value);
             }
         }
 
         public ObservableCollection<int> NotificationSeconds
         {
-            get { return mNotificationSeconds; }
-            set { SetProperty<ObservableCollection<int>>(ref mNotificationSeconds, value); }
+            get { return this.notificationSeconds; }
+            set { SetProperty<ObservableCollection<int>>(ref this.notificationSeconds, value); }
         }
 
         public int SelectedNotificationSecond
         {
-            get { return mSelectedNotificationSecond; }
+            get { return this.selectedNotificationSecond; }
             set
             {
                 XmlSettingsClient.Instance.Set<int>("Behaviour", "NotificationAutoCloseSeconds", value);
-                SetProperty<int>(ref mSelectedNotificationSecond, value);
+                SetProperty<int>(ref this.selectedNotificationSecond, value);
             }
         }
         #endregion
 
         #region Construction
-        public SettingsPlaybackViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, INotificationService notificationService)
+        public SettingsPlaybackViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, INotificationService notificationService, IDialogService dialogService)
         {
-            mPlaybackService = playbackService;
-            mTaskbarService = taskbarService;
-            mNotificationService = notificationService;
+            this.playbackService = playbackService;
+            this.taskbarService = taskbarService;
+            this.notificationService = notificationService;
+            this.dialogService = dialogService;
 
-            ShowTestNotificationCommand = new DelegateCommand(() => mNotificationService.ShowNotificationAsync());
+            ShowTestNotificationCommand = new DelegateCommand(() => this.notificationService.ShowNotificationAsync());
 
             this.GetCheckBoxesAsync();
             this.GetNotificationPositionsAsync();
@@ -261,6 +266,27 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
 
             });
+        }
+
+        private void ConfirmEnableExclusiveMode()
+        {
+            if (this.dialogService.ShowConfirmation(
+                0xe11b,
+                16,
+                ResourceUtils.GetStringResource("Language_Exclusive_Mode"),
+                ResourceUtils.GetStringResource("Language_Exclusive_Mode_Confirmation"),
+                ResourceUtils.GetStringResource("Language_Yes"),
+                ResourceUtils.GetStringResource("Language_No")))
+            {
+                ApplyExclusiveMode(true);
+            }
+        }
+
+        private void ApplyExclusiveMode(bool isEnabled)
+        {
+            XmlSettingsClient.Instance.Set<bool>("Playback", "WasapiExclusiveMode", isEnabled);
+            SetProperty<bool>(ref this.checkBoxWasapiExclusiveModeChecked, isEnabled);
+            if (this.playbackService != null) this.playbackService.ExclusiveMode = isEnabled;
         }
         #endregion
     }

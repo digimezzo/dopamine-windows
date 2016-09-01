@@ -5,6 +5,7 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,11 +36,11 @@ namespace Dopamine.Common.Services.Indexing
         // Folders
         List<long> unreachableFolderIDs;
 
-        // Context
-        private DopamineContext context;
-
         // Cache
-        private IndexerCache indexerCache;
+        private IndexerCache cache;
+
+        // Factory
+        private SQLiteConnectionFactory factory;
 
         // IndexingEventArgs
         private IndexingStatusEventArgs eventArgs;
@@ -114,19 +115,29 @@ namespace Dopamine.Common.Services.Indexing
 
             await this.InitializeAsync();
 
-            string lastFileCountString = this.context.IndexingStatistics.Where((t) => t.Key.Equals("LastFileCount")).Select((t) => t.Value).FirstOrDefault();
-            string lastDateFileModifiedString = this.context.IndexingStatistics.Where((t) => t.Key.Equals("LastDateFileModified")).Select((t) => t.Value).FirstOrDefault();
-
-            long lastFileCount = 0;
-            long lastDateFileModified = 0;
-
-            long.TryParse(lastFileCountString, out lastFileCount);
-            long.TryParse(lastDateFileModifiedString, out lastDateFileModified);
-
-            if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+            try
             {
-                this.needsIndexing = true;
-                await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
+                using (var conn = this.factory.GetConnection())
+                {
+                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
+                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
+
+                    long lastFileCount = 0;
+                    long lastDateFileModified = 0;
+
+                    if (lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
+                    if (lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
+
+                    if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+                    {
+                        this.needsIndexing = true;
+                        await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not get indexing statistics from database. Exception: {0}", ex.Message);
             }
         }
 
@@ -184,11 +195,11 @@ namespace Dopamine.Common.Services.Indexing
         #region Private
         private async Task InitializeAsync()
         {
-            // Initialize Context
-            this.context = new DopamineContext();
+            // Initialize Factory
+            this.factory = new SQLiteConnectionFactory();
 
             // Initialize Cache
-            this.indexerCache = new IndexerCache(this.context);
+            this.cache = new IndexerCache();
 
             // IndexingEventArgs
             this.eventArgs = new IndexingStatusEventArgs();
@@ -201,7 +212,9 @@ namespace Dopamine.Common.Services.Indexing
             // Find unreachable Folders
             this.unreachableFolderIDs = new List<long>();
 
-            foreach (Folder fol in this.context.Folders)
+            var folders = await this.folderRepository.GetFoldersAsync();
+
+            foreach (Folder fol in folders)
             {
                 if (!Directory.Exists(fol.Path))
                 {
@@ -214,41 +227,36 @@ namespace Dopamine.Common.Services.Indexing
         {
             await Task.Run(() =>
             {
-                IndexingStatistic lastFileCountStatistic = this.context.IndexingStatistics.Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
-                IndexingStatistic lastDateFileModifiedStatistic = this.context.IndexingStatistics.Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
-
-                long currentDateFileModified = this.allDiskPaths.Select(t => t.Item3).OrderByDescending(t => t).FirstOrDefault();
-                currentDateFileModified = currentDateFileModified > 0 ? currentDateFileModified : 0;
-
-                long currentFileCount = this.allDiskPaths.Count;
-
-                if (lastFileCountStatistic != null)
+                using (var conn = this.factory.GetConnection())
                 {
-                    lastFileCountStatistic.Value = currentFileCount.ToString();
-                }
-                else
-                {
-                    this.context.IndexingStatistics.Add(new IndexingStatistic
+                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
+                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
+
+                    long currentDateFileModified = this.allDiskPaths.Select(t => t.Item3).OrderByDescending(t => t).FirstOrDefault();
+                    currentDateFileModified = currentDateFileModified > 0 ? currentDateFileModified : 0;
+
+                    long currentFileCount = this.allDiskPaths.Count;
+
+                    if (lastFileCountStatistic != null)
                     {
-                        Key = "LastFileCount",
-                        Value = currentFileCount.ToString()
-                    });
-                }
-
-                if (lastDateFileModifiedStatistic != null)
-                {
-                    lastDateFileModifiedStatistic.Value = currentDateFileModified.ToString();
-                }
-                else
-                {
-                    this.context.IndexingStatistics.Add(new IndexingStatistic
+                        lastFileCountStatistic.Value = currentFileCount.ToString();
+                        conn.Update(lastFileCountStatistic);
+                    }
+                    else
                     {
-                        Key = "LastDateFileModified",
-                        Value = currentDateFileModified.ToString()
-                    });
-                }
+                        conn.Insert(new IndexingStatistic { Key = "LastFileCount", Value = currentFileCount.ToString() });
+                    }
 
-                this.context.SaveChanges();
+                    if (lastDateFileModifiedStatistic != null)
+                    {
+                        lastDateFileModifiedStatistic.Value = currentDateFileModified.ToString();
+                        conn.Update(lastDateFileModifiedStatistic);
+                    }
+                    else
+                    {
+                        conn.Insert(new IndexingStatistic { Key = "LastDateFileModified", Value = currentDateFileModified.ToString() });
+                    }
+                }
             });
         }
 
@@ -292,39 +300,42 @@ namespace Dopamine.Common.Services.Indexing
 
             await Task.Run(() =>
             {
-                foreach (Album alb in this.context.Albums)
+                using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    try
-                    {
-                        // Only update artwork if QuickArtworkIndexing is enabled AND there 
-                        // is no ArtworkID set, OR when QuickArtworkIndexing is disabled.
-                        if ((quickArtworkIndexing & string.IsNullOrEmpty(alb.ArtworkID)) | !quickArtworkIndexing)
-                        {
-                            Track trk = this.GetLastModifiedTrack(alb);
+                    conn.BeginTransaction();
 
-                            if (IndexerUtils.CacheArtwork(alb, trk.Path))
+                    foreach (Album alb in conn.Table<Album>())
+                    {
+                        try
+                        {
+                            // Only update artwork if QuickArtworkIndexing is enabled AND there 
+                            // is no ArtworkID set, OR when QuickArtworkIndexing is disabled.
+                            if ((quickArtworkIndexing & string.IsNullOrEmpty(alb.ArtworkID)) | !quickArtworkIndexing)
                             {
-                                numberUpdated += 1;
+                                Track trk = this.GetLastModifiedTrack(alb);
+
+                                if (IndexerUtils.CacheArtwork(alb, trk.Path))
+                                {
+                                    conn.Update(alb);
+                                    numberUpdated += 1;
+                                }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Instance.Logger.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                        }
+
+                        // Report progress if at least 1 album is added
+                        if (numberUpdated > 0)
+                        {
+                            this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
+                            this.eventArgs.ProgressPercent = 0;
+                            this.IndexingStatusChanged(this.eventArgs);
+                        }
                     }
 
-                    // Report progress if at least 1 album is added
-                    if (numberUpdated > 0)
-                    {
-                        this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
-                        this.eventArgs.ProgressPercent = 0;
-                        this.IndexingStatusChanged(this.eventArgs);
-                    }
-                }
-
-                if (numberUpdated > 0)
-                {
-                    this.context.SaveChanges();
+                    conn.Commit();
                 }
             });
 
@@ -337,26 +348,29 @@ namespace Dopamine.Common.Services.Indexing
 
             await Task.Run(() =>
             {
-                foreach (Album alb in this.context.Albums.Where(t => !string.IsNullOrEmpty(t.ArtworkID)))
+                using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb)))
+                    conn.BeginTransaction();
+
+                    foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
                     {
-                        alb.ArtworkID = string.Empty;
-                        numberDeleted += 1;
+                        if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb.ArtworkID)))
+                        {
+                            alb.ArtworkID = string.Empty;
+                            conn.Update(alb);
+                            numberDeleted += 1;
+                        }
+
+                        // Report progress if at least 1 cover is deleted
+                        if (numberDeleted > 0)
+                        {
+                            this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
+                            this.eventArgs.ProgressPercent = 0;
+                            this.IndexingStatusChanged(this.eventArgs);
+                        }
                     }
 
-                    // Report progress if at least 1 cover is deleted
-                    if (numberDeleted > 0)
-                    {
-                        this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
-                        this.eventArgs.ProgressPercent = 0;
-                        this.IndexingStatusChanged(this.eventArgs);
-                    }
-                }
-
-                if (numberDeleted > 0)
-                {
-                    this.context.SaveChanges();
+                    conn.Commit();
                 }
             });
 
@@ -371,29 +385,33 @@ namespace Dopamine.Common.Services.Indexing
             {
                 string[] artworkFiles = Directory.GetFiles(System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory), "album-*.jpg");
 
-                List<String> artworkIDs = this.context.Albums.Where((t) => !string.IsNullOrEmpty(t.ArtworkID)).Select((t) => t.ArtworkID).ToList();
-
-                foreach (string artworkFile in artworkFiles)
+                using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    if (!artworkIDs.Contains(System.IO.Path.GetFileNameWithoutExtension(artworkFile)))
-                    {
-                        try
-                        {
-                            System.IO.File.Delete(artworkFile);
-                            numberDeleted += 1;
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("There was a problem while deleting cached artwork {0}. Exception: {1}", artworkFile, ex.Message);
-                        }
-                    }
+                    List<Album> albumsWithArtwork = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t).ToList();
+                    List<string> artworkIDs = albumsWithArtwork.Select((a) => a.ArtworkID).ToList();
 
-                    // Report progress if at least 1 cover is deleted
-                    if (numberDeleted > 0)
+                    foreach (string artworkFile in artworkFiles)
                     {
-                        this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
-                        this.eventArgs.ProgressPercent = 0;
-                        this.IndexingStatusChanged(this.eventArgs);
+                        if (!artworkIDs.Contains(System.IO.Path.GetFileNameWithoutExtension(artworkFile)))
+                        {
+                            try
+                            {
+                                System.IO.File.Delete(artworkFile);
+                                numberDeleted += 1;
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Instance.Logger.Error("There was a problem while deleting cached artwork {0}. Exception: {1}", artworkFile, ex.Message);
+                            }
+                        }
+
+                        // Report progress if at least 1 cover is deleted
+                        if (numberDeleted > 0)
+                        {
+                            this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
+                            this.eventArgs.ProgressPercent = 0;
+                            this.IndexingStatusChanged(this.eventArgs);
+                        }
                     }
                 }
             });
@@ -404,7 +422,14 @@ namespace Dopamine.Common.Services.Indexing
         private Track GetLastModifiedTrack(Album album)
         {
             // Get the Track from this Album which was last modified
-            return this.context.Tracks.Where((t) => t.AlbumID.Equals(album.AlbumID)).Select((t) => t).OrderByDescending((t) => t.DateFileModified).FirstOrDefault();
+            Track lastModifiedTrack = null;
+
+            using (SQLiteConnection conn = this.factory.GetConnection())
+            {
+                lastModifiedTrack = conn.Table<Track>().Where((t) => t.AlbumID.Equals(album.AlbumID)).Select((t) => t).OrderByDescending((t) => t.DateFileModified).FirstOrDefault();
+            }
+
+            return lastModifiedTrack;
         }
 
         private async Task<long> IndexTracksAsync(bool ignoreRemovedFiles)
@@ -453,7 +478,10 @@ namespace Dopamine.Common.Services.Indexing
 
                 // Step 5: compact the database
                 // ----------------------------
-                await Task.Run(() => DbConnection.ExecuteNonQuery("VACUUM;"));
+                using (var conn = factory.GetConnection())
+                {
+                    conn.Execute("VACUUM;");
+                }
             }
             catch (Exception ex)
             {
@@ -469,9 +497,21 @@ namespace Dopamine.Common.Services.Indexing
         {
             await Task.Run(() =>
             {
-                List<string> dbPaths = this.context.Tracks.Select((trk) => trk.Path).ToList();
+                var dbPaths = new List<string>();
+
+                using (var conn = this.factory.GetConnection())
+                {
+                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.Path).ToList();
+                }
+
+                var removedPaths = new List<string>();
+
+                using (var conn = this.factory.GetConnection())
+                {
+                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.Path).ToList();
+                }
+
                 this.newDiskPaths = new List<Tuple<long, string, long>>();
-                List<string> removedPaths = this.context.RemovedTracks.Select((t) => t.Path).ToList();
 
                 foreach (Tuple<long, string, long> diskpath in this.allDiskPaths)
                 {
@@ -491,46 +531,55 @@ namespace Dopamine.Common.Services.Indexing
             {
                 try
                 {
-                    List<long> folderIDs = this.context.Folders.Select((t) => t.FolderID).ToList();
-
-                    // Ignore Tracks which are in an unreachable folder
-                    List<Track> tracksToProcess = this.context.Tracks.Select((t) => t).Where(t => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
-                    List<Track> tracksToProcessInvalidFolderID = tracksToProcess.Where(t => !folderIDs.Contains(t.FolderID)).ToList();
-                    List<Track> tracksToProcessValidFolderID = tracksToProcess.Except(tracksToProcessInvalidFolderID).ToList();
-
-                    // Process tracks with an invalid FolderID
-
-                    if (tracksToProcessInvalidFolderID.Count > 0)
+                    using (var conn = this.factory.GetConnection())
                     {
-                        // Report progress
-                        this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
-                        this.eventArgs.ProgressPercent = 0;
-                        this.IndexingStatusChanged(this.eventArgs);
+                        conn.BeginTransaction();
 
-                        // Delete
-                        this.context.Tracks.RemoveRange(tracksToProcessInvalidFolderID);
-                        numberRemovedTracks += tracksToProcessInvalidFolderID.Count;
-                    }
+                        List<long> folderIDs = conn.Table<Folder>().ToList().Select((t) => t.FolderID).ToList();
 
-                    // Process tracks with a valid FolderID
-                    foreach (Track trk in tracksToProcessValidFolderID)
-                    {
-                        if (!System.IO.File.Exists(trk.Path) | !folderIDs.Contains(trk.FolderID))
+                        // Ignore Tracks which are in an unreachable folder
+                        List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where(t => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> tracksToProcessInvalidFolderID = tracksToProcess.Where(t => !folderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> tracksToProcessValidFolderID = tracksToProcess.Except(tracksToProcessInvalidFolderID).ToList();
+
+                        // Process tracks with an invalid FolderID
+
+                        if (tracksToProcessInvalidFolderID.Count > 0)
                         {
-                            this.context.Tracks.Remove(trk);
-                            numberRemovedTracks += 1;
-                        }
-
-                        // Report progress if at least 1 track is removed
-                        if (numberRemovedTracks > 0)
-                        {
+                            // Report progress
                             this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
                             this.eventArgs.ProgressPercent = 0;
                             this.IndexingStatusChanged(this.eventArgs);
-                        }
-                    }
 
-                    this.context.SaveChanges();
+                            // Delete
+                            foreach (Track trk in tracksToProcessInvalidFolderID)
+                            {
+                                conn.Delete(trk);
+                            }
+
+                            numberRemovedTracks += tracksToProcessInvalidFolderID.Count;
+                        }
+
+                        // Process tracks with a valid FolderID
+                        foreach (Track trk in tracksToProcessValidFolderID)
+                        {
+                            if (!System.IO.File.Exists(trk.Path) | !folderIDs.Contains(trk.FolderID))
+                            {
+                                conn.Delete(trk);
+                                numberRemovedTracks += 1;
+                            }
+
+                            // Report progress if at least 1 track is removed
+                            if (numberRemovedTracks > 0)
+                            {
+                                this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
+                                this.eventArgs.ProgressPercent = 0;
+                                this.IndexingStatusChanged(this.eventArgs);
+                            }
+                        }
+
+                        conn.Commit();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -549,56 +598,53 @@ namespace Dopamine.Common.Services.Indexing
             {
                 try
                 {
-                    this.context.Configuration.AutoDetectChangesEnabled = false; // Should speed up Add/Remove operations
-
-                    // Ignore Tracks which are in an unreachable folder
-                    List<Track> tracksToProcess = this.context.Tracks.Select((t) => t).Where((t) => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
-
-                    long currentValue = 0;
-                    long totalValue = tracksToProcess.Count;
-
-
-                    foreach (Track dbTrack in tracksToProcess)
+                    using (var conn = this.factory.GetConnection())
                     {
-                        try
-                        {
+                        conn.BeginTransaction();
 
-                            if (IndexerUtils.IsTrackOutdated(dbTrack))
+                        // Ignore Tracks which are in an unreachable folder
+                        List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where((t) => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
+
+                        long currentValue = 0;
+                        long totalValue = tracksToProcess.Count;
+
+                        foreach (Track dbTrack in tracksToProcess)
+                        {
+                            try
                             {
-                                if (this.ProcessTrack(dbTrack))
+                                if (IndexerUtils.IsTrackOutdated(dbTrack))
                                 {
-                                    numberUpdatedTracks += 1;
+                                    if (this.ProcessTrack(dbTrack, conn))
+                                    {
+                                        conn.Update(dbTrack);
+                                        numberUpdatedTracks += 1;
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
+                            catch (Exception ex)
+                            {
+                                LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
+                            }
+
+                            currentValue += 1;
+
+                            // Report progress if at least 1 track is updated
+                            if (numberUpdatedTracks > 0)
+                            {
+                                this.eventArgs.IndexingAction = IndexingAction.UpdateTracks;
+                                this.eventArgs.ProgressCurrent = currentValue;
+                                this.eventArgs.ProgressTotal = totalValue;
+                                this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                this.IndexingStatusChanged(this.eventArgs);
+                            }
                         }
 
-                        currentValue += 1;
-
-                        // Report progress if at least 1 track is updated
-                        if (numberUpdatedTracks > 0)
-                        {
-                            this.eventArgs.IndexingAction = IndexingAction.UpdateTracks;
-                            this.eventArgs.ProgressCurrent = currentValue;
-                            this.eventArgs.ProgressTotal = totalValue;
-                            this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-                            this.IndexingStatusChanged(this.eventArgs);
-                        }
+                        conn.Commit();
                     }
-
-                    this.context.ChangeTracker.DetectChanges();
-                    this.context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
                     LogClient.Instance.Logger.Error("There was a problem while updating Tracks. Exception: {0}", ex.Message);
-                }
-                finally
-                {
-                    this.context.Configuration.AutoDetectChangesEnabled = true; // Don't forget to re-enable this
                 }
             });
 
@@ -613,90 +659,74 @@ namespace Dopamine.Common.Services.Indexing
             {
                 try
                 {
-                    this.context.Configuration.AutoDetectChangesEnabled = false; // Should speed up Add/Remove operations
-
                     long currentValue = 0;
                     long totalValue = this.newDiskPaths.Count;
 
                     long saveItemCount = IndexerUtils.CalculateSaveItemCount(this.newDiskPaths.Count);
                     long unsavedItemCount = 0;
 
-                    foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
+                    using (var conn = this.factory.GetConnection())
                     {
-                        Track diskTrack = new Track
-                        {
-                            FolderID = newDiskPath.Item1,
-                            Path = newDiskPath.Item2,
-                            DateAdded = DateTime.Now.Ticks
-                        };
+                        conn.BeginTransaction();
 
-                        try
+                        foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
                         {
-                            if (this.ProcessTrack(diskTrack))
+                            Track diskTrack = new Track
                             {
-                                Track dbTrack = this.context.Tracks.Select(t => t).Where(t => t.Path.Equals(diskTrack.Path)).FirstOrDefault();
+                                FolderID = newDiskPath.Item1,
+                                Path = newDiskPath.Item2,
+                                DateAdded = DateTime.Now.Ticks
+                            };
 
-                                if (dbTrack != null)
+                            try
+                            {
+                                if (this.ProcessTrack(diskTrack, conn))
                                 {
-                                    dbTrack.FolderID = diskTrack.FolderID;
-                                    dbTrack.ArtistID = diskTrack.ArtistID;
-                                    dbTrack.AlbumID = diskTrack.AlbumID;
-                                    dbTrack.GenreID = diskTrack.GenreID;
-                                }
-                                else
-                                {
-                                    this.context.Tracks.Add(diskTrack);
+                                    conn.Insert(diskTrack);
+                                    numberAddedTracks += 1;
+                                    unsavedItemCount += 1;
                                 }
 
-                                numberAddedTracks += 1;
-                                unsavedItemCount += 1;
-                            }
+                                // Intermediate save to the database if 20% is reached
+                                if (unsavedItemCount == saveItemCount)
+                                {
+                                    unsavedItemCount = 0;
+                                    conn.Commit(); // Intermediate save
+                                    conn.BeginTransaction();
+                                }
 
-                            // Intermediate save to the database if 20% is reached
-                            if (unsavedItemCount == saveItemCount)
+                            }
+                            catch (Exception ex)
                             {
-                                unsavedItemCount = 0;
-                                this.context.ChangeTracker.DetectChanges();
-                                this.context.SaveChanges();
-                                this.context.Configuration.AutoDetectChangesEnabled = false;
+                                LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
+                            }
+
+                            currentValue += 1;
+
+                            // Report progress if at least 1 track is updated
+                            if (numberAddedTracks > 0)
+                            {
+                                this.eventArgs.IndexingAction = IndexingAction.AddTracks;
+                                this.eventArgs.ProgressCurrent = currentValue;
+                                this.eventArgs.ProgressTotal = totalValue;
+                                this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                this.IndexingStatusChanged(this.eventArgs);
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
-                        }
 
-                        currentValue += 1;
-
-                        // Report progress if at least 1 track is updated
-                        if (numberAddedTracks > 0)
-                        {
-                            this.eventArgs.IndexingAction = IndexingAction.AddTracks;
-                            this.eventArgs.ProgressCurrent = currentValue;
-                            this.eventArgs.ProgressTotal = totalValue;
-                            this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-                            this.IndexingStatusChanged(this.eventArgs);
-                        }
+                        conn.Commit(); // Final save
                     }
-
-                    this.context.ChangeTracker.DetectChanges();
-                    this.context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
                     LogClient.Instance.Logger.Error("There was a problem while adding Tracks. Exception: {0}", ex.Message);
-                }
-                finally
-                {
-                    this.context.Configuration.AutoDetectChangesEnabled = true; // Don't forget to re - enable this
                 }
             });
 
             return numberAddedTracks;
         }
 
-
-        private bool ProcessTrack(Track track)
+        private bool ProcessTrack(Track track, SQLiteConnection conn)
         {
             bool processingSuccessful = false;
 
@@ -718,30 +748,37 @@ namespace Dopamine.Common.Services.Indexing
             if (processingSuccessful)
             {
                 // Check if such Artist already exists in the database
-                if (!this.indexerCache.GetCachedArtist(ref newArtist))
+                if (!this.cache.GetCachedArtist(ref newArtist))
                 {
                     // If not, add it.
-                    this.context.Artists.Add(newArtist);
+                    conn.Insert(newArtist);
                 }
 
                 // Check if such Genre already exists in the database 
-                if (!this.indexerCache.GetCachedGenre(ref newGenre))
+                if (!this.cache.GetCachedGenre(ref newGenre))
                 {
                     // If not, add it.
-                    this.context.Genres.Add(newGenre);
+                    conn.Insert(newGenre);
                 }
 
                 // Check if such Album already exists in the database
-                if (!this.indexerCache.GetCachedAlbum(ref newAlbum))
+                if (!this.cache.GetCachedAlbum(ref newAlbum))
                 {
                     // If Not, add it.
-                    this.context.Albums.Add(newAlbum);
+                    conn.Insert(newAlbum);
                 }
                 else
                 {
                     // Make sure the Year of the existing album is updated
-                    Album dbAlbum = this.context.Albums.Find(newAlbum.AlbumID);
-                    dbAlbum.Year = newAlbum.Year;
+                    // TODO: can we prevent a database query here?
+
+                    Album dbAlbum = conn.Table<Album>().Where((a) => a.AlbumID.Equals(newAlbum.AlbumID)).FirstOrDefault();
+
+                    if (dbAlbum != null)
+                    {
+                        dbAlbum.Year = newAlbum.Year;
+                        conn.Update(dbAlbum);
+                    }
                 }
 
                 track.AlbumID = newAlbum.AlbumID;

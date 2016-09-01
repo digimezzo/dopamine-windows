@@ -285,6 +285,16 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
 
         <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
         and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
@@ -334,6 +344,16 @@
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddTracksToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
@@ -391,6 +411,16 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
 
         <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
         and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
@@ -423,6 +453,16 @@
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
         <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
@@ -441,6 +481,16 @@
     <ContextMenu x:Key="NowPlaying_ListBoxTracksContextMenu">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
@@ -469,6 +519,16 @@
                     <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </MenuItem.Header>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
         <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,

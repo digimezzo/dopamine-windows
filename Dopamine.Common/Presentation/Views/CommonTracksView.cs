@@ -52,7 +52,7 @@ namespace Dopamine.Common.Presentation.Views
             {
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)lb.SelectedItem).TrackInfo.Track.Path);
+                    Actions.TryViewInExplorer(((TrackInfoViewModel)lb.SelectedItem).TrackInfo.Path);
                 }
             }
             else if (e.Key == Key.Delete)
@@ -144,7 +144,7 @@ namespace Dopamine.Common.Presentation.Views
             {
                 try
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)listBox.SelectedItem).TrackInfo.Track.Path);
+                    Actions.TryViewInExplorer(((TrackInfoViewModel)listBox.SelectedItem).TrackInfo.Path);
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Dopamine.Core.Utils
 {
@@ -6,7 +7,16 @@ namespace Dopamine.Core.Utils
     {
         public static double[] ConvertArray(string[] array)
         {
-            return Array.ConvertAll(array, s => double.Parse(s));
+            var values = new List<double>();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                double doubleValue = default(double);
+                double.TryParse(array[i],NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
+                values.Add(doubleValue);
+            }
+            
+            return values.ToArray();
         }
     }
 }

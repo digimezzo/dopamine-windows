@@ -11,8 +11,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IAppearanceService appearanceService;
         private double opacity;
-        private Album previousAlbum;
-        private Album album;
+        private long previousAlbumID;
+        private long albumID;
         #endregion
 
         #region Properties
@@ -39,12 +39,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Overrides
         protected override void ShowCoverArtAsync(TrackInfo trackInfo)
         {
-            if (trackInfo != null && trackInfo.Album != null)
+            if (trackInfo != null)
             {
-                this.previousAlbum = this.album;
-                this.album = this.playbackService.PlayingTrack.Album;
+                this.previousAlbumID = this.albumID;
+                this.albumID = this.playbackService.PlayingTrack.AlbumID;
 
-                if (!this.album.Equals(this.previousAlbum))
+                if (this.albumID != this.previousAlbumID)
                 {
                     base.ShowCoverArtAsync(trackInfo);
                 }

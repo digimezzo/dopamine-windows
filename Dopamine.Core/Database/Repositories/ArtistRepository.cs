@@ -10,6 +10,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class ArtistRepository : IArtistRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public ArtistRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IArtistRepository
         public async Task<List<Artist>> GetArtistsAsync(ArtistType artistType)
         {
@@ -19,7 +30,7 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -27,19 +38,19 @@ namespace Dopamine.Core.Database.Repositories
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            trackArtists = (from art in db.Artists
-                                            join tra in db.Tracks on art.ArtistID equals tra.ArtistID
-                                            join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                            where fol.ShowInCollection == 1
-                                            select art).Distinct().ToList();
+                            trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, art.ArtistName FROM Artist art" +
+                                                              " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
+                                                              " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                              " WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
-                            albumArtists = (from alb in db.Albums
-                                            join tra in db.Tracks on alb.AlbumID equals tra.AlbumID
-                                            join fol in db.Folders on tra.FolderID equals fol.FolderID
-                                            join art in db.Artists on tra.ArtistID equals art.ArtistID
-                                            where tra.AlbumID == alb.AlbumID & tra.ArtistID == tra.ArtistID & fol.ShowInCollection == 1
-                                            select alb.AlbumArtist).Distinct().ToList();
+                            var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                                                           " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
+                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
+
+                            albumArtists = albums.Select((a) => a.AlbumArtist).ToList();
 
                             if (artistType == ArtistType.All | artistType == ArtistType.Track)
                             {
@@ -71,7 +82,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -86,11 +97,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            artist = db.Artists.Select((a) => a).Where((a) => a.ArtistName.Equals(artistName)).FirstOrDefault();
+                            artist = conn.Table<Artist>().Select((a) => a).Where((a) => a.ArtistName.Equals(artistName)).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -100,7 +111,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -113,12 +124,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Artists.Add(artist);
-                            db.SaveChanges();
+                            conn.Insert(artist);
                         }
                         catch (Exception ex)
                         {
@@ -129,7 +139,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -142,12 +152,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            db.Artists.RemoveRange(db.Artists.Where((a) => !db.Tracks.Select((t) => t.ArtistID).Distinct().Contains(a.ArtistID)));
-                            db.SaveChanges();
+                            conn.Execute("DELETE FROM Artist WHERE ArtistID NOT IN (SELECT ArtistID FROM Track);");
                         }
                         catch (Exception ex)
                         {
@@ -157,7 +166,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

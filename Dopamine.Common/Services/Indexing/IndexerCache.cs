@@ -1,6 +1,7 @@
 ﻿using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,21 @@ namespace Dopamine.Common.Services.Indexing
     public class IndexerCache
     {
         #region Variables
-        private DopamineContext context;
         private Dictionary<long, string> albumsDictionary;
         private Dictionary<long, string> artistsDictionary;
         private Dictionary<long, string> genresDictionary;
+
         private long maxAlbumID;
         private long maxArtistID;
         private long maxGenreID;
+
+        private SQLiteConnectionFactory factory;
         #endregion
 
         #region Construction
-        public IndexerCache(DopamineContext context)
+        public IndexerCache()
         {
-            this.context = context;
-
+            this.factory = new SQLiteConnectionFactory();
             this.Initialize();
         }
         #endregion
@@ -129,9 +131,12 @@ namespace Dopamine.Common.Services.Indexing
         {
             // Comparing new and existing object will happen in a Dictionary cache. This should improve performance.
             // For Albums, we're comparing a concatenated string consisting of AlbumTitle and AlbumArtist.
-            this.albumsDictionary = this.context.Albums.ToDictionary(alb => alb.AlbumID, alb => this.GetAlbumCacheComparer(alb));
-            this.artistsDictionary = this.context.Artists.ToDictionary(art => art.ArtistID, art => this.GetArtistCacheComparer(art));
-            this.genresDictionary = this.context.Genres.ToDictionary(gen => gen.GenreID, gen => this.GetGenreCacheComparer(gen));
+            using (SQLiteConnection conn = this.factory.GetConnection())
+            {
+                this.albumsDictionary = conn.Table<Album>().ToDictionary(alb => alb.AlbumID, alb => this.GetAlbumCacheComparer(alb));
+                this.artistsDictionary = conn.Table<Artist>().ToDictionary(art => art.ArtistID, art => this.GetArtistCacheComparer(art));
+                this.genresDictionary = conn.Table<Genre>().ToDictionary(gen => gen.GenreID, gen => this.GetGenreCacheComparer(gen));
+            }
 
             this.maxAlbumID = this.albumsDictionary.Keys.OrderByDescending(key => key).Select(key => key).FirstOrDefault();
             this.maxArtistID = this.artistsDictionary.Keys.OrderByDescending(key => key).Select(key => key).FirstOrDefault();

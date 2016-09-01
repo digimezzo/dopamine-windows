@@ -13,6 +13,7 @@ using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
@@ -92,6 +93,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IMetadataService, MetadataService>();
             Container.RegisterSingletonType<INotificationService, NotificationService>();
             Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
+            Container.RegisterSingletonType<IProviderService, ProviderService>();
         }
 
         private void InitializeServices()

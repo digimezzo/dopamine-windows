@@ -342,8 +342,7 @@ namespace Dopamine.Views
             XmlSettingsClient.Instance.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
 
             // Only save the Mini Player Type in the settings if the current player is set to the Mini Player
-            if (isMiniPlayer)
-                XmlSettingsClient.Instance.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
+            if (isMiniPlayer) XmlSettingsClient.Instance.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
 
             // Set the current player type
             this.isMiniPlayer = isMiniPlayer;
@@ -512,7 +511,7 @@ namespace Dopamine.Views
             if (this.HasBorder)
             {
                 // Correction to take into account the window border, otherwise the content 
-                //misses 2px horizontally and vertically when displaying the window border
+                // misses 2px horizontally and vertically when displaying the window border
                 this.MinWidth = playerWidth + 2;
                 this.MinHeight = playerHeight + 2;
             }
@@ -525,8 +524,7 @@ namespace Dopamine.Views
             this.SetMiniPlayerDimensions();
 
             // Show the playlist AFTER changing window dimensions to avoid strange behaviour
-            if (isMiniPlayerListExpanded)
-                this.miniPlayerPlaylist.Show(miniPlayerType);
+            if (isMiniPlayerListExpanded) this.miniPlayerPlaylist.Show(miniPlayerType);
         }
 
         private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isMiniPlayerListExpanded)
@@ -537,10 +535,10 @@ namespace Dopamine.Views
                     this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
                     break;
                 case MiniPlayerType.MicroPlayer:
-                    this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
+                    this.isMicroPlayerListExpanded = isMiniPlayerListExpanded;
                     break;
                 case MiniPlayerType.NanoPlayer:
-                    this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
+                    this.isNanoPlayerListExpanded = isMiniPlayerListExpanded;
                     break;
                 default:
                     break;

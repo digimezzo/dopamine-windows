@@ -6,6 +6,7 @@ using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -140,7 +141,7 @@ namespace Dopamine.Common.Services.Equalizer
                 {
                     string line = reader.ReadLine();
                     double value;
-                    if (double.TryParse(line, out value)) bandValuesList.Add(value);
+                    if (double.TryParse(line, NumberStyles.Number, CultureInfo.InvariantCulture, out value)) bandValuesList.Add(value);
                 }
 
                 preset.Load(bandValuesList.ToArray());

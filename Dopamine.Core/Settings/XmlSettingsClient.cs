@@ -38,11 +38,6 @@ namespace Dopamine.Core.Settings
         #region Construction
         private XmlSettingsClient()
         {
-            // This fixes a problem in saving and retrieving Doubles from the Settings.xml file
-            // Without setting InvariantCulture, there is a difference between decimal 
-            // separators "," And "." between saving and retrieving Doubles.
-            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             this.timer = new System.Timers.Timer(100); // a 10th of a second
             this.timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
@@ -260,7 +255,24 @@ namespace Dopamine.Core.Settings
                                     where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
                                     select v).FirstOrDefault();
 
-                return (T)Convert.ChangeType(setting.Value, typeof(T));
+                // For numbers, we need to provide CultureInfo.InvariantCulture. 
+                // Otherwise, deserializing from XML can cause a FormatException.
+                if (typeof(T) == typeof(float))
+                {
+                    float floatValue;
+                    float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
+                    return (T)Convert.ChangeType(floatValue, typeof(T));
+                }
+                else if (typeof(T) == typeof(double))
+                {
+                    float doubleValue;
+                    float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
+                    return (T)Convert.ChangeType(doubleValue, typeof(T));
+                }
+                else
+                {
+                    return (T)Convert.ChangeType(setting.Value, typeof(T));
+                }
             }
         }
 
@@ -275,7 +287,24 @@ namespace Dopamine.Core.Settings
                                         where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
                                         select v).FirstOrDefault();
 
-                return (T)Convert.ChangeType(baseSetting.Value, typeof(T));
+                // For numbers, we need to provide CultureInfo.InvariantCulture. 
+                // Otherwise, deserializing from XML can cause a FormatException.
+                if (typeof(T) == typeof(float))
+                {
+                    float floatValue;
+                    float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
+                    return (T)Convert.ChangeType(floatValue, typeof(T));
+                }
+                else if (typeof(T) == typeof(double))
+                {
+                    float doubleValue;
+                    float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
+                    return (T)Convert.ChangeType(doubleValue, typeof(T));
+                }
+                else
+                {
+                    return (T)Convert.ChangeType(baseSetting.Value, typeof(T));
+                }
             }
         }
 

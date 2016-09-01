@@ -6,19 +6,47 @@ namespace Dopamine.Core.Database
     public class TrackInfo
     {
         #region Track
-        public Track Track { get; set; }
+        public long TrackID { get; set; }
+        public long ArtistID { get; set; }
+        public long GenreID { get; set; }
+        public long AlbumID { get; set; }
+        public long FolderID { get; set; }
+        public string Path { get; set; }
+        public string FileName { get; set; }
+        public string MimeType { get; set; }
+        public long? FileSize { get; set; }
+        public long? BitRate { get; set; }
+        public long? SampleRate { get; set; }
+        public string TrackTitle { get; set; }
+        public long? TrackNumber { get; set; }
+        public long? TrackCount { get; set; }
+        public long? DiscNumber { get; set; }
+        public long? DiscCount { get; set; }
+        public long? Duration { get; set; }
+        public long? Year { get; set; }
+        public long? Rating { get; set; }
+        public long? PlayCount { get; set; }
+        public long? SkipCount { get; set; }
+        public long DateAdded { get; set; }
+        public long? DateLastPlayed { get; set; }
+        public long DateLastSynced { get; set; }
+        public long DateFileModified { get; set; }
+        public string MetaDataHash { get; set; }
         #endregion
 
         #region Artist
-        public Artist Artist { get; set; }
+        public string ArtistName { get; set; }
         #endregion
 
         #region Genre
-        public Genre Genre { get; set; }
+        public string GenreName { get; set; }
         #endregion
 
         #region Album
-        public Album Album { get; set; }
+        public string AlbumTitle { get; set; }
+        public string AlbumArtist { get; set; }
+        public long? AlbumYear { get; set; }
+        public string AlbumArtworkID { get; set; }
         #endregion
 
         #region Public
@@ -35,7 +63,7 @@ namespace Dopamine.Core.Database
         #region Overrides
         public override int GetHashCode()
         {
-            return this.Track.Path.ToLower().GetHashCode();
+            return this.Path.ToLower().GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -46,7 +74,7 @@ namespace Dopamine.Core.Database
             }
 
             // We're on Windows, so we're not case sensitive
-            return this.Track.Path.Equals(((TrackInfo)obj).Track.Path);
+            return this.Path.Equals(((TrackInfo)obj).Path);
         }
         #endregion
     }

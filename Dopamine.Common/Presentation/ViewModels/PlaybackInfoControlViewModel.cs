@@ -87,16 +87,16 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 string year = string.Empty;
 
-                if (iTrackInfo.Track.Year != null && iTrackInfo.Track.Year > 0)
+                if (iTrackInfo.Year != null && iTrackInfo.Year > 0)
                 {
-                    year = iTrackInfo.Track.Year.ToString();
+                    year = iTrackInfo.Year.ToString();
                 }
 
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
-                    Title = string.IsNullOrEmpty(iTrackInfo.Track.TrackTitle) ? iTrackInfo.Track.FileName : iTrackInfo.Track.TrackTitle,
-                    Artist = iTrackInfo.Artist.ArtistName,
-                    Album = iTrackInfo.Album.AlbumTitle,
+                    Title = string.IsNullOrEmpty(iTrackInfo.TrackTitle) ? iTrackInfo.FileName : iTrackInfo.TrackTitle,
+                    Artist = iTrackInfo.ArtistName,
+                    Album = iTrackInfo.AlbumTitle,
                     Year = year,
                     CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
                     TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
@@ -104,7 +104,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", iTrackInfo.Track.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", iTrackInfo.Path, ex.Message);
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
                     Title = string.Empty,

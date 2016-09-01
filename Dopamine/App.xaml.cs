@@ -57,9 +57,6 @@ namespace Dopamine
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            // Initialize the Entity Framework Metadata asynchronously
-            Utils.InitializeEntityFrameworkMetaDataAsync();
-
             // Show the Splash Window
             Window splashWin = new Splash();
             splashWin.Show();
