@@ -32,6 +32,7 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 SetProperty<ObservableCollection<SearchProvider>>(ref this.searchProviders, value);
+                this.SelectedSearchProvider = null;
             }
         }
 

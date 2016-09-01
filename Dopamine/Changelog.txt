@@ -1,4 +1,4 @@
-2016-09-01: Dopamine 1.1.692.0 (Preview)
+2016-09-01: Dopamine 1.1.693.0 (Preview)
 ----------------------------------------
 
 - [Added] Added customizable online search for videos and lyrics
