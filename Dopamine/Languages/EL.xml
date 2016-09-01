@@ -326,4 +326,12 @@
   <Text Key="Exclusive_Mode">Exclusive mode</Text>
   <Text Key="Exclusive_Mode_Confirmation">Are you sure you want to enable Exclusive mode? Other applications won't be able to play any sound anymore.</Text>
   <Text Key="Search_Online">Search online</Text>
+  <Text Key="Online">Online</Text>
+  <Text Key="Add_Remove_Online_Search_Providers">Add or remove online search providers</Text>
+  <Text Key="Add">Add</Text>
+  <Text Key="Confirm_Remove_Online_Search_Provider">Are you sure you want to remove the online search provider '%provider%'?</Text>
+<Text Key="Error_Removing_Online_Search_Provider">The online search provider '%provider%' could not be removed. Please consult the log file for more information.</Text>
+  <Text Key="Url">Url</Text>
+  <Text Key="Separator">Separator</Text>
+  <Text Key="Error_Adding_Online_Search_Provider">The online search provider could not be added. Please consult the log file for more information.</Text>
 </Language>

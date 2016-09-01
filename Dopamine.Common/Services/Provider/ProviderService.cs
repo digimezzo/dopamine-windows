@@ -30,6 +30,10 @@ namespace Dopamine.Common.Services.Provider
         }
         #endregion
 
+        #region Events
+        public event EventHandler SearchProvidersChanged = delegate { };
+        #endregion
+
         #region Private
         private void CreateProvidersXml()
         {
@@ -42,11 +46,13 @@ namespace Dopamine.Common.Services.Provider
                "<Providers>" +
                "<SearchProviders>" +
                "<SearchProvider>" +
+               "<Id>e76c9f60-ef0e-4468-b47a-2889810fde85</Id>" +
                "<Name>Video (Youtube)</Name>" +
                "<Url>https://www.youtube.com/results?search_query=</Url>" +
                "<Separator>+</Separator>" +
                "</SearchProvider>" +
                "<SearchProvider>" +
+               "<Id>0d08bb4d-68b1-4c19-b952-e76d06d198fa</Id>" +
                "<Name>Lyrics (Musixmatch)</Name>" +
                "<Url>https://www.musixmatch.com/search/</Url>" +
                "<Separator>%20</Separator>" +
@@ -88,15 +94,17 @@ namespace Dopamine.Common.Services.Provider
                     {
                         providers = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
                                      from p in t.Elements("SearchProvider")
+                                     from i in p.Elements("Id")
                                      from n in p.Elements("Name")
                                      from u in p.Elements("Url")
                                      from s in p.Elements("Separator")
                                      select new SearchProvider
                                      {
+                                         Id = i.Value,
                                          Name = n.Value,
                                          Url = u.Value,
                                          Separator = s.Value
-                                     }).ToList();
+                                     }).Distinct().ToList();
                     }
                 }
                 catch (Exception ex)
@@ -106,23 +114,25 @@ namespace Dopamine.Common.Services.Provider
 
             });
 
-            return providers;
+            return providers.OrderBy((p) => p.Name, StringComparer.OrdinalIgnoreCase).ToList();
         }
 
-        public void SearchOnline(string providerName, string[] searchArguments)
+        public void SearchOnline(string id, string[] searchArguments)
         {
             var provider = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
-                                 from p in t.Elements("SearchProvider")
-                                 from n in p.Elements("Name")
-                                 from u in p.Elements("Url")
-                                 from s in p.Elements("Separator")
-                                 where n.Value == providerName
-                                 select new SearchProvider
-                                 {
-                                     Name = n.Value,
-                                     Url = u.Value,
-                                     Separator = s.Value
-                                 }).FirstOrDefault();
+                            from p in t.Elements("SearchProvider")
+                            from i in p.Elements("Id")
+                            from n in p.Elements("Name")
+                            from u in p.Elements("Url")
+                            from s in p.Elements("Separator")
+                            where i.Value == id
+                            select new SearchProvider
+                            {
+                                Id = i.Value,
+                                Name = n.Value,
+                                Url = u.Value,
+                                Separator = !string.IsNullOrWhiteSpace(s.Value) ? s.Value : "%20"
+                            }).FirstOrDefault();
 
             try
             {
@@ -133,6 +143,85 @@ namespace Dopamine.Common.Services.Provider
             {
                 LogClient.Instance.Logger.Error("Could not search online. Exception: {0}", ex.Message);
             }
+        }
+
+        public bool RemoveSearchProvider(SearchProvider provider)
+        {
+            bool returnValue = false;
+
+            XElement providerElementToRemove = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                                from p in t.Elements("SearchProvider")
+                                                from i in p.Elements("Id")
+                                                where i.Value == provider.Id
+                                                select p).FirstOrDefault();
+
+            if (providerElementToRemove != null)
+            {
+                try
+                {
+                    providerElementToRemove.Remove();
+                    this.providersDocument.Save(this.providersXmlPath);
+                    returnValue = true;
+                    this.SearchProvidersChanged(this, new EventArgs());
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not remove search provider. Exception: {0}", ex.Message);
+                }
+            }
+
+            return returnValue;
+        }
+
+        public bool UpdateSearchProvider(SearchProvider provider)
+        {
+            bool returnValue = false;
+
+            XElement providerElementToUpdate = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                                from p in t.Elements("SearchProvider")
+                                                from i in p.Elements("Id")
+                                                where i.Value == provider.Id
+                                                select p).FirstOrDefault();
+
+            try
+            {
+                if (providerElementToUpdate != null)
+                {
+                    providerElementToUpdate.SetElementValue("Name", provider.Name);
+                    providerElementToUpdate.SetElementValue("Url", provider.Url);
+                    providerElementToUpdate.SetElementValue("Separator", provider.Separator);
+
+                    this.providersDocument.Save(this.providersXmlPath);
+                    returnValue = true;
+                    this.SearchProvidersChanged(this, new EventArgs());
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(provider.Name) && !string.IsNullOrWhiteSpace(provider.Url))
+                    {
+                        XElement searchProvider = new XElement("SearchProvider");
+                        searchProvider.SetElementValue("Id", Guid.NewGuid().ToString());
+                        searchProvider.SetElementValue("Name", provider.Name);
+                        searchProvider.SetElementValue("Url", provider.Url);
+                        searchProvider.SetElementValue("Separator", provider.Separator != null ? provider.Separator : string.Empty);
+
+                        this.providersDocument.Element("Providers").Element("SearchProviders").Add(searchProvider);
+
+                        this.providersDocument.Save(this.providersXmlPath);
+                        returnValue = true;
+                        this.SearchProvidersChanged(this, new EventArgs());
+                    }else
+                    {
+                        LogClient.Instance.Logger.Error("Parameters 'Name' and 'Url' must be filled in for the search provider, 'Separator' is optional.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not update search provider. Exception: {0}", ex.Message);
+            }
+
+            return returnValue;
         }
         #endregion
     }

@@ -326,4 +326,12 @@
   <Text Key="Exclusive_Mode">Exclusieve modus</Text>
   <Text Key="Exclusive_Mode_Confirmation">Ben je zeker dat je Exclusieve modus wilt inschakelen? Andere applicaties zullen niet meer in staat zijn om geluid af te spelen.</Text>
   <Text Key="Search_Online">Online zoeken</Text>
+  <Text Key="Online">Online</Text>
+  <Text Key="Add_Remove_Online_Search_Providers">Online search providers toevoegen of verwijderen</Text>
+  <Text Key="Add">Toevoegen</Text>
+  <Text Key="Confirm_Remove_Online_Search_Provider">Ben je zeker dat je de online search provider '%provider%' wilt verwijderen?</Text>
+  <Text Key="Error_Removing_Online_Search_Provider">De online search provider '%provider%' kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="Url">Url</Text>
+  <Text Key="Separator">Scheidingsteken</Text>
+  <Text Key="Error_Adding_Online_Search_Provider">De online search provider kon niet worden toegevoegd. Raadpleeg het log bestand voor meer informatie.</Text>
 </Language>
