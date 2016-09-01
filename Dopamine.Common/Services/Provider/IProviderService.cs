@@ -9,7 +9,8 @@ namespace Dopamine.Common.Services.Provider
         Task<List<SearchProvider>> GetSearchProvidersAsync();
         void SearchOnline(string id, string[] searchArguments);
         bool RemoveSearchProvider(SearchProvider provider);
-        bool UpdateSearchProvider(SearchProvider provider);
+        UpdateSearchProviderResult AddSearchProvider(SearchProvider provider);
+        UpdateSearchProviderResult UpdateSearchProvider(SearchProvider provider);
         event EventHandler SearchProvidersChanged;
     }
 }

@@ -333,5 +333,8 @@
   <Text Key="Error_Removing_Online_Search_Provider">Le fournisseur de recherche en ligne '%provider%' n'a pas pu être supprimé.  Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Url">Url</Text>
   <Text Key="Separator">Séparateur</Text>
-  <Text Key="Error_Adding_Online_Search_Provider">Le fournisseur de recherche en ligne n'a pas pu être ajouté. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider">The online search provider could not be added. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider">The online search provider could not be updated. Please consult the log file for more information.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
 </Language>

@@ -173,55 +173,70 @@ namespace Dopamine.Common.Services.Provider
             return returnValue;
         }
 
-        public bool UpdateSearchProvider(SearchProvider provider)
+        public UpdateSearchProviderResult AddSearchProvider(SearchProvider provider)
         {
-            bool returnValue = false;
-
-            XElement providerElementToUpdate = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
-                                                from p in t.Elements("SearchProvider")
-                                                from i in p.Elements("Id")
-                                                where i.Value == provider.Id
-                                                select p).FirstOrDefault();
+            if (string.IsNullOrEmpty(provider.Name) | string.IsNullOrEmpty(provider.Url))
+            {
+                LogClient.Instance.Logger.Error("The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
+                return UpdateSearchProviderResult.MissingFields;
+            }
 
             try
             {
-                if (providerElementToUpdate != null)
-                {
-                    providerElementToUpdate.SetElementValue("Name", provider.Name);
-                    providerElementToUpdate.SetElementValue("Url", provider.Url);
-                    providerElementToUpdate.SetElementValue("Separator", provider.Separator);
+                XElement searchProvider = new XElement("SearchProvider");
+                searchProvider.SetElementValue("Id", Guid.NewGuid().ToString());
+                searchProvider.SetElementValue("Name", provider.Name);
+                searchProvider.SetElementValue("Url", provider.Url);
+                searchProvider.SetElementValue("Separator", provider.Separator != null ? provider.Separator : string.Empty);
 
-                    this.providersDocument.Save(this.providersXmlPath);
-                    returnValue = true;
-                    this.SearchProvidersChanged(this, new EventArgs());
-                }
-                else
-                {
-                    if (!string.IsNullOrWhiteSpace(provider.Name) && !string.IsNullOrWhiteSpace(provider.Url))
-                    {
-                        XElement searchProvider = new XElement("SearchProvider");
-                        searchProvider.SetElementValue("Id", Guid.NewGuid().ToString());
-                        searchProvider.SetElementValue("Name", provider.Name);
-                        searchProvider.SetElementValue("Url", provider.Url);
-                        searchProvider.SetElementValue("Separator", provider.Separator != null ? provider.Separator : string.Empty);
+                this.providersDocument.Element("Providers").Element("SearchProviders").Add(searchProvider);
 
-                        this.providersDocument.Element("Providers").Element("SearchProviders").Add(searchProvider);
+                this.providersDocument.Save(this.providersXmlPath);
+                this.SearchProvidersChanged(this, new EventArgs());
 
-                        this.providersDocument.Save(this.providersXmlPath);
-                        returnValue = true;
-                        this.SearchProvidersChanged(this, new EventArgs());
-                    }else
-                    {
-                        LogClient.Instance.Logger.Error("Parameters 'Name' and 'Url' must be filled in for the search provider, 'Separator' is optional.");
-                    }
-                }
+                return UpdateSearchProviderResult.Success;
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not update search provider. Exception: {0}", ex.Message);
             }
 
-            return returnValue;
+            return UpdateSearchProviderResult.Failure;
+        }
+
+        public UpdateSearchProviderResult UpdateSearchProvider(SearchProvider provider)
+        {
+            if (string.IsNullOrEmpty(provider.Name) | string.IsNullOrEmpty(provider.Url))
+            {
+                LogClient.Instance.Logger.Error("The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
+                return UpdateSearchProviderResult.MissingFields;
+            }
+
+            try
+            {
+                XElement providerElementToUpdate = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                                    from p in t.Elements("SearchProvider")
+                                                    from i in p.Elements("Id")
+                                                    where i.Value == provider.Id
+                                                    select p).FirstOrDefault();
+
+                if (providerElementToUpdate == null) return UpdateSearchProviderResult.Failure;
+
+                providerElementToUpdate.SetElementValue("Name", provider.Name);
+                providerElementToUpdate.SetElementValue("Url", provider.Url);
+                providerElementToUpdate.SetElementValue("Separator", provider.Separator);
+
+                this.providersDocument.Save(this.providersXmlPath);
+                this.SearchProvidersChanged(this, new EventArgs());
+
+                return UpdateSearchProviderResult.Success;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not update search provider. Exception: {0}", ex.Message);
+            }
+
+            return UpdateSearchProviderResult.Failure;
         }
         #endregion
     }

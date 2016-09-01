@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.1.690.0" ?>
+<?define Version="1.1.691.0" ?>
 <?define VersionMin="1.0.0.0" ?>
 <?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
