@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
@@ -115,8 +116,7 @@ namespace Dopamine.Views
         {
             // IWin32InputService
             // ------------------
-            this.win32InputService.SetKeyboardHook();
-
+            this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle());
             // listen to media keys
             this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
             this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();

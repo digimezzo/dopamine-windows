@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Dopamine.Core.Logging;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace Dopamine.Common.Services.Win32Input
 {
@@ -26,8 +29,9 @@ namespace Dopamine.Common.Services.Win32Input
         #endregion
 
         #region IWin32InputService
-        public void SetKeyboardHook()
+        public void SetKeyboardHook(IntPtr hwnd)
         {
+            /*
             this.hookCallBack = new KeyboardHookCallback(HookCallback);
 
             using (Process process = Process.GetCurrentProcess())
@@ -37,12 +41,15 @@ namespace Dopamine.Common.Services.Win32Input
                     this.keyboardHookID = SetWindowsHookEx(WH_KEYBOARD_LL, this.hookCallBack, GetModuleHandle(module.ModuleName), 0);
                 }
             }
+            */
+            StartHook(hwnd);
 
         }
 
         public void UnhookKeyboard()
         {
-            UnhookWindowsHookEx(keyboardHookID);
+            //UnhookWindowsHookEx(keyboardHookID);
+            StopHook();
         }
         #endregion
 
@@ -105,5 +112,123 @@ namespace Dopamine.Common.Services.Win32Input
         public event EventHandler MediaKeyPreviousPressed;
         public event EventHandler MediaKeyPlayPressed;
         #endregion
+
+
+
+        /// <summary>
+        /// Note:Some Media Keys get translated into APP_COMMAND Windows messages.
+        /// reference : http://stackoverflow.com/questions/14087873/how-to-hook-global-wm-appcommand-message
+        /// </summary> 
+        #region Hook Shell AppCommand
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool RegisterShellHookWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool DeregisterShellHookWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern uint RegisterWindowMessage(string lpString);
+
+        private static int WM_SHELLHOOKMESSAGE;
+        private const int HSHELL_APPCOMMAND = 12;
+        private const uint FAPPCOMMAND_MASK = 0xF000;
+
+        private IntPtr _hWnd;
+        private HwndSource _source;
+
+        public enum Command
+        {
+            APPCOMMAND_MEDIA_NEXTTRACK = 11,
+            APPCOMMAND_MEDIA_PAUSE = 47,
+            APPCOMMAND_MEDIA_PLAY = 46,
+            APPCOMMAND_MEDIA_PLAY_PAUSE = 14,
+            APPCOMMAND_MEDIA_PREVIOUSTRACK = 12,
+        }
+
+        private void StartHook(IntPtr hWnd)
+        {
+            this._hWnd = hWnd;
+            if (_source == null)
+            {
+                _source = HwndSource.FromHwnd(hWnd);
+                if (_source == null)
+                {
+                    LogClient.Instance.Logger.Error("hWnd is NULL.");
+                }
+                _source.AddHook(WndProc);
+                WM_SHELLHOOKMESSAGE = (int)RegisterWindowMessage("SHELLHOOK");
+                if (WM_SHELLHOOKMESSAGE == 0)
+                {
+                    LogClient.Instance.Logger.Error("RegisterWindowMessage 'SHELLHOOK' failed.");
+
+                }
+                if (!RegisterShellHookWindow(_hWnd))
+                {
+                    LogClient.Instance.Logger.Error("RegisterShellHookWindow failed.");
+                }
+            }
+        }
+
+
+        private void StopHook()
+        {
+            if (_source != null)
+            {
+                _source.RemoveHook(WndProc);
+                if (!_source.IsDisposed)
+                {
+                    if (!DeregisterShellHookWindow(_hWnd))
+                    {
+                        LogClient.Instance.Logger.Error("DeregisterShellHookWindow failed.");
+                    }
+                    _source.Dispose();
+                }
+                _source = null;
+            }
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_SHELLHOOKMESSAGE && (int)wParam == HSHELL_APPCOMMAND)
+            {
+                var command = GetAppCommandLParam(lParam);
+
+                switch (command)
+                {
+                    case Command.APPCOMMAND_MEDIA_NEXTTRACK:
+                        if (MediaKeyNextPressed != null)
+                        {
+                            MediaKeyNextPressed(this, null);
+                        }
+                        break;
+                    case Command.APPCOMMAND_MEDIA_PAUSE:
+                    case Command.APPCOMMAND_MEDIA_PLAY:
+                    case Command.APPCOMMAND_MEDIA_PLAY_PAUSE:
+                        if (MediaKeyPlayPressed != null)
+                        {
+                            MediaKeyPlayPressed(this, null);
+                        }
+                        break;
+                    case Command.APPCOMMAND_MEDIA_PREVIOUSTRACK:
+                        if (MediaKeyPreviousPressed != null)
+                        {
+                            MediaKeyPreviousPressed(this, null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                handled = false;
+            }
+            return IntPtr.Zero;
+        }
+
+        private Command GetAppCommandLParam(IntPtr lParam)
+        {
+            return (Command)((short)(((ushort)((((uint)lParam.ToInt64()) >> 16) & 0xffff)) & ~FAPPCOMMAND_MASK));
+        }
+
+        #endregion
+
     }
 }
