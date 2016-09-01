@@ -237,7 +237,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Track.Path)));
+                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Path)));
                 }
                 catch (Exception ex)
                 {
@@ -403,7 +403,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     foreach (TrackInfo ti in this.trackInfos)
                     {
-                        var fmd = new FileMetadata(ti.Track.Path);
+                        var fmd = new FileMetadata(ti.Path);
 
                         if (this.artists.IsValueChanged) fmd.Artists = this.artists;
                         if (this.title.IsValueChanged) fmd.Title = this.title;

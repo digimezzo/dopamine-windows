@@ -1,5 +1,4 @@
-﻿using Prism.Mvvm;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Dopamine.ControlsModule.Views
 {

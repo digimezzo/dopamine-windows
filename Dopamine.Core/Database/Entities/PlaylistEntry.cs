@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using SQLite;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class PlaylistEntry
     {
         #region Properties
-        [Key()]
+        [PrimaryKey(), AutoIncrement()]
         public long EntryID { get; set; }
         public long PlaylistID { get; set; }
         public long TrackID { get; set; }

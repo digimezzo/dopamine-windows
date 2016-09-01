@@ -17,6 +17,7 @@ namespace Dopamine.CollectionModule.ViewModels
         private bool checkBoxAlbumArtistChecked;
         private bool checkBoxTrackNumberChecked;
         private bool checkBoxYearChecked;
+        private bool checkBoxBitrateChecked;
         #endregion
 
         #region Properties
@@ -73,6 +74,12 @@ namespace Dopamine.CollectionModule.ViewModels
             get { return checkBoxYearChecked; }
             set { SetProperty<bool>(ref this.checkBoxYearChecked, value); }
         }
+
+        public bool CheckBoxBitrateChecked
+        {
+            get { return checkBoxBitrateChecked; }
+            set { SetProperty<bool>(ref this.checkBoxBitrateChecked, value); }
+        }
         #endregion
 
         #region Commands
@@ -107,7 +114,8 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.checkBoxLengthChecked,
                 ref this.checkBoxAlbumArtistChecked,
                 ref this.checkBoxTrackNumberChecked,
-                ref this.checkBoxYearChecked);
+                ref this.checkBoxYearChecked,
+                ref this.checkBoxBitrateChecked);
 
             OnPropertyChanged(() => this.CheckBoxRatingChecked);
             OnPropertyChanged(() => this.CheckBoxArtistChecked);
@@ -117,6 +125,7 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.CheckBoxAlbumArtistChecked);
             OnPropertyChanged(() => this.CheckBoxTrackNumberChecked);
             OnPropertyChanged(() => this.CheckBoxYearChecked);
+            OnPropertyChanged(() => this.CheckBoxBitrateChecked);
         }
         #endregion
 
@@ -133,7 +142,8 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.CheckBoxLengthChecked,
                     this.CheckBoxAlbumArtistChecked,
                     this.CheckBoxTrackNumberChecked,
-                    this.CheckBoxYearChecked);
+                    this.CheckBoxYearChecked,
+                    this.checkBoxBitrateChecked);
             });
 
             return true;

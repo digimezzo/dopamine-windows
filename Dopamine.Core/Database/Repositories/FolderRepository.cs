@@ -14,6 +14,17 @@ namespace Dopamine.Core.Database.Repositories
 {
     public class FolderRepository : IFolderRepository
     {
+        #region Variables
+        private SQLiteConnectionFactory factory;
+        #endregion
+
+        #region Construction
+        public FolderRepository()
+        {
+            this.factory = new SQLiteConnectionFactory();
+        }
+        #endregion
+
         #region IFolderRepository
         public async Task<AddFolderResult> AddFolderAsync(Folder folder)
         {
@@ -23,14 +34,13 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            if (!db.Folders.Select((t) => t.Path.ToLower()).ToList().Contains(folder.Path.ToLower()))
+                            if (!conn.Table<Folder>().Select((t) => t).ToList().Select((t)=> t.Path.ToLower()).Contains(folder.Path.ToLower()))
                             {
-                                db.Folders.Add(folder);
-                                db.SaveChanges();
+                                conn.Insert(folder);
                                 LogClient.Instance.Logger.Info("Added the Folder {0}", folder.Path);
                             }
                             else
@@ -48,7 +58,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -63,16 +73,15 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            var obsoleteFolder = db.Folders.Where((s) => s.Path.ToLower().Equals(path.ToLower())).Select((s) => s).FirstOrDefault();
+                            var obsoleteFolder = conn.Table<Folder>().Where((s) => s.Path.ToLower().Equals(path.ToLower())).Select((s) => s).FirstOrDefault();
 
                             if (obsoleteFolder != null)
                             {
-                                db.Folders.Remove(obsoleteFolder);
-                                db.SaveChanges();
+                                conn.Delete(obsoleteFolder);
                                 LogClient.Instance.Logger.Info("Removed the Folder {0}", path);
                             }
                         }
@@ -85,7 +94,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -100,11 +109,11 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            allFolders = db.Folders.Select((s) => s).ToList();
+                            allFolders = conn.Table<Folder>().Select((s) => s).ToList();
                         }
                         catch (Exception ex)
                         {
@@ -114,7 +123,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
 
             });
@@ -181,21 +190,20 @@ namespace Dopamine.Core.Database.Repositories
             {
                 try
                 {
-                    using (var db = new DopamineContext())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
                             foreach (Folder fol in folders)
                             {
-                                var dbFolder = db.Folders.Select((f) => f).Where((f) => f.Path.ToLower().Equals(fol.Path.ToLower())).FirstOrDefault();
+                                var dbFolder = conn.Table<Folder>().Select((f) => f).Where((f) => f.Path.ToLower().Equals(fol.Path.ToLower())).FirstOrDefault();
 
                                 if (dbFolder != null)
                                 {
                                     dbFolder.ShowInCollection = fol.ShowInCollection;
+                                    conn.Update(dbFolder);
                                 }
                             }
-
-                            db.SaveChanges();
                         }
                         catch (Exception ex)
                         {
@@ -205,7 +213,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not create DopamineContext. Exception: {0}", ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

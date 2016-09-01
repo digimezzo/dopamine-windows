@@ -31,6 +31,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Dopamine.Common.Services.Provider;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -48,6 +49,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected ICollectionService collectionService;
         protected IMetadataService metadataService;
         protected II18nService i18nService;
+        protected IProviderService providerService;
+
+        // Event aggregator
         protected IEventAggregator eventAggregator;
 
         // Repositories
@@ -55,6 +59,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         // Lists
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
+        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<TrackInfoViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackInfo> selectedTracks;
@@ -87,6 +92,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
+        public DelegateCommand<string> SearchOnlineCommand { get; set; }
         #endregion
 
         #region ReadOnly Properties
@@ -100,6 +106,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool HasContextMenuPlaylists
         {
             get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
+        }
+
+        public bool HasContextMenuSearchProviders
+        {
+            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
         }
 
         public string TrackOrderText
@@ -138,6 +149,16 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
+            }
+        }
+
+        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
+        {
+            get { return this.contextMenuSearchProviders; }
+            set
+            {
+                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
+                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
             }
         }
 
@@ -202,7 +223,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         /// <param name="trackRepository"></param>
         /// <param name="i18nService"></param>
         /// <remarks></remarks>
-        public CommonTracksViewModel(IUnityContainer container, IIndexingService indexingService, IEventAggregator eventAggregator, IPlaybackService playbackService, ISearchService searchService, IDialogService dialogService, ICollectionService collectionService, ITrackRepository trackRepository, IMetadataService metadataService, II18nService i18nService)
+        public CommonTracksViewModel(IUnityContainer container, IIndexingService indexingService, IEventAggregator eventAggregator, IPlaybackService playbackService, ISearchService searchService, IDialogService dialogService, ICollectionService collectionService, ITrackRepository trackRepository, IMetadataService metadataService, II18nService i18nService, IProviderService providerService)
         {
             // Unity Container
             this.container = container;
@@ -218,6 +239,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.collectionService = collectionService;
             this.metadataService = metadataService;
             this.i18nService = i18nService;
+            this.providerService = providerService;
 
             // Repositories
             this.trackRepository = trackRepository;
@@ -246,6 +268,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.collectionService = ServiceLocator.Current.GetInstance<ICollectionService>();
             this.metadataService = ServiceLocator.Current.GetInstance<IMetadataService>();
             this.i18nService = ServiceLocator.Current.GetInstance<II18nService>();
+            this.providerService = ServiceLocator.Current.GetInstance<IProviderService>();
 
             // Repositories
             this.trackRepository = ServiceLocator.Current.GetInstance<ITrackRepository>();
@@ -265,6 +288,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
+            
+            this.SearchOnlineCommand = new DelegateCommand<string>((id) => {
+
+                if(this.selectedTracks != null && this.selectedTracks.Count > 0){
+                     this.providerService.SearchOnline(id, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
+                }
+            });
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -284,6 +314,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
 
+            this.providerService.SearchProvidersChanged += (_,__) => { this.GetSearchProvidersAsync(); };
+
             this.i18nService.LanguageChanged += (_, __) =>
             {
                 OnPropertyChanged(() => this.TotalDurationInformation);
@@ -302,6 +334,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Initialize the playlists in the ContextMenu
             this.GetContextMenuPlaylistsAsync();
+
+            // Initialize the search providers in the ContextMenu
+            this.GetSearchProvidersAsync();
         }
 
         private void ShowSelectedTrackInformation()
@@ -348,6 +383,24 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // If loading from the database failed, create and empty Collection.
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
+        }
+
+        private async void GetSearchProvidersAsync()
+        {
+            this.ContextMenuSearchProviders = null;
+
+            List<SearchProvider> providersList = await this.providerService.GetSearchProvidersAsync();
+            var localProviders = new ObservableCollection<SearchProvider>();
+
+            await Task.Run(() =>
+            {
+                foreach (SearchProvider vp in providersList)
+                {
+                    localProviders.Add(vp);
+                }
+            });
+
+            this.ContextMenuSearchProviders = localProviders;
         }
         #endregion
 
@@ -566,8 +619,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         foreach (TrackInfoViewModel tivm in viewCopy)
                         {
-                            this.totalDuration += tivm.TrackInfo.Track.Duration.Value;
-                            this.totalSize += tivm.TrackInfo.Track.FileSize.Value;
+                            this.totalDuration += tivm.TrackInfo.Duration.Value;
+                            this.totalSize += tivm.TrackInfo.FileSize.Value;
                         }
                     }
                     catch (Exception ex)
@@ -625,7 +678,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.playbackService.PlayingTrack == null)
                 return;
 
-            string path = this.playbackService.PlayingTrack.Track.Path;
+            string path = this.playbackService.PlayingTrack.Path;
 
             await Task.Run(() =>
             {
@@ -636,7 +689,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         tivm.IsPlaying = false;
                         tivm.IsPaused = true;
 
-                        if (tivm.TrackInfo.Track.Path == path)
+                        if (tivm.TrackInfo.Path == path)
                         {
                             if (!this.playbackService.IsStopped)
                             {
@@ -673,6 +726,10 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                 }
+                else
+                {
+                    await this.playbackService.Dequeue(selectedTracks);
+                }
             }
         }
 
@@ -704,16 +761,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (tivm.TrackInfo.Track.Path.Equals(e.Path) && tivm.Rating != e.Rating)
+                    if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Rating != e.Rating)
                     {
                         tivm.AllowSaveRating = false;
-                        tivm.Rating = e.Rating;
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => tivm.Rating = e.Rating);
                         tivm.AllowSaveRating = true;
                     }
                 }
             });
-
-            this.TracksCvs.View.Refresh();
         }
 
         private void SelectedTracksHandler(object parameter)

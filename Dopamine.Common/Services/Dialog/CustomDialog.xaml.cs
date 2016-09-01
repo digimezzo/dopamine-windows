@@ -75,7 +75,7 @@ namespace Dopamine.Common.Services.Dialog
         {
             if (this.callback != null)
             {
-                // Prevents clicking the buttons when the callback is already executed, and this prevents this Exception:
+                // Prevents clicking the buttons when the callback is already executing, and this prevents this Exception:
                 // System.InvalidOperationException: DialogResult can be set only after Window is created and shown as dialog.
                 this.ButtonOK.IsEnabled = false;
                 this.ButtonOK.IsDefault = false;
@@ -85,7 +85,17 @@ namespace Dopamine.Common.Services.Dialog
                 // Execute some function in the caller of this dialog.
                 // If the result is False, DialogResult is not set.
                 // That keeps the dialog open.
-                if (await this.callback.Invoke()) DialogResult = true;
+                if (await this.callback.Invoke())
+                {
+                    DialogResult = true;
+                }
+                else
+                {
+                    this.ButtonOK.IsEnabled = true;
+                    this.ButtonOK.IsDefault = true;
+                    this.ButtonCancel.IsEnabled = true;
+                    this.ButtonCancel.IsCancel = true;
+                } 
             }
             else
             {

@@ -223,11 +223,13 @@ namespace Dopamine.CollectionModule.ViewModels
 
             foreach (ArtistViewModel avm in this.ArtistsCvs.View)
             {
-
                 if (string.IsNullOrEmpty(previousHeader) || !avm.Header.Equals(previousHeader))
                 {
                     previousHeader = avm.Header;
                     avm.IsHeader = true;
+                }else
+                {
+                    avm.IsHeader = false;
                 }
             }
         }

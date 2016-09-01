@@ -17,6 +17,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public string Bitrate
+        {
+            get {
+                return this.TrackInfo.BitRate != null ? this.TrackInfo.BitRate + " kbps" : "";
+            }
+        }
+
+
         public bool AllowSaveRating { get; set; }
 
         public TrackInfo TrackInfo
@@ -29,19 +37,19 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.TrackInfo.Track.TrackTitle))
+                if (!string.IsNullOrEmpty(this.TrackInfo.TrackTitle))
                 {
-                    return this.TrackInfo.Track.TrackTitle;
+                    return this.TrackInfo.TrackTitle;
                 }
                 else
                 {
-                    return this.TrackInfo.Track.FileName;
+                    return this.TrackInfo.FileName;
                 }
 
             }
             set
             {
-                this.TrackInfo.Track.TrackTitle = value;
+                this.TrackInfo.TrackTitle = value;
                 OnPropertyChanged(() => this.TrackTitle);
             }
         }
@@ -50,9 +58,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.TrackNumber.HasValue && this.TrackInfo.Track.TrackNumber.Value > 0)
+                if (this.TrackInfo.TrackNumber.HasValue && this.TrackInfo.TrackNumber.Value > 0)
                 {
-                    return string.Format(Convert.ToInt32(TrackInfo.Track.TrackNumber.Value).ToString(), "0");
+                    return string.Format(Convert.ToInt32(TrackInfo.TrackNumber.Value).ToString(), "0");
                 }
                 else
                 {
@@ -65,9 +73,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.TrackNumber.HasValue && this.TrackInfo.Track.TrackNumber.Value > 0)
+                if (this.TrackInfo.TrackNumber.HasValue && this.TrackInfo.TrackNumber.Value > 0)
                 {
-                    return this.TrackInfo.Track.TrackNumber.ToString();
+                    return this.TrackInfo.TrackNumber.ToString();
                 }
                 else
                 {
@@ -76,7 +84,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             set
             {
-                this.TrackInfo.Track.TrackNumber = Convert.ToInt64(value);
+                this.TrackInfo.TrackNumber = Convert.ToInt64(value);
                 OnPropertyChanged(() => this.TrackNumber);
             }
         }
@@ -85,9 +93,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.Duration.HasValue)
+                if (this.TrackInfo.Duration.HasValue)
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.TrackInfo.Track.Duration));
+                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.TrackInfo.Duration));
 
                     if (ts.Hours > 0)
                     {
@@ -111,9 +119,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.Duration.HasValue)
+                if (this.TrackInfo.Duration.HasValue)
                 {
-                    return this.TrackInfo.Track.Duration.Value;
+                    return this.TrackInfo.Duration.Value;
                 }
                 else
                 {
@@ -124,40 +132,40 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string AlbumTitle
         {
-            get { return this.TrackInfo.Album.AlbumTitle; }
+            get { return this.TrackInfo.AlbumTitle; }
             set
             {
-                this.TrackInfo.Album.AlbumTitle = value;
+                this.TrackInfo.AlbumTitle = value;
                 OnPropertyChanged(() => this.AlbumTitle);
             }
         }
 
         public string AlbumArtist
         {
-            get { return this.TrackInfo.Album.AlbumArtist; }
+            get { return this.TrackInfo.AlbumArtist; }
             set
             {
-                this.TrackInfo.Album.AlbumArtist = value;
+                this.TrackInfo.AlbumArtist = value;
                 OnPropertyChanged(() => this.AlbumArtist);
             }
         }
 
         public string ArtistName
         {
-            get { return this.TrackInfo.Artist.ArtistName; }
+            get { return this.TrackInfo.ArtistName; }
             set
             {
-                this.TrackInfo.Artist.ArtistName = value;
+                this.TrackInfo.ArtistName = value;
                 OnPropertyChanged(() => this.ArtistName);
             }
         }
 
         public string Genre
         {
-            get { return this.TrackInfo.Genre.GenreName; }
+            get { return this.TrackInfo.GenreName; }
             set
             {
-                this.TrackInfo.Genre.GenreName = value;
+                this.TrackInfo.GenreName = value;
                 OnPropertyChanged(() => this.Genre);
             }
         }
@@ -166,9 +174,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.Year.HasValue && this.TrackInfo.Track.Year.Value > 0)
+                if (this.TrackInfo.Year.HasValue && this.TrackInfo.Year.Value > 0)
                 {
-                    return this.TrackInfo.Track.Year.Value.ToString();
+                    return this.TrackInfo.Year.Value.ToString();
                 }
                 else
                 {
@@ -177,22 +185,22 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             set
             {
-                this.TrackInfo.Track.Year = Convert.ToInt64(value);
+                this.TrackInfo.Year = Convert.ToInt64(value);
                 OnPropertyChanged(() => Year);
             }
         }
 
         public int Rating
         {
-            get { return this.TrackInfo.Track.Rating.HasValue ? Convert.ToInt32(this.TrackInfo.Track.Rating.Value) : 0; }
+            get { return this.TrackInfo.Rating.HasValue ? Convert.ToInt32(this.TrackInfo.Rating.Value) : 0; }
             set
             {
-                this.TrackInfo.Track.Rating = (long?)value;
+                this.TrackInfo.Rating = (long?)value;
                 OnPropertyChanged(() => Rating);
 
                 if (this.AllowSaveRating)
                 {
-                    this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Track.Path, value);
+                    this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
                 }
             }
         }
@@ -201,20 +209,20 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.TrackInfo.Track.DiscCount.HasValue && this.TrackInfo.Track.DiscCount.Value > 1 && this.TrackInfo.Track.DiscNumber.HasValue && this.TrackInfo.Track.DiscNumber.Value > 0)
+                if (this.TrackInfo.DiscCount.HasValue && this.TrackInfo.DiscCount.Value > 1 && this.TrackInfo.DiscNumber.HasValue && this.TrackInfo.DiscNumber.Value > 0)
                 {
-                    return string.Format("{0} ({1})", this.TrackInfo.Album.AlbumTitle, this.TrackInfo.Track.DiscNumber);
+                    return string.Format("{0} ({1})", this.TrackInfo.AlbumTitle, this.TrackInfo.DiscNumber);
                 }
                 else
                 {
-                    return this.TrackInfo.Album.AlbumTitle;
+                    return this.TrackInfo.AlbumTitle;
                 }
             }
         }
 
         public string GroupSubHeader
         {
-            get { return this.TrackInfo.Album.AlbumArtist; }
+            get { return this.TrackInfo.AlbumArtist; }
         }
 
         public bool IsPlaying
@@ -243,7 +251,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string FileName
         {
-            get { return this.TrackInfo.Track.FileName; }
+            get { return this.TrackInfo.FileName; }
         }
 
         #endregion
@@ -269,7 +277,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return false;
             }
 
-            return this.TrackInfo.Track.Equals(((TrackInfoViewModel)obj).TrackInfo.Track);
+            return this.TrackInfo.Equals(((TrackInfoViewModel)obj).TrackInfo);
         }
 
         public override int GetHashCode()

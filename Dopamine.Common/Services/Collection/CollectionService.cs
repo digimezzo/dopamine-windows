@@ -235,7 +235,7 @@ namespace Dopamine.Common.Services.Collection
                             if (dbAlbum != null)
                             {
                                 albvm.Album.ArtworkID = dbAlbum.ArtworkID;
-                                albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum);
+                                albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
@@ -255,17 +255,17 @@ namespace Dopamine.Common.Services.Collection
                         try
                         {
                             // Get an up to date version of this album from the database
-                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(tivm.TrackInfo.Album.AlbumID)).Select((a) => a).FirstOrDefault();
+                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(tivm.TrackInfo.AlbumID)).Select((a) => a).FirstOrDefault();
 
                             if (dbAlbum != null)
                             {
-                                tivm.TrackInfo.Album.ArtworkID = dbAlbum.ArtworkID;
-                                tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum);
+                                tivm.TrackInfo.AlbumArtworkID = dbAlbum.ArtworkID;
+                                tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while refreshing artwork for TrackInfo with path {0}. Exception: {1}", tivm.TrackInfo.Track.Path, ex.Message);
+                            LogClient.Instance.Logger.Error("Error while refreshing artwork for TrackInfo with path {0}. Exception: {1}", tivm.TrackInfo.Path, ex.Message);
                         }
                     }
                 });
@@ -284,11 +284,11 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(tivm.TrackInfo.Album);
+                            tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(tivm.TrackInfo.AlbumArtworkID);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while setting artwork for Track {0}. Exception: {1}", tivm.TrackInfo.Track.Path, ex.Message);
+                            LogClient.Instance.Logger.Error("Error while setting artwork for Track {0}. Exception: {1}", tivm.TrackInfo.Path, ex.Message);
                         }
                     }
                 }
@@ -311,7 +311,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(albvm.Album);
+                            albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(albvm.Album.ArtworkID);
                         }
                         catch (Exception ex)
                         {
@@ -361,7 +361,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         foreach (TrackInfo t in tracks)
                         {
-                            string audioFileNameWithoutPath = Path.GetFileName(t.Track.Path);
+                            string audioFileNameWithoutPath = Path.GetFileName(t.Path);
 
                             // If the audio file is in the same directory as the playlist file, 
                             // don't save the full path in the playlist file.
@@ -371,7 +371,7 @@ namespace Dopamine.Common.Services.Collection
                             }
                             else
                             {
-                                file.WriteLine(t.Track.Path);
+                                file.WriteLine(t.Path);
                             }
                         }
                     }

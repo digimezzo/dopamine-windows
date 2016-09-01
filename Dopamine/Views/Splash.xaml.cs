@@ -2,7 +2,6 @@
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using System;
-using System.Data.SQLite;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -136,39 +135,25 @@ namespace Dopamine.Views
 
             try
             {
-                bool needsMetadataInit = false;
+                var creator = new DbCreator();
 
-                var con = new SQLiteConnection(DbConnection.ConnectionString);
-                var dbm = new DbCreator(con);
-
-                if (!DbCreator.DatabaseExists())
+                if (!creator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
                     this.ShowProgressRing = true;
                     LogClient.Instance.Logger.Info("Creating database");
-                    await Task.Run(() => dbm.InitializeNewDatabase());
-
-                    needsMetadataInit = true;
+                    await Task.Run(() => creator.InitializeNewDatabase());
                 }
                 else
                 {
                     // Upgrade the database if it is not the latest version
 
-                    if (dbm.DatabaseNeedsUpgrade())
+                    if (creator.DatabaseNeedsUpgrade())
                     {
                         this.ShowProgressRing = true;
                         LogClient.Instance.Logger.Info("Upgrading database");
-                        await Task.Run(() => dbm.UpgradeDatabase());
-
-                        needsMetadataInit = true;
+                        await Task.Run(() => creator.UpgradeDatabase());
                     }
-                }
-
-                if (needsMetadataInit)
-                {
-                    this.ShowProgressRing = true;
-                    LogClient.Instance.Logger.Info("Initializing EntityFramework MetaData");
-                    await Utils.InitializeEntityFrameworkMetaDataAsync();
                 }
 
                 isInitializeDatabaseSuccess = true;

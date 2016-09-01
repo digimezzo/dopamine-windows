@@ -79,7 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Collect the TrackInfoViewModels to remove
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Track.Path).ToList().Contains(tivm.TrackInfo.Track.Path))
+                    if (dequeueResult.DequeuedTracks.Select((t) => t.Path).ToList().Contains(tivm.TrackInfo.Path))
                     {
                         trackInfoViewModelsToRemove.Add(tivm);
                     }

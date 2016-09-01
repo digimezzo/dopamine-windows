@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
 
 namespace Dopamine.Core.Database.Entities
 {
     public class Playlist
     {
         #region Properties
-        [Key()]
+        [PrimaryKey(), AutoIncrement()]
         public long PlaylistID { get; set; }
         public string PlaylistName { get; set; }
         #endregion
 
         #region ReadOnly Properties
-        [NotMapped()]
+        [Ignore()]
         public string PlaylistNameTrim
         {
             get { return PlaylistName.Trim(); }
