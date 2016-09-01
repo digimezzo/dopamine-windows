@@ -534,7 +534,7 @@ namespace Dopamine.Core.Audio
 
                 this.pauseAfterSwitchingDefaultDevice = !this.canPause;
 
-                if (this.currentTime == null)
+                if (this.currentTime.Equals(TimeSpan.Zero))
                 {
                     this.currentTime = this.GetCurrentTime();
                     this.SuspendSoundOut();
@@ -554,7 +554,7 @@ namespace Dopamine.Core.Audio
 
             if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
             this.Skip(Convert.ToInt32(this.currentTime.TotalSeconds));
-            this.currentTime = new TimeSpan(0);
+            this.currentTime = TimeSpan.Zero;
         }
         #endregion
 
