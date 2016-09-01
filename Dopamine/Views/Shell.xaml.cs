@@ -116,8 +116,7 @@ namespace Dopamine.Views
         {
             // IWin32InputService
             // ------------------
-            this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle());
-            // listen to media keys
+            this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // listen to media keys
             this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
             this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();
             this.win32InputService.MediaKeyPlayPressed += async (_, __) => await this.playbackService.PlayOrPauseAsync();
@@ -724,10 +723,6 @@ namespace Dopamine.Views
                 await this.playbackService.SaveTrackStatisticsAsync();
             }
 
-            // Stop listening to keyboard outside the application
-            // --------------------------------------------------
-            this.win32InputService.UnhookKeyboard();
-
             LogClient.Instance.Logger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
 
             this.mustPerformClosingTasks = false;
@@ -752,6 +747,9 @@ namespace Dopamine.Views
         {
             // Make sure the Tray icon is removed from the tray
             this.trayIcon.Visible = false;
+
+            // Stop listening to keyboard outside the application
+            this.win32InputService.UnhookKeyboard();
 
             // This makes sure the application doesn't keep running when the main window is closed.
             // Extra windows created by the main window can keep a WPF application running even when
