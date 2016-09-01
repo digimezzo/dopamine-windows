@@ -12,6 +12,9 @@ namespace Dopamine.SettingsModule.ViewModels
         private SearchProvider provider;
         private IDialogService dialogService;
         private IProviderService providerService;
+        private string name;
+        private string url;
+        private string separator;
         #endregion
 
         #region Properties
@@ -23,6 +26,33 @@ namespace Dopamine.SettingsModule.ViewModels
                 SetProperty<SearchProvider>(ref this.provider, value);
             }
         }
+
+        public string Name
+        {
+            get { return this.name; }
+            set
+            {
+                SetProperty<string>(ref this.name, value);
+            }
+        }
+
+        public string Url
+        {
+            get { return this.url; }
+            set
+            {
+                SetProperty<string>(ref this.url, value);
+            }
+        }
+
+        public string Separator
+        {
+            get { return this.separator; }
+            set
+            {
+                SetProperty<string>(ref this.separator, value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -32,12 +62,17 @@ namespace Dopamine.SettingsModule.ViewModels
             this.providerService = providerService;
 
             this.provider = provider;
+            this.Name = provider.Name;
+            this.Url = provider.Url;
+            this.Separator = provider.Separator;
         }
         #endregion
 
+        #region Public
         public async Task<bool> AddSearchProviderAsync()
         {
-            UpdateSearchProviderResult result = this.providerService.AddSearchProvider(this.provider);
+            var provider = new SearchProvider { Id = this.provider.Id, Name = this.Name, Url = this.Url, Separator = this.Separator };
+            UpdateSearchProviderResult result = this.providerService.AddSearchProvider(provider);
 
             switch (result)
             {
@@ -65,12 +100,13 @@ namespace Dopamine.SettingsModule.ViewModels
                     return false;
                 default:
                     return true;
-            }  
+            }
         }
 
         public async Task<bool> UpdateSearchProviderAsync()
         {
-            UpdateSearchProviderResult result = this.providerService.UpdateSearchProvider(this.provider);
+            var provider = new SearchProvider { Id = this.provider.Id, Name = this.Name, Url = this.Url, Separator = this.Separator };
+            UpdateSearchProviderResult result = this.providerService.UpdateSearchProvider(provider);
 
             switch (result)
             {
@@ -98,7 +134,8 @@ namespace Dopamine.SettingsModule.ViewModels
                     return false;
                 default:
                     return true;
-            }  
+            }
         }
+        #endregion
     }
 }
