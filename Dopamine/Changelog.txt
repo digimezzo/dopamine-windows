@@ -1,10 +1,11 @@
-2016-09-01: Dopamine 1.1.693.0 (Preview)
+2016-09-01: Dopamine 1.1.694.0 (Preview)
 ----------------------------------------
 
 - [Added] Added customizable online search for videos and lyrics
 - [Changed] Updated the Portuguese translation
 - [Fixed] Playlist window visibility incorrect when switching between Mini players
 - [Fixed] Left part of Mini player playlist is unclickable
+- [Fixed] Bluetooth headset play/pause button not detected
 
 
 2016-08-26: Dopamine 1.1.685.0 (Preview)
