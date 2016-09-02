@@ -325,16 +325,16 @@
   <Text Key="Error_While_Deleting_Preset">Impossível apagar. Clique em "Mais informações" para saber mais.</Text>
   <Text Key="Exclusive_Mode">Modo exclusivo</Text>
   <Text Key="Exclusive_Mode_Confirmation">Tem certeza de que quer ativar o modo exclusivo? Os outros programas serão incapazes de reproduzir som.</Text>
-  <Text Key="Search_Online">Search online</Text>
+  <Text Key="Search_Online">Pesquisa online</Text>
   <Text Key="Online">Online</Text>
-  <Text Key="Add_Remove_Online_Search_Providers">Add or remove online search providers</Text>
-  <Text Key="Add">Add</Text>
-  <Text Key="Confirm_Remove_Online_Search_Provider">Are you sure you want to remove the online search provider '%provider%'?</Text>
-  <Text Key="Error_Removing_Online_Search_Provider">The online search provider '%provider%' could not be removed. Please consult the log file for more information.</Text>
-  <Text Key="Url">Url</Text>
-  <Text Key="Separator">Separator</Text>
-  <Text Key="Error_Adding_Online_Search_Provider">The online search provider could not be added. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
-  <Text Key="Error_Updating_Online_Search_Provider">The online search provider could not be updated. Please consult the log file for more information.</Text>
-  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
+  <Text Key="Add_Remove_Online_Search_Providers">Adicionar ou remover provedores de pesquisa online</Text>
+  <Text Key="Add">Adicionar</Text>
+  <Text Key="Confirm_Remove_Online_Search_Provider">Tem certeza que deseja remover o provedor '%provider%'?</Text>
+  <Text Key="Error_Removing_Online_Search_Provider">Impossível remover o provedor'%provider%'. Clique em "Mais informações" para saber mais.</Text>
+  <Text Key="Url">Endereço</Text>
+  <Text Key="Separator">Separador</Text>
+  <Text Key="Error_Adding_Online_Search_Provider">Impossível adicionar o provedor de pesquisa online. Clique em "Mais informações" para saber mais.</Text>
+  <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Impossível adicionar o provedor de pesquisa online. Os campos "Nome" e "Endereço" são requiridos, o campo "Separador" é opcional.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider">Impossível atualizar o provedor de pesquisa online. Clique em "Mais informações" para saber mais.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Impossível atualizar o provedor de pesquisa online. Os campos "Nome" e "Endereço" são requiridos, o campo "Separador" é opcional.</Text>
 </Language>
