@@ -358,7 +358,7 @@ namespace Dopamine.Common.Services.Metadata
                 }
 
                 await this.albumRepository.UpdateAlbumArtworkAsync(!string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString,
-                                                            fileMetadata.AlbumArtists.Values == null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString,
+                                                            fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString,
                                                             artworkID);
             }
 
