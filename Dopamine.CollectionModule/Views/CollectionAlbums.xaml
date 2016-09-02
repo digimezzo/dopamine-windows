@@ -35,7 +35,7 @@
         MiddlePaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="7,0,0,15">
                     <Button x:Name="AlbumsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
                         <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"

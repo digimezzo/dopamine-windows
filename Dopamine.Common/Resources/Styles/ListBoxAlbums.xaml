@@ -114,11 +114,11 @@
                         <!-- Album Info -->
                         <StackPanel Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
                             <StackPanel Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                <TextBlock Margin="0,5,0,0" Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                                <TextBlock Margin="0,2,0,0" Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                                 <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
                             </StackPanel>
                             <StackPanel Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                <TextBlock Margin="0,5,0,0" Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                                <TextBlock Margin="0,2,0,0" Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                                 <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
                             </StackPanel>
                             <StackPanel.ToolTip>
