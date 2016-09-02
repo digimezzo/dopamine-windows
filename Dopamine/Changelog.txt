@@ -1,6 +1,7 @@
 2016-09-02: Dopamine 1.1.695.0 (Preview)
 ----------------------------------------
 
+- [Changed] Updated the Greek translation
 - [Fixed] Impossible to update album art
 - [Fixed] Search online doesn't work on all screens
 
