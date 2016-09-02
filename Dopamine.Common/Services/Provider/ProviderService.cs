@@ -119,29 +119,32 @@ namespace Dopamine.Common.Services.Provider
 
         public void SearchOnline(string id, string[] searchArguments)
         {
-            var provider = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
-                            from p in t.Elements("SearchProvider")
-                            from i in p.Elements("Id")
-                            from n in p.Elements("Name")
-                            from u in p.Elements("Url")
-                            from s in p.Elements("Separator")
-                            where i.Value == id
-                            select new SearchProvider
-                            {
-                                Id = i.Value,
-                                Name = n.Value,
-                                Url = u.Value,
-                                Separator = !string.IsNullOrWhiteSpace(s.Value) ? s.Value : "%20"
-                            }).FirstOrDefault();
+            string url = string.Empty;
 
             try
             {
-                string url = provider.Url + string.Join(provider.Separator, searchArguments);
-                Actions.TryOpenLink(url.Replace("&", provider.Separator)); // Because Youtube forgets the part of he URL that comes after "&"
+                var provider = (from t in this.providersDocument.Element("Providers").Elements("SearchProviders")
+                                from p in t.Elements("SearchProvider")
+                                from i in p.Elements("Id")
+                                from n in p.Elements("Name")
+                                from u in p.Elements("Url")
+                                from s in p.Elements("Separator")
+                                where i.Value == id
+                                select new SearchProvider
+                                {
+                                    Id = i.Value,
+                                    Name = n.Value,
+                                    Url = u.Value,
+                                    Separator = !string.IsNullOrWhiteSpace(s.Value) ? s.Value : "%20"
+                                }).FirstOrDefault();
+
+                url = provider.Url + string.Join(provider.Separator, searchArguments).Replace("&", provider.Separator); // Recplace "&" because Youtube forgets the part of he URL that comes after "&"
+
+                Actions.TryOpenLink(url); 
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not search online. Exception: {0}", ex.Message);
+                LogClient.Instance.Logger.Error("Could not search online using url: '{0}'. Exception: {1}", url, ex.Message);
             }
         }
 
