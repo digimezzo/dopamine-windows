@@ -44,7 +44,7 @@
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
         </MenuItem>
