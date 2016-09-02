@@ -1,3 +1,10 @@
+2016-09-02: Dopamine 1.1.695.0 (Preview)
+----------------------------------------
+
+- [Fixed] Impossible to update album art
+- [Fixed] Search online doesn't work on all screens
+
+
 2016-09-01: Dopamine 1.1.694.0 (Preview)
 ----------------------------------------
 
