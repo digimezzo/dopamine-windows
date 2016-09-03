@@ -1,7 +1,9 @@
-2016-09-04: Dopamine 1.1.697.0 (Preview)
+2016-09-04: Dopamine 1.1.698.0 (Preview)
 ----------------------------------------
 
+- [Added] Added a shuffle all button
 - [Fixed] Impossible to play songs with WASAPI exclusive mode enabled
+- [Fixed] WASAPI exclusive mode confirmation pop up is shown each time the playback settings screen is created
 
 
 2016-09-02: Dopamine 1.1.695.0 (Preview)
