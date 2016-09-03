@@ -27,12 +27,16 @@
                 <ColumnDefinition Width="0.01*" />
                 <ColumnDefinition MaxWidth="200" Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="15,15,0,0" Panel.ZIndex="1">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5,15,0,0" Panel.ZIndex="1">
+                <Button x:Name="ShuffleAllButton" Style="{StaticResource TransparentButton}" Margin="12,3,0,0" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding ShuffleAllCommand}">
+                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20"/>
+                </Button>
                 <dc:LabelToLower Content="{DynamicResource Language_Now_Playing}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
-                                                 Padding="0"/>
+                                                 Padding="0"
+                                                 Margin="10,0,0,0"/>
                 <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
             </StackPanel>
             <controlsviews:SearchControl Grid.Column="2" Margin="15,15,15,0"/>

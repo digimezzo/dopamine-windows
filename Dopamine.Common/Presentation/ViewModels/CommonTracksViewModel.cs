@@ -93,6 +93,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand EditTracksCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
         public DelegateCommand<string> SearchOnlineCommand { get; set; }
+        public DelegateCommand ShuffleAllCommand { get; set; }
         #endregion
 
         #region ReadOnly Properties
@@ -288,12 +289,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
-            
-            this.SearchOnlineCommand = new DelegateCommand<string>((id) => {
 
-                if(this.selectedTracks != null && this.selectedTracks.Count > 0){
-                     this.providerService.SearchOnline(id, new string[]{this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle});
+            this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
+            {
+                if (this.selectedTracks != null && this.selectedTracks.Count > 0)
+                {
+                    this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
                 }
+            });
+
+            this.ShuffleAllCommand = new DelegateCommand(() =>
+            {
+                this.playbackService.SetShuffle(true);
+                this.playbackService.Enqueue();
             });
 
             // Initialize Handlers
@@ -314,7 +322,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
 
-            this.providerService.SearchProvidersChanged += (_,__) => { this.GetSearchProvidersAsync(); };
+            this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
 
             this.i18nService.LanguageChanged += (_, __) =>
             {
