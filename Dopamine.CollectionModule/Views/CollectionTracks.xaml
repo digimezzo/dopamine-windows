@@ -61,7 +61,10 @@
                 <DataGridTextColumn Width="3*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackTitle}" Visibility="Visible">
                     <DataGridTextColumn.Header>
                         <StackPanel Orientation="Horizontal">
-                            <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}"/>
+                            <Button x:Name="ShuffleAllButton" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" Margin="0,3,0,0" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20"/>
+                            </Button>
+                            <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}" Margin="10,0,0,0"/>
                             <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
                         </StackPanel>
                     </DataGridTextColumn.Header>
