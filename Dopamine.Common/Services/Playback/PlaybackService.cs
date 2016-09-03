@@ -899,7 +899,8 @@ namespace Dopamine.Common.Services.Playback
 
                             while (currentVolume > 0.0)
                             {
-                                this.player.SetVolume(Convert.ToSingle(currentVolume - 0.05));
+                                var volumeToSet = Convert.ToSingle(currentVolume - 0.05 >= 0 ? currentVolume - 0.05 : 0);
+                                this.player.SetVolume(volumeToSet);
                                 currentVolume = this.player.GetVolume();
                                 System.Threading.Thread.Sleep(stepDuration);
                             }
