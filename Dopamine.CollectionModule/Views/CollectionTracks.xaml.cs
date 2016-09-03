@@ -40,7 +40,7 @@ namespace Dopamine.CollectionModule.Views
         #endregion
 
         #region Private
-        private async void DataGridTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             await this.DataGridActionHandler(sender);
         }
