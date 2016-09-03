@@ -54,12 +54,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <controls:DataGridEx.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/DataGridTracks.xaml"/>
-                        <!--<ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ScrollBar.xaml"/>-->
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
+                
             </controls:DataGridEx.Resources>
             <controls:DataGridEx.Columns>
                 <DataGridTextColumn Width="3*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackTitle}" Visibility="Visible">
