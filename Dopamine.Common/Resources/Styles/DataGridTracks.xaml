@@ -6,9 +6,10 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ScrollBar.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
