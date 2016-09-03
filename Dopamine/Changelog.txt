@@ -1,3 +1,9 @@
+2016-09-03: Dopamine 1.1.696.0 (Preview)
+----------------------------------------
+
+- [Fixed] Impossible to play songs with WASAPI exclusive mode enabled
+
+
 2016-09-02: Dopamine 1.1.695.0 (Preview)
 ----------------------------------------
 

@@ -271,7 +271,6 @@ namespace Dopamine.Core.Audio
             }
 
             return waveSource
-                .ChangeSampleRate(32000)
                 .ToSampleSource()
                 .AppendSource(this.Create10BandEqualizer, out this.equalizer)
                 .ToWaveSource();
@@ -422,13 +421,6 @@ namespace Dopamine.Core.Audio
         {
             int sampleRate = source.WaveFormat.SampleRate;
             int channels = source.WaveFormat.Channels;
-
-            if (sampleRate < 32000)
-            {
-                throw new ArgumentException(
-                    "The sample rate of the source must not be less than 32kHz since the 10 band eq includes a 16kHz filter.",
-                    "source");
-            }
 
             var sampleFilters = new[]
             {

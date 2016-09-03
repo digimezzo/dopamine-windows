@@ -259,7 +259,10 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxWasapiExclusiveModeChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
+                // Change the backing field, not the property. Otherwise the confirmation popup is shown when the screen is constructed.
+                this.checkBoxWasapiExclusiveModeChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
+                OnPropertyChanged(() => this.CheckBoxWasapiExclusiveModeChecked);
+
                 this.CheckBoxShowNotificationChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotification");
                 this.CheckBoxShowNotificationControlsChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls");
                 this.CheckBoxShowProgressInTaskbarChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar");
