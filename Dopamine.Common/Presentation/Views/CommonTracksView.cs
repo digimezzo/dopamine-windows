@@ -65,11 +65,9 @@ namespace Dopamine.Common.Presentation.Views
         {
             try
             {
-                DataGrid dg = (DataGrid)sender;
+                DataGridRow row = (DataGridRow)sender;
 
-                if (dg.SelectedItem == null) return;
-
-                await this.playBackService.Enqueue(dg.Items.OfType<TrackInfoViewModel>().ToList().Select(tivm => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)dg.SelectedItem).TrackInfo);
+                await this.playBackService.Enqueue(((TrackInfoViewModel)row.Item).TrackInfo.ToList());
 
             }
             catch (Exception ex)

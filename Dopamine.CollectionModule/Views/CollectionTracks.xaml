@@ -42,7 +42,6 @@
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
         <controls:DataGridEx 
                         x:Name="DataGridTracks" 
-                        MouseDoubleClick="DataGridTracks_MouseDoubleClick"
                         PreviewKeyDown="DataGridTracks_PreviewKeyDown"
                         KeyUp="DataGridTracks_KeyUp"
                         VirtualizingStackPanel.IsVirtualizing="True" 
@@ -54,7 +53,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <controls:DataGridEx.Resources>
-                
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick" />
+                </Style>
             </controls:DataGridEx.Resources>
             <controls:DataGridEx.Columns>
                 <DataGridTextColumn Width="3*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackTitle}" Visibility="Visible">
