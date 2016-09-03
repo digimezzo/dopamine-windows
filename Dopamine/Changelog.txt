@@ -1,4 +1,4 @@
-2016-09-04: Dopamine 1.1.698.0 (Preview)
+2016-09-04: Dopamine 1.1.699.0 (Preview)
 ----------------------------------------
 
 - [Added] Added a shuffle all button
