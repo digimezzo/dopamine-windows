@@ -92,7 +92,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type DataGridRow}">
+    <Style x:Name="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="ContextMenu" Value="{StaticResource DataGridTracksContextMenu}"/>
         <Setter Property="Height" Value="24" />
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
@@ -198,6 +198,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 </ResourceDictionary>

@@ -129,8 +129,8 @@
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="7,0,0,15">
-                    <Button x:Name="AlbumsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
+                    <Button x:Name="AlbumsButton" Margin="12,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
                         <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
@@ -169,6 +169,9 @@
         <dc:MultiPanePanel.RightPaneContent>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
+                    <Button x:Name="ShuffleAllButton" Style="{StaticResource TransparentButton}" Margin="12,3,0,0" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding ShuffleAllCommand}">
+                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20"/>
+                    </Button>
                     <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
