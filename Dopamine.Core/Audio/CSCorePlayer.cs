@@ -270,6 +270,10 @@ namespace Dopamine.Core.Audio
                 waveSource = CodecFactory.Instance.GetCodec(this.filename);
             }
 
+            // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
+            // The samplerate has to be bigger than 2 * frequency.
+            if (waveSource.WaveFormat.SampleRate < 32000) waveSource = waveSource.ChangeSampleRate(32000);
+
             return waveSource
                 .ToSampleSource()
                 .AppendSource(this.Create10BandEqualizer, out this.equalizer)
