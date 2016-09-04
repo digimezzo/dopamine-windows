@@ -4,6 +4,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Utils;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;
@@ -65,10 +66,8 @@ namespace Dopamine.Common.Presentation.Views
         {
             try
             {
-                DataGridRow row = (DataGridRow)sender;
-
-                await this.playBackService.Enqueue(((TrackInfoViewModel)row.Item).TrackInfo.ToList());
-
+                var dg = VisualTreeUtils.FindAncestor<DataGrid>((DataGridRow)sender);
+                await this.playBackService.Enqueue(dg.Items.OfType<TrackInfoViewModel>().ToList().Select(tivm => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)dg.SelectedItem).TrackInfo);
             }
             catch (Exception ex)
             {
