@@ -151,23 +151,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.playbackService.LoopMode = LoopMode.None;
                     break;
             }
-
-            // Loop and Shuffle cannot be enabled at the same time
-            if (this.playbackService.LoopMode != LoopMode.None)
-            {
-                this.playbackService.SetShuffle(false);
-            }
         }
 
         private void SetPlayBackServiceShuffle(bool iShuffle)
         {
             this.playbackService.SetShuffle(iShuffle);
-
-            // Loop and Shuffle cannot be enabled at the same time
-            if (iShuffle)
-            {
-                this.playbackService.LoopMode = LoopMode.None;
-            }
         }
 
         public void GetPlayBackServiceLoop()

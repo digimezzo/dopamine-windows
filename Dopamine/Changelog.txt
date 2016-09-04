@@ -1,3 +1,9 @@
+2016-09-04: Dopamine 1.1.701.0 (Preview)
+----------------------------------------
+
+- [Fixed] Shuffle doesn't perform a loop anymore. It is now possible to manually switch on Loop and Shuffle together.
+
+
 2016-09-04: Dopamine 1.1.700.0 (Preview)
 ----------------------------------------
 
