@@ -510,7 +510,7 @@ namespace Dopamine.Common.Services.Playback
             while (!playSuccess)
             {
                 // We skip maximum 3 times. This prevents an infinite 
-                // loop if mTracks only contains broken Tracks.
+                // loop if shuffledTracks only contains broken Tracks.
                 if (numberSkips < 3)
                 {
                     numberSkips += 1;
@@ -535,7 +535,7 @@ namespace Dopamine.Common.Services.Playback
             while (!playSuccess)
             {
                 // We skip maximum 3 times. This prevents an infinite 
-                // loop if mTracks only contains broken Tracks.
+                // loop if shuffledTracks only contains broken Tracks.
                 if (numberSkips < 3)
                 {
                     numberSkips += 1;
@@ -998,7 +998,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Instance.Logger.Error("Could not stop the Player");
                 }
 
-                LogClient.Instance.Logger.Error("Could not play the file {0}. LoopMode={1}, Shuffle={2}. Exception: {3}. StackTrace: {4}", trackInfo.Path, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackInfo.Path, this.eventMode,this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1035,9 +1035,9 @@ namespace Dopamine.Common.Services.Playback
                             // If we didn't reach the end of the list, try to play the next Track.
                             trackToPlay = this.shuffledTracks[playingTrackIndex + 1];
                         }
-                        else if (this.LoopMode == LoopMode.All | this.shuffle)
+                        else if (this.LoopMode == LoopMode.All)
                         {
-                            // When LoopMode.All or Shuffle is enabled, when we reach the end of the list, start from the beginning.
+                            // When LoopMode.All is enabled, when we reach the end of the list, start from the beginning.
                             trackToPlay = this.shuffledTracks[firstIndex];
                         }
                         else
@@ -1087,9 +1087,9 @@ namespace Dopamine.Common.Services.Playback
                                 // If we didn't reach the start of the list, try to play the previous Track.
                                 trackToPlay = this.shuffledTracks[playingTrackIndex - 1];
                             }
-                            else if (this.LoopMode == LoopMode.All | this.shuffle)
+                            else if (this.LoopMode == LoopMode.All)
                             {
-                                // When LoopMode.All or Shuffle is enabled, when we reach the start of the list, start from the end.
+                                // When LoopMode.All is enabled, when we reach the start of the list, start from the end.
                                 trackToPlay = this.shuffledTracks[lastIndex];
                             }
                             else
