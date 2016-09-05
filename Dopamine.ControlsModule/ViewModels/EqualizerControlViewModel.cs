@@ -53,7 +53,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band0; }
             set
             {
-                SetProperty<double>(ref this.band0, value);
+                SetProperty<double>(ref this.band0, Math.Round( value,1));
                 OnPropertyChanged(() => this.Band0Label);
                 this.ApplyManualPreset();
             }
@@ -69,7 +69,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band1; }
             set
             {
-                SetProperty<double>(ref this.band1, value);
+                SetProperty<double>(ref this.band1, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band1Label);
                 this.ApplyManualPreset();
             }
@@ -85,7 +85,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band2; }
             set
             {
-                SetProperty<double>(ref this.band2, value);
+                SetProperty<double>(ref this.band2, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band2Label);
                 this.ApplyManualPreset();
             }
@@ -101,7 +101,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band3; }
             set
             {
-                SetProperty<double>(ref this.band3, value);
+                SetProperty<double>(ref this.band3, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band3Label);
                 this.ApplyManualPreset();
             }
@@ -117,7 +117,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band4; }
             set
             {
-                SetProperty<double>(ref this.band4, value);
+                SetProperty<double>(ref this.band4, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band4Label);
                 this.ApplyManualPreset();
             }
@@ -133,7 +133,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band5; }
             set
             {
-                SetProperty<double>(ref this.band5, value);
+                SetProperty<double>(ref this.band5, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band5Label);
                 this.ApplyManualPreset();
             }
@@ -149,7 +149,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band6; }
             set
             {
-                SetProperty<double>(ref this.band6, value);
+                SetProperty<double>(ref this.band6, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band6Label);
                 this.ApplyManualPreset();
             }
@@ -165,7 +165,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band7; }
             set
             {
-                SetProperty<double>(ref this.band7, value);
+                SetProperty<double>(ref this.band7, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band7Label);
                 this.ApplyManualPreset();
             }
@@ -181,7 +181,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band8; }
             set
             {
-                SetProperty<double>(ref this.band8, value);
+                SetProperty<double>(ref this.band8, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band8Label);
                 this.ApplyManualPreset();
             }
@@ -197,7 +197,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band9; }
             set
             {
-                SetProperty<double>(ref this.band9, value);
+                SetProperty<double>(ref this.band9, Math.Round(value, 1));
                 OnPropertyChanged(() => this.Band9Label);
                 this.ApplyManualPreset();
             }
