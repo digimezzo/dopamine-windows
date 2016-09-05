@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Dopamine.Core.Audio
@@ -104,7 +105,7 @@ namespace Dopamine.Core.Audio
 
         public string ToValueString()
         {
-            return string.Join(";", this.Bands);
+            return string.Join(";", Array.ConvertAll<double,string>(this.Bands, s => s.ToString(CultureInfo.InvariantCulture)));
         }
         #endregion
 

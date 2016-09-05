@@ -1,3 +1,9 @@
+2016-09-04: Dopamine 1.1.703.0 (Preview)
+----------------------------------------
+
+- [Fixed] Equalizer manual preset values not saved correctly, causing audio to be silent.
+
+
 2016-09-04: Dopamine 1.1.702.0 (Preview)
 ----------------------------------------
 
