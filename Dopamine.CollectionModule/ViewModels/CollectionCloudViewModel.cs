@@ -1,23 +1,28 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Playback;
+using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionCloudViewModel : BindableBase
+    public class CollectionCloudViewModel : BindableBase, INavigationAware
     {
         #region Variables
         private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
+        private IRegionManager regionManager;
 
         private bool hasCloud;
         private AlbumViewModel albumViewModel1;
@@ -133,10 +138,11 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionCloudViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService)
+        public CollectionCloudViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, IRegionManager regionManager)
         {
             this.albumRepository = albumRepository;
             this.playbackService = playbackService;
+            this.regionManager = regionManager;
 
             this.playbackService.TrackStatisticsChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
@@ -222,6 +228,23 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.UpdateAlbumViewModel(14, albums, ref this.albumViewModel14);
                 });
              }
+        }
+        #endregion
+
+        #region INavigationAware
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
         }
         #endregion
     }
