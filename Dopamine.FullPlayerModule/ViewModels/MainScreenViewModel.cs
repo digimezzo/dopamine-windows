@@ -4,6 +4,7 @@ using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System.Linq;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
@@ -13,8 +14,8 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private readonly IRegionManager regionManager;
         private int previousIndex = 0;
         private int subMenuSlideInFrom;
-        private int searchSlideInFrom;
         private int contentSlideInFrom;
+        private bool searchIsVisible = true;
         #endregion
 
         #region Commands
@@ -26,12 +27,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             get { return this.subMenuSlideInFrom; }
             set { SetProperty<int>(ref this.subMenuSlideInFrom, value); }
-        }
-
-        public int SearchSlideInFrom
-        {
-            get { return this.searchSlideInFrom; }
-            set { SetProperty<int>(ref this.searchSlideInFrom, value); }
         }
 
         public int ContentSlideInFrom
@@ -49,7 +44,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.NavigateBetweenMainCommand = new DelegateCommand<string>((index) => this.NavigateBetweenMain(index));
             ApplicationCommands.NavigateBetweenMainCommand.RegisterCommand(this.NavigateBetweenMainCommand);
             this.SubMenuSlideInFrom = 30;
-            this.SearchSlideInFrom = 30;
             this.ContentSlideInFrom = 30;
         }
         #endregion
@@ -68,7 +62,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 return;
 
             this.SubMenuSlideInFrom = index <= this.previousIndex ? 0 : 30;
-            this.SearchSlideInFrom = index <= this.previousIndex ? -30 : 30;
             this.ContentSlideInFrom = index <= this.previousIndex ? -30 : 30;
 
             this.previousIndex = index;
@@ -78,6 +71,8 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 // Settings
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(SettingsModule.Views.Settings).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(SettingsModule.Views.SettingsSubMenu).FullName);
+
+                this.searchIsVisible = this.IsSearchIsVisible();
                 this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else if (index == 3)
@@ -85,6 +80,8 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 // Information
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(InformationModule.Views.Information).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(InformationModule.Views.InformationSubMenu).FullName);
+
+                this.searchIsVisible = this.IsSearchIsVisible();
                 this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else
@@ -92,7 +89,22 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 // Collection
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(CollectionModule.Views.Collection).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(CollectionModule.Views.CollectionSubMenu).FullName);
-                this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+
+                if(this.searchIsVisible) this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+            }
+        }
+
+        private bool IsSearchIsVisible()
+        {
+            var view = this.regionManager.Regions[RegionNames.FullPlayerSearchRegion].ActiveViews.FirstOrDefault();
+
+            if(view != null && view.GetType() == typeof(SearchControl))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         #endregion
