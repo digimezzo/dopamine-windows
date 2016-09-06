@@ -260,6 +260,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 IndexerUtils.CacheArtwork(dummyAlbum, ti.Path);
 
+                ti.AlbumArtworkID = dummyAlbum.ArtworkID;
             }
             catch (Exception ex)
             {
