@@ -1,3 +1,9 @@
+2016-09-06: Dopamine 1.1.705.0 (Preview)
+----------------------------------------
+
+- [Fixed] Album cover not displayed when playing a file from explorer
+
+
 2016-09-05: Dopamine 1.1.704.0 (Preview)
 ----------------------------------------
 
