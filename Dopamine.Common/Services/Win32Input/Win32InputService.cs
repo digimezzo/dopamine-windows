@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows.Interop;
 
 namespace Dopamine.Common.Services.Win32Input
@@ -13,6 +14,19 @@ namespace Dopamine.Common.Services.Win32Input
     /// </summary> 
     public class Win32InputService : IWin32InputService
     {
+        #region Variables
+        private bool canPressMediaKey = true;
+        private Timer canPressMediaKeyTimer = new Timer();
+        #endregion
+
+        #region Constructor
+        public Win32InputService()
+        {
+            canPressMediaKeyTimer.Interval = 250;
+            canPressMediaKeyTimer.Elapsed += CanPressMediaKeyTimer_Elapsed;
+        }
+        #endregion
+
         #region Low-Level Keyboard Hook
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYUP = 0x101;
@@ -58,15 +72,18 @@ namespace Dopamine.Common.Services.Win32Input
 
                 if (vkCode == (int)MediaKey.Next)
                 {
-                    this.MediaKeyNextPressed(this, null);
+                    if(this.canPressMediaKey) this.MediaKeyNextPressed(this, new EventArgs());
+                    this.StartCanPressMediaKeyTimer();
                 }
                 else if (vkCode == (int)MediaKey.Previous)
                 {
-                    this.MediaKeyPreviousPressed(this, null);
+                    if (this.canPressMediaKey) this.MediaKeyPreviousPressed(this, new EventArgs());
+                    this.StartCanPressMediaKeyTimer();
                 }
                 else if (vkCode == (int)MediaKey.Play)
                 {
-                    this.MediaKeyPlayPressed(this, null);
+                    if (this.canPressMediaKey) this.MediaKeyPlayPressed(this, new EventArgs());
+                    this.StartCanPressMediaKeyTimer();
                 }
             }
             return CallNextHookEx(keyboardHookID, code, wParam, lParam);
@@ -156,15 +173,18 @@ namespace Dopamine.Common.Services.Win32Input
                 switch (command)
                 {
                     case Command.APPCOMMAND_MEDIA_NEXTTRACK:
-                        this.MediaKeyNextPressed(this, new EventArgs());
+                        if (this.canPressMediaKey)  this.MediaKeyNextPressed(this, new EventArgs());
+                        this.StartCanPressMediaKeyTimer();
                         break;
                     case Command.APPCOMMAND_MEDIA_PAUSE:
                     case Command.APPCOMMAND_MEDIA_PLAY:
                     case Command.APPCOMMAND_MEDIA_PLAY_PAUSE:
-                        this.MediaKeyPlayPressed(this, new EventArgs());
+                        if (this.canPressMediaKey)  this.MediaKeyPlayPressed(this, new EventArgs());
+                        this.StartCanPressMediaKeyTimer();
                         break;
                     case Command.APPCOMMAND_MEDIA_PREVIOUSTRACK:
-                        this.MediaKeyPreviousPressed(this, new EventArgs());
+                        if (this.canPressMediaKey)  this.MediaKeyPreviousPressed(this, new EventArgs());
+                        this.StartCanPressMediaKeyTimer();
                         break;
                     default:
                         break;
@@ -207,6 +227,20 @@ namespace Dopamine.Common.Services.Win32Input
         {
             this.UnHookLowLevelKeyboardHook();
             this.UnHookAppCommandKeyboardHook();
+        }
+        #endregion
+
+        #region Private
+        private void CanPressMediaKeyTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            canPressMediaKeyTimer.Stop();
+            canPressMediaKey = true;
+        }
+
+        private void StartCanPressMediaKeyTimer()
+        {
+            canPressMediaKey = false;
+            canPressMediaKeyTimer.Start();
         }
         #endregion
     }
