@@ -382,7 +382,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         try
                         {
                             await Task.Run(() => {
-                                string[] lines = this.SelectedPreset.Bands.Select((b) => b.ToString()).ToArray();
+                                string[] lines = this.SelectedPreset.ToStringArray();
                                 System.IO.File.WriteAllLines(dlg.FileName, lines);
                             });
                         }
@@ -429,6 +429,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     });
 
                     XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
+                    this.ApplyManualPreset();
                     this.InitializeAsync();
                 }
                 catch (Exception ex)
