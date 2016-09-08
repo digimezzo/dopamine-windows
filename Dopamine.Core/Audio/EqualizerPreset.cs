@@ -107,12 +107,6 @@ namespace Dopamine.Core.Audio
         {
             return string.Join(";", Array.ConvertAll<double, string>(this.Bands, s => s.ToString(CultureInfo.InvariantCulture)));
         }
-
-        public string[] ToStringArray()
-        {
-            return this.Bands.Select((b) => b.ToString(CultureInfo.InvariantCulture)).ToArray();
-        }
-
         #endregion
 
         #region Overrides
