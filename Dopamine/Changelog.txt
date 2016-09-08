@@ -1,3 +1,10 @@
+2016-09-08: Dopamine 1.1.710.0 (Preview)
+----------------------------------------
+
+- [Changed] Updated Greek translation
+- [Fixed] Custom equalizer presets are saved with incorrect values
+
+
 2016-09-07: Dopamine 1.1.709.0 (Preview)
 ----------------------------------------
 

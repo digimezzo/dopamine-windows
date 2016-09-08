@@ -304,7 +304,7 @@
   <Text Key="Large">Μεγάλο</Text>
   <Text Key="Cloud">Νέφος</Text>
   <Text Key="Showcase">Προσκήνιο</Text>
-  <Text Key="Cloud_Description">Τα πιο παιγμένα άλμπουμ εμφανίζονται εδώ.</Text>
+  <Text Key="Cloud_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά.</Text>
   <Text Key="Dark">Σκούρο</Text>
   <Text Key="Light">Ανοιχτό</Text>
   <Text Key="Components">Τμήματα</Text>
@@ -315,13 +315,13 @@
   <Text Key="Equalizer">Ισοσταθμιστής</Text>
   <Text Key="Enable_Equalizer">Ενεργοποίηση ισοσταθμιστή</Text>
   <Text Key="Reset">Επαναφορά</Text>
-  <Text Key="Manual">Manual</Text>
+  <Text Key="Manual">Προσωπική</Text>
   <Text Key="Save_Equalizer_Preset">Αποθήκευση προεπιλογής ισοσταθμιστή</Text>
   <Text Key="Equalizer_Presets">Προεπιλογές ισοσταθμιστή</Text>
   <Text Key="Preset_Already_Taken">Η προεπιλογή αυτή είναι ήδη δεσμευμένη. Προσπαθήστε ξανά.</Text>
   <Text Key="Error_While_Saving_Preset">Δεν ήταν δυνατή η αποθήκευση της προεπιλογής. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Delete_Preset">Διαγραφή προεπιλογής</Text>
-  <Text Key="Delete_Preset_Confirmation">Είστε σίγουρος για τη διαγραφή της προεπιλογής '%preset%'?</Text>
+  <Text Key="Delete_Preset_Confirmation">Είστε σίγουρος για τη διαγραφή της προεπιλογής '%preset%';</Text>
   <Text Key="Error_While_Deleting_Preset">Δεν ήταν δυνατή η διαγραφή της προεπιλογής. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Exclusive_Mode">Αποκλειστική λειτουργία</Text>
   <Text Key="Exclusive_Mode_Confirmation">Είστε σίγουρος για την ενεργοποίηση αποκλειστικής λειτουργίας; Οι υπόλοιπες εφαρμογές δε θα μπορούν να παράγουν οποιοδήποτε ήχο.</Text>
