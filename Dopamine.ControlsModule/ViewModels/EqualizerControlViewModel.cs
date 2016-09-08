@@ -427,7 +427,6 @@ namespace Dopamine.ControlsModule.ViewModels
                         System.IO.File.Delete(presetPath);
                     });
 
-                    XmlSettingsClient.Instance.Set<string>("Equalizer", "SelectedPreset", Defaults.ManualPresetName);
                     this.ApplyManualPreset();
                     this.InitializeAsync();
                 }
