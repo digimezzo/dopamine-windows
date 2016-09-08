@@ -382,8 +382,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         try
                         {
                             await Task.Run(() => {
-                                string[] lines = this.SelectedPreset.ToStringArray();
-                                System.IO.File.WriteAllLines(dlg.FileName, lines);
+                                System.IO.File.WriteAllLines(dlg.FileName, this.SelectedPreset.ToValueString().Split(';'));
                             });
                         }
                         catch (Exception ex)
