@@ -22,7 +22,7 @@ namespace Dopamine.Core.Audio
             get { return this.bands; }
             set
             {
-                this.bands= value;
+                this.bands = value;
             }
         }
 
@@ -105,8 +105,14 @@ namespace Dopamine.Core.Audio
 
         public string ToValueString()
         {
-            return string.Join(";", Array.ConvertAll<double,string>(this.Bands, s => s.ToString(CultureInfo.InvariantCulture)));
+            return string.Join(";", Array.ConvertAll<double, string>(this.Bands, s => s.ToString(CultureInfo.InvariantCulture)));
         }
+
+        public string[] ToStringArray()
+        {
+            return this.Bands.Select((b) => b.ToString(CultureInfo.InvariantCulture)).ToArray();
+        }
+
         #endregion
 
         #region Overrides
