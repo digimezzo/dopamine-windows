@@ -1,5 +1,12 @@
-2016-09-09: Dopamine 1.1.710.0 (Release)
-----------------------------------------
+2016-09-11: Dopamine 1.1.1 Build 711 (Release)
+----------------------------------------------
+
+- [Changed] Updated the Portuguese translation
+- [Fixed] Dopamine is not running as a 64 bit application on 64 bit systems
+
+
+2016-09-09: Dopamine 1.1 Build 710 (Release)
+--------------------------------------------
 
 - [Changed] Dopamine was translated from VB.NET to C# and is now Open Source Software! Source code: https://github.com/digimezzo/Dopamine
 - [Changed] This version requires .NET Framework 4.6.1
@@ -30,8 +37,8 @@
 - [Fixed] Bluetooth headset play/pause button not detected
 
 
-2016-06-29: Dopamine 1.0.660.0 (Release)
-----------------------------------------
+2016-06-29: Dopamine 1.0 Build 660 (Release)
+--------------------------------------------
 
 - Final 1.0 release!
 - Modern design with dynamic User Interface

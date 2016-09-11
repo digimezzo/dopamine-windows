@@ -44,7 +44,7 @@ namespace Dopamine.Packager
             Console.WriteLine("Packager");
             Console.WriteLine("========");
 
-            Console.WriteLine(Environment.NewLine + "Creating packages for '" + PackagingInformation.GetPackageFileName(this.versionInfo) + "'");
+            Console.WriteLine(Environment.NewLine + "Creating packages for '" + ProductInformation.FormattedAssemblyVersion + "'");
 
             // Clean up the destination directory
             // ----------------------------------
