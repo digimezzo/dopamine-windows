@@ -54,7 +54,14 @@ namespace Dopamine.Core.Base
                 //  {1}: Minor Version,
                 //  {2}: Build Number,
                 //  {3}: Revision
-                return string.Format("{0}.{1} (Build {2})", an.Version.Major, an.Version.Minor, an.Version.Build);
+
+                if(an.Version.Revision != 0) {
+                    return string.Format("{0}.{1}.{2} (Build {3})", an.Version.Major, an.Version.Minor, an.Version.Revision, an.Version.Build);
+                }
+                else
+                {
+                    return string.Format("{0}.{1} (Build {2})", an.Version.Major, an.Version.Minor, an.Version.Build);
+                }
             }
         }
 
