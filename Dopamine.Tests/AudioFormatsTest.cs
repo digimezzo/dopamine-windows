@@ -307,5 +307,45 @@ namespace Dopamine.Tests
             player.Play(audioFile);
             System.Threading.Thread.Sleep(5000);
         }
+
+        [TestMethod()]
+        public void M4aBasicTest()
+        {
+            string audioFile = @"Files\AudioFormatsTest\test.m4a";
+
+            IPlayer player = CSCorePlayer.Instance;
+            player.SetOutputDevice(200, false, false, new EqualizerPreset().Bands);
+            player.SetVolume(0.0f);
+            player.Play(audioFile);
+        }
+
+        [TestMethod()]
+        public void M4aListenTest()
+        {
+            string audioFile = @"Files\AudioFormatsTest\test.m4a";
+
+            IPlayer player = CSCorePlayer.Instance;
+            player.SetOutputDevice(200, false, false, new EqualizerPreset().Bands);
+            player.SetVolume(0.3f);
+            player.Play(audioFile);
+            System.Threading.Thread.Sleep(5000);
+        }
+
+        [TestMethod()]
+        public void M4aSkipTest()
+        {
+            string audioFile = @"Files\AudioFormatsTest\test.m4a";
+
+            IPlayer player = CSCorePlayer.Instance;
+            player.SetOutputDevice(200, false, false, new EqualizerPreset().Bands);
+            player.SetVolume(0.0f);
+            player.Play(audioFile);
+
+            player.Skip(60);
+
+            int currentSeconds = Convert.ToInt32(player.GetCurrentTime().TotalSeconds);
+
+            Assert.IsTrue(currentSeconds == 60);
+        }
     }
 }
