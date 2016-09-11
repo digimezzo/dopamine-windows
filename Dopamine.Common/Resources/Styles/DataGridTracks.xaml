@@ -2,6 +2,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Dopamine.Common.Controls"
     xmlns:prism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+    xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
     xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters">
 
     <ResourceDictionary.MergedDictionaries>
@@ -10,12 +11,18 @@
     </ResourceDictionary.MergedDictionaries>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource RG_WhiteColor}"/>
 
     <ContextMenu x:Key="DataGridTracksContextMenu">
+        <ContextMenu.Resources>
+            <presentationutils:BindingProxy x:Key="ColumnsProxy" Data="{DynamicResource Language_Columns}"/>
+        </ContextMenu.Resources>
+        <MenuItem Header="{Binding Source={StaticResource ColumnsProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" Command="{Binding DataContext.ChooseColumnsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem

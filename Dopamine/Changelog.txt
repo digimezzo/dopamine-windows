@@ -1,3 +1,9 @@
+2016-09-11: Dopamine 1.2 Build 712 (Preview)
+--------------------------------------------
+
+- [Changed] "Columns..." button on Songs screen was moved to right-click menu
+
+
 2016-09-11: Dopamine 1.1.1 Build 711 (Release)
 ----------------------------------------------
 
