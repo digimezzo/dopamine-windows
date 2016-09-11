@@ -11,8 +11,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IAppearanceService appearanceService;
         private double opacity;
-        private long previousAlbumID;
-        private long albumID;
+        private Album previousAlbum;
+        private Album album;
         #endregion
 
         #region Properties
@@ -41,13 +41,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             if (trackInfo != null)
             {
-                this.previousAlbumID = this.albumID;
-                this.albumID = this.playbackService.PlayingTrack.AlbumID;
-
-                if (this.albumID != this.previousAlbumID)
+                this.previousAlbum = this.album;
+                this.album = new Album
                 {
-                    base.ShowCoverArtAsync(trackInfo);
-                }
+                    AlbumArtist = this.playbackService.PlayingTrack.AlbumArtist,
+                    AlbumTitle = this.playbackService.PlayingTrack.AlbumTitle,
+                    Year = this.playbackService.PlayingTrack.AlbumYear,
+                    ArtworkID = this.playbackService.PlayingTrack.AlbumArtworkID,
+                };
+
+                if (this.album != this.previousAlbum) base.ShowCoverArtAsync(trackInfo);
             }
         }
         #endregion
