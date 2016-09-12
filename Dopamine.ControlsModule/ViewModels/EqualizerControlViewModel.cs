@@ -53,7 +53,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.band0; }
             set
             {
-                SetProperty<double>(ref this.band0, Math.Round(value, 1));
+                SetProperty<double>(ref this.band0, Math.Round( value,1));
                 OnPropertyChanged(() => this.Band0Label);
                 this.ApplyManualPreset();
             }
@@ -222,7 +222,6 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
-                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetStringResource("Language_Manual");
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
                 this.SetBandValues();
                 this.ApplySelectedPreset();
@@ -237,7 +236,7 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 SetProperty<bool>(ref this.isEqualizerEnabled, value);
                 this.playbackService.SetIsEqualizerEnabled(value);
-                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled", value);
+                XmlSettingsClient.Instance.Set<bool>("Equalizer", "IsEnabled",value);
             }
         }
         #endregion
@@ -382,8 +381,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
                         try
                         {
-                            await Task.Run(() =>
-                            {
+                            await Task.Run(() => {
                                 System.IO.File.WriteAllLines(dlg.FileName, this.SelectedPreset.ToValueString().Split(';'));
                             });
                         }
@@ -424,8 +422,7 @@ namespace Dopamine.ControlsModule.ViewModels
             {
                 try
                 {
-                    await Task.Run(() =>
-                    {
+                    await Task.Run(() => {
                         string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerSubDirectory, this.SelectedPreset.Name + FileFormats.EQUALIZERPRESET);
                         System.IO.File.Delete(presetPath);
                     });
