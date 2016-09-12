@@ -32,7 +32,6 @@
     </commonviews:CommonTracksView.Resources>
 
     <DockPanel>
-        <Button x:Name="Button_ChooseColumns" Margin="0,15,15,0" Content="{Binding Source={StaticResource ColumnsProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Style="{StaticResource MetroButton}" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Command="{Binding ChooseColumnsCommand}"/>
         <controls:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
