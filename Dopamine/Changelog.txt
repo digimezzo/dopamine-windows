@@ -1,9 +1,3 @@
-2016-09-12: Dopamine 1.1.2 Build 712 (Release)
-----------------------------------------------
-
-- [Changed] Updated Chinese Traditional translation
-- [Fixed] Selected Manual preset is not translated to selected language
-
 2016-09-11: Dopamine 1.1.1 Build 711 (Release)
 ----------------------------------------------
 
