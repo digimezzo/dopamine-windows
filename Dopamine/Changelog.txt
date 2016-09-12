@@ -3,7 +3,7 @@
 
 - [Changed] "Columns..." button on Songs screen was moved to right-click menu
 - [Changed] Updated Chinese Traditional translation
-- [Fixed] Album art not displayed on background of Now playing screen when double-clicking files from explorer
+- [Fixed] Album art now displayed on background of Now playing screen when double-clicking files from explorer
 - [Fixed] Selected Manual preset is not translated to selected language
 
 
