@@ -222,6 +222,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
+                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetStringResource("Language_Manual");
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
                 this.SetBandValues();
                 this.ApplySelectedPreset();
