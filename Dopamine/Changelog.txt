@@ -1,7 +1,8 @@
-2016-09-12: Dopamine 1.1.2 Build 714 (Release)
-----------------------------------------------
+2016-09-12: Dopamine 1.2 Build 715 (Preview)
+--------------------------------------------
 
 - [Changed] "Columns..." button on Songs screen was moved to right-click menu
+- [Changed] Updated the Chinese Traditional translation
 - [Fixed] Album art now displayed on background of Now playing screen when double-clicking files from explorer
 
 
