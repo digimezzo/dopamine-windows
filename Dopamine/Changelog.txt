@@ -3,7 +3,8 @@
 
 - [Changed] "Columns..." button on Songs screen was moved to right-click menu
 - [Changed] Updated the Chinese Traditional translation
-- [Fixed] Album art now displayed on background of Now playing screen when double-clicking files from explorer
+- [Fixed] Album art not displayed on background of Now playing screen when double-clicking files from explorer
+- [Fixed] Manual equalizer preset is not translated when selected
 
 
 2016-09-11: Dopamine 1.1.1 Build 711 (Release)
