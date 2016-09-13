@@ -3,6 +3,8 @@
 
 - [Changed] "Columns..." button on Songs screen was moved to right-click menu
 - [Changed] Updated the Chinese Traditional translation
+- [Changed] Updated the Chinese Simplified translation
+- [Changed] Updated the Spanish translation
 - [Fixed] Album art not displayed on background of Now playing screen when double-clicking files from explorer
 - [Fixed] Manual equalizer preset is not translated when selected
 
