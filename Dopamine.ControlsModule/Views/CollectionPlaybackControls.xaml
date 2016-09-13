@@ -11,6 +11,7 @@
              xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
@@ -25,12 +26,15 @@
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <!-- Time -->
-            <Button Style="{StaticResource TransparentFixedButton}" ToolTip="{DynamicResource Language_Now_Playing}" HorizontalAlignment="Left" Margin="10" Cursor="Hand" Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}">
-                <DockPanel Height="70" Width="300">
-                    <commonviews:CoverArtControl DockPanel.Dock="Left" Width="70" Height="70"/>
-                    <commonviews:PlaybackInfoControl Height="65" Margin="10,0,0,5" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center" ShowTimeInfo="True"/>
-                </DockPanel>
-            </Button>
+            <DockPanel Height="70" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseUp">
+                        <i:InvokeCommandAction Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <commonviews:CoverArtControl DockPanel.Dock="Left" Width="70" Height="70"/>
+                <commonviews:PlaybackInfoControl Height="65" Margin="10,0,0,5" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center" ShowTimeInfo="True"/>
+            </DockPanel>
             <!-- Playback controls -->
             <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
