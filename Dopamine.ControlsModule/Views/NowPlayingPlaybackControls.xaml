@@ -13,7 +13,7 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <DockPanel Height="100">
+    <DockPanel Height="88">
         <!-- Progress slider -->
         <commonviews:ProgressControls DockPanel.Dock="Top"/>
         <Grid Margin="0,-6,0,0">

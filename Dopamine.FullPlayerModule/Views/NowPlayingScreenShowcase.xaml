@@ -84,6 +84,6 @@
                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
             </Border.Effect>
         </Border>
-        <commonviews:PlaybackInfoControl x:Name="PlaybackInfo" Margin="30,0,0,20" VerticalAlignment="Bottom" Height="230" TitleFontSize="20" TitleFontWeight="Light" ArtistFontSize="40" ArtistFontWeight="Light" AlbumFontSize="20" AlbumFontWeight="Light" YearFontSize="20" YearFontWeight="Light" ShowAlbumInfo="True" ShowTimeInfo="False"/>
+        <commonviews:PlaybackInfoControl x:Name="PlaybackInfo" Margin="30,0,0,20" VerticalAlignment="Bottom" Height="230" TitleFontSize="20" TitleFontWeight="Light" ArtistFontSize="40" ArtistFontWeight="Light" AlbumFontSize="20" AlbumFontWeight="Light" YearFontSize="20" YearFontWeight="Light" ShowAlbumInfo="True"/>
     </DockPanel>
 </UserControl>

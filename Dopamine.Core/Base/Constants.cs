@@ -41,11 +41,11 @@
         public static readonly double DefaultShellTop = 50;
         public static readonly double DefaultShellLeft = 50;
         public static readonly double MinShellWidth = 1040;
-        public static readonly double MinShellHeight = 650;
+        public static readonly double MinShellHeight = 640;
 
         // Cover Player
         public static readonly double CoverPlayerWidth = 350;
-        public static readonly double CoverPlayerHeight = 444;
+        public static readonly double CoverPlayerHeight = 432;
 
         // Micro Player
         public static readonly double MicroPlayerWidth = 459;

@@ -19,7 +19,6 @@ namespace Dopamine.Common.Presentation.Views
         public static readonly DependencyProperty YearFontWeightProperty = DependencyProperty.Register("YearFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
         public static readonly DependencyProperty TimeFontSizeProperty = DependencyProperty.Register("TimeFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty ShowAlbumInfoProperty = DependencyProperty.Register("ShowAlbumInfo", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
-        public static readonly DependencyProperty ShowTimeInfoProperty = DependencyProperty.Register("ShowTimeInfo", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
         #endregion
 
         #region Properties
@@ -104,13 +103,6 @@ namespace Dopamine.Common.Presentation.Views
             get { return Convert.ToBoolean(GetValue(ShowAlbumInfoProperty)); }
 
             set { SetValue(ShowAlbumInfoProperty, value); }
-        }
-
-        public bool ShowTimeInfo
-        {
-            get { return Convert.ToBoolean(GetValue(ShowTimeInfoProperty)); }
-
-            set { SetValue(ShowTimeInfoProperty, value); }
         }
         #endregion
 

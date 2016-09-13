@@ -1,7 +1,8 @@
-2016-09-12: Dopamine 1.2 Build 715 (Preview)
+2016-09-13: Dopamine 1.2 Build 715 (Preview)
 --------------------------------------------
 
 - [Changed] "Columns..." button on Songs screen was moved to right-click menu
+- [Changed] Playback controls pane is narrower
 - [Changed] Updated the Chinese Traditional translation
 - [Changed] Updated the Chinese Simplified translation
 - [Changed] Updated the Spanish translation

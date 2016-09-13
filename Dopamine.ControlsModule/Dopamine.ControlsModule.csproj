@@ -115,6 +115,7 @@
     <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
+    <Compile Include="ViewModels\PlaybackControlsViewModelBase.cs" />
     <Compile Include="ViewModels\SearchControlViewModel.cs" />
     <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="ViewModels\SpectrumAnalyzerControlViewModel.cs" />
