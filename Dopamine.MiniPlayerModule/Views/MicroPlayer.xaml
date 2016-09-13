@@ -63,7 +63,7 @@
                 </DockPanel>
             </Grid>
             <DockPanel>
-                <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" ArtistFontSize="22" ArtistFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" ShowTimeInfo="False" />
+                <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" ArtistFontSize="22" ArtistFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Grid>
                     <ContentControl Name="MicroPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerSpectrumAnalyzerRegion}"/>
                     <ContentControl Name="MicroPlayerControlsRegion" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerControlsRegion}"/>

@@ -29,7 +29,7 @@
                     <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                 </Border.Effect>
             </Border>
-            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" TitleFontSize="13" TitleFontWeight="Normal" ArtistFontSize="26" ArtistFontWeight="Light" AlbumFontSize="13" AlbumFontWeight="Normal" YearFontSize="13" YearFontWeight="Normal" ShowAlbumInfo="True" ShowTimeInfo="False"/>
+            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" TitleFontSize="13" TitleFontWeight="Normal" ArtistFontSize="26" ArtistFontWeight="Light" AlbumFontSize="13" AlbumFontWeight="Normal" YearFontSize="13" YearFontWeight="Normal" ShowAlbumInfo="True"/>
         </StackPanel>
         <!-- List -->
         <DockPanel Margin="10,20,0,0">

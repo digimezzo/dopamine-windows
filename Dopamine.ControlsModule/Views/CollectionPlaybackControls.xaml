@@ -15,31 +15,39 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <DockPanel Height="100">
+    <DockPanel Height="88">
         <!-- Progress slider -->
         <commonviews:ProgressControls DockPanel.Dock="Top"/>
         <Grid Margin="0,-6,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <!-- Time -->
-            <DockPanel Height="70" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10">
+            <!-- Playback info -->
+            <DockPanel x:Name="PlaybackInfoPanel" Grid.Column="0" Height="58" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10" SizeChanged="PlaybackInfoPanel_SizeChanged">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
                         <i:InvokeCommandAction Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <commonviews:CoverArtControl DockPanel.Dock="Left" Width="70" Height="70"/>
-                <commonviews:PlaybackInfoControl Height="65" Margin="10,0,0,5" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center" ShowTimeInfo="True"/>
+                <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="58" Height="58"/>
+                <commonviews:PlaybackInfoControl Height="50" Margin="0,0,0,8" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center"/>
             </DockPanel>
+            <!-- Time -->
+            <Border x:Name="TimeBorder" Grid.Column="1" HorizontalAlignment="Stretch" SizeChanged="TimeBorder_SizeChanged">
+                <StackPanel x:Name="TimePanel" DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
+                    <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
+                </StackPanel>
+            </Border>
             <!-- Playback controls -->
-            <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+            <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
             <ToggleButton 
-                Grid.Column="2" 
+                Grid.Column="3" 
                 x:Name="EqualizerButton" 
                 Style="{StaticResource TransparentToggleButton}" 
                 Width="30" 
@@ -54,7 +62,7 @@
                 </ToggleButton.Content>
             </ToggleButton>
             <!-- Volume -->
-            <commonviews:HorizontalVolumeControls Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
+            <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
         </Grid>
     </DockPanel>
 </UserControl>
