@@ -36,9 +36,9 @@
         <Border x:Name="WindowBackground" Panel.ZIndex="0" BorderThickness="0" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <DockPanel Panel.ZIndex="1">
             <!-- Playback information -->
-            <DockPanel x:Name="PlaybackInfoPanel" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="58" Width="260" Margin="10,10,10,15">
-                <commonviews:CoverArtControl DockPanel.Dock="Left" Width="58" Height="58"/>
-                <commonviews:PlaybackInfoControl Height="50" Margin="10,0,0,8" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center"/>
+            <DockPanel x:Name="PlaybackInfoPanel" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="60" Width="260" Margin="10,10,10,15">
+                <commonviews:CoverArtControl DockPanel.Dock="Left" Width="60" Height="60"/>
+                <commonviews:PlaybackInfoControl Height="60" Margin="10,0,0,0" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Bottom"/>
             </DockPanel>
             <StackPanel VerticalAlignment="Bottom">
                 <!-- Volume control -->
