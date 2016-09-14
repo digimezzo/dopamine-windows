@@ -8,6 +8,7 @@
 - [Changed] Updated the Spanish translation
 - [Fixed] Album art not displayed on background of Now playing screen when double-clicking files from explorer
 - [Fixed] Manual equalizer preset is not translated when selected
+- [Fixed] Chinese metadata is garbled
 
 
 2016-09-11: Dopamine 1.1.1 Build 711 (Release)
