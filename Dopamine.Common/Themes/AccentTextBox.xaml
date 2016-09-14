@@ -13,14 +13,14 @@
         <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:AccentTextBox}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}" 
                                              BorderBrush="{TemplateBinding BorderBrush}" 
-                                             Background="{TemplateBinding Background}">
-                        <DockPanel>
+                                             Background="{TemplateBinding Background}"
+                            VerticalAlignment="Stretch">
+                        <DockPanel VerticalAlignment="Stretch">
                             <Border
                                 Background="#00000000"
                                 DockPanel.Dock="Right" 
@@ -35,7 +35,6 @@
                                     Foreground="{TemplateBinding SelectionBrush}"/>
                             </Border>
                             <ScrollViewer x:Name="PART_ContentHost" 
-                                          Height="24" 
                                           Background="{TemplateBinding Background}" 
                                           Foreground="{TemplateBinding Foreground}"/>
                         </DockPanel>
