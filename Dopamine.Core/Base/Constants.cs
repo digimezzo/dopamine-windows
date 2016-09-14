@@ -45,7 +45,7 @@
 
         // Cover Player
         public static readonly double CoverPlayerWidth = 350;
-        public static readonly double CoverPlayerHeight = 432;
+        public static readonly double CoverPlayerHeight = 424;
 
         // Micro Player
         public static readonly double MicroPlayerWidth = 459;

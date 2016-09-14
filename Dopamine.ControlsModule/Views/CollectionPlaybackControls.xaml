@@ -15,7 +15,7 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <DockPanel Height="88">
+    <DockPanel Height="80">
         <!-- Progress slider -->
         <commonviews:ProgressControls DockPanel.Dock="Top"/>
         <Grid Margin="0,-6,0,0">
@@ -27,14 +27,14 @@
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <!-- Playback info -->
-            <DockPanel x:Name="PlaybackInfoPanel" Grid.Column="0" Height="58" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10" SizeChanged="PlaybackInfoPanel_SizeChanged">
+            <DockPanel x:Name="PlaybackInfoPanel" Grid.Column="0" Height="50" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10" SizeChanged="PlaybackInfoPanel_SizeChanged">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
                         <i:InvokeCommandAction Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="58" Height="58"/>
-                <commonviews:PlaybackInfoControl Height="50" Margin="0,0,0,8" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center"/>
+                <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="50" Height="50"/>
+                <commonviews:PlaybackInfoControl Height="45" Margin="0,0,0,5" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center"/>
             </DockPanel>
             <!-- Time -->
             <Border x:Name="TimeBorder" Grid.Column="1" HorizontalAlignment="Stretch" SizeChanged="TimeBorder_SizeChanged">
