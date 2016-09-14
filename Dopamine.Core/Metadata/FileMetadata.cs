@@ -28,6 +28,7 @@ namespace Dopamine.Core.Metadata
         #region Construction
         public FileMetadata(string filePath)
         {
+            ByteVector.UseBrokenLatin1Behavior = true; // Otherwise Latin1 is used as default, which causes characters in various languages being displayed wrong.
             this.file = TagLib.File.Create(filePath);
         }
         #endregion
