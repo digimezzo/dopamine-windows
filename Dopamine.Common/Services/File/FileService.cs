@@ -7,9 +7,10 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -119,7 +120,6 @@ namespace Dopamine.Common.Services.File
                     // Convert the files to tracks
                     foreach (string path in this.files)
                     {
-
                         if (FileFormats.IsSupportedAudioFile(path))
                         {
                             // The file is a supported audio format: add it directly.
@@ -130,6 +130,16 @@ namespace Dopamine.Common.Services.File
                         {
                             // The file is a supported playlist format: process the contents of the playlist file.
                             List<string> audioFilePaths = this.ProcessPlaylistFile(path);
+
+                            foreach (string audioFilePath in audioFilePaths)
+                            {
+                                tracks.Add(IndexerUtils.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
+                            }
+                        }
+                        else if (Directory.Exists(path))
+                        {
+                            // The file is a directory: get the audio files in that directory.
+                            List<string> audioFilePaths = this.ProcessDirectory(path);
 
                             foreach (string audioFilePath in audioFilePaths)
                             {
@@ -158,8 +168,6 @@ namespace Dopamine.Common.Services.File
 
         private List<string> ProcessPlaylistFile(string playlistPath)
         {
-            List<string> paths = new List<string>();
-
             var decoder = new PlaylistDecoder();
             DecodePlaylistResult decodeResult = decoder.DecodePlaylist(playlistPath);
 
@@ -170,6 +178,26 @@ namespace Dopamine.Common.Services.File
 
             return decodeResult.Paths;
         }
+
+        private List<string> ProcessDirectory(string directoryPath)
+        {
+            List<string> paths = new List<string>();
+
+            // Create a queue to hold exceptions that have occurred while scanning the directory tree
+            var recurseExceptions = new ConcurrentQueue<Exception>();
+            FileOperations.TryDirectoryRecursiveGetFiles(directoryPath, paths, FileFormats.SupportedMediaExtensions, recurseExceptions);
+
+            if (recurseExceptions.Count > 0)
+            {
+                foreach (Exception recurseException in recurseExceptions)
+                {
+                    LogClient.Instance.Logger.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
+                }
+            }
+
+            return paths;
+        }
+
         private async Task DeleteFileArtworkFromCacheAsync(string exclude)
         {
             await Task.Run(() =>
