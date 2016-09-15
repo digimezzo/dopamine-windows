@@ -1,3 +1,9 @@
+2016-09-15: Dopamine 1.2 Build 719 (Preview)
+--------------------------------------------
+
+- [Added] Added "Play with Dopamine" to folder context menu
+
+
 2016-09-14: Dopamine 1.2 Build 716 (Preview)
 --------------------------------------------
 

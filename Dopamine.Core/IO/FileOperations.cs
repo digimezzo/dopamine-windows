@@ -9,7 +9,7 @@ namespace Dopamine.Core.IO
 {
     public sealed class FileOperations
     {
-        public static void DirectoryRecursiveGetFiles(string sourcePath, List<string> files, string[] validExtensions, ConcurrentQueue<Exception> exceptions)
+        public static void TryDirectoryRecursiveGetFiles(string sourcePath, List<string> files, string[] validExtensions, ConcurrentQueue<Exception> exceptions)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace Dopamine.Core.IO
                     {
                         try
                         {
-                            DirectoryRecursiveGetFiles(subdirectory, files, validExtensions, exceptions);
+                            TryDirectoryRecursiveGetFiles(subdirectory, files, validExtensions, exceptions);
                         }
                         catch (Exception ex)
                         {

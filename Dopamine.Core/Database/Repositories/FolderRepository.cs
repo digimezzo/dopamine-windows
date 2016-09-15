@@ -151,7 +151,7 @@ namespace Dopamine.Core.Database.Repositories
                             var recurseExceptions = new ConcurrentQueue<Exception>();
 
                             // Get all audio files recursively
-                            FileOperations.DirectoryRecursiveGetFiles(fol.Path, paths, FileFormats.SupportedMediaExtensions, recurseExceptions);
+                            FileOperations.TryDirectoryRecursiveGetFiles(fol.Path, paths, FileFormats.SupportedMediaExtensions, recurseExceptions);
 
                             if (recurseExceptions.Count > 0)
                             {
