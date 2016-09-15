@@ -55,11 +55,11 @@ namespace Dopamine.SettingsModule.ViewModels
             this.providerService = providerService;
             this.dialogService = dialogService;
 
-            this.GetSearchProvidersAsync();
-
             this.AddCommand = new DelegateCommand(() => this.AddSearchProvider()); 
             this.EditCommand = new DelegateCommand(() => { this.EditSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
             this.RemoveCommand = new DelegateCommand(() => { this.RemoveSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
+
+            this.GetSearchProvidersAsync();
 
             this.providerService.SearchProvidersChanged += (_, __) => this.GetSearchProvidersAsync();
         }
