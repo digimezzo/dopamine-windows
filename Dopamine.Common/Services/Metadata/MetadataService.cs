@@ -78,10 +78,14 @@ namespace Dopamine.Common.Services.Metadata
         {
             Track dbTrack = await this.trackRepository.GetTrackAsync(path);
 
-            dbTrack.Rating = rating;
+            // Update datebase track rating only if the track can be found
+            if(dbTrack != null)
+            {
+                dbTrack.Rating = rating;
+                await this.trackRepository.UpdateTrackAsync(dbTrack);
+            }
 
-            await this.trackRepository.UpdateTrackAsync(dbTrack);
-
+            // Update the rating in the file if the user selected this option
             if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
             {
                 // Only for MP3's

@@ -242,6 +242,7 @@ namespace Dopamine.Common.Services.Indexing
                 ti.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
                 ti.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
                 ti.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
+                ti.Rating = fmd.Rating.Value;
 
                 ti.ArtistName = GetFirstArtist(fmd);
 
