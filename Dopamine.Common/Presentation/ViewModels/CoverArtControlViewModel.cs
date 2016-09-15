@@ -1,6 +1,7 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
@@ -19,6 +20,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
         private SlideDirection slideDirection;
+        private Album previousAlbum;
+        private Album album;
         #endregion
 
         #region Properties
@@ -72,12 +75,26 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void ShowCoverArtAsync(TrackInfo trackInfo)
         {
+            // No track selected: clear cover art.
             if (trackInfo == null)
             {
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
                 return;
             }
 
+            this.previousAlbum = this.album;
+            this.album = new Album
+            {
+                AlbumArtist = this.playbackService.PlayingTrack.AlbumArtist,
+                AlbumTitle = this.playbackService.PlayingTrack.AlbumTitle,
+                Year = this.playbackService.PlayingTrack.AlbumYear,
+                ArtworkID = this.playbackService.PlayingTrack.AlbumArtworkID,
+            };
+
+            // The album didn't change: leave the previous covert art.
+            if (this.album.Equals(this.previousAlbum)) return;
+
+            // The album changed: we need to show new cover art.
             string artworkPath = string.Empty;
 
             await Task.Run(() =>

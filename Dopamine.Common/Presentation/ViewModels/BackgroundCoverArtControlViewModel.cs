@@ -11,8 +11,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IAppearanceService appearanceService;
         private double opacity;
-        private Album previousAlbum;
-        private Album album;
         #endregion
 
         #region Properties
@@ -35,25 +33,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
         }
         #endregion
-
-        #region Overrides
-        protected override void ShowCoverArtAsync(TrackInfo trackInfo)
-        {
-            if (trackInfo != null)
-            {
-                this.previousAlbum = this.album;
-                this.album = new Album
-                {
-                    AlbumArtist = this.playbackService.PlayingTrack.AlbumArtist,
-                    AlbumTitle = this.playbackService.PlayingTrack.AlbumTitle,
-                    Year = this.playbackService.PlayingTrack.AlbumYear,
-                    ArtworkID = this.playbackService.PlayingTrack.AlbumArtworkID,
-                };
-
-                if (this.album != this.previousAlbum) base.ShowCoverArtAsync(trackInfo);
-            }
-        }
-        #endregion
     }
-
 }
