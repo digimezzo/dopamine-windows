@@ -419,13 +419,68 @@ namespace Dopamine.Common.Presentation.ViewModels
             OnPropertyChanged(() => this.OrderedByYear);
         }
 
-        protected async Task AddAlbumsToPlaylistAsync(IList<Album> iAlbums, string iPlaylistName)
+        protected async Task AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
-            AddToPlaylistResult result = await this.collectionService.AddAlbumsToPlaylistAsync(iAlbums, iPlaylistName);
+            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
-            if (!result.IsSuccess)
+            // If no playlist is provided, first create one.
+            if (playlistName == null)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Albums_To_Playlist").Replace("%playlistname%", "\"" + iPlaylistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+
+                if (this.dialogService.ShowInputDialog(
+                    0xea37,
+                    16,
+                    ResourceUtils.GetStringResource("Language_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ref responseText))
+                {
+                    playlistName = responseText;
+                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                }
+            }
+
+            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
+            if (playlistName == null) return;
+
+            // Verify if the playlist was added
+            switch (addPlaylistResult)
+            {
+                case AddPlaylistResult.Success:
+                case AddPlaylistResult.Duplicate:
+                    // Add items to playlist
+                    AddToPlaylistResult result = await this.collectionService.AddAlbumsToPlaylistAsync(albums, playlistName);
+
+                    if (!result.IsSuccess)
+                    {
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    }
+                    break;
+                case AddPlaylistResult.Error:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+                    break;
+                case AddPlaylistResult.Blank:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+                    break;
+                default:
+                    // Never happens
+                    break;
             }
         }
 

@@ -332,19 +332,66 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
+            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
-            AddToPlaylistResult result = await this.collectionService.AddArtistsToPlaylistAsync(artists, playlistName);
-
-            if (!result.IsSuccess)
+            // If no playlist is provided, first create one.
+            if (playlistName == null)
             {
-                this.dialogService.ShowNotification(
-                    0xe711,
+                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+
+                if (this.dialogService.ShowInputDialog(
+                    0xea37,
                     16,
-                    ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Adding_Artists_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""),
+                    ResourceUtils.GetStringResource("Language_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
                     ResourceUtils.GetStringResource("Language_Ok"),
-                    true,
-                    ResourceUtils.GetStringResource("Language_Log_File"));
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ref responseText))
+                {
+                    playlistName = responseText;
+                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                }
+            }
+
+            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
+            if (playlistName == null) return;
+
+            // Verify if the playlist was added
+            switch (addPlaylistResult)
+            {
+                case AddPlaylistResult.Success:
+                case AddPlaylistResult.Duplicate:
+                    // Add items to playlist
+                    AddToPlaylistResult result = await this.collectionService.AddArtistsToPlaylistAsync(artists, playlistName);
+
+                    if (!result.IsSuccess)
+                    {
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    }
+                    break;
+                case AddPlaylistResult.Error:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+                    break;
+                case AddPlaylistResult.Blank:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+                    break;
+                default:
+                    // Never happens
+                    break;
             }
         }
 
@@ -475,6 +522,9 @@ namespace Dopamine.CollectionModule.ViewModels
             // Commands
             ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
+            ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
+            ApplicationCommands.AddAlbumsToPlaylistCommand.UnregisterCommand(this.AddAlbumsToPlaylistCommand);
+            ApplicationCommands.AddArtistsToPlaylistCommand.UnregisterCommand(this.AddArtistsToPlaylistCommand);
 
             // Events
             this.eventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
@@ -491,6 +541,9 @@ namespace Dopamine.CollectionModule.ViewModels
             // Commands
             ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
+            ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
+            ApplicationCommands.AddAlbumsToPlaylistCommand.RegisterCommand(this.AddAlbumsToPlaylistCommand);
+            ApplicationCommands.AddArtistsToPlaylistCommand.RegisterCommand(this.AddArtistsToPlaylistCommand);
 
             // Events
             this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
