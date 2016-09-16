@@ -140,7 +140,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.updateService.NewDownloadedVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NewOnlineVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
-            this.updateService.UpdateCheckDisabled += (sender,e) => this.IsUpdateAvailable = false;
+            this.updateService.UpdateCheckDisabled += (_,__) => this.IsUpdateAvailable = false;
 
             if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
             {
