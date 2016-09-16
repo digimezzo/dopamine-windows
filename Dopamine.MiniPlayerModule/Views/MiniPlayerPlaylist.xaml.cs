@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -33,18 +34,7 @@ namespace Dopamine.MiniPlayerModule.Views
         #region Private
         private async void ListBoxTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                ListBox lb = (ListBox)sender;
-
-                if (lb.SelectedItem == null) return;
-
-                await this.playBackService.PlaySelectedAsync(((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
-            }
+            await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, false);
         }
 
         private void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
@@ -65,10 +55,10 @@ namespace Dopamine.MiniPlayerModule.Views
         }
 
         private void ListBoxTracks_PreviewKeyDown(object sender, KeyEventArgs e)
-        { 
-            if( e.Key == Key.Enter)
+        {
+            if (e.Key == Key.Enter)
             {
-                this.ListActionHandler(sender);
+                this.ListActionHandler(sender, e.OriginalSource as DependencyObject, false);
             }
         }
         #endregion

@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using static Digimezzo.WPFControls.MultiSelectListBox;
 
 namespace Dopamine.Common.Presentation.Views
 {
@@ -75,14 +77,34 @@ namespace Dopamine.Common.Presentation.Views
             }
         }
 
-        protected async Task ListActionHandler(Object sender)
+        protected async Task ListActionHandler(Object sender, DependencyObject source, bool enqueue)
         {
             try
             {
+                // Check if an item is selected
                 ListBox lb = (ListBox)sender;
 
                 if (lb.SelectedItem == null) return;
 
+                // Confirm that the user double clicked a valid item (and not on the scrollbar for example)
+                if (source == null) return;
+                
+                while (source != null && !(source is MultiSelectListBoxItem))
+                {
+                    source = VisualTreeHelper.GetParent(source);
+                }
+
+                if (source == null || source.GetType() != typeof(MultiSelectListBoxItem)) return;
+
+                // The user double clicked a valid item
+                if(!enqueue) {
+
+                    // The user just wants to play the selected item. Don't enqueue.
+                    await this.playBackService.PlaySelectedAsync(((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
+                    return;
+                };
+
+                // The user wants to enqueue tracks for the selected item
                 if (lb.SelectedItem.GetType().Name == typeof(TrackInfoViewModel).Name)
                 {
                     await this.playBackService.Enqueue(lb.Items.OfType<TrackInfoViewModel>().ToList().Select((tivm) => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
