@@ -32,5 +32,9 @@ namespace Dopamine.Core.Prism
         public static CompositeCommand SemanticJumpCommand = new CompositeCommand();
         public static CompositeCommand ShowMainWindowCommand = new CompositeCommand();
         public static CompositeCommand ShowEqualizerCommand = new CompositeCommand();
+        public static CompositeCommand AddTracksToPlaylistCommand = new CompositeCommand();
+        public static CompositeCommand AddAlbumsToPlaylistCommand = new CompositeCommand();
+        public static CompositeCommand AddArtistsToPlaylistCommand = new CompositeCommand();
+        public static CompositeCommand AddGenresToPlaylistCommand = new CompositeCommand();
     }
 }

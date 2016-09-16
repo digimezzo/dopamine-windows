@@ -195,6 +195,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             // Commands
             ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
+            ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
         }
 
         protected override void Subscribe()
@@ -204,6 +205,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             // Commands
             ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
+            ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
         }
 
         protected override void RefreshLanguage()
