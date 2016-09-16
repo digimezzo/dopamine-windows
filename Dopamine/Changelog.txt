@@ -1,7 +1,7 @@
 2016-09-16: Dopamine 1.2 Build 724 (Preview)
 --------------------------------------------
 
-- [Added] Added "Play with Dopamine" to folder context menu
+- [Added] Added "Play with Dopamine" to the Windows folder	 context menu
 - [Added] Added "Add to playlist > New playlist..." on the context menu of all screens
 - [Changed] Tweaked switching of cover art on album change
 - [Changed] TWeaked switching of playback information on song change
