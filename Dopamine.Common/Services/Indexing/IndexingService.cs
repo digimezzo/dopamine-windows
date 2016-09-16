@@ -158,27 +158,23 @@ namespace Dopamine.Common.Services.Indexing
             // ------
             if (!artworkOnly)
             {
-                this.eventArgs.IndexingDataChanged = await this.IndexTracksAsync(ignoreRemovedFiles) > 0 ? IndexingDataChanged.Tracks : IndexingDataChanged.None;
+                bool isTracksChanged = await this.IndexTracksAsync(ignoreRemovedFiles) > 0 ? true : false;
 
-                if (this.eventArgs.IndexingDataChanged == IndexingDataChanged.Tracks)
+                if (isTracksChanged)
                 {
                     LogClient.Instance.Logger.Info("Sending event to refresh the lists");
-                    this.IndexingStatusChanged(this.eventArgs);
                     this.RefreshLists(this, new EventArgs());
-                    this.eventArgs.IndexingDataChanged = IndexingDataChanged.None;
                 }
             }
 
             // Artwork
             // -------
-            this.eventArgs.IndexingDataChanged = await this.IndexArtworkAsync(!artworkOnly) > 0 ? IndexingDataChanged.Artwork : IndexingDataChanged.None;
+            bool isArtworkChanged = await this.IndexArtworkAsync(!artworkOnly) > 0 ? true : false;
 
-            if (this.eventArgs.IndexingDataChanged == IndexingDataChanged.Artwork)
+            if (isArtworkChanged)
             {
                 LogClient.Instance.Logger.Info("Sending event to refresh the artwork");
-                this.IndexingStatusChanged(this.eventArgs);
                 this.RefreshArtwork(this, new EventArgs());
-                this.eventArgs.IndexingDataChanged = IndexingDataChanged.None;
             }
 
             // Statistics
@@ -187,7 +183,6 @@ namespace Dopamine.Common.Services.Indexing
 
             this.isIndexing = false;
 
-            this.IndexingStatusChanged(this.eventArgs);
             this.IndexingStopped(this, new EventArgs());
         }
         #endregion
@@ -203,7 +198,6 @@ namespace Dopamine.Common.Services.Indexing
 
             // IndexingEventArgs
             this.eventArgs = new IndexingStatusEventArgs();
-            this.eventArgs.IndexingDataChanged = IndexingDataChanged.None;
             this.eventArgs.IndexingAction = IndexingAction.Idle;
 
             // Get all files on disk which belong to a Collection Folder
@@ -229,32 +223,39 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (var conn = this.factory.GetConnection())
                 {
-                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
-                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
-
-                    long currentDateFileModified = this.allDiskPaths.Select(t => t.Item3).OrderByDescending(t => t).FirstOrDefault();
-                    currentDateFileModified = currentDateFileModified > 0 ? currentDateFileModified : 0;
-
-                    long currentFileCount = this.allDiskPaths.Count;
-
-                    if (lastFileCountStatistic != null)
+                    try
                     {
-                        lastFileCountStatistic.Value = currentFileCount.ToString();
-                        conn.Update(lastFileCountStatistic);
+                        IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
+                        IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
+
+                        long currentDateFileModified = this.allDiskPaths.Select(t => t.Item3).OrderByDescending(t => t).FirstOrDefault();
+                        currentDateFileModified = currentDateFileModified > 0 ? currentDateFileModified : 0;
+
+                        long currentFileCount = this.allDiskPaths.Count;
+
+                        if (lastFileCountStatistic != null)
+                        {
+                            lastFileCountStatistic.Value = currentFileCount.ToString();
+                            conn.Update(lastFileCountStatistic);
+                        }
+                        else
+                        {
+                            conn.Insert(new IndexingStatistic { Key = "LastFileCount", Value = currentFileCount.ToString() });
+                        }
+
+                        if (lastDateFileModifiedStatistic != null)
+                        {
+                            lastDateFileModifiedStatistic.Value = currentDateFileModified.ToString();
+                            conn.Update(lastDateFileModifiedStatistic);
+                        }
+                        else
+                        {
+                            conn.Insert(new IndexingStatistic { Key = "LastDateFileModified", Value = currentDateFileModified.ToString() });
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        conn.Insert(new IndexingStatistic { Key = "LastFileCount", Value = currentFileCount.ToString() });
-                    }
-
-                    if (lastDateFileModifiedStatistic != null)
-                    {
-                        lastDateFileModifiedStatistic.Value = currentDateFileModified.ToString();
-                        conn.Update(lastDateFileModifiedStatistic);
-                    }
-                    else
-                    {
-                        conn.Insert(new IndexingStatistic { Key = "LastDateFileModified", Value = currentDateFileModified.ToString() });
+                        LogClient.Instance.Logger.Info("An error occurred while updating indexing statistics. Exception: {0}", ex.Message);
                     }
                 }
             });
