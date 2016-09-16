@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
 using Prism.Commands;
@@ -15,7 +16,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private int previousIndex = 0;
         private int subMenuSlideInFrom;
         private int contentSlideInFrom;
-        private bool searchIsVisible = true;
         #endregion
 
         #region Commands
@@ -72,7 +72,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(SettingsModule.Views.Settings).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(SettingsModule.Views.SettingsSubMenu).FullName);
 
-                this.searchIsVisible = this.IsSearchIsVisible();
                 this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else if (index == 3)
@@ -81,7 +80,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(InformationModule.Views.Information).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(InformationModule.Views.InformationSubMenu).FullName);
 
-                this.searchIsVisible = this.IsSearchIsVisible();
                 this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else
@@ -90,21 +88,12 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(CollectionModule.Views.Collection).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(CollectionModule.Views.CollectionSubMenu).FullName);
 
-                if(this.searchIsVisible) this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
-            }
-        }
+                var view = this.regionManager.Regions[RegionNames.CollectionContentRegion].ActiveViews.FirstOrDefault();
 
-        private bool IsSearchIsVisible()
-        {
-            var view = this.regionManager.Regions[RegionNames.FullPlayerSearchRegion].ActiveViews.FirstOrDefault();
-
-            if(view != null && view.GetType() == typeof(SearchControl))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
+                if (view != null && view.GetType() != typeof(CollectionCloud))
+                {
+                    this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+                }
             }
         }
         #endregion
