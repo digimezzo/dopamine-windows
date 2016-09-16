@@ -5,6 +5,7 @@
 - [Changed] Tweaked switching of cover art on album change
 - [Changed] TWeaked switching of playback information on song change
 - [Fixed] Rating to MP3 files doesn't work if the file is not in the collection
+- [Fixed] Clicking a scrollbar plays the selected item
 
 
 2016-09-14: Dopamine 1.2 Build 716 (Preview)
