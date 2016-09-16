@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -70,7 +71,7 @@ namespace Dopamine.FullPlayerModule.Views
         {
             if (e.Key == Key.Enter)
             {
-                this.ListActionHandler(sender);
+                this.ListActionHandler(sender, e.OriginalSource as DependencyObject,false);
             }
         }
         #endregion
