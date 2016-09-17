@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Dopamine.Core.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dopamine.Core.IO;
 
 namespace Dopamine.Tests
 {

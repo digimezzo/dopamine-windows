@@ -137,6 +137,7 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="API\Lastfm\LastfmAPI.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Base\FileFormats.cs" />
     <Compile Include="Base\PackagingInformation.cs" />
     <Compile Include="Base\ProductInformation.cs" />
+    <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Base\VersionInfo.cs" />
     <Compile Include="Database\DbCreator.cs" />
