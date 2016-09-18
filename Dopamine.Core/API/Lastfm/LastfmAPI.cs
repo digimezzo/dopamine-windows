@@ -19,7 +19,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns>API method signature</returns>
-        private string GenerateMobileSessionApiSignature(string username, string password)
+        private static string GenerateMobileSessionApiSignature(string username, string password)
         {
             string signatureString = string.Format("api_key{0}methodauth.getMobileSessionpassword{1}username{2}{3}", SensitiveInformation.LastfmApiKey, password, username, SensitiveInformation.LastfmSharedSecret);
             return CryptographyUtils.MD5Hash(signatureString);
@@ -33,7 +33,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns>Session key</returns>
-        public async Task<string> GetMobileSession(string username, string password)
+        public static async Task<string> GetMobileSession(string username, string password)
         {
             string url = Uri.EscapeUriString("https://ws.audioscrobbler.com/2.0/?method=auth.getMobileSession");
 
@@ -41,7 +41,7 @@ namespace Dopamine.Core.API.Lastfm
             data["username"] = username;
             data["password"] = password;
             data["api_key"] = SensitiveInformation.LastfmApiKey;
-            data["api_sig"] = this.GenerateMobileSessionApiSignature(username, password);
+            data["api_sig"] = GenerateMobileSessionApiSignature(username, password);
 
             string result = string.Empty;
 
@@ -73,7 +73,7 @@ namespace Dopamine.Core.API.Lastfm
                 }
                 catch (Exception)
                 {
-                    // Swallow
+                    // Swallow: check for sessionKey.IsNullOrEmpty
                 }
             }
 
