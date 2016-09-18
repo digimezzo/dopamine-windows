@@ -232,6 +232,7 @@
     <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Utils\ArtworkUtils.cs" />
     <Compile Include="Utils\CryptographyUtils.cs" />
+    <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\EnvironmentUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <Compile Include="Utils\ResourceUtils.cs" />
