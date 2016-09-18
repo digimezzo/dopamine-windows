@@ -96,7 +96,6 @@
     <Compile Include="AudioFormatsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlaylistDecoderTest.cs" />
-    <Compile Include="LastfmAPITest.cs" />
     <Compile Include="WasapiTest.cs" />
   </ItemGroup>
   <ItemGroup>
