@@ -337,4 +337,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">在线搜索引擎无法添加。 【名称】和【网站】字段必填，【分隔符】字段可选。</Text>
   <Text Key="Error_Updating_Online_Search_Provider">无法更新在线搜索引擎。 请查看日志文件获得更多信息。</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">无法更新在线搜索引擎。 【名称】和【网站】字段必填，【分隔符】字段可选。</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
+  <Text Key="Sign_In">Sign in</Text>
+  <Text Key="Sign_Out">Sign out</Text>
 </Language>

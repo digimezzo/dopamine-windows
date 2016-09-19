@@ -337,4 +337,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">無法新增搜尋引擎。「名稱」及「網址」不能為空。「分隔符號」是選用。</Text>
   <Text Key="Error_Updating_Online_Search_Provider">無法更新搜尋引擎。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">無法更新搜尋引擎。「名稱」及「網址」不能為空。「分隔符號」是選用。</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
+  <Text Key="Sign_In">Sign in</Text>
+  <Text Key="Sign_Out">Sign out</Text>
 </Language>

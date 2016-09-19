@@ -337,4 +337,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η προσθήκη της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
+  <Text Key="Sign_In">Sign in</Text>
+  <Text Key="Sign_Out">Sign out</Text>
 </Language>

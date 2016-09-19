@@ -27,17 +27,25 @@ namespace Dopamine.Core.API.Lastfm
             if (useHttps) prefix = "https";
 
             string result = string.Empty;
-            string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?method={1}", prefix, method));
 
-            using (var client = new WebClient())
+            try
             {
-                byte[] responseBytes = await client.UploadValuesTaskAsync(url, "POST", data); // UploadValues performs a POST method request
-                result = Encoding.UTF8.GetString(responseBytes);
+                string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?method={1}", prefix, method));
+
+                using (var client = new WebClient())
+                {
+                    byte[] responseBytes = await client.UploadValuesTaskAsync(url, "POST", data); // UploadValues performs a POST method request
+                    result = Encoding.UTF8.GetString(responseBytes);
+                }
+            }
+            catch (Exception)
+            {
+                // Swallow: check for !string.IsNullOrEmpty(result)
             }
 
             return result;
         }
-        
+
         /// <summary>
         /// Constructs an API method signature as described in point 4 on http://www.last.fm/api/mobileauth
         /// </summary>
@@ -110,7 +118,7 @@ namespace Dopamine.Core.API.Lastfm
                 }
                 catch (Exception)
                 {
-                    // Swallow: check for sessionKey.IsNullOrEmpty
+                    // Swallow: check for !string.IsNullOrEmpty(sessionKey)
                 }
             }
 
@@ -125,7 +133,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="timestamp"></param>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static async Task<bool> TrackScrobble(string username, string password, string sessionKey, string artist, string trackTitle, DateTime playbackStartTime)
+        public static async Task<bool> TrackScrobble(string username, string password, string sessionKey, string artist, string trackTitle, string albumTitle, DateTime playbackStartTime)
         {
             bool isScrobbleSuccess = false;
 
@@ -135,6 +143,7 @@ namespace Dopamine.Core.API.Lastfm
 
             data["artist"] = artist;
             data["track"] = trackTitle;
+            if (!string.IsNullOrEmpty(albumTitle)) data["album"] = albumTitle;
             data["timestamp"] = DateTimeUtils.ConvertToUnixTime(playbackStartTime).ToString();
             data["api_key"] = SensitiveInformation.LastfmApiKey;
             data["sk"] = sessionKey;
@@ -173,7 +182,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="timestamp"></param>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static async Task<bool> TrackUpdateNowPlaying(string username, string password, string sessionKey, string artist, string trackTitle)
+        public static async Task<bool> TrackUpdateNowPlaying(string username, string password, string sessionKey, string artist, string trackTitle, string albumTitle)
         {
             bool isUpdateNowPlayingSuccess = false;
 
@@ -183,6 +192,7 @@ namespace Dopamine.Core.API.Lastfm
 
             data["artist"] = artist;
             data["track"] = trackTitle;
+            if(!string.IsNullOrEmpty(albumTitle)) data["album"] = albumTitle;
             data["api_key"] = SensitiveInformation.LastfmApiKey;
             data["sk"] = sessionKey;
 

@@ -23,7 +23,7 @@ namespace Dopamine.Tests
         public async Task UpdateNowPlayingTest()
         {
             string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
-            bool isUpdateNowPlayingSuccess = await LastfmAPI.TrackUpdateNowPlaying(this.username, this.password, sessionKey, "Jetta", "I'd Love to Change the World");
+            bool isUpdateNowPlayingSuccess = await LastfmAPI.TrackUpdateNowPlaying(this.username, this.password, sessionKey, "Jetta", "I'd Love to Change the World", "");
 
             Assert.IsTrue(isUpdateNowPlayingSuccess);
         }
@@ -32,7 +32,7 @@ namespace Dopamine.Tests
         public async Task ScrobbleTest()
         {
             string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
-            bool isScrobbleSuccess = await LastfmAPI.TrackScrobble(this.username, this.password, sessionKey, "Coldplay", "Viva La Vida", DateTime.Now);
+            bool isScrobbleSuccess = await LastfmAPI.TrackScrobble(this.username, this.password, sessionKey, "Coldplay", "Viva La Vida","", DateTime.Now);
 
             Assert.IsTrue(isScrobbleSuccess);
         } 

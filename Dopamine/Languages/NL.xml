@@ -337,4 +337,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">De online search provider kon niet toegevoegd worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">De online search provider kon niet aangepast worden. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">De online search provider kon niet aangepast worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Last.fm scrobbling activeren</Text>
+  <Text Key="Sign_In">Aanmelden</Text>
+  <Text Key="Sign_Out">Afmelden</Text>
 </Language>

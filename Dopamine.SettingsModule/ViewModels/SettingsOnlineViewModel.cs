@@ -1,11 +1,11 @@
 ﻿using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
+using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -17,12 +17,15 @@ namespace Dopamine.SettingsModule.ViewModels
         private IDialogService dialogService;
         private ObservableCollection<SearchProvider> searchProviders;
         private SearchProvider selectedSearchProvider;
+        private IScrobblingService scrobblingService;
         #endregion
 
         #region Commands
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand RemoveCommand { get; set; }
+        public DelegateCommand LastfmSignInCommand { get; set; }
+        public DelegateCommand LastfmSignOutCommand { get; set; }
         #endregion
 
         #region Properties
@@ -46,18 +49,51 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.RemoveCommand.RaiseCanExecuteChanged();
             }
         }
+
+        public bool CheckBoxEnableLastfmChecked
+        {
+            get { return this.scrobblingService.IsEnabled; }
+            set
+            {
+                this.scrobblingService.IsEnabled = value;
+            }
+        }
+
+        public bool IsLastFmSignedIn
+        {
+            get { return this.scrobblingService.IsSignedIn; }
+
+        }
+
+        public string LastFmUsername
+        {
+            get { return this.scrobblingService.Username; }
+            set
+            {
+                this.scrobblingService.Username = value;
+            }
+        }
         #endregion
 
         #region Construction
-        public SettingsOnlineViewModel(IUnityContainer container, IProviderService providerService, IDialogService dialogService)
+        public SettingsOnlineViewModel(IUnityContainer container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService)
         {
             this.container = container;
             this.providerService = providerService;
             this.dialogService = dialogService;
+            this.scrobblingService = scrobblingService;
 
-            this.AddCommand = new DelegateCommand(() => this.AddSearchProvider()); 
+            this.scrobblingService.SignInStateChanged += (isSignedIn) =>
+            {
+                OnPropertyChanged(() => this.IsLastFmSignedIn);
+                OnPropertyChanged(() => this.LastFmUsername);
+            };
+
+            this.AddCommand = new DelegateCommand(() => this.AddSearchProvider());
             this.EditCommand = new DelegateCommand(() => { this.EditSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
             this.RemoveCommand = new DelegateCommand(() => { this.RemoveSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
+            this.LastfmSignInCommand = new DelegateCommand(async () => await this.scrobblingService.SignIn());
+            this.LastfmSignOutCommand = new DelegateCommand(() => this.scrobblingService.SignOut());
 
             this.GetSearchProvidersAsync();
 

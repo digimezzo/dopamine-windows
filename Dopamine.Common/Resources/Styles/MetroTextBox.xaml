@@ -23,4 +23,25 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="MetroPasswordBox" TargetType="{x:Type PasswordBox}">
+        <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                          Height="24" 
+                                          Background="{TemplateBinding Background}" 
+                                          Foreground="{TemplateBinding Foreground}" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

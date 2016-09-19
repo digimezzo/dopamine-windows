@@ -1,12 +1,31 @@
-﻿using System.Windows.Controls;
+﻿using Dopamine.Common.Services.Scrobbling;
+using System.Windows.Controls;
 
 namespace Dopamine.SettingsModule.Views
 {
     public partial class SettingsOnline : UserControl
     {
-        public SettingsOnline()
+        #region Private
+        private IScrobblingService scrobblingService;
+        #endregion
+
+        public SettingsOnline(IScrobblingService scrobblingService)
         {
             InitializeComponent();
+
+            this.scrobblingService = scrobblingService;
+
+            this.scrobblingService.SignInStateChanged += (isSignedIn) =>
+            {
+                if (!isSignedIn) this.PasswordBox.Password = string.Empty;
+            };
+
+            this.PasswordBox.Password = scrobblingService.Password;
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            scrobblingService.Password = this.PasswordBox.Password;
         }
     }
 }

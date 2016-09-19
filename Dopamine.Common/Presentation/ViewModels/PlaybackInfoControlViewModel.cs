@@ -70,6 +70,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private void ShowPlaybackInfoAsync(TrackInfo trackInfo)
         {
+            this.previousTrackInfo = this.trackInfo;
+            
             // No track selected: clear playback info.
             if (trackInfo == null)
             {
@@ -82,10 +84,10 @@ namespace Dopamine.Common.Presentation.ViewModels
                     CurrentTime = string.Empty,
                     TotalTime = string.Empty
                 };
+                this.trackInfo = null;
                 return;
             }
 
-            this.previousTrackInfo = this.trackInfo;
             this.trackInfo = trackInfo;
 
             // The track didn't change: leave the previous playback info.
