@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>55</Value>
+      <Value>56</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -240,6 +240,20 @@
     </Setting>
     <Setting Name="ManualPreset">
       <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Lastfm">
+    <Setting Name="IsEnabled">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="Username">
+      <Value></Value>
+    </Setting>
+    <Setting Name="Password">
+      <Value></Value>
+    </Setting>
+    <Setting Name="Key">
+      <Value></Value>
     </Setting>
   </Namespace>
 </Settings>

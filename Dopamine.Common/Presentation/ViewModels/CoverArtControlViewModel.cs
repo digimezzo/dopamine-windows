@@ -75,14 +75,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void ShowCoverArtAsync(TrackInfo trackInfo)
         {
+            this.previousAlbum = this.album;
+
             // No track selected: clear cover art.
             if (trackInfo == null)
             {
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+                this.album = null;
                 return;
             }
 
-            this.previousAlbum = this.album;
             this.album = new Album
             {
                 AlbumArtist = this.playbackService.PlayingTrack.AlbumArtist,

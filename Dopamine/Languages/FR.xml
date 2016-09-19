@@ -337,4 +337,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être ajouté. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Le fournisseur de recherche en ligne n'a pas pu être modifié. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être modifié. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Activer scrobbling Last.fm</Text>
+  <Text Key="Sign_In">Connecter</Text>
+  <Text Key="Sign_Out">Déconnecter</Text>
 </Language>

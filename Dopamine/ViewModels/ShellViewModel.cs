@@ -4,6 +4,7 @@ using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
@@ -33,6 +34,7 @@ namespace Dopamine.ViewModels
         private ITaskbarService taskbarService;
         private IJumpListService jumpListService;
         private IFileService fileService;
+        private IScrobblingService scrobblingService;
         private bool isOverlayVisible;
         private string playPauseText;
         private ImageSource playPauseIcon;
@@ -76,7 +78,7 @@ namespace Dopamine.ViewModels
         #endregion
 
         #region Construction
-        public ShellViewModel(IUnityContainer container, IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService)
+        public ShellViewModel(IUnityContainer container, IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService, IScrobblingService scrobblingService)
         {
             this.container = container;
             this.regionManager = regionManager;
@@ -86,6 +88,7 @@ namespace Dopamine.ViewModels
             this.taskbarService = taskbarService;
             this.jumpListService = jumpListService;
             this.fileService = fileService;
+            this.scrobblingService = scrobblingService; // Not used here, but needs to be instantiated in the main window to ensure scrobbling is enabled.
 
             // When starting, we're not playing yet
             this.ShowTaskBarItemInfoPause(false);
