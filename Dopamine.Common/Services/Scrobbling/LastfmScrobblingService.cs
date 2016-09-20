@@ -12,6 +12,7 @@ namespace Dopamine.Common.Services.Scrobbling
     {
         #region Private
         private bool isEnabled;
+        private SignInState signInState;
         private string username;
         private string password;
         private string sessionKey;
@@ -21,7 +22,7 @@ namespace Dopamine.Common.Services.Scrobbling
         #endregion
 
         #region Events
-        public event Action<bool> SignInStateChanged = delegate { };
+        public event Action<SignInState> SignInStateChanged = delegate { };
         #endregion
 
         #region Properties
@@ -39,11 +40,16 @@ namespace Dopamine.Common.Services.Scrobbling
             }
         }
 
-        public bool IsSignedIn
+        public SignInState SignInState
         {
             get
             {
-                return !string.IsNullOrEmpty(this.username) & !string.IsNullOrEmpty(this.password) & !string.IsNullOrEmpty(this.sessionKey);
+                return this.signInState;
+            }
+
+            set
+            {
+                this.signInState = value;
             }
         }
 
@@ -86,11 +92,20 @@ namespace Dopamine.Common.Services.Scrobbling
             this.username = XmlSettingsClient.Instance.Get<string>("Lastfm", "Username");
             this.password = XmlSettingsClient.Instance.Get<string>("Lastfm", "Password");
             this.sessionKey = XmlSettingsClient.Instance.Get<string>("Lastfm", "Key");
+
+            if (!string.IsNullOrEmpty(this.username) && !string.IsNullOrEmpty(this.password) && !string.IsNullOrEmpty(this.sessionKey))
+            {
+                this.signInState = SignInState.SignedIn;
+            }
+            else
+            {
+                this.signInState = SignInState.SignedOut;
+            }
         }
 
         private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
-            if (this.IsSignedIn && this.isEnabled)
+            if (this.SignInState == SignInState.SignedIn && this.isEnabled)
             {
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
@@ -123,7 +138,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
         private async void PlaybackService_PlaybackProgressChanged(object sender, EventArgs e)
         {
-            if (this.IsSignedIn && this.isEnabled)
+            if (this.SignInState == SignInState.SignedIn && this.isEnabled)
             {
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
@@ -176,27 +191,26 @@ namespace Dopamine.Common.Services.Scrobbling
                 XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
                 XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", this.sessionKey);
                 LogClient.Instance.Logger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
+                this.SignInState = SignInState.SignedIn;
             }
             else
             {
                 LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm.", this.username);
+                this.SignInState = SignInState.Error;
             }
 
-            this.SignInStateChanged(this.IsSignedIn);
+            this.SignInStateChanged(this.SignInState);
         }
 
         public void SignOut()
         {
-            this.Username = string.Empty;
-            this.Password = string.Empty;
             this.sessionKey = string.Empty;
-
-            XmlSettingsClient.Instance.Set<string>("Lastfm", "Username", this.username);
-            XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
+            XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", string.Empty);
 
             LogClient.Instance.Logger.Info("User '{0}' signed out of Last.fm.", this.username);
+            this.SignInState = SignInState.SignedOut;
 
-            this.SignInStateChanged(this.IsSignedIn);
+            this.SignInStateChanged(this.SignInState);
         }
         #endregion
     }

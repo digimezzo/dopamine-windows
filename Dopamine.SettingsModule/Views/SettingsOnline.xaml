@@ -40,10 +40,10 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsLastFmSignInInProgress,Converter={StaticResource BooleanToCollapsedConverter}}">
-                    <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsLastFmSignInInProgress}"/>
+                <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsLastFmSigningIn,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsLastFmSigningIn}"/>
                 </Viewbox>
-                <StackPanel IsHitTestVisible="{Binding IsLastFmSignInInProgress, Converter={StaticResource InvertingBooleanConverter}}">
+                <StackPanel IsHitTestVisible="{Binding IsLastFmSigningIn, Converter={StaticResource InvertingBooleanConverter}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -60,10 +60,36 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Password"/>
                         <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2" Style="{StaticResource MetroPasswordBox}" PasswordChanged="PasswordBox_PasswordChanged"/>
                     </Grid>
-                    <Grid Margin="0,15,0,0">
-                        <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                        <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                    </Grid>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Grid HorizontalAlignment="Right" Margin="0,0,10,0">
+                            <DockPanel Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
+                                <TextBlock 
+                                x:Name="SuccessIcon"
+                                Text="&#xE8FB;"
+                                Style="{StaticResource SegoeAssets}"
+                                DockPanel.Dock="Left" 
+                                VerticalAlignment="Center" 
+                                Foreground="{DynamicResource RG_AccentBrush}" 
+                                FontSize="14" />
+                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="Signed in" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <DockPanel Visibility="{Binding IsLastFmSignInError, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
+                                <TextBlock 
+                                x:Name="FailureIcon"
+                                Text="&#xE10A;"
+                                Style="{StaticResource SegoeAssets}"
+                                DockPanel.Dock="Left" 
+                                VerticalAlignment="Center" 
+                                Foreground="{DynamicResource RG_AccentBrush}" 
+                                FontSize="14" />
+                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="Sign in failed" VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </Grid>
+                        <Grid>
+                            <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                        </Grid>
+                    </StackPanel>
                     <StackPanel.Style>
                         <Style>
                             <Style.Triggers>

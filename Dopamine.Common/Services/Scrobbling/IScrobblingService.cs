@@ -5,12 +5,12 @@ namespace Dopamine.Common.Services.Scrobbling
 {
     public interface IScrobblingService
     {
-        bool IsSignedIn { get; }
+        SignInState SignInState { get; set; }
         bool IsEnabled { get; set; }
         string Username { get; set; }
         string Password { get; set; }
 
-        event Action<bool> SignInStateChanged;
+        event Action<SignInState> SignInStateChanged;
 
         Task SignIn();
         void SignOut();
