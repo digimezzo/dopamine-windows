@@ -30,28 +30,8 @@
             <Label Style="{StaticResource TitleLabel}" Content="Last.fm" />
             <TextBlock Text="{DynamicResource Language_Enable_Lastfm_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLastfm" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableLastfmChecked}"/>
-            <StackPanel Width="250" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Username"/>
-                    <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource MetroTextBox}" Text="{Binding LastFmUsername}"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Password"/>
-                    <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2" Style="{StaticResource MetroPasswordBox}" PasswordChanged="PasswordBox_PasswordChanged"/>
-                </Grid>
-                <Grid Margin="0,15,0,0" >
-                    <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                    <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                </Grid>
-                <StackPanel.Style>
+            <Grid Width="250" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
+                <Grid.Style>
                     <Style>
                         <Style.Triggers>
                             <Trigger Property="StackPanel.IsHitTestVisible" Value="False">
@@ -59,8 +39,42 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                </StackPanel.Style>
-            </StackPanel>
+                </Grid.Style>
+                <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsLastFmSignInInProgress,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsLastFmSignInInProgress}"/>
+                </Viewbox>
+                <StackPanel IsHitTestVisible="{Binding IsLastFmSignInInProgress, Converter={StaticResource InvertingBooleanConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Username"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource MetroTextBox}" Text="{Binding LastFmUsername}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Password"/>
+                        <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2" Style="{StaticResource MetroPasswordBox}" PasswordChanged="PasswordBox_PasswordChanged"/>
+                    </Grid>
+                    <Grid Margin="0,15,0,0">
+                        <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                        <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                    </Grid>
+                    <StackPanel.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="StackPanel.IsHitTestVisible" Value="False">
+                                    <Setter Property="StackPanel.Opacity" Value="0.5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

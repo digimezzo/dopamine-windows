@@ -18,6 +18,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private ObservableCollection<SearchProvider> searchProviders;
         private SearchProvider selectedSearchProvider;
         private IScrobblingService scrobblingService;
+        private bool isLastFmSignInInProgress;
         #endregion
 
         #region Commands
@@ -73,6 +74,15 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.scrobblingService.Username = value;
             }
         }
+
+        public bool IsLastFmSignInInProgress
+        {
+            get { return this.isLastFmSignInInProgress; }
+            set
+            {
+                SetProperty<bool>(ref this.isLastFmSignInInProgress, value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -85,6 +95,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.scrobblingService.SignInStateChanged += (isSignedIn) =>
             {
+                this.IsLastFmSignInInProgress = false;
                 OnPropertyChanged(() => this.IsLastFmSignedIn);
                 OnPropertyChanged(() => this.LastFmUsername);
             };
@@ -92,7 +103,12 @@ namespace Dopamine.SettingsModule.ViewModels
             this.AddCommand = new DelegateCommand(() => this.AddSearchProvider());
             this.EditCommand = new DelegateCommand(() => { this.EditSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
             this.RemoveCommand = new DelegateCommand(() => { this.RemoveSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
-            this.LastfmSignInCommand = new DelegateCommand(async () => await this.scrobblingService.SignIn());
+            this.LastfmSignInCommand = new DelegateCommand(async () =>
+            {
+                this.IsLastFmSignInInProgress = true;
+                await this.scrobblingService.SignIn();
+
+            });
             this.LastfmSignOutCommand = new DelegateCommand(() => this.scrobblingService.SignOut());
 
             this.GetSearchProvidersAsync();
