@@ -62,8 +62,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public bool IsLastFmSignedIn
         {
-            get { return this.scrobblingService.IsSignedIn; }
-
+            get { return this.scrobblingService.SignInState == SignInState.SignedIn; }
         }
 
         public string LastFmUsername
@@ -75,13 +74,18 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public bool IsLastFmSignInInProgress
+        public bool IsLastFmSigningIn
         {
             get { return this.isLastFmSignInInProgress; }
             set
             {
                 SetProperty<bool>(ref this.isLastFmSignInInProgress, value);
             }
+        }
+
+        public bool IsLastFmSignInError
+        {
+            get { return this.scrobblingService.SignInState == SignInState.Error; }
         }
         #endregion
 
@@ -93,11 +97,12 @@ namespace Dopamine.SettingsModule.ViewModels
             this.dialogService = dialogService;
             this.scrobblingService = scrobblingService;
 
-            this.scrobblingService.SignInStateChanged += (isSignedIn) =>
+            this.scrobblingService.SignInStateChanged += (_) =>
             {
-                this.IsLastFmSignInInProgress = false;
+                this.IsLastFmSigningIn = false;
                 OnPropertyChanged(() => this.IsLastFmSignedIn);
                 OnPropertyChanged(() => this.LastFmUsername);
+                OnPropertyChanged(() => this.IsLastFmSignInError);
             };
 
             this.AddCommand = new DelegateCommand(() => this.AddSearchProvider());
@@ -105,7 +110,7 @@ namespace Dopamine.SettingsModule.ViewModels
             this.RemoveCommand = new DelegateCommand(() => { this.RemoveSearchProvider(); }, () => { return this.SelectedSearchProvider != null; });
             this.LastfmSignInCommand = new DelegateCommand(async () =>
             {
-                this.IsLastFmSignInInProgress = true;
+                this.IsLastFmSigningIn = true;
                 await this.scrobblingService.SignIn();
 
             });

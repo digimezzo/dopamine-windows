@@ -15,10 +15,7 @@ namespace Dopamine.SettingsModule.Views
 
             this.scrobblingService = scrobblingService;
 
-            this.scrobblingService.SignInStateChanged += (isSignedIn) =>
-            {
-                if (!isSignedIn) this.PasswordBox.Password = string.Empty;
-            };
+            this.scrobblingService.SignInStateChanged += (_) => this.PasswordBox.Password = scrobblingService.Password;
 
             this.PasswordBox.Password = scrobblingService.Password;
         }
