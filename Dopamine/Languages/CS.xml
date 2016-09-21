@@ -340,4 +340,6 @@
   <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
   <Text Key="Sign_In">Sign in</Text>
   <Text Key="Sign_Out">Sign out</Text>
+  <Text Key="Signed_In">Signed in</Text>
+  <Text Key="Sign_In_Failed">Sign in failed</Text>
 </Language>

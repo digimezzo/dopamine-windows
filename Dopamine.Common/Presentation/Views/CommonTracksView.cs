@@ -15,7 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static Digimezzo.WPFControls.MultiSelectListBox;
+using Digimezzo.WPFControls;
 
 namespace Dopamine.Common.Presentation.Views
 {
@@ -88,13 +88,13 @@ namespace Dopamine.Common.Presentation.Views
 
                 // Confirm that the user double clicked a valid item (and not on the scrollbar for example)
                 if (source == null) return;
-                
-                while (source != null && !(source is MultiSelectListBoxItem))
+
+                while (source != null && !(source is MultiSelectListBox.MultiSelectListBoxItem))
                 {
                     source = VisualTreeHelper.GetParent(source);
                 }
 
-                if (source == null || source.GetType() != typeof(MultiSelectListBoxItem)) return;
+                if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem)) return;
 
                 // The user double clicked a valid item
                 if(!enqueue) {

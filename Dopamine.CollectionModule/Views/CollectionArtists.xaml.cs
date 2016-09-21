@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using static Digimezzo.WPFControls.MultiSelectListBox;
+using Digimezzo.WPFControls;
 
 namespace Dopamine.CollectionModule.Views
 {
