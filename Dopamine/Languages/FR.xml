@@ -340,4 +340,6 @@
   <Text Key="Enable_Lastfm_Scrobbling">Activer scrobbling Last.fm</Text>
   <Text Key="Sign_In">Connecter</Text>
   <Text Key="Sign_Out">Déconnecter</Text>
+  <Text Key="Signed_In">Connecté</Text>
+  <Text Key="Sign_In_Failed">Connexion échouée</Text>
 </Language>

@@ -30,7 +30,7 @@
             <Label Style="{StaticResource TitleLabel}" Content="Last.fm" />
             <TextBlock Text="{DynamicResource Language_Enable_Lastfm_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLastfm" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableLastfmChecked}"/>
-            <Grid Width="250" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
+            <Grid Width="300" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
                 <Grid.Style>
                     <Style>
                         <Style.Triggers>
@@ -71,7 +71,7 @@
                                 VerticalAlignment="Center" 
                                 Foreground="{DynamicResource RG_AccentBrush}" 
                                 FontSize="14" />
-                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="Signed in" VerticalAlignment="Center"/>
+                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="{DynamicResource Language_Signed_In}" VerticalAlignment="Center"/>
                             </DockPanel>
                             <DockPanel Visibility="{Binding IsLastFmSignInError, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
                                 <TextBlock 
@@ -82,7 +82,7 @@
                                 VerticalAlignment="Center" 
                                 Foreground="{DynamicResource RG_AccentBrush}" 
                                 FontSize="14" />
-                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="Sign in failed" VerticalAlignment="Center"/>
+                                <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource RG_AccentBrush}" Text="{DynamicResource Language_Sign_In_Failed}" VerticalAlignment="Center"/>
                             </DockPanel>
                         </Grid>
                         <Grid>
