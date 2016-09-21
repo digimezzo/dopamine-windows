@@ -34,7 +34,6 @@ namespace Dopamine.Common.Services.Playback
         private bool isPlayingPreviousTrack;
         private bool isSpectrumVisible;
         private IPlayer player;
-        private TrackInfo selectedTrack;
 
         private IEqualizerService equalizerService;
         private EqualizerPreset desiredPreset;
@@ -279,18 +278,6 @@ namespace Dopamine.Common.Services.Playback
         {
             get { return this.player; }
         }
-
-        public TrackInfo SelectedTrack
-        {
-            get
-            {
-                return this.selectedTrack;
-            }
-            set
-            {
-                this.selectedTrack = value;
-            }
-        }
         #endregion
 
         #region Construction
@@ -316,7 +303,7 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
             // Equalizer
-            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
+            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer","IsEnabled"));
 
             // Queued tracks
             this.GetSavedQueuedTracksAsync();
@@ -368,7 +355,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 this.activePreset = desiredPreset;
                 if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
-            }
+            } 
         }
 
         public async Task SaveQueuedTracksAsync()
@@ -446,16 +433,7 @@ namespace Dopamine.Common.Services.Playback
                 if (this.shuffledTracks != null && this.shuffledTracks.Count > 0)
                 {
                     // There are already tracks enqueued. Start playing immediately.
-                    if (this.selectedTrack != null && this.shuffledTracks.Contains(this.selectedTrack))
-                    {
-                        // If there is a selected track, and the selected track is found in the shuffled tracks: play the selected track.
-                        await this.PlaySelectedAsync(this.selectedTrack);
-                    }
-                    else
-                    {
-                        // If there is no selected track, or the selected track is not found in the shuffled tracks: play the first track.
-                        await this.PlayFirstAsync();
-                    }                   
+                    await this.PlayFirstAsync();
                 }
                 else
                 {
@@ -1020,7 +998,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Instance.Logger.Error("Could not stop the Player");
                 }
 
-                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackInfo.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackInfo.Path, this.eventMode,this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }

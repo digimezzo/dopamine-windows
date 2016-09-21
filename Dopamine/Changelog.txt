@@ -1,9 +1,8 @@
-2016-09-21: Dopamine 1.2 Build 727 (Preview)
+2016-09-21: Dopamine 1.2 Build 726 (Preview)
 --------------------------------------------
 
 - [Added] Added Last.fm scrobbling
 - [Fixed] Search field not always visible when coming back from Settings or Information pages
-- [Fixed] Pressing the play button, doesn't play the selected track.
 
 
 2016-09-16: Dopamine 1.2 Build 724 (Preview)

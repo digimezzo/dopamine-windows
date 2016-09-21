@@ -840,12 +840,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (parameter != null)
             {
                 this.SelectedTracks = new List<TrackInfo>();
-                this.playbackService.SelectedTrack = null;
 
                 foreach (TrackInfoViewModel item in (IList)parameter)
                 {
                     this.SelectedTracks.Add(item.TrackInfo);
-                    if (this.playbackService.SelectedTrack == null) this.playbackService.SelectedTrack = item.TrackInfo;
                 }
             }
         }
