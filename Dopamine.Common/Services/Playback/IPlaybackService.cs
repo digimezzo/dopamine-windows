@@ -36,6 +36,7 @@ namespace Dopamine.Common.Services.Playback
         bool EventMode { get; set; }
         bool ExclusiveMode { get; set; }
         bool IsSpectrumVisible { get; set; }
+        TrackInfo SelectedTrack { get; set; }
         #endregion
 
         #region Functions
