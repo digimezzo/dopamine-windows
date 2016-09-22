@@ -15,13 +15,13 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type viewmodels:PlaybackInfoViewModel}">
             <StackPanel VerticalAlignment="Center" Visibility="{Binding Title,Converter={StaticResource StringEmptyToInvisibleConverter}}">
-                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"/>
+                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"/>
                 <StackPanel.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock Text="{Binding Artist}" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Title}"/>
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Artist}"/>
                         </StackPanel>
                     </ToolTip>
                 </StackPanel.ToolTip>

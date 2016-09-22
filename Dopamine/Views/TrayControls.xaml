@@ -38,7 +38,7 @@
             <!-- Playback information -->
             <DockPanel x:Name="PlaybackInfoPanel" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="60" Width="260" Margin="10,10,10,15">
                 <commonviews:CoverArtControl DockPanel.Dock="Left" Width="60" Height="60"/>
-                <commonviews:PlaybackInfoControl Height="60" Margin="10,0,0,0" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Bottom"/>
+                <commonviews:PlaybackInfoControl Height="60" Margin="10,0,0,0" TitleFontSize="22" TitleFontWeight="Light" VerticalAlignment="Bottom"/>
             </DockPanel>
             <StackPanel VerticalAlignment="Bottom">
                 <!-- Volume control -->

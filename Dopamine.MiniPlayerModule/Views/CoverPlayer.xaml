@@ -62,7 +62,7 @@
             </DockPanel>
             <!-- Playback info -->
             <Grid x:Name="PlaybackInfo" Panel.ZIndex="1">
-                <commonviews:CoverPlaybackInfoControl Panel.ZIndex="1" TitleFontSize="16" ArtistFontSize="32" Margin="30,270,30,0"/>
+                <commonviews:CoverPlaybackInfoControl Panel.ZIndex="1" ArtistFontSize="16" TitleFontSize="32" Margin="30,270,30,0"/>
                 <Border Panel.ZIndex="0" VerticalAlignment="Top" Background="{DynamicResource RG_PlaybackInfoGradientBrush}" Width="350" Height="350"/>
                 <Grid.Style>
                     <Style>
