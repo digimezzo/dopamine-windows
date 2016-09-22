@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <!-- Playback info -->
-            <DockPanel x:Name="PlaybackInfoPanel" Grid.Column="0" Height="50" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10,10,0,10">
+            <DockPanel x:Name="PlaybackInfoPanel" Background="#00000000" Grid.Column="0" Height="50" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10,10,0,10">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
                         <i:InvokeCommandAction Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
