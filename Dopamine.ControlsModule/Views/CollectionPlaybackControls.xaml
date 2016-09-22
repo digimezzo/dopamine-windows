@@ -34,7 +34,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="50" Height="50" Margin="0,0,10,0"/>
-                <commonviews:PlaybackInfoControl Height="45" Margin="0,0,0,5" ArtistFontSize="22" ArtistFontWeight="Light" VerticalAlignment="Center"/>
+                <commonviews:PlaybackInfoControl Height="45" Margin="0,0,0,3" TitleFontSize="22" TitleFontWeight="Light" VerticalAlignment="Center"/>
             </DockPanel>
             <!-- Time -->
             <Border x:Name="TimeBorder" Grid.Column="1" HorizontalAlignment="Stretch" SizeChanged="TimeBorder_SizeChanged">
