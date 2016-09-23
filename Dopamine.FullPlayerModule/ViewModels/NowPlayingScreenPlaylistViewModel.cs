@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
-    public class NowPlayingScreenListViewModel : NowPlayingViewModel
+    public class NowPlayingScreenPlaylistViewModel : NowPlayingViewModel
     {
         #region Construction
-        public NowPlayingScreenListViewModel() : base()
+        public NowPlayingScreenPlaylistViewModel() : base()
         {
         }
         #endregion

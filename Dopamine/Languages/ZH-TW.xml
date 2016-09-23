@@ -342,4 +342,5 @@
   <Text Key="Sign_Out">Sign out</Text>
   <Text Key="Signed_In">Signed in</Text>
   <Text Key="Sign_In_Failed">Sign in failed</Text>
+  <Text Key="Artist_Information">Artist information</Text>
 </Language>

@@ -31,7 +31,7 @@
                 <Button x:Name="ShuffleAllButton" Style="{StaticResource TransparentButton}" Margin="12,6,0,0" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding ShuffleAllCommand}">
                     <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="18"/>
                 </Button>
-                <dc:LabelToLower Content="{DynamicResource Language_Now_Playing}" 
+                <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"

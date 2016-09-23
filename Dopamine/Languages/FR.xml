@@ -342,4 +342,5 @@
   <Text Key="Sign_Out">Déconnecter</Text>
   <Text Key="Signed_In">Connecté</Text>
   <Text Key="Sign_In_Failed">Connexion échouée</Text>
+  <Text Key="Artist_Information">Informations de l'artiste</Text>
 </Language>

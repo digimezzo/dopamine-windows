@@ -11,6 +11,7 @@
              xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
              xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel Height="80">
@@ -29,32 +30,76 @@
                 <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
                 <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
             </StackPanel>
-            <!-- Showcase button -->
-            <ToggleButton 
-                Grid.Column="1" 
-                x:Name="ShowcaseButton" 
-                Style="{StaticResource TransparentToggleButton}" 
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <!-- Showcase button -->
+                <controls:IconMenuButton  
+                x:Name="ShowcaseButton"
+                GroupName="NowPlayingScreenButtons"
+                Width="30" 
+                Height="30" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource RG_ForegroundBrush}"
+                AccentForeground="{DynamicResource RG_AccentBrush}"
+                ToolTip="{DynamicResource Language_Showcase}" 
+                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenShowcaseButtonCommand}" 
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
+                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <Grid>
+                        <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </controls:IconMenuButton>
+                <!-- Playlist button -->
+                <controls:IconMenuButton 
+                x:Name="PlaylistButton"
+                GroupName="NowPlayingScreenButtons"
+                IsChecked="True"
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
                 VerticalAlignment="Center" 
-                ToolTip="{DynamicResource Language_Showcase}" 
-                Command="{x:Static coreprism:ApplicationCommands.FullPlayerShowcaseButtonCommand}" 
+                Foreground="{DynamicResource RG_ForegroundBrush}"
+                AccentForeground="{DynamicResource RG_AccentBrush}"
+                ToolTip="{DynamicResource Language_Playlist}" 
+                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenPlaylistButtonCommand}" 
                 CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
-                Visibility="{Binding IsShowcaseAvailable,Converter={StaticResource BooleanToCollapsedConverter}}">
-                <Grid>
-                    <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                    <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </Grid>
-            </ToggleButton>
+                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <Grid>
+                        <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </controls:IconMenuButton>
+                <!-- Artist information button -->
+                <controls:IconMenuButton 
+                x:Name="ArtistInformationButton"
+                GroupName="NowPlayingScreenButtons"
+                Width="30" 
+                Height="30" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource RG_ForegroundBrush}"
+                AccentForeground="{DynamicResource RG_AccentBrush}"
+                ToolTip="{DynamicResource Language_Artist_Information}" 
+                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand}" 
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
+                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <Grid>
+                        <TextBlock Text="&#xE13D;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ArtistInformationButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xE13D;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ArtistInformationButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </controls:IconMenuButton>
+            </StackPanel>
             <!-- Playback controls -->
             <commonviews:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
-            <ToggleButton 
+            <controls:IconMenuButton  
                 Grid.Column="3" 
                 x:Name="EqualizerButton" 
-                Style="{StaticResource TransparentToggleButton}" 
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 
@@ -65,7 +110,7 @@
                 <ToggleButton.Content>
                     <commonviews:EqualizerIcon/>
                 </ToggleButton.Content>
-            </ToggleButton>
+            </controls:IconMenuButton>
             <!-- Volume -->
             <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
         </Grid>

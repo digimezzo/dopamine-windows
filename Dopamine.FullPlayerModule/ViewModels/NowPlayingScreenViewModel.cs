@@ -16,11 +16,16 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private IRegionManager regionManager;
         private SlideDirection slideDirection;
         private IPlaybackService playbackService;
+        private bool isShowCaseVisible;
+        private bool isPlaylistVisible;
+        private bool isArtistInformationVisible;
         #endregion
 
         #region Commands
         public DelegateCommand LoadedCommand { get; set; }
-        public DelegateCommand<bool?> FullPlayerShowcaseButtonCommand { get; set; }
+        public DelegateCommand NowPlayingScreenPlaylistButtonCommand { get; set; }
+        public DelegateCommand NowPlayingScreenShowcaseButtonCommand { get; set; }
+        public DelegateCommand NowPlayingScreenArtistInformationButtonCommand { get; set; }
         #endregion
 
         #region Properties
@@ -43,40 +48,48 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.regionManager = regionManager;
             this.playbackService = playbackService;
 
-            this.playbackService.PlaybackSuccess += (_) => this.SetNowPlaying();
+            this.isPlaylistVisible = true; // default
 
-            this.FullPlayerShowcaseButtonCommand = new DelegateCommand<bool?>(iIsShowcaseButtonChecked =>
-            {
-                this.IsShowcaseButtonChecked = iIsShowcaseButtonChecked.Value;
+            this.NowPlayingScreenShowcaseButtonCommand = new DelegateCommand(() => this.SetShowCase());
+            this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());
+            this.NowPlayingScreenArtistInformationButtonCommand = new DelegateCommand(() => this.SetArtistInformation());
 
-                this.SetNowPlaying();
-            });
-            this.SlideDirection = SlideDirection.LeftToRight;
-            ApplicationCommands.FullPlayerShowcaseButtonCommand.RegisterCommand(this.FullPlayerShowcaseButtonCommand);
+            ApplicationCommands.NowPlayingScreenShowcaseButtonCommand.RegisterCommand(this.NowPlayingScreenShowcaseButtonCommand);
+            ApplicationCommands.NowPlayingScreenPlaylistButtonCommand.RegisterCommand(this.NowPlayingScreenPlaylistButtonCommand);
+            ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand.RegisterCommand(this.NowPlayingScreenArtistInformationButtonCommand);
         }
         #endregion
 
         #region Private
-        private void SetNowPlaying()
+        private void SetShowCase()
         {
-            if (this.playbackService.Queue.Count > 0)
-            {
-                if (this.IsShowcaseButtonChecked)
-                {
-                    this.SlideDirection = SlideDirection.LeftToRight;
-                    this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenShowcase).FullName);
-                }
-                else
-                {
-                    this.SlideDirection = SlideDirection.RightToLeft;
-                    this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenList).FullName);
-                }
-            }
-            else
-            {
-                this.SlideDirection = SlideDirection.RightToLeft;
-                this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NothingPlayingControl).FullName);
-            }
+            this.SlideDirection = SlideDirection.LeftToRight;
+            this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenShowcase).FullName);
+
+            isShowCaseVisible = true;
+            isPlaylistVisible = false;
+            isArtistInformationVisible = false;
+        }
+
+        private void SetPlaylist()
+        {
+            this.SlideDirection = SlideDirection.LeftToRight;
+            if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
+            this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenPlaylist).FullName);
+
+            isShowCaseVisible = false;
+            isPlaylistVisible = true;
+            isArtistInformationVisible = false;
+        }
+
+        private void SetArtistInformation()
+        {
+            this.SlideDirection = SlideDirection.RightToLeft;
+            this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenArtistInformation).FullName);
+
+            isShowCaseVisible = false;
+            isPlaylistVisible = false;
+            isArtistInformationVisible = true;
         }
         #endregion
 
@@ -85,14 +98,25 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             return true;
         }
-     
+
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            this.SetNowPlaying();
+            if (isShowCaseVisible)
+            {
+                this.SetShowCase();
+            }
+            else if (isPlaylistVisible)
+            {
+                this.SetPlaylist();
+            }
+            else if (isArtistInformationVisible)
+            {
+                this.SetArtistInformation();
+            }
         }
         #endregion
     }
