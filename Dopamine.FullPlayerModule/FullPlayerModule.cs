@@ -38,8 +38,10 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenViewModel>(typeof(NowPlayingScreenViewModel).FullName);
             this.container.RegisterType<object, NowPlayingScreenShowcase>(typeof(NowPlayingScreenShowcase).FullName);
             this.container.RegisterType<object, NowPlayingScreenShowcaseViewModel>(typeof(NowPlayingScreenShowcaseViewModel).FullName);
-            this.container.RegisterType<object, NowPlayingScreenList>(typeof(NowPlayingScreenList).FullName);
-            this.container.RegisterType<object, NowPlayingScreenListViewModel>(typeof(NowPlayingScreenListViewModel).FullName);
+            this.container.RegisterType<object, NowPlayingScreenPlaylist>(typeof(NowPlayingScreenPlaylist).FullName);
+            this.container.RegisterType<object, NowPlayingScreenPlaylistViewModel>(typeof(NowPlayingScreenPlaylistViewModel).FullName);
+            this.container.RegisterType<object, NowPlayingScreenArtistInformation>(typeof(NowPlayingScreenArtistInformation).FullName);
+            this.container.RegisterType<object, NowPlayingScreenArtistInformationViewModel>(typeof(NowPlayingScreenArtistInformationViewModel).FullName);
 
             this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.MainScreen));
             this.regionManager.RegisterViewWithRegion(RegionNames.StatusRegion, typeof(Views.Status));

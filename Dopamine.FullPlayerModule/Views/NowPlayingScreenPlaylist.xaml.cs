@@ -12,14 +12,14 @@ using System.Windows.Input;
 
 namespace Dopamine.FullPlayerModule.Views
 {
-    public partial class NowPlayingScreenList : CommonTracksView, INavigationAware
+    public partial class NowPlayingScreenPlaylist : CommonTracksView, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;
         #endregion
 
         #region Construction
-        public NowPlayingScreenList()
+        public NowPlayingScreenPlaylist()
         {
             InitializeComponent();
 

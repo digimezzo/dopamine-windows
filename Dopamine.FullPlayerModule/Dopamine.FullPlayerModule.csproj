@@ -109,10 +109,14 @@
     <Compile Include="ViewModels\FullPlayerViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MainScreenViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenListViewModel.cs" />
+    <Compile Include="ViewModels\NowPlayingScreenArtistInformationViewModel.cs" />
+    <Compile Include="ViewModels\NowPlayingScreenPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenShowcaseViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenViewModel.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />
+    <Compile Include="Views\NowPlayingScreenArtistInformation.xaml.cs">
+      <DependentUpon>NowPlayingScreenArtistInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer.xaml.cs">
       <DependentUpon>FullPlayer.xaml</DependentUpon>
     </Compile>
@@ -125,8 +129,8 @@
     <Compile Include="Views\NowPlayingScreen.xaml.cs">
       <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenList.xaml.cs">
-      <DependentUpon>NowPlayingScreenList.xaml</DependentUpon>
+    <Compile Include="Views\NowPlayingScreenPlaylist.xaml.cs">
+      <DependentUpon>NowPlayingScreenPlaylist.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlayingScreenShowcase.xaml.cs">
       <DependentUpon>NowPlayingScreenShowcase.xaml</DependentUpon>
@@ -176,6 +180,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\NowPlayingScreenArtistInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,7 +200,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NowPlayingScreenList.xaml">
+    <Page Include="Views\NowPlayingScreenPlaylist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

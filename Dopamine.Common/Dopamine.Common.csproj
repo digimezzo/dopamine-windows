@@ -140,6 +140,7 @@
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\IconButton.cs" />
+    <Compile Include="Controls\IconMenuButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ListCheckBox.cs" />
     <Compile Include="Controls\MainMenuButton.cs" />
@@ -631,6 +632,10 @@
     <Page Include="Themes\IconButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\IconMenuButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\IconTextButton.xaml">
       <Generator>MSBuild:Compile</Generator>

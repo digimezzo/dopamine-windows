@@ -16,10 +16,10 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
 
     <StackPanel Orientation="Horizontal">
-        <ToggleButton x:Name="ListButton" Style="{StaticResource TransparentToggleButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Now_Playing}" Command="{x:Static coreprism:ApplicationCommands.MicroPlayerPlaylistButtonCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+        <ToggleButton x:Name="PlaylistButton" Style="{StaticResource TransparentToggleButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Playlist}" Command="{x:Static coreprism:ApplicationCommands.MicroPlayerPlaylistButtonCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
             <Grid>
-                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ListButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ListButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </ToggleButton>
         <commonviews:PlaybackControls Margin="0,0,13,0"/>
