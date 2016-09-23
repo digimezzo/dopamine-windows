@@ -1,3 +1,9 @@
+2016-09-23: Dopamine 1.2 Build 729 (Preview)
+--------------------------------------------
+
+- [Added] Added an Artist information screen
+
+
 2016-09-21: Dopamine 1.2 Build 728 (Preview)
 --------------------------------------------
 
