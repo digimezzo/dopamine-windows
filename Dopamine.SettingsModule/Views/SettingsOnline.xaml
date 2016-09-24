@@ -28,7 +28,7 @@
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="Last.fm" />
-            <TextBlock Text="{DynamicResource Language_Enable_Lastfm_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Enable_Lastfm_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLastfm" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableLastfmChecked}"/>
             <Grid Width="300" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
                 <Grid.Style>
@@ -101,6 +101,9 @@
                     </StackPanel.Style>
                 </StackPanel>
             </Grid>
+            <Separator Height="20" Background="Transparent" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Download_Artist_Information_From_Lastfm}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadArtistInformation" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxDownloadArtistInformationChecked}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

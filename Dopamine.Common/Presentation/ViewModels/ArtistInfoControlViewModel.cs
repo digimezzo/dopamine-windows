@@ -6,6 +6,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
@@ -71,7 +72,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.previousArtist = this.artist;
 
             // No track selected: clear artist info.
-            if (trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
+            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
                 if (this.ArtistInfoViewModel.LfmArtist != null)
                 {
@@ -111,7 +112,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist };
                     }
-
                 }
             }
             catch (Exception ex)

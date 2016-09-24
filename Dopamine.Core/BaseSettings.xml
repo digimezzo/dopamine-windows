@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>56</Value>
+      <Value>57</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -254,6 +254,9 @@
     </Setting>
     <Setting Name="Key">
       <Value></Value>
+    </Setting>
+    <Setting Name="DownloadArtistInformation">
+      <Value>True</Value>
     </Setting>
   </Namespace>
 </Settings>
