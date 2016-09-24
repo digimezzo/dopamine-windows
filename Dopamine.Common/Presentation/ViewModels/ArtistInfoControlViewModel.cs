@@ -74,7 +74,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // No track selected: clear artist info.
             if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
-                if (this.ArtistInfoViewModel.LfmArtist != null)
+                if (this.ArtistInfoViewModel == null | (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null))
                 {
                     // Only change the ArtistInfoViewModel is the previous ArtistInfoViewModel.LfmArtist wasn't null.
                     // That prevents sliding in "Artist information is not available" multiple times
