@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Code="ZH-TW" Name="Chinese (Traditional)" Author="Ronald Chan (陳曦朗)">
+  <Text Key="ISO639-1">ZH</Text>
   <Text Key="Ok">確定</Text>
   <Text Key="Cancel">取消</Text>
   <Text Key="Close">關閉</Text>
@@ -343,4 +344,6 @@
   <Text Key="Signed_In">Signed in</Text>
   <Text Key="Sign_In_Failed">Sign in failed</Text>
   <Text Key="Artist_Information">Artist information</Text>
+  <Text Key="Biography">Biography</Text>
+  <Text Key="Similar">Similar</Text>
 </Language>

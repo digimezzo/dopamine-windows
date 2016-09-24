@@ -77,7 +77,8 @@ namespace Dopamine.Core.API.Lastfm
 
                 using (var client = new WebClient())
                 {
-                    result = await client.DownloadStringTaskAsync(url);
+                    byte[] responseBytes = await client.DownloadDataTaskAsync(url);
+                    result = Encoding.UTF8.GetString(responseBytes);
                 }
             }
             catch (Exception)
@@ -272,13 +273,15 @@ namespace Dopamine.Core.API.Lastfm
         /// </summary>
         /// <param name="artist"></param>
         /// <returns></returns>
-        public static async Task<LastFmArtist> ArtistGetInfo(string artist)
+        public static async Task<LastFmArtist> ArtistGetInfo(string artist, string languageCode)
         {
             string method = "artist.getInfo";
 
             var data = new NameValueCollection();
 
+            if(!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
             data["artist"] = artist;
+            data["autocorrect"] = "1"; // Transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
 
             string result = await PerformGetRequest(method, data, false);

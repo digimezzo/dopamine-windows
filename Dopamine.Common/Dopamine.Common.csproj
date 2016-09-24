@@ -180,6 +180,8 @@
     <Compile Include="Presentation\Utils\SlidingContentControlRegionAdapter.cs" />
     <Compile Include="Presentation\Utils\WindowUtils.cs" />
     <Compile Include="Presentation\ViewModels\AlbumViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ArtistInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\BackgroundCoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CommonAlbumsViewModel.cs" />
@@ -208,6 +210,9 @@
     <Compile Include="Presentation\ViewModels\TrackInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
+    <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
+      <DependentUpon>ArtistInfoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\BackgroundCoverArtControl.xaml.cs">
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
@@ -370,6 +375,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\FullLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\ArtistInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

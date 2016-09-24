@@ -28,8 +28,8 @@
 
     <dc:SlidingContentControl 
         Panel.ZIndex="0" 
-        Width="{Binding ActualWidth,ElementName=CoverArtControl}" 
-        Height="{Binding ActualHeight,ElementName=CoverArtControl}" 
+        Width="{Binding ActualWidth,ElementName=ThisControl}" 
+        Height="{Binding ActualHeight,ElementName=ThisControl}" 
         EasingAmplitude="0" 
         SlideDirection="{Binding SlideDirection}" 
         Content="{Binding CoverArtViewModel}"

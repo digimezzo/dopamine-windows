@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language Code="NL" Name="Dutch" Author="Raphaël Godart">
+  <Text Key="ISO639-1">NL</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Annuleren</Text>
   <Text Key="Close">Sluiten</Text>
@@ -342,5 +343,7 @@
   <Text Key="Sign_Out">Afmelden</Text>
   <Text Key="Signed_In">Aangemeld</Text>
   <Text Key="Sign_In_Failed">Aanmelden gefaald</Text>
-<Text Key="Artist_Information">Artiest informatie</Text>
+  <Text Key="Artist_Information">Artiest informatie</Text>
+  <Text Key="Biography">Biografie</Text>
+  <Text Key="Similar">Gelijkaardig</Text>
 </Language>

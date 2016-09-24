@@ -61,7 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
             };
 
-            // If PlaybackService.PlayingTrackInfo is Nothing, nothing is shown. This is handled in ShowCoverArtAsync.
+            // If PlaybackService.PlayingTrack is null, nothing is shown. This is handled in ShowCoverArtAsync.
             // If it is not nothing, the cover for the currently playing track is shown when this screen is created.
             // If we didn't call this function here, we would have to wait until the next PlaybackService.PlaybackSuccess 
             // before seeing any cover.
