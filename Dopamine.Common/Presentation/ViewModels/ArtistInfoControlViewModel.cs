@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.I18n;
+﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.API.Lastfm;
 using Dopamine.Core.Base;
@@ -19,9 +20,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         private II18nService i18nService;
         private Artist previousArtist;
         private Artist artist;
+        private SlideDirection slideDirection;
         #endregion
 
         #region Properties
+        public SlideDirection SlideDirection
+        {
+            get { return this.slideDirection; }
+            set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
+        }
+
         public ArtistInfoViewModel ArtistInfoViewModel
         {
             get { return this.artistInfoViewModel; }
@@ -37,7 +45,12 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackFailed += (_, __) => this.ShowArtistInfoAsync(null, false);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowArtistInfoAsync(null, false);
-            this.playbackService.PlaybackSuccess += (_) => this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
+            {
+                this.SlideDirection = SlideDirection.LeftToRight;
+                if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.RightToLeft;
+                this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+            };
 
             this.i18nService.LanguageChanged += (_, __) =>
             {
@@ -60,7 +73,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             // No track selected: clear artist info.
             if (trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                if (this.ArtistInfoViewModel.LfmArtist != null)
+                {
+                    // Only change the ArtistInfoViewModel is the previous ArtistInfoViewModel.LfmArtist wasn't null.
+                    // That prevents sliding in "Artist information is not available" multiple times
+                    this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                }
+                
                 this.artist = null;
                 return;
             }

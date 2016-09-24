@@ -343,7 +343,8 @@
   <Text Key="Sign_Out">Déconnecter</Text>
   <Text Key="Signed_In">Connecté</Text>
   <Text Key="Sign_In_Failed">Connexion échouée</Text>
-  <Text Key="Artist_Information">Informations de l'artiste</Text>
+  <Text Key="Artist_Information">Informations sur l'artiste</Text>
   <Text Key="Biography">Biographie</Text>
   <Text Key="Similar">Similaire</Text>
+  <Text Key="Artist_Information_Unavailable">Informations sur l'artiste indisponibles</Text>
 </Language>
