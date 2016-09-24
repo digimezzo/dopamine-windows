@@ -11,6 +11,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool IsArtistInfoAvailable
+        {
+            get { return this.lfmArtist != null; }
+        }
+
         public LastFmArtist LfmArtist
         {
             get { return this.lfmArtist; }
@@ -23,6 +28,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 OnPropertyChanged(() => this.UrlText);
                 OnPropertyChanged(() => this.ArtistName);
                 OnPropertyChanged(() => this.Image);
+                OnPropertyChanged(() => this.IsArtistInfoAvailable);
             }
         }
 
@@ -30,6 +36,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
+                if (this.lfmArtist == null) return string.Empty;
+
                 if (!string.IsNullOrEmpty(this.lfmArtist.ImageMega))
                 {
                     return this.lfmArtist.ImageMega;
@@ -49,7 +57,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 else if (!string.IsNullOrEmpty(this.lfmArtist.ImageSmall))
                 {
                     return this.lfmArtist.ImageSmall;
-                }else
+                }
+                else
                 {
                     return string.Empty;
                 }
@@ -58,20 +67,32 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string ArtistName
         {
-            get { return this.lfmArtist.Name; }
+            get
+            {
+                if (this.lfmArtist == null) return string.Empty;
+
+                return this.lfmArtist.Name;
+            }
         }
 
         public string Url
         {
-            get { return this.lfmArtist.Url; }
+            get
+            {
+                if (this.lfmArtist == null) return string.Empty;
+
+                return this.lfmArtist.Url;
+            }
         }
 
         public string UrlText
         {
             get
             {
+                if (this.Biography == null) return string.Empty;
+
                 Regex regex = new Regex(@"(>.*<\/a>)");
-                Match match = regex.Match(this.lfmArtist.Biography.Content);
+                Match match = regex.Match(this.Biography.Content);
 
                 if (match.Success)
                 {
@@ -88,6 +109,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
+                if (this.lfmArtist == null) return null;
+
                 return this.lfmArtist.Biography;
             }
         }
@@ -96,8 +119,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
+                if (this.Biography == null) return string.Empty;
+
                 // Removes the URL from the Biography content
-                string cleanedBiography = Regex.Replace(this.lfmArtist.Biography.Content, @"(<a.*$)", "").Trim();
+                string cleanedBiography = Regex.Replace(this.Biography.Content, @"(<a.*$)", "").Trim();
                 return cleanedBiography;
             }
         }

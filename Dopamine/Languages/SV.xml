@@ -346,4 +346,5 @@
   <Text Key="Artist_Information">Artist information</Text>
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>
+  <Text Key="Artist_Information_Unavailable">Artist information unavailable</Text>
 </Language>

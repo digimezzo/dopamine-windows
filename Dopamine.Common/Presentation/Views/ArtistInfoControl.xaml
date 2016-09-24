@@ -16,25 +16,35 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:ArtistInfoViewModel}">
-            <DockPanel>
-                <StackPanel>
-                    <Image DockPanel.Dock="Left" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
-                        <Image.Effect>
-                            <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
-                        </Image.Effect>
-                    </Image>
-                    <TextBlock Margin="0,20,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                </StackPanel>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,0,10,0" PanningMode="Both">
-                    <StackPanel Margin="10,0,0,0">
-                        <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
-                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}"/>
-                        <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
-                        <!--<Label Margin="0,20,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Similar}" />
-                        <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}"/>-->
+            <Grid>
+                <TextBlock Panel.ZIndex="0" 
+                   FontWeight="Light" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   FontSize="{x:Static base:Constants.MediumBackgroundFontSize}" 
+                   Foreground="{DynamicResource RG_ForegroundBrush}" 
+                   Text="{DynamicResource Language_Artist_Information_Unavailable}" 
+                   TextWrapping="Wrap" Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                <DockPanel Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <StackPanel>
+                        <Image DockPanel.Dock="Left" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
+                            <Image.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                            </Image.Effect>
+                        </Image>
+                        <TextBlock Margin="0,20,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
-                </ScrollViewer>
-            </DockPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,0,10,0" PanningMode="Both">
+                        <StackPanel Margin="10,0,0,0">
+                            <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
+                            <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}"/>
+                            <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
+                            <!--<Label Margin="0,20,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Similar}" />
+                        <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}"/>-->
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -43,7 +53,7 @@
         Width="{Binding ActualWidth,ElementName=ThisControl}" 
         Height="{Binding ActualHeight,ElementName=ThisControl}" 
         EasingAmplitude="0" 
-        SlideDirection="LeftToRight" 
+        SlideDirection="{Binding SlideDirection}" 
         Content="{Binding ArtistInfoViewModel}"
         SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
 </UserControl>

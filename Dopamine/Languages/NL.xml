@@ -346,4 +346,5 @@
   <Text Key="Artist_Information">Artiest informatie</Text>
   <Text Key="Biography">Biografie</Text>
   <Text Key="Similar">Gelijkaardig</Text>
+  <Text Key="Artist_Information_Unavailable">Artiest informatie niet beschikbaar</Text>
 </Language>
