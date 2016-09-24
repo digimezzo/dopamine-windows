@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language Code="DE" Name="German" Author="Florian Rosmann">
+  <Text Key="ISO639-1">DE</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Abbrechen</Text>
   <Text Key="Close">Schließen</Text>
@@ -343,4 +344,6 @@
   <Text Key="Signed_In">Signed in</Text>
   <Text Key="Sign_In_Failed">Sign in failed</Text>
   <Text Key="Artist_Information">Artist information</Text>
+  <Text Key="Biography">Biography</Text>
+  <Text Key="Similar">Similar</Text>
 </Language>

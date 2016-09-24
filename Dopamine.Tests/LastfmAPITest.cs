@@ -1,4 +1,5 @@
 ﻿using Dopamine.Core.API.Lastfm;
+using Dopamine.Core.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task ArtistGetInfoTest()
         {
-            LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo("Coldplay");
+            LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo("Coldplay", string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmArtist.Name) & !string.IsNullOrEmpty(lfmArtist.Url));
         }

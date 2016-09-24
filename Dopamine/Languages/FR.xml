@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language Code="FR" Name="French" Author="Anthony Jonas">
+  <Text Key="ISO639-1">FR</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Annuler</Text>
   <Text Key="Close">Fermer</Text>
@@ -343,4 +344,6 @@
   <Text Key="Signed_In">Connecté</Text>
   <Text Key="Sign_In_Failed">Connexion échouée</Text>
   <Text Key="Artist_Information">Informations de l'artiste</Text>
+  <Text Key="Biography">Biographie</Text>
+  <Text Key="Similar">Similaire</Text>
 </Language>

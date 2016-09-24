@@ -131,8 +131,8 @@
             <Component Id="TR.xml" DiskId="1" Guid="bced21fb-06b2-4a00-ba7a-eaa46ccf5d24">
               <File Id="TR.xml" Name="TR.xml" Source="Languages\TR.xml" />
             </Component>
-            <Component Id="UA.xml" DiskId="1" Guid="ded6f719-c2cd-473d-b0ac-255d1d6816f9">
-              <File Id="UA.xml" Name="UA.xml" Source="Languages\UA.xml" />
+            <Component Id="UK.xml" DiskId="1" Guid="ded6f719-c2cd-473d-b0ac-255d1d6816f9">
+              <File Id="UK.xml" Name="UK.xml" Source="Languages\UK.xml" />
             </Component>
             <Component Id="ZH_CN.xml" DiskId="1" Guid="7e49c00f-0f37-48a7-b848-ee969c4caab8">
               <File Id="ZH_CN.xml" Name="ZH-CN.xml" Source="Languages\ZH-CN.xml" />
@@ -466,7 +466,7 @@
       <ComponentRef Id="RU.xml" />
       <ComponentRef Id="SV.xml" />
       <ComponentRef Id="TR.xml" />
-      <ComponentRef Id="UA.xml" />
+      <ComponentRef Id="UK.xml" />
       <ComponentRef Id="ZH_CN.xml" />
       <ComponentRef Id="ZH_TW.xml" />
       <!-- 3rd party licenses -->

@@ -347,7 +347,7 @@
     <Content Include="Languages\TR.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Languages\UA.xml">
+    <Content Include="Languages\UK.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Languages\ZH-CN.xml">
