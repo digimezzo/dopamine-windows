@@ -1,6 +1,7 @@
 ﻿using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.API.Lastfm;
+using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
@@ -57,7 +58,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.previousArtist = this.artist;
 
             // No track selected: clear artist info.
-            if (trackInfo == null)
+            if (trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
                 this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
                 this.artist = null;

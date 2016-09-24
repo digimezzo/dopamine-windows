@@ -18,7 +18,7 @@
         <DataTemplate DataType="{x:Type commonviewmodels:ArtistInfoViewModel}">
             <DockPanel>
                 <StackPanel>
-                    <Image DockPanel.Dock="Left" MaxWidth="250" Source="{Binding Image}">
+                    <Image DockPanel.Dock="Left" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
                         <Image.Effect>
                             <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                         </Image.Effect>
