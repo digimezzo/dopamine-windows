@@ -27,12 +27,12 @@
                    TextWrapping="Wrap" Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                 <DockPanel Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource BooleanToCollapsedConverter}}">
                     <StackPanel>
-                        <Image DockPanel.Dock="Left" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
+                        <Image DockPanel.Dock="Left" Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image, IsAsync=True}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                             </Image.Effect>
                         </Image>
-                        <TextBlock Margin="0,20,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,0,10,0" PanningMode="Both">
                         <StackPanel Margin="10,0,0,0">

@@ -347,4 +347,5 @@
   <Text Key="Biography">Biografie</Text>
   <Text Key="Similar">Gelijkaardig</Text>
   <Text Key="Artist_Information_Unavailable">Artiest informatie niet beschikbaar</Text>
+  <Text Key="Download_Artist_Information_From_Lastfm">Download artiest informatie van Last.fm</Text>
 </Language>

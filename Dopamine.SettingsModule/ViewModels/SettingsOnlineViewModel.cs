@@ -1,11 +1,13 @@
 ﻿using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
+using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -19,6 +21,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private SearchProvider selectedSearchProvider;
         private IScrobblingService scrobblingService;
         private bool isLastFmSignInInProgress;
+        private bool checkBoxDownloadArtistInformationChecked;
         #endregion
 
         #region Commands
@@ -57,6 +60,16 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 this.scrobblingService.IsEnabled = value;
+            }
+        }
+
+        public bool CheckBoxDownloadArtistInformationChecked
+        {
+            get { return this.checkBoxDownloadArtistInformationChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Lastfm", "DownloadArtistInformation", value);
+                SetProperty<bool>(ref this.checkBoxDownloadArtistInformationChecked, value);
             }
         }
 
@@ -119,6 +132,8 @@ namespace Dopamine.SettingsModule.ViewModels
             this.GetSearchProvidersAsync();
 
             this.providerService.SearchProvidersChanged += (_, __) => this.GetSearchProvidersAsync();
+
+            this.GetCheckBoxesAsync();
         }
         #endregion
 
@@ -196,6 +211,14 @@ namespace Dopamine.SettingsModule.ViewModels
                         ResourceUtils.GetStringResource("Language_Log_File"));
                 }
             }
+        }
+
+        private async void GetCheckBoxesAsync()
+        {
+            await Task.Run(() =>
+            {
+                this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
+            });
         }
         #endregion
     }
