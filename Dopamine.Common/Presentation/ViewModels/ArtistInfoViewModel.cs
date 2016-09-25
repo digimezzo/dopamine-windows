@@ -1,6 +1,7 @@
 ﻿using Dopamine.Core.API.Lastfm;
 using Prism.Mvvm;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -8,9 +9,16 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private LastFmArtist lfmArtist;
+        private ObservableCollection<SimilarArtistViewModel> similarArtists;
         #endregion
 
         #region Properties
+        public ObservableCollection<SimilarArtistViewModel> SimilarArtists
+        {
+            get { return this.similarArtists; }
+            set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
+        }
+
         public bool IsArtistInfoAvailable
         {
             get { return this.lfmArtist != null; }
@@ -22,6 +30,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<LastFmArtist>(ref this.lfmArtist, value);
+
+                this.FillSimilarArtists();
+
                 OnPropertyChanged(() => this.Biography);
                 OnPropertyChanged(() => this.Url);
                 OnPropertyChanged(() => this.CleanedBiographyContent);
@@ -29,6 +40,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 OnPropertyChanged(() => this.ArtistName);
                 OnPropertyChanged(() => this.Image);
                 OnPropertyChanged(() => this.IsArtistInfoAvailable);
+                OnPropertyChanged(() => this.SimilarArtists);
             }
         }
 
@@ -124,6 +136,24 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Removes the URL from the Biography content
                 string cleanedBiography = Regex.Replace(this.Biography.Content, @"(<a.*$)", "").Trim();
                 return cleanedBiography;
+            }
+        }
+        #endregion
+
+        #region Private
+        private void FillSimilarArtists()
+        {
+            if (lfmArtist.SimilarArtists != null && lfmArtist.SimilarArtists.Count > 0)
+            {
+
+                var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
+
+                foreach (LastFmArtist similarArtist in lfmArtist.SimilarArtists)
+                {
+                    localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url });
+                }
+
+                this.SimilarArtists = localSimilarArtists;
             }
         }
         #endregion

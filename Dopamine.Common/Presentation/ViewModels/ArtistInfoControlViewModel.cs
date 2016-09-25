@@ -10,6 +10,7 @@ using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -110,7 +111,13 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     if (lfmArtist != null)
                     {
-                        this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist };
+                        ArtistInfoViewModel localArtistInfoViewModel = null;
+
+                        await Task.Run(() => {
+                            localArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist };
+                        });
+
+                        this.ArtistInfoViewModel = localArtistInfoViewModel;
                     }
                 }
             }
