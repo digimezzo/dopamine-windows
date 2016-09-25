@@ -23,7 +23,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Height="24" Background="{DynamicResource RG_AccentBrush}" Cursor="Hand" CornerRadius="12,0,12,12">
+                                            <Border Height="22" Background="{DynamicResource RG_AccentBrush}" Cursor="Hand" CornerRadius="11,0,11,11">
                                                 <TextBlock Text="{Binding Name}" Foreground="{DynamicResource RG_WhiteBrush}" Padding="10,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
