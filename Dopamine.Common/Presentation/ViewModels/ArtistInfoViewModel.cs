@@ -143,7 +143,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private void FillSimilarArtists()
         {
-            if (lfmArtist.SimilarArtists != null && lfmArtist.SimilarArtists.Count > 0)
+            if (lfmArtist != null && lfmArtist.SimilarArtists != null && lfmArtist.SimilarArtists.Count > 0)
             {
 
                 var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();

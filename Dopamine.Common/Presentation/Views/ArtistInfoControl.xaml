@@ -34,7 +34,7 @@
                         </Image>
                         <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,0,10,0" PanningMode="Both">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,10,10,0" PanningMode="Both">
                         <StackPanel Margin="10,0,0,0">
                             <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
                             <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}"/>
