@@ -207,6 +207,7 @@
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\TrackInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
@@ -521,6 +522,10 @@
     <Page Include="Resources\Styles\ListBoxSemanticZoom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxSimilarArtists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\ListBoxTracks.xaml">
       <Generator>MSBuild:Compile</Generator>
