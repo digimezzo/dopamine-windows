@@ -13,7 +13,7 @@
     <!-- Shared -->
     <Style x:Key="ListBoxSimilarArtistsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="0,5,10,5" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
