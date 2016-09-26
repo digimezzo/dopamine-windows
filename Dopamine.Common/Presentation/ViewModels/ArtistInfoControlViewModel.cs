@@ -72,16 +72,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.previousArtist = this.artist;
 
-            // No track selected: clear artist info.
+            // User doesn't want to download artist info, or no track is selected, or artist name is unknown: clear artist info.
             if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
-                if (this.ArtistInfoViewModel == null | (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null))
+                // This prevents the "Artist information is not available" text from sliding in
+                // multiple times if consecutive artists are unknown.
+                if (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null)
                 {
-                    // Only change the ArtistInfoViewModel is the previous ArtistInfoViewModel.LfmArtist wasn't null.
-                    // That prevents sliding in "Artist information is not available" multiple times
                     this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
                 }
-                
+
                 this.artist = null;
                 return;
             }
@@ -112,11 +112,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (lfmArtist != null)
                     {
                         ArtistInfoViewModel localArtistInfoViewModel = null;
-
-                        await Task.Run(() => {
-                            localArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist };
-                        });
-
+                        await Task.Run(() => localArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist });
                         this.ArtistInfoViewModel = localArtistInfoViewModel;
                     }
                 }

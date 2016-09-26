@@ -27,7 +27,7 @@
                    TextWrapping="Wrap" Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                 <DockPanel Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource BooleanToCollapsedConverter}}">
                     <StackPanel>
-                        <Image DockPanel.Dock="Left" Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image, IsAsync=True}">
+                        <Image DockPanel.Dock="Left" Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                             </Image.Effect>
