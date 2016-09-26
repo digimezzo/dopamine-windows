@@ -1,5 +1,6 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Core.Base;
+using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
 using System;
 using System.ComponentModel;
@@ -65,17 +66,8 @@ namespace Dopamine.Common.Services.Notification
             {
                 try
                 {
-                    BitmapImage coverImage = new BitmapImage();
-                    coverImage.BeginInit();
-                    coverImage.DecodePixelWidth = 300; // Needs to be big enough, otherwise the picture is blurry
-                    coverImage.DecodePixelHeight = 300; // Needs to be big enough, otherwise the picture is blurry
-                    //coverImage.DecodePixelWidth = notificationHeight
-                    //coverImage.DecodePixelHeight = notificationHeight
-                    coverImage.CacheOption = BitmapCacheOption.OnLoad;
-                    coverImage.UriSource = new Uri(coverPictureSource);
-                    coverImage.EndInit();
-
-                    this.CoverPicture.Source = coverImage;
+                    // Width and Height are 300px. They need to be big enough, otherwise the picture is blurry
+                    this.CoverPicture.Source = ImageOperations.PathToBitmapImage(coverPictureSource, 300, 300);
                     this.CloseBorder.Opacity = 1.0;
                 }
                 catch (Exception)

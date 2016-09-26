@@ -358,10 +358,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Get the size of the artwork
             if (imageData != null)
             {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.StreamSource = new MemoryStream(imageData);
-                bi.EndInit();
+                BitmapImage bi = ImageOperations.ByteToBitmapImage(imageData, 0, 0);
+                
                 // Use bi.PixelWidth and bi.PixelHeight instead of bi.Width and bi.Height:
                 // bi.Width and bi.Height take DPI into account. We don't want that here.
                 this.ArtworkSize = bi.PixelWidth + "x" + bi.PixelHeight;
