@@ -188,8 +188,13 @@ namespace Dopamine.Core.IO
                 BitmapImage bi = new BitmapImage();
 
                 bi.BeginInit();
-                bi.DecodePixelWidth = imageWidth;
-                bi.DecodePixelHeight = imageHeight;
+
+                if (imageWidth > 0 && imageHeight > 0)
+                {
+                    bi.DecodePixelWidth = imageWidth;
+                    bi.DecodePixelHeight = imageHeight;
+                }
+
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.UriSource = new Uri(path);
                 bi.EndInit();
@@ -211,8 +216,13 @@ namespace Dopamine.Core.IO
                     BitmapImage bi = new BitmapImage();
 
                     bi.BeginInit();
-                    bi.DecodePixelWidth = imageWidth;
-                    bi.DecodePixelHeight = imageHeight;
+
+                    if (imageWidth > 0 && imageHeight > 0)
+                    {
+                        bi.DecodePixelWidth = imageWidth;
+                        bi.DecodePixelHeight = imageHeight;
+                    }
+
                     bi.CacheOption = BitmapCacheOption.OnLoad;
                     bi.StreamSource = ms;
                     bi.EndInit();

@@ -2,6 +2,7 @@
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
@@ -116,13 +117,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     var proxyImage = new Image();
                     proxyImage.Stretch = Stretch.Fill;
-
-                    BitmapImage bmpImage = new BitmapImage();
-                    bmpImage.BeginInit();
-                    bmpImage.UriSource = new Uri(artworkPath);
-                    bmpImage.EndInit();
-
-                    proxyImage.Source = bmpImage;
+                    proxyImage.Source = ImageOperations.PathToBitmapImage(artworkPath, 0, 0);
                     this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
                 });
             }

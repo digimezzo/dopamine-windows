@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Dopamine.Core.IO;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
-using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.Converters
 {
@@ -21,16 +21,7 @@ namespace Dopamine.Common.Presentation.Converters
 
                     if (info.Exists && info.Length > 0)
                     {
-                        var bi = new BitmapImage();
-
-                        bi.BeginInit();
-                        bi.DecodePixelWidth = size;
-                        bi.DecodePixelHeight = size;
-                        bi.CacheOption = BitmapCacheOption.OnLoad;
-                        bi.UriSource = new Uri(info.FullName);
-                        bi.EndInit();
-
-                        return bi;
+                        return ImageOperations.PathToBitmapImage(info.FullName, size, size); ;
                     }
                 }
             }
