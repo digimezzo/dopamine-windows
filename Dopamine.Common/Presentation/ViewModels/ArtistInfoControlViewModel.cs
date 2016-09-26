@@ -68,21 +68,26 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        protected async virtual void ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
+        private void ClearArtistInfo()
+        {
+            // This prevents the "Artist information is not available" text from sliding in
+            // multiple times if consecutive artists are unknown.
+            if (this.ArtistInfoViewModel == null || (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null))
+            {
+                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+            }
+
+            this.artist = null;
+        }
+
+        private async void ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
         {
             this.previousArtist = this.artist;
 
             // User doesn't want to download artist info, or no track is selected, or artist name is unknown: clear artist info.
             if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
-                // This prevents the "Artist information is not available" text from sliding in
-                // multiple times if consecutive artists are unknown.
-                if (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null)
-                {
-                    this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
-                }
-
-                this.artist = null;
+                this.ClearArtistInfo();
                 return;
             }
 
@@ -120,7 +125,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                this.ClearArtistInfo();
             }
         }
         #endregion
