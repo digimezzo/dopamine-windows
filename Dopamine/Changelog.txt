@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Added] Added an Artist information screen
+- [Changed] Updated the Spanish translation
 
 
 2016-09-21: Dopamine 1.2 Build 728 (Preview)
