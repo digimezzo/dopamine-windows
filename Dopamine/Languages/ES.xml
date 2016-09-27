@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="ES" Name="Spanish" Author="Jackaluichi">
+<Language Code="ES" Name="Spanish (Spain)" Author="Jackaluichi">
   <Text Key="ISO639-1">ES</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Cancelar</Text>
@@ -190,7 +190,7 @@
   <Text Key="Unknown_Album_Artist">Artista del álbum desconocido</Text>
   <Text Key="Unknown_Title">Título desconocido</Text>
   <Text Key="Close_Notification_Automatically_After">Cerrar la notificación automáticamente tras</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">Si te gusta Dopamine, por favor considera hacer una donación. Puedes donar ahora mismo, or luego en la pantalla de 'Acerca de'. ¡Gracias!</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Si te gusta Dopamine, por favor considera hacer una donación. Puedes donar ahora mismo, o luego en la pantalla de 'Acerca de'. ¡Gracias!</Text>
   <Text Key="Save">Guardar</Text>
   <Text Key="Error_Saving_Playlists">Se ha producido un error mientras se guardaban las listas de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Error_Saving_Playlist">Se ha producido un error mientras se guardaba la lista de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
@@ -325,7 +325,7 @@
   <Text Key="Delete_Preset_Confirmation">¿Está seguro que desea borrar la preselección '%preset%'?</Text>
   <Text Key="Error_While_Deleting_Preset">No ha sido posible borrar la preselección. Consulte el archivo 'log' para más información por favor.</Text>
   <Text Key="Exclusive_Mode">Modo Exclusivo</Text>
-  <Text Key="Exclusive_Mode_Confirmation">¿Está seguro que desea activar el modo Exclusivo? El resto de aplicaciones no podrán seguir reproduciendo audio.</Text>
+  <Text Key="Exclusive_Mode_Confirmation">¿Está seguro que desea activar el modo Exclusivo? No será posible escuchar ningún sonido del resto de aplicaciones.</Text>
   <Text Key="Search_Online">Buscar online</Text>
   <Text Key="Online">Online</Text>
   <Text Key="Add_Remove_Online_Search_Providers">Añadir o eliminar proveedores de búsqueda online</Text>
@@ -338,11 +338,11 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">No ha sido posible añadir el proveedor de búsqueda online. Los campos 'Nombre' y 'Url' son obligatorios, 'Separador' es opcional.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">No ha sido posible actualizar el proveedor de búsqueda online. Consulte el archivo 'log' para más información por favor.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">No ha sido posible actualizar el proveedor de búsqueda online. Los campos 'Nombre' y 'Url' son obligatorios, 'Separador' es opcional.</Text>
-  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
-  <Text Key="Sign_In">Sign in</Text>
-  <Text Key="Sign_Out">Sign out</Text>
-  <Text Key="Signed_In">Signed in</Text>
-  <Text Key="Sign_In_Failed">Sign in failed</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Activar Last.fm scrobbling</Text>
+  <Text Key="Sign_In">Iniciar sesión</Text>
+  <Text Key="Sign_Out">Cerrar sesión</Text>
+  <Text Key="Signed_In">Sesión iniciada</Text>
+  <Text Key="Sign_In_Failed">Error al iniciar sesión</Text>
   <Text Key="Artist_Information">Artist information</Text>
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>
