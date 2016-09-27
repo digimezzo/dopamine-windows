@@ -316,7 +316,7 @@
   <Text Key="Equalizer">Ισοσταθμιστής</Text>
   <Text Key="Enable_Equalizer">Ενεργοποίηση ισοσταθμιστή</Text>
   <Text Key="Reset">Επαναφορά</Text>
-  <Text Key="Manual">Προσωπική</Text>
+  <Text Key="Manual">Προσαρμοσμένη</Text>
   <Text Key="Save_Equalizer_Preset">Αποθήκευση προεπιλογής ισοσταθμιστή</Text>
   <Text Key="Equalizer_Presets">Προεπιλογές ισοσταθμιστή</Text>
   <Text Key="Preset_Already_Taken">Η προεπιλογή αυτή είναι ήδη δεσμευμένη. Προσπαθήστε ξανά.</Text>
@@ -338,11 +338,11 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η προσθήκη της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
-  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
-  <Text Key="Sign_In">Sign in</Text>
-  <Text Key="Sign_Out">Sign out</Text>
-  <Text Key="Signed_In">Signed in</Text>
-  <Text Key="Sign_In_Failed">Sign in failed</Text>
+  <Text Key="Enable_Lastfm_Scrobbling">Ενεργοποίηση καταγραφής από Last.fm</Text>
+  <Text Key="Sign_In">Σύνδεση</Text>
+  <Text Key="Sign_Out">Αποσύνδεση</Text>
+  <Text Key="Signed_In">Συνδέθηκε</Text>
+  <Text Key="Sign_In_Failed">Αποτυχία σύνδεσης</Text>
   <Text Key="Artist_Information">Artist information</Text>
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>

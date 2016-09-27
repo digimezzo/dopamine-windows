@@ -1,8 +1,9 @@
-2016-09-26: Dopamine 1.2 Build 733 (Preview)
+2016-09-27: Dopamine 1.2 Build 734 (Preview)
 --------------------------------------------
 
 - [Added] Added an Artist information screen
 - [Changed] Updated the Spanish translation
+- [Changed] Updated the Greek translation
 
 
 2016-09-21: Dopamine 1.2 Build 728 (Preview)
