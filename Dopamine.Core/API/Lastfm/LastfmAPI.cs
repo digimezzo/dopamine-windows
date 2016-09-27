@@ -279,7 +279,7 @@ namespace Dopamine.Core.API.Lastfm
 
             var data = new NameValueCollection();
 
-            if(!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
+            if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
             data["artist"] = artist;
             data["autocorrect"] = "1"; // Transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
@@ -357,6 +357,81 @@ namespace Dopamine.Core.API.Lastfm
             }
 
             return lfmArtist;
+        }
+
+        /// <summary>
+        /// Gets album information
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <param name="album"></param>
+        /// <param name="languageCode"></param>
+        /// <returns></returns>
+        public static async Task<LastFmAlbum> AlbumGetInfo(string artist, string album, string languageCode)
+        {
+            string method = "album.getInfo";
+
+            var data = new NameValueCollection();
+
+            if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
+            data["artist"] = artist;
+            data["album"] = album;
+            data["autocorrect"] = "1"; // Transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
+            data["api_key"] = SensitiveInformation.LastfmApiKey;
+
+            string result = await PerformGetRequest(method, data, false);
+
+            var lfmAlbum = new LastFmAlbum();
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                try
+                {
+                    // http://www.last.fm/api/show/album.getInfo
+                    var resultXml = XDocument.Parse(result);
+
+                    // Artist
+                    lfmAlbum.Artist = (from t in resultXml.Element("lfm").Element("album").Elements("artist")
+                                       select t.Value).FirstOrDefault();
+
+                    // Name
+                    lfmAlbum.Name = (from t in resultXml.Element("lfm").Element("album").Elements("name")
+                                     select t.Value).FirstOrDefault();
+
+                    // Url
+                    lfmAlbum.Url = (from t in resultXml.Element("lfm").Element("album").Elements("url")
+                                    select t.Value).FirstOrDefault();
+
+                    // ImageSmall
+                    lfmAlbum.ImageSmall = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "small"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageMedium
+                    lfmAlbum.ImageMedium = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                            where t.Attribute("size").Value == "medium"
+                                            select t.Value).FirstOrDefault();
+
+                    // ImageLarge
+                    lfmAlbum.ImageLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "large"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageExtraLarge
+                    lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                                 where t.Attribute("size").Value == "extralarge"
+                                                 select t.Value).FirstOrDefault();
+
+                    // ImageMega
+                    lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "mega"
+                                           select t.Value).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    // Swallow
+                }
+            }
+            return lfmAlbum;
         }
         #endregion
     }

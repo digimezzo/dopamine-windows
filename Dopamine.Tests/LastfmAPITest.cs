@@ -46,5 +46,12 @@ namespace Dopamine.Tests
             Assert.IsTrue(!string.IsNullOrEmpty(lfmArtist.Name) & !string.IsNullOrEmpty(lfmArtist.Url));
         }
 
+        [TestMethod()]
+        public async Task AlbumGetInfoTest()
+        {
+            LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends", string.Empty);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lfmAlbum.Name) & !string.IsNullOrEmpty(lfmAlbum.Url));
+        }
     }
 }
