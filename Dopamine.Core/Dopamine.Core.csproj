@@ -137,6 +137,7 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="API\Lastfm\LastFmAlbum.cs" />
     <Compile Include="API\Lastfm\LastfmAPI.cs" />
     <Compile Include="API\Lastfm\LastFmArtist.cs" />
     <Compile Include="API\Lastfm\LastFmBiography.cs" />
