@@ -46,20 +46,13 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackFailed += (_, __) => this.ShowCoverArtAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowCoverArtAsync(null);
-
-
+            
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                if (isPlayingPreviousTrack)
-                {
-                    this.SlideDirection = SlideDirection.UpToDown;
-                }
-                else
-                {
-                    this.SlideDirection = SlideDirection.DownToUp;
-                }
-
+                this.SlideDirection = SlideDirection.DownToUp;
+                if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.UpToDown;
                 this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
+                this.SlideDirection = SlideDirection.DownToUp;
             };
 
             // If PlaybackService.PlayingTrack is null, nothing is shown. This is handled in ShowCoverArtAsync.

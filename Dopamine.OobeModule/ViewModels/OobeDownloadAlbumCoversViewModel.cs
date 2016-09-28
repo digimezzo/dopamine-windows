@@ -1,13 +1,13 @@
 ﻿using Dopamine.Core.Prism;
 using Prism;
-using Prism.Mvvm;
 using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 using System;
 
 namespace Dopamine.OobeModule.ViewModels
 {
-    public class OobeAppearanceViewModel : BindableBase, IActiveAware, INavigationAware
+    public class OobeDownloadAlbumCoversViewModel : BindableBase, IActiveAware, INavigationAware
     {
         #region Variables
         private bool isActive;
@@ -23,7 +23,7 @@ namespace Dopamine.OobeModule.ViewModels
         #endregion
 
         #region Construction
-        public OobeAppearanceViewModel(IEventAggregator eventAggregator)
+        public OobeDownloadAlbumCoversViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
         }
@@ -45,7 +45,7 @@ namespace Dopamine.OobeModule.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            this.eventAggregator.GetEvent<OobeNavigatedToEvent>().Publish(typeof(OobeAppearanceViewModel).FullName);
+            this.eventAggregator.GetEvent<OobeNavigatedToEvent>().Publish(typeof(OobeDownloadAlbumCoversViewModel).FullName);
         }
         #endregion
     }

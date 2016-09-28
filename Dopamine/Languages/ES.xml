@@ -346,6 +346,10 @@
   <Text Key="Artist_Information">Artist information</Text>
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>
-  <Text Key="Artist_Information_Unavailable">Artist information unavailable</Text>
   <Text Key="Download_Artist_Information_From_Lastfm">Download artist information from Last.fm</Text>
+  <Text Key="Album_Covers">Album covers</Text>
+  <Text Key="Automatically_Download_Missing_Album_Covers">Should Dopamine automatically download missing album covers from the Internet?</Text>
+  <Text Key="Download_Missing_Album_Covers">Download missing album covers</Text>
+  <Text Key="Embed_Downloaded_Covers_In_Audio_Files">Embed downloaded covers in the audio files</Text>
+  <Text Key="Not_Available">Not available</Text>
 </Language>

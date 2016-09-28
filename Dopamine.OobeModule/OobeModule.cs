@@ -36,6 +36,8 @@ namespace Dopamine.OobeModule
             this.container.RegisterType<object, OobeAppearanceViewModel>(typeof(OobeAppearanceViewModel).FullName);
             this.container.RegisterType<object, OobeCollection>(typeof(OobeCollection).FullName);
             this.container.RegisterType<object, OobeCollectionViewModel>(typeof(OobeCollectionViewModel).FullName);
+            this.container.RegisterType<object, OobeDownloadAlbumCovers>(typeof(OobeDownloadAlbumCovers).FullName);
+            this.container.RegisterType<object, OobeDownloadAlbumCoversViewModel>(typeof(OobeDownloadAlbumCoversViewModel).FullName);
             this.container.RegisterType<object, OobeDonate>(typeof(OobeDonate).FullName);
             this.container.RegisterType<object, OobeDonateViewModel>(typeof(OobeDonateViewModel).FullName);
             this.container.RegisterType<object, OobeFinish>(typeof(OobeFinish).FullName);

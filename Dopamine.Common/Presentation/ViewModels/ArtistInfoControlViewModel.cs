@@ -45,6 +45,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService = playbackService;
             this.i18nService = i18nService;
 
+            this.SlideDirection = SlideDirection.LeftToRight; // Default SlideDirection
+
             this.playbackService.PlaybackFailed += (_, __) => this.ShowArtistInfoAsync(null, false);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowArtistInfoAsync(null, false);
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
@@ -52,6 +54,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.SlideDirection = SlideDirection.LeftToRight;
                 if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.RightToLeft;
                 this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+                this.SlideDirection = SlideDirection.LeftToRight;
             };
 
             this.i18nService.LanguageChanged += (_, __) =>
@@ -68,26 +71,23 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void ClearArtistInfo()
-        {
-            // This prevents the "Artist information is not available" text from sliding in
-            // multiple times if consecutive artists are unknown.
-            if (this.ArtistInfoViewModel == null || (this.ArtistInfoViewModel != null && this.ArtistInfoViewModel.LfmArtist != null))
-            {
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
-            }
-
-            this.artist = null;
-        }
-
         private async void ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
         {
             this.previousArtist = this.artist;
 
-            // User doesn't want to download artist info, or no track is selected, or artist name is unknown: clear artist info.
-            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null || trackInfo.ArtistName == Defaults.UnknownArtistString)
+            // User doesn't want to download artist info, or no track is selected.
+            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null)
             {
-                this.ClearArtistInfo();
+                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                this.artist = null;
+                return;
+            }
+
+            // Artist name is unknown
+            if (trackInfo.ArtistName == Defaults.UnknownArtistString)
+            {
+                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = new LastFmArtist { Name = Defaults.UnknownArtistString } };
+                this.artist = null;
                 return;
             }
 
@@ -104,14 +104,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, "EN");
+                        lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)
@@ -125,7 +125,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                this.ClearArtistInfo();
+                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                this.artist = null;
             }
         }
         #endregion
