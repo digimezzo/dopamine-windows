@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>57</Value>
+      <Value>58</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -257,6 +257,12 @@
     </Setting>
     <Setting Name="DownloadArtistInformation">
       <Value>True</Value>
+    </Setting>
+    <Setting Name="DownloadAlbumCovers">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="EmbedAlbumCoversInAudioFiles">
+      <Value>False</Value>
     </Setting>
   </Namespace>
 </Settings>
