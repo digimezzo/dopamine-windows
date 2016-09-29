@@ -111,15 +111,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        try
-                        {
-                            lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Could not get artist information from Last.fm for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                            throw;
-                        }
+                        lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)
