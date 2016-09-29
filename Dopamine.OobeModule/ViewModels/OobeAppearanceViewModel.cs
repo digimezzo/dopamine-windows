@@ -14,7 +14,7 @@ namespace Dopamine.OobeModule.ViewModels
         private IEventAggregator eventAggregator;
         #endregion
 
-        #region Properties
+        #region "Properties
         public bool IsActive
         {
             get { return isActive; }

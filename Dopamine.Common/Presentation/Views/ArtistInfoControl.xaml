@@ -16,41 +16,35 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:ArtistInfoViewModel}">
-            <DockPanel>
-                <StackPanel>
-                    <Grid DockPanel.Dock="Left" >
-                        <Image Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}" Visibility="{Binding HasImage, Converter={StaticResource BooleanToCollapsedConverter}}">
+            <Grid>
+                <TextBlock Panel.ZIndex="0" 
+                   FontWeight="Light" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   FontSize="{x:Static base:Constants.MediumBackgroundFontSize}" 
+                   Foreground="{DynamicResource RG_ForegroundBrush}" 
+                   Text="{DynamicResource Language_Artist_Information_Unavailable}" 
+                   TextWrapping="Wrap" Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                <DockPanel Visibility="{Binding IsArtistInfoAvailable, Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <StackPanel>
+                        <Image DockPanel.Dock="Left" Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                             </Image.Effect>
                         </Image>
-                        <Border Margin="20" Width="200" Height="200" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" Visibility="{Binding HasImage, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
-                            </Border.Effect>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="100" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
-                        </Border>
-                    </Grid>
-                    <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                </StackPanel>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,15,10,0" PanningMode="Both">
-                    <StackPanel Margin="10,0,0,0">
-                        <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
-                        <Grid>
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}" Visibility="{Binding HasBiography, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                                <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
-                            </StackPanel>
-                            <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasBiography, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                        </Grid>
-                        <Label Margin="0,20,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Similar}" />
-                        <Grid>
-                            <ListBox Style="{StaticResource ListBoxSimilarArtists}" ItemsSource="{Binding SimilarArtists}" Visibility="{Binding HasSimilarArtists, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                            <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasSimilarArtists, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                        </Grid>
+                        <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
-                </ScrollViewer>
-            </DockPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,10,10,0" PanningMode="Both">
+                        <StackPanel Margin="10,0,0,0">
+                            <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
+                            <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}"/>
+                            <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
+                            <Label Margin="0,20,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Similar}" />
+                            <ListBox Style="{StaticResource ListBoxSimilarArtists}" ItemsSource="{Binding SimilarArtists}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
 

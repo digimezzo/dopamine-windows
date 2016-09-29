@@ -13,28 +13,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
-        public bool HasBiography
-        {
-            get
-            {
-                return this.Biography != null && !string.IsNullOrWhiteSpace(this.Biography.Content);
-            }
-        }
-
-        public bool HasSimilarArtists
-        {
-            get { return this.SimilarArtists != null && this.SimilarArtists.Count > 0; }
-        }
-
-        public bool HasImage
-        {
-            get { return !string.IsNullOrEmpty(this.Image); }
-        }
-
         public ObservableCollection<SimilarArtistViewModel> SimilarArtists
         {
             get { return this.similarArtists; }
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
+        }
+
+        public bool IsArtistInfoAvailable
+        {
+            get { return this.lfmArtist != null; }
         }
 
         public LastFmArtist LfmArtist
@@ -47,15 +34,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.FillSimilarArtists();
 
                 OnPropertyChanged(() => this.Biography);
-                OnPropertyChanged(() => this.HasBiography);
                 OnPropertyChanged(() => this.Url);
                 OnPropertyChanged(() => this.CleanedBiographyContent);
                 OnPropertyChanged(() => this.UrlText);
                 OnPropertyChanged(() => this.ArtistName);
                 OnPropertyChanged(() => this.Image);
-                OnPropertyChanged(() => this.HasImage);
+                OnPropertyChanged(() => this.IsArtistInfoAvailable);
                 OnPropertyChanged(() => this.SimilarArtists);
-                OnPropertyChanged(() => this.HasSimilarArtists);
             }
         }
 

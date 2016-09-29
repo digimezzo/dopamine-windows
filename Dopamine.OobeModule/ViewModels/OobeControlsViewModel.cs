@@ -59,10 +59,6 @@ namespace Dopamine.OobeModule.ViewModels
                 }
                 else if (this.activeViewModelName == typeof(OobeDonateViewModel).FullName)
                 {
-                    this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeDownloadAlbumCovers).FullName);
-                }
-                else if (this.activeViewModelName == typeof(OobeDownloadAlbumCoversViewModel).FullName)
-                {
                     this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeCollection).FullName);
                 }
                 else if (this.activeViewModelName == typeof(OobeCollectionViewModel).FullName)
@@ -92,10 +88,6 @@ namespace Dopamine.OobeModule.ViewModels
                     this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeCollection).FullName);
                 }
                 else if (this.activeViewModelName == typeof(OobeCollectionViewModel).FullName)
-                {
-                    this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeDownloadAlbumCovers).FullName);
-                }
-                else if (this.activeViewModelName == typeof(OobeDownloadAlbumCoversViewModel).FullName)
                 {
                     this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeDonate).FullName);
                 }

@@ -107,7 +107,6 @@
     <Compile Include="ViewModels\OobeCollectionViewModel.cs" />
     <Compile Include="ViewModels\OobeControlsViewModel.cs" />
     <Compile Include="ViewModels\OobeDonateViewModel.cs" />
-    <Compile Include="ViewModels\OobeDownloadAlbumCoversViewModel.cs" />
     <Compile Include="ViewModels\OobeFinishViewModel.cs" />
     <Compile Include="ViewModels\OobeLanguageViewModel.cs" />
     <Compile Include="ViewModels\OobeWelcomeViewModel.cs" />
@@ -125,9 +124,6 @@
     </Compile>
     <Compile Include="Views\OobeDonate.xaml.cs">
       <DependentUpon>OobeDonate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OobeDownloadAlbumCovers.xaml.cs">
-      <DependentUpon>OobeDownloadAlbumCovers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OobeFinish.xaml.cs">
       <DependentUpon>OobeFinish.xaml</DependentUpon>
@@ -185,10 +181,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OobeDonate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OobeDownloadAlbumCovers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
