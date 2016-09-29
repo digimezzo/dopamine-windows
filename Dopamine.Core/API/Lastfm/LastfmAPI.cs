@@ -29,12 +29,19 @@ namespace Dopamine.Core.API.Lastfm
 
             string result = string.Empty;
 
-            string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?method={1}", prefix, method));
-
-            using (var client = new WebClient())
+            try
             {
-                byte[] responseBytes = await client.UploadValuesTaskAsync(url, "POST", data);
-                result = Encoding.UTF8.GetString(responseBytes);
+                string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?method={1}", prefix, method));
+
+                using (var client = new WebClient())
+                {
+                    byte[] responseBytes = await client.UploadValuesTaskAsync(url, "POST", data);
+                    result = Encoding.UTF8.GetString(responseBytes);
+                }
+            }
+            catch (Exception)
+            {
+                // Swallow: check for !string.IsNullOrEmpty(result)
             }
 
             return result;
@@ -64,12 +71,19 @@ namespace Dopamine.Core.API.Lastfm
 
             dataList.Add("method=" + method);
 
-            string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?{1}", prefix, string.Join("&", dataList.ToArray())));
-
-            using (var client = new WebClient())
+            try
             {
-                byte[] responseBytes = await client.DownloadDataTaskAsync(url);
-                result = Encoding.UTF8.GetString(responseBytes);
+                string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?{1}", prefix, string.Join("&", dataList.ToArray())));
+
+                using (var client = new WebClient())
+                {
+                    byte[] responseBytes = await client.DownloadDataTaskAsync(url);
+                    result = Encoding.UTF8.GetString(responseBytes);
+                }
+            }
+            catch (Exception)
+            {
+                // Swallow: check for !string.IsNullOrEmpty(result)
             }
 
             return result;
@@ -130,18 +144,25 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(result))
             {
-                // http://www.last.fm/api/show/auth.getMobileSession
-                var resultXml = XDocument.Parse(result);
-
-                // Status
-                string lfmStatus = (from t in resultXml.Elements("lfm")
-                                    select t.Attribute("status").Value).FirstOrDefault();
-
-                // If Status is ok, get the session key
-                if (lfmStatus != null && lfmStatus == "ok")
+                try
                 {
-                    sessionKey = (from t in resultXml.Element("lfm").Element("session").Elements("key")
-                                  select t.Value).FirstOrDefault();
+                    // http://www.last.fm/api/show/auth.getMobileSession
+                    var resultXml = XDocument.Parse(result);
+
+                    // Status
+                    string lfmStatus = (from t in resultXml.Elements("lfm")
+                                        select t.Attribute("status").Value).FirstOrDefault();
+
+                    // If Status is ok, get the session key
+                    if (lfmStatus != null && lfmStatus == "ok")
+                    {
+                        sessionKey = (from t in resultXml.Element("lfm").Element("session").Elements("key")
+                                      select t.Value).FirstOrDefault();
+                    }
+                }
+                catch (Exception)
+                {
+                    // Swallow: check for !string.IsNullOrEmpty(sessionKey)
                 }
             }
 
@@ -177,15 +198,22 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(result))
             {
-                // http://www.last.fm/api/show/track.scrobble
-                var resultXml = XDocument.Parse(result);
+                try
+                {
+                    // http://www.last.fm/api/show/track.scrobble
+                    var resultXml = XDocument.Parse(result);
 
-                // Status
-                string lfmStatus = (from t in resultXml.Elements("lfm")
-                                    select t.Attribute("status").Value).FirstOrDefault();
+                    // Status
+                    string lfmStatus = (from t in resultXml.Elements("lfm")
+                                        select t.Attribute("status").Value).FirstOrDefault();
 
-                // If Status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isScrobbleSuccess = true;
+                    // If Status is ok, return true.
+                    if (lfmStatus != null && lfmStatus == "ok") isScrobbleSuccess = true;
+                }
+                catch (Exception)
+                {
+                    // Swallow: check for isScrobbleSuccess = true
+                }
             }
 
             return isScrobbleSuccess;
@@ -219,15 +247,22 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(result))
             {
-                // http://www.last.fm/api/show/track.updateNowPlaying
-                var resultXml = XDocument.Parse(result);
+                try
+                {
+                    // http://www.last.fm/api/show/track.updateNowPlaying
+                    var resultXml = XDocument.Parse(result);
 
-                // Get the status from the xml
-                string lfmStatus = (from t in resultXml.Elements("lfm")
-                                    select t.Attribute("status").Value).FirstOrDefault();
+                    // Get the status from the xml
+                    string lfmStatus = (from t in resultXml.Elements("lfm")
+                                        select t.Attribute("status").Value).FirstOrDefault();
 
-                // If the status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isUpdateNowPlayingSuccess = true;
+                    // If the status is ok, return true.
+                    if (lfmStatus != null && lfmStatus == "ok") isUpdateNowPlayingSuccess = true;
+                }
+                catch (Exception)
+                {
+                    // Swallow: check for isUpdateNowPlayingSuccess = true
+                }
             }
 
             return isUpdateNowPlayingSuccess;
@@ -255,63 +290,70 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(result))
             {
-                // http://www.last.fm/api/show/artist.getInfo
-                var resultXml = XDocument.Parse(result);
+                try
+                {
+                    // http://www.last.fm/api/show/artist.getInfo
+                    var resultXml = XDocument.Parse(result);
 
-                // Name
-                lfmArtist.Name = (from t in resultXml.Element("lfm").Element("artist").Elements("name")
-                                  select t.Value).FirstOrDefault();
+                    // Name
+                    lfmArtist.Name = (from t in resultXml.Element("lfm").Element("artist").Elements("name")
+                                      select t.Value).FirstOrDefault();
 
-                // Url
-                lfmArtist.Url = (from t in resultXml.Element("lfm").Element("artist").Elements("url")
-                                 select t.Value).FirstOrDefault();
+                    // Url
+                    lfmArtist.Url = (from t in resultXml.Element("lfm").Element("artist").Elements("url")
+                                     select t.Value).FirstOrDefault();
 
-                // ImageSmall
-                lfmArtist.ImageSmall = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
-                                        where t.Attribute("size").Value == "small"
-                                        select t.Value).FirstOrDefault();
+                    // ImageSmall
+                    lfmArtist.ImageSmall = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
+                                            where t.Attribute("size").Value == "small"
+                                            select t.Value).FirstOrDefault();
 
-                // ImageMedium
-                lfmArtist.ImageMedium = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
-                                         where t.Attribute("size").Value == "medium"
-                                         select t.Value).FirstOrDefault();
-
-                // ImageLarge
-                lfmArtist.ImageLarge = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
-                                        where t.Attribute("size").Value == "large"
-                                        select t.Value).FirstOrDefault();
-
-                // ImageExtraLarge
-                lfmArtist.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
-                                             where t.Attribute("size").Value == "extralarge"
+                    // ImageMedium
+                    lfmArtist.ImageMedium = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
+                                             where t.Attribute("size").Value == "medium"
                                              select t.Value).FirstOrDefault();
 
-                // ImageMega
-                lfmArtist.ImageMega = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
-                                       where t.Attribute("size").Value == "mega"
-                                       select t.Value).FirstOrDefault();
+                    // ImageLarge
+                    lfmArtist.ImageLarge = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
+                                            where t.Attribute("size").Value == "large"
+                                            select t.Value).FirstOrDefault();
 
-                // SimilarArtists
-                lfmArtist.SimilarArtists = (from t in resultXml.Element("lfm").Element("artist").Element("similar").Elements("artist")
-                                            select new LastFmArtist
-                                            {
-                                                Name = t.Descendants("name").FirstOrDefault().Value,
-                                                Url = t.Descendants("url").FirstOrDefault().Value,
-                                                ImageSmall = t.Descendants("image").Where((i) => i.Attribute("size").Value == "small").FirstOrDefault().Value,
-                                                ImageMedium = t.Descendants("image").Where((i) => i.Attribute("size").Value == "medium").FirstOrDefault().Value,
-                                                ImageLarge = t.Descendants("image").Where((i) => i.Attribute("size").Value == "large").FirstOrDefault().Value,
-                                                ImageExtraLarge = t.Descendants("image").Where((i) => i.Attribute("size").Value == "extralarge").FirstOrDefault().Value,
-                                                ImageMega = t.Descendants("image").Where((i) => i.Attribute("size").Value == "mega").FirstOrDefault().Value
-                                            }).ToList();
+                    // ImageExtraLarge
+                    lfmArtist.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
+                                                 where t.Attribute("size").Value == "extralarge"
+                                                 select t.Value).FirstOrDefault();
 
-                // Biography
-                lfmArtist.Biography = (from t in resultXml.Element("lfm").Element("artist").Elements("bio")
-                                       select new LastFmBiography
-                                       {
-                                           Published = t.Descendants("published").FirstOrDefault().Value,
-                                           Summary = t.Descendants("summary").FirstOrDefault().Value,
-                                           Content = t.Descendants("content").FirstOrDefault().Value
-                                       }).FirstOrDefault();
+                    // ImageMega
+                    lfmArtist.ImageMega = (from t in resultXml.Element("lfm").Element("artist").Elements("image")
+                                           where t.Attribute("size").Value == "mega"
+                                           select t.Value).FirstOrDefault();
+
+                    // SimilarArtists
+                    lfmArtist.SimilarArtists = (from t in resultXml.Element("lfm").Element("artist").Element("similar").Elements("artist")
+                                                select new LastFmArtist
+                                                {
+                                                    Name = t.Descendants("name").FirstOrDefault().Value,
+                                                    Url = t.Descendants("url").FirstOrDefault().Value,
+                                                    ImageSmall = t.Descendants("image").Where((i) => i.Attribute("size").Value == "small").FirstOrDefault().Value,
+                                                    ImageMedium = t.Descendants("image").Where((i) => i.Attribute("size").Value == "medium").FirstOrDefault().Value,
+                                                    ImageLarge = t.Descendants("image").Where((i) => i.Attribute("size").Value == "large").FirstOrDefault().Value,
+                                                    ImageExtraLarge = t.Descendants("image").Where((i) => i.Attribute("size").Value == "extralarge").FirstOrDefault().Value,
+                                                    ImageMega = t.Descendants("image").Where((i) => i.Attribute("size").Value == "mega").FirstOrDefault().Value
+                                                }).ToList();
+
+                    // Biography
+                    lfmArtist.Biography = (from t in resultXml.Element("lfm").Element("artist").Elements("bio")
+                                           select new LastFmBiography
+                                           {
+                                               Published = t.Descendants("published").FirstOrDefault().Value,
+                                               Summary = t.Descendants("summary").FirstOrDefault().Value,
+                                               Content = t.Descendants("content").FirstOrDefault().Value
+                                           }).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    // Swallow
+                }
             }
 
             return lfmArtist;
@@ -342,45 +384,52 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(result))
             {
-                // http://www.last.fm/api/show/album.getInfo
-                var resultXml = XDocument.Parse(result);
+                try
+                {
+                    // http://www.last.fm/api/show/album.getInfo
+                    var resultXml = XDocument.Parse(result);
 
-                // Artist
-                lfmAlbum.Artist = (from t in resultXml.Element("lfm").Element("album").Elements("artist")
-                                   select t.Value).FirstOrDefault();
-
-                // Name
-                lfmAlbum.Name = (from t in resultXml.Element("lfm").Element("album").Elements("name")
-                                 select t.Value).FirstOrDefault();
-
-                // Url
-                lfmAlbum.Url = (from t in resultXml.Element("lfm").Element("album").Elements("url")
-                                select t.Value).FirstOrDefault();
-
-                // ImageSmall
-                lfmAlbum.ImageSmall = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                       where t.Attribute("size").Value == "small"
+                    // Artist
+                    lfmAlbum.Artist = (from t in resultXml.Element("lfm").Element("album").Elements("artist")
                                        select t.Value).FirstOrDefault();
 
-                // ImageMedium
-                lfmAlbum.ImageMedium = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                        where t.Attribute("size").Value == "medium"
-                                        select t.Value).FirstOrDefault();
+                    // Name
+                    lfmAlbum.Name = (from t in resultXml.Element("lfm").Element("album").Elements("name")
+                                     select t.Value).FirstOrDefault();
 
-                // ImageLarge
-                lfmAlbum.ImageLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                       where t.Attribute("size").Value == "large"
-                                       select t.Value).FirstOrDefault();
+                    // Url
+                    lfmAlbum.Url = (from t in resultXml.Element("lfm").Element("album").Elements("url")
+                                    select t.Value).FirstOrDefault();
 
-                // ImageExtraLarge
-                lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                            where t.Attribute("size").Value == "extralarge"
+                    // ImageSmall
+                    lfmAlbum.ImageSmall = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "small"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageMedium
+                    lfmAlbum.ImageMedium = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                            where t.Attribute("size").Value == "medium"
                                             select t.Value).FirstOrDefault();
 
-                // ImageMega
-                lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                      where t.Attribute("size").Value == "mega"
-                                      select t.Value).FirstOrDefault();
+                    // ImageLarge
+                    lfmAlbum.ImageLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "large"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageExtraLarge
+                    lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                                where t.Attribute("size").Value == "extralarge"
+                                                select t.Value).FirstOrDefault();
+
+                    // ImageMega
+                    lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                          where t.Attribute("size").Value == "mega"
+                                          select t.Value).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    // Swallow
+                }
             }
             return lfmAlbum;
         }
