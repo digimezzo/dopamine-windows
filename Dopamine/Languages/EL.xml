@@ -346,6 +346,6 @@
   <Text Key="Artist_Information">Artist information</Text>
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>
-  <Text Key="Artist_Information_Unavailable">Artist information unavailable</Text>
+  <Text Key="Not_Available">Not available</Text>
   <Text Key="Download_Artist_Information_From_Lastfm">Download artist information from Last.fm</Text>
 </Language>
