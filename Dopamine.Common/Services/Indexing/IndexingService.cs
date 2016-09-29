@@ -1,6 +1,4 @@
-﻿using Dopamine.Core.API.Lastfm;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
+﻿using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
@@ -12,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Indexing
@@ -149,9 +146,8 @@ namespace Dopamine.Common.Services.Indexing
             if (this.IsIndexing | !this.needsIndexing) return;
             else this.needsIndexing = false;
 
-            // Start
-            // -----
             this.isIndexing = true;
+
             this.IndexingStarted(this, new EventArgs());
 
             // Initialize
@@ -171,13 +167,13 @@ namespace Dopamine.Common.Services.Indexing
                 }
             }
 
-            // Artwork from files or disk
-            // --------------------------
+            // Artwork
+            // -------
             bool isArtworkChanged = await this.IndexArtworkAsync(!artworkOnly) > 0 ? true : false;
 
             if (isArtworkChanged)
             {
-                LogClient.Instance.Logger.Info("Sending event to refresh the artwork after indexing artwork from disk");
+                LogClient.Instance.Logger.Info("Sending event to refresh the artwork");
                 this.RefreshArtwork(this, new EventArgs());
             }
 
@@ -185,21 +181,8 @@ namespace Dopamine.Common.Services.Indexing
             // ----------
             await this.UpdateIndexingStatisticsAsync();
 
-            // Artwork from Internet
-            // ---------------------
-
-            bool isArtworkChangedAfterDownload = false;
-            if (XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadAlbumCovers")) isArtworkChangedAfterDownload = await this.DownloadMissingArtworkAsync() > 0 ? true : false;
-
-            if (isArtworkChangedAfterDownload)
-            {
-                LogClient.Instance.Logger.Info("Sending event to refresh the artwork after downloading missing artwork");
-                this.RefreshArtwork(this, new EventArgs());
-            }
-
-            // Finish
-            // ------
             this.isIndexing = false;
+
             this.IndexingStopped(this, new EventArgs());
         }
         #endregion
@@ -435,76 +418,6 @@ namespace Dopamine.Common.Services.Indexing
             });
 
             return numberDeleted;
-        }
-
-        private async Task<long> DownloadMissingArtworkAsync()
-        {
-            LogClient.Instance.Logger.Info("Downloading missing artwork.");
-            string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
-
-            long numberDownloaded = 0;
-
-            await Task.Run(async () =>
-            {
-                using (SQLiteConnection conn = this.factory.GetConnection())
-                {
-                    foreach (Album album in conn.Table<Album>().Where((a) => (a.ArtworkID == null || a.ArtworkID == "") && a.AlbumArtist != Defaults.UnknownAlbumArtistString && a.AlbumTitle != Defaults.UnknownAlbumString).Select((a) => a).ToList())
-                    {
-                        try
-                        {
-                            LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(album.AlbumArtist, album.AlbumTitle, false, "EN");
-
-                            byte[] artworkData = null;
-
-                            if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
-                            {
-                                string filename = System.IO.Path.Combine(coverArtCacheSubDirectory, "temp-" + Guid.NewGuid().ToString());
-
-                                using (var client = new WebClient())
-                                {
-                                    client.DownloadFile(new Uri(lfmAlbum.LargestImage()), filename);
-                                }
-
-                                if (System.IO.File.Exists(filename))
-                                {
-                                    artworkData = ImageOperations.Image2ByteArray(filename);
-
-                                    try
-                                    {
-                                        System.IO.File.Delete(filename);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        LogClient.Instance.Logger.Error("Could not delete the temporary artwork file. Exception: {0}", ex.Message);
-                                    }   
-                                }
-                            }
-
-                            if (artworkData != null)
-                            {
-                                album.ArtworkID = IndexerUtils.CacheArtworkData(artworkData);
-                                album.DateLastSynced = DateTime.Now.Ticks;
-                                conn.Update(album);
-                                numberDownloaded += 1;
-                            }
-
-                            // Report progress if at least 1 cover is downloaded
-                            if (numberDownloaded > 0)
-                            {
-                                this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
-                                this.eventArgs.ProgressPercent = 0;
-                                this.IndexingStatusChanged(this.eventArgs);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Could not download artwork for Album with artist='{0}' and title='{1}'. Exception: {2}", album.AlbumArtist, album.AlbumTitle, ex.Message);
-                        }
-                    }
-                }
-            });
-
-            return numberDownloaded;
         }
 
         private Track GetLastModifiedTrack(Album album)
