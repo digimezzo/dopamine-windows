@@ -65,30 +65,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.lfmArtist == null) return string.Empty;
 
-                if (!string.IsNullOrEmpty(this.lfmArtist.ImageMega))
-                {
-                    return this.lfmArtist.ImageMega;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageExtraLarge))
-                {
-                    return this.lfmArtist.ImageExtraLarge;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageLarge))
-                {
-                    return this.lfmArtist.ImageLarge;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageMedium))
-                {
-                    return this.lfmArtist.ImageMedium;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageSmall))
-                {
-                    return this.lfmArtist.ImageSmall;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return this.lfmArtist.LargestImage();
             }
         }
 
