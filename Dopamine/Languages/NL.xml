@@ -346,10 +346,6 @@
   <Text Key="Artist_Information">Artiest informatie</Text>
   <Text Key="Biography">Biografie</Text>
   <Text Key="Similar">Gelijkaardig</Text>
+  <Text Key="Artist_Information_Unavailable">Artiest informatie niet beschikbaar</Text>
   <Text Key="Download_Artist_Information_From_Lastfm">Download artiest informatie van Last.fm</Text>
-  <Text Key="Album_Covers">Album covers</Text>
-  <Text Key="Automatically_Download_Missing_Album_Covers">Mag Dopamine ontbrekende album covers automatisch downloaden van het Internet?</Text>
-  <Text Key="Download_Missing_Album_Covers">Ontbrekende album covers downloaden</Text>
-  <Text Key="Embed_Downloaded_Covers_In_Audio_Files">Gedownloade albums covers opslaan in de audio bestanden</Text>
-  <Text Key="Not_Available">Niet beschikbaar</Text>
 </Language>

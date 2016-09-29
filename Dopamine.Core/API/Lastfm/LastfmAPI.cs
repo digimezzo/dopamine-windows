@@ -273,7 +273,7 @@ namespace Dopamine.Core.API.Lastfm
         /// </summary>
         /// <param name="artist"></param>
         /// <returns></returns>
-        public static async Task<LastFmArtist> ArtistGetInfo(string artist, bool autoCorrect, string languageCode)
+        public static async Task<LastFmArtist> ArtistGetInfo(string artist, string languageCode)
         {
             string method = "artist.getInfo";
 
@@ -281,7 +281,7 @@ namespace Dopamine.Core.API.Lastfm
 
             if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
             data["artist"] = artist;
-            data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
+            data["autocorrect"] = "1"; // Transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
 
             string result = await PerformGetRequest(method, data, false);
@@ -366,7 +366,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="album"></param>
         /// <param name="languageCode"></param>
         /// <returns></returns>
-        public static async Task<LastFmAlbum> AlbumGetInfo(string artist, string album, bool autoCorrect, string languageCode)
+        public static async Task<LastFmAlbum> AlbumGetInfo(string artist, string album, string languageCode)
         {
             string method = "album.getInfo";
 
@@ -375,7 +375,7 @@ namespace Dopamine.Core.API.Lastfm
             if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
             data["artist"] = artist;
             data["album"] = album;
-            data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
+            data["autocorrect"] = "1"; // Transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
 
             string result = await PerformGetRequest(method, data, false);
@@ -418,13 +418,13 @@ namespace Dopamine.Core.API.Lastfm
 
                     // ImageExtraLarge
                     lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                                where t.Attribute("size").Value == "extralarge"
-                                                select t.Value).FirstOrDefault();
+                                                 where t.Attribute("size").Value == "extralarge"
+                                                 select t.Value).FirstOrDefault();
 
                     // ImageMega
                     lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                          where t.Attribute("size").Value == "mega"
-                                          select t.Value).FirstOrDefault();
+                                           where t.Attribute("size").Value == "mega"
+                                           select t.Value).FirstOrDefault();
                 }
                 catch (Exception)
                 {

@@ -346,10 +346,6 @@
   <Text Key="Artist_Information">Informations sur l'artiste</Text>
   <Text Key="Biography">Biographie</Text>
   <Text Key="Similar">Similaire</Text>
+  <Text Key="Artist_Information_Unavailable">Informations sur l'artiste indisponibles</Text>
   <Text Key="Download_Artist_Information_From_Lastfm">Télécharger des informations sur l'artiste de Last.fm</Text>
-  <Text Key="Album_Covers">Pochettes d'album</Text>
-  <Text Key="Automatically_Download_Missing_Album_Covers">Dopamine doit-il télécharger les pochettes d'album manquantes sur Internet?</Text>
-  <Text Key="Download_Missing_Album_Covers">Télécharger les pochettes d'album manquantes</Text>
-  <Text Key="Embed_Downloaded_Covers_In_Audio_Files">Inclure les pochettes téléchargées dans les fichiers audio</Text>
-  <Text Key="Not_Available">Indisponible</Text>
 </Language>
