@@ -111,7 +111,15 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
+                        try
+                        {
+                            lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("Could not get artist information from Last.fm for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
+                            throw;
+                        }
                     }
 
                     if (lfmArtist != null)
@@ -119,10 +127,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                         ArtistInfoViewModel localArtistInfoViewModel = null;
                         await Task.Run(() => localArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist });
                         this.ArtistInfoViewModel = localArtistInfoViewModel;
-                    }
-                    else
-                    {
-                        throw new Exception("lfmArtist == null");
                     }
                 }
             }
