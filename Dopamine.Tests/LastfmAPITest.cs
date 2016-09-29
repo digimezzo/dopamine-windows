@@ -41,7 +41,7 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task ArtistGetInfoTest()
         {
-            LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo("Coldplay", string.Empty);
+            LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo("Coldplay",false, string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmArtist.Name) & !string.IsNullOrEmpty(lfmArtist.Url));
         }
@@ -49,7 +49,7 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task AlbumGetInfoTest()
         {
-            LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends", string.Empty);
+            LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends",false, string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmAlbum.Name) & !string.IsNullOrEmpty(lfmAlbum.Url));
         }

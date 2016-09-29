@@ -13,15 +13,28 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool HasBiography
+        {
+            get
+            {
+                return this.Biography != null && !string.IsNullOrWhiteSpace(this.Biography.Content);
+            }
+        }
+
+        public bool HasSimilarArtists
+        {
+            get { return this.SimilarArtists != null && this.SimilarArtists.Count > 0; }
+        }
+
+        public bool HasImage
+        {
+            get { return !string.IsNullOrEmpty(this.Image); }
+        }
+
         public ObservableCollection<SimilarArtistViewModel> SimilarArtists
         {
             get { return this.similarArtists; }
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
-        }
-
-        public bool IsArtistInfoAvailable
-        {
-            get { return this.lfmArtist != null; }
         }
 
         public LastFmArtist LfmArtist
@@ -34,13 +47,15 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.FillSimilarArtists();
 
                 OnPropertyChanged(() => this.Biography);
+                OnPropertyChanged(() => this.HasBiography);
                 OnPropertyChanged(() => this.Url);
                 OnPropertyChanged(() => this.CleanedBiographyContent);
                 OnPropertyChanged(() => this.UrlText);
                 OnPropertyChanged(() => this.ArtistName);
                 OnPropertyChanged(() => this.Image);
-                OnPropertyChanged(() => this.IsArtistInfoAvailable);
+                OnPropertyChanged(() => this.HasImage);
                 OnPropertyChanged(() => this.SimilarArtists);
+                OnPropertyChanged(() => this.HasSimilarArtists);
             }
         }
 
@@ -50,30 +65,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.lfmArtist == null) return string.Empty;
 
-                if (!string.IsNullOrEmpty(this.lfmArtist.ImageMega))
-                {
-                    return this.lfmArtist.ImageMega;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageExtraLarge))
-                {
-                    return this.lfmArtist.ImageExtraLarge;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageLarge))
-                {
-                    return this.lfmArtist.ImageLarge;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageMedium))
-                {
-                    return this.lfmArtist.ImageMedium;
-                }
-                else if (!string.IsNullOrEmpty(this.lfmArtist.ImageSmall))
-                {
-                    return this.lfmArtist.ImageSmall;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return this.lfmArtist.LargestImage();
             }
         }
 
