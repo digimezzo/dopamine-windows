@@ -51,7 +51,9 @@ namespace Dopamine.SettingsModule
             this.container.RegisterType<object, SettingsOnline>(typeof(SettingsOnline).FullName);
             this.container.RegisterType<object, SettingsOnlineAddEditSearchProvider>(typeof(SettingsOnlineAddEditSearchProvider).FullName);
             this.container.RegisterType<object, SettingsOnlineAddEditSearchProviderViewModel>(typeof(SettingsOnlineAddEditSearchProviderViewModel).FullName);
-            
+            this.container.RegisterType<object, SettingsOnlineDownloadAlbumCoversViewModel>(typeof(SettingsOnlineDownloadAlbumCoversViewModel).FullName);
+            this.container.RegisterType<object, SettingsOnlineDownloadAlbumCovers>(typeof(SettingsOnlineDownloadAlbumCovers).FullName);
+
             this.regionManager.RegisterViewWithRegion(RegionNames.SettingsRegion, typeof(Views.SettingsCollection));
         }
         #endregion
