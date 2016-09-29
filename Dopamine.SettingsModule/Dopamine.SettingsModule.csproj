@@ -118,7 +118,6 @@
     <Compile Include="ViewModels\SettingsCollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\SettingsCollectionViewModel.cs" />
     <Compile Include="ViewModels\SettingsOnlineAddEditSearchProviderViewModel.cs" />
-    <Compile Include="ViewModels\SettingsOnlineDownloadAlbumCoversViewModel.cs" />
     <Compile Include="Views\SettingsOnlineAddEditSearchProvider.xaml.cs">
       <DependentUpon>SettingsOnlineAddEditSearchProvider.xaml</DependentUpon>
     </Compile>
