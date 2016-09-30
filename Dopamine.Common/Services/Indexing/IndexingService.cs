@@ -294,8 +294,11 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 Track trk = this.GetLastModifiedTrack(alb);
 
-                                if (IndexerUtils.CacheArtwork(alb, trk.Path))
+                                alb.ArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(alb, trk.Path));
+
+                                if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {
+                                    alb.DateLastSynced = DateTime.Now.Ticks;
                                     conn.Update(alb);
                                     numberUpdated += 1;
                                 }
@@ -334,7 +337,7 @@ namespace Dopamine.Common.Services.Indexing
 
                     foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
                     {
-                        if (!System.IO.File.Exists(ArtworkUtils.GetArtworkPath(alb.ArtworkID)))
+                        if (!System.IO.File.Exists(this.cacheService.GetCachedArtworkPath(alb.ArtworkID)))
                         {
                             alb.ArtworkID = string.Empty;
                             conn.Update(alb);
@@ -363,7 +366,7 @@ namespace Dopamine.Common.Services.Indexing
 
             await Task.Run(() =>
             {
-                string[] artworkFiles = Directory.GetFiles(System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder), "album-*.jpg");
+                string[] artworkFiles = Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "album-*.jpg");
 
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {

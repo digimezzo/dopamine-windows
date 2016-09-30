@@ -1,9 +1,12 @@
-﻿using Dopamine.Common.Services.Indexing;
+﻿using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
@@ -21,6 +24,7 @@ namespace Dopamine.Common.Services.File
     {
         #region Variables
         private IPlaybackService playbackService;
+        private ICacheService cacheService;
         private List<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
@@ -29,9 +33,10 @@ namespace Dopamine.Common.Services.File
         #endregion
 
         #region Construction
-        public FileService(IPlaybackService iPlaybackService)
+        public FileService(IPlaybackService playbackService, ICacheService cacheService)
         {
-            this.playbackService = iPlaybackService;
+            this.playbackService = playbackService;
+            this.cacheService = cacheService;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -123,7 +128,7 @@ namespace Dopamine.Common.Services.File
                         if (FileFormats.IsSupportedAudioFile(path))
                         {
                             // The file is a supported audio format: add it directly.
-                            tracks.Add(IndexerUtils.Path2TrackInfo(path, "file-" + this.instanceGuid));
+                            tracks.Add(this.Path2TrackInfo(path, "file-" + this.instanceGuid));
 
                         }
                         else if (FileFormats.IsSupportedPlaylistFile(path))
@@ -133,7 +138,7 @@ namespace Dopamine.Common.Services.File
 
                             foreach (string audioFilePath in audioFilePaths)
                             {
-                                tracks.Add(IndexerUtils.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
+                                tracks.Add(this.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
                             }
                         }
                         else if (Directory.Exists(path))
@@ -143,7 +148,7 @@ namespace Dopamine.Common.Services.File
 
                             foreach (string audioFilePath in audioFilePaths)
                             {
-                                tracks.Add(IndexerUtils.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
+                                tracks.Add(this.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
                             }
                         }
                         else
@@ -206,11 +211,9 @@ namespace Dopamine.Common.Services.File
 
                 try
                 {
-                    string artworkCacheDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
-
-                    if (System.IO.Directory.Exists(artworkCacheDirectory))
+                    if (System.IO.Directory.Exists(this.cacheService.CoverArtCacheFolderPath))
                     {
-                        artworkFiles = System.IO.Directory.GetFiles(artworkCacheDirectory, "file-*.jpg");
+                        artworkFiles = System.IO.Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "file-*.jpg");
                     }
                 }
                 catch (Exception ex)
@@ -238,6 +241,71 @@ namespace Dopamine.Common.Services.File
                     }
                 }
             });
+        }
+
+        public TrackInfo Path2TrackInfo(string path, string artworkPrefix)
+        {
+            var ti = new TrackInfo();
+
+            try
+            {
+                var fmd = new FileMetadata(path);
+                var fi = new FileInformation(path);
+
+                ti.Path = path;
+                ti.FileName = fi.NameWithoutExtension;
+                ti.MimeType = fmd.MimeType;
+                ti.FileSize = fi.SizeInBytes;
+                ti.BitRate = fmd.BitRate;
+                ti.SampleRate = fmd.SampleRate;
+                ti.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
+                ti.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
+                ti.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
+                ti.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
+                ti.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
+                ti.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
+                ti.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
+                ti.Rating = fmd.Rating.Value;
+
+                ti.ArtistName = IndexerUtils.GetFirstArtist(fmd);
+
+                ti.GenreName = IndexerUtils.GetFirstGenre(fmd);
+
+                ti.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                ti.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
+
+                var dummyAlbum = new Album
+                {
+                    AlbumTitle = ti.AlbumTitle,
+                    AlbumArtist = ti.AlbumArtist
+                };
+
+                IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
+
+                ti.AlbumArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(dummyAlbum, ti.Path));
+                ti.AlbumArtist = dummyAlbum.AlbumArtist;
+                ti.AlbumTitle = dummyAlbum.AlbumTitle;
+                ti.AlbumYear = dummyAlbum.Year;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Error while creating TrackInfo from file '{0}'. Exception: {1}", path, ex.Message);
+
+                // Make sure the file can be opened by creating a TrackInfo with some default values
+                ti = new TrackInfo();
+
+                ti.Path = path;
+                ti.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+
+                ti.ArtistName = Defaults.UnknownArtistString;
+
+                ti.GenreName = Defaults.UnknownGenreString;
+
+                ti.AlbumTitle = Defaults.UnknownAlbumString;
+                ti.AlbumArtist = Defaults.UnknownAlbumArtistString;
+            }
+
+            return ti;
         }
         #endregion
     }

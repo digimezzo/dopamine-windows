@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Services.Appearance;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -10,6 +11,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private IAppearanceService appearanceService;
+        private ICacheService cacheService;
         private double opacity;
         #endregion
 
@@ -22,11 +24,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public BackgroundCoverArtControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService) : base(playbackService)
+        public BackgroundCoverArtControlViewModel(IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService) : base(playbackService, cacheService)
         {
 
             this.playbackService = playbackService;
             this.appearanceService = appearanceService;
+            this.cacheService = cacheService;
 
             this.appearanceService.ThemeChanged += (_, __) => this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
 

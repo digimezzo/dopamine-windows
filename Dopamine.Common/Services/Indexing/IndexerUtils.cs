@@ -80,58 +80,31 @@ namespace Dopamine.Common.Services.Indexing
             return artworkData;
         }
 
-        public static string CacheArtworkData(byte[] artworkData)
+        public static byte[] GetArtwork(Album album, string path)
         {
-            string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
-            string artworkID = "album-" + Guid.NewGuid().ToString();
-
-            ImageOperations.Byte2Jpg(artworkData, Path.Combine(coverArtCacheSubDirectory, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
-
-            return artworkID;
-        }
-
-        public static bool CacheArtwork(Album album, string path)
-        {
-            bool isCached = false;
+            byte[] artworkData = null;
 
             try
             {
-                // Don't set album art is the album is unknown
+                // Don't get artwork is the album is unknown
                 if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumString))
                 {
                     // Get embedded artwork
-                    byte[] artworkData = GetEmbeddedArtwork(path);
-
+                    artworkData = GetEmbeddedArtwork(path);
 
                     if (artworkData == null || artworkData.Length == 0)
                     {
-                        // If getting embedded artwork failed, try to get external artwork
+                        // If getting embedded artwork failed, try to get external artwork.
                         artworkData = GetExternalArtwork(path);
                     }
-
-                    if (artworkData != null)
-                    {
-                        album.ArtworkID = CacheArtworkData(artworkData);
-                        album.DateLastSynced = DateTime.Now.Ticks;
-                        isCached = true;
-                    }
                 }
-                else
-                {
-                    if (!string.IsNullOrEmpty(album.ArtworkID))
-                    {
-                        album.ArtworkID = string.Empty;
-                        album.DateLastSynced = DateTime.Now.Ticks;
-                    }
-                }
-
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not cache artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                LogClient.Instance.Logger.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
-            return isCached;
+            return artworkData;
         }
 
         public static long CalculateSaveItemCount(long numberItemsToAdd)
@@ -218,73 +191,6 @@ namespace Dopamine.Common.Services.Indexing
         public static string GetFirstAlbumArtist(FileMetadata iFileMetadata)
         {
             return string.IsNullOrWhiteSpace(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownAlbumArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownAlbumArtistString));
-        }
-
-        public static TrackInfo Path2TrackInfo(string path, string artworkPrefix)
-        {
-            var ti = new TrackInfo();
-
-            try
-            {
-                var fmd = new FileMetadata(path);
-                var fi = new FileInformation(path);
-
-                ti.Path = path;
-                ti.FileName = fi.NameWithoutExtension;
-                ti.MimeType = fmd.MimeType;
-                ti.FileSize = fi.SizeInBytes;
-                ti.BitRate = fmd.BitRate;
-                ti.SampleRate = fmd.SampleRate;
-                ti.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
-                ti.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
-                ti.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
-                ti.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
-                ti.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
-                ti.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
-                ti.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                ti.Rating = fmd.Rating.Value;
-
-                ti.ArtistName = GetFirstArtist(fmd);
-
-                ti.GenreName = GetFirstGenre(fmd);
-
-                ti.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                ti.AlbumArtist = GetFirstAlbumArtist(fmd);
-
-                var dummyAlbum = new Album
-                {
-                    AlbumTitle = ti.AlbumTitle,
-                    AlbumArtist = ti.AlbumArtist
-                };
-
-                IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
-
-                IndexerUtils.CacheArtwork(dummyAlbum, ti.Path);
-
-                ti.AlbumArtworkID = dummyAlbum.ArtworkID;
-                ti.AlbumArtist = dummyAlbum.AlbumArtist;
-                ti.AlbumTitle = dummyAlbum.AlbumTitle;
-                ti.AlbumYear = dummyAlbum.Year;
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Error("Error while creating TrackInfo from file '{0}'. Exception: {1}", path, ex.Message);
-
-                // Make sure the file can be opened by creating a TrackInfo with some default values
-                ti = new TrackInfo();
-
-                ti.Path = path;
-                ti.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
-
-                ti.ArtistName = Defaults.UnknownArtistString;
-
-                ti.GenreName = Defaults.UnknownGenreString;
-
-                ti.AlbumTitle = Defaults.UnknownAlbumString;
-                ti.AlbumArtist = Defaults.UnknownAlbumArtistString;
-            }
-
-            return ti;
         }
 
         public static int CalculatePercent(long currentValue, long totalValue)
