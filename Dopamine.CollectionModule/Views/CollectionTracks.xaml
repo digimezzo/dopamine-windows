@@ -27,10 +27,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <commonviews:CommonTracksView.Resources>
-        <presentationutils:BindingProxy x:Key="ColumnsProxy" Data="{DynamicResource Language_Columns}"/>
-    </commonviews:CommonTracksView.Resources>
-
     <DockPanel>
         <controls:TotalsInformation
                                 DockPanel.Dock="Bottom"

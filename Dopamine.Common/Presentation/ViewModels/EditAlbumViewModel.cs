@@ -1,15 +1,19 @@
 ﻿using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.API.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
+using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -70,6 +74,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
+        public DelegateCommand DownloadArtworkCommand { get; set; }
         #endregion
 
         #region Construction
@@ -82,23 +87,25 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.artwork = new MetadataArtworkValue();
 
             this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync());
-            this.ChangeArtworkCommand = new DelegateCommand( async() =>
-            {
-                if (!await OpenFileUtils.OpenImageFileAsync(new Action<string, byte[]>(this.UpdateArtwork)))
-                {
-                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Changing_Image"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                }
-            });
+            this.ChangeArtworkCommand = new DelegateCommand(async () =>
+           {
+               if (!await OpenFileUtils.OpenImageFileAsync(new Action<string, byte[]>(this.UpdateArtwork)))
+               {
+                   this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Changing_Image"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+               }
+           });
 
 
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(string.Empty, null));
+            this.DownloadArtworkCommand = new DelegateCommand(() => this.DownloadArtworkAsync(), () => this.album.AlbumArtist != Defaults.UnknownAlbumArtistString && this.Album.AlbumTitle != Defaults.UnknownAlbumString);
         }
         #endregion
 
         #region Private
         private async Task GetAlbumArtworkAsync()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 string artworkPath = ArtworkUtils.GetArtworkPath(this.Album.ArtworkID);
 
                 try
@@ -125,6 +132,54 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.Artwork.SetValue(imagePath, imageData);
             this.ArtworkThumbnail = ImageOperations.PathToBitmapImage(imagePath, Convert.ToInt32(Constants.CoverLargeSize), Convert.ToInt32(Constants.CoverLargeSize));
             OnPropertyChanged(() => this.HasArtwork);
+        }
+
+        private async Task DownloadArtworkAsync()
+        {
+            this.IsBusy = true;
+
+            try
+            {
+                string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
+                LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
+                byte[] artworkData = null;
+
+                await Task.Run(() =>
+                {
+                    if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+                    {
+                        string extension = Path.GetExtension(lfmAlbum.LargestImage());
+                        string filename = System.IO.Path.Combine(coverArtCacheSubDirectory, "temp-" + Guid.NewGuid().ToString() + extension);
+
+                        using (var client = new WebClient())
+                        {
+                            client.DownloadFile(new Uri(lfmAlbum.LargestImage()), filename);
+                        }
+
+                        if (System.IO.File.Exists(filename))
+                        {
+                            artworkData = ImageOperations.Image2ByteArray(filename);
+
+                            if (artworkData != null) this.UpdateArtwork(filename, artworkData);
+
+                            try
+                            {
+                                System.IO.File.Delete(filename);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Instance.Logger.Error("Could not delete the temporary artwork file. Exception: {0}", ex.Message);
+                            }
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("An error occurred while downloading artwork for the album with title='{0}' and artist='{1}'. Exception: {2}", this.Album.AlbumTitle, this.Album.AlbumArtist, ex.Message);
+            }
+
+            this.IsBusy = false;
         }
         #endregion
 

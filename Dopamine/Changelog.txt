@@ -1,7 +1,8 @@
-2016-09-27: Dopamine 1.2 Build 734 (Preview)
+2016-09-30: Dopamine 1.2 Build 735 (Preview)
 --------------------------------------------
 
 - [Added] Added an Artist information screen
+- [Added] Added feature to download album covers from Internet
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Greek translation
 
