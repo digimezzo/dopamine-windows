@@ -206,7 +206,7 @@ namespace Dopamine.Common.Services.File
 
                 try
                 {
-                    string artworkCacheDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
+                    string artworkCacheDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
 
                     if (System.IO.Directory.Exists(artworkCacheDirectory))
                     {

@@ -288,6 +288,8 @@
     <Compile Include="Services\Appearance\AppearanceService.cs" />
     <Compile Include="Services\Appearance\ColorScheme.cs" />
     <Compile Include="Services\Appearance\IAppearanceService.cs" />
+    <Compile Include="Services\Cache\CacheService.cs" />
+    <Compile Include="Services\Cache\ICacheService.cs" />
     <Compile Include="Services\Collection\CollectionService.cs" />
     <Compile Include="Services\Collection\ICollectionService.cs" />
     <Compile Include="Services\Command\CommandService.cs" />

@@ -15,8 +15,8 @@ namespace Dopamine.Common.Services.I18n
     public class I18nService : II18nService
     {
         #region Variables
-        private string builtinLanguagesDirectory = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ApplicationPaths.BuiltinLanguagesSubDirectory);
-        private string customLanguagesDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CustomLanguagesSubDirectory);
+        private string builtinLanguagesDirectory = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ApplicationPaths.BuiltinLanguagesFolder);
+        private string customLanguagesDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CustomLanguagesFolder);
         private List<Language> languages;
         private Language defaultLanguage;
         private FileSystemWatcher languageWatcher;

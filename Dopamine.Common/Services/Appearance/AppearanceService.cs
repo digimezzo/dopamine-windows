@@ -24,7 +24,7 @@ namespace Dopamine.Common.Services.Appearance
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
-        private string colorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesSubDirectory);
+        private string colorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesFolder);
 
         private double colorSchemeTimeoutSeconds = 0.2;
         private ColorScheme[] builtInColorSchemes = {
