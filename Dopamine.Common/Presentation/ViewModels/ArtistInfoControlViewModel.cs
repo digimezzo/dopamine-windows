@@ -23,6 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Artist previousArtist;
         private Artist artist;
         private SlideDirection slideDirection;
+        private bool isBusy;
         #endregion
 
         #region Properties
@@ -37,6 +38,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.artistInfoViewModel; }
             set { SetProperty<ArtistInfoViewModel>(ref this.artistInfoViewModel, value); }
         }
+
+        public bool IsBusy
+        {
+            get { return this.isBusy; }
+            set { SetProperty<bool>(ref this.isBusy,value); }
+        }
+        
         #endregion
 
         #region Construction
@@ -102,6 +110,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             // The artist changed: we need to show new artist info.
             string artworkPath = string.Empty;
 
+            this.IsBusy = true;
+
             try
             {
                 LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
@@ -132,6 +142,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
                 this.artist = null;
             }
+
+            this.IsBusy = false;
         }
         #endregion
     }

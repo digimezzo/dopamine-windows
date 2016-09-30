@@ -15,6 +15,16 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
+        <Storyboard x:Key="FadeIn">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="FadeOut">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0.5" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
         <DataTemplate DataType="{x:Type commonviewmodels:ArtistInfoViewModel}">
             <DockPanel>
                 <StackPanel>
@@ -54,12 +64,37 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <dc:SlidingContentControl 
+    <Grid>
+        <dc:SlidingContentControl 
         Panel.ZIndex="0" 
         Width="{Binding ActualWidth,ElementName=ThisControl}" 
         Height="{Binding ActualHeight,ElementName=ThisControl}" 
         EasingAmplitude="0" 
         SlideDirection="{Binding SlideDirection}" 
         Content="{Binding ArtistInfoViewModel}"
-        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}">
+            <dc:SlidingContentControl.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard ="{StaticResource FadeOut}"/>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard ="{StaticResource FadeIn}"/>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </dc:SlidingContentControl.Style>
+        </dc:SlidingContentControl>
+        <dc:ProgressRing Panel.ZIndex="1" 
+                         Width="60" 
+                         Height="60" 
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="{DynamicResource RG_AccentBrush}" 
+                         IsActive="{Binding IsBusy}" 
+                         Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+    </Grid>
 </UserControl>
