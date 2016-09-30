@@ -1,5 +1,6 @@
 ﻿using Dopamine.Common.Controls;
 using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Logging;
@@ -18,6 +19,7 @@ namespace Dopamine.Common.Services.Notification
         private IUnityContainer container;
         private NotificationWindow notification;
         private IPlaybackService playbackService;
+        private ICacheService cacheService;
         private DopamineWindow mainWindow;
         private DopamineWindow playlistWindow;
         private Window trayControlsWindow;
@@ -38,10 +40,11 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationService(IUnityContainer container, IPlaybackService playbackService)
+        public NotificationService(IUnityContainer container, IPlaybackService playbackService, ICacheService cacheService)
         {
             this.container = container;
             this.playbackService = playbackService;
+            this.cacheService = cacheService;
 
             this.playbackService.PlaybackSuccess += async (x) => await this.ShowNotificationIfAllowedAsync();
         }
@@ -100,7 +103,7 @@ namespace Dopamine.Common.Services.Notification
                 {
                     if (this.playbackService.PlayingTrack != null)
                     {
-                        artworkPath = ArtworkUtils.GetArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
+                        artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
                         playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
                         playingTrackinfoVm.TrackInfo = this.playbackService.PlayingTrack;
                     }

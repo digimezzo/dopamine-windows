@@ -1,5 +1,6 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
@@ -22,6 +23,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Variables
         private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
+        private ICacheService cacheService;
         private IRegionManager regionManager;
 
         private bool hasCloud;
@@ -138,10 +140,11 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionCloudViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, IRegionManager regionManager)
+        public CollectionCloudViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IRegionManager regionManager)
         {
             this.albumRepository = albumRepository;
             this.playbackService = playbackService;
+            this.cacheService = cacheService;
             this.regionManager = regionManager;
 
             this.playbackService.TrackStatisticsChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
@@ -188,7 +191,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     albumViewModel = new AlbumViewModel
                     {
                         Album = alb,
-                        ArtworkPath = ArtworkUtils.GetArtworkPath(alb.ArtworkID)
+                        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
                     };
                 }
             }
@@ -227,7 +230,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.UpdateAlbumViewModel(13, albums, ref this.albumViewModel13);
                     this.UpdateAlbumViewModel(14, albums, ref this.albumViewModel14);
                 });
-             }
+            }
         }
         #endregion
 

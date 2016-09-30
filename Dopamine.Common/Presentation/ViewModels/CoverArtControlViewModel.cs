@@ -1,4 +1,5 @@
 ﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -20,6 +21,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
+        private ICacheService cacheService;
         private SlideDirection slideDirection;
         private Album previousAlbum;
         private Album album;
@@ -40,9 +42,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public CoverArtControlViewModel(IPlaybackService playbackService)
+        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService)
         {
             this.playbackService = playbackService;
+            this.cacheService = cacheService;
 
             this.playbackService.PlaybackFailed += (_, __) => this.ShowCoverArtAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowCoverArtAsync(null);
@@ -102,7 +105,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = ArtworkUtils.GetArtworkPath(trackInfo.AlbumArtworkID);
+                artworkPath = this.cacheService.GetCachedArtworkPath(trackInfo.AlbumArtworkID);
             });
 
             if (string.IsNullOrEmpty(artworkPath))

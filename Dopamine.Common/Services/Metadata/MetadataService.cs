@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Indexing;
+﻿using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -26,6 +27,7 @@ namespace Dopamine.Common.Services.Metadata
         private IArtistRepository artistRepository;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
+        private ICacheService cacheService;
         private IPlaybackService playbackService;
         private Queue<FileMetadata> fileMetadatas;
         private object lockObject = new object();
@@ -52,8 +54,9 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region Construction
-        public MetadataService(IPlaybackService playbackService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
+        public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
         {
+            this.cacheService = cacheService;
             this.playbackService = playbackService;
 
             this.trackRepository = trackRepository;
@@ -79,7 +82,7 @@ namespace Dopamine.Common.Services.Metadata
             Track dbTrack = await this.trackRepository.GetTrackAsync(path);
 
             // Update datebase track rating only if the track can be found
-            if(dbTrack != null)
+            if (dbTrack != null)
             {
                 dbTrack.Rating = rating;
                 await this.trackRepository.UpdateTrackAsync(dbTrack);
@@ -123,7 +126,7 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     try
                     {
-                        artworkID = IndexerUtils.CacheArtworkData(artwork.DataValue);
+                        artworkID = this.cacheService.CacheArtwork(artwork.DataValue);
                     }
                     catch (Exception ex)
                     {
@@ -336,9 +339,9 @@ namespace Dopamine.Common.Services.Metadata
 
                 if (dbAlbum == null)
                 {
-                    dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist };
+                    dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist , DateLastSynced = DateTime.Now.Ticks };
 
-                    await Task.Run(() => IndexerUtils.CacheArtwork(dbAlbum, dbTrack.Path)); // Artwork
+                    await Task.Run(() => dbAlbum.ArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path)));
 
                     dbAlbum = await this.albumRepository.AddAlbumAsync(dbAlbum);
                 }
@@ -356,9 +359,13 @@ namespace Dopamine.Common.Services.Metadata
 
                 string artworkID = String.Empty;
 
-                if(fileMetadata.ArtworkData.DataValue != null)
+                try
                 {
-                    await Task.Run(() => artworkID = IndexerUtils.CacheArtworkData(fileMetadata.ArtworkData.DataValue));
+                    await Task.Run(() => artworkID = this.cacheService.CacheArtwork(fileMetadata.ArtworkData.DataValue));
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("An error occured while caching artwork data", ex.Message);
                 }
 
                 await this.albumRepository.UpdateAlbumArtworkAsync(!string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString,
@@ -414,7 +421,7 @@ namespace Dopamine.Common.Services.Metadata
             this.isUpdatingDatabaseMetadata = false;
         }
 
-        private async void DelayedUpdateFileMetadataHandler(Object sender,  EventArgs e)
+        private async void DelayedUpdateFileMetadataHandler(Object sender, EventArgs e)
         {
             await this.UpdateFilemetadataAsync();
         }

@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -25,11 +26,12 @@ namespace Dopamine.Common.Services.Collection
         private ITrackRepository trackRepository;
         private IGenreRepository genreRepository;
         private IFolderRepository folderRepository;
+        private ICacheService cacheService;
         private List<Folder> markedFolders;
         #endregion
 
         #region Construction
-        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository)
+        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService)
         {
             this.playlistRepository = playlistRepository;
             this.albumRepository = albumRepository;
@@ -37,6 +39,7 @@ namespace Dopamine.Common.Services.Collection
             this.trackRepository = trackRepository;
             this.genreRepository = genreRepository;
             this.folderRepository = folderRepository;
+            this.cacheService = cacheService;
             this.markedFolders = new List<Folder>();
         }
         #endregion
@@ -235,7 +238,7 @@ namespace Dopamine.Common.Services.Collection
                             if (dbAlbum != null)
                             {
                                 albvm.Album.ArtworkID = dbAlbum.ArtworkID;
-                                albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
+                                albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
@@ -260,7 +263,7 @@ namespace Dopamine.Common.Services.Collection
                             if (dbAlbum != null)
                             {
                                 tivm.TrackInfo.AlbumArtworkID = dbAlbum.ArtworkID;
-                                tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(dbAlbum.ArtworkID);
+                                tivm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
@@ -284,7 +287,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            tivm.ArtworkPath = ArtworkUtils.GetArtworkPath(tivm.TrackInfo.AlbumArtworkID);
+                            tivm.ArtworkPath = this.cacheService.GetCachedArtworkPath(tivm.TrackInfo.AlbumArtworkID);
                         }
                         catch (Exception ex)
                         {
@@ -311,7 +314,7 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            albvm.ArtworkPath = ArtworkUtils.GetArtworkPath(albvm.Album.ArtworkID);
+                            albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(albvm.Album.ArtworkID);
                         }
                         catch (Exception ex)
                         {

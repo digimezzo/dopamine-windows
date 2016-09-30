@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.API.Lastfm;
@@ -26,6 +27,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Album album;
         private IMetadataService metadataService;
         private IDialogService dialogService;
+        private ICacheService cacheService;
         private MetadataArtworkValue artwork;
         private BitmapImage artworkThumbnail;
         private bool updateFileArtwork;
@@ -78,11 +80,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditAlbumViewModel(Album album, IMetadataService metadataService, IDialogService dialogService)
+        public EditAlbumViewModel(Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
         {
             this.Album = album;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
+            this.cacheService = cacheService;
 
             this.artwork = new MetadataArtworkValue();
 
@@ -106,7 +109,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             await Task.Run(() =>
             {
-                string artworkPath = ArtworkUtils.GetArtworkPath(this.Album.ArtworkID);
+                string artworkPath = this.cacheService.GetCachedArtworkPath(this.Album.ArtworkID);
 
                 try
                 {
@@ -140,7 +143,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
                 LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
                 byte[] artworkData = null;
 
@@ -149,7 +151,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
                     {
                         string extension = Path.GetExtension(lfmAlbum.LargestImage());
-                        string filename = System.IO.Path.Combine(coverArtCacheSubDirectory, "temp-" + Guid.NewGuid().ToString() + extension);
+                        string filename = System.IO.Path.Combine(this.cacheService.CoverArtCacheFolderPath, "temp-" + Guid.NewGuid().ToString() + extension);
 
                         using (var client = new WebClient())
                         {
