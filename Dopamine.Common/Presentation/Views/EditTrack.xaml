@@ -8,6 +8,7 @@
              xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
@@ -19,6 +20,7 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
+        <presentationutils:BindingProxy x:Key="ChangeProxy" Data="{DynamicResource Language_Change}"/>
         <Storyboard x:Key="FadeIn">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
@@ -87,7 +89,7 @@
                     <Button 
                         Style="{StaticResource MetroButton}" 
                         Margin="0,15,0,0" 
-                        Content="{DynamicResource Language_Change}" 
+                        Content="{Binding Source={StaticResource ChangeProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
                         ToolTip="{DynamicResource Language_Change_The_Image}"
                         Command="{Binding ChangeArtworkCommand}"/>
                     <Button 
