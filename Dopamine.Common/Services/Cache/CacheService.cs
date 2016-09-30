@@ -25,6 +25,12 @@ namespace Dopamine.Common.Services.Cache
         {
             string cacheFolderPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder);
             this.coverArtCacheFolderPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
+
+            // If it doesn't exist, create the cache folder.
+            if (!Directory.Exists(cacheFolderPath)) Directory.CreateDirectory(cacheFolderPath);
+
+            // If it doesn't exist, create the coverArt cache folder.
+            if (!Directory.Exists(this.coverArtCacheFolderPath)) Directory.CreateDirectory(this.coverArtCacheFolderPath);
         }
         #endregion
     }

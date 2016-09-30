@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.Common.Services.Cache;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
@@ -17,9 +18,8 @@ namespace Dopamine.Common.Services.Indexing
     public class IndexingService : IIndexingService
     {
         #region Variables
-        // Directories
-        private string cacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder);
-        private string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
+        // Services
+        private ICacheService cacheService;
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -64,9 +64,13 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Construction
-        public IndexingService(ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository, IFolderRepository folderRepository, IPlaylistEntryRepository playlistEntryRepository)
+        public IndexingService(ICacheService cacheService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository, IFolderRepository folderRepository, IPlaylistEntryRepository playlistEntryRepository)
         {
-            // Initialize Repositories
+            // Initialize services
+            // -------------------
+            this.cacheService = cacheService;
+
+            // Initialize repositories
             // -----------------------
             this.trackRepository = trackRepository;
             this.albumRepository = albumRepository;
@@ -74,31 +78,6 @@ namespace Dopamine.Common.Services.Indexing
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
             this.playlistEntryRepository = playlistEntryRepository;
-
-            // Initialize the Cache directory and its subdirectories
-            // -----------------------------------------------------
-            // If the Cache subdirectory doesn't exist, create it
-            if (!Directory.Exists(this.cacheSubDirectory))
-            {
-                Directory.CreateDirectory(System.IO.Path.Combine(this.cacheSubDirectory));
-            }
-
-            // Delete old cache directories
-            if (Directory.Exists(System.IO.Path.Combine(this.cacheSubDirectory, "CoverPictures")))
-            {
-                Directory.Delete(System.IO.Path.Combine(this.cacheSubDirectory, "CoverPictures"), true);
-            }
-
-            if (Directory.Exists(System.IO.Path.Combine(this.cacheSubDirectory, "CoverThumbnails")))
-            {
-                Directory.Delete(System.IO.Path.Combine(this.cacheSubDirectory, "CoverThumbnails"), true);
-            }
-
-            // Create the cache directory
-            if (!Directory.Exists(this.coverArtCacheSubDirectory))
-            {
-                Directory.CreateDirectory(this.coverArtCacheSubDirectory);
-            }
 
             // Initialize values
             // -----------------
