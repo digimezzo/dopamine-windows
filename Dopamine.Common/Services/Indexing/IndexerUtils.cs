@@ -82,7 +82,7 @@ namespace Dopamine.Common.Services.Indexing
 
         public static string CacheArtworkData(byte[] artworkData)
         {
-            string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
+            string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
             string artworkID = "album-" + Guid.NewGuid().ToString();
 
             ImageOperations.Byte2Jpg(artworkData, Path.Combine(coverArtCacheSubDirectory, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);

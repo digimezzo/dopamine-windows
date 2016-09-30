@@ -9,7 +9,7 @@ namespace Dopamine.Core.Utils
         {
             if (!string.IsNullOrEmpty(artworkID))
             {
-                return System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory, artworkID + ".jpg");
+                return System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder, artworkID + ".jpg");
             }
             else
             {

@@ -140,7 +140,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
+                string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
                 LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
                 byte[] artworkData = null;
 

@@ -2,6 +2,7 @@
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Appearance;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.Dialog;
@@ -78,6 +79,7 @@ namespace Dopamine
 
         protected void RegisterServices()
         {
+            Container.RegisterSingletonType<ICacheService, CacheService>();
             Container.RegisterSingletonType<IUpdateService, UpdateService>();
             Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
             Container.RegisterSingletonType<II18nService, I18nService>();

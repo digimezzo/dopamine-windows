@@ -36,10 +36,10 @@ namespace Dopamine.Core.Logging
             config.AddTarget("file", fileTarget);
 
             // Step 3. Set target properties
-            this.logFile = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.LogSubDirectory, ApplicationPaths.LogFile);
+            this.logFile = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.LogFolder, ApplicationPaths.LogFile);
 
             fileTarget.FileName = this.logFile;
-            fileTarget.ArchiveFileName = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.LogSubDirectory, ApplicationPaths.LogArchiveFile);
+            fileTarget.ArchiveFileName = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.LogFolder, ApplicationPaths.LogArchiveFile);
             fileTarget.Layout = "${longdate}|${level}|${callsite}|${message}";
             fileTarget.ArchiveAboveSize = 5242880;
             fileTarget.ArchiveNumbering = ArchiveNumberingMode.Rolling;

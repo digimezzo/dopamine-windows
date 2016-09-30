@@ -38,7 +38,7 @@ namespace Dopamine.Common.Services.Update
         {
             this.checkNewVersionTimer.Elapsed += new ElapsedEventHandler(this.CheckNewVersionTimerHandler);
 
-            this.updatesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.UpdatesSubDirectory);
+            this.updatesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.UpdatesFolder);
             this.canCheckForUpdates = false;
         }
         #endregion

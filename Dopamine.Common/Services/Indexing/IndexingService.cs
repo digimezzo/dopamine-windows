@@ -18,8 +18,8 @@ namespace Dopamine.Common.Services.Indexing
     {
         #region Variables
         // Directories
-        private string cacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory);
-        private string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory);
+        private string cacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder);
+        private string coverArtCacheSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -384,7 +384,7 @@ namespace Dopamine.Common.Services.Indexing
 
             await Task.Run(() =>
             {
-                string[] artworkFiles = Directory.GetFiles(System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheSubDirectory, ApplicationPaths.CoverArtCacheSubDirectory), "album-*.jpg");
+                string[] artworkFiles = Directory.GetFiles(System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder), "album-*.jpg");
 
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
