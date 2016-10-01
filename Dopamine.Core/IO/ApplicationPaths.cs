@@ -9,6 +9,7 @@ namespace Dopamine.Core.IO
         public static string EqualizerFolder = "Equalizer";
         public static string CacheFolder = "Cache";
         public static string CoverArtCacheFolder = "CoverArt";
+        public static string TemporaryCacheFolder = "Temporary";
         public static string IconsSubDirectory = "Icons";
         public static string BuiltinLanguagesFolder = "Languages";
         public static string CustomLanguagesFolder = "Languages";
