@@ -146,35 +146,16 @@ namespace Dopamine.Common.Presentation.ViewModels
                 LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
                 byte[] artworkData = null;
 
-                await Task.Run(() =>
+                if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
                 {
-                    if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+                    string temporaryFilePath = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(lfmAlbum.LargestImage()));
+
+                    if (!string.IsNullOrEmpty(temporaryFilePath))
                     {
-                        string extension = Path.GetExtension(lfmAlbum.LargestImage());
-                        string filename = System.IO.Path.Combine(this.cacheService.CoverArtCacheFolderPath, "temp-" + Guid.NewGuid().ToString() + extension);
-
-                        using (var client = new WebClient())
-                        {
-                            client.DownloadFile(new Uri(lfmAlbum.LargestImage()), filename);
-                        }
-
-                        if (System.IO.File.Exists(filename))
-                        {
-                            artworkData = ImageOperations.Image2ByteArray(filename);
-
-                            if (artworkData != null) this.UpdateArtwork(filename, artworkData);
-
-                            try
-                            {
-                                System.IO.File.Delete(filename);
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Instance.Logger.Error("Could not delete the temporary artwork file. Exception: {0}", ex.Message);
-                            }
-                        }
+                        artworkData = ImageOperations.Image2ByteArray(temporaryFilePath);
+                        if (artworkData != null) this.UpdateArtwork(temporaryFilePath, artworkData);
                     }
-                });
+                }
             }
             catch (Exception ex)
             {

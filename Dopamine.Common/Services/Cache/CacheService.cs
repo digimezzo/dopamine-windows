@@ -4,6 +4,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Cache
@@ -99,11 +100,16 @@ namespace Dopamine.Common.Services.Cache
             }
         }
 
-        public async Task<string> CacheOnlineFileAsync(Uri uri)
+        public async Task<string> DownloadFileToTemporaryCacheAsync(Uri uri)
         {
-            string cachedFilePath = string.Empty;
+            string cachedFilePath = System.IO.Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
 
+            using (var client = new WebClient())
+            {
+                await Task.Run(() => client.DownloadFile(uri, cachedFilePath));
+            }
 
+            if (!System.IO.File.Exists(cachedFilePath)) cachedFilePath = string.Empty;
 
             return cachedFilePath;
         }
