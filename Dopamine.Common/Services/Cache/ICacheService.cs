@@ -9,6 +9,6 @@ namespace Dopamine.Common.Services.Cache
         string TemporaryCacheFolderPath { get; }
         Task<string> CacheArtworkAsync(byte[] artwork);
         string GetCachedArtworkPath(string artworkID);
-        Task<string> CacheOnlineFileAsync(Uri uri);
+        Task<string> DownloadFileToTemporaryCacheAsync(Uri uri);
     }
 }
