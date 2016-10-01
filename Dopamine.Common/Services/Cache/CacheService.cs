@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Dopamine.Common.Services.Cache
 {
@@ -14,6 +15,8 @@ namespace Dopamine.Common.Services.Cache
         #region Variables
         private string coverArtCacheFolderPath;
         private string temporaryCacheFolderPath;
+        private Timer temporaryCacheCleanupTimer;
+        private int temporaryCacheCleanupTimeout = 300000; // 300000 milliseconds = 5 minutes
         #endregion
 
         #region Properties
@@ -62,6 +65,11 @@ namespace Dopamine.Common.Services.Cache
 
             // If the temporary cache folder doesn't exist, create it.
             if (!Directory.Exists(this.temporaryCacheFolderPath)) Directory.CreateDirectory(this.temporaryCacheFolderPath);
+
+            temporaryCacheCleanupTimer = new Timer();
+            temporaryCacheCleanupTimer.Interval = temporaryCacheCleanupTimeout;
+            temporaryCacheCleanupTimer.Elapsed += TemporaryCacheCleanupTimer_Elapsed;
+            temporaryCacheCleanupTimer.Start();
         }
         #endregion
 
@@ -102,16 +110,55 @@ namespace Dopamine.Common.Services.Cache
 
         public async Task<string> DownloadFileToTemporaryCacheAsync(Uri uri)
         {
-            string cachedFilePath = System.IO.Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
-
-            using (var client = new WebClient())
+            try
             {
-                await Task.Run(() => client.DownloadFile(uri, cachedFilePath));
+                string cachedFilePath = System.IO.Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
+
+                using (var client = new WebClient())
+                {
+                    await Task.Run(() => client.DownloadFile(uri, cachedFilePath));
+                }
+
+                if (!System.IO.File.Exists(cachedFilePath)) cachedFilePath = string.Empty;
+
+                return cachedFilePath;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not download file to temporary cache. Exception: {0}", ex.Message);
+                return string.Empty;
+            }
+           
+        }
+        #endregion
+
+        #region Private
+        private void TemporaryCacheCleanupTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            temporaryCacheCleanupTimer.Stop();
+
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(temporaryCacheFolderPath);
+
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not delete the file '{0}' from temporary cache. Exception: {1}", file.FullName, ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Error while cleaning up to temporary cache. Exception: {0}", ex.Message);
             }
 
-            if (!System.IO.File.Exists(cachedFilePath)) cachedFilePath = string.Empty;
-
-            return cachedFilePath;
+            temporaryCacheCleanupTimer.Start();
         }
         #endregion
     }

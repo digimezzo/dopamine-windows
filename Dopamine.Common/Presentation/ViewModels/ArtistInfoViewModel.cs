@@ -2,6 +2,9 @@
 using Prism.Mvvm;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using Dopamine.Common.Services.Cache;
+using System.Threading.Tasks;
+using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -10,6 +13,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private LastFmArtist lfmArtist;
         private ObservableCollection<SimilarArtistViewModel> similarArtists;
+        private ICacheService cacheService;
+        private string image;
         #endregion
 
         #region Properties
@@ -28,7 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public bool HasImage
         {
-            get { return !string.IsNullOrEmpty(this.Image); }
+            get { return !string.IsNullOrEmpty(this.image); }
         }
 
         public ObservableCollection<SimilarArtistViewModel> SimilarArtists
@@ -37,35 +42,26 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
         }
 
-        public LastFmArtist LfmArtist
+        public async Task SetLastFmArtistAsync(LastFmArtist lfmArtist)
         {
-            get { return this.lfmArtist; }
-            set
-            {
-                SetProperty<LastFmArtist>(ref this.lfmArtist, value);
+            this.lfmArtist = lfmArtist;
 
-                this.FillSimilarArtists();
+            OnPropertyChanged(() => this.ArtistName);
+            OnPropertyChanged(() => this.Biography);
+            OnPropertyChanged(() => this.HasBiography);
+            OnPropertyChanged(() => this.CleanedBiographyContent);
+            OnPropertyChanged(() => this.Url);
+            OnPropertyChanged(() => this.UrlText);
 
-                OnPropertyChanged(() => this.Biography);
-                OnPropertyChanged(() => this.HasBiography);
-                OnPropertyChanged(() => this.Url);
-                OnPropertyChanged(() => this.CleanedBiographyContent);
-                OnPropertyChanged(() => this.UrlText);
-                OnPropertyChanged(() => this.ArtistName);
-                OnPropertyChanged(() => this.Image);
-                OnPropertyChanged(() => this.HasImage);
-                OnPropertyChanged(() => this.SimilarArtists);
-                OnPropertyChanged(() => this.HasSimilarArtists);
-            }
+            await this.FillSimilarArtistsAsync();
+            await this.FillImageAsync();
         }
 
         public string Image
         {
             get
             {
-                if (this.lfmArtist == null) return string.Empty;
-
-                return this.lfmArtist.LargestImage();
+                return this.image;
             }
         }
 
@@ -132,21 +128,43 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
 
+        #region Construction
+        public ArtistInfoViewModel(ICacheService cacheService)
+        {
+            this.cacheService = cacheService;
+        }
+        #endregion
+
         #region Private
-        private void FillSimilarArtists()
+        private async Task FillSimilarArtistsAsync()
         {
             if (lfmArtist != null && lfmArtist.SimilarArtists != null && lfmArtist.SimilarArtists.Count > 0)
             {
-
-                var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
-
-                foreach (LastFmArtist similarArtist in lfmArtist.SimilarArtists)
+                await Task.Run(() =>
                 {
-                    localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url });
-                }
+                    var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
 
-                this.SimilarArtists = localSimilarArtists;
+                    foreach (LastFmArtist similarArtist in lfmArtist.SimilarArtists)
+                    {
+                        localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url });
+                    }
+
+                    this.SimilarArtists = localSimilarArtists;
+                });
             }
+
+            OnPropertyChanged(() => this.SimilarArtists);
+            OnPropertyChanged(() => this.HasSimilarArtists);
+        }
+
+        private async Task FillImageAsync()
+        {
+            if (this.lfmArtist == null || string.IsNullOrEmpty(this.lfmArtist.LargestImage())) return;
+
+            this.image = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(this.lfmArtist.LargestImage()));
+
+            OnPropertyChanged(() => this.Image);
+            OnPropertyChanged(() => this.HasImage);
         }
         #endregion
     }

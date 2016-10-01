@@ -8,6 +8,7 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class ArtistInfoControlViewModel : BindableBase
     {
         #region Variables
+        private IUnityContainer container;
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
@@ -42,32 +44,33 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool IsBusy
         {
             get { return this.isBusy; }
-            set { SetProperty<bool>(ref this.isBusy,value); }
+            set { SetProperty<bool>(ref this.isBusy, value); }
         }
-        
+
         #endregion
 
         #region Construction
-        public ArtistInfoControlViewModel(IPlaybackService playbackService, II18nService i18nService)
+        public ArtistInfoControlViewModel(IUnityContainer container, IPlaybackService playbackService, II18nService i18nService)
         {
+            this.container = container;
             this.playbackService = playbackService;
             this.i18nService = i18nService;
 
             this.SlideDirection = SlideDirection.LeftToRight; // Default SlideDirection
 
-            this.playbackService.PlaybackFailed += (_, __) => this.ShowArtistInfoAsync(null, false);
-            this.playbackService.PlaybackStopped += (_, __) => this.ShowArtistInfoAsync(null, false);
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
+            this.playbackService.PlaybackFailed += async (_, __) => await this.ShowArtistInfoAsync(null, false);
+            this.playbackService.PlaybackStopped += async (_, __) => await this.ShowArtistInfoAsync(null, false);
+            this.playbackService.PlaybackSuccess += async (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = SlideDirection.LeftToRight;
                 if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.RightToLeft;
-                this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+                await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
                 this.SlideDirection = SlideDirection.LeftToRight;
             };
 
-            this.i18nService.LanguageChanged += (_, __) =>
+            this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.PlayingTrack != null) this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
+                if (this.playbackService.PlayingTrack != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
             };
 
             // If PlaybackService.PlayingTrack is null, nothing is shown. This is handled in ShowArtistInfoAsync.
@@ -79,14 +82,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async void ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
+        private async Task ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
         {
             this.previousArtist = this.artist;
 
             // User doesn't want to download artist info, or no track is selected.
             if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null)
             {
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
                 return;
             }
@@ -94,7 +97,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Artist name is unknown
             if (trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = new LastFmArtist { Name = Defaults.UnknownArtistString } };
+                ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new LastFmArtist { Name = Defaults.UnknownArtistString });
+                this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;
             }
@@ -126,8 +131,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     if (lfmArtist != null)
                     {
-                        ArtistInfoViewModel localArtistInfoViewModel = null;
-                        await Task.Run(() => localArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = lfmArtist });
+                        ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
+                        await localArtistInfoViewModel.SetLastFmArtistAsync(lfmArtist);
                         this.ArtistInfoViewModel = localArtistInfoViewModel;
                     }
                     else
@@ -139,7 +144,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                this.ArtistInfoViewModel = new ArtistInfoViewModel { LfmArtist = null };
+                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }
 
