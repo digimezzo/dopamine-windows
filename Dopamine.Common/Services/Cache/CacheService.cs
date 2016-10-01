@@ -69,8 +69,17 @@ namespace Dopamine.Common.Services.Cache
             if (artwork == null) return string.Empty;
 
             string artworkID = "album-" + Guid.NewGuid().ToString();
-            ImageOperations.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
 
+            try
+            {
+                ImageOperations.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could convert artwork byte[]to JPG. Exception: {0}", ex.Message);
+                artworkID = string.Empty;
+            }
+ 
             return artworkID;
         }
 
