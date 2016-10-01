@@ -4,6 +4,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Cache
 {
@@ -64,7 +65,7 @@ namespace Dopamine.Common.Services.Cache
         #endregion
 
         #region ICacheService
-        public string CacheArtwork(byte[] artwork)
+        public async Task<string> CacheArtworkAsync(byte[] artwork)
         {
             if (artwork == null) return string.Empty;
 
@@ -72,14 +73,17 @@ namespace Dopamine.Common.Services.Cache
 
             try
             {
-                ImageOperations.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
+                await Task.Run(() =>
+                {
+                    ImageOperations.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
+                });
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could convert artwork byte[]to JPG. Exception: {0}", ex.Message);
                 artworkID = string.Empty;
             }
- 
+
             return artworkID;
         }
 
@@ -95,7 +99,7 @@ namespace Dopamine.Common.Services.Cache
             }
         }
 
-        public string CacheOnlineFileAsync(Uri uri)
+        public async Task<string> CacheOnlineFileAsync(Uri uri)
         {
             string cachedFilePath = string.Empty;
 

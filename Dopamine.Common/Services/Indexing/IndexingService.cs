@@ -278,7 +278,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             long numberUpdated = 0;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
@@ -294,7 +294,7 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 Track trk = this.GetLastModifiedTrack(alb);
 
-                                alb.ArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(alb, trk.Path));
+                                alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
 
                                 if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {

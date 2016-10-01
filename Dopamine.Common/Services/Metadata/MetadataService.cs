@@ -122,17 +122,14 @@ namespace Dopamine.Common.Services.Metadata
             // Cache new artwork
             if (artwork != null)
             {
-                await Task.Run(() =>
+                try
                 {
-                    try
-                    {
-                        artworkID = this.cacheService.CacheArtwork(artwork.DataValue);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Instance.Logger.Error("An error occured while caching artwork data for album with title='{0}' and album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
-                    }
-                });
+                    artworkID = await this.cacheService.CacheArtworkAsync(artwork.DataValue);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("An error occured while caching artwork data for album with title='{0}' and album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                }
             }
 
             // Update artwork in database
@@ -339,9 +336,9 @@ namespace Dopamine.Common.Services.Metadata
 
                 if (dbAlbum == null)
                 {
-                    dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist , DateLastSynced = DateTime.Now.Ticks };
+                    dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
 
-                    await Task.Run(() => dbAlbum.ArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path)));
+                   dbAlbum.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path));
 
                     dbAlbum = await this.albumRepository.AddAlbumAsync(dbAlbum);
                 }
@@ -361,7 +358,7 @@ namespace Dopamine.Common.Services.Metadata
 
                 try
                 {
-                    await Task.Run(() => artworkID = this.cacheService.CacheArtwork(fileMetadata.ArtworkData.DataValue));
+                   artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.DataValue);
                 }
                 catch (Exception ex)
                 {

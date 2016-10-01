@@ -4,6 +4,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
@@ -25,7 +26,7 @@ namespace Dopamine.Common.Services.File
         #region Variables
         private IPlaybackService playbackService;
         private ICacheService cacheService;
-        private List<string> files;
+        private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
         private int addFilesTimeout = 250; // milliseconds
@@ -102,7 +103,7 @@ namespace Dopamine.Common.Services.File
                     LogClient.Instance.Logger.Info("Finished adding files. Number of files added = {0}", this.files.Count);
                 }
 
-                await Application.Current.Dispatcher.BeginInvoke(new Action(async () => await this.ImportFiles()));
+                await Application.Current.Dispatcher.BeginInvoke(new Action(async () => await this.ImportFilesAsync()));
             }
             else
             {
@@ -111,54 +112,57 @@ namespace Dopamine.Common.Services.File
             }
         }
 
-        private async Task ImportFiles()
+        private async Task ImportFilesAsync()
         {
             var tracks = new List<TrackInfo>();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
+                List<string> tempFiles = null;
+
                 lock (this.lockObject)
                 {
-                    // Sort the files alphabetically
-                    this.files.Sort();
+                    tempFiles = (List<string>)this.files.Clone();
+                    this.files.Clear(); // Clear the list
+                }
 
-                    // Convert the files to tracks
-                    foreach (string path in this.files)
+                tempFiles.Sort(); // Sort the files alphabetically
+
+                if (tempFiles == null) return;
+
+                // Convert the files to tracks
+                foreach (string path in tempFiles)
+                {
+                    if (FileFormats.IsSupportedAudioFile(path))
                     {
-                        if (FileFormats.IsSupportedAudioFile(path))
-                        {
-                            // The file is a supported audio format: add it directly.
-                            tracks.Add(this.Path2TrackInfo(path, "file-" + this.instanceGuid));
+                        // The file is a supported audio format: add it directly.
+                        tracks.Add(await this.Path2TrackInfoAsync(path, "file-" + this.instanceGuid));
 
-                        }
-                        else if (FileFormats.IsSupportedPlaylistFile(path))
-                        {
-                            // The file is a supported playlist format: process the contents of the playlist file.
-                            List<string> audioFilePaths = this.ProcessPlaylistFile(path);
+                    }
+                    else if (FileFormats.IsSupportedPlaylistFile(path))
+                    {
+                        // The file is a supported playlist format: process the contents of the playlist file.
+                        List<string> audioFilePaths = this.ProcessPlaylistFile(path);
 
-                            foreach (string audioFilePath in audioFilePaths)
-                            {
-                                tracks.Add(this.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
-                            }
-                        }
-                        else if (Directory.Exists(path))
+                        foreach (string audioFilePath in audioFilePaths)
                         {
-                            // The file is a directory: get the audio files in that directory.
-                            List<string> audioFilePaths = this.ProcessDirectory(path);
-
-                            foreach (string audioFilePath in audioFilePaths)
-                            {
-                                tracks.Add(this.Path2TrackInfo(audioFilePath, "file-" + this.instanceGuid));
-                            }
-                        }
-                        else
-                        {
-                            // The file is unknown: do not process it.
+                            tracks.Add(await this.Path2TrackInfoAsync(audioFilePath, "file-" + this.instanceGuid));
                         }
                     }
+                    else if (Directory.Exists(path))
+                    {
+                        // The file is a directory: get the audio files in that directory.
+                        List<string> audioFilePaths = this.ProcessDirectory(path);
 
-                    // When done importing files, clear the list.
-                    this.files.Clear();
+                        foreach (string audioFilePath in audioFilePaths)
+                        {
+                            tracks.Add(await this.Path2TrackInfoAsync(audioFilePath, "file-" + this.instanceGuid));
+                        }
+                    }
+                    else
+                    {
+                        // The file is unknown: do not process it.
+                    }
                 }
             });
 
@@ -228,8 +232,8 @@ namespace Dopamine.Common.Services.File
                     {
                         try
                         {
-                            // Do not delete file from this instance
-                            if (!artworkFile.StartsWith("file-" + this.instanceGuid))
+                        // Do not delete file from this instance
+                        if (!artworkFile.StartsWith("file-" + this.instanceGuid))
                             {
                                 System.IO.File.Delete(artworkFile);
                             }
@@ -243,7 +247,7 @@ namespace Dopamine.Common.Services.File
             });
         }
 
-        public TrackInfo Path2TrackInfo(string path, string artworkPrefix)
+        public async Task<TrackInfo> Path2TrackInfoAsync(string path, string artworkPrefix)
         {
             var ti = new TrackInfo();
 
@@ -282,7 +286,7 @@ namespace Dopamine.Common.Services.File
 
                 IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
-                ti.AlbumArtworkID = this.cacheService.CacheArtwork(IndexerUtils.GetArtwork(dummyAlbum, ti.Path));
+                ti.AlbumArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dummyAlbum, ti.Path));
                 ti.AlbumArtist = dummyAlbum.AlbumArtist;
                 ti.AlbumTitle = dummyAlbum.AlbumTitle;
                 ti.AlbumYear = dummyAlbum.Year;

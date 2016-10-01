@@ -1,10 +1,14 @@
-﻿namespace Dopamine.Common.Services.Cache
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Dopamine.Common.Services.Cache
 {
     public interface ICacheService
     {
         string CoverArtCacheFolderPath { get; }
         string TemporaryCacheFolderPath { get; }
-        string CacheArtwork(byte[] artwork);
+        Task<string> CacheArtworkAsync(byte[] artwork);
         string GetCachedArtworkPath(string artworkID);
+        Task<string> CacheOnlineFileAsync(Uri uri);
     }
 }
