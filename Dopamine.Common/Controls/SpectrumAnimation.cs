@@ -78,7 +78,7 @@ namespace Dopamine.Common.Controls
         private void SpectrumAnimation_Unloaded(object sender, RoutedEventArgs e)
         {
             // This prevents a memory leak.
-            this.isActiveDescriptor.RemoveValueChanged(this, this.ValueChangedEventHandler);
+            if(this.isActiveDescriptor != null) this.isActiveDescriptor.RemoveValueChanged(this, this.ValueChangedEventHandler);
         }
         #endregion
 
