@@ -10,8 +10,9 @@ namespace Dopamine.Common.Controls
     public class SpectrumAnimation : Control
     {
         #region Variables
-        private StackPanel mSpectrumPanel;
-        private Storyboard mSpectrumStoryBoard;
+        private StackPanel spectrumPanel;
+        private Storyboard spectrumStoryBoard;
+        private DependencyPropertyDescriptor isActiveDescriptor;
         #endregion
 
         #region Properties
@@ -48,12 +49,14 @@ namespace Dopamine.Common.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            
+            spectrumPanel = (StackPanel)GetTemplateChild("SpectrumPanel");
+            spectrumStoryBoard = (Storyboard)spectrumPanel.TryFindResource("SpectrumStoryBoard");
 
-            mSpectrumPanel = (StackPanel)GetTemplateChild("SpectrumPanel");
-            mSpectrumStoryBoard = (Storyboard)mSpectrumPanel.TryFindResource("SpectrumStoryBoard");
+            this.isActiveDescriptor = DependencyPropertyDescriptor.FromProperty(SpectrumAnimation.IsActiveProperty, typeof(SpectrumAnimation));
+            this.isActiveDescriptor.AddValueChanged(this, this.ValueChangedEventHandler);
 
-            DependencyPropertyDescriptor d1 = DependencyPropertyDescriptor.FromProperty(SpectrumAnimation.IsActiveProperty, typeof(SpectrumAnimation));
-            d1.AddValueChanged(this, new EventHandler((_,__) => this.ToggleAnimation()));
+            this.Unloaded += SpectrumAnimation_Unloaded;
 
             this.ToggleAnimation();
         }
@@ -64,12 +67,25 @@ namespace Dopamine.Common.Controls
         {
             if (this.IsActive)
             {
-                mSpectrumStoryBoard.Begin();
+                spectrumStoryBoard.Begin();
             }
             else
             {
-                mSpectrumStoryBoard.Stop();
+                spectrumStoryBoard.Stop();
             }
+        }
+
+        private void SpectrumAnimation_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // This prevents a memory leak.
+            this.isActiveDescriptor.RemoveValueChanged(this, this.ValueChangedEventHandler);
+        }
+        #endregion
+
+        #region Event handlers
+        private void ValueChangedEventHandler(object sender, EventArgs e)
+        {
+            this.ToggleAnimation();
         }
         #endregion
     }
