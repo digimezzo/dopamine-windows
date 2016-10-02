@@ -16,10 +16,6 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <commonviews:CommonTracksView.InputBindings>
-        <KeyBinding Command="{Binding EditTracksTagsCommand}" Gesture="CTRL+T" />
-    </commonviews:CommonTracksView.InputBindings>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />

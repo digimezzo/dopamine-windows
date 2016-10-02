@@ -148,7 +148,6 @@
     <Compile Include="Controls\RatingButton.cs" />
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
-    <Compile Include="Controls\SpectrumAnimation.cs" />
     <Compile Include="Controls\SubMenuButton.cs" />
     <Compile Include="Controls\SyncRing.cs" />
     <Compile Include="Controls\Tile.cs" />
@@ -673,7 +672,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\SpectrumAnimation.xaml">
+    <Page Include="Resources\Styles\SpectrumAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

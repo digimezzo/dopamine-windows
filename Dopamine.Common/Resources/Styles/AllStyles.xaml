@@ -34,5 +34,6 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/WindowButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ScrollBar.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SortModeButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SpectrumAnimation.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
