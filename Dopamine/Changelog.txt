@@ -1,3 +1,9 @@
+2016-10-02: Dopamine 1.2 Build 739 (Preview)
+--------------------------------------------
+
+- [Fixed] Fixed a big memory leak
+
+
 2016-10-01: Dopamine 1.2 Build 738 (Preview)
 --------------------------------------------
 
