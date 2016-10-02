@@ -128,11 +128,11 @@
                                            Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <controls:SpectrumAnimation
+                                        <Label Style="{DynamicResource SpectrumAnimation}"
                                                 DockPanel.Dock="Right"
                                                 Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                IsActive="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                Accent="{Binding Foreground,ElementName=DummyLabel}" 
+                                                IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                Foreground="{Binding Foreground,ElementName=DummyLabel}" 
                                                 Margin="10,0,10,0" 
                                                 VerticalAlignment="Center"/>
                                         <controls:RatingButton 
@@ -214,12 +214,12 @@
                                 <StackPanel VerticalAlignment="Center" Height="38">
                                     <DockPanel Height="19">
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                            <controls:SpectrumAnimation
-                                            Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                            IsActive="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                            Accent="{Binding Foreground,ElementName=DummyLabel}" 
-                                            Margin="0" 
-                                            VerticalAlignment="Center"/>
+                                            <Label Style="{DynamicResource SpectrumAnimation}"
+                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   Foreground="{Binding Foreground,ElementName=DummyLabel}" 
+                                                   Margin="0" 
+                                                   VerticalAlignment="Center"/>
                                             <TextBlock
                                                 Width="60"
                                                 Text="{Binding Duration}" 
@@ -266,7 +266,7 @@
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         </ContextMenu.Resources>
-        
+
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem

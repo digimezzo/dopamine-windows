@@ -17,10 +17,6 @@
              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <commonviews:CommonTracksView.InputBindings>
-        <KeyBinding Command="{Binding EditTracksTagsCommand}" Gesture="CTRL+T" />
-    </commonviews:CommonTracksView.InputBindings>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -67,12 +63,12 @@
                 <DataGridTemplateColumn Width="40" IsReadOnly="True" Visibility="Visible">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <controls:SpectrumAnimation
-                                            Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                            IsActive="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                            Accent="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" 
-                                            Margin="0,2,0,0" 
-                                            VerticalAlignment="Center"/>
+                            <Label Style="{StaticResource SpectrumAnimation}"
+                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                   IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                   Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" 
+                                   Margin="0,2,0,0" 
+                                   VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -135,4 +131,4 @@
             </controls:DataGridEx.Columns>
         </controls:DataGridEx>
     </DockPanel>
-    </commonviews:CommonTracksView>
+</commonviews:CommonTracksView>
