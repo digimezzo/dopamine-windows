@@ -1,3 +1,9 @@
+2016-10-02: Dopamine 1.2 Build 741 (Preview)
+--------------------------------------------
+
+- [Changed] "See you later" screen when closing is only displayed when there are background tasks remaining
+
+
 2016-10-02: Dopamine 1.2 Build 739 (Preview)
 --------------------------------------------
 
