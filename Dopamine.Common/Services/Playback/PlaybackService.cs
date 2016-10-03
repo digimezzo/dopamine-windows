@@ -880,42 +880,6 @@ namespace Dopamine.Common.Services.Playback
             this.PlaybackMuteChanged(this, new EventArgs());
         }
 
-        public async Task FadeOutAsync(int duration)
-        {
-            try
-            {
-                await Task.Run(() =>
-                {
-
-                    if (this.player != null && this.player.CanStop)
-                    {
-                        float currentVolume = this.player.GetVolume();
-
-                        int stepsRequired = Convert.ToInt32(currentVolume / 0.05);
-
-                        if (stepsRequired > 0)
-                        {
-                            int stepDuration = Convert.ToInt32(duration / stepsRequired);
-
-                            while (currentVolume > 0.0)
-                            {
-                                var volumeToSet = Convert.ToSingle(currentVolume - 0.05 >= 0 ? currentVolume - 0.05 : 0);
-                                this.player.SetVolume(volumeToSet);
-                                currentVolume = this.player.GetVolume();
-                                System.Threading.Thread.Sleep(stepDuration);
-                            }
-                        }
-
-                        this.player.Stop();
-                    }
-                });
-            }
-            catch (System.Exception)
-            {
-                LogClient.Instance.Logger.Error("An error occurred during Fade out.");
-            }
-        }
-
         private async Task<bool> TryPlayAsync(TrackInfo trackInfo)
         {
             bool isPlaybackSuccess = true;

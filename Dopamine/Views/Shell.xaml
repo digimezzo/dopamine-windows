@@ -100,7 +100,7 @@
         <Border x:Name="ClosingBorder" Panel.ZIndex="1" Visibility="Collapsed" Opacity="0" Background="{DynamicResource RG_WindowBackgroundBrush}">
             <Border.Resources>
                 <Storyboard x:Key="ClosingAnimation">
-                    <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.3" />
+                    <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" BeginTime="0:0:0.5" Duration="0:0:0.3" />
                 </Storyboard>
             </Border.Resources>
             <TextBlock 

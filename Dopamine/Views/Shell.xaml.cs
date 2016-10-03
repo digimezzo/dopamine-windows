@@ -671,7 +671,6 @@ namespace Dopamine.Views
             LogClient.Instance.Logger.Info("Performing closing tasks");
 
             this.ShowClosingAnimation();
-            await this.playbackService.FadeOutAsync(Constants.ClosingFadeOutDelay);
 
             // Write the settings
             // ------------------
