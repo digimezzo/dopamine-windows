@@ -299,7 +299,6 @@ namespace Dopamine.Core.Metadata
             {
                 this.artworkData = value;
 
-
                 if (value.IsValueChanged)
                 {
                     if (value.DataValue == null)
