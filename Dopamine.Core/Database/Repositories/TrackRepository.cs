@@ -35,6 +35,8 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
+                            var loweredPaths = paths.Select((p) => p.ToLower()).ToList();
+
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
@@ -45,7 +47,7 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                      " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " WHERE tra.Path IN ({0});", Utils.ToQueryList(paths));
+                                                     " WHERE LOWER(tra.Path) IN ({0});", Utils.ToQueryList(loweredPaths));
 
                             tracks = conn.Query<TrackInfo>(q);
                         }
@@ -296,7 +298,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            track = conn.Table<Track>().Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
+                            track = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", path.ToLower()).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -327,7 +329,7 @@ namespace Dopamine.Core.Database.Repositories
                         List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
                         List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
 
-                        
+
                         conn.Execute("BEGIN TRANSACTION");
 
                         foreach (string path in pathsToRemoveNow)
@@ -336,10 +338,10 @@ namespace Dopamine.Core.Database.Repositories
                             conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path) VALUES(?,?)", DateTime.Now.Ticks, path);
 
                             // Remove from QueuedTrack
-                            conn.Execute("DELETE FROM QueuedTrack WHERE Path=?",path);
+                            conn.Execute("DELETE FROM QueuedTrack WHERE LOWER(Path)=?", path.ToLower());
 
                             // Remove from Track
-                            conn.Execute("DELETE FROM Track WHERE Path=?", path);
+                            conn.Execute("DELETE FROM Track WHERE LOWER(Path)=?", path.ToLower());
                         }
 
                         conn.Execute("COMMIT");
@@ -396,7 +398,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            Track dbTrack = conn.Table<Track>().Select((t) => t).Where((t) => t.Path.Equals(path)).FirstOrDefault();
+                            Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", path.ToLower()).FirstOrDefault();
 
                             if (dbTrack != null)
                             {
@@ -437,7 +439,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             foreach (TrackStatistic stat in trackStatistics)
                             {
-                                Track dbTrack = conn.Table<Track>().Select((t) => t).Where((t) => t.Path == stat.Path).FirstOrDefault();
+                                Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", stat.Path.ToLower()).FirstOrDefault();
 
                                 if (dbTrack != null)
                                 {

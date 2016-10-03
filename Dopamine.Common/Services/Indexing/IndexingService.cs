@@ -484,21 +484,21 @@ namespace Dopamine.Common.Services.Indexing
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.Path).ToList();
+                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.Path.ToLower()).ToList();
                 }
 
                 var removedPaths = new List<string>();
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.Path).ToList();
+                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.Path.ToLower()).ToList();
                 }
 
                 this.newDiskPaths = new List<Tuple<long, string, long>>();
 
                 foreach (Tuple<long, string, long> diskpath in this.allDiskPaths)
                 {
-                    if (!dbPaths.Contains(diskpath.Item2) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Item2) : true))
+                    if (!dbPaths.Contains(diskpath.Item2.ToLower()) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Item2.ToLower()) : true))
                     {
                         this.newDiskPaths.Add(diskpath);
                     }
