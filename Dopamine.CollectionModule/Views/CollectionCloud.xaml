@@ -49,10 +49,10 @@
                                    Width="{Binding ActualWidth,ElementName=TheButton}"
                                    Height="{Binding ActualHeight,ElementName=TheButton}"
                                    IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                                   Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
+                                   Background="{DynamicResource RG_AccentBrush}">
                         <controls:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_WhiteBrush}"/>
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>
@@ -63,10 +63,7 @@
                             Height="50"
                             VerticalAlignment="Bottom"
                             Background="{DynamicResource RG_AlbumCoverGradientBrush}">
-                        <StackPanel VerticalAlignment="Bottom" Background="#00000000" Margin="5,0,5,5">
-                            <TextBlock Text="{Binding AlbumArtist}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        </StackPanel>
+                        <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Margin="5,0,5,5" Foreground="{DynamicResource RG_WhiteBrush}"/>
                     </Border>
                     <Image Panel.ZIndex="2" Source="{Binding ArtworkPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <Grid Panel.ZIndex="3" Opacity="0">
