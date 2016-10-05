@@ -47,11 +47,6 @@ namespace Dopamine.Core.Metadata
             OnPropertyChanged(() => this.DataValue);
             OnPropertyChanged(() => this.IsValueChanged);
         }
-
-        public void OverrideIsValueChanged(bool isValueChanged)
-        {
-            this.isValueChanged = isValueChanged;
-        }
         #endregion
     }
 }

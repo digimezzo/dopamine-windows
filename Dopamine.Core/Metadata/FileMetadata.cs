@@ -82,7 +82,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.title = value;
-                if (value.IsValueChanged) this.file.Tag.Title = value.Value;
+                this.file.Tag.Title = value.Value;
             }
         }
 
@@ -96,7 +96,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.album = value;
-                if (value.IsValueChanged) this.file.Tag.Album = value.Value;
+                this.file.Tag.Album = value.Value;
             }
         }
 
@@ -110,7 +110,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.albumArtists = value;
-                if (value.IsValueChanged) this.file.Tag.AlbumArtists = value.Values;
+                this.file.Tag.AlbumArtists = value.Values;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.artists = value;
-                if (value.IsValueChanged) this.file.Tag.Performers = value.Values;
+                this.file.Tag.Performers = value.Values;
             }
         }
 
@@ -139,7 +139,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.genres = value;
-                if (value.IsValueChanged) this.file.Tag.Genres = value.Values;
+                this.file.Tag.Genres = value.Values;
             }
         }
 
@@ -153,7 +153,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.comment = value;
-                if (value.IsValueChanged) this.file.Tag.Comment = value.Value;
+                this.file.Tag.Comment = value.Value;
             }
         }
 
@@ -167,7 +167,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.grouping = value;
-                if (value.IsValueChanged) this.file.Tag.Grouping = value.Value;
+                this.file.Tag.Grouping = value.Value;
             }
         }
 
@@ -181,7 +181,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.year = value;
-                if (value.IsValueChanged) this.file.Tag.Year = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
+                this.file.Tag.Year = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
             }
         }
 
@@ -195,7 +195,7 @@ namespace Dopamine.Core.Metadata
             set
             {
                 this.trackNumber = value;
-                if (value.IsValueChanged) this.file.Tag.Track = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
+                this.file.Tag.Track = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
             }
         }
 
@@ -203,15 +203,13 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.trackCount == null)
-                    this.trackCount = new MetadataValue { Value = this.file.Tag.TrackCount == 0 ? string.Empty : this.file.Tag.TrackCount.ToString() };
+                if (this.trackCount == null) this.trackCount = new MetadataValue { Value = this.file.Tag.TrackCount == 0 ? string.Empty : this.file.Tag.TrackCount.ToString() };
                 return this.trackCount;
             }
             set
             {
                 this.trackCount = value;
-                if (value.IsValueChanged)
-                    this.file.Tag.TrackCount = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
+                this.file.Tag.TrackCount = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
             }
         }
 
@@ -219,15 +217,13 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.discNumber == null)
-                    this.discNumber = new MetadataValue { Value = this.file.Tag.Disc == 0 ? string.Empty : this.file.Tag.Disc.ToString() };
+                if (this.discNumber == null) this.discNumber = new MetadataValue { Value = this.file.Tag.Disc == 0 ? string.Empty : this.file.Tag.Disc.ToString() };
                 return this.discNumber;
             }
             set
             {
                 this.discNumber = value;
-                if (value.IsValueChanged)
-                    this.file.Tag.Disc = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
+                this.file.Tag.Disc = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
             }
         }
 
@@ -235,15 +231,13 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.discCount == null)
-                    this.discCount = new MetadataValue { Value = this.file.Tag.DiscCount == 0 ? string.Empty : this.file.Tag.DiscCount.ToString() };
+                if (this.discCount == null) this.discCount = new MetadataValue { Value = this.file.Tag.DiscCount == 0 ? string.Empty : this.file.Tag.DiscCount.ToString() };
                 return this.discCount;
             }
             set
             {
                 this.discCount = value;
-                if (value.IsValueChanged)
-                    this.file.Tag.DiscCount = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
+                this.file.Tag.DiscCount = string.IsNullOrEmpty(value.Value) ? (UInt32)0 : Convert.ToUInt32(value.Value);
             }
         }
 
@@ -256,8 +250,7 @@ namespace Dopamine.Core.Metadata
                 if (tag != null)
                 {
                     TagLib.Id3v2.PopularimeterFrame popM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
-                    if (this.rating == null)
-                        this.rating = new MetadataRatingValue { Value = MetadataUtils.PopM2StarRating(popM.Rating) };
+                    if (this.rating == null) this.rating = new MetadataRatingValue { Value = MetadataUtils.PopM2StarRating(popM.Rating) };
                 }
                 else
                 {
@@ -270,15 +263,12 @@ namespace Dopamine.Core.Metadata
             {
                 this.rating = value;
 
-                if (value.IsValueChanged)
-                {
-                    TagLib.Tag tag = this.file.GetTag(TagLib.TagTypes.Id3v2);
+                TagLib.Tag tag = this.file.GetTag(TagLib.TagTypes.Id3v2);
 
-                    if (tag != null)
-                    {
-                        TagLib.Id3v2.PopularimeterFrame PopM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
-                        PopM.Rating = MetadataUtils.Star2PopMRating(value.Value);
-                    }
+                if (tag != null)
+                {
+                    TagLib.Id3v2.PopularimeterFrame PopM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
+                    PopM.Rating = MetadataUtils.Star2PopMRating(value.Value);
                 }
             }
         }
@@ -299,23 +289,20 @@ namespace Dopamine.Core.Metadata
             {
                 this.artworkData = value;
 
-                if (value.IsValueChanged)
+                if (value.DataValue == null)
                 {
-                    if (value.DataValue == null)
-                    {
-                        // Remove all pictures
-                        this.file.Tag.Pictures = new Picture[] { };
-                    }
-                    else
-                    {
-                        var pic = new Picture();
-                        pic.Type = PictureType.Other;
-                        pic.MimeType = "image/jpeg";
-                        pic.Description = "Cover";
-                        pic.Data = value.DataValue;
+                    // Remove all pictures
+                    this.file.Tag.Pictures = new Picture[] { };
+                }
+                else
+                {
+                    var pic = new Picture();
+                    pic.Type = PictureType.Other;
+                    pic.MimeType = "image/jpeg";
+                    pic.Description = "Cover";
+                    pic.Data = value.DataValue;
 
-                        this.file.Tag.Pictures = new Picture[1] { pic };
-                    }
+                    this.file.Tag.Pictures = new Picture[1] { pic };
                 }
             }
         }
