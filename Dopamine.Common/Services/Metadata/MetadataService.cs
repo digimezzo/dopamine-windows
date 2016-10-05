@@ -138,7 +138,6 @@ namespace Dopamine.Common.Services.Metadata
             if (updateFileArtwork)
             {
                 List<TrackInfo> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
-                artwork.OverrideIsValueChanged(true); // Makes sure that the artwork will be saved to the file, even if it wasn't changed.
                 List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
                 // Queue update of the file metadata
