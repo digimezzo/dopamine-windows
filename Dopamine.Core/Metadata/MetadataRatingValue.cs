@@ -6,7 +6,6 @@ namespace Dopamine.Core.Metadata
     {
         #region Private
         private int value;
-        private bool isInitialValue = true;
         private bool isValueChanged;
         #endregion
 
@@ -20,22 +19,34 @@ namespace Dopamine.Core.Metadata
         #region Properties
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get { return this.value; }
 
             set
             {
-                // This makes sure this.isValueChanged is set to True the 2nd time the value is changed
-                if (!this.isInitialValue && !this.isValueChanged)
-                    this.isValueChanged = true;
-
-                this.isInitialValue = false;
-
-                SetProperty<int>(ref this.value, value);
-                OnPropertyChanged(() => this.IsValueChanged);
+                this.value = value;
+                this.isValueChanged = true;
+                this.OnPropertiesChanged();
             }
+        }
+        #endregion
+
+        #region Construction
+        public MetadataRatingValue()
+        {
+        }
+
+        public MetadataRatingValue(int value)
+        {
+            this.value = value;
+            this.OnPropertiesChanged();
+        }
+        #endregion
+
+        #region Private
+        private void OnPropertiesChanged()
+        {
+            OnPropertyChanged(() => this.Value);
+            OnPropertyChanged(() => this.IsValueChanged);
         }
         #endregion
     }

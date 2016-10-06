@@ -49,7 +49,7 @@ namespace Dopamine.Common.Services.Indexing
             try
             {
                 var fmd = new FileMetadata(path);
-                artworkData = fmd.ArtworkData.DataValue;
+                artworkData = fmd.ArtworkData.Value;
             }
             catch (Exception ex)
             {
