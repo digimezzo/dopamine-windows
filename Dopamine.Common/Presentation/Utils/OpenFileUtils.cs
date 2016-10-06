@@ -9,7 +9,7 @@ namespace Dopamine.Common.Presentation.Utils
 {
     public sealed class OpenFileUtils
     {
-        public static async Task<bool> OpenImageFileAsync(Action<string, byte[]> callback)
+        public static async Task<bool> OpenImageFileAsync(Action<byte[]> callback)
         {
             bool isOpenSuccess = true;
 
@@ -42,7 +42,7 @@ namespace Dopamine.Common.Presentation.Utils
 
                 if (byteArray != null)
                 {
-                    callback(dlg.FileName, byteArray);
+                    callback(byteArray);
                 }
                 else
                 {

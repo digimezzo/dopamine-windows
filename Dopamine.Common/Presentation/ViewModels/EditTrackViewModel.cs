@@ -210,7 +210,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
             {
-                if (!await OpenFileUtils.OpenImageFileAsync(new Action<string, byte[]>(this.UpdateArtwork)))
+                if (!await OpenFileUtils.OpenImageFileAsync(new Action<byte[]>(this.UpdateArtwork)))
                 {
                     this.dialogService.ShowNotification(
                         0xe711,
@@ -224,7 +224,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
 
-            this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(String.Empty, null));
+            this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
         }
         #endregion
 
@@ -341,7 +341,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.HasMultipleArtwork = false;
             }
 
-            this.VisualizeArtwork(string.Empty, foundArtwork);
+            this.VisualizeArtwork(foundArtwork);
         }
 
         private bool AllEntriesValid()
@@ -353,7 +353,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                    this.DiscCount.IsNumeric;
         }
 
-        private void VisualizeArtwork(string imagePath, byte[] imageData)
+        private void VisualizeArtwork(byte[] imageData)
         {
             // Size of the artwork
             if (imageData != null)
@@ -376,10 +376,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             OnPropertyChanged(() => this.HasArtwork);
         }
 
-        private void UpdateArtwork(string imagePath, byte[] imageData)
+        private void UpdateArtwork(byte[] imageData)
         {
             // Set the artwork
-            this.VisualizeArtwork(imagePath, imageData);
+            this.VisualizeArtwork(imageData);
 
             // Artwork is updated. Multiple artwork is now impossible.
             this.HasMultipleArtwork = false;
