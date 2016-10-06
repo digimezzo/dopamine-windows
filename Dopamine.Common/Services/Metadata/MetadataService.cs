@@ -94,7 +94,7 @@ namespace Dopamine.Common.Services.Metadata
                 // Only for MP3's
                 if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3.ToLower()))
                 {
-                    var metadataRatingValue = new MetadataRatingValue { Value = 0 };
+                    var metadataRatingValue = new MetadataRatingValue();
                     metadataRatingValue.Value = rating;
 
                     var fmd = new FileMetadata(path);
@@ -124,7 +124,7 @@ namespace Dopamine.Common.Services.Metadata
             {
                 try
                 {
-                    artworkID = await this.cacheService.CacheArtworkAsync(artwork.DataValue);
+                    artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
                 }
                 catch (Exception ex)
                 {
@@ -206,7 +206,6 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region Private
-
         private async Task QueueFileMetadata(List<FileMetadata> fileMetadatas)
         {
             this.updateFileMetadataTimer.Stop();
@@ -338,7 +337,7 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
 
-                   dbAlbum.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path));
+                    dbAlbum.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path));
 
                     dbAlbum = await this.albumRepository.AddAlbumAsync(dbAlbum);
                 }
@@ -358,7 +357,7 @@ namespace Dopamine.Common.Services.Metadata
 
                 try
                 {
-                   artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.DataValue);
+                    artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);
                 }
                 catch (Exception ex)
                 {

@@ -132,7 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void UpdateArtwork(string imagePath, byte[] imageData)
         {
-            this.Artwork.SetValue(imagePath, imageData);
+            this.Artwork.Value = imageData;
             this.ArtworkThumbnail = ImageOperations.PathToBitmapImage(imagePath, Convert.ToInt32(Constants.CoverLargeSize), Convert.ToInt32(Constants.CoverLargeSize));
             OnPropertyChanged(() => this.HasArtwork);
         }

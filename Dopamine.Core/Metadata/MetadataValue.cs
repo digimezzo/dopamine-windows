@@ -8,7 +8,6 @@ namespace Dopamine.Core.Metadata
         #region Private
         private string value;
         private string[] values;
-        private bool isInitialValue = true;
         private bool isValueChanged;
         #endregion
 
@@ -23,7 +22,7 @@ namespace Dopamine.Core.Metadata
             get
             {
                 int parsedValue = 0;
-                return this.IsValueChanged & !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
+                return !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
             }
         }
         #endregion
@@ -35,21 +34,10 @@ namespace Dopamine.Core.Metadata
 
             set
             {
-                // This makes sure this.isValueChanged is set to True the 2nd time the value is changed
-                if (!this.isInitialValue && !this.isValueChanged)
-                    this.isValueChanged = true;
-
-                this.isInitialValue = false;
-
-                if (value != null && value.Split(';').Count() > 0)
-                {
-                    this.values = value.Split(';');
-                }
-
-                SetProperty<string>(ref this.value, value);
-                OnPropertyChanged(() => this.Values);
-                OnPropertyChanged(() => this.IsValueChanged);
-                OnPropertyChanged(() => this.IsNumeric);
+                this.value = value;
+                this.values = this.ConvertToValues(value);
+                this.isValueChanged = true;
+                this.OnPropertiesChanged();
             }
         }
 
@@ -59,22 +47,53 @@ namespace Dopamine.Core.Metadata
 
             set
             {
-                // This makes sure this.isValueChanged is set to True the 2nd time the value is changed
-                if (!this.isInitialValue)
-                    this.isValueChanged = true;
-
-                this.isInitialValue = false;
-
-                if (value != null && value.Count() > 0)
-                {
-                    this.value = string.Join(";", value);
-                }
-
-                SetProperty<string[]>(ref this.values, value);
-                OnPropertyChanged(() => this.Value);
-                OnPropertyChanged(() => this.IsValueChanged);
-                OnPropertyChanged(() => this.IsNumeric);
+                this.values = value;
+                this.value = ConvertToValue(value);
+                this.isValueChanged = true;
+                this.OnPropertiesChanged();
             }
+        }
+        #endregion
+
+        #region Construction
+        public MetadataValue()
+        {
+        }
+
+        public MetadataValue(string value)
+        {
+            this.value = value;
+            this.values = this.ConvertToValues(value);
+            this.OnPropertiesChanged();
+        }
+
+        public MetadataValue(string[] values)
+        {
+            this.values = values;
+            this.value = ConvertToValue(values);
+            this.OnPropertiesChanged();
+        }
+        #endregion
+
+        #region Private
+        private void OnPropertiesChanged()
+        {
+            OnPropertyChanged(() => this.Value);
+            OnPropertyChanged(() => this.Values);
+            OnPropertyChanged(() => this.IsValueChanged);
+            OnPropertyChanged(() => this.IsNumeric);
+        }
+
+        private string[] ConvertToValues(string value)
+        {
+            if (value != null && value.Split(';').Count() > 0) return this.values = value.Split(';');
+            return null;
+        }
+
+        private string ConvertToValue(string[] values)
+        {
+            if (values != null && values.Count() > 0) return string.Join(";", values);
+            return null;
         }
         #endregion
     }

@@ -6,9 +6,7 @@ namespace Dopamine.Core.Metadata
     public class MetadataArtworkValue : BindableBase
     {
         #region Private
-        private string pathValue;
-        private byte[] dataValue;
-        private bool isInitialValue = true;
+        private byte[] value;
         private bool isValueChanged;
         #endregion
 
@@ -20,31 +18,34 @@ namespace Dopamine.Core.Metadata
         #endregion
 
         #region Properties
-        public string PathValue
+        public byte[] Value
         {
-            get { return this.pathValue; }
-        }
-
-        public byte[] DataValue
-        {
-            get { return this.dataValue; }
+            get { return this.value; }
+            set
+            {
+                this.value = value;
+                this.isValueChanged = true;
+                this.OnPropertiesChanged();
+            }
         }
         #endregion
 
-        #region Public
-        public void SetValue(string pathValue, byte[] dataValue)
+        #region Construction
+        public MetadataArtworkValue()
         {
-            // This makes sure this.isValueChanged is set to True the 2nd time the value is changed
-            if (!this.isInitialValue)
-                this.isValueChanged = true;
+        }
 
-            this.isInitialValue = false;
+        public MetadataArtworkValue(byte[] value)
+        {
+            this.value = value;
+            this.OnPropertiesChanged();
+        }
+        #endregion
 
-            this.pathValue = pathValue;
-            this.dataValue = dataValue;
-
-            OnPropertyChanged(() => this.PathValue);
-            OnPropertyChanged(() => this.DataValue);
+        #region Private
+        private void OnPropertiesChanged()
+        {
+            OnPropertyChanged(() => this.Value);
             OnPropertyChanged(() => this.IsValueChanged);
         }
         #endregion
