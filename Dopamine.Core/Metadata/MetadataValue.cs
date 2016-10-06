@@ -22,7 +22,7 @@ namespace Dopamine.Core.Metadata
             get
             {
                 int parsedValue = 0;
-                return !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
+                return this.IsValueChanged & !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
             }
         }
         #endregion
