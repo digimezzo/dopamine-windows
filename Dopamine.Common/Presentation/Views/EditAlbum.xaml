@@ -67,7 +67,8 @@
                         </controls:Tile.Content>
                     </controls:Tile>
                     <Image 
-                    Panel.ZIndex="1" 
+                    Panel.ZIndex="1"
+                    ToolTip="{Binding ArtworkSize}"
                     Source="{Binding ArtworkThumbnail,IsAsync=True}" 
                     Width="{x:Static corebase:Constants.CoverLargeSize}" 
                     Height="{x:Static corebase:Constants.CoverLargeSize}" 

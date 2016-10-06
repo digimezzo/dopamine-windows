@@ -29,6 +29,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IDialogService dialogService;
         private ICacheService cacheService;
         private MetadataArtworkValue artwork;
+        private string artworkSize;
         private BitmapImage artworkThumbnail;
         private bool updateFileArtwork;
         #endregion
@@ -70,6 +71,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.updateFileArtwork; }
             set { SetProperty<bool>(ref this.updateFileArtwork, value); }
         }
+
+        public string ArtworkSize
+        {
+            get { return this.artworkSize; }
+            set { SetProperty<string>(ref this.artworkSize, value); }
+        }
         #endregion
 
         #region Commands
@@ -92,14 +99,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync());
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
            {
-               if (!await OpenFileUtils.OpenImageFileAsync(new Action<string, byte[]>(this.UpdateArtwork)))
+               if (!await OpenFileUtils.OpenImageFileAsync(new Action<byte[]>(this.UpdateArtwork)))
                {
                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Changing_Image"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                }
            });
 
 
-            this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(string.Empty, null));
+            this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
             this.DownloadArtworkCommand = new DelegateCommand(() => this.DownloadArtworkAsync(), () => this.album.AlbumArtist != Defaults.UnknownAlbumArtistString && this.Album.AlbumTitle != Defaults.UnknownAlbumString);
         }
         #endregion
@@ -115,11 +122,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (!string.IsNullOrEmpty(artworkPath))
                     {
-                        this.UpdateArtwork(artworkPath, ImageOperations.Image2ByteArray(artworkPath));
+                        this.UpdateArtwork(ImageOperations.Image2ByteArray(artworkPath));
                     }
                     else
                     {
-                        this.UpdateArtwork(string.Empty, null);
+                        this.UpdateArtwork(null);
                     }
 
                 }
@@ -130,11 +137,33 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
         }
 
-        private void UpdateArtwork(string imagePath, byte[] imageData)
+        private void VisualizeArtwork(byte[] imageData)
         {
+            // Size of the artwork
+            if (imageData != null)
+            {
+                BitmapImage bi = ImageOperations.ByteToBitmapImage(imageData, 0, 0);
+
+                // Use bi.PixelWidth and bi.PixelHeight instead of bi.Width and bi.Height:
+                // bi.Width and bi.Height take DPI into account. We don't want that here.
+                this.ArtworkSize = bi.PixelWidth + "x" + bi.PixelHeight;
+            }
+            else
+            {
+                this.ArtworkSize = string.Empty;
+            }
+
+            // Artwork data
             this.Artwork.Value = imageData;
-            this.ArtworkThumbnail = ImageOperations.PathToBitmapImage(imagePath, Convert.ToInt32(Constants.CoverLargeSize), Convert.ToInt32(Constants.CoverLargeSize));
+
+            this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, Convert.ToInt32(Constants.CoverLargeSize), Convert.ToInt32(Constants.CoverLargeSize));
             OnPropertyChanged(() => this.HasArtwork);
+        }
+
+        private void UpdateArtwork(byte[] imageData)
+        {
+            // Set the artwork
+            this.VisualizeArtwork(imageData);
         }
 
         private async Task DownloadArtworkAsync()
@@ -152,8 +181,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     if (!string.IsNullOrEmpty(temporaryFilePath))
                     {
-                        artworkData = ImageOperations.Image2ByteArray(temporaryFilePath);
-                        if (artworkData != null) this.UpdateArtwork(temporaryFilePath, artworkData);
+                        this.UpdateArtwork(ImageOperations.Image2ByteArray(temporaryFilePath));
                     }
                 }
             }
@@ -183,6 +211,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.IsBusy = false;
             return true;
         }
-        #endregion  
+        #endregion
     }
 }
