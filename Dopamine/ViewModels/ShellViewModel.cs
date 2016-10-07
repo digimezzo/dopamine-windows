@@ -207,6 +207,7 @@ namespace Dopamine.ViewModels
                     570, 
                     0, 
                     false, 
+                    true,
                     false, 
                     ResourceUtils.GetStringResource("Language_Close"), 
                     string.Empty, 

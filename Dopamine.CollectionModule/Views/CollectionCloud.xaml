@@ -49,24 +49,16 @@
                                    Width="{Binding ActualWidth,ElementName=TheButton}"
                                    Height="{Binding ActualHeight,ElementName=TheButton}"
                                    IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                                   Background="{DynamicResource RG_AccentBrush}">
+                                   Background="{DynamicResource RG_AccentBrush}"
+                                   Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                         <controls:Tile.Content>
                             <Viewbox>
                                 <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_WhiteBrush}"/>
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>
-                    <!-- Margin="0,0,0,-0.2" fixes a small gap under the gradient -->
-                    <Border Visibility="{Binding ShowTextBelowCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
-                            Panel.ZIndex="1"
-                            Margin="0,0,0,-0.2"
-                            Height="50"
-                            VerticalAlignment="Bottom"
-                            Background="{DynamicResource RG_AlbumCoverGradientBrush}">
-                        <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Margin="5,0,5,5" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                    </Border>
-                    <Image Panel.ZIndex="2" Source="{Binding ArtworkPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <Grid Panel.ZIndex="3" Opacity="0">
+                    <Image Panel.ZIndex="1" Source="{Binding ArtworkPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Grid Panel.ZIndex="2" Opacity="0">
                         <Border x:Name="SelectionBorder"
                             Margin="0" 
                             Background="{DynamicResource RG_AccentBrush}" 
