@@ -11,7 +11,7 @@
 
     <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">
         <DockPanel Margin="17">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel x:Name="TitlePanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,15">
                 <Grid>
                     <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                         <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
@@ -30,7 +30,7 @@
                 </Grid>
                 <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </StackPanel>
-            <DockPanel x:Name="Content" Margin="0,15,0,0">
+            <DockPanel x:Name="Content">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,30,0,0">
                     <Button x:Name="ButtonOK" Style="{StaticResource MetroButton}" IsDefault="True" Click="ButtonOK_Click"/>
                     <Button x:Name="ButtonCancel" Style="{StaticResource MetroButton}" IsCancel="True" Margin="10,0,0,0" Click="ButtonCancel_Click"/>

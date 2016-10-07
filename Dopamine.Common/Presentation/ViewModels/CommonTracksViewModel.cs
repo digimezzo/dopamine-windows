@@ -355,7 +355,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
             view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(TrackInfo), this.SelectedTracks.First()));
 
-            this.dialogService.ShowCustomDialog(0xe8d6, 16, ResourceUtils.GetStringResource("Language_Information"), view, 400, 620, true, false, ResourceUtils.GetStringResource("Language_Ok"), string.Empty, null);
+            this.dialogService.ShowCustomDialog(
+                0xe8d6,
+                16,
+                ResourceUtils.GetStringResource("Language_Information"),
+                view,
+                400,
+                620,
+                true,
+                true,
+                false,
+                ResourceUtils.GetStringResource("Language_Ok"),
+                string.Empty,
+                null);
         }
 
         private async void GetContextMenuPlaylistsAsync()
@@ -867,9 +879,18 @@ namespace Dopamine.Common.Presentation.ViewModels
             EditTrack view = this.container.Resolve<EditTrack>();
             view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<TrackInfo>), this.SelectedTracks));
 
-            string dialogTitle = this.SelectedTracks.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
-
-            this.dialogService.ShowCustomDialog(0xe104, 14, dialogTitle, view, 620, 450, false, true, ResourceUtils.GetStringResource("Language_Ok"), ResourceUtils.GetStringResource("Language_Cancel"),
+            this.dialogService.ShowCustomDialog(
+                0xe104,
+                14,
+                ResourceUtils.GetStringResource("Language_Edit_Song"),
+                view,
+                620,
+                450,
+                false,
+                false,
+                true,
+                ResourceUtils.GetStringResource("Language_Ok"),
+                ResourceUtils.GetStringResource("Language_Cancel"),
             ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
         }
         #endregion

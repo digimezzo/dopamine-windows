@@ -349,4 +349,6 @@
   <Text Key="Not_Available">Indisponible</Text>
   <Text Key="Download_Artist_Information_From_Lastfm">Télécharger des informations sur l'artiste de Last.fm</Text>
   <Text Key="Download_An_Image">Télécharger une image</Text>
+  <Text Key="Tags">Tags</Text>
+  <Text Key="Lyrics">Paroles</Text>
 </Language>

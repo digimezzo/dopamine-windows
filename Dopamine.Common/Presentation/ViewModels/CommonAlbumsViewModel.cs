@@ -203,7 +203,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             EditAlbum view = this.container.Resolve<EditAlbum>();
             view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
 
-            this.dialogService.ShowCustomDialog(0xe104, 14, ResourceUtils.GetStringResource("Language_Edit_Album"), view, 405, 450, false, true, ResourceUtils.GetStringResource("Language_Ok"), ResourceUtils.GetStringResource("Language_Cancel"), ((EditAlbumViewModel)view.DataContext).SaveAlbumAsync);
+            this.dialogService.ShowCustomDialog(
+                0xe104,
+                14,
+                ResourceUtils.GetStringResource("Language_Edit_Album"),
+                view,
+                405,
+                450,
+                false,
+                true,
+                true,
+                ResourceUtils.GetStringResource("Language_Ok"),
+                ResourceUtils.GetStringResource("Language_Cancel"),
+                ((EditAlbumViewModel)view.DataContext).SaveAlbumAsync);
         }
 
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)

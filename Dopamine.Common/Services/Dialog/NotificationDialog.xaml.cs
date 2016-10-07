@@ -31,7 +31,7 @@ namespace Dopamine.Common.Services.Dialog
             this.Icon.FontSize = iconSize;
             this.Title = title;
             //Me.TextBlockTitle.Text = iTitle.ToUpper
-            this.TextBlockTitle.Text = title;
+            this.TextBlockTitle.Text = title.ToLower();
             this.TextBlockContent.Text = content;
             this.ButtonOK.Content = okText;
             this.ButtonViewLogs.Content = viewLogsText;

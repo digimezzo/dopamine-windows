@@ -54,6 +54,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Readonly Properties
+        public string DialogTitle
+        {
+            get {
+                string dialogTitle = this.trackInfos.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
+                return dialogTitle.ToLower();
+            }
+        }
+
         public string MultipleTracksWarningText
         {
             get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.trackInfos.Count.ToString()); }
