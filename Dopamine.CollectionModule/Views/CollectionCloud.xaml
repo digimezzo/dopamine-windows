@@ -180,8 +180,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel10}"/>
                     </Border>
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=22}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=22}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=20}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=20}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
