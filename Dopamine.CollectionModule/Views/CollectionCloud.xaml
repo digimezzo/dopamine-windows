@@ -13,6 +13,7 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -22,6 +23,20 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
+        <sys:Int32 x:Key="Album1SizePercent">34</sys:Int32>
+        <sys:Int32 x:Key="Album2SizePercent">30</sys:Int32>
+        <sys:Int32 x:Key="Album3SizePercent">26</sys:Int32>
+        <sys:Int32 x:Key="Album4SizePercent">24</sys:Int32>
+        <sys:Int32 x:Key="Album5SizePercent">22</sys:Int32>
+        <sys:Int32 x:Key="Album6SizePercent">20</sys:Int32>
+        <sys:Int32 x:Key="Album7SizePercent">18</sys:Int32>
+        <sys:Int32 x:Key="Album8SizePercent">16</sys:Int32>
+        <sys:Int32 x:Key="Album9SizePercent">14</sys:Int32>
+        <sys:Int32 x:Key="Album10SizePercent">12</sys:Int32>
+        <sys:Int32 x:Key="Album11SizePercent">10</sys:Int32>
+        <sys:Int32 x:Key="Album12SizePercent">10</sys:Int32>
+        <sys:Int32 x:Key="Album13SizePercent">10</sys:Int32>
+        <sys:Int32 x:Key="Album14SizePercent">10</sys:Int32>
         <Storyboard x:Key="ShowText">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.25" />
@@ -125,12 +140,12 @@
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Stretch">
             <!-- Left -->
-            <StackPanel Margin="0,38,0,0">
+            <StackPanel Margin="0,20,0,0">
                 <!-- Row 1 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=17}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=17}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album7SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album7SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
@@ -141,8 +156,8 @@
                 <!-- Row 2 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album11SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album11SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
@@ -150,8 +165,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel11}"/>
                     </Border>
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=19}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=19}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album5SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album5SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
@@ -159,8 +174,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel5}"/>
                     </Border>
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=35}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=35}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album1SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album1SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
@@ -171,8 +186,8 @@
                 <!-- Row 3 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=14}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=14}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album10SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album10SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
@@ -180,8 +195,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel10}"/>
                     </Border>
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=20}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=20}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album4SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album4SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
@@ -192,8 +207,8 @@
                 <!-- Row 4 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Border 
-                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=10}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=10}" 
+                   Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album14SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album14SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
@@ -207,8 +222,8 @@
                 <!-- Row 1 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=11}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=11}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album13SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album13SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom" 
@@ -219,8 +234,8 @@
                 <!-- Row 2 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=25}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=25}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album3SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album3SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom" 
@@ -228,8 +243,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel3}"/>
                     </Border>
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=15}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=15}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album9SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album9SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom" 
@@ -240,8 +255,8 @@
                 <!-- Row 3 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=30}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=30}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album2SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album2SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
@@ -249,8 +264,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel2}"/>
                     </Border>
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=18}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=18}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album6SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album6SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
@@ -258,8 +273,8 @@
                         <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel6}"/>
                     </Border>
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album12SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album12SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
@@ -270,8 +285,8 @@
                 <!-- Row 4 -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border 
-                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=16}" 
-                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter=16}" 
+                    Width="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album8SizePercent}}" 
+                    Height="{Binding ActualHeight,ElementName=CloudPanel,Converter={StaticResource PercentSizeConverter},ConverterParameter={StaticResource Album8SizePercent}}" 
                     Margin="4" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
