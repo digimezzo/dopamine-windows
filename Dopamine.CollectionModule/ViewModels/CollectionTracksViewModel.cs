@@ -143,6 +143,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 false,
                 true,
                 true,
+                true,
                 ResourceUtils.GetStringResource("Language_Ok"),
                 ResourceUtils.GetStringResource("Language_Cancel"),
                 ((CollectionTracksColumnsViewModel)view.DataContext).SetVisibleColumns);

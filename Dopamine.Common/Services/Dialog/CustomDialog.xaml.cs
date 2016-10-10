@@ -15,7 +15,7 @@ namespace Dopamine.Common.Services.Dialog
         #endregion
 
         #region Construction
-        public CustomDialog(string title, UserControl content, int width, int height, bool canResize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback) : base()
+        public CustomDialog(string title, UserControl content, int width, int height, bool canResize,bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback) : base()
         {
             InitializeComponent();
 
@@ -36,7 +36,14 @@ namespace Dopamine.Common.Services.Dialog
             else
             {
                 this.ResizeMode = ResizeMode.NoResize;
-                this.SizeToContent = SizeToContent.Height;
+                if (autoSize)
+                {
+                    this.SizeToContent = SizeToContent.Height;
+                }
+                else
+                {
+                    this.SizeToContent = SizeToContent.Manual;
+                }
             }
 
             if (showCancelButton)
@@ -65,15 +72,15 @@ namespace Dopamine.Common.Services.Dialog
             WindowUtils.CenterWindow(this);
         }
 
-        public CustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
-            : this(title, content, width, height, canResize, showTitle, showCancelButton, okText, cancelText, callback)
+        public CustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+            : this(title, content, width, height, canResize, autoSize,showTitle, showCancelButton, okText, cancelText, callback)
         {
             this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
             this.Icon.FontSize = iconSize;
         }
 
-        public CustomDialog(UserControl icon, string title, UserControl content, int width, int height, bool canResize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
-            : this(title, content, width, height, canResize, showTitle, showCancelButton, okText, cancelText, callback)
+        public CustomDialog(UserControl icon, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+            : this(title, content, width, height, canResize, autoSize, showTitle, showCancelButton, okText, cancelText, callback)
         {
             this.IconContentControl.Content = icon.Content;
         }

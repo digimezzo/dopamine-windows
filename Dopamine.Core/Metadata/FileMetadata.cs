@@ -23,6 +23,7 @@ namespace Dopamine.Core.Metadata
         private MetadataValue discCount;
         private MetadataRatingValue rating;
         private MetadataArtworkValue artworkData;
+        private MetadataValue lyrics;
         #endregion
 
         #region Construction
@@ -303,6 +304,20 @@ namespace Dopamine.Core.Metadata
 
                     this.file.Tag.Pictures = new Picture[1] { pic };
                 }
+            }
+        }
+
+        public MetadataValue Lyrics
+        {
+            get
+            {
+                if (this.lyrics == null) this.lyrics = new MetadataValue("These are dummy lyrics");
+                return this.lyrics;
+            }
+            set
+            {
+                this.lyrics = value;
+                //this.file.Tag.Comment = value.Value;
             }
         }
         #endregion
