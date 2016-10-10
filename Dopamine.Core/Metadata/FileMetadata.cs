@@ -311,13 +311,13 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.lyrics == null) this.lyrics = new MetadataValue("These are dummy lyrics");
+                if (this.lyrics == null) this.lyrics = new MetadataValue(this.file.Tag.Lyrics);
                 return this.lyrics;
             }
             set
             {
                 this.lyrics = value;
-                //this.file.Tag.Comment = value.Value;
+                this.file.Tag.Lyrics = value.Value;
             }
         }
         #endregion
