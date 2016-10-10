@@ -232,6 +232,12 @@
     <Compile Include="Presentation\Views\EditTrack.xaml.cs">
       <DependentUpon>EditTrack.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\EditTrackLyricsControl.xaml.cs">
+      <DependentUpon>EditTrackLyricsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\EditTrackTagsControl.xaml.cs">
+      <DependentUpon>EditTrackTagsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\Empty.xaml.cs">
       <DependentUpon>Empty.xaml</DependentUpon>
     </Compile>
@@ -405,6 +411,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\EditTrack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\EditTrackLyricsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\EditTrackTagsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

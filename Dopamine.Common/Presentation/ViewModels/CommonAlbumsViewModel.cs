@@ -213,6 +213,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 false,
                 true,
                 true,
+                true,
                 ResourceUtils.GetStringResource("Language_Ok"),
                 ResourceUtils.GetStringResource("Language_Cancel"),
                 ((EditAlbumViewModel)view.DataContext).SaveAlbumAsync);

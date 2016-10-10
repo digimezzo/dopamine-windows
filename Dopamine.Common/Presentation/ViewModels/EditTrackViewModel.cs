@@ -1,20 +1,21 @@
 ﻿using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Base;
 using Dopamine.Core.Database;
+using Dopamine.Core.IO;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Dopamine.Core.Logging;
-using Dopamine.Core.IO;
-using Dopamine.Core.Base;
-using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -43,12 +44,18 @@ namespace Dopamine.Common.Presentation.ViewModels
         private MetadataValue genres;
         private MetadataValue grouping;
         private MetadataValue comment;
+        private MetadataValue lyrics;
         private MetadataArtworkValue artwork;
         private BitmapImage artworkThumbnail;
+
+        private int previousIndex = 0;
+        private int contentSlideInFrom;
+        private UserControl editTrackContent;
         #endregion
 
         #region Commands
         public DelegateCommand LoadedCommand { get; set; }
+        public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
         #endregion
@@ -79,6 +86,18 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public int ContentSlideInFrom
+        {
+            get { return this.contentSlideInFrom; }
+            set { SetProperty<int>(ref this.contentSlideInFrom, value); }
+        }
+
+        public UserControl EditTrackContent
+        {
+            get { return this.editTrackContent; }
+            set { SetProperty<UserControl>(ref this.editTrackContent, value); }
+        }
+
         public bool IsBusy
         {
             get { return this.isBusy; }
@@ -175,6 +194,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<MetadataValue>(ref this.comment, value); }
         }
 
+        public MetadataValue Lyrics
+        {
+            get { return this.lyrics; }
+            set { SetProperty<MetadataValue>(ref this.lyrics, value); }
+        }
+
         public string ArtworkSize
         {
             get { return this.artworkSize; }
@@ -205,6 +230,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.genres = new MetadataValue();
             this.grouping = new MetadataValue();
             this.comment = new MetadataValue();
+            this.lyrics = new MetadataValue();
             this.artwork = new MetadataArtworkValue();
 
             this.trackInfos = trackinfos;
@@ -215,6 +241,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.UpdateAlbumArtwork = false;
 
             this.LoadedCommand = new DelegateCommand(async () => await this.GetFilesMetadataAsync());
+
+            this.NavigateCommand = new DelegateCommand<string>((index) => Navigate(index));
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
             {
@@ -231,12 +259,45 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
+
+            this.Navigate("1"); // Make sure something is displayed when the screen is shown
         }
         #endregion
 
         #region Private
+        private void Navigate(string indexString)
+        {
+            if (string.IsNullOrWhiteSpace(indexString))
+                return;
+
+            int index = 0;
+
+            int.TryParse(indexString, out index);
+
+            if (index == 0)
+                return;
+
+            this.ContentSlideInFrom = index <= this.previousIndex ? -30 : 30;
+
+            this.previousIndex = index;
+
+            if (index == 1)
+            {
+                // Tags
+                var content = new EditTrackTagsControl();
+                content.DataContext = this;
+                this.EditTrackContent = content;
+            }
+            else if (index == 2)
+            {
+                // Lyrics
+                var content = new EditTrackLyricsControl();
+                content.DataContext = this;
+                this.EditTrackContent = content;
+            }
+        }
+
         private async Task GetFilesMetadataAsync()
         {
             List<FileMetadata> fileMetadatas = new List<FileMetadata>();
@@ -306,6 +367,10 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // Comment
                     List<string> distinctComments = fileMetadatas.Select((f) => f.Comment.Value).Distinct().ToList();
                     this.Comment = new MetadataValue(distinctComments.Count == 1 ? distinctComments.First() : this.multipleValuesText);
+
+                    // Lyrics
+                    List<string> distinctLyrics = fileMetadatas.Select((f) => f.Lyrics.Value).Distinct().ToList();
+                    this.lyrics = new MetadataValue(distinctLyrics.Count == 1 ? distinctLyrics.First() : this.multipleValuesText);
 
                     // Artwork 
                     this.GetArtwork(fileMetadatas);
@@ -423,6 +488,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         if (this.genres.IsValueChanged) fmd.Genres = this.genres;
                         if (this.grouping.IsValueChanged) fmd.Grouping = this.grouping;
                         if (this.comment.IsValueChanged) fmd.Comment = this.comment;
+                        if (this.lyrics.IsValueChanged) fmd.Lyrics = this.lyrics;
                         if (this.artwork.IsValueChanged) fmd.ArtworkData = this.artwork;
 
                         fmdList.Add(fmd);

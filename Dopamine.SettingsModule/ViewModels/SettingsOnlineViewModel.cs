@@ -168,6 +168,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 false,
                 true,
                 true,
+                true,
                 ResourceUtils.GetStringResource("Language_Ok"),
                 ResourceUtils.GetStringResource("Language_Cancel"),
                 ((SettingsOnlineAddEditSearchProviderViewModel)view.DataContext).AddSearchProviderAsync);
@@ -188,6 +189,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 450,
                 0,
                 false,
+                true,
                 true,
                 true,
                 ResourceUtils.GetStringResource("Language_Ok"),

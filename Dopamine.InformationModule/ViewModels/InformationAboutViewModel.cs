@@ -36,6 +36,7 @@ namespace Dopamine.InformationModule.ViewModels
                     400, 
                     0, 
                     false,
+                    true,
                     true, 
                     false, 
                     ResourceUtils.GetStringResource("Language_Ok"), 

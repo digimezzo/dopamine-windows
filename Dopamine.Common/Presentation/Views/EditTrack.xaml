@@ -1,14 +1,13 @@
 ﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.EditTrack"
+             x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
@@ -20,7 +19,6 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
-        <presentationutils:BindingProxy x:Key="ChangeProxy" Data="{DynamicResource Language_Change}"/>
         <Storyboard x:Key="FadeIn">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
@@ -52,159 +50,39 @@
             <DockPanel x:Name="Menu" Height="56">
                 <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
-                    <controls:MainMenuButton GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Tags}" IsChecked="True"/>
-                    <controls:MainMenuButton GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Lyrics}"/>
+                    <controls:MainMenuButton x:Name="MenuTags" GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Tags}" IsChecked="True"  Command="{Binding NavigateCommand}" CommandParameter="1"/>
+                    <controls:MainMenuButton x:Name="MenuLyrics" GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Lyrics}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
                 </StackPanel>
             </DockPanel>
         </DockPanel>
-        <Grid>
-            <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
-                <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
-            </Viewbox>
-            <DockPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">
-                <!-- Multiple Tracks notification -->
-                <TextBlock 
+        <!-- Multiple Tracks notification -->
+        <TextBlock 
                 DockPanel.Dock="Top" 
-                Margin="5,0,5,20" 
+                Margin="0,0,0,20" 
                 TextWrapping="Wrap" 
                 Text="{Binding MultipleTracksWarningText}" 
                 Foreground="{DynamicResource RG_AccentBrush}"
                 Visibility="{Binding ShowMultipleTracksWarning,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                <DockPanel>
-                    <DockPanel.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsBusy}" Value="True">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard Storyboard ="{StaticResource FadeOut}"/>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard Storyboard ="{StaticResource FadeIn}"/>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DockPanel.Style>
-                    <!-- Embedded cover art -->
-                    <StackPanel DockPanel.Dock="Left" Panel.ZIndex="0" VerticalAlignment="Top" Width="{x:Static corebase:Constants.CoverLargeSize}">
-                        <Grid Width="{x:Static corebase:Constants.CoverLargeSize}" Height="{x:Static corebase:Constants.CoverLargeSize}">
-                            <controls:Tile 
-                            Width="{x:Static corebase:Constants.CoverLargeSize}" 
-                            Height="{x:Static corebase:Constants.CoverLargeSize}"
-                            Panel.ZIndex="0"
-                            IconSizePercent="{x:Static corebase:Constants.HeadPhoneSmallSize}"
-                            Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
-                                <controls:Tile.Content>
-                                    <Viewbox>
-                                        <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
-                                    </Viewbox>
-                                </controls:Tile.Content>
-                            </controls:Tile>
-                            <Image 
-                            Panel.ZIndex="1" 
-                            ToolTip="{Binding ArtworkSize}"
-                            Source="{Binding ArtworkThumbnail,IsAsync=True}" 
-                            Width="{x:Static corebase:Constants.CoverLargeSize}" 
-                            Height="{x:Static corebase:Constants.CoverLargeSize}" 
-                            RenderOptions.BitmapScalingMode="HighQuality" 
-                            Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                            <TextBlock Panel.ZIndex="2" Text="{DynamicResource Language_Multiple_Images}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding HasMultipleArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                        </Grid>
-                        <Button 
-                        Style="{StaticResource MetroButton}" 
-                        Margin="0,15,0,0" 
-                        Content="{Binding Source={StaticResource ChangeProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
-                        ToolTip="{DynamicResource Language_Change_The_Image}"
-                        Command="{Binding ChangeArtworkCommand}"/>
-                        <Button 
-                        Style="{StaticResource MetroButton}" 
-                        Margin="0,10,0,0" 
-                        Content="{DynamicResource Language_Remove}" 
-                        ToolTip="{DynamicResource Language_Remove_The_Image}"
-                        Command="{Binding RemoveArtworkCommand}"/>
-                        <CheckBox 
-                            Margin="0,15,0,0"
-                            Style="{StaticResource MetroCheckBox}" 
-                            DockPanel.Dock="Left" 
-                            VerticalAlignment="Top" 
-                            IsChecked="{Binding UpdateAlbumArtwork}" 
-                            ToolTip="{DynamicResource Language_Check_Box_To_Update_Album_Cover_In_Collection}"
-                         VerticalContentAlignment="Top">
-                            <TextBlock Text="{DynamicResource Language_Update_Album_Cover}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                    </StackPanel>
-                    <!-- Tags -->
-                    <Grid Margin="15,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="52"/>
-                        </Grid.RowDefinitions>
-                        <!-- Title -->
-                        <Label Content="{DynamicResource Language_Title}" Grid.Row="0" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="0" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Title.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Title.IsValueChanged}"/>
-                        <!-- Artists -->
-                        <Label Content="{DynamicResource Language_Artists}" Grid.Row="2" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Artists.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Artists.IsValueChanged}"/>
-                        <!-- Album -->
-                        <Label Content="{DynamicResource Language_Album}" Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Album.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Album.IsValueChanged}"/>
-                        <!-- Album artists -->
-                        <Label Content="{DynamicResource Language_Album_Artists}" Grid.Row="6" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding AlbumArtists.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding AlbumArtists.IsValueChanged}"/>
-                        <!-- Year -->
-                        <Label Content="{DynamicResource Language_Year}" Grid.Row="8" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Year.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Year.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding Year.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
-                        <!-- Genres -->
-                        <Label Content="{DynamicResource Language_Genres}" Grid.Row="10" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <!--<controls:SelectionChangedComboBox Grid.Row="10" Grid.Column="2" Style="{StaticResource MetroComboBox}" ItemsSource="{Binding AllGenres}" SelectedItem="{Binding Genre}" SelectionChangedForeground="{DynamicResource RG_AccentBrush}"/>-->
-                        <controls:AccentTextBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Genres.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Genres.IsValueChanged}"/>
-                        <!-- Track number -->
-                        <Label Content="{DynamicResource Language_Track_Number}" Grid.Row="12" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="12" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding TrackNumber.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding TrackNumber.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding TrackNumber.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
-                        <!-- Track count -->
-                        <Label Content="{DynamicResource Language_Track_Count}" Grid.Row="14" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="14" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding TrackCount.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding TrackCount.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding TrackCount.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
-                        <!-- Disc number -->
-                        <Label Content="{DynamicResource Language_Disc_Number}" Grid.Row="16" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="16" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding DiscNumber.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding DiscNumber.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding DiscNumber.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
-                        <!-- Disc count -->
-                        <Label Content="{DynamicResource Language_Disc_Count}" Grid.Row="18" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="18" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding DiscCount.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding DiscCount.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding DiscCount.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
-                        <!-- Grouping -->
-                        <Label Content="{DynamicResource Language_Grouping}" Grid.Row="20" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="20" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Grouping.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Grouping.IsValueChanged}"/>
-                        <!-- Comment -->
-                        <Label Content="{DynamicResource Language_Comment}" Grid.Row="22" Grid.Column="0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <controls:AccentTextBox Grid.Row="22" Grid.Column="2" VerticalContentAlignment="Top" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding Comment.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Comment.IsValueChanged}"/>
-                    </Grid>
-                </DockPanel>
-            </DockPanel>
+        <!-- Content -->
+        <Grid>
+            <Grid.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard ="{StaticResource FadeOut}"/>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard ="{StaticResource FadeIn}"/>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
+                <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
+            </Viewbox>
+            <controls:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0"/>
         </Grid>
     </DockPanel>
 </UserControl>

@@ -52,7 +52,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Automatically_Download_Updates}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsPortable,Converter={StaticResource BooleanToCollapsedConverter}}">
-                        <TextBlock Text="(" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        <TextBlock Text=" (" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                         <TextBlock Text="{DynamicResource Language_Not_Available_In_Portable_Version}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                         <TextBlock Text=")" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
