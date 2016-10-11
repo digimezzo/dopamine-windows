@@ -18,6 +18,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private IPlaybackService playbackService;
         private bool isShowCaseVisible;
         private bool isPlaylistVisible;
+        private bool isLyricsVisible;
         private bool isArtistInformationVisible;
         #endregion
 
@@ -25,6 +26,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand NowPlayingScreenPlaylistButtonCommand { get; set; }
         public DelegateCommand NowPlayingScreenShowcaseButtonCommand { get; set; }
+        public DelegateCommand NowPlayingScreenLyricsButtonCommand { get; set; }
         public DelegateCommand NowPlayingScreenArtistInformationButtonCommand { get; set; }
         #endregion
 
@@ -52,10 +54,12 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             this.NowPlayingScreenShowcaseButtonCommand = new DelegateCommand(() => this.SetShowCase());
             this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());
+            this.NowPlayingScreenLyricsButtonCommand = new DelegateCommand(() => this.SetLyrics());
             this.NowPlayingScreenArtistInformationButtonCommand = new DelegateCommand(() => this.SetArtistInformation());
 
             ApplicationCommands.NowPlayingScreenShowcaseButtonCommand.RegisterCommand(this.NowPlayingScreenShowcaseButtonCommand);
             ApplicationCommands.NowPlayingScreenPlaylistButtonCommand.RegisterCommand(this.NowPlayingScreenPlaylistButtonCommand);
+            ApplicationCommands.NowPlayingScreenLyricsButtonCommand.RegisterCommand(this.NowPlayingScreenLyricsButtonCommand);
             ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand.RegisterCommand(this.NowPlayingScreenArtistInformationButtonCommand);
         }
         #endregion
@@ -76,6 +80,17 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.SlideDirection = SlideDirection.LeftToRight;
             if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenPlaylist).FullName);
+
+            isShowCaseVisible = false;
+            isPlaylistVisible = true;
+            isArtistInformationVisible = false;
+        }
+
+        private void SetLyrics()
+        {
+            this.SlideDirection = SlideDirection.LeftToRight;
+            if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
+            this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenLyrics).FullName);
 
             isShowCaseVisible = false;
             isPlaylistVisible = true;

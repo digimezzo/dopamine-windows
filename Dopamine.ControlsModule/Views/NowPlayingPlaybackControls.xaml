@@ -31,7 +31,10 @@
                 <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel 
+                Grid.Column="1" 
+                Orientation="Horizontal"
+                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <!-- Showcase button -->
                 <controls:IconMenuButton  
                 x:Name="ShowcaseButton"
@@ -45,8 +48,7 @@
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Showcase}" 
                 Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenShowcaseButtonCommand}" 
-                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
-                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                         <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -66,11 +68,29 @@
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Playlist}" 
                 Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenPlaylistButtonCommand}" 
-                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
-                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                         <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </controls:IconMenuButton>
+                <!-- Lyrics button -->
+                <controls:IconMenuButton 
+                x:Name="LyricsButton"
+                GroupName="NowPlayingScreenButtons"
+                Width="30" 
+                Height="30" 
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource RG_ForegroundBrush}"
+                AccentForeground="{DynamicResource RG_AccentBrush}"
+                ToolTip="{DynamicResource Language_Lyrics}" 
+                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenLyricsButtonCommand}" 
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+                    <Grid>
+                        <TextBlock Text="&#xE720;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=LyricsButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xE720;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=LyricsButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </controls:IconMenuButton>
                 <!-- Artist information button -->
@@ -86,8 +106,7 @@
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Artist_Information}" 
                 Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand}" 
-                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
-                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
+                CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xE13D;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ArtistInformationButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                         <TextBlock Text="&#xE13D;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ArtistInformationButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>

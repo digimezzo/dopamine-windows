@@ -21,6 +21,7 @@ namespace Dopamine.Core.Prism
         public static CompositeCommand NowPlayingScreenPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand NowPlayingScreenShowcaseButtonCommand = new CompositeCommand();
         public static CompositeCommand NowPlayingScreenArtistInformationButtonCommand = new CompositeCommand();
+        public static CompositeCommand NowPlayingScreenLyricsButtonCommand = new CompositeCommand();
         public static CompositeCommand CoverPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand MicroPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand NanoPlayerPlaylistButtonCommand = new CompositeCommand();
