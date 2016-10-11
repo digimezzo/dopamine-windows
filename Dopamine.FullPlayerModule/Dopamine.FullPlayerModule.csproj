@@ -110,6 +110,7 @@
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MainScreenViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenArtistInformationViewModel.cs" />
+    <Compile Include="ViewModels\NowPlayingScreenLyricsViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenShowcaseViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenViewModel.cs" />
@@ -128,6 +129,9 @@
     </Compile>
     <Compile Include="Views\NowPlayingScreen.xaml.cs">
       <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NowPlayingScreenLyrics.xaml.cs">
+      <DependentUpon>NowPlayingScreenLyrics.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlayingScreenPlaylist.xaml.cs">
       <DependentUpon>NowPlayingScreenPlaylist.xaml</DependentUpon>
@@ -197,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NowPlayingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NowPlayingScreenLyrics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

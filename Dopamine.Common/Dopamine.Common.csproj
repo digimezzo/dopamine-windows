@@ -194,6 +194,7 @@
     <Compile Include="Presentation\ViewModels\FileInformationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\GenreViewModel.cs" />
     <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
@@ -249,6 +250,9 @@
     </Compile>
     <Compile Include="Presentation\Views\HorizontalVolumeControls.xaml.cs">
       <DependentUpon>HorizontalVolumeControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\LyricsControl.xaml.cs">
+      <DependentUpon>LyricsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\PlaybackControls.xaml.cs">
       <DependentUpon>PlaybackControls.xaml</DependentUpon>
@@ -435,6 +439,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\HorizontalVolumeControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\LyricsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
