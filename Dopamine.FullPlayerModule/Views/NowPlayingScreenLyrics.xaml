@@ -17,5 +17,20 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <commonviews:LyricsControl/>
+    <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- Cover -->
+        <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
+            <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
+                <commonviews:CoverArtControl/>
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                </Border.Effect>
+            </Border>
+            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" ArtistFontSize="13" ArtistFontWeight="Normal" TitleFontSize="26" TitleFontWeight="Light" AlbumFontSize="13" AlbumFontWeight="Normal" YearFontSize="13" YearFontWeight="Normal" ShowAlbumInfo="True"/>
+        </StackPanel>
+        <!-- List -->
+        <DockPanel Margin="10,20,0,0">
+            <!-- Lyrics here -->
+        </DockPanel>
+    </DockPanel>
 </UserControl>
