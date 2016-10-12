@@ -72,6 +72,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             isShowCaseVisible = true;
             isPlaylistVisible = false;
+            isLyricsVisible = false;
             isArtistInformationVisible = false;
         }
 
@@ -83,17 +84,19 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             isShowCaseVisible = false;
             isPlaylistVisible = true;
+            isLyricsVisible = false;
             isArtistInformationVisible = false;
         }
 
         private void SetLyrics()
         {
-            this.SlideDirection = SlideDirection.LeftToRight;
-            if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
+            this.SlideDirection = SlideDirection.RightToLeft;
+            if (isArtistInformationVisible) this.SlideDirection = SlideDirection.LeftToRight;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenLyrics).FullName);
 
             isShowCaseVisible = false;
-            isPlaylistVisible = true;
+            isPlaylistVisible = false;
+            isLyricsVisible = true;
             isArtistInformationVisible = false;
         }
 
@@ -104,6 +107,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             isShowCaseVisible = false;
             isPlaylistVisible = false;
+            isLyricsVisible = false;
             isArtistInformationVisible = true;
         }
         #endregion
