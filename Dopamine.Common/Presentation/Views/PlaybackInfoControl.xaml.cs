@@ -19,6 +19,8 @@ namespace Dopamine.Common.Presentation.Views
         public static readonly DependencyProperty YearFontWeightProperty = DependencyProperty.Register("YearFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
         public static readonly DependencyProperty TimeFontSizeProperty = DependencyProperty.Register("TimeFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty ShowAlbumInfoProperty = DependencyProperty.Register("ShowAlbumInfo", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register("ShowTitle", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsTopAlignedProperty = DependencyProperty.Register("IsTopAligned", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
         #endregion
 
         #region Properties
@@ -98,11 +100,25 @@ namespace Dopamine.Common.Presentation.Views
             set { SetValue(TimeFontSizeProperty, value); }
         }
 
+        public bool ShowTitle
+        {
+            get { return Convert.ToBoolean(GetValue(ShowTitleProperty)); }
+
+            set { SetValue(ShowTitleProperty, value); }
+        }
+
         public bool ShowAlbumInfo
         {
             get { return Convert.ToBoolean(GetValue(ShowAlbumInfoProperty)); }
 
             set { SetValue(ShowAlbumInfoProperty, value); }
+        }
+
+        public bool IsTopAligned
+        {
+            get { return Convert.ToBoolean(GetValue(IsTopAlignedProperty)); }
+
+            set { SetValue(IsTopAlignedProperty, value); }
         }
         #endregion
 
