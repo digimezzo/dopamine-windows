@@ -351,4 +351,5 @@
   <Text Key="Download_An_Image">Download een afbeelding</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Songtekst</Text>
+  <Text Key="No_Lyrics">Geen songtekst</Text>
 </Language>
