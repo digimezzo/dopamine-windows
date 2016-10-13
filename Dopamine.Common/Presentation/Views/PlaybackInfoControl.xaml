@@ -14,8 +14,11 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type viewmodels:PlaybackInfoViewModel}">
             <StackPanel>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                <StackPanel Visibility="{Binding ShowTitle,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding ShowTitle,ElementName=ThisControl,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                 <StackPanel Visibility="{Binding ShowAlbumInfo,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}">
                     <TextBlock Text="{Binding Album}" TextTrimming="CharacterEllipsis" FontSize="{Binding AlbumFontSize,ElementName=ThisControl}" FontWeight="{Binding AlbumFontWeight,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                     <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" FontSize="{Binding YearFontSize,ElementName=ThisControl}" FontWeight="{Binding YearFontWeight,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" Visibility="{Binding Year, Converter={StaticResource StringEmptyToInvisibleConverter}}"/>
@@ -26,7 +29,19 @@
 
     <DockPanel HorizontalAlignment="Stretch" Height="{Binding ActualHeight,ElementName=ThisControl}">
         <dc:SlidingContentControl 
+            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
             DockPanel.Dock="Bottom" 
+            HorizontalAlignment="Stretch" 
+            SlideDirection="{Binding SlideDirection}" 
+            EasingAmplitude="0" 
+            FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}"
+            FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}"
+            FadeOnSlide="True"
+            Content="{Binding PlaybackInfoViewModel}"
+            SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+        <dc:SlidingContentControl 
+            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"
+            DockPanel.Dock="Top" 
             HorizontalAlignment="Stretch" 
             SlideDirection="{Binding SlideDirection}" 
             EasingAmplitude="0" 
