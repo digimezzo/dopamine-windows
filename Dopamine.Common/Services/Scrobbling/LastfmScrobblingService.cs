@@ -183,19 +183,27 @@ namespace Dopamine.Common.Services.Scrobbling
 
         public async Task SignIn()
         {
-            this.sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
+            try
+            {
+                this.sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
 
-            if (!string.IsNullOrEmpty(this.sessionKey))
-            {
-                XmlSettingsClient.Instance.Set<string>("Lastfm", "Username", this.username);
-                XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
-                XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", this.sessionKey);
-                LogClient.Instance.Logger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
-                this.SignInState = SignInState.SignedIn;
+                if (!string.IsNullOrEmpty(this.sessionKey))
+                {
+                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Username", this.username);
+                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
+                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", this.sessionKey);
+                    LogClient.Instance.Logger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
+                    this.SignInState = SignInState.SignedIn;
+                }
+                else
+                {
+                    LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm.", this.username);
+                    this.SignInState = SignInState.Error;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm.", this.username);
+                LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm. Exception: {1}", this.username, ex.Message);
                 this.SignInState = SignInState.Error;
             }
 
