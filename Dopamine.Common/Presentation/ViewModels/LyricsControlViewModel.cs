@@ -7,7 +7,6 @@ using Dopamine.Core.Metadata;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
-using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -16,19 +15,17 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private string title;
-        private string staticLyrics;
         private LyricsViewModel lyricsViewModel;
-        private SlideDirection slideDirection;
         private TrackInfo previousTrackInfo;
         private TrackInfo trackInfo;
+        private int contentSlideInFrom;
         #endregion
 
         #region Properties
-        public SlideDirection SlideDirection
+        public int ContentSlideInFrom
         {
-            get { return this.slideDirection; }
-            set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
+            get { return this.contentSlideInFrom; }
+            set { SetProperty<int>(ref this.contentSlideInFrom, value); }
         }
 
         public LyricsViewModel LyricsViewModel
@@ -49,15 +46,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                if (isPlayingPreviousTrack)
-                {
-                    this.SlideDirection = SlideDirection.UpToDown;
-                }
-                else
-                {
-                    this.SlideDirection = SlideDirection.DownToUp;
-                }
-
+                this.ContentSlideInFrom = isPlayingPreviousTrack ? 30 : -30;
+                
                 this.ShowLyricsAsync(this.playbackService.PlayingTrack);
             };
 
@@ -96,7 +86,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 this.LyricsViewModel = new LyricsViewModel
                 {
-                    Title = trackInfo.TrackTitle,
+                    Title = string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle,
                     StaticLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value
                 };
             }

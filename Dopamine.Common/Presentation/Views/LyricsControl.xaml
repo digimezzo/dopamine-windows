@@ -7,6 +7,7 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -25,12 +26,5 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <dc:SlidingContentControl 
-        Panel.ZIndex="0" 
-        Width="{Binding ActualWidth,ElementName=ThisControl}" 
-        Height="{Binding ActualHeight,ElementName=ThisControl}" 
-        EasingAmplitude="0" 
-        SlideDirection="{Binding SlideDirection}" 
-        Content="{Binding LyricsViewModel}"
-        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+    <controls:TransitioningContentControl Content="{Binding LyricsViewModel}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0"/>
 </UserControl>
