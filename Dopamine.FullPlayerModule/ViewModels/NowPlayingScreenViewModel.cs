@@ -52,6 +52,9 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             this.isPlaylistVisible = true; // default
 
+            this.playbackService.PlaybackFailed += (_,__) => this.SetPlaylist();
+            this.playbackService.PlaybackStopped += (_, __) => this.SetPlaylist();
+
             this.NowPlayingScreenShowcaseButtonCommand = new DelegateCommand(() => this.SetShowCase());
             this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());
             this.NowPlayingScreenLyricsButtonCommand = new DelegateCommand(() => this.SetLyrics());
