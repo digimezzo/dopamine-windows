@@ -29,7 +29,7 @@
             <DockPanel>
                 <StackPanel>
                     <Grid DockPanel.Dock="Left" >
-                        <Image Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}" Visibility="{Binding HasImage, Converter={StaticResource BooleanToCollapsedConverter}}">
+                        <Image Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}" Visibility="{Binding HasImage, Converter={StaticResource BooleanToCollapsedConverter}}" RenderOptions.BitmapScalingMode="HighQuality">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                             </Image.Effect>
