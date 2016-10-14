@@ -32,7 +32,7 @@ namespace Dopamine.Common.Presentation.Views
         }
         #endregion
 
-        #region "Private"
+        #region Private
         private void StackPanel_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             try
