@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Wolę zewnętrzną</Text>
   <Text Key="Error_Cannot_Play_This_Song">Niestety, nie mogę odtworzyć tego utworu. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Follow_Song">Śledź utwór</Text>
-  <Text Key="Follow_The_Playing_Song">Śledź odtwarzany utwór</Text>
   <Text Key="Default">Domyślne</Text>
   <Text Key="View_In_Explorer">Zobacz w Eksploratorze Windows</Text>
   <Text Key="Jump_To_Playing_Song">Skocz do odtwarzanego utworu</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

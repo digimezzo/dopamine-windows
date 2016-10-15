@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Verkies externe</Text>
   <Text Key="Error_Cannot_Play_This_Song">Sorry, ik kan dit nummer niet afspelen. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Follow_Song">Nummer volgen</Text>
-  <Text Key="Follow_The_Playing_Song">Volg het afgespeelde nummer</Text>
   <Text Key="Default">Standaard</Text>
   <Text Key="View_In_Explorer">Weergeven in Windows Explorer</Text>
   <Text Key="Jump_To_Playing_Song">Naar het afgespeelde nummer gaan</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Songtekst</Text>
   <Text Key="No_Lyrics">Geen songtekst</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

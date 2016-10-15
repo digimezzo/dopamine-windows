@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Бажано зовнішній</Text>
   <Text Key="Error_Cannot_Play_This_Song">Вибачте, але у Dopamine не вдається виконати цей трек. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Follow_Song">Слідувати за треком</Text>
-  <Text Key="Follow_The_Playing_Song">Слідувати за граючою піснею</Text>
   <Text Key="Default">Стандартно</Text>
   <Text Key="View_In_Explorer">Відкрити у Провіднику Windows</Text>
   <Text Key="Jump_To_Playing_Song">Повернутися до граючого треку</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

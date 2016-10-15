@@ -2,12 +2,11 @@
 using Dopamine.Core.Logging;
 using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class VerticalVolumeControls : UserControl
+    public partial class VerticalVolumeControls : CommonVolumeControl
     {
         #region Variables
         private IPlaybackService playBackService;
@@ -37,7 +36,7 @@ namespace Dopamine.Common.Presentation.Views
         {
             try
             {
-                this.playBackService.Volume = Convert.ToSingle(this.playBackService.Volume + ((double)e.Delta / 5000));
+                this.playBackService.Volume = Convert.ToSingle(this.playBackService.Volume + this.CalculateVolumeDelta(e.Delta));
             }
             catch (Exception ex)
             {

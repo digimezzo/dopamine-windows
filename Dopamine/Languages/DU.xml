@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Externes bevorzugen</Text>
   <Text Key="Error_Cannot_Play_This_Song">Entschuldigung, ich kann diesen Song nicht wiedergeben. Genauere Informationen kannst du der Log Datei entnehmen.</Text>
   <Text Key="Follow_Song">Song folgen</Text>
-  <Text Key="Follow_The_Playing_Song">Der aktuellen Playlist folgen</Text>
   <Text Key="Default">Default</Text>
   <Text Key="View_In_Explorer">Im Windows Explorer anzeigen</Text>
   <Text Key="Jump_To_Playing_Song">Springe zum aktuellen Song</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Preferisco quella esterna</Text>
   <Text Key="Error_Cannot_Play_This_Song">Il brano non è riproducibile. Per favore, consulta il file di log per maggiori informazioni.</Text>
   <Text Key="Follow_Song">Segui il brano</Text>
-  <Text Key="Follow_The_Playing_Song">Segui il brano in riproduzione</Text>
   <Text Key="Default">Default</Text>
   <Text Key="View_In_Explorer">Apri in Esplora Risorse</Text>
   <Text Key="Jump_To_Playing_Song">Salta al brano in riproduzione</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

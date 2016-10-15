@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Προτίμηση εξωτερικού</Text>
   <Text Key="Error_Cannot_Play_This_Song">Συγγνώμη,δεν είναι δυνατή η αναπαραγωγή του τραγουδιού. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Follow_Song">Παρακολούθηση τραγουδιού</Text>
-  <Text Key="Follow_The_Playing_Song">Παρακολούθησε το αναπαραγόμενο τραγούδι</Text>
   <Text Key="Default">Προεπιλογή</Text>
   <Text Key="View_In_Explorer">Εμφάνιση σε Windows Explorer</Text>
   <Text Key="Jump_To_Playing_Song">Μεταπήδηση στο αναπαραγόμενο τραγούδι</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

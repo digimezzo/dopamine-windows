@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Préférer externes</Text>
   <Text Key="Error_Cannot_Play_This_Song">Désolé, la lecture de ce morceau a échouée. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Follow_Song">Suivre morceau</Text>
-  <Text Key="Follow_The_Playing_Song">Suivre le morceau en cours de lecture</Text>
   <Text Key="Default">Par défaut</Text>
   <Text Key="View_In_Explorer">Afficher dans l'Explorateur Windows</Text>
   <Text Key="Jump_To_Playing_Song">Aller vers le morceau en cours de lecture</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Paroles</Text>
   <Text Key="No_Lyrics">Pas de paroles</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Défiler automatiquement vers le morceau en cours de lecture</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Défilement de la souris modifie le volume de</Text>
 </Language>
