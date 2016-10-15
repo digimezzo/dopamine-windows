@@ -361,8 +361,7 @@ namespace Dopamine.Core.Audio
             this.Play(this.filename);
 
             if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
-            int resumeSeconds = this.suspendTime.TotalSeconds < this.GetTotalTime().TotalSeconds ? (int)this.suspendTime.TotalSeconds + 1 : (int)this.suspendTime.TotalSeconds;
-            this.Skip(resumeSeconds);
+            this.Skip(Convert.ToInt32(this.suspendTime.TotalSeconds));
             this.suspendTime = TimeSpan.Zero;
         }
         #endregion
