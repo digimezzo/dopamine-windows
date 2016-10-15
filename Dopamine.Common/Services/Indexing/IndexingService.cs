@@ -2,10 +2,7 @@
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -522,12 +519,21 @@ namespace Dopamine.Common.Services.Indexing
 
                         // Ignore Tracks which are in an unreachable folder
                         List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where(t => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
-                        List<Track> tracksToProcessInvalidFolderID = tracksToProcess.Where(t => !folderIDs.Contains(t.FolderID)).ToList();
-                        List<Track> tracksToProcessValidFolderID = tracksToProcess.Except(tracksToProcessInvalidFolderID).ToList();
+                        List<Track> tracksToProcessInexistentFolderID = tracksToProcess.Select((t) => t).Where(t => !folderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> tracksToProcessValidFolderID = null;
+
+                        // When tracksToProcess.Count == tracksToProcessInexistentFolderID.Count, tracksToProcessValidFolderID == null and a NullReferenceException occurs.
+                        if (tracksToProcess != null && tracksToProcessInexistentFolderID != null && tracksToProcess.Count > tracksToProcessInexistentFolderID.Count)
+                        {
+                            tracksToProcessValidFolderID = tracksToProcess.Except(tracksToProcessInexistentFolderID).ToList();
+                        }else
+                        {
+                            tracksToProcessValidFolderID = new List<Track>();
+                        }
 
                         // Process tracks with an invalid FolderID
 
-                        if (tracksToProcessInvalidFolderID.Count > 0)
+                        if (tracksToProcessInexistentFolderID.Count > 0)
                         {
                             // Report progress
                             this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
@@ -535,12 +541,12 @@ namespace Dopamine.Common.Services.Indexing
                             this.IndexingStatusChanged(this.eventArgs);
 
                             // Delete
-                            foreach (Track trk in tracksToProcessInvalidFolderID)
+                            foreach (Track trk in tracksToProcessInexistentFolderID)
                             {
                                 conn.Delete(trk);
                             }
 
-                            numberRemovedTracks += tracksToProcessInvalidFolderID.Count;
+                            numberRemovedTracks += tracksToProcessInexistentFolderID.Count;
                         }
 
                         // Process tracks with a valid FolderID
