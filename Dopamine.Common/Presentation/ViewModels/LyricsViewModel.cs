@@ -1,4 +1,7 @@
 ﻿using Prism.Mvvm;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -6,21 +9,37 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Properties
         private string title;
-        private string staticLyrics;
+        private string lyrics;
+        private ObservableCollection<Dictionary<DateTime, string>> timeStampedLyrics;
         #endregion
 
         #region Properties
+        public bool HasTimeStampdLyrics
+        {
+            get { return this.timeStampedLyrics != null && this.timeStampedLyrics.Count > 0; }
+        }
+
         public string Title
         {
             get { return this.title; }
             set { SetProperty<string>(ref this.title, value); }
         }
 
-        public string StaticLyrics
+        public string Lyrics
         {
-            get { return this.staticLyrics; }
-            set { SetProperty<string>(ref this.staticLyrics, value); }
+            get { return this.lyrics; }
+            set { SetProperty<string>(ref this.lyrics, value); }
         }
+
+        public ObservableCollection<Dictionary<DateTime, string>> TimestampedLyrics
+        {
+            get { return this.timeStampedLyrics; }
+            set {
+                SetProperty<ObservableCollection<Dictionary<DateTime, string>>>(ref this.timeStampedLyrics, value);
+                OnPropertyChanged(() => this.HasTimeStampdLyrics);
+            }
+        }
+
         #endregion
     }
 }

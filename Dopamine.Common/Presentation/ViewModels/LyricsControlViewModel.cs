@@ -68,7 +68,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.LyricsViewModel = new LyricsViewModel
                 {
                     Title = string.Empty,
-                    StaticLyrics = string.Empty
+                    Lyrics = string.Empty
                 };
                 this.trackInfo = null;
                 return;
@@ -87,7 +87,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.LyricsViewModel = new LyricsViewModel
                 {
                     Title = string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle,
-                    StaticLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value
+                    Lyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value
                 };
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.LyricsViewModel = new LyricsViewModel
                 {
                     Title = string.Empty,
-                    StaticLyrics = string.Empty
+                    Lyrics = string.Empty
                 };
             }
         }
