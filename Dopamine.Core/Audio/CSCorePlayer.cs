@@ -50,7 +50,7 @@ namespace Dopamine.Core.Audio
         private MMNotificationClient MMNotificationClient;
 
         // Helpers
-        private TimeSpan currentTime;
+        private TimeSpan suspendTime;
 
         // Timers
         private System.Timers.Timer defaultDeviceChangedTimer = new System.Timers.Timer();
@@ -405,6 +405,17 @@ namespace Dopamine.Core.Audio
             }
         }
 
+        private void UnsuspendSoundOut()
+        {
+            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
+
+            this.Play(this.filename);
+
+            if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
+            this.Skip(Convert.ToInt32(this.suspendTime.TotalSeconds));
+            this.suspendTime = TimeSpan.Zero;
+        }
+
         private void CloseNotificationClient()
         {
             if (this.MMNotificationClient != null)
@@ -530,9 +541,9 @@ namespace Dopamine.Core.Audio
 
                 this.pauseAfterSwitchingDefaultDevice = !this.canPause;
 
-                if (this.currentTime.Equals(TimeSpan.Zero))
+                if (this.suspendTime.Equals(TimeSpan.Zero))
                 {
-                    this.currentTime = this.GetCurrentTime();
+                    this.suspendTime = this.GetCurrentTime();
                     this.SuspendSoundOut();
                 }
 
@@ -543,14 +554,7 @@ namespace Dopamine.Core.Audio
         private void DefaultDeviceChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.defaultDeviceChangedTimer.Stop();
-
-            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
-
-            this.Play(this.filename);
-
-            if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
-            this.Skip(Convert.ToInt32(this.currentTime.TotalSeconds));
-            this.currentTime = TimeSpan.Zero;
+            this.UnsuspendSoundOut();
         }
         #endregion
 
