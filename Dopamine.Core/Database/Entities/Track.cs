@@ -32,6 +32,9 @@ namespace Dopamine.Core.Database.Entities
         public long DateLastSynced { get; set; }
         public long DateFileModified { get; set; }
         public string MetaDataHash { get; set; }
+
+        [Ignore()]
+        public string PathToLower { get; set; }
         #endregion
 
         #region Overrides
@@ -42,12 +45,12 @@ namespace Dopamine.Core.Database.Entities
                 return false;
             }
 
-            return this.Path.Equals(((Track)obj).Path);
+            return this.PathToLower.Equals(((Track)obj).PathToLower);
         }
 
         public override int GetHashCode()
         {
-            return new { this.Path }.GetHashCode();
+            return new { this.PathToLower }.GetHashCode();
         }
         #endregion
     }

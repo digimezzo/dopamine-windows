@@ -171,12 +171,26 @@ namespace Dopamine.Common.Services.Metadata
                         try
                         {
                             fmd.Save();
-                            filesToSync.Add(fmd);
+                            if (!filesToSync.Contains(fmd)) filesToSync.Add(fmd);
                         }
                         catch (Exception ex)
                         {
                             LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
-                            failedFileMetadatas.Enqueue(fmd);
+
+                            try
+                            {
+                                LogClient.Instance.Logger.Error("Trying to save metadata for Track '{0}' after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
+
+                                this.playbackService.Suspend();
+                                fmd.Save();
+                                if(!filesToSync.Contains(fmd)) filesToSync.Add(fmd);
+                                this.playbackService.Unsuspend();
+                            }
+                            catch (Exception)
+                            {
+                                LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}', after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
+                                failedFileMetadatas.Enqueue(fmd);
+                            }
                         }
                     }
 

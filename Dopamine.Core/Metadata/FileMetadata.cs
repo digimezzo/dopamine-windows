@@ -40,6 +40,11 @@ namespace Dopamine.Core.Metadata
             get { return this.file.Name; }
         }
 
+        public string FileNameToLower
+        {
+            get { return this.file.Name.ToLower(); }
+        }
+
         public int BitRate
         {
             get
@@ -333,6 +338,23 @@ namespace Dopamine.Core.Metadata
             {
                 throw;
             }
+        }
+        #endregion
+
+        #region Overrides
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+
+            return this.FileNameToLower.Equals(((FileMetadata)obj).FileNameToLower);
+        }
+
+        public override int GetHashCode()
+        {
+            return new { this.FileNameToLower }.GetHashCode();
         }
         #endregion
     }
