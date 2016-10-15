@@ -329,6 +329,42 @@ namespace Dopamine.Core.Audio
                 this.canStop = false;
             }
         }
+
+        public void Suspend()
+        {
+            this.suspendTime = this.GetCurrentTime();
+
+            if (this.soundOut != null)
+            {
+                try
+                {
+                    // Remove the handler because we don't want to trigger this.soundOut.Stopped()
+                    // when manually stopping the player. That event should only be triggered
+                    // when CSCore reaches the end of the Track by itself.
+                    this.soundOut.Stopped -= this.SoundOutStoppedHandler;
+                    this.soundOut.Stop();
+
+                    if (this.soundOut.WaveSource != null) this.soundOut.WaveSource.Dispose();
+                    if (this.equalizer != null) this.equalizer.Dispose();
+                }
+                catch (Exception)
+                {
+                    // Swallow
+                }
+            }
+        }
+
+        public void Unsuspend()
+        {
+            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
+
+            this.Play(this.filename);
+
+            if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
+            int resumeSeconds = this.suspendTime.TotalSeconds < this.GetTotalTime().TotalSeconds ? (int)this.suspendTime.TotalSeconds + 1 : (int)this.suspendTime.TotalSeconds;
+            this.Skip(resumeSeconds);
+            this.suspendTime = TimeSpan.Zero;
+        }
         #endregion
 
         #region Private
@@ -384,36 +420,6 @@ namespace Dopamine.Core.Audio
                     //Swallow
                 }
             }
-        }
-
-        private void SuspendSoundOut()
-        {
-            if (this.soundOut != null)
-            {
-                try
-                {
-                    // Remove the handler because we don't want to trigger this.soundOut.Stopped()
-                    // when manually stopping the player. That event should only be triggered
-                    // when CSCore reaches the end of the Track by itself.
-                    this.soundOut.Stopped -= this.SoundOutStoppedHandler;
-                    this.soundOut.Stop();
-                }
-                catch (Exception)
-                {
-                    // Swallow
-                }
-            }
-        }
-
-        private void UnsuspendSoundOut()
-        {
-            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
-
-            this.Play(this.filename);
-
-            if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
-            this.Skip(Convert.ToInt32(this.suspendTime.TotalSeconds));
-            this.suspendTime = TimeSpan.Zero;
         }
 
         private void CloseNotificationClient()
@@ -541,12 +547,8 @@ namespace Dopamine.Core.Audio
 
                 this.pauseAfterSwitchingDefaultDevice = !this.canPause;
 
-                if (this.suspendTime.Equals(TimeSpan.Zero))
-                {
-                    this.suspendTime = this.GetCurrentTime();
-                    this.SuspendSoundOut();
-                }
-
+                if (this.suspendTime.Equals(TimeSpan.Zero)) this.Suspend();
+                
                 this.defaultDeviceChangedTimer.Start();
             }
         }
@@ -554,7 +556,7 @@ namespace Dopamine.Core.Audio
         private void DefaultDeviceChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.defaultDeviceChangedTimer.Stop();
-            this.UnsuspendSoundOut();
+            this.Unsuspend();
         }
         #endregion
 
