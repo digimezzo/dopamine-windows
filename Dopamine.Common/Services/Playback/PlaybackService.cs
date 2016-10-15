@@ -305,7 +305,7 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
             // Equalizer
-            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer","IsEnabled"));
+            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
             this.GetSavedQueuedTracksAsync();
@@ -357,7 +357,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 this.activePreset = desiredPreset;
                 if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
-            } 
+            }
         }
 
         public async Task SaveQueuedTracksAsync()
@@ -475,8 +475,9 @@ namespace Dopamine.Common.Services.Playback
 
         public async void Unsuspend()
         {
+            int resumeSeconds = this.suspendTime.TotalSeconds < this.GetTotalTime.TotalSeconds ? (int)this.suspendTime.TotalSeconds + 1 : (int)this.suspendTime.TotalSeconds;
             await this.TryPlayAsync(this.PlayingTrack);
-            this.player.Skip((int)this.suspendTime.TotalSeconds);
+            this.player.Skip(resumeSeconds);
             this.suspendTime = TimeSpan.Zero;
         }
 
@@ -977,7 +978,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Instance.Logger.Error("Could not stop the Player");
                 }
 
-                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackInfo.Path, this.eventMode,this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackInfo.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
