@@ -1,10 +1,11 @@
-2016-10-15: Dopamine 1.2 Build 747 (Preview)
+2016-10-15: Dopamine 1.2 Build 748 (Preview)
 --------------------------------------------
 
 - [Added] Added lyrics support (edit lyrics + screen to display lyrics while playing)
 - [Added] Added an option to modify how much volume changes when scrolling with the mouse on the volume bar
 - [Changed] "See you later" screen when closing is only displayed when there are background tasks remaining
 - [Changed] Improved the "Follow song" description as it was confusing
+- [Changed] Improved the quality of the cloud screen covers
 - [Fixed] Dopamine now respects Windows case insensitivity for files and folder names
 
 
