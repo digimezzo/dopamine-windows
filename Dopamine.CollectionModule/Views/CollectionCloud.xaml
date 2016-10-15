@@ -72,8 +72,21 @@
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>
-                    <TextBlock Panel.ZIndex="1" Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" Margin="5,0,5,5" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                    <Image Panel.ZIndex="2" Source="{Binding ArtworkPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock 
+                        Panel.ZIndex="1" 
+                        Text="{Binding AlbumTitle}" 
+                        TextTrimming="CharacterEllipsis" 
+                        VerticalAlignment="Bottom" 
+                        Margin="5,0,5,5" 
+                        Foreground="{DynamicResource RG_WhiteBrush}"
+                        Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                    <Image 
+                        Panel.ZIndex="2" 
+                        Source="{Binding ArtworkPath}" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        Stretch="Fill"
+                        RenderOptions.BitmapScalingMode="HighQuality"/>
                     <Grid Panel.ZIndex="3" Opacity="0">
                         <Border x:Name="SelectionBorder"
                             Margin="0" 
