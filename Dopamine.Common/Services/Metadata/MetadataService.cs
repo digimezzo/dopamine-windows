@@ -188,7 +188,7 @@ namespace Dopamine.Common.Services.Metadata
                             }
                             catch (Exception)
                             {
-                                LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}', after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
+                                LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}' after suspending playback. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
                                 failedFileMetadatas.Enqueue(fmd);
                             }
                         }
