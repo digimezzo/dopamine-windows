@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">外部优先</Text>
   <Text Key="Error_Cannot_Play_This_Song">抱歉，Dopamine不能播放这个文件，请查看日志文件获取更多信息</Text>
   <Text Key="Follow_Song">跟随歌曲</Text>
-  <Text Key="Follow_The_Playing_Song">跟随正在播放的歌曲</Text>
   <Text Key="Default">默认</Text>
   <Text Key="View_In_Explorer">在 Windows 资源管理器中查看</Text>
   <Text Key="Jump_To_Playing_Song">跳转到正在播放的歌曲</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

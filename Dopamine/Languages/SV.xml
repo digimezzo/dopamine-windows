@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Föredra externt</Text>
   <Text Key="Error_Cannot_Play_This_Song">Den här låten kan tyvärr inte spelas. Konsultera loggfilen för mer information.</Text>
   <Text Key="Follow_Song">Följ låt</Text>
-  <Text Key="Follow_The_Playing_Song">Följ den låt som spelas</Text>
   <Text Key="Default">Standard</Text>
   <Text Key="View_In_Explorer">Visa i Windows Utforskare</Text>
   <Text Key="Jump_To_Playing_Song">Hoppa till den låt som spelas nu</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

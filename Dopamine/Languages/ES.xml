@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Externa</Text>
   <Text Key="Error_Cannot_Play_This_Song">Lo sentimos, no podemos reproducir esta canción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Follow_Song">Seguir canción</Text>
-  <Text Key="Follow_The_Playing_Song">Seguir la canción que se está reproduciendo</Text>
   <Text Key="Default">Valores por defecto</Text>
   <Text Key="View_In_Explorer">Ver en el explorador de archivos</Text>
   <Text Key="Jump_To_Playing_Song">Ir a la canción que se está reproduciendo</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

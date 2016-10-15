@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Inkább külső</Text>
   <Text Key="Error_Cannot_Play_This_Song">Bocsánat, nem lehet lejátszani a dalt. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Follow_Song">Dal követése</Text>
-  <Text Key="Follow_The_Playing_Song">Kövesd a most játszott dalt</Text>
   <Text Key="Default">Alap</Text>
   <Text Key="View_In_Explorer">Megtekintés Windows Intézőben</Text>
   <Text Key="Jump_To_Playing_Song">Ugrás a most játszó számhoz</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

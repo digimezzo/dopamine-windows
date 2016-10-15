@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>57</Value>
+      <Value>58</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -128,6 +128,9 @@
     </Setting>
     <Setting Name="CoverPlayerAlignPlaylistVertically">
       <Value>false</Value>
+    </Setting>
+    <Setting Name="ScrollVolumePercentage">
+      <Value>5</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Startup">

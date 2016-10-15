@@ -4,7 +4,6 @@ using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
@@ -12,7 +11,7 @@ namespace Dopamine.Common.Presentation.Views
     /// <summary>
     /// Interaction logic for PopupVolumeControls.xaml
     /// </summary>
-    public partial class PopupVolumeControls : UserControl
+    public partial class PopupVolumeControls : CommonVolumeControl
     {
         #region Variables
         private IPlaybackService playBackService;
@@ -41,7 +40,7 @@ namespace Dopamine.Common.Presentation.Views
             this.mouseWheelTimer = new Timer();
             this.mouseWheelTimer.Interval = TimeSpan.FromSeconds(this.mouseWheelTimeout).TotalMilliseconds;
             this.mouseWheelTimer.Elapsed += new ElapsedEventHandler(this.MouseWheelTimerElapsed);
-            this.VolumeButtonPopup.Closed += (sender,e) => this.keepOpenAfterScrolling = false;
+            this.VolumeButtonPopup.Closed += (sender, e) => this.keepOpenAfterScrolling = false;
 
             // This doesn't work with binding
             this.VolumeButton.Width = this.Width;
@@ -71,7 +70,7 @@ namespace Dopamine.Common.Presentation.Views
 
             try
             {
-                this.playBackService.Volume = Convert.ToSingle(this.playBackService.Volume + ((double)e.Delta / 5000));
+                this.playBackService.Volume = Convert.ToSingle(this.playBackService.Volume + this.CalculateVolumeDelta(e.Delta));
             }
             catch (Exception ex)
             {

@@ -207,7 +207,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             NameValue localSelectedLatency = null;
 
-            await Task.Run(() => localSelectedLatency = Latencies.Where((pa) => pa.Value == XmlSettingsClient.Instance.Get<int>("Playback", "AudioLatency")).Select((pa) => pa).First());
+            await Task.Run(() => localSelectedLatency = this.Latencies.Where((pa) => pa.Value == XmlSettingsClient.Instance.Get<int>("Playback", "AudioLatency")).Select((pa) => pa).First());
 
             this.SelectedLatency = localSelectedLatency;
         }

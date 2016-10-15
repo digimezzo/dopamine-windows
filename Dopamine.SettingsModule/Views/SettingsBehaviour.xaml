@@ -38,7 +38,7 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Follow_Song}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Follow_The_Playing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{DynamicResource Language_Automatically_Scroll_To_The_Playing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxFollowTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxFollowTrackChecked}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
@@ -57,6 +57,10 @@
                 <TextBlock Text="{DynamicResource Language_Save_Rating_In_Audio_Files}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxSaveRatingInAudioFiles" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxSaveRatingInAudioFilesChecked}"/>
             </StackPanel>
+            <Separator Height="20" Background="Transparent" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Volume}" />
+            <TextBlock Text="{DynamicResource Language_Mouse_Scroll_Changes_Volume_By}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <ComboBox x:Name="ComboBoxVolumePercentage" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding ScrollVolumePercentages}" SelectedItem="{Binding SelectedScrollVolumePercentage}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

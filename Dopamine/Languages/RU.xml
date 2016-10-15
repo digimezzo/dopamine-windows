@@ -96,7 +96,6 @@
   <Text Key="Prefer_External">Внешняя</Text>
   <Text Key="Error_Cannot_Play_This_Song">Извините, я не могу воспроизвести эту песню. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Follow_Song">Следовать за песней</Text>
-  <Text Key="Follow_The_Playing_Song">Прокручивать список до песни, играющей в данный момент</Text>
   <Text Key="Default">По умолчанию</Text>
   <Text Key="View_In_Explorer">Открыть в Проводнике Windows</Text>
   <Text Key="Jump_To_Playing_Song">Перейти к проигрываемой песне</Text>
@@ -352,4 +351,6 @@
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
   <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
 </Language>

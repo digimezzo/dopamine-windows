@@ -219,6 +219,7 @@
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\CommonTracksView.cs" />
+    <Compile Include="Presentation\Views\CommonVolumeControl.cs" />
     <Compile Include="Presentation\Views\CompactPlaybackControls.xaml.cs">
       <DependentUpon>CompactPlaybackControls.xaml</DependentUpon>
     </Compile>
