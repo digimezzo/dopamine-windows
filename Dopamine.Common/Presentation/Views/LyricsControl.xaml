@@ -19,7 +19,7 @@
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Title}" Margin="0,0,0,20"/>
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <TextBlock FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding StaticLyrics}"/>
+                        <TextBlock FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Lyrics}"/>
                     </ScrollViewer>
                 </DockPanel>
             </Grid>
