@@ -35,8 +35,6 @@ namespace Dopamine.Common.Services.Playback
         private bool isSpectrumVisible;
         private IPlayer player;
 
-        private TimeSpan suspendTime;
-
         private IEqualizerService equalizerService;
         private EqualizerPreset desiredPreset;
         private EqualizerPreset activePreset;
@@ -469,16 +467,12 @@ namespace Dopamine.Common.Services.Playback
 
         public void Suspend()
         {
-            this.suspendTime = this.GetCurrentTime;
-            this.Stop();
+            if (this.player != null) this.player.Suspend();
         }
 
-        public async void Unsuspend()
+        public void Unsuspend()
         {
-            int resumeSeconds = this.suspendTime.TotalSeconds < this.GetTotalTime.TotalSeconds ? (int)this.suspendTime.TotalSeconds + 1 : (int)this.suspendTime.TotalSeconds;
-            await this.TryPlayAsync(this.PlayingTrack);
-            this.player.Skip(resumeSeconds);
-            this.suspendTime = TimeSpan.Zero;
+            if (this.player != null) this.player.Unsuspend();
         }
 
         public void Stop()
