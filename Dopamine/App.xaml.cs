@@ -108,8 +108,7 @@ namespace Dopamine
             else
             {
                 // When started without command line arguments, and when not the first instance: try to show the running instance.
-                if (!isNewInstance)
-                    this.TryShowRunningInstance();
+                if (!isNewInstance) this.TryShowRunningInstance();
             }
         }
 

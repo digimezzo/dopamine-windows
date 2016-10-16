@@ -14,7 +14,8 @@ namespace Dopamine.SettingsModule.ViewModels
     {
         #region Variables
         private bool isActive;
-        private bool checkIgnoreRemovedFilesChecked;
+        private bool checkBoxIgnoreRemovedFilesChecked;
+        private bool checkBoxRefreshCollectionOnStartupChecked;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         #endregion
@@ -30,13 +31,23 @@ namespace Dopamine.SettingsModule.ViewModels
             set { SetProperty<bool>(ref this.isActive, value); }
         }
 
-        public bool CheckIgnoreRemovedFilesChecked
+        public bool CheckBoxIgnoreRemovedFilesChecked
         {
-            get { return this.checkIgnoreRemovedFilesChecked; }
+            get { return this.checkBoxIgnoreRemovedFilesChecked; }
             set
             {
                 XmlSettingsClient.Instance.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
-                SetProperty<bool>(ref this.checkIgnoreRemovedFilesChecked, value);
+                SetProperty<bool>(ref this.checkBoxIgnoreRemovedFilesChecked, value);
+            }
+        }
+
+        public bool CheckBoxRefreshCollectionOnStartupChecked
+        {
+            get { return this.checkBoxRefreshCollectionOnStartupChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Indexing", "RefreshCollectionOnStartup", value);
+                SetProperty<bool>(ref this.checkBoxRefreshCollectionOnStartupChecked, value);
             }
         }
         #endregion
@@ -60,9 +71,10 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Private
         private async void GetCheckBoxesAsync()
         {
-            await Task.Run(() => {
-                this.CheckIgnoreRemovedFilesChecked = XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles");
-
+            await Task.Run(() =>
+            {
+                this.CheckBoxIgnoreRemovedFilesChecked = XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles");
+                this.CheckBoxRefreshCollectionOnStartupChecked = XmlSettingsClient.Instance.Get<bool>("Indexing", "RefreshCollectionOnStartup");
             });
         }
 

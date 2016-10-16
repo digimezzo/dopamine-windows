@@ -30,9 +30,6 @@ namespace Dopamine.Common.Services.Indexing
         private List<Tuple<long, string, long>> allDiskPaths;
         private List<Tuple<long, string, long>> newDiskPaths;
 
-        // Folders
-        List<long> unreachableFolderIDs;
-
         // Cache
         private IndexerCache cache;
 
@@ -178,19 +175,6 @@ namespace Dopamine.Common.Services.Indexing
 
             // Get all files on disk which belong to a Collection Folder
             this.allDiskPaths = await this.folderRepository.GetPathsAsync();
-
-            // Find unreachable Folders
-            this.unreachableFolderIDs = new List<long>();
-
-            var folders = await this.folderRepository.GetFoldersAsync();
-
-            foreach (Folder fol in folders)
-            {
-                if (!Directory.Exists(fol.Path))
-                {
-                    this.unreachableFolderIDs.Add(fol.FolderID);
-                }
-            }
         }
 
         private async Task UpdateIndexingStatisticsAsync()
@@ -515,58 +499,66 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
+                        // Create a list of folderIDs
                         List<long> folderIDs = conn.Table<Folder>().ToList().Select((t) => t.FolderID).ToList();
 
-                        // Ignore Tracks which are in an unreachable folder
-                        List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where(t => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
-                        List<Track> tracksToProcessInexistentFolderID = tracksToProcess.Select((t) => t).Where(t => !folderIDs.Contains(t.FolderID)).ToList();
-                        List<Track> tracksToProcessValidFolderID = null;
+                        List<Track> alltracks = conn.Table<Track>().Select((t) => t).ToList();
+                        List<Track> tracksInMissingFolders = alltracks.Select((t) => t).Where(t => !folderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> remainingTracks = new List<Track>();
 
-                        // When tracksToProcess.Count == tracksToProcessInexistentFolderID.Count, tracksToProcessValidFolderID == null and a NullReferenceException occurs.
-                        if (tracksToProcess != null && tracksToProcessInexistentFolderID != null && tracksToProcess.Count > tracksToProcessInexistentFolderID.Count)
+                        // Processing tracks in missing folders in bulk first, then checking 
+                        // existence of the remaining tracks, improves speed of removing tracks.
+                        if (tracksInMissingFolders.Count > 0 && tracksInMissingFolders.Count < alltracks.Count)
                         {
-                            tracksToProcessValidFolderID = tracksToProcess.Except(tracksToProcessInexistentFolderID).ToList();
-                        }else
-                        {
-                            tracksToProcessValidFolderID = new List<Track>();
+                            remainingTracks = alltracks.Except(tracksInMissingFolders).ToList();
                         }
-
-                        // Process tracks with an invalid FolderID
-
-                        if (tracksToProcessInexistentFolderID.Count > 0)
+                        else
                         {
-                            // Report progress
+                            remainingTracks = alltracks;
+                        }
+                        
+
+                        // 1. Process tracks in missing folders
+                        // ------------------------------------
+                        if (tracksInMissingFolders.Count > 0)
+                        {
+                            // Report progress immediately, as there are tracks in missing folders.
                             this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
                             this.eventArgs.ProgressPercent = 0;
                             this.IndexingStatusChanged(this.eventArgs);
 
                             // Delete
-                            foreach (Track trk in tracksToProcessInexistentFolderID)
+                            foreach (Track trk in tracksInMissingFolders)
                             {
                                 conn.Delete(trk);
                             }
 
-                            numberRemovedTracks += tracksToProcessInexistentFolderID.Count;
+                            numberRemovedTracks += tracksInMissingFolders.Count;
                         }
 
-                        // Process tracks with a valid FolderID
-                        foreach (Track trk in tracksToProcessValidFolderID)
+                        // 2. Process remaining tracks
+                        // ---------------------------
+                        if(remainingTracks.Count > 0)
                         {
-                            if (!System.IO.File.Exists(trk.Path) | !folderIDs.Contains(trk.FolderID))
+                            foreach (Track trk in remainingTracks)
                             {
-                                conn.Delete(trk);
-                                numberRemovedTracks += 1;
-                            }
+                                // If a remaining track doesn't exist on disk, delete it from the collection.
+                                if (!System.IO.File.Exists(trk.Path))
+                                {
+                                    conn.Delete(trk);
+                                    numberRemovedTracks += 1;
+                                }
 
-                            // Report progress if at least 1 track is removed
-                            if (numberRemovedTracks > 0)
-                            {
-                                this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
-                                this.eventArgs.ProgressPercent = 0;
-                                this.IndexingStatusChanged(this.eventArgs);
+                                // Report progress if at least 1 track is removed
+                                if (numberRemovedTracks > 0)
+                                {
+                                    this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
+                                    this.eventArgs.ProgressPercent = 0;
+                                    this.IndexingStatusChanged(this.eventArgs);
+                                }
                             }
                         }
-
+                        
                         conn.Commit();
                     }
                 }
@@ -591,13 +583,12 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
-                        // Ignore Tracks which are in an unreachable folder
-                        List<Track> tracksToProcess = conn.Table<Track>().Select((t) => t).Where((t) => !this.unreachableFolderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> alltracks = conn.Table<Track>().Select((t) => t).ToList();
 
                         long currentValue = 0;
-                        long totalValue = tracksToProcess.Count;
+                        long totalValue = alltracks.Count;
 
-                        foreach (Track dbTrack in tracksToProcess)
+                        foreach (Track dbTrack in alltracks)
                         {
                             try
                             {

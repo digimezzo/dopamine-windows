@@ -353,4 +353,5 @@
   <Text Key="No_Lyrics">Pas de paroles</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Défiler automatiquement vers le morceau en cours de lecture</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Défilement de la souris modifie le volume de</Text>
+  <Text Key="Refresh_Collection_On_Startup">Actualiser la collection au démarrage</Text>
 </Language>
