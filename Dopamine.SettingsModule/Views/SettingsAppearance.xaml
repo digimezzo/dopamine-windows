@@ -19,20 +19,16 @@
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Theme}" />
             <myViews:SettingsAppearanceTheme Margin="0,15,0,0"/>
             <controls:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="0,15,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_More_Colors}" Foreground="{DynamicResource RG_AccentBrush}" Command="{x:Static coreprism:ApplicationCommands.OpenPathCommand}" CommandParameter="{Binding Path=ColorSchemesDirectory}"/>
-            <Separator Height="20" Background="Transparent" />
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Border}" />
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Border}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Window_Border}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxShowWindowBorder" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxCheckBoxShowWindowBorderChecked}"/>
-            <Separator Height="20" Background="Transparent" />
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Language}" />
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Language}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Choose_Language}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <myViews:SettingsAppearanceLanguage Margin="0,15,0,0"/>
-            <Separator Height="20" Background="Transparent" />
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Spectrum_Analyzer}" />
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Spectrum_Analyzer}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Spectrum_Analyzer}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxShowSpectrumAnalyzer" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowSpectrumAnalyzerChecked}"/>
-            <Separator Height="20" Background="Transparent" />
-            <StackPanel IsHitTestVisible="{Binding IsWindows10}">
+            <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding IsWindows10}">
                 <StackPanel.Style>
                     <Style TargetType="{x:Type StackPanel}">
                         <Style.Triggers>
