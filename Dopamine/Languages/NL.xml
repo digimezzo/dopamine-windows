@@ -353,4 +353,5 @@
   <Text Key="No_Lyrics">Geen songtekst</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
+  <Text Key="Refresh_Collection_On_Startup">Collectie verversen bij het opstarten</Text>
 </Language>

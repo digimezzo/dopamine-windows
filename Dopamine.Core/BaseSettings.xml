@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>58</Value>
+      <Value>59</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -231,6 +231,9 @@
       <Value>True</Value>
     </Setting>
     <Setting Name="IgnoreRemovedFiles">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="RefreshCollectionOnStartup">
       <Value>True</Value>
     </Setting>
   </Namespace>
