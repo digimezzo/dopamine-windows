@@ -34,7 +34,13 @@ namespace Dopamine.Core.Database.Entities
         public string MetaDataHash { get; set; }
 
         [Ignore()]
-        public string PathToLower { get; set; }
+        public string PathToLower
+        {
+            get
+            {
+                return this.Path.ToLower();
+            }
+        }
         #endregion
 
         #region Overrides
