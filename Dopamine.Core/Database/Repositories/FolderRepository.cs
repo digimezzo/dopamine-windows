@@ -27,7 +27,7 @@ namespace Dopamine.Core.Database.Repositories
         #endregion
 
         #region IFolderRepository
-        public async Task<AddFolderResult> AddFolderAsync(Folder folder)
+        public async Task<AddFolderResult> AddFolderAsync(string path)
         {
             AddFolderResult result = AddFolderResult.Success;
 
@@ -39,20 +39,20 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            if (!conn.Table<Folder>().Select((f) => f).ToList().Select((f)=> f.SafePath).Contains(folder.SafePath))
+                            if (!conn.Table<Folder>().Select((f) => f).ToList().Select((f) => f.SafePath).Contains(path.ToSafePath()))
                             {
-                                conn.Insert(folder);
-                                LogClient.Instance.Logger.Info("Added the Folder {0}", folder.Path);
+                                conn.Insert(new Folder { Path = path, SafePath = path.ToSafePath(), ShowInCollection = 1 });
+                                LogClient.Instance.Logger.Info("Added the Folder {0}", path);
                             }
                             else
                             {
-                                LogClient.Instance.Logger.Info("Didn't add the Folder {0} because it is already in the database", folder.Path);
+                                LogClient.Instance.Logger.Info("Didn't add the Folder {0} because it is already in the database", path);
                                 result = AddFolderResult.Duplicate;
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not add the Folder {0}. Exception: {1}", folder.Path, ex.Message);
+                            LogClient.Instance.Logger.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
                             result = AddFolderResult.Error;
                         }
                     }

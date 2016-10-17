@@ -141,7 +141,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 try
                 {
                     this.IsLoadingFolders = true;
-                    AddFolderResult result = await this.folderRepository.AddFolderAsync(new Folder { Path = dlg.FileName, ShowInCollection = 1 });
+                    AddFolderResult result = await this.folderRepository.AddFolderAsync(dlg.FileName);
                     this.IsLoadingFolders = false;
 
                     switch (result)
