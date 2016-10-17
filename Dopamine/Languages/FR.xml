@@ -354,4 +354,6 @@
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Défiler automatiquement vers le morceau en cours de lecture</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Défilement de la souris modifie le volume de</Text>
   <Text Key="Refresh_Collection_On_Startup">Actualiser la collection au démarrage</Text>
+  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Ce numéro n'a pas pu être trouvé. Il a probablement été déplacé ou supprimé. Voulez-vous actualiser votre collection?</Text>
+  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Un ou plusieurs numéros n'ont pas pu être trouvés. Ils ont probablement été déplacés ou supprimés. Voulez-vous actualiser votre collection?</Text>
 </Language>

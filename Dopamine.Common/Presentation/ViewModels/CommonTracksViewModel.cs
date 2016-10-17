@@ -352,23 +352,26 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Don't try to show the file information when nothing is selected
             if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
 
-            Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
-            view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(TrackInfo), this.SelectedTracks.First()));
+            if (this.CheckAllSelectedTracksExist())
+            {
+                Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
+                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(TrackInfo), this.SelectedTracks.First()));
 
-            this.dialogService.ShowCustomDialog(
-                0xe8d6,
-                16,
-                ResourceUtils.GetStringResource("Language_Information"),
-                view,
-                400,
-                620,
-                true,
-                true,
-                true,
-                false,
-                ResourceUtils.GetStringResource("Language_Ok"),
-                string.Empty,
-                null);
+                this.dialogService.ShowCustomDialog(
+                    0xe8d6,
+                    16,
+                    ResourceUtils.GetStringResource("Language_Information"),
+                    view,
+                    400,
+                    620,
+                    true,
+                    true,
+                    true,
+                    false,
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    string.Empty,
+                    null);
+            }
         }
 
         private async void GetContextMenuPlaylistsAsync()
@@ -422,6 +425,34 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.ContextMenuSearchProviders = localProviders;
+        }
+
+        private bool CheckAllSelectedTracksExist()
+        {
+            bool allSelectedTracksExist = true;
+
+            foreach (TrackInfo trk in this.SelectedTracks)
+            {
+                if (!System.IO.File.Exists(trk.Path))
+                {
+                    allSelectedTracksExist = false;
+                    break;
+                }
+            }
+
+            if (!allSelectedTracksExist)
+            {
+                string message = ResourceUtils.GetStringResource("Language_Song_Cannot_Be_Found_Refresh_Collection");
+                if (this.SelectedTracks.Count > 1) message = ResourceUtils.GetStringResource("Language_Songs_Cannot_Be_Found_Refresh_Collection");
+
+                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+                {
+                    this.indexingService.NeedsIndexing = true;
+                    this.indexingService.IndexCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+                }
+            }
+
+            return allSelectedTracksExist;
         }
         #endregion
 
@@ -877,23 +908,26 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
 
-            EditTrack view = this.container.Resolve<EditTrack>();
-            view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<TrackInfo>), this.SelectedTracks));
+            if (this.CheckAllSelectedTracksExist())
+            {
+                EditTrack view = this.container.Resolve<EditTrack>();
+                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<TrackInfo>), this.SelectedTracks));
 
-            this.dialogService.ShowCustomDialog(
-                0xe104,
-                14,
-                ResourceUtils.GetStringResource("Language_Edit_Song"),
-                view,
-                620,
-                450,
-                false,
-                false,
-                false,
-                true,
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
-            ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
+                this.dialogService.ShowCustomDialog(
+                    0xe104,
+                    14,
+                    ResourceUtils.GetStringResource("Language_Edit_Song"),
+                    view,
+                    620,
+                    450,
+                    false,
+                    false,
+                    false,
+                    true,
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
+            }
         }
         #endregion
 

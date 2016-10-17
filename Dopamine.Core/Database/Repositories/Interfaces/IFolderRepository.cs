@@ -9,7 +9,7 @@ namespace Dopamine.Core.Database.Repositories.Interfaces
     {
         Task<List<Folder>> GetFoldersAsync();
         Task<List<Tuple<long, string, long>>> GetPathsAsync();
-        Task<AddFolderResult> AddFolderAsync(Folder folder);
+        Task<AddFolderResult> AddFolderAsync(string path);
         Task<RemoveFolderResult> RemoveFolderAsync(string path);
         Task UpdateFoldersAsync(IList<Folder> folders);
     }

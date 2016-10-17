@@ -30,7 +30,7 @@ namespace Dopamine.Common.Services.Indexing
         }
         #endregion
 
-        #region "Public"
+        #region Public
         public bool GetCachedArtist(ref Artist artist)
         {
 
@@ -159,6 +159,5 @@ namespace Dopamine.Common.Services.Indexing
             return string.Format("{0}%69e91179-ad03-4646-a19b-46855f97ca91%{1}", album.AlbumTitleTrim, album.AlbumArtistTrim);
         }
         #endregion
-
     }
 }
