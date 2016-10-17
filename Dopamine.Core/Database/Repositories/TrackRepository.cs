@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Dopamine.Core.IO;
+using Dopamine.Core.Extensions;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -35,9 +36,9 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            var loweredPaths = paths.Select((p) => p.ToLower()).ToList();
+                            var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                      " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -47,7 +48,7 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                      " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " WHERE LOWER(tra.Path) IN ({0});", Utils.ToQueryList(loweredPaths));
+                                                     " WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
 
                             tracks = conn.Query<TrackInfo>(q);
                         }
@@ -78,7 +79,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                            " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                            " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                            " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -121,7 +122,7 @@ namespace Dopamine.Core.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                      " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -165,7 +166,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                      " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -209,7 +210,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                      " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -257,7 +258,7 @@ namespace Dopamine.Core.Database.Repositories
 
                             List<long> trackIDs = conn.Table<PlaylistEntry>().Select((t) => t).Where((t) => playlistIDs.Contains(t.PlaylistID)).ToList().Select((t) => t.TrackID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
                                                      " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
@@ -298,7 +299,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            track = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", path.ToLower()).FirstOrDefault();
+                            track = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
@@ -335,13 +336,13 @@ namespace Dopamine.Core.Database.Repositories
                         foreach (string path in pathsToRemoveNow)
                         {
                             // Add to table RemovedTrack
-                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path) VALUES(?,?)", DateTime.Now.Ticks, path);
+                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path, SafePath) VALUES(?,?,?)", DateTime.Now.Ticks, path, path.ToSafePath());
 
                             // Remove from QueuedTrack
-                            conn.Execute("DELETE FROM QueuedTrack WHERE LOWER(Path)=?", path.ToLower());
+                            conn.Execute("DELETE FROM QueuedTrack WHERE SafePath=?", path.ToSafePath());
 
                             // Remove from Track
-                            conn.Execute("DELETE FROM Track WHERE LOWER(Path)=?", path.ToLower());
+                            conn.Execute("DELETE FROM Track WHERE SafePath=?", path.ToSafePath());
                         }
 
                         conn.Execute("COMMIT");
@@ -398,7 +399,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", path.ToLower()).FirstOrDefault();
+                            Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
 
                             if (dbTrack != null)
                             {
@@ -439,7 +440,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             foreach (TrackStatistic stat in trackStatistics)
                             {
-                                Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE LOWER(Path)=?", stat.Path.ToLower()).FirstOrDefault();
+                                Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", stat.Path.ToSafePath()).FirstOrDefault();
 
                                 if (dbTrack != null)
                                 {

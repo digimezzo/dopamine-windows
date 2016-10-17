@@ -465,14 +465,14 @@ namespace Dopamine.Common.Services.Indexing
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.Path.ToLower()).ToList();
+                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.SafePath).ToList();
                 }
 
                 var removedPaths = new List<string>();
 
                 using (var conn = this.factory.GetConnection())
                 {
-                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.Path.ToLower()).ToList();
+                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.SafePath).ToList();
                 }
 
                 this.newDiskPaths = new List<Tuple<long, string, long>>();

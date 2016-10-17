@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using Dopamine.Core.IO;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Extensions;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -38,7 +39,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            if (!conn.Table<Folder>().Select((t) => t).ToList().Select((t)=> t.Path.ToLower()).Contains(folder.Path.ToLower()))
+                            if (!conn.Table<Folder>().Select((f) => f).ToList().Select((f)=> f.SafePath).Contains(folder.SafePath))
                             {
                                 conn.Insert(folder);
                                 LogClient.Instance.Logger.Info("Added the Folder {0}", folder.Path);
@@ -77,7 +78,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            var obsoleteFolder = conn.Table<Folder>().Where((s) => s.Path.ToLower().Equals(path.ToLower())).Select((s) => s).FirstOrDefault();
+                            var obsoleteFolder = conn.Table<Folder>().Where((f) => f.SafePath.Equals(path.ToSafePath())).Select((f) => f).FirstOrDefault();
 
                             if (obsoleteFolder != null)
                             {
@@ -196,7 +197,7 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             foreach (Folder fol in folders)
                             {
-                                var dbFolder = conn.Table<Folder>().Select((f) => f).Where((f) => f.Path.ToLower().Equals(fol.Path.ToLower())).FirstOrDefault();
+                                var dbFolder = conn.Table<Folder>().Select((f) => f).Where((f) => f.SafePath.Equals(fol.SafePath)).FirstOrDefault();
 
                                 if (dbFolder != null)
                                 {

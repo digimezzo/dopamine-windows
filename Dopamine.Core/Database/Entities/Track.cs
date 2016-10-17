@@ -12,6 +12,7 @@ namespace Dopamine.Core.Database.Entities
         public long AlbumID { get; set; }
         public long FolderID { get; set; }
         public string Path { get; set; }
+        public string SafePath { get; set; }
         public string FileName { get; set; }
         public string MimeType { get; set; }
         public long? FileSize { get; set; }
@@ -32,15 +33,6 @@ namespace Dopamine.Core.Database.Entities
         public long DateLastSynced { get; set; }
         public long DateFileModified { get; set; }
         public string MetaDataHash { get; set; }
-
-        [Ignore()]
-        public string PathToLower
-        {
-            get
-            {
-                return this.Path.ToLower();
-            }
-        }
         #endregion
 
         #region Overrides
@@ -51,12 +43,12 @@ namespace Dopamine.Core.Database.Entities
                 return false;
             }
 
-            return this.PathToLower.Equals(((Track)obj).PathToLower);
+            return this.SafePath.Equals(((Track)obj).SafePath);
         }
 
         public override int GetHashCode()
         {
-            return new { this.PathToLower }.GetHashCode();
+            return new { this.SafePath }.GetHashCode();
         }
         #endregion
     }

@@ -4,6 +4,7 @@ using Dopamine.Common.Services.Indexing;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
@@ -104,13 +105,13 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
             });
 
-            this.ShowInCollectionChangedCommand = new DelegateCommand<string>(iPath =>
+            this.ShowInCollectionChangedCommand = new DelegateCommand<string>(path =>
             {
                 this.ShowAllFoldersInCollection = false;
 
                 lock (this.Folders)
                 {
-                    this.collectionservice.MarkFolderAsync(this.Folders.Select((f) => f.Folder).Where((f) => f.Path.ToLower().Equals(iPath.ToLower())).FirstOrDefault());
+                    this.collectionservice.MarkFolderAsync(this.Folders.Select((f) => f.Folder).Where((f) => f.SafePath.Equals(path.ToSafePath())).FirstOrDefault());
                 }
             });
 
