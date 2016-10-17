@@ -1,4 +1,4 @@
-2016-10-15: Dopamine 1.2 Build 748 (Preview)
+2016-10-17: Dopamine 1.2 Build 749 (Preview)
 --------------------------------------------
 
 - [Added] Added lyrics support (edit lyrics + screen to display lyrics while playing)
