@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Dopamine.Core.Database
 {
-    public class DbCreator
+    public class DbMigrator
     {
         #region DatabaseVersionAttribute
         protected sealed class DatabaseVersionAttribute : Attribute
@@ -29,13 +29,13 @@ namespace Dopamine.Core.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 11;
+        protected const int CURRENT_VERSION = 12;
         private SQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
 
         #region Construction
-        public DbCreator()
+        public DbMigrator()
         {
             this.factory = new SQLiteConnectionFactory();
         }
@@ -101,6 +101,7 @@ namespace Dopamine.Core.Database
                 conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Path	             TEXT," +
+                             "SafePath	             TEXT," +
                              "ShowInCollection   INTEGER);");
 
                 conn.Execute("CREATE TABLE Track (" +
@@ -110,6 +111,7 @@ namespace Dopamine.Core.Database
                              "AlbumID	            INTEGER," +
                              "FolderID	            INTEGER," +
                              "Path	                TEXT," +
+                             "SafePath	            TEXT," +
                              "FileName	            TEXT," +
                              "MimeType	            TEXT," +
                              "FileSize	            INTEGER," +
@@ -137,16 +139,19 @@ namespace Dopamine.Core.Database
                 conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
                 conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
+                conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
 
                 conn.Execute("CREATE TABLE RemovedTrack (" +
                              "TrackID	            INTEGER," +
                              "Path	                TEXT," +
+                             "SafePath	            TEXT," +
                              "DateRemoved           INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
                 conn.Execute("CREATE TABLE QueuedTrack (" +
                              "QueuedTrackID         INTEGER," +
                              "Path	                TEXT," +
+                             "SafePath	            TEXT," +
                              "OrderID               INTEGER," +
                              "PRIMARY KEY(QueuedTrackID));");
 
@@ -706,6 +711,34 @@ namespace Dopamine.Core.Database
         }
         #endregion
 
+        #region Version 12
+        [DatabaseVersion(12)]
+        private void Migrate12()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("ALTER TABLE Track ADD SafePath TEXT;");
+                conn.Execute("UPDATE Track SET SafePath=LOWER(Path);");
+
+                conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
+
+                conn.Execute("ALTER TABLE Folder ADD SafePath TEXT;");
+                conn.Execute("UPDATE Folder SET SafePath=LOWER(Path);");
+
+                conn.Execute("ALTER TABLE RemovedTrack ADD SafePath TEXT;");
+                conn.Execute("UPDATE RemovedTrack SET SafePath=LOWER(Path);");
+
+                conn.Execute("ALTER TABLE QueuedTrack ADD SafePath TEXT;");
+                conn.Execute("UPDATE QueuedTrack SET SafePath=LOWER(Path);");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
         #region Public
         public bool DatabaseExists()
         {
@@ -746,7 +779,7 @@ namespace Dopamine.Core.Database
             System.IO.File.Copy(this.factory.DatabaseFile, this.factory.DatabaseFile+".old");
 
             // Perform the upgrade
-            MethodInfo[] methods = typeof(DbCreator).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo[] methods = typeof(DbMigrator).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
 
             for (int i = this.userDatabaseVersion + 1; i <= CURRENT_VERSION; i++)
             {

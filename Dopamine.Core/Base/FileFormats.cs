@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Dopamine.Core.Base
 {
@@ -25,7 +26,7 @@ namespace Dopamine.Core.Base
         public static string BMP = ".bmp";
 
         // Equalizer preset extension
-        public static string EQUALIZERPRESET = ".deq";
+        public static string DEQ = ".deq";
 
         // Supported extensions
         public static string[] SupportedMediaExtensions = {
@@ -41,22 +42,15 @@ namespace Dopamine.Core.Base
                                                                 FileFormats.M3U,
                                                                 FileFormats.ZPL
                                                              };
-        public static string[] SupportedImageExtensions = {
-                                                            FileFormats.PNG,
-                                                            FileFormats.JPG,
-                                                            FileFormats.JPEG,
-                                                            FileFormats.BMP
-
-                                                          };
 
         public static bool IsSupportedAudioFile(string path)
         {
-            return SupportedMediaExtensions.Contains(System.IO.Path.GetExtension(path.ToLower()));
+            return SupportedMediaExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
         }
 
         public static bool IsSupportedPlaylistFile(string path)
         {
-            return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path.ToLower()));
+            return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

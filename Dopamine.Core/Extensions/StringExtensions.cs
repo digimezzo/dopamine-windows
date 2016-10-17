@@ -28,5 +28,10 @@ namespace Dopamine.Core.Extensions
             float output;
             return float.TryParse(str, out output);
         }
+
+        public static string ToSafePath(this string path)
+        {
+            return path.ToLower();
+        }
     }
 }

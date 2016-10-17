@@ -12,6 +12,7 @@ namespace Dopamine.Core.Database
         public long AlbumID { get; set; }
         public long FolderID { get; set; }
         public string Path { get; set; }
+        public string SafePath { get; set; }
         public string FileName { get; set; }
         public string MimeType { get; set; }
         public long? FileSize { get; set; }
@@ -63,7 +64,7 @@ namespace Dopamine.Core.Database
         #region Overrides
         public override int GetHashCode()
         {
-            return this.Path.ToLower().GetHashCode();
+            return this.SafePath.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -73,8 +74,7 @@ namespace Dopamine.Core.Database
                 return false;
             }
 
-            // We're on Windows, so we're not case sensitive
-            return this.Path.Equals(((TrackInfo)obj).Path);
+            return this.SafePath.Equals(((TrackInfo)obj).SafePath);
         }
         #endregion
     }

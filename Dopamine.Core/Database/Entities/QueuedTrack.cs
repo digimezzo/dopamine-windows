@@ -8,16 +8,8 @@ namespace Dopamine.Core.Database.Entities
         [PrimaryKey(), AutoIncrement()]
         public long QueuedTrackID { get; set; }
         public string Path { get; set; }
+        public string SafePath { get; set; }
         public long OrderID { get; set; }
-
-        [Ignore()]
-        public string PathToLower
-        {
-            get
-            {
-                return this.Path.ToLower();
-            }
-        }
         #endregion
 
         #region Overrides
@@ -28,12 +20,12 @@ namespace Dopamine.Core.Database.Entities
                 return false;
             }
 
-            return this.PathToLower.Equals(((QueuedTrack)obj).PathToLower);
+            return this.SafePath.Equals(((QueuedTrack)obj).SafePath);
         }
 
         public override int GetHashCode()
         {
-            return new { this.PathToLower }.GetHashCode();
+            return new { this.SafePath }.GetHashCode();
         }
         #endregion
     }

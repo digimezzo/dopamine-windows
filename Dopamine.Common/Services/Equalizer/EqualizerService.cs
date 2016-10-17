@@ -89,7 +89,7 @@ namespace Dopamine.Common.Services.Equalizer
 
                 var dirInfo = new DirectoryInfo(builtinPresetSubDirectory);
 
-                foreach (FileInfo fileInfo in dirInfo.GetFiles("*" + FileFormats.EQUALIZERPRESET))
+                foreach (FileInfo fileInfo in dirInfo.GetFiles("*" + FileFormats.DEQ))
                 {
                     try
                     {
@@ -113,7 +113,7 @@ namespace Dopamine.Common.Services.Equalizer
             {
                 var dirInfo = new DirectoryInfo(this.equalizerSubDirectory);
 
-                foreach (FileInfo fileInfo in dirInfo.GetFiles("*" + FileFormats.EQUALIZERPRESET))
+                foreach (FileInfo fileInfo in dirInfo.GetFiles("*" + FileFormats.DEQ))
                 {
                     try
                     {

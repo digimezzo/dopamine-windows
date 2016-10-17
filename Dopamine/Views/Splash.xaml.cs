@@ -135,24 +135,24 @@ namespace Dopamine.Views
 
             try
             {
-                var creator = new DbCreator();
+                var migrator = new DbMigrator();
 
-                if (!creator.DatabaseExists())
+                if (!migrator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
                     this.ShowProgressRing = true;
                     LogClient.Instance.Logger.Info("Creating database");
-                    await Task.Run(() => creator.InitializeNewDatabase());
+                    await Task.Run(() => migrator.InitializeNewDatabase());
                 }
                 else
                 {
                     // Upgrade the database if it is not the latest version
 
-                    if (creator.DatabaseNeedsUpgrade())
+                    if (migrator.DatabaseNeedsUpgrade())
                     {
                         this.ShowProgressRing = true;
                         LogClient.Instance.Logger.Info("Upgrading database");
-                        await Task.Run(() => creator.UpgradeDatabase());
+                        await Task.Run(() => migrator.UpgradeDatabase());
                     }
                 }
 
@@ -184,7 +184,5 @@ namespace Dopamine.Views
             this.ShowErrorDetails();
         }
         #endregion
-
     }
-
 }

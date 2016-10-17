@@ -130,6 +130,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 // Track information
                 track.Path = path;
+                track.SafePath = path.ToSafePath();
                 track.FileName = fi.NameWithoutExtension;
                 track.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
                 track.MimeType = fmd.MimeType;

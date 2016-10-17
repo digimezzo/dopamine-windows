@@ -1,5 +1,6 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,14 +35,14 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path,"+
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                            " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle,"+
                                                            " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
                                                            " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced,"+
                                                            " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                            " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                            " FROM QueuedTrack qtra" +
-                                                           " INNER JOIN Track tra ON qtra.Path=tra.Path" +
+                                                           " INNER JOIN Track tra ON qtra.SafePath=tra.SafePath" +
                                                            " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                            " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                                            " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID"+
@@ -82,7 +83,7 @@ namespace Dopamine.Core.Database.Repositories
 
                             foreach (string path in paths)
                             {
-                                conn.Execute("INSERT INTO QueuedTrack(OrderID,Path) VALUES(0,?);", path);
+                                conn.Execute("INSERT INTO QueuedTrack(OrderID,Path,SafePath) VALUES(0,?);", path.ToSafePath());
                             }
 
                             conn.Execute("UPDATE QueuedTrack SET OrderID=QueuedTrackID;");

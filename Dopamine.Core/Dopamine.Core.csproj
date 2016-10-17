@@ -158,7 +158,7 @@
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Base\VersionInfo.cs" />
-    <Compile Include="Database\DbCreator.cs" />
+    <Compile Include="Database\DbMigrator.cs" />
     <Compile Include="Database\Entities\Album.cs" />
     <Compile Include="Database\Entities\Artist.cs" />
     <Compile Include="Database\Entities\Configuration.cs" />
