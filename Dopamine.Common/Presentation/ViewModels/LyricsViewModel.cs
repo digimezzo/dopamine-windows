@@ -1,7 +1,8 @@
 ﻿using Prism.Mvvm;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -10,11 +11,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Properties
         private string title;
         private string lyrics;
-        private ObservableCollection<Dictionary<DateTime, string>> timeStampedLyrics;
+        private ObservableCollection<TimeStampedLyricsLineViewModel> timeStampedLyrics;
         #endregion
 
         #region Properties
-        public bool HasTimeStampdLyrics
+        public bool HasTimeStampedLyrics
         {
             get { return this.timeStampedLyrics != null && this.timeStampedLyrics.Count > 0; }
         }
@@ -27,19 +28,80 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string Lyrics
         {
-            get { return this.lyrics; }
-            set { SetProperty<string>(ref this.lyrics, value); }
+            get { return string.IsNullOrEmpty(this.lyrics) ? string.Empty : this.lyrics; }
         }
 
-        public ObservableCollection<Dictionary<DateTime, string>> TimestampedLyrics
+        public ObservableCollection<TimeStampedLyricsLineViewModel> TimeStampedLyrics
         {
             get { return this.timeStampedLyrics; }
-            set {
-                SetProperty<ObservableCollection<Dictionary<DateTime, string>>>(ref this.timeStampedLyrics, value);
-                OnPropertyChanged(() => this.HasTimeStampdLyrics);
-            }
         }
+        #endregion
 
+        #region Construction
+        public LyricsViewModel(string title)
+        {
+            this.Title = title;
+        }
+        #endregion
+
+        #region Public
+        public async Task SetLyricsAsync(string lyrics)
+        {
+            this.lyrics = lyrics;
+
+            await this.ParseTimeStampedLyricsAsync(lyrics);
+
+            OnPropertyChanged(() => this.Lyrics);
+            OnPropertyChanged(() => this.TimeStampedLyrics);
+            OnPropertyChanged(() => this.HasTimeStampedLyrics);
+        }
+        #endregion
+
+        #region Private
+        private async Task ParseTimeStampedLyricsAsync(string lyrics)
+        {
+            var previousTime = new TimeSpan(0);
+
+            await Task.Run(() =>
+            {
+                this.timeStampedLyrics = new ObservableCollection<TimeStampedLyricsLineViewModel>();
+                var reader = new StringReader(lyrics);
+                string line;
+
+                while (true)
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        if (line.Length > 0 && line.StartsWith("["))
+                        {
+                            int index = line.IndexOf(']');
+
+                            var time = new TimeSpan(0);
+
+                            // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
+                            if (index > 0)
+                            {
+                                var subString = line.Substring(1, index-1);
+                                if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
+                                {
+                                    this.timeStampedLyrics.Add(new TimeStampedLyricsLineViewModel(time, line.Substring(index + 1)));
+                                    previousTime = time;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.timeStampedLyrics.Add(new TimeStampedLyricsLineViewModel(previousTime, line));
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            });
+        }
         #endregion
     }
 }

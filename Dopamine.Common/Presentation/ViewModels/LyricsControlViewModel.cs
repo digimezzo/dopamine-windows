@@ -1,5 +1,4 @@
-﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Services.I18n;
+﻿using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
@@ -65,11 +64,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // No track selected: clear playback info.
             if (trackInfo == null)
             {
-                this.LyricsViewModel = new LyricsViewModel
-                {
-                    Title = string.Empty,
-                    Lyrics = string.Empty
-                };
+                this.LyricsViewModel = new LyricsViewModel(string.Empty);
                 this.trackInfo = null;
                 return;
             }
@@ -84,20 +79,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 var fmd = new FileMetadata(trackInfo.Path);
 
-                this.LyricsViewModel = new LyricsViewModel
-                {
-                    Title = string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle,
-                    Lyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value
-                };
+                this.LyricsViewModel = new LyricsViewModel(string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle);
+                await this.LyricsViewModel.SetLyricsAsync(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value);
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                this.LyricsViewModel = new LyricsViewModel
-                {
-                    Title = string.Empty,
-                    Lyrics = string.Empty
-                };
+                this.LyricsViewModel = new LyricsViewModel(string.Empty);
             }
         }
         #endregion
