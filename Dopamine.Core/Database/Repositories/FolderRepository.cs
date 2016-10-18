@@ -78,7 +78,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            var obsoleteFolder = conn.Table<Folder>().Where((f) => f.SafePath.Equals(path.ToSafePath())).Select((f) => f).FirstOrDefault();
+                            var obsoleteFolder = conn.Table<Folder>().Select((f) => f).ToList().Where((f) => f.SafePath.Equals(path.ToSafePath())).Select((f) => f).FirstOrDefault();
 
                             if (obsoleteFolder != null)
                             {
