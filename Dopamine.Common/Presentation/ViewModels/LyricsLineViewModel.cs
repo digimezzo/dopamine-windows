@@ -3,7 +3,7 @@ using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class TimeStampedLyricsLineViewModel : BindableBase
+    public class LyricsLineViewModel : BindableBase
     {
         #region Variables
         private TimeSpan time;
@@ -30,7 +30,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public TimeStampedLyricsLineViewModel(TimeSpan time, string text)
+        public LyricsLineViewModel(TimeSpan time, string text)
         {
             this.time = time;
             this.text = text;

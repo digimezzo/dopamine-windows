@@ -209,7 +209,7 @@
     <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\TimeStampedLyricsLineViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
     <Compile Include="Presentation\ViewModels\TrackInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
