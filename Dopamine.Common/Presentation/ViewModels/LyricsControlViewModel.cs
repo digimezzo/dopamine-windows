@@ -43,6 +43,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackFailed += (_, __) => this.ShowLyricsAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowLyricsAsync(null);
 
+            this.playbackService.PlaybackProgressChanged +=(_,__) => this.HandleProgress();
+
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? 30 : -30;
@@ -86,6 +88,42 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
                 this.LyricsViewModel = new LyricsViewModel(string.Empty);
+            }
+        }
+
+        private void HandleProgress()
+        {
+            if (this.LyricsViewModel == null) return;
+
+            for (int i = 0; i < this.LyricsViewModel.LyricsLines.Count; i++)
+            {
+                double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
+
+                double lyricsLineTime = this.LyricsViewModel.LyricsLines[i].Time.TotalMilliseconds;
+                double nextLyricsLineTime = lyricsLineTime;
+
+                try
+                {
+                    int j = 1;
+
+                    while (nextLyricsLineTime == lyricsLineTime)
+                    {
+                        nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i+j].Time.TotalMilliseconds;
+                        j++;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+             
+                if (nextLyricsLineTime >= progressTime & progressTime >= lyricsLineTime)
+                {
+                    this.LyricsViewModel.LyricsLines[i].IsActive = true;
+                }
+                else
+                {
+                    this.LyricsViewModel.LyricsLines[i].IsActive = false;
+                }
             }
         }
         #endregion
