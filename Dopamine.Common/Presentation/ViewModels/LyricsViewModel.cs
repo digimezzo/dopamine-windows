@@ -10,30 +10,19 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Properties
         private string title;
-        private string lyrics;
-        private ObservableCollection<TimeStampedLyricsLineViewModel> timeStampedLyrics;
+        private ObservableCollection<LyricsLineViewModel> lyricsLines;
         #endregion
 
         #region Properties
-        public bool HasTimeStampedLyrics
-        {
-            get { return this.timeStampedLyrics != null && this.timeStampedLyrics.Count > 0; }
-        }
-
         public string Title
         {
             get { return this.title; }
             set { SetProperty<string>(ref this.title, value); }
         }
 
-        public string Lyrics
+        public ObservableCollection<LyricsLineViewModel> LyricsLines
         {
-            get { return string.IsNullOrEmpty(this.lyrics) ? string.Empty : this.lyrics; }
-        }
-
-        public ObservableCollection<TimeStampedLyricsLineViewModel> TimeStampedLyrics
-        {
-            get { return this.timeStampedLyrics; }
+            get { return this.lyricsLines; }
         }
         #endregion
 
@@ -47,24 +36,19 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Public
         public async Task SetLyricsAsync(string lyrics)
         {
-            this.lyrics = lyrics;
-
-            await this.ParseTimeStampedLyricsAsync(lyrics);
-
-            OnPropertyChanged(() => this.Lyrics);
-            OnPropertyChanged(() => this.TimeStampedLyrics);
-            OnPropertyChanged(() => this.HasTimeStampedLyrics);
+            await this.ParseLyricsAsync(lyrics);
+            OnPropertyChanged(() => this.LyricsLines);
         }
         #endregion
 
         #region Private
-        private async Task ParseTimeStampedLyricsAsync(string lyrics)
+        private async Task ParseLyricsAsync(string lyrics)
         {
             var previousTime = new TimeSpan(0);
 
             await Task.Run(() =>
             {
-                this.timeStampedLyrics = new ObservableCollection<TimeStampedLyricsLineViewModel>();
+                this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
                 var reader = new StringReader(lyrics);
                 string line;
 
@@ -85,14 +69,14 @@ namespace Dopamine.Common.Presentation.ViewModels
                                 var subString = line.Substring(1, index-1);
                                 if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                                 {
-                                    this.timeStampedLyrics.Add(new TimeStampedLyricsLineViewModel(time, line.Substring(index + 1)));
+                                    this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
                                     previousTime = time;
                                 }
                             }
                         }
                         else
                         {
-                            this.timeStampedLyrics.Add(new TimeStampedLyricsLineViewModel(previousTime, line));
+                            this.lyricsLines.Add(new LyricsLineViewModel(previousTime, line));
                         }
                     }
                     else
