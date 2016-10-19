@@ -43,12 +43,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackFailed += (_, __) => this.ShowLyricsAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowLyricsAsync(null);
 
-            this.playbackService.PlaybackProgressChanged +=(_,__) => this.HandleProgress();
+            this.playbackService.PlaybackProgressChanged += (_, __) => this.HandleProgress();
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? 30 : -30;
-                
+
                 this.ShowLyricsAsync(this.playbackService.PlayingTrack);
             };
 
@@ -100,23 +100,17 @@ namespace Dopamine.Common.Presentation.ViewModels
                 double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
 
                 double lyricsLineTime = this.LyricsViewModel.LyricsLines[i].Time.TotalMilliseconds;
-                double nextLyricsLineTime = lyricsLineTime;
+                double nextLyricsLineTime = 0;
 
-                try
-                {
-                    int j = 1;
+                int j = 1;
 
-                    while (nextLyricsLineTime == lyricsLineTime)
-                    {
-                        nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i+j].Time.TotalMilliseconds;
-                        j++;
-                    }
-                }
-                catch (Exception)
+                while (i + j < this.LyricsViewModel.LyricsLines.Count && nextLyricsLineTime <= lyricsLineTime)
                 {
+                    nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i + j].Time.TotalMilliseconds;
+                    j++;
                 }
-             
-                if (nextLyricsLineTime >= progressTime & progressTime >= lyricsLineTime)
+
+                if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
                 {
                     this.LyricsViewModel.LyricsLines[i].IsActive = true;
                 }
