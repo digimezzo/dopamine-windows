@@ -24,8 +24,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,0,10,0">
-                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsActive,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsActive,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

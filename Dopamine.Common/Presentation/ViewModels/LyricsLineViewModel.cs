@@ -8,7 +8,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private TimeSpan time;
         private string text;
-        private bool isActive;
+        private bool isHighlighted;
         #endregion
 
         #region Properties
@@ -22,10 +22,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.text; }
         }
 
-        public bool IsActive
+        public bool IsHighlighted
         {
-            get { return this.isActive; }
-            set { SetProperty<bool>(ref this.isActive, value); }
+            get { return this.isHighlighted; }
+            set { SetProperty<bool>(ref this.isHighlighted, value); }
         }
         #endregion
 
