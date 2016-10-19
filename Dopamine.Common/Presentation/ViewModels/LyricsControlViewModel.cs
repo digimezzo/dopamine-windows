@@ -84,7 +84,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // No track selected: clear lyrics.
             if (trackInfo == null)
             {
-                this.LyricsViewModel = new LyricsViewModel(string.Empty);
+                this.LyricsViewModel = new LyricsViewModel();
                 this.trackInfo = null;
                 return;
             }
@@ -99,14 +99,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 var fmd = new FileMetadata(trackInfo.Path);
 
-                this.LyricsViewModel = new LyricsViewModel(string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle);
+                this.LyricsViewModel = new LyricsViewModel();
                 await this.LyricsViewModel.SetLyricsAsync(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value);
                 this.highlightTimer.Start();
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
-                this.LyricsViewModel = new LyricsViewModel(string.Empty);
+                this.LyricsViewModel = new LyricsViewModel();
             }
         }
 

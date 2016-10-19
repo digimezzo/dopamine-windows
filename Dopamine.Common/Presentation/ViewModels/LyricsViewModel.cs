@@ -8,28 +8,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class LyricsViewModel : BindableBase
     {
-        #region Properties
-        private string title;
+        #region Variables
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         #endregion
 
         #region Properties
-        public string Title
-        {
-            get { return this.title; }
-            set { SetProperty<string>(ref this.title, value); }
-        }
-
         public ObservableCollection<LyricsLineViewModel> LyricsLines
         {
             get { return this.lyricsLines; }
-        }
-        #endregion
-
-        #region Construction
-        public LyricsViewModel(string title)
-        {
-            this.Title = title;
         }
         #endregion
 
