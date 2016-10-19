@@ -20,54 +20,51 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Public
-        public async Task SetLyricsAsync(string lyrics)
+        public void SetLyrics(string lyrics)
         {
-            await this.ParseLyricsAsync(lyrics);
+            this.ParseLyrics(lyrics);
             OnPropertyChanged(() => this.LyricsLines);
         }
         #endregion
 
         #region Private
-        private async Task ParseLyricsAsync(string lyrics)
+        private void ParseLyrics(string lyrics)
         {
-            await Task.Run(() =>
+            this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
+            var reader = new StringReader(lyrics);
+            string line;
+
+            while (true)
             {
-                this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
-                var reader = new StringReader(lyrics);
-                string line;
-
-                while (true)
+                line = reader.ReadLine();
+                if (line != null)
                 {
-                    line = reader.ReadLine();
-                    if (line != null)
+                    if (line.Length > 0 && line.StartsWith("["))
                     {
-                        if (line.Length > 0 && line.StartsWith("["))
+                        int index = line.IndexOf(']');
+
+                        var time = TimeSpan.Zero;
+
+                        // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
+                        if (index > 0)
                         {
-                            int index = line.IndexOf(']');
-
-                            var time = TimeSpan.Zero;
-
-                            // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
-                            if (index > 0)
+                            var subString = line.Substring(1, index - 1);
+                            if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                             {
-                                var subString = line.Substring(1, index-1);
-                                if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
-                                {
-                                    this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                                }
+                                this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
                             }
-                        }
-                        else
-                        {
-                            this.lyricsLines.Add(new LyricsLineViewModel(line));
                         }
                     }
                     else
                     {
-                        break;
+                        this.lyricsLines.Add(new LyricsLineViewModel(line));
                     }
                 }
-            });
+                else
+                {
+                    break;
+                }
+            }
         }
         #endregion
     }
