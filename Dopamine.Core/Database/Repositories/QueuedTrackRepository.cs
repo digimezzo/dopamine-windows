@@ -83,7 +83,7 @@ namespace Dopamine.Core.Database.Repositories
 
                             foreach (string path in paths)
                             {
-                                conn.Execute("INSERT INTO QueuedTrack(OrderID,Path,SafePath) VALUES(0,?);", path.ToSafePath());
+                                conn.Execute("INSERT INTO QueuedTrack(OrderID,Path,SafePath) VALUES(0,?,?);", path, path.ToSafePath());
                             }
 
                             conn.Execute("UPDATE QueuedTrack SET OrderID=QueuedTrackID;");
