@@ -24,6 +24,12 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <!-- This style makes sure that the items are not selectable -->
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </DataTemplate>
     </UserControl.Resources>
