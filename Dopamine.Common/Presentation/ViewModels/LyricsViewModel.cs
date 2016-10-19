@@ -44,8 +44,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private async Task ParseLyricsAsync(string lyrics)
         {
-            var previousTime = TimeSpan.Zero;
-
             await Task.Run(() =>
             {
                 this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
@@ -70,13 +68,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                                 if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                                 {
                                     this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                                    previousTime = time;
                                 }
                             }
                         }
                         else
                         {
-                            this.lyricsLines.Add(new LyricsLineViewModel(previousTime, line));
+                            this.lyricsLines.Add(new LyricsLineViewModel(TimeSpan.Zero, line));
                         }
                     }
                     else
