@@ -15,27 +15,21 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
-            <Grid>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Title}" Margin="0,0,0,20"/>
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <!--<TextBlock FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Lyrics}"/>-->
-                        <ItemsControl ItemsSource="{Binding LyricsLines}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="0,0,10,0">
-                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </DockPanel>
-            </Grid>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding LyricsLines}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,10,0">
+                                <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </DataTemplate>
     </UserControl.Resources>
 
-    
+
     <controls:TransitioningContentControl Content="{Binding LyricsViewModel}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0"/>
 </UserControl>
