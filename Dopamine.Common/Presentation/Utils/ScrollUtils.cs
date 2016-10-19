@@ -26,7 +26,7 @@ namespace Dopamine.Common.Presentation.Utils
             if (scrollOnlyIfNotInView)
             {
                 ScrollViewer scrollViewer = (ScrollViewer)VisualTreeUtils.GetDescendantByType(box, typeof(ScrollViewer));
-                dynamic listBoxItem = (FrameworkElement)box.ItemContainerGenerator.ContainerFromItem(itemObject);
+                FrameworkElement listBoxItem = (FrameworkElement)box.ItemContainerGenerator.ContainerFromItem(itemObject);
 
                 if (scrollViewer != null && listBoxItem != null)
                 {
@@ -58,7 +58,7 @@ namespace Dopamine.Common.Presentation.Utils
             if (scrollOnlyIfNotInView)
             {
                 ScrollViewer scrollViewer = (ScrollViewer)VisualTreeUtils.GetDescendantByType(grid, typeof(ScrollViewer));
-                dynamic listBoxItem = (FrameworkElement)grid.ItemContainerGenerator.ContainerFromItem(itemObject);
+                FrameworkElement listBoxItem = (FrameworkElement)grid.ItemContainerGenerator.ContainerFromItem(itemObject);
 
                 if (scrollViewer != null && listBoxItem != null)
                 {
@@ -85,7 +85,7 @@ namespace Dopamine.Common.Presentation.Utils
         {
             if (box == null) return;
 
-            Object itemobject = null;
+            Object itemObject = null;
 
             await Task.Run(() =>
             {
@@ -95,7 +95,7 @@ namespace Dopamine.Common.Presentation.Utils
                     {
                         if (((TrackInfoViewModel)box.Items[i]).IsPlaying)
                         {
-                            itemobject = box.Items[i];
+                            itemObject = box.Items[i];
                             break;
                         }
                     }
@@ -106,11 +106,11 @@ namespace Dopamine.Common.Presentation.Utils
                 }
             });
 
-            if (itemobject == null) return;
+            if (itemObject == null) return;
 
             try
             {
-                ScrollToListBoxItem(box, itemobject, true);
+                ScrollToListBoxItem(box, itemObject, true);
             }
             catch (Exception)
             {
@@ -122,7 +122,7 @@ namespace Dopamine.Common.Presentation.Utils
         {
             if (grid == null) return;
 
-            Object itemobject = null;
+            Object itemObject = null;
 
             await Task.Run(() =>
             {
@@ -132,7 +132,7 @@ namespace Dopamine.Common.Presentation.Utils
                     {
                         if (((TrackInfoViewModel)grid.Items[i]).IsPlaying)
                         {
-                            itemobject = grid.Items[i];
+                            itemObject = grid.Items[i];
                             break;
                         }
                     }
@@ -143,11 +143,48 @@ namespace Dopamine.Common.Presentation.Utils
                 }
             });
 
-            if (itemobject == null) return;
+            if (itemObject == null) return;
 
             try
             {
-                ScrollToDataGridItem(grid, itemobject, true);
+                ScrollToDataGridItem(grid, itemObject, true);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static async Task ScrollToHighlightedLyricsLineAsync(ListBox box)
+        {
+            if (box == null) return;
+
+            Object itemObject = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    for (int i = 0; i <= box.Items.Count - 1; i++)
+                    {
+                        if (((LyricsLineViewModel)box.Items[i]).IsHighlighted)
+                        {
+                            itemObject = box.Items[i];
+                            break;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+
+            if (itemObject == null) return;
+
+            try
+            {
+                ScrollToListBoxItem(box, itemObject, true);
             }
             catch (Exception)
             {

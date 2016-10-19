@@ -19,6 +19,10 @@ namespace Dopamine.Core.Prism
     {
     }
 
+    public class ScrollToHighlightedLyricsLine : PubSubEvent<object>
+    {
+    }
+
     public class RenameSelectedPlaylistWithKeyF2 : PubSubEvent<object>
     {
     }
