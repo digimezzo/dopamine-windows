@@ -73,7 +73,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         }
                         else
                         {
-                            this.lyricsLines.Add(new LyricsLineViewModel(TimeSpan.Zero, line));
+                            this.lyricsLines.Add(new LyricsLineViewModel(line));
                         }
                     }
                     else

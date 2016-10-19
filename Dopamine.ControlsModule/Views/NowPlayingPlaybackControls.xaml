@@ -34,7 +34,6 @@
             <StackPanel 
                 Grid.Column="1" 
                 Orientation="Horizontal"
-                Visibility="{Binding HasPlaybackInfo,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <!-- Showcase button -->
                 <controls:IconMenuButton  
                 x:Name="ShowcaseButton"

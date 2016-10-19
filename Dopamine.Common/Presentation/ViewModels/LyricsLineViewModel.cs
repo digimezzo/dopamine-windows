@@ -8,6 +8,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private TimeSpan time;
         private string text;
+        private bool isTimed;
         private bool isHighlighted;
         #endregion
 
@@ -22,9 +23,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.text; }
         }
 
+        public bool IsTimed
+        {
+            get { return this.isTimed; }
+        }
+
         public bool IsHighlighted
         {
-            get { return this.isHighlighted; }
+            get { return this.isTimed & this.isHighlighted; }
             set { SetProperty<bool>(ref this.isHighlighted, value); }
         }
         #endregion
@@ -34,6 +40,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.time = time;
             this.text = text;
+
+            this.isTimed = true;
+        }
+
+        public LyricsLineViewModel(string text)
+        {
+            this.time = TimeSpan.Zero;
+            this.text = text;
+
+            this.isTimed = false;
         }
         #endregion
     }
