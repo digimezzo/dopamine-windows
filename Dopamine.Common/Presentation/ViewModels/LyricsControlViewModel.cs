@@ -3,7 +3,9 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
+using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int contentSlideInFrom;
         private Timer highlightTimer;
         private int highlightTimerIntervalMilliseconds = 100;
+        private EventAggregator eventAggregator;
         #endregion
 
         #region Properties
@@ -39,10 +42,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IPlaybackService playbackService, II18nService i18nService)
+        public LyricsControlViewModel(IPlaybackService playbackService, II18nService i18nService, EventAggregator eventAggregator)
         {
             this.playbackService = playbackService;
             this.i18nService = i18nService;
+            this.eventAggregator = eventAggregator;
 
             this.highlightTimer = new Timer();
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
@@ -92,7 +96,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.trackInfo = trackInfo;
 
             // The track didn't change: leave the previous lyrics.
-            if (this.trackInfo.Equals(this.previousTrackInfo)) return;
+            if (this.trackInfo.Equals(this.previousTrackInfo))
+            {
+                this.highlightTimer.Start();
+                return;
+            }
 
             // The track changed: we need to show new lyrics.
             try
@@ -112,7 +120,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async Task HighlightLyricsLineAsync()
         {
-            if (this.LyricsViewModel == null) return;
+            if (this.LyricsViewModel == null || this.LyricsViewModel.LyricsLines == null) return;
 
             await Task.Run(() =>
             {
@@ -134,6 +142,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
                     {
                         this.LyricsViewModel.LyricsLines[i].IsHighlighted = true;
+                        this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
                     }
                     else
                     {

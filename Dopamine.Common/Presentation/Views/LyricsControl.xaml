@@ -15,18 +15,16 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding LyricsLines}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,0,10,0">
-                                <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                <TextBlock TextWrapping="Wrap" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <ListBox x:Name="LyricsBox" Loaded="LyricsBox_Loaded" BorderThickness="0" ItemsSource="{Binding LyricsLines}" Padding="0,0,10,0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,0,10,0">
+                            <TextBlock TextWrapping="Wrap" FontSize="18" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBlock TextWrapping="Wrap" FontSize="18" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </DataTemplate>
     </UserControl.Resources>
 
