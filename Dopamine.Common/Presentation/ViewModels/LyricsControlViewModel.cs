@@ -6,6 +6,8 @@ using Dopamine.Core.Metadata;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -18,6 +20,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private TrackInfo previousTrackInfo;
         private TrackInfo trackInfo;
         private int contentSlideInFrom;
+        private Timer highlightTimer;
+        private int highlightTimerIntervalMilliseconds = 100;
         #endregion
 
         #region Properties
@@ -40,10 +44,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService = playbackService;
             this.i18nService = i18nService;
 
+            this.highlightTimer = new Timer();
+            this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
+            this.highlightTimer.Elapsed += HighlightTimer_Elapsed;
+
             this.playbackService.PlaybackFailed += (_, __) => this.ShowLyricsAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowLyricsAsync(null);
 
-            this.playbackService.PlaybackProgressChanged += (_, __) => this.HandleProgress();
+            this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
+            this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -56,6 +65,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.ShowLyricsAsync(this.playbackService.PlayingTrack);
         }
+
+        private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            await HighlightLyricsLineAsync();
+        }
         #endregion
 
         #region Private
@@ -63,13 +77,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.previousTrackInfo = this.trackInfo;
 
-            // No track selected: clear playback info.
+            // No track selected: clear lyrics.
             if (trackInfo == null)
             {
                 this.LyricsViewModel = new LyricsViewModel(string.Empty);
                 this.trackInfo = null;
+                this.highlightTimer.Stop();
                 return;
             }
+
+            this.highlightTimer.Start();
 
             this.trackInfo = trackInfo;
 
@@ -91,34 +108,37 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private void HandleProgress()
+        private async Task HighlightLyricsLineAsync()
         {
             if (this.LyricsViewModel == null) return;
 
-            for (int i = 0; i < this.LyricsViewModel.LyricsLines.Count; i++)
+            await Task.Run(() =>
             {
-                double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
-
-                double lyricsLineTime = this.LyricsViewModel.LyricsLines[i].Time.TotalMilliseconds;
-                double nextLyricsLineTime = 0;
-
-                int j = 1;
-
-                while (i + j < this.LyricsViewModel.LyricsLines.Count && nextLyricsLineTime <= lyricsLineTime)
+                for (int i = 0; i < this.LyricsViewModel.LyricsLines.Count; i++)
                 {
-                    nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i + j].Time.TotalMilliseconds;
-                    j++;
-                }
+                    double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
 
-                if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
-                {
-                    this.LyricsViewModel.LyricsLines[i].IsActive = true;
+                    double lyricsLineTime = this.LyricsViewModel.LyricsLines[i].Time.TotalMilliseconds;
+                    double nextLyricsLineTime = 0;
+
+                    int j = 1;
+
+                    while (i + j < this.LyricsViewModel.LyricsLines.Count && nextLyricsLineTime <= lyricsLineTime)
+                    {
+                        nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i + j].Time.TotalMilliseconds;
+                        j++;
+                    }
+
+                    if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
+                    {
+                        this.LyricsViewModel.LyricsLines[i].IsHighlighted = true;
+                    }
+                    else
+                    {
+                        this.LyricsViewModel.LyricsLines[i].IsHighlighted = false;
+                    }
                 }
-                else
-                {
-                    this.LyricsViewModel.LyricsLines[i].IsActive = false;
-                }
-            }
+            });
         }
         #endregion
     }
