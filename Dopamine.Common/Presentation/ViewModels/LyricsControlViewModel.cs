@@ -68,7 +68,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            this.highlightTimer.Stop();
             await HighlightLyricsLineAsync();
+            this.highlightTimer.Start();
         }
         #endregion
 
