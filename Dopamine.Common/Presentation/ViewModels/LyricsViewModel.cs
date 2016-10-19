@@ -44,7 +44,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private async Task ParseLyricsAsync(string lyrics)
         {
-            var previousTime = new TimeSpan(0);
+            var previousTime = TimeSpan.Zero;
 
             await Task.Run(() =>
             {
@@ -61,7 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         {
                             int index = line.IndexOf(']');
 
-                            var time = new TimeSpan(0);
+                            var time = TimeSpan.Zero;
 
                             // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
                             if (index > 0)
