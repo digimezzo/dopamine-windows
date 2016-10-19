@@ -77,6 +77,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private async void ShowLyricsAsync(TrackInfo trackInfo)
         {
+            this.highlightTimer.Stop();
+
             this.previousTrackInfo = this.trackInfo;
 
             // No track selected: clear lyrics.
@@ -84,11 +86,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 this.LyricsViewModel = new LyricsViewModel(string.Empty);
                 this.trackInfo = null;
-                this.highlightTimer.Stop();
                 return;
             }
-
-            this.highlightTimer.Start();
 
             this.trackInfo = trackInfo;
 
@@ -102,6 +101,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 this.LyricsViewModel = new LyricsViewModel(string.IsNullOrWhiteSpace(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle);
                 await this.LyricsViewModel.SetLyricsAsync(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value);
+                this.highlightTimer.Start();
             }
             catch (Exception ex)
             {

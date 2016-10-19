@@ -15,7 +15,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private bool isShowcaseButtonChecked;
         private IRegionManager regionManager;
         private SlideDirection slideDirection;
-        private IPlaybackService playbackService;
         private bool isShowCaseVisible;
         private bool isPlaylistVisible;
         private bool isLyricsVisible;
@@ -45,15 +44,11 @@ namespace Dopamine.FullPlayerModule.ViewModels
         #endregion
 
         #region Construction
-        public NowPlayingScreenViewModel(IRegionManager regionManager, IPlaybackService playbackService)
+        public NowPlayingScreenViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            this.playbackService = playbackService;
 
             this.isPlaylistVisible = true; // default
-
-            this.playbackService.PlaybackFailed += (_,__) => this.SetPlaylist();
-            this.playbackService.PlaybackStopped += (_, __) => this.SetPlaylist();
 
             this.NowPlayingScreenShowcaseButtonCommand = new DelegateCommand(() => this.SetShowCase());
             this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());

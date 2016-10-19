@@ -33,7 +33,7 @@
 
             <StackPanel 
                 Grid.Column="1" 
-                Orientation="Horizontal"
+                Orientation="Horizontal">
                 <!-- Showcase button -->
                 <controls:IconMenuButton  
                 x:Name="ShowcaseButton"
