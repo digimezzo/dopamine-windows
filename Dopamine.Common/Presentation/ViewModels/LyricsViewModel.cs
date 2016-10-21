@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Dopamine.Core.Settings;
+using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -10,12 +11,26 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
+        private double fontSize;
         #endregion
 
         #region Properties
+        public double FontSize
+        {
+            get { return this.fontSize; }
+            set { SetProperty<double>(ref this.fontSize, value); }
+        }
+
         public ObservableCollection<LyricsLineViewModel> LyricsLines
         {
             get { return this.lyricsLines; }
+        }
+        #endregion
+
+        #region Construction
+        public LyricsViewModel()
+        {
+            this.fontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
         }
         #endregion
 
