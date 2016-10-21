@@ -31,18 +31,18 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ContextMenu>
-                    <ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                         <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True"/>
                         <MenuItem StaysOpenOnClick="True">
                             <MenuItem.Header>
-                                <DockPanel>
+                                <DockPanel Tag="{Binding ElementName=LyricsBox, Path=DataContext}">
                                     <TextBlock DockPanel.Dock="Left" Text="{DynamicResource Language_Font_Size}" HorizontalAlignment="Left"/>
                                     <StackPanel DockPanel.Dock="Right" Margin="50,0,0,0" Orientation="Horizontal">
-                                        <Button Content="-" Width="20" Height="20" Style="{StaticResource ContextMenuButton}"/>
+                                        <Button Content="-" Style="{StaticResource ContextMenuButton}" Command="{Binding DecreaseFontSizeCommand}"/>
                                         <Border Width="60">
-                                            <TextBlock Text="10px" Margin="5,0,5,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding FontSizePixels}" Margin="5,0,5,0" HorizontalAlignment="Center"/>
                                         </Border>
-                                        <Button Content="+" Width="20" Height="20" Style="{StaticResource ContextMenuButton}"/>
+                                        <Button Content="+" Style="{StaticResource ContextMenuButton}" Command="{Binding IncreaseFontSizeCommand}"/>
                                     </StackPanel>
                                     <ContentControl/>
                                 </DockPanel>

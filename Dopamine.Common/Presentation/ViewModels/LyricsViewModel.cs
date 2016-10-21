@@ -1,9 +1,9 @@
 ﻿using Dopamine.Core.Settings;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -14,11 +14,26 @@ namespace Dopamine.Common.Presentation.ViewModels
         private double fontSize;
         #endregion
 
+        #region Commands
+        public DelegateCommand DecreaseFontSizeCommand { get; set; }
+        public DelegateCommand IncreaseFontSizeCommand { get; set; }
+        #endregion
+
         #region Properties
         public double FontSize
         {
             get { return this.fontSize; }
-            set { SetProperty<double>(ref this.fontSize, value); }
+            set
+            {
+                SetProperty<double>(ref this.fontSize, value);
+                XmlSettingsClient.Instance.Set<int>("Lyrics", "FontSize", (int)value);
+                OnPropertyChanged(() => this.FontSizePixels);
+            }
+        }
+
+        public string FontSizePixels
+        {
+            get { return this.fontSize.ToString() + "px"; }
         }
 
         public ObservableCollection<LyricsLineViewModel> LyricsLines
@@ -30,7 +45,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public LyricsViewModel()
         {
-            this.fontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
+            this.FontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
+
+            this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 12) this.FontSize--; });
+            this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
         }
         #endregion
 
