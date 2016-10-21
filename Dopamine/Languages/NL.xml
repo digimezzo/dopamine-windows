@@ -356,4 +356,6 @@
   <Text Key="Refresh_Collection_On_Startup">Collectie verversen bij het opstarten</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
+  <Text Key="Automatic_Scrolling">Automatisch scrollen</Text>
+  <Text Key="Font_Size">Font grootte</Text>
 </Language>

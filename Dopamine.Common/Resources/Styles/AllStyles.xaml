@@ -5,6 +5,7 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/Animations.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ColorSchemeButtons.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenu.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenuButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/CountLabel.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/DataGridTracks.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />

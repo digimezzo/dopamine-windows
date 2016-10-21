@@ -11,6 +11,9 @@
     <Color x:Key="RG_BlackColor">Black</Color>
     <SolidColorBrush x:Key="RG_BlackBrush" Color="{DynamicResource RG_BlackColor}"/>
 
+    <!-- Light grey -->
+    <SolidColorBrush x:Key="RG_LightGreyBrush" Color="#DFDFDF"/>
+
     <!-- Gradients -->
     <LinearGradientBrush x:Key="RG_PlaybackInfoGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
         <GradientStop Color="#00000000" Offset="0.0" />
