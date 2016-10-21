@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>59</Value>
+      <Value>60</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -263,6 +263,14 @@
     </Setting>
     <Setting Name="DownloadArtistInformation">
       <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Lyrics">
+    <Setting Name="AutomaticScrolling">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="FontSize">
+      <Value>18</Value>
     </Setting>
   </Namespace>
 </Settings>
