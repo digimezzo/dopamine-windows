@@ -156,57 +156,58 @@ namespace Dopamine.Common.Services.Metadata
 
             this.isUpdatingFileMetadata = true;
 
-            var filesToSync = new List<FileMetadata>();
+            var localFileMetadatas = new Queue<FileMetadata>();
+            var successfulFileMetadatas = new List<FileMetadata>();
+            var failedFileMetadatas = new List<FileMetadata>();
 
             await Task.Run(() =>
             {
+                // Create a local collection of FileMetadata's
                 lock (lockObject)
                 {
-                    var failedFileMetadatas = new Queue<FileMetadata>();
-
                     while (this.fileMetadatas.Count > 0)
                     {
-                        FileMetadata fmd = this.fileMetadatas.Dequeue();
+                        localFileMetadatas.Enqueue(this.fileMetadatas.Dequeue());
+                    }
+                }
+
+                // Process local FileMetadata's
+                while (localFileMetadatas.Count > 0)
+                {
+                    FileMetadata fmd = localFileMetadatas.Dequeue();
+
+                    try
+                    {
+                        fmd.Save();
+                        if (!successfulFileMetadatas.Contains(fmd)) successfulFileMetadatas.Add(fmd);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
 
                         try
                         {
+                            LogClient.Instance.Logger.Error("Trying to save metadata for Track '{0}' after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
+
+                            this.playbackService.Suspend();
                             fmd.Save();
-                            if (!filesToSync.Contains(fmd)) filesToSync.Add(fmd);
+                            if (!successfulFileMetadatas.Contains(fmd)) successfulFileMetadatas.Add(fmd);
+                            this.playbackService.Unsuspend();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
-
-                            try
-                            {
-                                LogClient.Instance.Logger.Error("Trying to save metadata for Track '{0}' after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
-
-                                this.playbackService.Suspend();
-                                fmd.Save();
-                                if(!filesToSync.Contains(fmd)) filesToSync.Add(fmd);
-                                this.playbackService.Unsuspend();
-                            }
-                            catch (Exception)
-                            {
-                                LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}' after suspending playback. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
-                                failedFileMetadatas.Enqueue(fmd);
-                            }
-                        }
-                    }
-
-                    // Make sure failed FileMetadata's are processed the next time the timer elapses
-                    if (failedFileMetadatas.Count > 0)
-                    {
-                        foreach (FileMetadata fmd in failedFileMetadatas)
-                        {
-                            this.fileMetadatas.Enqueue(fmd);
+                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}' after suspending playback. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
+                            failedFileMetadatas.Add(fmd);
                         }
                     }
                 }
             });
 
+            // Make sure failed FileMetadata's are processed again the next time the timer elapses
+            if (failedFileMetadatas.Count > 0) await this.QueueFileMetadata(failedFileMetadatas);
+
             // Sync file size and last modified date in the database
-            foreach (FileMetadata fmd in filesToSync)
+            foreach (FileMetadata fmd in successfulFileMetadatas)
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.FileName);
             }
