@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Services.I18n;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
@@ -16,6 +17,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class LyricsControlViewModel : BindableBase
     {
         #region Variables
+        private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private II18nService i18nService;
         private LyricsViewModel lyricsViewModel;
@@ -43,8 +45,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IPlaybackService playbackService, II18nService i18nService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IMetadataService metadataService, IPlaybackService playbackService, II18nService i18nService, EventAggregator eventAggregator)
         {
+            this.metadataService = metadataService;
             this.playbackService = playbackService;
             this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
@@ -111,7 +114,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         var fmd = new FileMetadata(trackInfo.Path);
 
-                        this.LyricsViewModel = new LyricsViewModel();
+                        this.LyricsViewModel = new LyricsViewModel(trackInfo.Path, metadataService);
                         this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value);
                         this.highlightTimer.Start();
                     }
@@ -150,7 +153,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
                         {
                             this.LyricsViewModel.LyricsLines[i].IsHighlighted = true;
-                            this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
+                            if(this.LyricsViewModel.AutomaticScrolling) this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
                         }
                         else
                         {

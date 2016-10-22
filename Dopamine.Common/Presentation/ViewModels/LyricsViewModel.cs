@@ -1,7 +1,10 @@
-﻿using Dopamine.Core.Settings;
+﻿using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Metadata;
+using Dopamine.Core.Settings;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -10,16 +13,35 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class LyricsViewModel : BindableBase
     {
         #region Variables
+        private string filename;
+        private string lyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         private double fontSize;
+        private bool automaticScrolling;
+        private bool isEditing;
+        private IMetadataService metadataService;
         #endregion
 
         #region Commands
         public DelegateCommand DecreaseFontSizeCommand { get; set; }
         public DelegateCommand IncreaseFontSizeCommand { get; set; }
+        public DelegateCommand EditCommand { get; set; }
+        public DelegateCommand CancelEditCommand { get; set; }
+        public DelegateCommand SaveCommand { get; set; }
         #endregion
 
         #region Properties
+        public bool CanShowLyrics
+        {
+            get { return !string.IsNullOrEmpty(this.lyrics); }
+        }
+
+        public bool IsEditing
+        {
+            get { return this.isEditing; }
+            set { SetProperty<bool>(ref this.isEditing, value); }
+        }
+
         public double FontSize
         {
             get { return this.fontSize; }
@@ -31,9 +53,29 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
+        public bool AutomaticScrolling
+        {
+            get { return this.automaticScrolling; }
+            set
+            {
+                SetProperty<bool>(ref this.automaticScrolling, value);
+                XmlSettingsClient.Instance.Set<bool>("Lyrics", "AutomaticScrolling", value);
+            }
+        }
+
         public string FontSizePixels
         {
-            get { return this.fontSize.ToString() + "px"; }
+            get { return this.fontSize.ToString() + " px"; }
+        }
+
+        public string Lyrics
+        {
+            get { return this.lyrics; }
+            set
+            {
+                SetProperty<string>(ref this.lyrics, value);
+                OnPropertyChanged(() => this.CanShowLyrics);
+            }
         }
 
         public ObservableCollection<LyricsLineViewModel> LyricsLines
@@ -43,20 +85,43 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
+        public LyricsViewModel(string filename, IMetadataService metadataService)
+        {
+            this.filename = filename;
+            this.metadataService = metadataService;
+
+            this.FontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
+            this.AutomaticScrolling = XmlSettingsClient.Instance.Get<bool>("Lyrics", "AutomaticScrolling");
+
+            this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 11) this.FontSize--; });
+            this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
+            this.EditCommand = new DelegateCommand(() => { this.IsEditing = true; });
+            this.CancelEditCommand = new DelegateCommand(() => { this.IsEditing = false; });
+            this.SaveCommand = new DelegateCommand(() =>
+            {
+                this.IsEditing = false;
+                this.ParseLyrics(this.lyrics);
+
+                // Save to the file
+                var fmd = new FileMetadata(this.filename);
+                fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
+                var fmdList = new List<FileMetadata>();
+                fmdList.Add(fmd);
+                this.metadataService.UpdateTrackAsync(fmdList, false);
+            });
+        }
+
         public LyricsViewModel()
         {
-            this.FontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
-
-            this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 12) this.FontSize--; });
-            this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
+            
         }
         #endregion
 
         #region Public
         public void SetLyrics(string lyrics)
         {
+            this.Lyrics = lyrics;
             this.ParseLyrics(lyrics);
-            OnPropertyChanged(() => this.LyricsLines);
         }
         #endregion
 
@@ -98,6 +163,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                     break;
                 }
             }
+
+            OnPropertyChanged(() => this.LyricsLines);
         }
         #endregion
     }
