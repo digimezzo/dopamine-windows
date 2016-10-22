@@ -18,7 +18,7 @@
             <Grid Visibility="{Binding CanShowLyrics,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <TextBox 
                     Style="{StaticResource LargeMetroTextBox}"
-                    Text="{Binding Lyrics}"
+                    Text="{Binding Lyrics, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     Background="Transparent"
                     TextWrapping="Wrap" 
                     AcceptsReturn="True" 
