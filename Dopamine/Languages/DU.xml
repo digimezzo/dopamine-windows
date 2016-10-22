@@ -358,4 +358,5 @@
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">One or more songs cannot be found. They were probably moved or deleted. Do you want to refresh your collection?</Text>
   <Text Key="Automatic_Scrolling">Automatic scrolling</Text>
   <Text Key="Font_Size">Font size</Text>
+  <Text Key="Cancel_Edit">Cancel edit</Text>
 </Language>

@@ -15,42 +15,72 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
-            <ListBox x:Name="LyricsBox" Loaded="LyricsBox_Loaded" BorderThickness="0" ItemsSource="{Binding LyricsLines}" Padding="0,0,10,0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,0,10,0">
-                            <TextBlock TextWrapping="Wrap" FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            <TextBlock TextWrapping="Wrap" FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <!-- This style makes sure that the items are not selectable -->
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsHitTestVisible" Value="False"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ContextMenu>
-                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True"/>
-                        <MenuItem StaysOpenOnClick="True">
-                            <MenuItem.Header>
-                                <DockPanel Tag="{Binding ElementName=LyricsBox, Path=DataContext}">
-                                    <TextBlock DockPanel.Dock="Left" Text="{DynamicResource Language_Font_Size}" HorizontalAlignment="Left"/>
-                                    <StackPanel DockPanel.Dock="Right" Margin="50,0,0,0" Orientation="Horizontal">
-                                        <Button Content="-" Style="{StaticResource ContextMenuButton}" Command="{Binding DecreaseFontSizeCommand}"/>
-                                        <Border Width="60">
-                                            <TextBlock Text="{Binding FontSizePixels}" Margin="5,0,5,0" HorizontalAlignment="Center"/>
-                                        </Border>
-                                        <Button Content="+" Style="{StaticResource ContextMenuButton}" Command="{Binding IncreaseFontSizeCommand}"/>
-                                    </StackPanel>
-                                    <ContentControl/>
-                                </DockPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-            </ListBox>
+            <Grid Visibility="{Binding CanShowLyrics,Converter={StaticResource BooleanToCollapsedConverter}}">
+                <TextBox 
+                    Style="{StaticResource LargeMetroTextBox}"
+                    Text="{Binding Lyrics}"
+                    Background="Transparent"
+                    TextWrapping="Wrap" 
+                    AcceptsReturn="True" 
+                    VerticalScrollBarVisibility="Auto" 
+                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <TextBox.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
+                        </ContextMenu>
+                    </TextBox.ContextMenu>
+                </TextBox>
+                <ListBox 
+                    x:Name="LyricsBox" 
+                    Loaded="LyricsBox_Loaded" 
+                    BorderThickness="0" 
+                    ItemsSource="{Binding LyricsLines}" 
+                    Padding="0,0,10,0" 
+                    Background="Transparent" 
+                    Visibility="{Binding IsEditing,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,10,0">
+                                <TextBlock TextWrapping="Wrap" FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" Foreground="{DynamicResource RG_AccentBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock TextWrapping="Wrap" FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Text}" Visibility="{Binding IsHighlighted,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <!-- This style makes sure that the items are not selectable -->
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
+                            <Separator/>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <DockPanel Tag="{Binding ElementName=LyricsBox, Path=DataContext}">
+                                        <TextBlock DockPanel.Dock="Left" Text="{DynamicResource Language_Font_Size}" HorizontalAlignment="Left"/>
+                                        <StackPanel DockPanel.Dock="Right" Margin="50,0,0,0" Orientation="Horizontal">
+                                            <Button Content="-" Style="{StaticResource ContextMenuButton}" Command="{Binding DecreaseFontSizeCommand}"/>
+                                            <Border Width="60">
+                                                <TextBlock Text="{Binding FontSizePixels}" Margin="5,0,5,0" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Button Content="+" Style="{StaticResource ContextMenuButton}" Command="{Binding IncreaseFontSizeCommand}"/>
+                                        </StackPanel>
+                                        <ContentControl/>
+                                    </DockPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
 
