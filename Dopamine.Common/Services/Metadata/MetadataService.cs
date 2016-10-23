@@ -160,7 +160,7 @@ namespace Dopamine.Common.Services.Metadata
             var successfulFileMetadatas = new List<FileMetadata>();
             var failedFileMetadatas = new List<FileMetadata>();
 
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 // Create a local collection of FileMetadata's
                 lock (lockObject)
@@ -189,10 +189,10 @@ namespace Dopamine.Common.Services.Metadata
                         {
                             LogClient.Instance.Logger.Error("Trying to save metadata for Track '{0}' after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
 
-                            this.playbackService.Suspend();
+                            await this.playbackService.SuspendAsync();
                             fmd.Save();
                             if (!successfulFileMetadatas.Contains(fmd)) successfulFileMetadatas.Add(fmd);
-                            this.playbackService.Unsuspend();
+                            await this.playbackService.UnsuspendAsync();
                         }
                         catch (Exception)
                         {
