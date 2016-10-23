@@ -39,8 +39,8 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Functions
-        void Suspend();
-        void Unsuspend();
+        Task SuspendAsync();
+        Task UnsuspendAsync();
         void Stop();
         void Skip(double progress);
         void SetMute(bool mute);
