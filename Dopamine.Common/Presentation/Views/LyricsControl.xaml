@@ -17,13 +17,16 @@
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
             <Grid Visibility="{Binding CanShowLyrics,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <TextBox 
+                    x:Name="LyricsTextBox" 
+                    Loaded="LyricsTextBox_Loaded"
                     Style="{StaticResource LargeMetroTextBox}"
                     Text="{Binding Lyrics, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                    Background="Transparent"
+                    Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"
                     TextWrapping="Wrap" 
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
-                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
+                    KeyDown="TextBox_KeyDown">
                     <TextBox.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
@@ -33,8 +36,8 @@
                     </TextBox.ContextMenu>
                 </TextBox>
                 <ListBox 
-                    x:Name="LyricsBox" 
-                    Loaded="LyricsBox_Loaded" 
+                    x:Name="LyricsListBox" 
+                    Loaded="LyricsListBox_Loaded" 
                     BorderThickness="0" 
                     ItemsSource="{Binding LyricsLines}" 
                     Padding="0,0,10,0" 
@@ -62,7 +65,7 @@
                             <Separator/>
                             <MenuItem StaysOpenOnClick="True">
                                 <MenuItem.Header>
-                                    <DockPanel Tag="{Binding ElementName=LyricsBox, Path=DataContext}">
+                                    <DockPanel Tag="{Binding ElementName=LyricsListBox, Path=DataContext}">
                                         <TextBlock DockPanel.Dock="Left" Text="{DynamicResource Language_Font_Size}" HorizontalAlignment="Left"/>
                                         <StackPanel DockPanel.Dock="Right" Margin="50,0,0,0" Orientation="Horizontal">
                                             <Button Content="-" Style="{StaticResource ContextMenuButton}" Command="{Binding DecreaseFontSizeCommand}"/>
@@ -76,7 +79,7 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}"/>
+                            <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}" Click="EditMenuItem_Click"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
