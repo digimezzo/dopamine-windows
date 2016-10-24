@@ -32,11 +32,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
-        public bool CanShowLyrics
-        {
-            get { return !string.IsNullOrEmpty(this.lyrics); }
-        }
-
         public bool IsEditing
         {
             get { return this.isEditing; }
@@ -75,7 +70,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<string>(ref this.lyrics, value);
-                OnPropertyChanged(() => this.CanShowLyrics);
             }
         }
 

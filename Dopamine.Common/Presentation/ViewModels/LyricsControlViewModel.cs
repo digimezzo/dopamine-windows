@@ -115,7 +115,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         var fmd = new FileMetadata(trackInfo.Path);
 
                         this.LyricsViewModel = new LyricsViewModel(trackInfo.Path, metadataService);
-                        this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? ResourceUtils.GetStringResource("Language_No_Lyrics") : fmd.Lyrics.Value);
+                        this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? string.Empty : fmd.Lyrics.Value);
                         this.highlightTimer.Start();
                     }
                     catch (Exception ex)
