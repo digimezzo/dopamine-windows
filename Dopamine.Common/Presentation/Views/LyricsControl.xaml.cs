@@ -63,7 +63,7 @@ namespace Dopamine.Common.Presentation.Views
         {
             if (e.Key == Key.T & Keyboard.Modifiers == ModifierKeys.Control)
             {
-                this.AddTimeStampToSelectedLyricsLine();
+                if (!this.playbackService.IsStopped) this.AddTimeStampToSelectedLyricsLine();
             }
         }
 
@@ -80,7 +80,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not scroll to the highlighted lyrics line. Exception: {1}", ex.Message);
+                LogClient.Instance.Logger.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
             }
         }
         #endregion
@@ -90,10 +90,11 @@ namespace Dopamine.Common.Presentation.Views
             if (this.lyricsTextBox != null)
             {
                 // Using the Dispatcher seems to be the only way to ever make the TextBox focus.
+                // See: http://stackoverflow.com/questions/13955340/keyboard-focus-does-not-work-on-text-box-in-wpf
                 Dispatcher.BeginInvoke(DispatcherPriority.Input,
                       new Action(delegate ()
                       {
-                          this.lyricsTextBox.Focus();         // Set Logical Focus
+                          this.lyricsTextBox.Focus(); // Set Logical Focus
                           Keyboard.Focus(this.lyricsTextBox); // Set Keyboard Focus (this is probably not needed)
                       }));
             }
@@ -101,7 +102,56 @@ namespace Dopamine.Common.Presentation.Views
 
         private void AddTimeStampToSelectedLyricsLine()
         {
-            
+            if (this.lyricsTextBox != null)
+            {
+                try
+                {
+                    int lineIndex = this.lyricsTextBox.GetLineIndexFromCharacterIndex(this.lyricsTextBox.CaretIndex);
+                    int lineStartIndex = this.lyricsTextBox.GetCharacterIndexFromLineIndex(lineIndex);
+                    string line = this.lyricsTextBox.GetLineText(lineIndex);
+
+                    if (line.Trim().Length == 0)
+                    {
+                        this.lyricsTextBox.CaretIndex += 1; // Jump to the next line
+                        return; // Don't try to add a timeStamp to an empty line (Trim removes newline characters)
+                    }
+                       
+                    string strippedLine = string.Empty;
+
+                    if (line.Length > 0 && line.StartsWith("["))
+                    {
+                        int index = line.IndexOf(']');
+
+                        if (index > 0)
+                        {
+                            strippedLine = line.Substring(index + 1);
+                        }
+                    }
+                    else
+                    {
+                        strippedLine = line;
+                    }
+
+                    TimeSpan currentPlaybackTime = this.playbackService.GetCurrentTime;
+                    string newLine = string.Format("{0}{1}", new DateTime(this.playbackService.GetCurrentTime.Ticks).ToString("[mm:ss]"), strippedLine);
+                    this.lyricsTextBox.Text = this.lyricsTextBox.Text.Remove(lineStartIndex, line.Length);
+                    this.lyricsTextBox.Text = this.lyricsTextBox.Text.Insert(lineStartIndex, newLine);
+                    this.lyricsTextBox.CaretIndex = lineStartIndex + newLine.Length;
+
+                    // Jump over empty lines
+                    line = this.lyricsTextBox.GetLineText(this.lyricsTextBox.GetLineIndexFromCharacterIndex(this.lyricsTextBox.CaretIndex));
+
+                    while (line.Trim().Length == 0)
+                    {
+                        this.lyricsTextBox.CaretIndex += 1;
+                        line = this.lyricsTextBox.GetLineText(this.lyricsTextBox.GetLineIndexFromCharacterIndex(this.lyricsTextBox.CaretIndex));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not add timeStamp to selected lyrics line. Exception: {0}", ex.Message);
+                }
+            }
         }
     }
 }
