@@ -16,7 +16,10 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
             <Grid>
-                <TextBox 
+                <Border 
+                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
+                    Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}">
+                    <TextBox 
                     x:Name="LyricsTextBox" 
                     Loaded="LyricsTextBox_Loaded"
                     Style="{StaticResource LargeMetroTextBox}"
@@ -24,16 +27,16 @@
                     Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
-                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
                     KeyDown="TextBox_KeyDown">
-                    <TextBox.ContextMenu>
-                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
-                        </ContextMenu>
-                    </TextBox.ContextMenu>
-                </TextBox>
+                        <TextBox.ContextMenu>
+                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
+                </Border>
                 <ListBox 
                     x:Name="LyricsListBox" 
                     Loaded="LyricsListBox_Loaded" 
