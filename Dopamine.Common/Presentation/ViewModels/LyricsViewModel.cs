@@ -15,6 +15,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private string filename;
         private string lyrics;
+        private string uneditedLyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         private double fontSize;
         private bool automaticScrolling;
@@ -96,7 +97,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 11) this.FontSize--; });
             this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
             this.EditCommand = new DelegateCommand(() => { this.IsEditing = true; });
-            this.CancelEditCommand = new DelegateCommand(() => { this.IsEditing = false; });
+            this.CancelEditCommand = new DelegateCommand(() =>
+            {
+                this.lyrics = this.uneditedLyrics;
+                this.IsEditing = false;
+            });
+
             this.SaveCommand = new DelegateCommand(() =>
             {
                 this.IsEditing = false;
@@ -113,7 +119,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public LyricsViewModel()
         {
-            
         }
         #endregion
 
@@ -121,6 +126,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public void SetLyrics(string lyrics)
         {
             this.Lyrics = lyrics;
+            this.uneditedLyrics = lyrics;
             this.ParseLyrics(lyrics);
         }
         #endregion

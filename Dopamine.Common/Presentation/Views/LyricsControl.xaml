@@ -22,7 +22,6 @@
                     Style="{StaticResource LargeMetroTextBox}"
                     Text="{Binding Lyrics, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"
-                    TextWrapping="Wrap" 
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
                     Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
