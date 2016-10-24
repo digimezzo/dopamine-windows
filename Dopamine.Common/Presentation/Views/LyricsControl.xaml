@@ -15,7 +15,7 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
-            <Grid Visibility="{Binding CanShowLyrics,Converter={StaticResource BooleanToCollapsedConverter}}">
+            <Grid>
                 <TextBox 
                     x:Name="LyricsTextBox" 
                     Loaded="LyricsTextBox_Loaded"
