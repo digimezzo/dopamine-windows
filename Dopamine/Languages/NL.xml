@@ -359,4 +359,5 @@
   <Text Key="Automatic_Scrolling">Automatisch scrollen</Text>
   <Text Key="Font_Size">Font grootte</Text>
   <Text Key="Cancel_Edit">Annuleer aanpassing</Text>
+  <Text Key="Play_Song_And_Insert_Timestamp">Speel het nummer af en druk op Ctrl-T om een tijdstip toe te voegen aan het begin van de huidige lijn</Text>
 </Language>

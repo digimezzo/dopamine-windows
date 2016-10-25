@@ -21,10 +21,15 @@
                     FontSize="{Binding FontSize}"
                     Foreground="{DynamicResource RG_ForegroundBrush}"
                     Visibility="{Binding IsNoLyricsTextVisible,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                <Border 
-                    Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
+                <DockPanel Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <TextBlock
+                            DockPanel.Dock="Bottom" Margin="0,10,0,0" 
+                            Text="{DynamicResource Language_Play_Song_And_Insert_Timestamp}" 
+                            TextWrapping="Wrap" 
+                            Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <Border 
                     Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}">
-                    <TextBox 
+                        <TextBox 
                     x:Name="LyricsTextBox" 
                     Loaded="LyricsTextBox_Loaded"
                     Style="{StaticResource LargeMetroTextBox}"
@@ -33,15 +38,16 @@
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
                     KeyDown="TextBox_KeyDown">
-                        <TextBox.ContextMenu>
-                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                                <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
-                            </ContextMenu>
-                        </TextBox.ContextMenu>
-                    </TextBox>
-                </Border>
+                            <TextBox.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
+                                    <Separator/>
+                                    <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                    </Border>
+                </DockPanel>
                 <ListBox 
                     x:Name="LyricsListBox" 
                     Loaded="LyricsListBox_Loaded" 
@@ -68,8 +74,6 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                            <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
-                            <Separator/>
                             <MenuItem StaysOpenOnClick="True">
                                 <MenuItem.Header>
                                     <DockPanel Tag="{Binding ElementName=LyricsListBox, Path=DataContext}">
@@ -85,6 +89,8 @@
                                     </DockPanel>
                                 </MenuItem.Header>
                             </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
                             <Separator/>
                             <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}" Click="EditMenuItem_Click"/>
                         </ContextMenu>
