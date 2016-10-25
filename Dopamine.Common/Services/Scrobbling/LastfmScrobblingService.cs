@@ -116,13 +116,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
-                    bool isSuccess = await LastfmAPI.TrackUpdateNowPlaying(
-                                           this.username,
-                                           this.password,
-                                           this.sessionKey,
-                                           artist,
-                                           trackTitle,
-                                           albumTitle);
+                    bool isSuccess = await LastfmAPI.TrackUpdateNowPlaying(this.sessionKey, artist, trackTitle, albumTitle);
 
                     if (isSuccess)
                     {
@@ -158,14 +152,7 @@ namespace Dopamine.Common.Services.Scrobbling
                         {
                             this.canScrobble = false;
 
-                            bool isSuccess = await LastfmAPI.TrackScrobble(
-                                                        this.username,
-                                                        this.password,
-                                                        this.sessionKey,
-                                                        artist,
-                                                        trackTitle,
-                                                        albumTitle,
-                                                        this.trackStartTime);
+                            bool isSuccess = await LastfmAPI.TrackScrobble(this.sessionKey, artist, trackTitle, albumTitle, this.trackStartTime);
 
                             if (isSuccess)
                             {

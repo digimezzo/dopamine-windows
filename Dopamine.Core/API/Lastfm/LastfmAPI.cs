@@ -155,7 +155,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="timestamp"></param>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static async Task<bool> TrackScrobble(string username, string password, string sessionKey, string artist, string trackTitle, string albumTitle, DateTime playbackStartTime)
+        public static async Task<bool> TrackScrobble(string sessionKey, string artist, string trackTitle, string albumTitle, DateTime playbackStartTime)
         {
             bool isScrobbleSuccess = false;
 
@@ -198,7 +198,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="timestamp"></param>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static async Task<bool> TrackUpdateNowPlaying(string username, string password, string sessionKey, string artist, string trackTitle, string albumTitle)
+        public static async Task<bool> TrackUpdateNowPlaying(string sessionKey, string artist, string trackTitle, string albumTitle)
         {
             bool isUpdateNowPlayingSuccess = false;
 
