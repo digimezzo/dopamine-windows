@@ -32,10 +32,18 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool IsNoLyricsTextVisible
+        {
+            get { return string.IsNullOrEmpty(this.lyrics) & !this.IsEditing; }
+        }
+
         public bool IsEditing
         {
             get { return this.isEditing; }
-            set { SetProperty<bool>(ref this.isEditing, value); }
+            set {
+                SetProperty<bool>(ref this.isEditing, value);
+                OnPropertyChanged(() => this.IsNoLyricsTextVisible);
+            }
         }
 
         public double FontSize
@@ -70,6 +78,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<string>(ref this.lyrics, value);
+                OnPropertyChanged(() => this.IsNoLyricsTextVisible);
             }
         }
 
