@@ -16,6 +16,11 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
             <Grid>
+                <TextBlock 
+                    Text="{DynamicResource Language_No_Lyrics}"
+                    FontSize="{Binding FontSize}"
+                    Foreground="{DynamicResource RG_ForegroundBrush}"
+                    Visibility="{Binding IsNoLyricsTextVisible,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 <Border 
                     Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}"
                     Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}">
