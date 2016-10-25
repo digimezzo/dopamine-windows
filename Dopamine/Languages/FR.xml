@@ -359,4 +359,5 @@
   <Text Key="Automatic_Scrolling">Défilement automatique</Text>
   <Text Key="Font_Size">Taille de police</Text>
   <Text Key="Cancel_Edit">Annuler modification</Text>
+  <Text Key="Play_Song_And_Insert_Timestamp">Jouez le numéro et appuyez sur Ctrl-T pour insérer un horodatage au début de la ligne courante</Text>
 </Language>
