@@ -5,7 +5,6 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -24,10 +23,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         private TrackInfo previousTrackInfo;
         private TrackInfo trackInfo;
         private int contentSlideInFrom;
-        private Timer highlightTimer;
+        private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
         private EventAggregator eventAggregator;
         private Object lockObject = new Object();
+        private Timer updateLyricsAfterEditingTimer = new Timer();
+        private int updateLyricsAfterEditingTimerIntervalMilliseconds = 100;
         #endregion
 
         #region Properties
@@ -52,9 +53,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
-            this.highlightTimer = new Timer();
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
             this.highlightTimer.Elapsed += HighlightTimer_Elapsed;
+
+            this.updateLyricsAfterEditingTimer.Interval = this.updateLyricsAfterEditingTimerIntervalMilliseconds;
+            this.updateLyricsAfterEditingTimer.Elapsed += UpdateLyricsAfterEditingTimer_Elapsed;
 
             this.playbackService.PlaybackFailed += (_, __) => this.ShowLyricsAsync(null);
             this.playbackService.PlaybackStopped += (_, __) => this.ShowLyricsAsync(null);
@@ -71,6 +74,12 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.i18nService.LanguageChanged += (_, __) => this.ShowLyricsAsync(this.playbackService.PlayingTrack);
 
+            this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+        }
+
+        private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.updateLyricsAfterEditingTimer.Stop();
             this.ShowLyricsAsync(this.playbackService.PlayingTrack);
         }
 
@@ -92,6 +101,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             await Task.Run(() => {
                 lock (lockObject)
                 {
+                    // If we're in editing mode, delay changing the lyrics.
+                    if (this.LyricsViewModel != null && this.LyricsViewModel.IsEditing)
+                    {
+                        this.updateLyricsAfterEditingTimer.Start();
+                        return;
+                    }
+
                     // No track selected: clear lyrics.
                     if (trackInfo == null)
                     {
