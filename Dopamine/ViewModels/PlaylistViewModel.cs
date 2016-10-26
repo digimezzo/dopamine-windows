@@ -28,7 +28,7 @@ namespace Dopamine.ViewModels
 
             this.LoadedCommand = new DelegateCommand(() => this.SetNowPlaying());
 
-            this.playbackService.PlaybackSuccess += (b) => this.SetNowPlaying();
+            this.playbackService.PlaybackSuccess += (_) => this.SetNowPlaying();
         }
         #endregion
 
