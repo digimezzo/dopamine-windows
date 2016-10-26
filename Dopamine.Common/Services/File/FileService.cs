@@ -257,6 +257,7 @@ namespace Dopamine.Common.Services.File
                 var fi = new FileInformation(path);
 
                 ti.Path = path;
+                ti.SafePath = path.ToSafePath();
                 ti.FileName = fi.NameWithoutExtension;
                 ti.MimeType = fmd.MimeType;
                 ti.FileSize = fi.SizeInBytes;
