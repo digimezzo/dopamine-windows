@@ -114,6 +114,12 @@ namespace Dopamine.Common.Services.Indexing
             }
         }
 
+        public async Task DelayedIndexCollectionAsync(int delayMilliseconds, bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false)
+        {
+            await Task.Delay(delayMilliseconds);
+            await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, isInitialized);
+        }
+
         public async Task IndexCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false)
         {
             if (this.IsIndexing | !this.needsIndexing) return;
