@@ -14,6 +14,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         #region Variables
         private bool isShowcaseButtonChecked;
         private IRegionManager regionManager;
+        private IPlaybackService playbackService;
         private SlideDirection slideDirection;
         private bool isShowCaseVisible;
         private bool isPlaylistVisible;
@@ -44,11 +45,14 @@ namespace Dopamine.FullPlayerModule.ViewModels
         #endregion
 
         #region Construction
-        public NowPlayingScreenViewModel(IRegionManager regionManager)
+        public NowPlayingScreenViewModel(IRegionManager regionManager, IPlaybackService playbackService)
         {
             this.regionManager = regionManager;
+            this.playbackService = playbackService;
 
             this.isPlaylistVisible = true; // default
+
+            this.playbackService.PlaybackSuccess += (_) => this.SetNowPlaying();
 
             this.NowPlayingScreenShowcaseButtonCommand = new DelegateCommand(() => this.SetShowCase());
             this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());
@@ -108,6 +112,29 @@ namespace Dopamine.FullPlayerModule.ViewModels
             isLyricsVisible = false;
             isArtistInformationVisible = true;
         }
+
+        private void SetNowPlaying()
+        {
+            if (this.playbackService.Queue.Count > 0)
+            {
+                if (isShowCaseVisible)
+                {
+                    this.SetShowCase();
+                }
+                else if (isPlaylistVisible)
+                {
+                    this.SetPlaylist();
+                }
+                else if (isArtistInformationVisible)
+                {
+                    this.SetArtistInformation();
+                }
+            }
+            else
+            {
+                this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NothingPlayingControl).FullName);
+            }
+        }
         #endregion
 
         #region INavigationAware
@@ -122,18 +149,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            if (isShowCaseVisible)
-            {
-                this.SetShowCase();
-            }
-            else if (isPlaylistVisible)
-            {
-                this.SetPlaylist();
-            }
-            else if (isArtistInformationVisible)
-            {
-                this.SetArtistInformation();
-            }
+            this.SetNowPlaying();
         }
         #endregion
     }

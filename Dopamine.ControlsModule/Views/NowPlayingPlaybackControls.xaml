@@ -33,7 +33,8 @@
 
             <StackPanel 
                 Grid.Column="1" 
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                Visibility="{Binding HasPlaybackQueue,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <!-- Showcase button -->
                 <controls:IconMenuButton  
                 x:Name="ShowcaseButton"
