@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:IconTextButton}">
-                    <DockPanel x:Name="Panel" ToolTip="{TemplateBinding ToolTip}">
+                    <DockPanel x:Name="Panel" ToolTip="{TemplateBinding ToolTip}" Background="#00000000">
                         <TextBlock 
                                       x:Name="Icon" 
                                       DockPanel.Dock="Left"
