@@ -26,7 +26,7 @@
                     <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
                 </Border.Effect>
             </Border>
-            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" ArtistFontSize="13" ArtistFontWeight="Normal" TitleFontSize="26" TitleFontWeight="Light" AlbumFontSize="13" AlbumFontWeight="Normal" YearFontSize="13" YearFontWeight="Normal" ShowAlbumInfo="True"/>
+            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
         </StackPanel>
         <!-- Lyrics -->
         <commonviews:LyricsControl Margin="10,20,0,0"/>

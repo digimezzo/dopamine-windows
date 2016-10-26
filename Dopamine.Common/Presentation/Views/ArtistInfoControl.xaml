@@ -41,7 +41,7 @@
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="100" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                         </Border>
                     </Grid>
-                    <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,15,10,0" PanningMode="Both">
                     <StackPanel Margin="10,0,0,0">
