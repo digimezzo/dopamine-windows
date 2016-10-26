@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Lyrics}" Margin="0,0,0,5"/>
+        <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Lyrics}" Foreground="{DynamicResource RG_ForegroundBrush}" Margin="0,0,0,5"/>
         <controls:AccentTextBox VerticalContentAlignment="Top" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding Lyrics.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Lyrics.IsValueChanged}"/>
     </DockPanel>
 </UserControl>
