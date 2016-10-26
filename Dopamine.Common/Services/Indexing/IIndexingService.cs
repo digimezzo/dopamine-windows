@@ -8,6 +8,7 @@ namespace Dopamine.Common.Services.Indexing
         bool IsIndexing { get; }
         bool NeedsIndexing { get; set; }
         Task CheckCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly);
+        Task DelayedIndexCollectionAsync(int delayMilliseconds, bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false);
         Task IndexCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false);
         event EventHandler IndexingStarted;
         event EventHandler IndexingStopped;
