@@ -67,7 +67,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                this.ContentSlideInFrom = isPlayingPreviousTrack ? 30 : -30;
+                this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
                 this.ShowLyricsAsync(this.playbackService.PlayingTrack);
             };
