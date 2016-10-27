@@ -65,11 +65,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
             };
 
-            // If PlaybackService.PlayingTrack is null, nothing is shown. This is handled in ShowCoverArtAsync.
-            // If it is not nothing, the cover for the currently playing track is shown when this screen is created.
-            // If we didn't call this function here, we would have to wait until the next PlaybackService.PlaybackSuccess 
-            // before seeing any cover.
-            this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
+            this.ShowCoverArtAsync(this.playbackService.FirstQueuedTrack);
 
             // The default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
@@ -91,10 +87,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.album = new Album
             {
-                AlbumArtist = this.playbackService.PlayingTrack.AlbumArtist,
-                AlbumTitle = this.playbackService.PlayingTrack.AlbumTitle,
-                Year = this.playbackService.PlayingTrack.AlbumYear,
-                ArtworkID = this.playbackService.PlayingTrack.AlbumArtworkID,
+                AlbumArtist = trackInfo.AlbumArtist,
+                AlbumTitle = trackInfo.AlbumTitle,
+                Year = trackInfo.AlbumYear,
+                ArtworkID = trackInfo.AlbumArtworkID,
             };
 
             // The album didn't change: leave the previous covert art.
