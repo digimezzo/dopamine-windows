@@ -3,6 +3,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Settings;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Dopamine.Common.Controls
@@ -12,6 +13,7 @@ namespace Dopamine.Common.Controls
         #region Variables
         private bool oldTopMost;
         private bool hasBorder;
+        private Border accentBorder;
         #endregion
 
         #region Properties
@@ -45,6 +47,8 @@ namespace Dopamine.Common.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            this.accentBorder = (Border)GetTemplateChild("PART_AccentBorder");
 
             this.TitleBarHeight = Convert.ToInt32(Constants.DefaultWindowButtonHeight);
             this.SetWindowBorder(XmlSettingsClient.Instance.Get<bool>("Appearance", "ShowWindowBorder"));
@@ -130,27 +134,21 @@ namespace Dopamine.Common.Controls
             {
                 if (!(this.WindowState == WindowState.Maximized))
                 {
-                    this.SetBorderThickness(new Thickness(1));
+                    this.accentBorder.BorderThickness = new Thickness(1);
                 }
                 else
                 {
-                    this.SetBorderThickness(new Thickness(0));
+                    this.accentBorder.BorderThickness = new Thickness(0);
                 }
             }
             else
             {
-                this.SetBorderThickness(new Thickness(0));
+                this.accentBorder.BorderThickness = new Thickness(0);
             }
         }
         #endregion
 
         #region Private
-        private void SetBorderThickness(Thickness borderThickness)
-        {
-            this.windowBorder.BorderThickness = borderThickness;
-            this.previousBorderThickness = borderThickness;
-        }
-
         /// <summary>
         /// The Deactivate function which goes together with ActivateNow
         /// </summary>
