@@ -776,7 +776,17 @@ namespace Dopamine.Core.Database
         public void UpgradeDatabase()
         {
             // Create a copy of the database file
-            System.IO.File.Copy(this.factory.DatabaseFile, this.factory.DatabaseFile+".old");
+            try
+            {
+                string databaseFileCopy = this.factory.DatabaseFile + ".old";
+
+                if (File.Exists(databaseFileCopy)) File.Delete(databaseFileCopy);
+                File.Copy(this.factory.DatabaseFile, databaseFileCopy);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
+            }
 
             // Perform the upgrade
             MethodInfo[] methods = typeof(DbMigrator).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
