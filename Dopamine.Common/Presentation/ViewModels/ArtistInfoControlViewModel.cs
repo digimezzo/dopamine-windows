@@ -58,8 +58,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.SlideDirection = SlideDirection.LeftToRight; // Default SlideDirection
 
-            this.playbackService.PlaybackFailed += async (_, __) => await this.ShowArtistInfoAsync(null, false);
-            this.playbackService.PlaybackStopped += async (_, __) => await this.ShowArtistInfoAsync(null, false);
             this.playbackService.PlaybackSuccess += async (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = SlideDirection.LeftToRight;

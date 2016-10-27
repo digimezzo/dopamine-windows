@@ -2,11 +2,11 @@
 
 [assembly: AssemblyCompany("Digimezzo")]
 [assembly: AssemblyCopyright("Copyright Digimezzo © 2014 - 2016")]
-[assembly: AssemblyVersion("1.2.753.0")]
-[assembly: AssemblyFileVersion("1.2.753.0")]
+[assembly: AssemblyVersion("1.2.755.0")]
+[assembly: AssemblyFileVersion("1.2.755.0")]
 
 #if DEBUG
-[assembly: AssemblyInformationalVersion("1.2.753.0 Preview")]
+[assembly: AssemblyInformationalVersion("1.2.755.0 Preview")]
 #else
-[assembly: AssemblyInformationalVersion("1.2.753.0")]
+[assembly: AssemblyInformationalVersion("1.2.755.0")]
 #endif

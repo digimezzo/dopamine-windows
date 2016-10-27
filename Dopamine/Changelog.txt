@@ -1,3 +1,9 @@
+2016-10-27: Dopamine 1.2 Build 755 (Preview)
+--------------------------------------------
+
+- [Fixed] Fixed several small bugs
+
+
 2016-10-26: Dopamine 1.2 Build 753 (Preview)
 --------------------------------------------
 

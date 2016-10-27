@@ -47,10 +47,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService = playbackService;
             this.cacheService = cacheService;
 
-            this.playbackService.PlaybackFailed += (_, __) => this.ShowCoverArtAsync(null);
-            this.playbackService.PlaybackStopped += (_, __) => this.ShowCoverArtAsync(null);
-
-
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 if (isPlayingPreviousTrack)
