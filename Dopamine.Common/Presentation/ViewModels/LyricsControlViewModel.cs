@@ -59,9 +59,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.updateLyricsAfterEditingTimer.Interval = this.updateLyricsAfterEditingTimerIntervalMilliseconds;
             this.updateLyricsAfterEditingTimer.Elapsed += UpdateLyricsAfterEditingTimer_Elapsed;
 
-            this.playbackService.PlaybackFailed += (_, __) => this.ShowLyricsAsync(null);
-            this.playbackService.PlaybackStopped += (_, __) => this.ShowLyricsAsync(null);
-
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
