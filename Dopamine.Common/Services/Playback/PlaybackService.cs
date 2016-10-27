@@ -120,6 +120,19 @@ namespace Dopamine.Common.Services.Playback
             get { return this.shuffledTracks; }
         }
 
+        public TrackInfo FirstQueuedTrack
+        {
+            get {
+                if(this.shuffledTracks != null && this.shuffledTracks.Count > 0)
+                {
+                    return this.shuffledTracks.First();
+                }else
+                {
+                    return null;
+                }
+            }
+        }
+
         public TrackInfo PlayingTrack
         {
             get { return this.playingTrack; }

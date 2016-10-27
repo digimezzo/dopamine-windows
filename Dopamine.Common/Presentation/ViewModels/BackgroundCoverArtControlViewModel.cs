@@ -1,8 +1,6 @@
 ﻿using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
@@ -26,7 +24,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public BackgroundCoverArtControlViewModel(IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService) : base(playbackService, cacheService)
         {
-
             this.playbackService = playbackService;
             this.appearanceService = appearanceService;
             this.cacheService = cacheService;

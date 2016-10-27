@@ -73,11 +73,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (this.playbackService.PlayingTrack != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
             };
 
-            // If PlaybackService.PlayingTrack is null, nothing is shown. This is handled in ShowArtistInfoAsync.
-            // If it is not nothing, the cover for the currently playing track is shown when this screen is created.
-            // If we didn't call this function here, we would have to wait until the next PlaybackService.PlaybackSuccess 
-            // before seeing any artist info.
-            this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+            this.ShowArtistInfoAsync(this.playbackService.FirstQueuedTrack, true);
         }
         #endregion
 
@@ -106,7 +102,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.artist = new Artist
             {
-                ArtistName = this.playbackService.PlayingTrack.ArtistName
+                ArtistName = trackInfo.ArtistName
             };
 
             // The artist didn't change: leave the previous artist info.
@@ -119,14 +115,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmAPI.ArtistGetInfo(this.playbackService.PlayingTrack.ArtistName, true, "EN");
+                        lfmArtist = await LastfmAPI.ArtistGetInfo(trackInfo.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)

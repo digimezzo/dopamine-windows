@@ -56,11 +56,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
-            // If PlaybackService.PlayingTrack is Nothing, nothing is shown. This is handled in ShowPlaybackInfoAsync.
-            // If it is not nothing, the Plackback information for the currently playing track is shown when this screen is created.
-            // If we didn't call this function here, we would have to wait until the next playbackService.PlaybackSuccess 
-            // before seeing any Plackback information.
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
+            this.ShowPlaybackInfoAsync(this.playbackService.FirstQueuedTrack);
 
             // Default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;

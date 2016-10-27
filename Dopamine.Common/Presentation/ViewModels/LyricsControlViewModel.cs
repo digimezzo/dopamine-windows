@@ -74,7 +74,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.i18nService.LanguageChanged += (_, __) => this.ShowLyricsAsync(this.playbackService.PlayingTrack);
 
-            this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+            this.ShowLyricsAsync(this.playbackService.FirstQueuedTrack);
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
