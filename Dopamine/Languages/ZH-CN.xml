@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">启动时打开最后一次选择的页面</Text>
   <Text Key="Rating">评级</Text>
   <Text Key="Enable_Rating">启用评级</Text>
-  <Text Key="Use_Star_Rating">使用星号评级</Text>
   <Text Key="Save_Rating_In_Audio_Files">保存评级到文件 (仅限 MP3)</Text>
   <Text Key="By_Rating">按评级</Text>
   <Text Key="Day">日</Text>

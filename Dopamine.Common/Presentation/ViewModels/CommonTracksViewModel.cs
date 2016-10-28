@@ -68,7 +68,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected bool isFirstLoad = true;
         private bool isIndexing;
         private bool enableRating;
-        private bool useStarRating;
 
         // IActiveAware
         private bool isActive;
@@ -135,12 +134,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.enableRating; }
             set { SetProperty<bool>(ref this.enableRating, value); }
-        }
-
-        public bool UseStarRating
-        {
-            get { return this.useStarRating; }
-            set { SetProperty<bool>(ref this.useStarRating, value); }
         }
 
         public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
@@ -333,7 +326,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Initialize flags
             this.EnableRating = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
-            this.UseStarRating = XmlSettingsClient.Instance.Get<bool>("Behaviour", "UseStarRating");
 
             // This makes sure the IsIndexing is correct even when this ViewModel is 
             // created after the Indexer is started, and thus after triggering the 

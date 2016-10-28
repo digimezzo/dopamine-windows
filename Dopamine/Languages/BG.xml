@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Отвори последния избраната страница при стартиране</Text>
   <Text Key="Rating">Оценка</Text>
   <Text Key="Enable_Rating">Включи оценяването</Text>
-  <Text Key="Use_Star_Rating">Използвайте рейтинг звезда</Text>
   <Text Key="Save_Rating_In_Audio_Files">Запазване на рейтинга в аудио файловете (Само за MP3 )</Text>
   <Text Key="By_Rating">By rating</Text>
   <Text Key="Day">ден</Text>

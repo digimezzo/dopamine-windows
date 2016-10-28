@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>60</Value>
+      <Value>61</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -83,9 +83,6 @@
   <Namespace Name="Behaviour">
     <Setting Name="EnableRating">
       <Value>True</Value>
-    </Setting>
-    <Setting Name="UseStarRating">
-      <Value>False</Value>
     </Setting>
     <Setting Name="SaveRatingToAudioFiles">
       <Value>False</Value>

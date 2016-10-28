@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Open the last selected page at startup</Text>
   <Text Key="Rating">Rating</Text>
   <Text Key="Enable_Rating">Enable rating</Text>
-  <Text Key="Use_Star_Rating">Use star rating</Text>
   <Text Key="Save_Rating_In_Audio_Files">Save the rating in the audio files (MP3 only)</Text>
   <Text Key="By_Rating">By rating</Text>
   <Text Key="Day">day</Text>

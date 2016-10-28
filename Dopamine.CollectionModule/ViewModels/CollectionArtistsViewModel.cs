@@ -175,8 +175,6 @@ namespace Dopamine.CollectionModule.ViewModels
                 await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
             });
 
-            this.eventAggregator.GetEvent<SettingUseStarRatingChanged>().Subscribe((useStarRating) => this.UseStarRating = useStarRating);
-
             // MetadataService
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 

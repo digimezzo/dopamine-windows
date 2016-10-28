@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Відкривати останню вживану сторінку</Text>
   <Text Key="Rating">Рейтинг</Text>
   <Text Key="Enable_Rating">Увімкнути рейтинг</Text>
-  <Text Key="Use_Star_Rating">Використовувати систему оцінювання у вигляді зірочок</Text>
   <Text Key="Save_Rating_In_Audio_Files">Зберігати рейтинг у файлах (тільки MP3)</Text>
   <Text Key="By_Rating">За рейтингом</Text>
   <Text Key="Day">день</Text>

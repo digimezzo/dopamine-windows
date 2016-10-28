@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Afficher la dernière page sélectionnée au démarrage</Text>
   <Text Key="Rating">Note</Text>
   <Text Key="Enable_Rating">Activer la notation</Text>
-  <Text Key="Use_Star_Rating">Utiliser des étoiles pour noter les morceaux</Text>
   <Text Key="Save_Rating_In_Audio_Files">Sauvegarder les notes dans les fichiers audio (MP3 uniquement)</Text>
   <Text Key="By_Rating">Par note</Text>
   <Text Key="Day">jour</Text>

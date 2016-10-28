@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">En son açık olan sekmeyi aç</Text>
   <Text Key="Rating">Derecelendirme</Text>
   <Text Key="Enable_Rating">Derecelendirmeyi etkinleştir</Text>
-  <Text Key="Use_Star_Rating">Yıldızlı derecelendirmeyi kullan</Text>
   <Text Key="Save_Rating_In_Audio_Files">Derecelendirmeyi ses dosyasına ekle (Sadece MP3)</Text>
   <Text Key="By_Rating">Puana göre</Text>
   <Text Key="Day">gün</Text>
