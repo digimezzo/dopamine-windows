@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Usar la última modalidad seleccionada al iniciar Dopamine</Text>
   <Text Key="Rating">Valoración</Text>
   <Text Key="Enable_Rating">Activar valoración</Text>
-  <Text Key="Use_Star_Rating">Usar valoración de estrellas</Text>
   <Text Key="Save_Rating_In_Audio_Files">Guardar la valoración en los archivos de audio (sólo MP3)</Text>
   <Text Key="By_Rating">Por valoración</Text>
   <Text Key="Day">día</Text>

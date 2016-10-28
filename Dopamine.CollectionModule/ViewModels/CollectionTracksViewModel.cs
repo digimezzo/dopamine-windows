@@ -106,8 +106,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 this.EnableRating = enableRating;
                 this.GetVisibleColumns();
             });
-            this.eventAggregator.GetEvent<SettingUseStarRatingChanged>().Subscribe((useStarRating) => this.UseStarRating = useStarRating);
-
+            
             // MetadataService
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 

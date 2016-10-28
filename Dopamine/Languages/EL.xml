@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Άνοιγμα της πιο πρόσφατης επιλογής στην εκκίνηση</Text>
   <Text Key="Rating">Αξιολόγηση</Text>
   <Text Key="Enable_Rating">Εφαρμογή αξιολόγησης</Text>
-  <Text Key="Use_Star_Rating">Αξιολόγηση με αστέρια</Text>
   <Text Key="Save_Rating_In_Audio_Files">Αποθήκευση αξιολόγησης στα αρχεία μουσικής (μόνο MP3)</Text>
   <Text Key="By_Rating">κατά αξιολόγηση</Text>
   <Text Key="Day">ημέρα</Text>

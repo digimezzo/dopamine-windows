@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Otwórz ostatnią wybraną stronę przy uruchamianiu</Text>
   <Text Key="Rating">Ocena</Text>
   <Text Key="Enable_Rating">Włącz oceny</Text>
-  <Text Key="Use_Star_Rating">Użyj ocen w postaci gwiazdek</Text>
   <Text Key="Save_Rating_In_Audio_Files">Zapisz ocenę w plikach dźwiękowych (tylko MP3)</Text>
   <Text Key="By_Rating">Wg oceny</Text>
   <Text Key="Day">dzień</Text>

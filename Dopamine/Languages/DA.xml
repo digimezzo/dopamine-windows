@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Vis den sidste brugte side ved opstart</Text>
   <Text Key="Rating">Bedømmelse</Text>
   <Text Key="Enable_Rating">Brug bedømmelse</Text>
-  <Text Key="Use_Star_Rating">Brug stjernebedømmelse</Text>
   <Text Key="Save_Rating_In_Audio_Files">Gem bedømmelsen i lydfilerne (kun MP3)</Text>
   <Text Key="By_Rating">Bedømmelser</Text>
   <Text Key="Day">dag</Text>

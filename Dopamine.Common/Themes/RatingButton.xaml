@@ -12,10 +12,6 @@
 
     <dcconverters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <dcconverters:InvertingBooleanToCollapsedConverter x:Key="InvertingBooleanToCollapsedConverter" />
-    
-    <converters:RatingToHeartConverter x:Key="RatingToHeartConverter" />
-    <converters:RatingToHeartFillConverter x:Key="RatingToHeartFillConverter" />
-    <converters:RatingToHeartBrokenConverter x:Key="RatingToHeartBrokenConverter" />
 
     <converters:RatingToStar1Converter x:Key="RatingToStar1Converter" />
     <converters:RatingToStar2Converter x:Key="RatingToStar2Converter" />
@@ -27,9 +23,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:RatingButton}">
-                    <Grid Visibility="{Binding EnableRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
-                        <Grid.Resources>
-                            <Style x:Key="RatingButton" TargetType="{x:Type Button}">
+                    <!-- Rating -->
+                    <Button 
+                            x:Name="PART_StarRatingButton" 
+                            Visibility="{Binding EnableRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
                                 <Setter Property="OverridesDefaultStyle" Value="True" />
                                 <Setter Property="Template">
                                     <Setter.Value>
@@ -83,37 +82,26 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                        </Grid.Resources>
-                        <!-- Heart rating -->
-                        <Button Margin="5,0,0,0" x:Name="PART_HeartRatingButton" Style="{StaticResource RatingButton}" Visibility="{Binding UseStarRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                            <Grid>
-                                <TextBlock x:Name="PART_Heart" Text="&#xE006;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Opacity="0.2" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartConverter}}"/>
-                                <TextBlock x:Name="PART_HeartFill" Text="&#xE0A5;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartFillConverter}}"/>
-                                <TextBlock x:Name="PART_HeartBroken" Text="&#xE007;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Opacity="0.4" Visibility="{Binding Rating,Converter={StaticResource RatingToHeartBrokenConverter}}"/>
-                            </Grid>
-                        </Button>
-                        <!-- Star rating -->
-                        <Button x:Name="PART_StarRatingButton" Style="{StaticResource RatingButton}" Visibility="{Binding UseStarRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
-                            <Grid>
-                                <StackPanel x:Name="PART_RatingStars" Orientation="Horizontal" Panel.ZIndex="0">
-                                    <TextBlock x:Name="PART_RatingStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_RatingStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar1Converter}}"/>
-                                    <TextBlock x:Name="PART_RatingStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar2Converter}}"/>
-                                    <TextBlock x:Name="PART_RatingStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar3Converter}}"/>
-                                    <TextBlock x:Name="PART_RatingStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar4Converter}}"/>
-                                    <TextBlock x:Name="PART_RatingStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar5Converter}}"/>
-                                </StackPanel>
-                                <StackPanel x:Name="PART_AdjustmentStars" Orientation="Horizontal" Panel.ZIndex="1">
-                                    <TextBlock x:Name="PART_AdjustmentStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_AdjustmentStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_AdjustmentStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_AdjustmentStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_AdjustmentStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                    <TextBlock x:Name="PART_AdjustmentStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
-                                </StackPanel>
-                            </Grid>
-                        </Button>
-                    </Grid>
+                        </Button.Style>
+                        <Grid>
+                            <StackPanel x:Name="PART_RatingStars" Orientation="Horizontal" Panel.ZIndex="0">
+                                <TextBlock x:Name="PART_RatingStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_RatingStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar1Converter}}"/>
+                                <TextBlock x:Name="PART_RatingStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar2Converter}}"/>
+                                <TextBlock x:Name="PART_RatingStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar3Converter}}"/>
+                                <TextBlock x:Name="PART_RatingStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar4Converter}}"/>
+                                <TextBlock x:Name="PART_RatingStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}" Opacity="{Binding Rating,Converter={StaticResource RatingToStar5Converter}}"/>
+                            </StackPanel>
+                            <StackPanel x:Name="PART_AdjustmentStars" Orientation="Horizontal" Panel.ZIndex="1">
+                                <TextBlock x:Name="PART_AdjustmentStar0" Margin="0,0,0,0" Width="5" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_AdjustmentStar1" Margin="0,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_AdjustmentStar2" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_AdjustmentStar3" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_AdjustmentStar4" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                                <TextBlock x:Name="PART_AdjustmentStar5" Margin="2,0,0,0" Text="&#xE0B4;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="11" Style="{StaticResource SegoeAssets}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

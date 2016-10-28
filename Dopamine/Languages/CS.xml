@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Po spuštění otevřít naposledy použitou stránku</Text>
   <Text Key="Rating">Hodnocení</Text>
   <Text Key="Enable_Rating">Povolit hodnocení</Text>
-  <Text Key="Use_Star_Rating">Hodnocení pomocí hvězdiček</Text>
   <Text Key="Save_Rating_In_Audio_Files">Ukládat hodnocení do audio souborů (pouze MP3)</Text>
   <Text Key="By_Rating">Podle hodnocení</Text>
   <Text Key="Day">den</Text>

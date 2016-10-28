@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Toon de laatst geselecteerde pagina bij het opstarten</Text>
   <Text Key="Rating">Beoordeling</Text>
   <Text Key="Enable_Rating">Beoordeling activeren</Text>
-  <Text Key="Use_Star_Rating">Gebruik ster beoordeling</Text>
   <Text Key="Save_Rating_In_Audio_Files">Beoordeling opslaan in de audio bestanden (uitsluitend MP3)</Text>
   <Text Key="By_Rating">Per beoordeling</Text>
   <Text Key="Day">dag</Text>

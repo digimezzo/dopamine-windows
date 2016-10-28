@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Deseja abrir a última pagina seleccionada ao iniciar o Dopamine?</Text>
   <Text Key="Rating">Classificação</Text>
   <Text Key="Enable_Rating">Deseja habilitar a Classificação?</Text>
-  <Text Key="Use_Star_Rating">Deseja usar a classificação por estrelas?</Text>
   <Text Key="Save_Rating_In_Audio_Files">Deseja guardar a classificação nos ficheiros de áudio (MP3 apenas)?</Text>
   <Text Key="By_Rating">Por classificação</Text>
   <Text Key="Day">dia</Text>

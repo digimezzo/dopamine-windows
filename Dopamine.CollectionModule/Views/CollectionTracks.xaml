@@ -81,7 +81,6 @@
                             <controls:RatingButton 
                                             VerticalAlignment="Center" 
                                             EnableRating="True"
-                                            UseStarRating="{Binding DataContext.UseStarRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

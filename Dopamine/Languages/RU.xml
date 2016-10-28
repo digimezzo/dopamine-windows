@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">Открывать последнюю выбранную страницу при запуске</Text>
   <Text Key="Rating">Рейтинг</Text>
   <Text Key="Enable_Rating">Включить рейтинг</Text>
-  <Text Key="Use_Star_Rating">Использовать звёздный рейтинг</Text>
   <Text Key="Save_Rating_In_Audio_Files">Сохранять рейтинг в аудиофайлах (только для MP3)</Text>
   <Text Key="By_Rating">По рейтингу</Text>
   <Text Key="Day">день</Text>

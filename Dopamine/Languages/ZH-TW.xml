@@ -265,7 +265,6 @@
   <Text Key="Start_At_Last_Selected_Page">啟動時跳轉至最後選定的畫面</Text>
   <Text Key="Rating">評分</Text>
   <Text Key="Enable_Rating">啟用評分</Text>
-  <Text Key="Use_Star_Rating">使用星星評分</Text>
   <Text Key="Save_Rating_In_Audio_Files">儲存評分至MP3檔案</Text>
   <Text Key="By_Rating">按評分</Text>
   <Text Key="Day">日</Text>

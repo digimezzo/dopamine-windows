@@ -138,7 +138,6 @@
                                         <controls:RatingButton 
                                             VerticalAlignment="Center" 
                                             EnableRating="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                            UseStarRating="{Binding DataContext.UseStarRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock
                                                 Width="60"
@@ -241,7 +240,6 @@
                                             DockPanel.Dock="Right" 
                                             Margin="0,0,2,0" 
                                             EnableRating="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                            UseStarRating="{Binding DataContext.UseStarRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock Text="{Binding ArtistName}"
                                                VerticalAlignment="Center"
