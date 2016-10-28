@@ -52,7 +52,7 @@ namespace Dopamine
 
         private void ExecuteStartup()
         {
-            LogClient.Instance.Logger.Info("### STARTING {0}, version {1}, IsPortable = {2} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, XmlSettingsClient.Instance.Get<bool>("Application", "IsPortable"));
+            LogClient.Instance.Logger.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, XmlSettingsClient.Instance.Get<bool>("Application", "IsPortable"), Environment.OSVersion.VersionString);
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
