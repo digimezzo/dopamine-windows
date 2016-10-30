@@ -21,7 +21,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="data"></param>
         /// <param name="useHttps"></param>
         /// <returns></returns>
-        private static async Task<string> PerformPostRequest(string method, NameValueCollection data, bool useHttps)
+        private static async Task<string> PerformPostRequestAsync(string method, NameValueCollection data, bool useHttps)
         {
             string prefix = "http";
             if (useHttps) prefix = "https";
@@ -46,7 +46,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="data"></param>
         /// <param name="useHttps"></param>
         /// <returns></returns>
-        private static async Task<string> PerformGetRequest(string method, NameValueCollection data, bool useHttps)
+        private static async Task<string> PerformGetRequestAsync(string method, NameValueCollection data, bool useHttps)
         {
             string prefix = "http";
             if (useHttps) prefix = "https";
@@ -122,7 +122,7 @@ namespace Dopamine.Core.API.Lastfm
 
             data["api_sig"] = GenerateSignature(data, method);
 
-            string result = await PerformPostRequest(method, data, true);
+            string result = await PerformPostRequestAsync(method, data, true);
 
             // If the status of the result is ok, get the session key.
             string sessionKey = string.Empty;
@@ -157,7 +157,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <returns></returns>
         public static async Task<bool> TrackScrobble(string sessionKey, string artist, string trackTitle, string albumTitle, DateTime playbackStartTime)
         {
-            bool isScrobbleSuccess = false;
+            bool isSuccess = false;
 
             string method = "track.scrobble";
 
@@ -172,7 +172,7 @@ namespace Dopamine.Core.API.Lastfm
 
             data["api_sig"] = GenerateSignature(data, method);
 
-            string result = await PerformPostRequest(method, data, false);
+            string result = await PerformPostRequestAsync(method, data, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -184,10 +184,10 @@ namespace Dopamine.Core.API.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If Status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isScrobbleSuccess = true;
+                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
             }
 
-            return isScrobbleSuccess;
+            return isSuccess;
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Dopamine.Core.API.Lastfm
         /// <returns></returns>
         public static async Task<bool> TrackUpdateNowPlaying(string sessionKey, string artist, string trackTitle, string albumTitle)
         {
-            bool isUpdateNowPlayingSuccess = false;
+            bool isSuccess = false;
 
             string method = "track.updateNowPlaying";
 
@@ -214,7 +214,7 @@ namespace Dopamine.Core.API.Lastfm
 
             data["api_sig"] = GenerateSignature(data, method);
 
-            string result = await PerformPostRequest(method, data, false);
+            string result = await PerformPostRequestAsync(method, data, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -226,10 +226,10 @@ namespace Dopamine.Core.API.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If the status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isUpdateNowPlayingSuccess = true;
+                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
             }
 
-            return isUpdateNowPlayingSuccess;
+            return isSuccess;
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Dopamine.Core.API.Lastfm
             data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
 
-            string result = await PerformGetRequest(method, data, false);
+            string result = await PerformGetRequestAsync(method, data, false);
 
             var lfmArtist = new LastFmArtist();
 
@@ -335,7 +335,7 @@ namespace Dopamine.Core.API.Lastfm
             data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
             data["api_key"] = SensitiveInformation.LastfmApiKey;
 
-            string result = await PerformGetRequest(method, data, false);
+            string result = await PerformGetRequestAsync(method, data, false);
 
             var lfmAlbum = new LastFmAlbum();
 
@@ -383,6 +383,103 @@ namespace Dopamine.Core.API.Lastfm
             }
             return lfmAlbum;
         }
+
+        /// <summary>
+        /// Love a track for a user profile
+        /// </summary>
+        /// <param name="sessionKey"></param>
+        /// <param name="artist"></param>
+        /// <param name="trackTitle"></param>
+        /// <returns></returns>
+        public static async Task<bool> TrackLove(string sessionKey, string artist, string trackTitle)
+        {
+            bool isSuccess = false;
+
+            string method = "track.love";
+
+            var data = new NameValueCollection();
+
+            data["track"] = trackTitle;
+            data["artist"] = artist;
+            data["api_key"] = SensitiveInformation.LastfmApiKey;
+            data["sk"] = sessionKey;
+
+            data["api_sig"] = GenerateSignature(data, method);
+
+            string result = await PerformPostRequestAsync(method, data, false);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                // http://www.last.fm/api/show/track.love
+                var resultXml = XDocument.Parse(result);
+
+                // Status
+                string lfmStatus = (from t in resultXml.Elements("lfm")
+                                    select t.Attribute("status").Value).FirstOrDefault();
+
+                // If Status is ok, return true.
+                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// Unlove a track for a user profile
+        /// </summary>
+        /// <param name="sessionKey"></param>
+        /// <param name="artist"></param>
+        /// <param name="trackTitle"></param>
+        /// <returns></returns>
+        public static async Task<bool> TrackUnlove(string sessionKey, string artist, string trackTitle)
+        {
+            bool isSuccess = false;
+
+            string method = "track.unlove";
+
+            var data = new NameValueCollection();
+
+            data["artist"] = artist;
+            data["track"] = trackTitle;
+            data["api_key"] = SensitiveInformation.LastfmApiKey;
+            data["sk"] = sessionKey;
+
+            data["api_sig"] = GenerateSignature(data, method);
+
+            string result = await PerformPostRequestAsync(method, data, false);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                // http://www.last.fm/api/show/track.unlove
+                var resultXml = XDocument.Parse(result);
+
+                // Status
+                string lfmStatus = (from t in resultXml.Elements("lfm")
+                                    select t.Attribute("status").Value).FirstOrDefault();
+
+                // If Status is ok, return true.
+                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+            }
+
+            return isSuccess;
+        }
+
+        //public static async Task<List<LastFmTrack>> UserGetLovedTracks(string username)
+        //{
+        //    string method = "user.getLovedTracks";
+
+        //    var data = new NameValueCollection();
+
+        //    data["user"] = username;
+        //    data["api_key"] = SensitiveInformation.LastfmApiKey;
+
+        //    string result = await PerformGetRequest(method, data, false);
+
+        //    if (!string.IsNullOrEmpty(result))
+        //    {
+        //        // TODO parse result
+        //    }
+        //}
         #endregion
     }
 }

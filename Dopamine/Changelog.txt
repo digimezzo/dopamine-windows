@@ -1,7 +1,7 @@
-2016-10-27: Dopamine 1.2 Build 755 (Preview)
+2016-10-29: Dopamine 1.2 Build 756 (Preview)
 --------------------------------------------
 
-- [Fixed] Fixed several small bugs
+- [Fixed] Fixed "Follow the Windows color". It was broken since version 1.1.
 
 
 2016-10-26: Dopamine 1.2 Build 753 (Preview)
