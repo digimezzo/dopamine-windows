@@ -69,7 +69,7 @@ namespace Dopamine.Tests
         public async Task TrackUnloveTest()
         {
             string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
-            bool isSuccess = await LastfmAPI.TrackUnlove(sessionKey, "Coldplay", "Viva La Vida");
+            bool isSuccess = await LastfmAPI.TrackUnlove(sessionKey, "Madonna", "Like a Virgin");
 
             Assert.IsTrue(isSuccess);
         }

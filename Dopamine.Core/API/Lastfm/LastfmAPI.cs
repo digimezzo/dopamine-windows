@@ -2,10 +2,8 @@
 using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -13,6 +11,8 @@ namespace Dopamine.Core.API.Lastfm
 {
     public static class LastfmAPI
     {
+        private const string apiRootFormat = "{0}://ws.audioscrobbler.com/2.0/?method={1}";
+
         #region Private
         /// <summary>
         /// Performs a POST request over HTTP or HTTPS
@@ -21,19 +21,17 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="data"></param>
         /// <param name="useHttps"></param>
         /// <returns></returns>
-        private static async Task<string> PerformPostRequestAsync(string method, NameValueCollection data, bool useHttps)
+        private static async Task<string> PerformPostRequestAsync(string method, IEnumerable<KeyValuePair<string, string>> parameters, bool isSecure)
         {
-            string prefix = "http";
-            if (useHttps) prefix = "https";
-
+            string protocol = isSecure ? "https" : "http";
             string result = string.Empty;
+            string url = Uri.EscapeUriString(string.Format(apiRootFormat, protocol, method));
 
-            string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?method={1}", prefix, method));
-
-            using (var client = new WebClient())
+            using (var client = new HttpClient())
             {
-                byte[] responseBytes = await client.UploadValuesTaskAsync(url, "POST", data);
-                result = Encoding.UTF8.GetString(responseBytes);
+                client.DefaultRequestHeaders.ExpectContinue = false;
+                var response = await client.PostAsync(url, new FormUrlEncodedContent(parameters));
+                result = await response.Content.ReadAsStringAsync();
             }
 
             return result;
@@ -46,29 +44,25 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="data"></param>
         /// <param name="useHttps"></param>
         /// <returns></returns>
-        private static async Task<string> PerformGetRequestAsync(string method, NameValueCollection data, bool useHttps)
+        private static async Task<string> PerformGetRequestAsync(string method, IEnumerable<KeyValuePair<string, string>> parameters, bool isSecure)
         {
-            string prefix = "http";
-            if (useHttps) prefix = "https";
-
+            string protocol = isSecure ? "https" : "http";
             string result = string.Empty;
-
             var dataList = new List<string>();
 
             // Add everything to the list
-            foreach (string key in data)
+            foreach (KeyValuePair<string, string> parameter in parameters)
             {
-                dataList.Add(string.Format("{0}={1}", key, data[key]));
+                dataList.Add(string.Format("{0}={1}", parameter.Key, parameter.Value));
             }
 
-            dataList.Add("method=" + method);
+            string url = Uri.EscapeUriString(string.Format(apiRootFormat + "&{2}", protocol, method, string.Join("&", dataList.ToArray())));
 
-            string url = Uri.EscapeUriString(string.Format("{0}://ws.audioscrobbler.com/2.0/?{1}", prefix, string.Join("&", dataList.ToArray())));
-
-            using (var client = new WebClient())
+            using (var client = new HttpClient())
             {
-                byte[] responseBytes = await client.DownloadDataTaskAsync(url);
-                result = Encoding.UTF8.GetString(responseBytes);
+                client.DefaultRequestHeaders.ExpectContinue = false;
+                var response = await client.GetAsync(url);
+                result = await response.Content.ReadAsStringAsync();
             }
 
             return result;
@@ -80,14 +74,14 @@ namespace Dopamine.Core.API.Lastfm
         /// <param name="data"></param>
         /// <param name="method"></param>
         /// <returns>API method signature</returns>
-        private static string GenerateSignature(NameValueCollection data, string method)
+        private static string GenerateMethodSignature(IEnumerable<KeyValuePair<string, string>> parameters, string method)
         {
             var alphabeticalList = new List<string>();
 
             // Add everything to the list
-            foreach (string key in data)
+            foreach (KeyValuePair<string, string> parameter in parameters)
             {
-                alphabeticalList.Add(string.Format("{0}{1}", key, data[key]));
+                alphabeticalList.Add(string.Format("{0}{1}", parameter.Key, parameter.Value));
             }
 
             alphabeticalList.Add("method" + method);
@@ -97,10 +91,10 @@ namespace Dopamine.Core.API.Lastfm
 
 
             // Join all parts of the list alphabetically and append API secret
-            string signatureString = string.Format("{0}{1}", string.Join("", alphabeticalList.ToArray()), SensitiveInformation.LastfmSharedSecret);
+            string signature = string.Format("{0}{1}", string.Join("", alphabeticalList.ToArray()), SensitiveInformation.LastfmSharedSecret);
 
             // Create MD5 hash and return that
-            return CryptographyUtils.MD5Hash(signatureString);
+            return CryptographyUtils.MD5Hash(signature);
         }
         #endregion
 
@@ -115,14 +109,17 @@ namespace Dopamine.Core.API.Lastfm
         {
             string method = "auth.getMobileSession";
 
-            var data = new NameValueCollection();
-            data["username"] = username;
-            data["password"] = password;
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
+            var parameters = new Dictionary<string, string>();
 
-            data["api_sig"] = GenerateSignature(data, method);
+            parameters.Add("method", method);
+            parameters.Add("username", username);
+            parameters.Add("password", password);
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
 
-            string result = await PerformPostRequestAsync(method, data, true);
+            string apiSig = GenerateMethodSignature(parameters, method);
+            parameters.Add("api_sig", apiSig);
+
+            string result = await PerformPostRequestAsync(method, parameters, true);
 
             // If the status of the result is ok, get the session key.
             string sessionKey = string.Empty;
@@ -161,18 +158,20 @@ namespace Dopamine.Core.API.Lastfm
 
             string method = "track.scrobble";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            data["artist"] = artist;
-            data["track"] = trackTitle;
-            if (!string.IsNullOrEmpty(albumTitle)) data["album"] = albumTitle;
-            data["timestamp"] = DateTimeUtils.ConvertToUnixTime(playbackStartTime).ToString();
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
-            data["sk"] = sessionKey;
+            parameters.Add("method", method);
+            parameters.Add("artist", artist);
+            parameters.Add("track", trackTitle);
+            if (!string.IsNullOrEmpty(albumTitle)) parameters.Add("album", albumTitle);
+            parameters.Add("timestamp", DateTimeUtils.ConvertToUnixTime(playbackStartTime).ToString());
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
+            parameters.Add("sk", sessionKey);
 
-            data["api_sig"] = GenerateSignature(data, method);
+            string apiSig = GenerateMethodSignature(parameters, method);
+            parameters.Add("api_sig", apiSig);
 
-            string result = await PerformPostRequestAsync(method, data, false);
+            string result = await PerformPostRequestAsync(method, parameters, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -204,17 +203,19 @@ namespace Dopamine.Core.API.Lastfm
 
             string method = "track.updateNowPlaying";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            data["artist"] = artist;
-            data["track"] = trackTitle;
-            if (!string.IsNullOrEmpty(albumTitle)) data["album"] = albumTitle;
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
-            data["sk"] = sessionKey;
+            parameters.Add("method", method);
+            parameters.Add("artist", artist);
+            parameters.Add("track", trackTitle);
+            if (!string.IsNullOrEmpty(albumTitle)) parameters.Add("album", albumTitle);
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
+            parameters.Add("sk", sessionKey);
 
-            data["api_sig"] = GenerateSignature(data, method);
+            string apiSig = GenerateMethodSignature(parameters, method);
+            parameters.Add("api_sig", apiSig);
 
-            string result = await PerformPostRequestAsync(method, data, false);
+            string result = await PerformPostRequestAsync(method, parameters, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -241,14 +242,15 @@ namespace Dopamine.Core.API.Lastfm
         {
             string method = "artist.getInfo";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
-            data["artist"] = artist;
-            data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
+            parameters.Add("method", method);
+            if (!string.IsNullOrEmpty(languageCode)) parameters.Add("lang", languageCode);
+            parameters.Add("artist", artist);
+            parameters.Add("autocorrect", autoCorrect ? "1" : "0"); // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
 
-            string result = await PerformGetRequestAsync(method, data, false);
+            string result = await PerformGetRequestAsync(method, parameters, false);
 
             var lfmArtist = new LastFmArtist();
 
@@ -327,15 +329,16 @@ namespace Dopamine.Core.API.Lastfm
         {
             string method = "album.getInfo";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            if (!string.IsNullOrEmpty(languageCode)) data["lang"] = languageCode;
-            data["artist"] = artist;
-            data["album"] = album;
-            data["autocorrect"] = autoCorrect ? "1" : "0"; // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
+            parameters.Add("method", method);
+            if (!string.IsNullOrEmpty(languageCode)) parameters.Add("lang", languageCode);
+            parameters.Add("artist", artist);
+            parameters.Add("album", album);
+            parameters.Add("autocorrect", autoCorrect ? "1" : "0"); // 1 = transform misspelled artist names into correct artist names, returning the correct version instead. The corrected artist name will be returned in the response.
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
 
-            string result = await PerformGetRequestAsync(method, data, false);
+            string result = await PerformGetRequestAsync(method, parameters, false);
 
             var lfmAlbum = new LastFmAlbum();
 
@@ -397,16 +400,18 @@ namespace Dopamine.Core.API.Lastfm
 
             string method = "track.love";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            data["track"] = trackTitle;
-            data["artist"] = artist;
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
-            data["sk"] = sessionKey;
+            parameters.Add("method", method);
+            parameters.Add("track", trackTitle);
+            parameters.Add("artist", artist);
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
+            parameters.Add("sk", sessionKey);
 
-            data["api_sig"] = GenerateSignature(data, method);
+            string apiSig = GenerateMethodSignature(parameters, method);
+            parameters.Add("api_sig", apiSig);
 
-            string result = await PerformPostRequestAsync(method, data, false);
+            string result = await PerformPostRequestAsync(method, parameters, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -437,16 +442,18 @@ namespace Dopamine.Core.API.Lastfm
 
             string method = "track.unlove";
 
-            var data = new NameValueCollection();
+            var parameters = new Dictionary<string, string>();
 
-            data["artist"] = artist;
-            data["track"] = trackTitle;
-            data["api_key"] = SensitiveInformation.LastfmApiKey;
-            data["sk"] = sessionKey;
+            parameters.Add("method", method);
+            parameters.Add("artist", artist);
+            parameters.Add("track", trackTitle);
+            parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
+            parameters.Add("sk", sessionKey);
 
-            data["api_sig"] = GenerateSignature(data, method);
+            string apiSig = GenerateMethodSignature(parameters, method);
+            parameters.Add("api_sig", apiSig);
 
-            string result = await PerformPostRequestAsync(method, data, false);
+            string result = await PerformPostRequestAsync(method, parameters, false);
 
             if (!string.IsNullOrEmpty(result))
             {
