@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dopamine.Core.API.Lastfm
+namespace Dopamine.Core.Api.Lastfm
 {
     public class LastFmBiography
     {

@@ -1,7 +1,7 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.API.Lastfm;
+using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -113,14 +113,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmArtist lfmArtist = await LastfmAPI.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                LastFmArtist lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmAPI.ArtistGetInfo(trackInfo.ArtistName, true, "EN");
+                        lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)
