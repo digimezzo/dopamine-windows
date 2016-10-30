@@ -238,7 +238,7 @@ namespace Dopamine.Core.Api.Lastfm
         /// </summary>
         /// <param name="artist"></param>
         /// <returns></returns>
-        public static async Task<LastFmArtist> ArtistGetInfo(string artist, bool autoCorrect, string languageCode)
+        public static async Task<Artist> ArtistGetInfo(string artist, bool autoCorrect, string languageCode)
         {
             string method = "artist.getInfo";
 
@@ -252,7 +252,7 @@ namespace Dopamine.Core.Api.Lastfm
 
             string result = await PerformGetRequestAsync(method, parameters, false);
 
-            var lfmArtist = new LastFmArtist();
+            var lfmArtist = new Artist();
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -294,7 +294,7 @@ namespace Dopamine.Core.Api.Lastfm
 
                 // SimilarArtists
                 lfmArtist.SimilarArtists = (from t in resultXml.Element("lfm").Element("artist").Element("similar").Elements("artist")
-                                            select new LastFmArtist
+                                            select new Artist
                                             {
                                                 Name = t.Descendants("name").FirstOrDefault().Value,
                                                 Url = t.Descendants("url").FirstOrDefault().Value,
@@ -307,7 +307,7 @@ namespace Dopamine.Core.Api.Lastfm
 
                 // Biography
                 lfmArtist.Biography = (from t in resultXml.Element("lfm").Element("artist").Elements("bio")
-                                       select new LastFmBiography
+                                       select new Biography
                                        {
                                            Published = t.Descendants("published").FirstOrDefault().Value,
                                            Summary = t.Descendants("summary").FirstOrDefault().Value,
@@ -325,7 +325,7 @@ namespace Dopamine.Core.Api.Lastfm
         /// <param name="album"></param>
         /// <param name="languageCode"></param>
         /// <returns></returns>
-        public static async Task<LastFmAlbum> AlbumGetInfo(string artist, string album, bool autoCorrect, string languageCode)
+        public static async Task<Album> AlbumGetInfo(string artist, string album, bool autoCorrect, string languageCode)
         {
             string method = "album.getInfo";
 
@@ -340,7 +340,7 @@ namespace Dopamine.Core.Api.Lastfm
 
             string result = await PerformGetRequestAsync(method, parameters, false);
 
-            var lfmAlbum = new LastFmAlbum();
+            var lfmAlbum = new Album();
 
             if (!string.IsNullOrEmpty(result))
             {

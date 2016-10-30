@@ -11,7 +11,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class ArtistInfoViewModel : BindableBase
     {
         #region Variables
-        private LastFmArtist lfmArtist;
+        private Artist lfmArtist;
         private ObservableCollection<SimilarArtistViewModel> similarArtists;
         private ICacheService cacheService;
         private string image;
@@ -42,7 +42,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
         }
 
-        public async Task SetLastFmArtistAsync(LastFmArtist lfmArtist)
+        public async Task SetLastFmArtistAsync(Artist lfmArtist)
         {
             this.lfmArtist = lfmArtist;
 
@@ -105,7 +105,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public LastFmBiography Biography
+        public Biography Biography
         {
             get
             {
@@ -144,7 +144,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
 
-                    foreach (LastFmArtist similarArtist in lfmArtist.SimilarArtists)
+                    foreach (Artist similarArtist in lfmArtist.SimilarArtists)
                     {
                         localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url });
                     }

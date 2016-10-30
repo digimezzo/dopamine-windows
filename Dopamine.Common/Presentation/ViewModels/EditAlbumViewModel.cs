@@ -4,17 +4,13 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
-using Dopamine.Core.Database.Entities;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -24,7 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool isBusy;
-        private Album album;
+        private Core.Database.Entities.Album album;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
@@ -60,10 +56,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<MetadataArtworkValue>(ref this.artwork, value); }
         }
 
-        public Album Album
+        public Core.Database.Entities.Album Album
         {
             get { return this.album; }
-            set { SetProperty<Album>(ref this.album, value); }
+            set { base.SetProperty(ref this.album, value); }
         }
 
         public bool UpdateFileArtwork
@@ -87,7 +83,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditAlbumViewModel(Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
+        public EditAlbumViewModel(Core.Database.Entities.Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
         {
             this.Album = album;
             this.metadataService = metadataService;
@@ -116,7 +112,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             await Task.Run(() =>
             {
-                string artworkPath = this.cacheService.GetCachedArtworkPath(this.Album.ArtworkID);
+                string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
 
                 try
                 {
@@ -132,7 +128,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occurred while getting the artwork for album with title='{0}' and artist='{1}'. Exception: {2}", this.Album.AlbumTitle, this.Album.AlbumArtist, ex.Message);
+                    LogClient.Instance.Logger.Error("An error occurred while getting the artwork for album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
                 }
             });
         }
@@ -172,7 +168,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmAlbum lfmAlbum = await LastfmApi.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
+                Core.Api.Lastfm.Album lfmAlbum = await LastfmApi.AlbumGetInfo((string)this.Album.AlbumArtist, (string)this.Album.AlbumTitle, false, "EN");
                 byte[] artworkData = null;
 
                 if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
@@ -187,7 +183,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occurred while downloading artwork for the album with title='{0}' and artist='{1}'. Exception: {2}", this.Album.AlbumTitle, this.Album.AlbumArtist, ex.Message);
+                LogClient.Instance.Logger.Error("An error occurred while downloading artwork for the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
             }
 
             this.IsBusy = false;
@@ -201,11 +197,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                await this.metadataService.UpdateAlbumAsync(this.Album, this.Artwork, this.UpdateFileArtwork);
+                await this.metadataService.UpdateAlbumAsync((Core.Database.Entities.Album)this.Album, this.Artwork, this.UpdateFileArtwork);
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", this.Album.AlbumTitle, this.Album.AlbumArtist, ex.Message);
+                LogClient.Instance.Logger.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
             }
 
             this.IsBusy = false;
