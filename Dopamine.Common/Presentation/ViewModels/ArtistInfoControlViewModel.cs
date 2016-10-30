@@ -22,8 +22,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private Artist previousArtist;
-        private Artist artist;
+        private Core.Database.Entities.Artist previousArtist;
+        private Core.Database.Entities.Artist artist;
         private SlideDirection slideDirection;
         private bool isBusy;
         #endregion
@@ -92,13 +92,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new LastFmArtist { Name = Defaults.UnknownArtistString });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;
             }
 
-            this.artist = new Artist
+            this.artist = new Core.Database.Entities.Artist
             {
                 ArtistName = trackInfo.ArtistName
             };
@@ -113,7 +113,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmArtist lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
