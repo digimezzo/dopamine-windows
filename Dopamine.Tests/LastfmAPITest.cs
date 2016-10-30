@@ -9,8 +9,10 @@ namespace Dopamine.Tests
     [TestClass]
     public class LastfmAPITest
     {
-        private string username = "<username>";
-        private string password = "<password>";
+        //private string username = "<username>";
+        //private string password = "<password>";
+        private string username = "digimezzo";
+        private string password = "$$trustno1";
 
         [TestMethod()]
         public async Task AuthenticationTest()
@@ -24,18 +26,18 @@ namespace Dopamine.Tests
         public async Task UpdateNowPlayingTest()
         {
             string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
-            bool isUpdateNowPlayingSuccess = await LastfmAPI.TrackUpdateNowPlaying(sessionKey, "Jetta", "I'd Love to Change the World", "");
+            bool isSuccess = await LastfmAPI.TrackUpdateNowPlaying(sessionKey, "Jetta", "I'd Love to Change the World", "");
 
-            Assert.IsTrue(isUpdateNowPlayingSuccess);
+            Assert.IsTrue(isSuccess);
         }
 
         [TestMethod()]
         public async Task ScrobbleTest()
         {
             string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
-            bool isScrobbleSuccess = await LastfmAPI.TrackScrobble(sessionKey, "Coldplay", "Viva La Vida", "", DateTime.Now);
+            bool isSuccess = await LastfmAPI.TrackScrobble(sessionKey, "Coldplay", "Viva La Vida", "", DateTime.Now);
 
-            Assert.IsTrue(isScrobbleSuccess);
+            Assert.IsTrue(isSuccess);
        } 
 
         [TestMethod()]
@@ -52,6 +54,24 @@ namespace Dopamine.Tests
             LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends",false, string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmAlbum.Name) & !string.IsNullOrEmpty(lfmAlbum.Url));
+        }
+
+        [TestMethod()]
+        public async Task TrackLoveTest()
+        {
+            string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
+            bool isSuccess = await LastfmAPI.TrackLove(sessionKey, "Madonna", "Like a Virgin");
+
+            Assert.IsTrue(isSuccess);
+        }
+
+        [TestMethod()]
+        public async Task TrackUnloveTest()
+        {
+            string sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
+            bool isSuccess = await LastfmAPI.TrackUnlove(sessionKey, "Coldplay", "Viva La Vida");
+
+            Assert.IsTrue(isSuccess);
         }
     }
 }
