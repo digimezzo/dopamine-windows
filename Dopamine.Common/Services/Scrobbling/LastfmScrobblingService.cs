@@ -2,7 +2,7 @@
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Settings;
 using System.Threading.Tasks;
-using Dopamine.Core.API.Lastfm;
+using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Base;
 
@@ -116,7 +116,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
-                    bool isSuccess = await LastfmAPI.TrackUpdateNowPlaying(this.sessionKey, artist, trackTitle, albumTitle);
+                    bool isSuccess = await LastfmApi.TrackUpdateNowPlaying(this.sessionKey, artist, trackTitle, albumTitle);
 
                     if (isSuccess)
                     {
@@ -152,7 +152,7 @@ namespace Dopamine.Common.Services.Scrobbling
                         {
                             this.canScrobble = false;
 
-                            bool isSuccess = await LastfmAPI.TrackScrobble(this.sessionKey, artist, trackTitle, albumTitle, this.trackStartTime);
+                            bool isSuccess = await LastfmApi.TrackScrobble(this.sessionKey, artist, trackTitle, albumTitle, this.trackStartTime);
 
                             if (isSuccess)
                             {
@@ -172,7 +172,7 @@ namespace Dopamine.Common.Services.Scrobbling
         {
             try
             {
-                this.sessionKey = await LastfmAPI.GetMobileSession(this.username, this.password);
+                this.sessionKey = await LastfmApi.GetMobileSession(this.username, this.password);
 
                 if (!string.IsNullOrEmpty(this.sessionKey))
                 {

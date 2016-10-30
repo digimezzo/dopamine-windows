@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.API.Lastfm;
+﻿using Dopamine.Core.Api.Lastfm;
 using Prism.Mvvm;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;

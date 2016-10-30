@@ -138,11 +138,10 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="API\Lastfm\LastFmAlbum.cs" />
-    <Compile Include="API\Lastfm\LastfmAPI.cs" />
-    <Compile Include="API\Lastfm\LastFmArtist.cs" />
-    <Compile Include="API\Lastfm\LastFmBiography.cs" />
-    <Compile Include="API\Lastfm\LastFmTrack.cs" />
+    <Compile Include="Api\Lastfm\LastFmAlbum.cs" />
+    <Compile Include="Api\Lastfm\LastfmApi.cs" />
+    <Compile Include="Api\Lastfm\LastFmArtist.cs" />
+    <Compile Include="Api\Lastfm\LastFmBiography.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />

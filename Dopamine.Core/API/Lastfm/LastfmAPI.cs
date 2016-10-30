@@ -7,9 +7,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Dopamine.Core.API.Lastfm
+namespace Dopamine.Core.Api.Lastfm
 {
-    public static class LastfmAPI
+    public static class LastfmApi
     {
         private const string apiRootFormat = "{0}://ws.audioscrobbler.com/2.0/?method={1}";
 
@@ -470,23 +470,6 @@ namespace Dopamine.Core.API.Lastfm
 
             return isSuccess;
         }
-
-        //public static async Task<List<LastFmTrack>> UserGetLovedTracks(string username)
-        //{
-        //    string method = "user.getLovedTracks";
-
-        //    var data = new NameValueCollection();
-
-        //    data["user"] = username;
-        //    data["api_key"] = SensitiveInformation.LastfmApiKey;
-
-        //    string result = await PerformGetRequest(method, data, false);
-
-        //    if (!string.IsNullOrEmpty(result))
-        //    {
-        //        // TODO parse result
-        //    }
-        //}
         #endregion
     }
 }

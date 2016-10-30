@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dopamine.Core.API.Lastfm
+namespace Dopamine.Core.Api.Lastfm
 {
     public class LastFmAlbum
     {

@@ -2,7 +2,7 @@
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.API.Lastfm;
+using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.IO;
@@ -172,7 +172,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                LastFmAlbum lfmAlbum = await LastfmAPI.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
+                LastFmAlbum lfmAlbum = await LastfmApi.AlbumGetInfo(this.Album.AlbumArtist, this.Album.AlbumTitle, false, "EN");
                 byte[] artworkData = null;
 
                 if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
