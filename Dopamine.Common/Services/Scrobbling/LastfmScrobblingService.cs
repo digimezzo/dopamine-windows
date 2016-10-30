@@ -102,7 +102,9 @@ namespace Dopamine.Common.Services.Scrobbling
                 this.signInState = SignInState.SignedOut;
             }
         }
+        #endregion
 
+        #region Private
         private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
             if (this.SignInState == SignInState.SignedIn && this.isEnabled)
@@ -167,7 +169,9 @@ namespace Dopamine.Common.Services.Scrobbling
                 }
             }
         }
+        #endregion
 
+        #region Public
         public async Task SignIn()
         {
             try
