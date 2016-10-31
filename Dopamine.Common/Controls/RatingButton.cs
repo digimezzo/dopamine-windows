@@ -8,7 +8,7 @@ namespace Dopamine.Common.Controls
     public class RatingButton : Control
     {
         #region Variables
-        private Button starRatingButton;
+        private Button ratingButton;
         private StackPanel ratingStars;
         private StackPanel adjustmentStars;
         private TextBlock adjustmentStar0;
@@ -20,12 +20,6 @@ namespace Dopamine.Common.Controls
         #endregion
 
         #region Properties
-        public bool EnableRating
-        {
-            get { return Convert.ToBoolean(GetValue(EnableRatingProperty)); }
-            set { SetValue(EnableRatingProperty, value); }
-        }
-
         public int Rating
         {
             get { return Convert.ToInt32(GetValue(RatingProperty)); }
@@ -34,7 +28,6 @@ namespace Dopamine.Common.Controls
         #endregion
 
         #region Dependency Properties
-        public static readonly DependencyProperty EnableRatingProperty = DependencyProperty.Register("EnableRating", typeof(bool), typeof(RatingButton), new PropertyMetadata(null));
         public static readonly DependencyProperty RatingProperty = DependencyProperty.Register("Rating", typeof(int), typeof(RatingButton), new PropertyMetadata(null));
         #endregion
 
@@ -52,7 +45,7 @@ namespace Dopamine.Common.Controls
         {
             base.OnApplyTemplate();
 
-            this.starRatingButton = (Button)GetTemplateChild("PART_StarRatingButton");
+            this.ratingButton = (Button)GetTemplateChild("PART_RatingButton");
 
             this.ratingStars = (StackPanel)GetTemplateChild("PART_RatingStars");
             this.adjustmentStars = (StackPanel)GetTemplateChild("PART_AdjustmentStars");
@@ -64,12 +57,12 @@ namespace Dopamine.Common.Controls
             this.adjustmentStar4 = (TextBlock)GetTemplateChild("PART_AdjustmentStar4");
             this.adjustmentStar5 = (TextBlock)GetTemplateChild("PART_AdjustmentStar5");
 
-            if (this.starRatingButton != null)
+            if (this.ratingButton != null)
             {
-                this.starRatingButton.Click += StarRatingButton_Click;
-                this.starRatingButton.MouseEnter += StarRatingButton_MouseEnter;
-                this.starRatingButton.MouseLeave += StarRatingButton_MouseLeave;
-                this.starRatingButton.PreviewMouseDoubleClick += StarRatingButton_PreviewMouseDoubleClick;
+                this.ratingButton.Click += RatingButton_Click;
+                this.ratingButton.MouseEnter += RatingButton_MouseEnter;
+                this.ratingButton.MouseLeave += RatingButton_MouseLeave;
+                this.ratingButton.PreviewMouseDoubleClick += RatingButton_PreviewMouseDoubleClick;
             }
 
             if (this.adjustmentStar0 != null)
@@ -108,25 +101,25 @@ namespace Dopamine.Common.Controls
         #endregion
 
         #region Event Handlers
-        private void StarRatingButton_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void RatingButton_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // This prevents other double click actions while rating, like playing the selected song.
             e.Handled = true;
         }
 
-        private void StarRatingButton_MouseEnter(object sender, MouseEventArgs e)
+        private void RatingButton_MouseEnter(object sender, MouseEventArgs e)
         {
             this.ratingStars.Visibility = Visibility.Hidden;
             this.adjustmentStars.Visibility = Visibility.Visible;
         }
 
-        private void StarRatingButton_MouseLeave(object sender, MouseEventArgs e)
+        private void RatingButton_MouseLeave(object sender, MouseEventArgs e)
         {
             this.ratingStars.Visibility = Visibility.Visible;
             this.adjustmentStars.Visibility = Visibility.Hidden;
         }
 
-        private void StarRatingButton_Click(object sender, RoutedEventArgs e)
+        private void RatingButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.adjustmentStar0.IsMouseOver)
             {

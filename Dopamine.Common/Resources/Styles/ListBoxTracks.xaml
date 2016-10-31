@@ -137,7 +137,7 @@
                                                 VerticalAlignment="Center"/>
                                         <controls:RatingButton 
                                             VerticalAlignment="Center" 
-                                            EnableRating="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock
                                                 Width="60"
@@ -239,7 +239,7 @@
                                             VerticalAlignment="Center" 
                                             DockPanel.Dock="Right" 
                                             Margin="0,0,2,0" 
-                                            EnableRating="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock Text="{Binding ArtistName}"
                                                VerticalAlignment="Center"
