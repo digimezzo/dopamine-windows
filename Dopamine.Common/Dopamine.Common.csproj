@@ -143,6 +143,7 @@
     <Compile Include="Controls\IconMenuButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ListCheckBox.cs" />
+    <Compile Include="Controls\LoveButton.cs" />
     <Compile Include="Controls\MainMenuButton.cs" />
     <Compile Include="Controls\PopupEx.cs" />
     <Compile Include="Controls\RatingButton.cs" />

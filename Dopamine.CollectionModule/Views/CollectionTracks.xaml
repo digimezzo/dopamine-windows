@@ -80,7 +80,6 @@
                         <DataTemplate>
                             <controls:RatingButton 
                                             VerticalAlignment="Center" 
-                                            EnableRating="True"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

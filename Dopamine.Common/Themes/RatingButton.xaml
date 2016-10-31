@@ -23,10 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:RatingButton}">
-                    <!-- Rating -->
-                    <Button 
-                            x:Name="PART_StarRatingButton" 
-                            Visibility="{Binding EnableRating, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <Button x:Name="PART_RatingButton">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="OverridesDefaultStyle" Value="True" />
