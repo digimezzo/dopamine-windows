@@ -11,7 +11,6 @@ namespace Dopamine.Common.Services.Scrobbling
     public class LastFmScrobblingService : IScrobblingService
     {
         #region Private
-        private bool isEnabled;
         private SignInState signInState;
         private string username;
         private string password;
@@ -26,20 +25,6 @@ namespace Dopamine.Common.Services.Scrobbling
         #endregion
 
         #region Properties
-        public bool IsEnabled
-        {
-            get
-            {
-                return this.isEnabled;
-            }
-
-            set
-            {
-                XmlSettingsClient.Instance.Set<bool>("Lastfm", "IsEnabled", value);
-                this.isEnabled = value;
-            }
-        }
-
         public SignInState SignInState
         {
             get
@@ -88,7 +73,6 @@ namespace Dopamine.Common.Services.Scrobbling
             this.playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
             this.playbackService.PlaybackProgressChanged += PlaybackService_PlaybackProgressChanged;
 
-            this.isEnabled = XmlSettingsClient.Instance.Get<bool>("Lastfm", "IsEnabled");
             this.username = XmlSettingsClient.Instance.Get<string>("Lastfm", "Username");
             this.password = XmlSettingsClient.Instance.Get<string>("Lastfm", "Password");
             this.sessionKey = XmlSettingsClient.Instance.Get<string>("Lastfm", "Key");
@@ -107,7 +91,7 @@ namespace Dopamine.Common.Services.Scrobbling
         #region Private
         private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
-            if (this.SignInState == SignInState.SignedIn && this.isEnabled)
+            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling"))
             {
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
@@ -134,7 +118,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
         private async void PlaybackService_PlaybackProgressChanged(object sender, EventArgs e)
         {
-            if (this.SignInState == SignInState.SignedIn && this.isEnabled)
+            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling"))
             {
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds

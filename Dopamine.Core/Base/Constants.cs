@@ -2,6 +2,8 @@
 {
     public static class Constants
     {
+        // Links
+        public static string LastFmJoinLink = "https://www.last.fm/join";
 
         // Default Window button sizes
         public static double DefaultWindowButtonHeight = 29;

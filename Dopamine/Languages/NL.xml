@@ -336,7 +336,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">De online search provider kon niet toegevoegd worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">De online search provider kon niet aangepast worden. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">De online search provider kon niet aangepast worden. De velden 'Naam' en 'Url' zijn verplicht, 'Scheidingsteken' is optioneel.</Text>
-  <Text Key="Enable_Lastfm_Scrobbling">Last.fm scrobbling activeren</Text>
+  <Text Key="Enable_Scrobbling">Scrobbling activeren</Text>
   <Text Key="Sign_In">Aanmelden</Text>
   <Text Key="Sign_Out">Afmelden</Text>
   <Text Key="Signed_In">Aangemeld</Text>
@@ -359,4 +359,7 @@
   <Text Key="Font_Size">Font grootte</Text>
   <Text Key="Cancel_Edit">Annuleer aanpassing</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Speel het nummer af en druk op Ctrl-T om een tijdstip toe te voegen aan het begin van de huidige lijn</Text>
+  <Text Key="Some_Lastfm_Features_Require_Sign_In">Om sommige Last.fm features te gebruiken moet je inloggen</Text>
+  <Text Key="Create_A_Lastfm_Account">Een Last.fm account aanmaken</Text>
+  <Text Key="Show_Love_Button">'Love' knop weergeven</Text>
 </Language>
