@@ -336,7 +336,7 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">The online search provider could not be updated. Please consult the log file for more information.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.</Text>
-  <Text Key="Enable_Lastfm_Scrobbling">Enable Last.fm scrobbling</Text>
+  <Text Key="Enable_Scrobbling">Enable scrobbling</Text>
   <Text Key="Sign_In">Sign in</Text>
   <Text Key="Sign_Out">Sign out</Text>
   <Text Key="Signed_In">Signed in</Text>
@@ -359,4 +359,7 @@
   <Text Key="Font_Size">Font size</Text>
   <Text Key="Cancel_Edit">Cancel edit</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Play the song and press Ctrl-T to insert a timestamp at the beginning of the current line</Text>
+  <Text Key="Some_Lastfm_Features_Require_Sign_In">Some Last.fm features require you to sign in</Text>
+  <Text Key="Create_A_Lastfm_Account">Create a Last.fm account</Text>
+  <Text Key="Show_Love_Button">Show 'Love' button</Text>
 </Language>

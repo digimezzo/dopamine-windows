@@ -1,6 +1,8 @@
 ﻿using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
+using Dopamine.Core.Base;
+using Dopamine.Core.IO;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
@@ -22,6 +24,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private IScrobblingService scrobblingService;
         private bool isLastFmSignInInProgress;
         private bool checkBoxDownloadArtistInformationChecked;
+        private bool checkBoxEnableScrobblingChecked;
         #endregion
 
         #region Commands
@@ -30,6 +33,7 @@ namespace Dopamine.SettingsModule.ViewModels
         public DelegateCommand RemoveCommand { get; set; }
         public DelegateCommand LastfmSignInCommand { get; set; }
         public DelegateCommand LastfmSignOutCommand { get; set; }
+        public DelegateCommand CreateLastFmAccountCommand { get; set; }
         #endregion
 
         #region Properties
@@ -54,12 +58,13 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public bool CheckBoxEnableLastfmChecked
+        public bool CheckBoxEnableScrobblingChecked
         {
-            get { return this.scrobblingService.IsEnabled; }
+            get { return this.checkBoxEnableScrobblingChecked; }
             set
             {
-                this.scrobblingService.IsEnabled = value;
+                XmlSettingsClient.Instance.Set<bool>("Lastfm", "EnableScrobbling", value);
+                SetProperty<bool>(ref this.checkBoxEnableScrobblingChecked, value);
             }
         }
 
@@ -128,6 +133,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             });
             this.LastfmSignOutCommand = new DelegateCommand(() => this.scrobblingService.SignOut());
+            this.CreateLastFmAccountCommand = new DelegateCommand(() => Actions.TryOpenLink(Constants.LastFmJoinLink));
 
             this.GetSearchProvidersAsync();
 
@@ -222,6 +228,7 @@ namespace Dopamine.SettingsModule.ViewModels
             await Task.Run(() =>
             {
                 this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.CheckBoxEnableScrobblingChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling");
             });
         }
         #endregion

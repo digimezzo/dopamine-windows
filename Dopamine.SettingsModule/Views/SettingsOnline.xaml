@@ -27,9 +27,9 @@
                 </StackPanel>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="Last.fm" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Enable_Lastfm_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLastfm" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableLastfmChecked}"/>
-            <Grid Width="300" HorizontalAlignment="Left" Margin="0,15,0,0" IsHitTestVisible="{Binding IsChecked,ElementName=CheckBoxEnableLastfm}">
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Some_Lastfm_Features_Require_Sign_In}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" Foreground="{DynamicResource RG_AccentBrush}" Content="{DynamicResource Language_Create_A_Lastfm_Account}" Command="{Binding CreateLastFmAccountCommand}"/>
+            <Grid Width="300" HorizontalAlignment="Left" Margin="0,15,0,0">
                 <Grid.Style>
                     <Style>
                         <Style.Triggers>
@@ -100,6 +100,21 @@
                     </StackPanel.Style>
                 </StackPanel>
             </Grid>
+            <StackPanel IsHitTestVisible="{Binding IsLastFmSignedIn}">
+                <StackPanel.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="StackPanel.IsHitTestVisible" Value="False">
+                                <Setter Property="StackPanel.Opacity" Value="0.5" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Enable_Scrobbling}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableScrobbling" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableScrobblingChecked}"/>
+                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Show_Love_Button}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxDisplayLoveButton" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxDisplayLoveButtonChecked}"/>
+            </StackPanel>
             <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Artist_Information_From_Lastfm}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadArtistInformation" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxDownloadArtistInformationChecked}"/>
         </StackPanel>

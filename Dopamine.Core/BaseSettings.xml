@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>61</Value>
+      <Value>63</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -246,7 +246,10 @@
     </Setting>
   </Namespace>
   <Namespace Name="Lastfm">
-    <Setting Name="IsEnabled">
+    <Setting Name="EnableScrobbling">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowLoveButton">
       <Value>False</Value>
     </Setting>
     <Setting Name="Username">
