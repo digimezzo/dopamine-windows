@@ -1,7 +1,6 @@
 ﻿using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Core.Database.Repositories

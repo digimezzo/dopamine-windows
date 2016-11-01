@@ -129,7 +129,6 @@
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <Label Style="{DynamicResource SpectrumAnimation}"
-                                                DockPanel.Dock="Right"
                                                 Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                 IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                 Foreground="{Binding Foreground,ElementName=DummyLabel}" 
@@ -240,12 +239,17 @@
                                                FontSize="13"/>
                                     </DockPanel>
                                     <DockPanel Height="19">
-                                        <controls:RatingButton 
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
+                                            <controls:RatingButton 
                                             VerticalAlignment="Center" 
-                                            DockPanel.Dock="Right" 
-                                            Margin="0,0,2,0" 
                                             Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            <controls:LoveButton 
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" 
+                                            Visibility="Visible"
+                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        </StackPanel>
                                         <TextBlock Text="{Binding ArtistName}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
