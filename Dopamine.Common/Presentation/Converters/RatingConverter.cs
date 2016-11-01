@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.Converters
 {
-    public class RatingToStar1Converter : IValueConverter
+    public class Rating1Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -19,7 +19,7 @@ namespace Dopamine.Common.Presentation.Converters
         }
     }
 
-    public class RatingToStar2Converter : IValueConverter
+    public class Rating2Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -33,7 +33,7 @@ namespace Dopamine.Common.Presentation.Converters
         }
     }
 
-    public class RatingToStar3Converter : IValueConverter
+    public class Rating3Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -47,7 +47,7 @@ namespace Dopamine.Common.Presentation.Converters
         }
     }
 
-    public class RatingToStar4Converter : IValueConverter
+    public class Rating4Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -61,7 +61,7 @@ namespace Dopamine.Common.Presentation.Converters
         }
     }
 
-    public class RatingToStar5Converter : IValueConverter
+    public class Rating5Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

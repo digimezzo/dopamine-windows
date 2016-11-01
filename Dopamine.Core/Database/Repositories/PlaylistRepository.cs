@@ -361,7 +361,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1", Utils.ToQueryList(genreIDs));
@@ -420,7 +420,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash FROM Track tra" +
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1", Utils.ToQueryList(albumIDs));

@@ -162,6 +162,7 @@
     <Compile Include="Presentation\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
+    <Compile Include="Presentation\Converters\LoveConverter.cs" />
     <Compile Include="Presentation\Converters\PathToImageConverter.cs" />
     <Compile Include="Presentation\Converters\PercentSizeConverter.cs" />
     <Compile Include="Presentation\Converters\RatingConverter.cs" />
@@ -689,6 +690,10 @@
     <Page Include="Themes\ListCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LoveButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\MainMenuButton.xaml">
       <Generator>MSBuild:Compile</Generator>

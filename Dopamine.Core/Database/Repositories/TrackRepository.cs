@@ -41,7 +41,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                      " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                      " FROM Track tra" +
@@ -82,7 +82,7 @@ namespace Dopamine.Core.Database.Repositories
                             tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                            " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                            " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                           " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                           " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                            " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                            " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                            " FROM Track tra" +
@@ -125,7 +125,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                      " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                      " FROM Track tra" +
@@ -169,7 +169,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                      " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                      " FROM Track tra" +
@@ -213,7 +213,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                      " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                      " FROM Track tra" +
@@ -261,7 +261,7 @@ namespace Dopamine.Core.Database.Repositories
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                      " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
                                                      " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
                                                      " FROM Track tra" +
