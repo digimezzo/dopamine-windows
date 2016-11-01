@@ -139,6 +139,11 @@
                                             VerticalAlignment="Center" 
                                             Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        <controls:LoveButton 
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" 
+                                            Visibility="Visible"
+                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock
                                                 Width="60"
                                                 Text="{Binding Duration}" 

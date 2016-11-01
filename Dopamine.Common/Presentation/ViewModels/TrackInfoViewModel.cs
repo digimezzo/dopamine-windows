@@ -19,7 +19,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Properties
         public string Bitrate
         {
-            get {
+            get
+            {
                 return this.TrackInfo.BitRate != null ? this.TrackInfo.BitRate + " kbps" : "";
             }
         }
@@ -202,6 +203,18 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
                 }
+            }
+        }
+
+        public bool Love
+        {
+            get { return this.TrackInfo.Love.HasValue & this.TrackInfo.Love.Value != 0 ? true : false; }
+            set
+            {
+                this.TrackInfo.Love = value ? 1: 0;
+                OnPropertyChanged(() => Love);
+
+                // TODO: update Love on Last.fm + in database
             }
         }
 
