@@ -25,9 +25,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-
-        public bool AllowSaveRating { get; set; }
-
         public TrackInfo TrackInfo
         {
             get { return this.trackInfo; }
@@ -199,10 +196,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.TrackInfo.Rating = (long?)value;
                 OnPropertyChanged(() => Rating);
 
-                if (this.AllowSaveRating)
-                {
-                    this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
-                }
+                this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
             }
         }
 
@@ -211,7 +205,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.TrackInfo.Love.HasValue & this.TrackInfo.Love.Value != 0 ? true : false; }
             set
             {
-                this.TrackInfo.Love = value ? 1: 0;
+                this.TrackInfo.Love = value ? 1 : 0;
                 OnPropertyChanged(() => Love);
 
                 // TODO: update Love on Last.fm + in database
@@ -273,7 +267,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         public TrackInfoViewModel(IMetadataService metadataService)
         {
             this.metadataService = metadataService;
-            this.AllowSaveRating = true;
         }
         #endregion
 
@@ -296,6 +289,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         public override int GetHashCode()
         {
             return this.TrackInfo.GetHashCode();
+        }
+        #endregion
+
+        #region Public
+        public void UpdateVisibleRating(int rating)
+        {
+            this.TrackInfo.Rating = (long?)rating;
+            OnPropertyChanged(() => Rating);
         }
         #endregion
     }
