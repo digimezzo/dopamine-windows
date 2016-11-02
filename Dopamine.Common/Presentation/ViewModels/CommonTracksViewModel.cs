@@ -314,6 +314,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.searchService.DoSearch += (searchText) => { if (this.IsActive) this.FilterLists(); };
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
+            this.metadataService.LoveChanged += MetadataService_LoveChangedAsync;
 
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
 
@@ -864,6 +865,23 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
                         Application.Current.Dispatcher.Invoke(() => tivm.UpdateVisibleRating(e.Rating));
+                    }
+                }
+            });
+        }
+
+        private async void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
+        {
+            if (this.Tracks == null) return;
+
+            await Task.Run(() =>
+            {
+                foreach (TrackInfoViewModel tivm in this.Tracks)
+                {
+                    if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Love != e.Love)
+                    {
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => tivm.UpdateVisibleLove(e.Love));
                     }
                 }
             });

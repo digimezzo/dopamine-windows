@@ -11,9 +11,11 @@ namespace Dopamine.Common.Services.Metadata
         bool IsUpdatingDatabaseMetadata { get; }
         bool IsUpdatingFileMetadata { get; }
         Task UpdateTrackRatingAsync(string path, int rating);
+        Task UpdateTrackLoveAsync(string path, bool love);
         Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork);
         Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork);
         event Action<MetadataChangedEventArgs> MetadataChanged;
         event Action<RatingChangedEventArgs> RatingChanged;
+        event Action<LoveChangedEventArgs> LoveChanged;
     }
 }

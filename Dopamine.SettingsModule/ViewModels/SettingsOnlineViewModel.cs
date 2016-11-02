@@ -25,6 +25,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool isLastFmSignInInProgress;
         private bool checkBoxDownloadArtistInformationChecked;
         private bool checkBoxEnableScrobblingChecked;
+        private bool checkBoxShowLoveButtonChecked;
         #endregion
 
         #region Commands
@@ -65,6 +66,16 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 XmlSettingsClient.Instance.Set<bool>("Lastfm", "EnableScrobbling", value);
                 SetProperty<bool>(ref this.checkBoxEnableScrobblingChecked, value);
+            }
+        }
+
+        public bool CheckBoxShowLoveButtonChecked
+        {
+            get { return this.checkBoxShowLoveButtonChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Lastfm", "ShowLoveButton", value);
+                SetProperty<bool>(ref this.checkBoxShowLoveButtonChecked, value);
             }
         }
 
@@ -229,6 +240,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
                 this.CheckBoxEnableScrobblingChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling");
+                this.CheckBoxShowLoveButtonChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "ShowLoveButton");
             });
         }
         #endregion
