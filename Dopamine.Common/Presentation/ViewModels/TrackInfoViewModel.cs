@@ -2,6 +2,8 @@
 using Dopamine.Core.Database;
 using System;
 using Prism.Mvvm;
+using Dopamine.Common.Services.Scrobbling;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -9,6 +11,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private IMetadataService metadataService;
+        private IScrobblingService scrobblingService;
         private TrackInfo trackInfo;
         private bool isPlaying;
         private bool isPaused;
@@ -205,10 +208,26 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.TrackInfo.Love.HasValue & this.TrackInfo.Love.Value != 0 ? true : false; }
             set
             {
-                this.TrackInfo.Love = value ? 1 : 0;
-                OnPropertyChanged(() => Love);
+                this.SetLoveAsync(value);
+            }
+        }
 
-                // TODO: update Love on Last.fm + in database
+        private async void SetLoveAsync(bool love)
+        {
+            long previousLove = this.TrackInfo.Love.Value;
+
+            // Temporary change to update the UI quickly for the user
+            this.TrackInfo.Love = love ? 1 : 0;
+            OnPropertyChanged(() => Love);
+
+            // Send love to the scrobbling service
+            if (await this.scrobblingService.SendTrackLoveAsync(this.TrackInfo, love)){
+                await this.metadataService.UpdateTrackLoveAsync(this.TrackInfo.Path, love);
+            }else
+            {
+                // If sending to the scrobbling service failed, revert to the old love value in the UI
+                this.TrackInfo.Love = previousLove;
+                OnPropertyChanged(() => Love);
             }
         }
 
@@ -264,9 +283,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public TrackInfoViewModel(IMetadataService metadataService)
+        public TrackInfoViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
         {
             this.metadataService = metadataService;
+            this.scrobblingService = scrobblingService;
         }
         #endregion
 
@@ -297,6 +317,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.TrackInfo.Rating = (long?)rating;
             OnPropertyChanged(() => Rating);
+        }
+
+        public void UpdateVisibleLove(bool love)
+        {
+            this.TrackInfo.Love = love ? 1 : 0;
+            OnPropertyChanged(() => Love);
         }
         #endregion
     }

@@ -51,6 +51,7 @@ namespace Dopamine.Common.Services.Metadata
         #region Events
         public event Action<MetadataChangedEventArgs> MetadataChanged;
         public event Action<RatingChangedEventArgs> RatingChanged;
+        public event Action<LoveChangedEventArgs> LoveChanged;
         #endregion
 
         #region Construction
@@ -104,6 +105,20 @@ namespace Dopamine.Common.Services.Metadata
             }
 
             this.RatingChanged(new RatingChangedEventArgs { Path = path, Rating = rating });
+        }
+
+        public async Task UpdateTrackLoveAsync(string path, bool love)
+        {
+            Track dbTrack = await this.trackRepository.GetTrackAsync(path);
+
+            // Update datebase track rating only if the track can be found
+            if (dbTrack != null)
+            {
+                dbTrack.Love = love ? 1 : 0;
+                await this.trackRepository.UpdateTrackAsync(dbTrack);
+            }
+
+            this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
         }
 
         public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
@@ -160,7 +175,7 @@ namespace Dopamine.Common.Services.Metadata
             var successfulFileMetadatas = new List<FileMetadata>();
             var failedFileMetadatas = new List<FileMetadata>();
 
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 // Create a local collection of FileMetadata's
                 lock (lockObject)

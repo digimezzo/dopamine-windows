@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dopamine.Core.Database;
+using System;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Scrobbling
@@ -13,5 +14,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
         Task SignIn();
         void SignOut();
+
+        Task<bool> SendTrackLoveAsync(TrackInfo track, bool love);
     }
 }

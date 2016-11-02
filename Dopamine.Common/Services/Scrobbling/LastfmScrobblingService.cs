@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Services.Scrobbling
 {
@@ -194,6 +195,27 @@ namespace Dopamine.Common.Services.Scrobbling
             this.SignInState = SignInState.SignedOut;
 
             this.SignInStateChanged(this.SignInState);
+        }
+
+        public async Task<bool> SendTrackLoveAsync(TrackInfo track, bool love)
+        {
+            bool isSuccess = false;
+
+            // We can't send track love for an unknown track
+            if (track.ArtistName == Defaults.UnknownArtistString | string.IsNullOrEmpty(track.TrackTitle)) return false;
+
+            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "ShowLoveButton"))
+            {
+                if (love)
+                {
+                    isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                }else
+                {
+                    isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                }
+            }
+
+            return isSuccess;
         }
         #endregion
     }
