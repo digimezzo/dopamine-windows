@@ -8,15 +8,14 @@ namespace Dopamine.Common.Services.Dialog
     public partial class InputDialog : DopamineWindow
     {
         #region Variables
-        private string mResponseText;
-        private bool mTextChanged;
+        private string responseText;
         #endregion
 
         #region Properties
         public string ResponseText
         {
-            get { return mResponseText; }
-            set { mResponseText = value; }
+            get { return this.responseText; }
+            set { this.responseText = value; }
         }
         #endregion
 
