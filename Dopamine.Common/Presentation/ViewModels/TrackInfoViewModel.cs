@@ -1,9 +1,8 @@
 ﻿using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Database;
-using System;
-using Prism.Mvvm;
 using Dopamine.Common.Services.Scrobbling;
-using System.Threading.Tasks;
+using Dopamine.Core.Database;
+using Prism.Mvvm;
+using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

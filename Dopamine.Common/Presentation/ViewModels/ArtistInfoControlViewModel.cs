@@ -4,7 +4,6 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
