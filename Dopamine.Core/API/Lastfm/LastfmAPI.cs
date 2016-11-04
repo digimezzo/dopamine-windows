@@ -445,8 +445,8 @@ namespace Dopamine.Core.Api.Lastfm
             var parameters = new Dictionary<string, string>();
 
             parameters.Add("method", method);
-            parameters.Add("artist", artist);
             parameters.Add("track", trackTitle);
+            parameters.Add("artist", artist);
             parameters.Add("api_key", SensitiveInformation.LastfmApiKey);
             parameters.Add("sk", sessionKey);
 
