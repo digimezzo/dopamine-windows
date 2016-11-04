@@ -92,7 +92,7 @@ namespace Dopamine.Common.Services.Scrobbling
         #region Private
         private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
-            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling"))
+            if (this.SignInState == SignInState.SignedIn)
             {
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
@@ -119,7 +119,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
         private async void PlaybackService_PlaybackProgressChanged(object sender, EventArgs e)
         {
-            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "EnableScrobbling"))
+            if (this.SignInState == SignInState.SignedIn)
             {
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
@@ -204,7 +204,7 @@ namespace Dopamine.Common.Services.Scrobbling
             // We can't send track love for an unknown track
             if (track.ArtistName == Defaults.UnknownArtistString | string.IsNullOrEmpty(track.TrackTitle)) return false;
 
-            if (this.SignInState == SignInState.SignedIn && XmlSettingsClient.Instance.Get<bool>("Lastfm", "ShowLoveButton"))
+            if (this.SignInState == SignInState.SignedIn)
             {
                 if (love)
                 {

@@ -215,19 +215,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             long previousLove = this.TrackInfo.Love.Value;
 
-            // Temporary change to update the UI quickly for the user
+            // Update the UI
             this.TrackInfo.Love = love ? 1 : 0;
             OnPropertyChanged(() => Love);
 
-            // Send love to the scrobbling service
-            if (await this.scrobblingService.SendTrackLoveAsync(this.TrackInfo, love)){
-                await this.metadataService.UpdateTrackLoveAsync(this.TrackInfo.Path, love);
-            }else
-            {
-                // If sending to the scrobbling service failed, revert to the old love value in the UI
-                this.TrackInfo.Love = previousLove;
-                OnPropertyChanged(() => Love);
-            }
+            // Update Love in the database
+            await this.metadataService.UpdateTrackLoveAsync(this.TrackInfo.Path, love);
+
+            // Send Love/Unlove to the scrobbling service
+            await this.scrobblingService.SendTrackLoveAsync(this.TrackInfo, love);
         }
 
         public string GroupHeader

@@ -336,7 +336,6 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η προσθήκη της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Δεν ήταν δυνατή η ενημέρωση της μηχανής αναζήτησης. Τα πεδία 'Όνομα' και 'Σύνδεσμος' είναι υποχρεωτικά, το 'Διαχωριστικό' είναι προαιρετικό.</Text>
-  <Text Key="Enable_Scrobbling">Ενεργοποίηση καταγραφής από Last.fm</Text>
   <Text Key="Sign_In">Σύνδεση</Text>
   <Text Key="Sign_Out">Αποσύνδεση</Text>
   <Text Key="Signed_In">Συνδέθηκε</Text>
@@ -359,7 +358,6 @@
   <Text Key="Font_Size">Font size</Text>
   <Text Key="Cancel_Edit">Cancel edit</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Play the song and press Ctrl-T to insert a timestamp at the beginning of the current line</Text>
-  <Text Key="Some_Lastfm_Features_Require_Sign_In">Some Last.fm features require you to sign in</Text>
+  <Text Key="Sign_In_To_Enable_Lastfm">Sign in to enable Last.fm 'Scrobble' and 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Create a Last.fm account</Text>
-  <Text Key="Show_Love_Button">Show 'Love' button</Text>
 </Language>

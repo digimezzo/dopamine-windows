@@ -336,7 +336,6 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être ajouté. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Le fournisseur de recherche en ligne n'a pas pu être modifié. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être modifié. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
-  <Text Key="Enable_Scrobbling">Activer scrobbling</Text>
   <Text Key="Sign_In">Connecter</Text>
   <Text Key="Sign_Out">Déconnecter</Text>
   <Text Key="Signed_In">Connecté</Text>
@@ -359,7 +358,6 @@
   <Text Key="Font_Size">Taille de police</Text>
   <Text Key="Cancel_Edit">Annuler modification</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Jouez le numéro et appuyez sur Ctrl-T pour insérer un horodatage au début de la ligne courante</Text>
-  <Text Key="Some_Lastfm_Features_Require_Sign_In">Some Last.fm features require you to sign in</Text>
-  <Text Key="Create_A_Lastfm_Account">Create a Last.fm account</Text>
-  <Text Key="Show_Love_Button">Afficher bouton 'Love'</Text>
+  <Text Key="Sign_In_To_Enable_Lastfm">Connectez-vous pour activer Last.fm 'Scrobble' et 'Love'</Text>
+  <Text Key="Create_A_Lastfm_Account">Créér un compte Last.fm</Text>
 </Language>
