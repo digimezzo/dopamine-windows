@@ -25,48 +25,6 @@
                                             <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="#00000000">
                                                 <Label Padding="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
                                             </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="0.7" Duration="0:0:0.15" />
-                                                                </Storyboard>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="1.0" Duration="0:0:0.15" />
-                                                                </Storyboard>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Trigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="0.5" Duration="0:0:0.15" />
-                                                                </Storyboard>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.EnterActions>
-                                                    <Trigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" To="1.0" Duration="0:0:0.15" />
-                                                                </Storyboard>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </Trigger.ExitActions>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -74,7 +32,7 @@
                         </Button.Style>
                         <Grid>
                             <TextBlock x:Name="PART_HeartFill" Text="&#xE0A5;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource LoveConverter}}"/>
-                            <TextBlock x:Name="PART_Heart" Text="&#xE006;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Opacity="0.2" Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource UnloveConverter}}"/>
+                            <TextBlock x:Name="PART_Heart" Text="&#xE006;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Opacity="0.2" Style="{StaticResource SegoeAssets}" Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource UnloveConverter}}"/>
                         </Grid>
                     </Button>
                 </ControlTemplate>

@@ -9,6 +9,8 @@ namespace Dopamine.Common.Controls
     {
         #region Variables
         private Button loveButton;
+        private TextBlock heartFill;
+        private TextBlock heart;
         #endregion
 
         #region Properties
@@ -38,12 +40,46 @@ namespace Dopamine.Common.Controls
             base.OnApplyTemplate();
 
             this.loveButton = (Button)GetTemplateChild("PART_LoveButton");
+            this.heartFill = (TextBlock)GetTemplateChild("PART_HeartFill");
+            this.heart = (TextBlock)GetTemplateChild("PART_Heart");
 
             if (this.loveButton != null)
             {
                 this.loveButton.Click += LoveButton_Click;
                 this.loveButton.PreviewMouseDoubleClick += LoveButton_PreviewMouseDoubleClick;
             }
+
+            if (this.heartFill != null)
+            {
+                this.heartFill.MouseEnter += HeartFill_MouseEnter;
+                this.heartFill.MouseLeave += HeartFill_MouseLeave;
+            }
+
+            if (this.heart != null)
+            {
+                this.heart.MouseEnter += Heart_MouseEnter;
+                this.heart.MouseLeave += Heart_MouseLeave;
+            }
+        }
+
+        private void Heart_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.heart.Opacity = 1.0;
+        }
+
+        private void Heart_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.heart.Opacity = 0.2;
+        }
+
+        private void HeartFill_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.heartFill.Text = char.ConvertFromUtf32(0xE00C);
+        }
+
+        private void HeartFill_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.heartFill.Text = char.ConvertFromUtf32(0xE0A5);
         }
         #endregion
 

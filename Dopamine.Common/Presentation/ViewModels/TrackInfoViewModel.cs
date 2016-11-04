@@ -196,7 +196,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 this.TrackInfo.Rating = (long?)value;
-                OnPropertyChanged(() => Rating);
+                OnPropertyChanged(() => this.Rating);
 
                 this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
             }
@@ -204,7 +204,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public bool Love
         {
-            get { return this.TrackInfo.Love.HasValue & this.TrackInfo.Love.Value != 0 ? true : false; }
+            get { return this.TrackInfo.Love.HasValue && this.TrackInfo.Love.Value != 0 ? true : false; }
             set
             {
                 this.SetLoveAsync(value);
@@ -213,11 +213,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void SetLoveAsync(bool love)
         {
-            long previousLove = this.TrackInfo.Love.Value;
-
             // Update the UI
             this.TrackInfo.Love = love ? 1 : 0;
-            OnPropertyChanged(() => Love);
+            OnPropertyChanged(() => this.Love);
 
             // Update Love in the database
             await this.metadataService.UpdateTrackLoveAsync(this.TrackInfo.Path, love);
@@ -311,13 +309,13 @@ namespace Dopamine.Common.Presentation.ViewModels
         public void UpdateVisibleRating(int rating)
         {
             this.TrackInfo.Rating = (long?)rating;
-            OnPropertyChanged(() => Rating);
+            OnPropertyChanged(() => this.Rating);
         }
 
         public void UpdateVisibleLove(bool love)
         {
             this.TrackInfo.Love = love ? 1 : 0;
-            OnPropertyChanged(() => Love);
+            OnPropertyChanged(() => this.Love);
         }
         #endregion
     }
