@@ -54,6 +54,10 @@ namespace Dopamine.Tests
             Assert.IsTrue(!string.IsNullOrEmpty(lfmAlbum.Name) & !string.IsNullOrEmpty(lfmAlbum.Url));
         }
 
+        /// <summary>
+        /// This test is a bit useless, as track.love always returns "ok", even if it failed.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod()]
         public async Task TrackLoveTest()
         {
@@ -63,6 +67,10 @@ namespace Dopamine.Tests
             Assert.IsTrue(isSuccess);
         }
 
+        /// <summary>
+        /// This test is a bit useless, as track.unlove always returns "ok", even if it failed.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod()]
         public async Task TrackUnloveTest()
         {
