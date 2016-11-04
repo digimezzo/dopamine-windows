@@ -246,12 +246,6 @@
     </Setting>
   </Namespace>
   <Namespace Name="Lastfm">
-    <Setting Name="EnableScrobbling">
-      <Value>False</Value>
-    </Setting>
-    <Setting Name="ShowLoveButton">
-      <Value>False</Value>
-    </Setting>
     <Setting Name="Username">
       <Value></Value>
     </Setting>
