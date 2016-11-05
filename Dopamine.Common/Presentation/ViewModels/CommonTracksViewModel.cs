@@ -869,7 +869,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Rating != e.Rating)
+                    if (tivm.TrackInfo.Path.Equals(e.Path))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
                         Application.Current.Dispatcher.Invoke(() => tivm.UpdateVisibleRating(e.Rating));
@@ -886,7 +886,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (tivm.TrackInfo.Path.Equals(e.Path) && tivm.Love != e.Love)
+                    if (tivm.TrackInfo.Path.Equals(e.Path))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
                         Application.Current.Dispatcher.Invoke(() => tivm.UpdateVisibleLove(e.Love));
