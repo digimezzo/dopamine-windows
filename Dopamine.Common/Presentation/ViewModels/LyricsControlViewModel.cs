@@ -18,10 +18,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
-        private II18nService i18nService;
         private LyricsViewModel lyricsViewModel;
-        private TrackInfo previousTrackInfo;
-        private TrackInfo trackInfo;
+        private TrackInfo previousTrack;
         private int contentSlideInFrom;
         private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
@@ -46,11 +44,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IMetadataService metadataService, IPlaybackService playbackService, II18nService i18nService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
         {
             this.metadataService = metadataService;
             this.playbackService = playbackService;
-            this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
@@ -66,12 +63,18 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
-                this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+                if (this.previousTrack == null || !this.playbackService.PlayingTrack.Equals(this.previousTrack))
+                {
+                    this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+                    this.previousTrack = this.playbackService.PlayingTrack;
+                }
             };
 
-            this.i18nService.LanguageChanged += (_, __) => this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+            this.metadataService.FilesChanged += (paths) => { if (paths.Contains(this.playbackService.PlayingTrack.Path)) this.ShowLyricsAsync(this.playbackService.PlayingTrack); };
 
             this.ShowLyricsAsync(this.playbackService.FirstQueuedTrack);
+
+            if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -93,9 +96,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.highlightTimer.Stop();
 
-            this.previousTrackInfo = this.trackInfo;
-
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 lock (lockObject)
                 {
                     // If we're in editing mode, delay changing the lyrics.
@@ -109,16 +111,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                     if (trackInfo == null)
                     {
                         this.LyricsViewModel = new LyricsViewModel();
-                        this.trackInfo = null;
-                        return;
-                    }
-
-                    this.trackInfo = trackInfo;
-
-                    // The track didn't change: leave the previous lyrics.
-                    if (this.trackInfo.Equals(this.previousTrackInfo))
-                    {
-                        this.highlightTimer.Start();
                         return;
                     }
 
@@ -166,7 +158,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
                         {
                             this.LyricsViewModel.LyricsLines[i].IsHighlighted = true;
-                            if(this.LyricsViewModel.AutomaticScrolling) this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
+                            if (this.LyricsViewModel.AutomaticScrolling) this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
                         }
                         else
                         {

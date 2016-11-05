@@ -49,9 +49,10 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region Events
-        public event Action<MetadataChangedEventArgs> MetadataChanged;
-        public event Action<RatingChangedEventArgs> RatingChanged;
-        public event Action<LoveChangedEventArgs> LoveChanged;
+        public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
+        public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
+        public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
+        public event Action<List<string>> FilesChanged = delegate { };
         #endregion
 
         #region Construction
@@ -226,6 +227,9 @@ namespace Dopamine.Common.Services.Metadata
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.FileName);
             }
+
+            // Send event that files have changed
+            this.FilesChanged(successfulFileMetadatas.Select((fmd) => fmd.FileName).ToList());
 
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout; // The next time, wait longer.
 
