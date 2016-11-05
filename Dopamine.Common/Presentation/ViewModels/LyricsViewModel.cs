@@ -156,7 +156,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         if (index > 0)
                         {
                             var subString = line.Substring(1, index - 1);
-                            if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
+                            if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                             {
                                 this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
                             }
