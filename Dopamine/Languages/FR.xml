@@ -264,7 +264,6 @@
   <Text Key="Startup_Page">Page de démarrage</Text>
   <Text Key="Start_At_Last_Selected_Page">Afficher la dernière page sélectionnée au démarrage</Text>
   <Text Key="Rating">Note</Text>
-  <Text Key="Enable_Rating">Activer la notation</Text>
   <Text Key="Save_Rating_In_Audio_Files">Sauvegarder les notes dans les fichiers audio (MP3 uniquement)</Text>
   <Text Key="By_Rating">Par note</Text>
   <Text Key="Day">jour</Text>
@@ -360,4 +359,7 @@
   <Text Key="Play_Song_And_Insert_Timestamp">Jouez le numéro et appuyez sur Ctrl-T pour insérer un horodatage au début de la ligne courante</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Connectez-vous pour activer Last.fm 'Scrobble' et 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Créér un compte Last.fm</Text>
+  <Text Key="Love">Love</Text>
+  <Text Key="Show_Love_Button">Afficher le bouton 'Love'</Text>
+  <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
 </Language>

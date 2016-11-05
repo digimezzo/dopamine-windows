@@ -62,4 +62,8 @@ namespace Dopamine.Core.Prism
     public class SettingEnableRatingChanged : PubSubEvent<bool>
     {
     }
+
+    public class SettingEnableLoveChanged : PubSubEvent<bool>
+    {
+    }
 }

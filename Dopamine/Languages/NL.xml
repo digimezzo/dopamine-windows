@@ -264,7 +264,6 @@
   <Text Key="Startup_Page">Startpagina</Text>
   <Text Key="Start_At_Last_Selected_Page">Toon de laatst geselecteerde pagina bij het opstarten</Text>
   <Text Key="Rating">Beoordeling</Text>
-  <Text Key="Enable_Rating">Beoordeling activeren</Text>
   <Text Key="Save_Rating_In_Audio_Files">Beoordeling opslaan in de audio bestanden (uitsluitend MP3)</Text>
   <Text Key="By_Rating">Per beoordeling</Text>
   <Text Key="Day">dag</Text>
@@ -360,4 +359,7 @@
   <Text Key="Play_Song_And_Insert_Timestamp">Speel het nummer af en druk op Ctrl-T om een tijdstip toe te voegen aan het begin van de huidige lijn</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Log in om Last.fm 'Scrobble' en 'Love' te activeren</Text>
   <Text Key="Create_A_Lastfm_Account">Een Last.fm account aanmaken</Text>
+  <Text Key="Love">Love</Text>
+  <Text Key="Show_Love_Button">'Love' knop weergeven</Text>
+  <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
 </Language>

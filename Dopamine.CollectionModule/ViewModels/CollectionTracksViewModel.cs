@@ -15,6 +15,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Variables
         // Flags
         private bool ratingVisible;
+        private bool loveVisible;
         private bool artistVisible;
         private bool albumVisible;
         private bool genreVisible;
@@ -30,6 +31,12 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             get { return this.ratingVisible; }
             set { SetProperty<bool>(ref this.ratingVisible, value); }
+        }
+
+        public bool LoveVisible
+        {
+            get { return this.loveVisible; }
+            set { SetProperty<bool>(ref this.loveVisible, value); }
         }
 
         public bool ArtistVisible
@@ -106,7 +113,13 @@ namespace Dopamine.CollectionModule.ViewModels
                 this.EnableRating = enableRating;
                 this.GetVisibleColumns();
             });
-            
+
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
+            {
+                this.EnableLove = enableLove;
+                this.GetVisibleColumns();
+            });
+
             // MetadataService
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
@@ -153,10 +166,12 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private void GetVisibleColumns()
         {
-            bool savedRatingVisible = false;
+            bool columnRatingVisible = false;
+            bool columnLoveVisible = false;
 
             Utils.GetVisibleSongsColumns(
-                ref savedRatingVisible,
+                ref columnRatingVisible,
+                ref columnLoveVisible,
                 ref this.artistVisible,
                 ref this.albumVisible,
                 ref this.genreVisible,
@@ -175,14 +190,9 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.YearVisible);
             OnPropertyChanged(() => this.BitrateVisible);
 
-            if (this.EnableRating && savedRatingVisible)
-            {
-                this.RatingVisible = true;
-            }
-            else
-            {
-                this.RatingVisible = false;
-            }
+
+            this.RatingVisible = this.EnableRating && columnRatingVisible;
+            this.LoveVisible = this.EnableLove && columnLoveVisible;
         }
         #endregion
 
