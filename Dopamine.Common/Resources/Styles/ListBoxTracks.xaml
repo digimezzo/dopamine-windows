@@ -141,7 +141,7 @@
                                         <controls:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
-                                            Visibility="Visible"
+                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock
                                                 Width="60"
@@ -247,7 +247,7 @@
                                             <controls:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
-                                            Visibility="Visible"
+                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         </StackPanel>
                                         <TextBlock Text="{Binding ArtistName}"

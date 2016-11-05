@@ -264,7 +264,6 @@
   <Text Key="Startup_Page">Начальная страница</Text>
   <Text Key="Start_At_Last_Selected_Page">Открывать последнюю выбранную страницу при запуске</Text>
   <Text Key="Rating">Рейтинг</Text>
-  <Text Key="Enable_Rating">Включить рейтинг</Text>
   <Text Key="Save_Rating_In_Audio_Files">Сохранять рейтинг в аудиофайлах (только для MP3)</Text>
   <Text Key="By_Rating">По рейтингу</Text>
   <Text Key="Day">день</Text>
@@ -360,4 +359,7 @@
   <Text Key="Play_Song_And_Insert_Timestamp">Play the song and press Ctrl-T to insert a timestamp at the beginning of the current line</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Sign in to enable Last.fm 'Scrobble' and 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Create a Last.fm account</Text>
+  <Text Key="Love">Love</Text>
+  <Text Key="Show_Love_Button">Show 'Love' button</Text>
+  <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
 </Language>

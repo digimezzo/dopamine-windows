@@ -264,7 +264,6 @@
   <Text Key="Startup_Page">Strona startowa</Text>
   <Text Key="Start_At_Last_Selected_Page">Otwórz ostatnią wybraną stronę przy uruchamianiu</Text>
   <Text Key="Rating">Ocena</Text>
-  <Text Key="Enable_Rating">Włącz oceny</Text>
   <Text Key="Save_Rating_In_Audio_Files">Zapisz ocenę w plikach dźwiękowych (tylko MP3)</Text>
   <Text Key="By_Rating">Wg oceny</Text>
   <Text Key="Day">dzień</Text>
@@ -360,4 +359,7 @@
   <Text Key="Play_Song_And_Insert_Timestamp">Play the song and press Ctrl-T to insert a timestamp at the beginning of the current line</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Sign in to enable Last.fm 'Scrobble' and 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Create a Last.fm account</Text>
+  <Text Key="Love">Love</Text>
+  <Text Key="Show_Love_Button">Show 'Love' button</Text>
+  <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
 </Language>

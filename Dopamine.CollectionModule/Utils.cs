@@ -6,9 +6,10 @@ namespace Dopamine.CollectionModule
 {
     public class Utils
     {
-        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
+        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool loveVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
         {
             ratingVisible = false;
+            loveVisible = false;
             artistVisible = false;
             albumVisible = false;
             genreVisible = false;
@@ -43,6 +44,9 @@ namespace Dopamine.CollectionModule
                         case "rating":
                             ratingVisible = true;
                             break;
+                        case "love":
+                            loveVisible = true;
+                            break;
                         case "artist":
                             artistVisible = true;
                             break;
@@ -73,12 +77,14 @@ namespace Dopamine.CollectionModule
         }
 
 
-        public static void SetVisibleSongsColumns(bool ratingVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
+        public static void SetVisibleSongsColumns(bool ratingVisible, bool loveVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
         {
             List<string> visibleColumns = new List<string>();
 
             if (ratingVisible)
                 visibleColumns.Add("rating");
+            if (loveVisible)
+                visibleColumns.Add("love");
             if (artistVisible)
                 visibleColumns.Add("artist");
             if (albumVisible)

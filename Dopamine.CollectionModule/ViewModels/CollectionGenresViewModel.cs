@@ -156,6 +156,13 @@ namespace Dopamine.CollectionModule.ViewModels
                 await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
             });
 
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
+            {
+                this.EnableLove = enableLove;
+                this.SetTrackOrder("GenresTrackOrder");
+                await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
+            });
+
             // MetadataService
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 

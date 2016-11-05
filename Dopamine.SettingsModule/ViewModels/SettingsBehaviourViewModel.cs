@@ -19,6 +19,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxFollowTrackChecked;
         private bool checkBoxCloseToTrayChecked;
         private bool checkBoxEnableRatingChecked;
+        private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
@@ -77,6 +78,17 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
+        public bool CheckBoxEnableLoveChecked
+        {
+            get { return this.checkBoxEnableLoveChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Behaviour", "EnableLove", value);
+                SetProperty<bool>(ref this.checkBoxEnableLoveChecked, value);
+                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Publish(value));
+            }
+        }
+
         public bool CheckBoxSaveRatingInAudioFilesChecked
         {
             get { return this.checkBoxSaveRatingInAudioFilesChecked; }
@@ -124,6 +136,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxCloseToTrayChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "CloseToTray");
                 this.CheckBoxFollowTrackChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "FollowTrack");
                 this.CheckBoxEnableRatingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
+                this.CheckBoxEnableLoveChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
                 this.CheckBoxSaveRatingInAudioFilesChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
             });
         }

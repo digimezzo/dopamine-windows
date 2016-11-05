@@ -9,7 +9,9 @@ namespace Dopamine.CollectionModule.ViewModels
     {
         #region Private
         private bool checkBoxRatingVisible;
+        private bool checkBoxLoveVisible;
         private bool checkBoxRatingChecked;
+        private bool checkBoxLoveChecked;
         private bool checkBoxArtistChecked;
         private bool checkBoxAlbumChecked;
         private bool checkBoxGenreChecked;
@@ -25,6 +27,18 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             get { return checkBoxRatingVisible; }
             set { SetProperty<bool>(ref this.checkBoxRatingVisible, value); }
+        }
+
+        public bool CheckBoxLoveVisible
+        {
+            get { return checkBoxLoveVisible; }
+            set { SetProperty<bool>(ref this.checkBoxLoveVisible, value); }
+        }
+
+        public bool CheckBoxLoveChecked
+        {
+            get { return checkBoxLoveChecked; }
+            set { SetProperty<bool>(ref this.checkBoxLoveChecked, value); }
         }
 
         public bool CheckBoxRatingChecked
@@ -90,14 +104,8 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Construction
         public CollectionTracksColumnsViewModel()
         {
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating"))
-            {
-                this.CheckBoxRatingVisible = true;
-            }
-            else
-            {
-                this.CheckBoxRatingVisible = false;
-            }
+            this.CheckBoxRatingVisible = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
+            this.CheckBoxLoveVisible = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
 
             this.GetVisibleColumns();
         }
@@ -107,7 +115,8 @@ namespace Dopamine.CollectionModule.ViewModels
         private void GetVisibleColumns()
         {
             Utils.GetVisibleSongsColumns(
-                ref this.checkBoxRatingChecked, 
+                ref this.checkBoxRatingChecked,
+                ref this.checkBoxLoveChecked,
                 ref this.checkBoxArtistChecked,
                 ref this.checkBoxAlbumChecked,
                 ref this.checkBoxGenreChecked,
@@ -118,6 +127,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.checkBoxBitrateChecked);
 
             OnPropertyChanged(() => this.CheckBoxRatingChecked);
+            OnPropertyChanged(() => this.CheckBoxLoveChecked);
             OnPropertyChanged(() => this.CheckBoxArtistChecked);
             OnPropertyChanged(() => this.CheckBoxAlbumChecked);
             OnPropertyChanged(() => this.CheckBoxGenreChecked);
@@ -136,6 +146,7 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 Utils.SetVisibleSongsColumns(
                     this.CheckBoxRatingChecked,
+                     this.CheckBoxLoveChecked,
                     this.CheckBoxArtistChecked,
                     this.CheckBoxAlbumChecked,
                     this.CheckBoxGenreChecked,
