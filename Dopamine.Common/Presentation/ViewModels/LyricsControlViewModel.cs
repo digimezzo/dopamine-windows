@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Services.I18n;
-using Dopamine.Common.Services.Metadata;
+﻿using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
@@ -69,8 +68,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.previousTrack = this.playbackService.PlayingTrack;
                 }
             };
-
-            this.metadataService.FilesChanged += (paths) => { if (paths.Contains(this.playbackService.PlayingTrack.Path)) this.ShowLyricsAsync(this.playbackService.PlayingTrack); };
 
             this.ShowLyricsAsync(this.playbackService.FirstQueuedTrack);
 

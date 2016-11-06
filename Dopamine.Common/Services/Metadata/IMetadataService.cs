@@ -17,6 +17,5 @@ namespace Dopamine.Common.Services.Metadata
         event Action<MetadataChangedEventArgs> MetadataChanged;
         event Action<RatingChangedEventArgs> RatingChanged;
         event Action<LoveChangedEventArgs> LoveChanged;
-        event Action<List<string>> FilesChanged;
     }
 }

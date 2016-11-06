@@ -52,7 +52,6 @@ namespace Dopamine.Common.Services.Metadata
         public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
-        public event Action<List<string>> FilesChanged = delegate { };
         #endregion
 
         #region Construction
@@ -176,7 +175,7 @@ namespace Dopamine.Common.Services.Metadata
             var successfulFileMetadatas = new List<FileMetadata>();
             var failedFileMetadatas = new List<FileMetadata>();
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 // Create a local collection of FileMetadata's
                 lock (lockObject)
@@ -199,22 +198,8 @@ namespace Dopamine.Common.Services.Metadata
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
-
-                        try
-                        {
-                            LogClient.Instance.Logger.Error("Trying to save metadata for Track '{0}' after suspending playback. Exception: {1}", fmd.FileName, ex.Message);
-
-                            await this.playbackService.SuspendAsync();
-                            fmd.Save();
-                            if (!successfulFileMetadatas.Contains(fmd)) successfulFileMetadatas.Add(fmd);
-                            await this.playbackService.UnsuspendAsync();
-                        }
-                        catch (Exception)
-                        {
-                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}' after suspending playback. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
-                            failedFileMetadatas.Add(fmd);
-                        }
+                        LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
+                        failedFileMetadatas.Add(fmd);
                     }
                 }
             });
@@ -227,9 +212,6 @@ namespace Dopamine.Common.Services.Metadata
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.FileName);
             }
-
-            // Send event that files have changed
-            this.FilesChanged(successfulFileMetadatas.Select((fmd) => fmd.FileName).ToList());
 
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout; // The next time, wait longer.
 
