@@ -58,6 +58,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
+            this.metadataService.MetadataChanged += (_) => this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
@@ -93,6 +95,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.highlightTimer.Stop();
 
+            FileMetadata fmd = null;
+            if (trackInfo != null) fmd = await this.metadataService.GetFileMetadataAsync(trackInfo.Path);
+
             await Task.Run(() =>
             {
                 lock (lockObject)
@@ -104,8 +109,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                         return;
                     }
 
-                    // No track selected: clear the lyrics.
-                    if (trackInfo == null)
+                    // No FileMetadata available: clear the lyrics.
+                    if (fmd == null)
                     {
                         this.LyricsViewModel = new LyricsViewModel();
                         return;
@@ -114,8 +119,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // Show the new lyrics
                     try
                     {
-                        var fmd = new FileMetadata(trackInfo.Path);
-
                         this.LyricsViewModel = new LyricsViewModel(trackInfo.Path, metadataService);
                         this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? string.Empty : fmd.Lyrics.Value);
                         this.highlightTimer.Start();

@@ -152,11 +152,11 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
-            // Update the metadata in the database immediately
-            await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
-
             // Queue update of the file metadata
             await this.QueueFileMetadata(fileMetadatas);
+
+            // Update the metadata in the database
+            await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork); 
         }
 
         public async Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork)
@@ -176,9 +176,6 @@ namespace Dopamine.Common.Services.Metadata
                 }
             }
 
-            // Update artwork in database
-            await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
-
             if (updateFileArtwork)
             {
                 List<TrackInfo> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
@@ -187,6 +184,9 @@ namespace Dopamine.Common.Services.Metadata
                 // Queue update of the file metadata
                 await this.QueueFileMetadata(fileMetadatas);
             }
+
+            // Update artwork in database
+            await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
             // Raise event
             var metadataChangedEventArgs = new MetadataChangedEventArgs();
@@ -316,6 +316,12 @@ namespace Dopamine.Common.Services.Metadata
             }
 
             if (isMetadataChanged) await this.trackRepository.UpdateTrackAsync(dbTrack);
+
+            if (fileMetadata.Lyrics.IsValueChanged)
+            {
+                isMetadataChanged = true;
+                // Lyrics are not saved in the database. We only need to set "isMetadataChanged = true" here.
+            }
 
             return isMetadataChanged;
         }
