@@ -167,48 +167,50 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateFilemetadataAsync()
         {
+            bool restartTimer = false;
             this.updateFileMetadataTimer.Stop();
 
             this.isUpdatingFileMetadata = true;
 
-            var localFileMetadatas = new Queue<FileMetadata>();
-            var successfulFileMetadatas = new List<FileMetadata>();
-            var failedFileMetadatas = new List<FileMetadata>();
+            var filesToSync = new List<FileMetadata>();
 
             await Task.Run(() =>
             {
-                // Create a local collection of FileMetadata's
                 lock (lockObject)
                 {
+                    var failedFileMetadatas = new Queue<FileMetadata>();
+
                     while (this.fileMetadatas.Count > 0)
                     {
-                        localFileMetadatas.Enqueue(this.fileMetadatas.Dequeue());
-                    }
-                }
+                        FileMetadata fmd = this.fileMetadatas.Dequeue();
 
-                // Process local FileMetadata's
-                while (localFileMetadatas.Count > 0)
-                {
-                    FileMetadata fmd = localFileMetadatas.Dequeue();
-
-                    try
-                    {
-                        fmd.Save();
-                        if (!successfulFileMetadatas.Contains(fmd)) successfulFileMetadatas.Add(fmd);
+                        try
+                        {
+                            fmd.Save();
+                            filesToSync.Add(fmd);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
+                            failedFileMetadatas.Enqueue(fmd);
+                        }
                     }
-                    catch (Exception ex)
+
+                    // Make sure failed FileMetadata's are processed the next time the timer elapses
+                    if (failedFileMetadatas.Count > 0)
                     {
-                        LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Metadata saving is now queued for later. Exception: {1}", fmd.FileName, ex.Message);
-                        failedFileMetadatas.Add(fmd);
+                        restartTimer = true; // If there are still queued fileMetadatas, start the timer.
+
+                        foreach (FileMetadata fmd in failedFileMetadatas)
+                        {
+                            this.fileMetadatas.Enqueue(fmd);
+                        }
                     }
                 }
             });
 
-            // Make sure failed FileMetadata's are processed again the next time the timer elapses
-            if (failedFileMetadatas.Count > 0) await this.QueueFileMetadata(failedFileMetadatas);
-
             // Sync file size and last modified date in the database
-            foreach (FileMetadata fmd in successfulFileMetadatas)
+            foreach (FileMetadata fmd in filesToSync)
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.FileName);
             }
@@ -217,7 +219,7 @@ namespace Dopamine.Common.Services.Metadata
 
             this.isUpdatingFileMetadata = false;
 
-            this.updateFileMetadataTimer.Start();
+            if(restartTimer) this.updateFileMetadataTimer.Start(); 
         }
         #endregion
 
