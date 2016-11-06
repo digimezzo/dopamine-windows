@@ -1,4 +1,5 @@
 ﻿using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using System;
 using System.Linq;
 using TagLib;
@@ -35,14 +36,14 @@ namespace Dopamine.Core.Metadata
         #endregion
 
         #region ReadOnly Properties
-        public string FileName
+        public string Path
         {
             get { return this.file.Name; }
         }
 
-        public string FileNameToLower
+        public string SafePath
         {
-            get { return this.file.Name.ToLower(); }
+            get { return this.file.Name.ToSafePath(); }
         }
 
         public int BitRate
@@ -349,12 +350,12 @@ namespace Dopamine.Core.Metadata
                 return false;
             }
 
-            return this.FileNameToLower.Equals(((FileMetadata)obj).FileNameToLower);
+            return this.SafePath.Equals(((FileMetadata)obj).SafePath);
         }
 
         public override int GetHashCode()
         {
-            return new { this.FileNameToLower }.GetHashCode();
+            return new { this.SafePath }.GetHashCode();
         }
         #endregion
     }

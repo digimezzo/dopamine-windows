@@ -29,7 +29,7 @@ namespace Dopamine.Common.Services.Metadata
         private bool isUpdatingFileMetadata;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
-        private Queue<FileMetadata> fileMetadatas;
+        private Queue<FileMetadata> queuedFileMetadatas;
         private object lockObject = new object();
         private Timer updateFileMetadataTimer;
         private int updateFileMetadataShortTimeout = 250; // 250 milliseconds
@@ -65,7 +65,7 @@ namespace Dopamine.Common.Services.Metadata
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
 
-            this.fileMetadatas = new Queue<FileMetadata>();
+            this.queuedFileMetadatas = new Queue<FileMetadata>();
 
             this.updateFileMetadataTimer = new Timer();
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout;
@@ -78,6 +78,35 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region IMetadataService
+        public async Task<FileMetadata> GetFileMetadataAsync(string path)
+        {
+            bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
+            this.updateFileMetadataTimer.Stop();
+
+            FileMetadata returnFileMetadata = null;
+
+            await Task.Run(() =>
+            {
+                // Check if there is a queued FileMetadata for this path, if yes, use that as it has more up to date information.
+                lock (lockObject)
+                {
+                    foreach (FileMetadata fmd in this.queuedFileMetadatas)
+                    {
+                        if (fmd.SafePath == path.ToSafePath())
+                        {
+                            returnFileMetadata = fmd;
+                        }
+                    }
+                }
+            });
+
+            // If no queued FileMetadata was found, create a new one from the actual file.
+            if (returnFileMetadata == null) returnFileMetadata = new FileMetadata(path);
+            if (restartTimer) this.updateFileMetadataTimer.Start(); // Restart the timer if necessary
+
+            return returnFileMetadata;
+        }
+
         public async Task UpdateTrackRatingAsync(string path, int rating)
         {
             Track dbTrack = await this.trackRepository.GetTrackAsync(path);
@@ -180,9 +209,9 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     var failedFileMetadatas = new Queue<FileMetadata>();
 
-                    while (this.fileMetadatas.Count > 0)
+                    while (this.queuedFileMetadatas.Count > 0)
                     {
-                        FileMetadata fmd = this.fileMetadatas.Dequeue();
+                        FileMetadata fmd = this.queuedFileMetadatas.Dequeue();
 
                         try
                         {
@@ -191,7 +220,7 @@ namespace Dopamine.Common.Services.Metadata
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
+                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                             failedFileMetadatas.Enqueue(fmd);
                         }
                     }
@@ -199,11 +228,11 @@ namespace Dopamine.Common.Services.Metadata
                     // Make sure failed FileMetadata's are processed the next time the timer elapses
                     if (failedFileMetadatas.Count > 0)
                     {
-                        restartTimer = true; // If there are still queued fileMetadatas, start the timer.
+                        restartTimer = true; // If there are still queued FileMetadata's, start the timer.
 
                         foreach (FileMetadata fmd in failedFileMetadatas)
                         {
-                            this.fileMetadatas.Enqueue(fmd);
+                            this.queuedFileMetadatas.Enqueue(fmd);
                         }
                     }
                 }
@@ -212,14 +241,14 @@ namespace Dopamine.Common.Services.Metadata
             // Sync file size and last modified date in the database
             foreach (FileMetadata fmd in filesToSync)
             {
-                await this.trackRepository.UpdateTrackFileInformationAsync(fmd.FileName);
+                await this.trackRepository.UpdateTrackFileInformationAsync(fmd.SafePath);
             }
 
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout; // The next time, wait longer.
 
             this.isUpdatingFileMetadata = false;
 
-            if(restartTimer) this.updateFileMetadataTimer.Start(); 
+            if (restartTimer) this.updateFileMetadataTimer.Start();
         }
         #endregion
 
@@ -234,7 +263,7 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     foreach (FileMetadata fmd in fileMetadatas)
                     {
-                        this.fileMetadatas.Enqueue(fmd);
+                        this.queuedFileMetadatas.Enqueue(fmd);
                     }
                 }
             });
@@ -248,7 +277,7 @@ namespace Dopamine.Common.Services.Metadata
 
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.FileName);
+            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Title.IsValueChanged)
             {
@@ -295,7 +324,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.FileName);
+            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Artists.IsValueChanged)
             {
@@ -316,7 +345,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fmd.FileName);
+            Track dbTrack = await this.trackRepository.GetTrackAsync(fmd.SafePath);
 
             if (fmd.Genres.IsValueChanged)
             {
@@ -337,7 +366,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             var albumMetadataChangeStatus = new AlbumMetadataChangeStatus();
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.FileName);
+            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Album.IsValueChanged | fileMetadata.AlbumArtists.IsValueChanged | fileMetadata.Year.IsValueChanged)
             {
@@ -412,7 +441,7 @@ namespace Dopamine.Common.Services.Metadata
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.FileName, ex.Message);
+                    LogClient.Instance.Logger.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                 }
             }
 

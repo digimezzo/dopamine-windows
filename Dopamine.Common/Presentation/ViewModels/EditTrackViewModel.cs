@@ -63,7 +63,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Readonly Properties
         public string DialogTitle
         {
-            get {
+            get
+            {
                 string dialogTitle = this.trackInfos.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
                 return dialogTitle.ToLower();
             }
@@ -302,17 +303,17 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             List<FileMetadata> fileMetadatas = new List<FileMetadata>();
 
-            await Task.Run(() =>
+            try
             {
-                try
+                foreach (TrackInfo ti in this.trackInfos)
                 {
-                    fileMetadatas.AddRange(this.trackInfos.Select((t) => new FileMetadata(t.Path)));
+                    fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(ti.Path));
                 }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
+            }
 
             if (fileMetadatas.Count == 0) return;
 
