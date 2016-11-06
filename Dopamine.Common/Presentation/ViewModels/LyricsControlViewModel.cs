@@ -104,14 +104,14 @@ namespace Dopamine.Common.Presentation.ViewModels
                         return;
                     }
 
-                    // No track selected: clear lyrics.
+                    // No track selected: clear the lyrics.
                     if (trackInfo == null)
                     {
                         this.LyricsViewModel = new LyricsViewModel();
                         return;
                     }
 
-                    // The track changed: we need to show new lyrics.
+                    // Show the new lyrics
                     try
                     {
                         var fmd = new FileMetadata(trackInfo.Path);
