@@ -89,14 +89,22 @@ namespace Dopamine.Common.Presentation.Views
         {
             if (this.lyricsTextBox != null)
             {
-                // Using the Dispatcher seems to be the only way to ever make the TextBox focus.
-                // See: http://stackoverflow.com/questions/13955340/keyboard-focus-does-not-work-on-text-box-in-wpf
-                Dispatcher.BeginInvoke(DispatcherPriority.Input,
-                      new Action(delegate ()
-                      {
-                          this.lyricsTextBox.Focus(); // Set Logical Focus
-                          Keyboard.Focus(this.lyricsTextBox); // Set Keyboard Focus (this is probably not needed)
-                      }));
+                try
+                {
+                    // Using the Dispatcher seems to be the only way to ever make the TextBox focus.
+                    // See: http://stackoverflow.com/questions/13955340/keyboard-focus-does-not-work-on-text-box-in-wpf
+                    Dispatcher.BeginInvoke(DispatcherPriority.Input,
+                          new Action(delegate ()
+                          {
+                              this.lyricsTextBox.Focus(); // Set Logical Focus
+                              Keyboard.Focus(this.lyricsTextBox); // Set Keyboard Focus (this is probably not needed)
+                          }));
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not set focus on lyricsTextBox. Exception: {0}", ex.Message);
+                }
+
             }
         }
 
@@ -115,7 +123,7 @@ namespace Dopamine.Common.Presentation.Views
                         this.lyricsTextBox.CaretIndex += 1; // Jump to the next line
                         return; // Don't try to add a timeStamp to an empty line (Trim removes newline characters)
                     }
-                       
+
                     string strippedLine = string.Empty;
 
                     if (line.Length > 0 && line.StartsWith("["))

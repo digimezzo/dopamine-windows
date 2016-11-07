@@ -1,4 +1,4 @@
-2016-11-05: Dopamine 1.2 Build 760 (Preview)
+2016-11-07: Dopamine 1.2 Build 761 (Preview)
 --------------------------------------------
 
 - [Added] Added 'Love' button which can send 'Love' and 'Unlove' to Last.fm
