@@ -1,7 +1,7 @@
-2016-11-07: Dopamine 1.2 Build 761 (Preview)
+2016-11-08: Dopamine 1.2 Build 762 (Preview)
 --------------------------------------------
 
-- [Added] Added 'Love' button which can send 'Love' and 'Unlove' to Last.fm
+- [Added] Added a 'Love' button which can send 'Love' and 'Unlove' requests to Last.fm
 - [Fixed] Fixed "Follow the Windows color". It was broken since version 1.1.
 - [Fixed] Fixed a bug where lyrics from MiniLyrics didn't work because they're using 2 digits for milliseconds instead of 3
 

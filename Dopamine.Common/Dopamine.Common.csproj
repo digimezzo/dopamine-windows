@@ -337,7 +337,6 @@
     <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="Services\JumpList\IJumpListService.cs" />
     <Compile Include="Services\JumpList\JumpListService.cs" />
-    <Compile Include="Services\Metadata\AlbumMetadataChangeStatus.cs" />
     <Compile Include="Services\Metadata\IMetadataService.cs" />
     <Compile Include="Services\Metadata\LoveChangedEventArgs.cs" />
     <Compile Include="Services\Metadata\MetadataChangedEventArgs.cs" />

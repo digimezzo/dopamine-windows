@@ -134,7 +134,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsTrackMetadataChanged)
+            if (e.IsTrackChanged)
             {
                 await this.GetTracksAsync(null, null, null, TrackOrder.ByAlbum);
             }
