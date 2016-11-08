@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Added] Added a 'Love' button which can send 'Love' and 'Unlove' requests to Last.fm
+- [Changed] Updated the Greek translation
 - [Fixed] Fixed "Follow the Windows color". It was broken since version 1.1.
 - [Fixed] Fixed a bug where lyrics from MiniLyrics didn't work because they're using 2 digits for milliseconds instead of 3
 
