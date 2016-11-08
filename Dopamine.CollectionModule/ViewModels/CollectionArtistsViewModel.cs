@@ -243,25 +243,10 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsAlbumArtworkMetadataChanged)
-            {
-                await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
-            }
-
-            if (e.IsArtistMetadataChanged | (e.IsAlbumArtistMetadataChanged & (this.ArtistType == ArtistType.Album | this.ArtistType == ArtistType.All)))
-            {
-                await this.GetArtistsAsync(this.ArtistType);
-            }
-
-            if (e.IsArtistMetadataChanged | e.IsAlbumTitleMetadataChanged | e.IsAlbumArtistMetadataChanged | e.IsAlbumYearMetadataChanged)
-            {
-                await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            }
-
-            if (e.IsArtistMetadataChanged | e.IsAlbumTitleMetadataChanged | e.IsAlbumArtistMetadataChanged | e.IsTrackMetadataChanged)
-            {
-                await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
-            }
+            if (e.IsAlbumChanged) await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            if (e.IsArtistChanged | (e.IsAlbumChanged & (this.ArtistType == ArtistType.Album | this.ArtistType == ArtistType.All))) await this.GetArtistsAsync(this.ArtistType);
+            if (e.IsArtistChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         private async Task GetArtistsAsync(ArtistType artistType)

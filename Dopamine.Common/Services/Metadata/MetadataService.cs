@@ -152,11 +152,14 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
+            // Update the metadata in the database
+            MetadataChangedEventArgs args = await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
+
             // Queue update of the file metadata
             await this.QueueFileMetadata(fileMetadatas);
 
-            // Update the metadata in the database
-            await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork); 
+            // Raise event
+            this.MetadataChanged(args);
         }
 
         public async Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork)
@@ -176,6 +179,9 @@ namespace Dopamine.Common.Services.Metadata
                 }
             }
 
+            // Update artwork in database
+            await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
+
             if (updateFileArtwork)
             {
                 List<TrackInfo> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
@@ -185,13 +191,8 @@ namespace Dopamine.Common.Services.Metadata
                 await this.QueueFileMetadata(fileMetadatas);
             }
 
-            // Update artwork in database
-            await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
-
             // Raise event
-            var metadataChangedEventArgs = new MetadataChangedEventArgs();
-            metadataChangedEventArgs.IsAlbumArtworkMetadataChanged = true;
-            this.MetadataChanged(metadataChangedEventArgs);
+            this.MetadataChanged(new MetadataChangedEventArgs() { IsAlbumChanged = true });
         }
 
         public async Task UpdateFilemetadataAsync()
@@ -368,18 +369,15 @@ namespace Dopamine.Common.Services.Metadata
             return isMetadataChanged;
         }
 
-        private async Task<AlbumMetadataChangeStatus> UpdateDatabaseAlbumMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
+        private async Task<bool> UpdateDatabaseAlbumMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
         {
-            var albumMetadataChangeStatus = new AlbumMetadataChangeStatus();
+            bool isMetadataChanged = false;
 
             Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Album.IsValueChanged | fileMetadata.AlbumArtists.IsValueChanged | fileMetadata.Year.IsValueChanged)
             {
-                albumMetadataChangeStatus.IsAlbumTitleChanged = fileMetadata.Album.IsValueChanged;
-                albumMetadataChangeStatus.IsAlbumArtistChanged = fileMetadata.AlbumArtists.IsValueChanged;
-                albumMetadataChangeStatus.IsAlbumYearChanged = fileMetadata.Year.IsValueChanged;
-
+                isMetadataChanged = true;
                 Album dbAlbum = null;
                 string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString;
                 string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString;
@@ -404,7 +402,7 @@ namespace Dopamine.Common.Services.Metadata
 
             if (updateAlbumArtwork)
             {
-                albumMetadataChangeStatus.IsAlbumArtworkChanged = true;
+                isMetadataChanged = true;
 
                 string artworkID = String.Empty;
 
@@ -422,10 +420,10 @@ namespace Dopamine.Common.Services.Metadata
                                                             artworkID);
             }
 
-            return albumMetadataChangeStatus;
+            return isMetadataChanged;
         }
 
-        private async Task UpdateDatabaseMetadataAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
+        private async Task<MetadataChangedEventArgs> UpdateDatabaseMetadataAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             this.isUpdatingDatabaseMetadata = true;
 
@@ -435,15 +433,10 @@ namespace Dopamine.Common.Services.Metadata
             {
                 try
                 {
-                    metadataChangedEventArgs.IsTrackMetadataChanged = await this.UpdateDatabaseTrackMetadataAsync(fmd);
-                    metadataChangedEventArgs.IsArtistMetadataChanged = await this.UpdateDatabaseArtistMetadataAsync(fmd);
-                    metadataChangedEventArgs.IsGenreMetadataChanged = await this.UpdateDatabaseGenreMetadataAsync(fmd);
-
-                    AlbumMetadataChangeStatus albumMetadataChangeStatus = await this.UpdateDatabaseAlbumMetadataAsync(fmd, updateAlbumArtwork);
-                    metadataChangedEventArgs.IsAlbumTitleMetadataChanged = albumMetadataChangeStatus.IsAlbumTitleChanged;
-                    metadataChangedEventArgs.IsAlbumArtistMetadataChanged = albumMetadataChangeStatus.IsAlbumArtistChanged;
-                    metadataChangedEventArgs.IsAlbumYearMetadataChanged = albumMetadataChangeStatus.IsAlbumYearChanged;
-                    metadataChangedEventArgs.IsAlbumArtworkMetadataChanged = albumMetadataChangeStatus.IsAlbumArtworkChanged;
+                    metadataChangedEventArgs.IsTrackChanged = await this.UpdateDatabaseTrackMetadataAsync(fmd);
+                    metadataChangedEventArgs.IsArtistChanged = await this.UpdateDatabaseArtistMetadataAsync(fmd);
+                    metadataChangedEventArgs.IsGenreChanged = await this.UpdateDatabaseGenreMetadataAsync(fmd);
+                    metadataChangedEventArgs.IsAlbumChanged = await this.UpdateDatabaseAlbumMetadataAsync(fmd, updateAlbumArtwork);
                 }
                 catch (Exception ex)
                 {
@@ -463,11 +456,11 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     LogClient.Instance.Logger.Error("Error while deleting orphans. Exception: {0}", ex.Message);
                 }
-
-                this.MetadataChanged(metadataChangedEventArgs);
             }
 
             this.isUpdatingDatabaseMetadata = false;
+
+            return metadataChangedEventArgs;
         }
 
         private async void DelayedUpdateFileMetadataHandler(Object sender, EventArgs e)

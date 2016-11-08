@@ -133,9 +133,9 @@ namespace Dopamine.CollectionModule.ViewModels
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // CollectionService
-            this.collectionService.AddedTracksToPlaylist += async (_,__) => await this.ReloadPlaylistsAsync();
-            this.collectionService.DeletedTracksFromPlaylists += async (_,__) => await this.ReloadPlaylistsAsync();
-            this.collectionService.PlaylistsChanged += async (_,__) => await this.FillListsAsync(); // Refreshes the lists when the playlists have changed
+            this.collectionService.AddedTracksToPlaylist += async (_, __) => await this.ReloadPlaylistsAsync();
+            this.collectionService.DeletedTracksFromPlaylists += async (_, __) => await this.ReloadPlaylistsAsync();
+            this.collectionService.PlaylistsChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the playlists have changed
 
             // Events
             this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());
@@ -154,15 +154,8 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsAlbumArtworkMetadataChanged)
-            {
-                await this.collectionService.RefreshArtworkAsync(null, this.Tracks);
-            }
-
-            if (e.IsAlbumTitleMetadataChanged | e.IsAlbumArtistMetadataChanged | e.IsTrackMetadataChanged)
-            {
-                await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
-            }
+            if (e.IsAlbumChanged) await this.collectionService.RefreshArtworkAsync(null, this.Tracks);
+            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
         }
 
         protected async Task AddPLaylistsToNowPlayingAsync(IList<Playlist> playlists)
