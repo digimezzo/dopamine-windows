@@ -113,8 +113,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        // SortDuration is used in the Songs DataGrid to correctly sort by Length, 
-        // otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00
+        // SortDuration is used in the Songs DataGrid to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00
         public long SortDuration
         {
             get
@@ -127,6 +126,15 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     return 0;
                 }
+            }
+        }
+
+        // SortAlbumTitle is used to sort by Album, but preserving track nubmer order inside the album
+        public string SortAlbumTitle
+        {
+            get
+            {
+                return this.AlbumTitle + this.trackInfo.TrackNumber.Value.ToString("0000");
             }
         }
 
