@@ -101,7 +101,8 @@
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Artist}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="2*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumTitle}" Visibility="{Binding (FrameworkElement.DataContext).AlbumVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <!-- SortAlbumTitle is used to sort by Album, but preserving track nubmer order inside the album -->
+                <DataGridTextColumn Width="2*" SortMemberPath="SortAlbumTitle" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumTitle}" Visibility="{Binding (FrameworkElement.DataContext).AlbumVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Album}"/>
                     </DataGridTextColumn.Header>
@@ -111,8 +112,7 @@
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Genre}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <!-- SortDuration is used to correctly sort by Length, 
-                    otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00-->
+                <!-- SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00-->
                 <DataGridTextColumn Width="*" SortMemberPath="SortDuration" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding Duration}" Visibility="{Binding (FrameworkElement.DataContext).LengthVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Length}"/>

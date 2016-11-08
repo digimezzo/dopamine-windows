@@ -1,7 +1,8 @@
-2016-11-08: Dopamine 1.2 Build 762 (Preview)
+2016-11-08: Dopamine 1.2 Build 763 (Preview)
 --------------------------------------------
 
 - [Added] Added a 'Love' button which can send 'Love' and 'Unlove' requests to Last.fm
+- [Changed] Sorting by album on the Songs screen now respects the track order inside an album
 - [Changed] Updated the Greek translation
 - [Fixed] Fixed "Follow the Windows color". It was broken since version 1.1.
 - [Fixed] Fixed a bug where lyrics from MiniLyrics didn't work because they're using 2 digits for milliseconds instead of 3
