@@ -122,11 +122,13 @@ namespace Dopamine.Common.Services.Playback
 
         public TrackInfo FirstQueuedTrack
         {
-            get {
-                if(this.shuffledTracks != null && this.shuffledTracks.Count > 0)
+            get
+            {
+                if (this.shuffledTracks != null && this.shuffledTracks.Count > 0)
                 {
                     return this.shuffledTracks.First();
-                }else
+                }
+                else
                 {
                     return null;
                 }
@@ -1046,8 +1048,9 @@ namespace Dopamine.Common.Services.Playback
                     if (this.GetCurrentTime.Seconds > 3)
                     {
                         // If we're more than 3 seconds into the Track, try to
-                        // play the current Track from the beginning again.
-                        trackToPlay = this.shuffledTracks[playingTrackIndex];
+                        // jump to the beginning of the current Track.
+                        this.player.Skip(0);
+                        return true;
                     }
                     else
                     {
