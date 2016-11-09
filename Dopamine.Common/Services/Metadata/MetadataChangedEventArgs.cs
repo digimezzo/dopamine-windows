@@ -9,10 +9,11 @@ namespace Dopamine.Common.Services.Metadata
         public bool IsGenreChanged { get; set; }
         public bool IsAlbumChanged { get; set; }
         public bool IsTrackChanged { get; set; }
+        public bool IsArtworkChanged { get; set; }
 
         public bool IsMetadataChanged
         {
-            get { return this.IsArtistChanged | this.IsGenreChanged | this.IsAlbumChanged | this.IsTrackChanged; }
+            get { return this.IsArtistChanged | this.IsGenreChanged | this.IsAlbumChanged | this.IsTrackChanged | this.IsArtworkChanged; }
         }
         #endregion
 
@@ -23,6 +24,7 @@ namespace Dopamine.Common.Services.Metadata
             this.IsGenreChanged = false;
             this.IsAlbumChanged = false;
             this.IsTrackChanged = false;
+            this.IsArtworkChanged = false;
         }
         #endregion
     }

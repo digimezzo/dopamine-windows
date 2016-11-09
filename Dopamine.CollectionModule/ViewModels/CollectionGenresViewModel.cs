@@ -222,7 +222,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsAlbumChanged) await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
             if (e.IsGenreChanged) await this.GetGenresAsync();
             if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);

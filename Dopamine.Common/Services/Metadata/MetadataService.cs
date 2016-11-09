@@ -192,7 +192,7 @@ namespace Dopamine.Common.Services.Metadata
             }
 
             // Raise event
-            this.MetadataChanged(new MetadataChangedEventArgs() { IsAlbumChanged = true });
+            this.MetadataChanged(new MetadataChangedEventArgs() { IsArtworkChanged = true });
         }
 
         public async Task UpdateFilemetadataAsync()
