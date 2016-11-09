@@ -103,16 +103,24 @@ namespace Dopamine.Common.Services.Scrobbling
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
-                    bool isSuccess = await LastfmApi.TrackUpdateNowPlaying(this.sessionKey, artist, trackTitle, albumTitle);
+                    try
+                    {
+                        bool isSuccess = await LastfmApi.TrackUpdateNowPlaying(this.sessionKey, artist, trackTitle, albumTitle);
 
-                    if (isSuccess)
-                    {
-                        LogClient.Instance.Logger.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
+                        if (isSuccess)
+                        {
+                            LogClient.Instance.Logger.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
+                        }
+                        else
+                        {
+                            LogClient.Instance.Logger.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
+                        LogClient.Instance.Logger.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                     }
+                    
                 }
             }
         }
@@ -139,15 +147,22 @@ namespace Dopamine.Common.Services.Scrobbling
                         {
                             this.canScrobble = false;
 
-                            bool isSuccess = await LastfmApi.TrackScrobble(this.sessionKey, artist, trackTitle, albumTitle, this.trackStartTime);
+                            try
+                            {
+                                bool isSuccess = await LastfmApi.TrackScrobble(this.sessionKey, artist, trackTitle, albumTitle, this.trackStartTime);
 
-                            if (isSuccess)
-                            {
-                                LogClient.Instance.Logger.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
+                                if (isSuccess)
+                                {
+                                    LogClient.Instance.Logger.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
+                                }
+                                else
+                                {
+                                    LogClient.Instance.Logger.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                LogClient.Instance.Logger.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
+                                LogClient.Instance.Logger.Error("Could not Scrobble track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                             }
                         }
                     }
@@ -208,10 +223,25 @@ namespace Dopamine.Common.Services.Scrobbling
             {
                 if (love)
                 {
-                    isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                    try
+                    {
+                        isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
+                    }
+                    
                 }else
                 {
-                    isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                    try
+                    {
+                        isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                    }
                 }
             }
 
