@@ -362,4 +362,6 @@
   <Text Key="Love">Love</Text>
   <Text Key="Show_Love_Button">Show 'Love' button</Text>
   <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
+  <Text Key="Show_Notification_When_Pausing_Song">Show a notification when pausing a song</Text>
+  <Text Key="Show_Notification_When_Resuming_Song">Show a notification when resuming a song</Text>
 </Language>

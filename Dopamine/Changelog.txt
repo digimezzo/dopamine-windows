@@ -1,6 +1,7 @@
-2016-11-09: Dopamine 1.2 Build 768 (Preview)
+2016-11-09: Dopamine 1.2 Build 769 (Preview)
 --------------------------------------------
 
+- [Added] Added options to show a notification when pausing and resuming a song
 - [Changed] The notification window now puts emphasis on the song title instead of the artist name
 - [Fixed] Fixed a crash when Last.fm requests fail
 
