@@ -154,7 +154,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsAlbumChanged) await this.collectionService.RefreshArtworkAsync(null, this.Tracks);
+            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(null, this.Tracks);
             if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
         }
 
