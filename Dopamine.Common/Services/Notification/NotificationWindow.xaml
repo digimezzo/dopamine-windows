@@ -76,8 +76,8 @@
                     <views:VerticalVolumeControls x:Name="VolumePanel" Margin="0,0,10,0" DockPanel.Dock="Left" Width="30"/>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="5,0,5,0">
-                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock x:Name="TextBoxArtist" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                            <TextBlock x:Name="TextBoxArtist" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"  />
                             <StackPanel.ToolTip>
                                 <ToolTip>
                                     <StackPanel DockPanel.Dock="Top">
