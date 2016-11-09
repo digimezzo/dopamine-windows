@@ -28,9 +28,17 @@
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Notification}" />
             <StackPanel Margin="0,5,0,0">
                 <TextBlock Text="{DynamicResource Language_Show_Notification_When_Song_Starts}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotification" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationChecked}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPlaying" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPlayingChecked}"/>
             </StackPanel>
-            <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding CheckBoxShowNotificationChecked}">
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Pausing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPausing" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPausingChecked}"/>
+            </StackPanel>
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Resuming_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenResuming" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenResumingChecked}"/>
+            </StackPanel>
+            <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding IsNotificationEnabled}">
                 <StackPanel.Style>
                     <Style TargetType="{x:Type StackPanel}">
                         <Style.Triggers>

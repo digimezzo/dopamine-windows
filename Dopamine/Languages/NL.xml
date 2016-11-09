@@ -103,7 +103,7 @@
   <Text Key="Ctrl_J">Ctrl+J</Text>
   <Text Key="Ctrl_T">Ctrl+T</Text>
   <Text Key="Notification">Popup</Text>
-  <Text Key="Show_Notification_When_Song_Starts">Toon een popup als het afspelen van een nummer</Text>
+  <Text Key="Show_Notification_When_Song_Starts">Toon een popup bij het afspelen van een nummer</Text>
   <Text Key="Show_Notification_Controls">Toon afspeelknoppen op de popup</Text>
   <Text Key="Notification_Position">Positie van de popup</Text>
   <Text Key="Test">Test</Text>
@@ -361,5 +361,7 @@
   <Text Key="Create_A_Lastfm_Account">Een Last.fm account aanmaken</Text>
   <Text Key="Love">Love</Text>
   <Text Key="Show_Love_Button">'Love' knop weergeven</Text>
-  <Text Key="Show_Rating_Button">Show 'Rating' button</Text>
+  <Text Key="Show_Rating_Button">'Rating' knop weergeven</Text>
+  <Text Key="Show_Notification_When_Pausing_Song">Toon een popup bij het pauzeren van een nummer</Text>
+  <Text Key="Show_Notification_When_Resuming_Song">Toon een popup bij het hervatten van een nummer</Text>
 </Language>

@@ -25,7 +25,9 @@ namespace Dopamine.SettingsModule.ViewModels
         private INotificationService notificationService;
         private IDialogService dialogService;
         private bool checkBoxWasapiExclusiveModeChecked;
-        private bool checkBoxShowNotificationChecked;
+        private bool checkBoxShowNotificationWhenPlayingChecked;
+        private bool checkBoxShowNotificationWhenPausingChecked;
+        private bool checkBoxShowNotificationWhenResumingChecked;
         private bool checkBoxShowNotificationControlsChecked;
         private bool checkBoxShowProgressInTaskbarChecked;
         private bool checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
@@ -40,6 +42,11 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Properties
+        public bool IsNotificationEnabled
+        {
+            get { return this.CheckBoxShowNotificationWhenPlayingChecked | this.CheckBoxShowNotificationWhenPausingChecked | this.CheckBoxShowNotificationWhenResumingChecked; }
+        }
+
         public ObservableCollection<NameValue> Latencies
         {
             get { return this.latencies; }
@@ -74,17 +81,39 @@ namespace Dopamine.SettingsModule.ViewModels
                 {
                     this.ApplyExclusiveMode(false);
                 }
-
             }
         }
 
-        public bool CheckBoxShowNotificationChecked
+        public bool CheckBoxShowNotificationWhenPlayingChecked
         {
-            get { return this.checkBoxShowNotificationChecked; }
+            get { return this.checkBoxShowNotificationWhenPlayingChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotification", value);
-                SetProperty<bool>(ref this.checkBoxShowNotificationChecked, value);
+                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenPlaying", value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationWhenPlayingChecked, value);
+                OnPropertyChanged(() => this.IsNotificationEnabled);
+            }
+        }
+
+        public bool CheckBoxShowNotificationWhenPausingChecked
+        {
+            get { return this.checkBoxShowNotificationWhenPausingChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenPausing", value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationWhenPausingChecked, value);
+                OnPropertyChanged(() => this.IsNotificationEnabled);
+            }
+        }
+
+        public bool CheckBoxShowNotificationWhenResumingChecked
+        {
+            get { return this.checkBoxShowNotificationWhenResumingChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenResuming", value);
+                SetProperty<bool>(ref this.checkBoxShowNotificationWhenResumingChecked, value);
+                OnPropertyChanged(() => this.IsNotificationEnabled);
             }
         }
 
@@ -263,7 +292,9 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.checkBoxWasapiExclusiveModeChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
                 OnPropertyChanged(() => this.CheckBoxWasapiExclusiveModeChecked);
 
-                this.CheckBoxShowNotificationChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotification");
+                this.CheckBoxShowNotificationWhenPlayingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying");
+                this.CheckBoxShowNotificationWhenPausingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing");
+                this.CheckBoxShowNotificationWhenResumingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming");
                 this.CheckBoxShowNotificationControlsChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls");
                 this.CheckBoxShowProgressInTaskbarChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar");
                 this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");

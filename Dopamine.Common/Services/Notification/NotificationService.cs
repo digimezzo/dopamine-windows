@@ -46,7 +46,9 @@ namespace Dopamine.Common.Services.Notification
             this.playbackService = playbackService;
             this.cacheService = cacheService;
 
-            this.playbackService.PlaybackSuccess += async (x) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackSuccess += async (_) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackPaused += async (_,__) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackResumed += async (_, __) => await this.ShowNotificationIfAllowedAsync();
         }
         #endregion
 
@@ -76,7 +78,9 @@ namespace Dopamine.Common.Services.Notification
                 this.notification.DoubleClicked -= ShowMainWindow;
             }
 
-            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotification"))
+            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying") 
+                | !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
+                | !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
             {
                 return;
             }

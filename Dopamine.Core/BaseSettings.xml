@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>64</Value>
+      <Value>66</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -102,7 +102,13 @@
     <Setting Name="FollowTrack">
       <Value>True</Value>
     </Setting>
-    <Setting Name="ShowNotification">
+    <Setting Name="ShowNotificationWhenPlaying">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ShowNotificationWhenPausing">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowNotificationWhenResuming">
       <Value>False</Value>
     </Setting>
     <Setting Name="ShowNotificationControls">
