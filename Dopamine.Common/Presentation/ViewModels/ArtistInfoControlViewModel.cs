@@ -70,7 +70,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (this.playbackService.PlayingTrack != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
             };
 
-            this.ShowArtistInfoAsync(this.playbackService.FirstQueuedTrack, true);
+            this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
         }
         #endregion
 
