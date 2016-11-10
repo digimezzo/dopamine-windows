@@ -71,7 +71,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             };
 
-            this.ShowLyricsAsync(this.playbackService.FirstQueuedTrack);
+            this.ShowLyricsAsync(this.playbackService.PlayingTrack);
 
             if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
         }

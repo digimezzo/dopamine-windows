@@ -61,14 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
             };
 
-            if (this.playbackService.IsPlaying)
-            {
-                this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
-                
-            }else
-            {
-                this.ShowCoverArtAsync(this.playbackService.FirstQueuedTrack);
-            }
+            this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
 
             // The default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;

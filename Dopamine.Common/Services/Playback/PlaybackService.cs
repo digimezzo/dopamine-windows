@@ -120,11 +120,15 @@ namespace Dopamine.Common.Services.Playback
             get { return this.shuffledTracks; }
         }
 
-        public TrackInfo FirstQueuedTrack
+        public TrackInfo PlayingTrack
         {
             get
             {
-                if (this.shuffledTracks != null && this.shuffledTracks.Count > 0)
+                if (this.playingTrack != null)
+                {
+                    return this.playingTrack;
+                }
+                else if (this.shuffledTracks != null && this.shuffledTracks.Count > 0)
                 {
                     return this.shuffledTracks.First();
                 }
@@ -133,11 +137,6 @@ namespace Dopamine.Common.Services.Playback
                     return null;
                 }
             }
-        }
-
-        public TrackInfo PlayingTrack
-        {
-            get { return this.playingTrack; }
         }
 
         public double Progress
