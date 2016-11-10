@@ -1,7 +1,8 @@
-2016-11-09: Dopamine 1.2 Build 770 (Preview)
+2016-11-10: Dopamine 1.2 Build 771 (Preview)
 --------------------------------------------
 
 - [Fixed] Fixed incorrect song sometimes displayed on now playing screen
+- [Fixed] Fixed notifications not displayed when not all options are enabled
 
 
 2016-11-09: Dopamine 1.2 Build 769 (Preview)
