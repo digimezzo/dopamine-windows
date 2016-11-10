@@ -79,8 +79,8 @@ namespace Dopamine.Common.Services.Notification
             }
 
             if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying") 
-                | !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
-                | !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
+                & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
+                & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
             {
                 return;
             }
