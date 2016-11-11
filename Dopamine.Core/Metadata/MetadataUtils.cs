@@ -192,15 +192,5 @@ namespace Dopamine.Core.Metadata
                 // Should not happen
             }
         }
-
-        public int GetRating(string path)
-        {
-            TagLib.File fi = TagLib.File.Create(path);
-            TagLib.Tag tag = fi.GetTag(TagLib.TagTypes.Id3v2);
-
-            TagLib.Id3v2.PopularimeterFrame popM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
-
-            return PopM2StarRating(popM.Rating);
-        }
     }
 }
