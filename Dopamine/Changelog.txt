@@ -1,3 +1,9 @@
+2016-11-11: Dopamine 1.2 Build 773 (Preview)
+--------------------------------------------
+
+- [Added] Added a link to add lyrics on the Now Playing screen as users are confused when no lyrics are visible
+
+
 2016-11-11: Dopamine 1.2 Build 772 (Preview)
 --------------------------------------------
 

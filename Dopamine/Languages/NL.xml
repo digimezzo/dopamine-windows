@@ -364,4 +364,5 @@
   <Text Key="Show_Rating_Button">'Rating' knop weergeven</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Toon een popup bij het pauzeren van een nummer</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Toon een popup bij het hervatten van een nummer</Text>
+  <Text Key="Add_Lyrics">Songtekst toevoegen</Text>
 </Language>
