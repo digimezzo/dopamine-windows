@@ -731,7 +731,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.playbackService.PlayingTrack == null)
                 return;
 
-            string path = this.playbackService.PlayingTrack.Path;
+            string path = this.playbackService.PlayingTrack;
 
             await Task.Run(() =>
             {

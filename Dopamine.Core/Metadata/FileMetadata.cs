@@ -261,7 +261,7 @@ namespace Dopamine.Core.Metadata
                     // First, try to get the rating from the default Windows PopM user
                     popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
 
-                    if (popMFrame.Rating > 0)
+                    if (popMFrame != null && popMFrame.Rating > 0)
                     {
                         this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
                     }
@@ -272,7 +272,7 @@ namespace Dopamine.Core.Metadata
                         {
                             popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, user, true);
 
-                            if (popMFrame.Rating > 0)
+                            if (popMFrame != null && popMFrame.Rating > 0)
                             {
                                 this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
                                 break; // As soon as we found a rating, stop.
@@ -280,10 +280,8 @@ namespace Dopamine.Core.Metadata
                         }
                     }
                 }
-                else
-                {
-                    this.rating = new MetadataRatingValue();
-                }
+
+                if (this.rating == null) this.rating = new MetadataRatingValue();
 
                 return this.rating;
             }

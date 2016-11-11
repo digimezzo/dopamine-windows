@@ -67,6 +67,47 @@ namespace Dopamine.Core.Database.Repositories
             return tracks;
         }
 
+        public async Task<TrackInfo> GetTrackInfoAsync(string path)
+        {
+            TrackInfo track = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
+                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                     " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                     " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                     " FROM Track tra" +
+                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                     " WHERE tra.SafePath = '{0}';", path.ToSafePath());
+
+                            track = conn.Query<TrackInfo>(q).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("Could not get the Track for Path. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return track;
+        }
+
         public async Task<List<TrackInfo>> GetTracksAsync()
         {
             var tracks = new List<TrackInfo>();

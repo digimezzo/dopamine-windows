@@ -3,6 +3,7 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
@@ -22,6 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
         private ICacheService cacheService;
+        private ITrackRepository trackRepository;
         private SlideDirection slideDirection;
         private Album previousAlbum;
         private Album album;
@@ -42,10 +44,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService)
+        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService, ITrackRepository trackRepository)
         {
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -69,7 +72,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(TrackInfo trackInfo)
+        protected async virtual void ShowCoverArtAsync(string trackInfo)
         {
             this.previousAlbum = this.album;
 
@@ -81,12 +84,23 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return;
             }
 
+            // Get the track from the database
+            var dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
+
+            if(dbTrack == null)
+            {
+                LogClient.Instance.Logger.Error("Could not get the track from the database: {0}", trackInfo);
+                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+                this.album = null;
+                return;
+            }
+
             this.album = new Album
             {
-                AlbumArtist = trackInfo.AlbumArtist,
-                AlbumTitle = trackInfo.AlbumTitle,
-                Year = trackInfo.AlbumYear,
-                ArtworkID = trackInfo.AlbumArtworkID,
+                AlbumArtist = dbTrack.AlbumArtist,
+                AlbumTitle = dbTrack.AlbumTitle,
+                Year = dbTrack.AlbumYear,
+                ArtworkID = dbTrack.AlbumArtworkID,
             };
 
             // The album didn't change: leave the previous covert art.
@@ -97,7 +111,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = this.cacheService.GetCachedArtworkPath(trackInfo.AlbumArtworkID);
+                artworkPath = this.cacheService.GetCachedArtworkPath(dbTrack.AlbumArtworkID);
             });
 
             if (string.IsNullOrEmpty(artworkPath))
@@ -118,7 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo, ex.Message);
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             }
         }
