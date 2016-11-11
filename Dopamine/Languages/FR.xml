@@ -364,4 +364,5 @@
   <Text Key="Show_Rating_Button">Afficher le bouton 'Note'</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Afficher une notification quand la lecture d'un morceau est mise en pause</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Afficher une notification quand la lecture d'un morceau est reprise</Text>
+  <Text Key="Add_Lyrics">Ajouter paroles</Text>
 </Language>
