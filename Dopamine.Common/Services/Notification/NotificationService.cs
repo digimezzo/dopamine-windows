@@ -3,6 +3,8 @@ using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
@@ -20,6 +22,7 @@ namespace Dopamine.Common.Services.Notification
         private NotificationWindow notification;
         private IPlaybackService playbackService;
         private ICacheService cacheService;
+        private ITrackRepository trackRepository;
         private DopamineWindow mainWindow;
         private DopamineWindow playlistWindow;
         private Window trayControlsWindow;
@@ -40,14 +43,15 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationService(IUnityContainer container, IPlaybackService playbackService, ICacheService cacheService)
+        public NotificationService(IUnityContainer container, IPlaybackService playbackService, ICacheService cacheService, ITrackRepository trackRepository)
         {
             this.container = container;
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += async (_) => await this.ShowNotificationIfAllowedAsync();
-            this.playbackService.PlaybackPaused += async (_,__) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackPaused += async (_, __) => await this.ShowNotificationIfAllowedAsync();
             this.playbackService.PlaybackResumed += async (_, __) => await this.ShowNotificationIfAllowedAsync();
         }
         #endregion
@@ -78,7 +82,7 @@ namespace Dopamine.Common.Services.Notification
                 this.notification.DoubleClicked -= ShowMainWindow;
             }
 
-            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying") 
+            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")
                 & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
                 & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
             {
@@ -101,22 +105,29 @@ namespace Dopamine.Common.Services.Notification
 
             TrackInfoViewModel playingTrackinfoVm = null; // Create a dummy track
 
-            await Task.Run(() =>
+            TrackInfo dbTrack = null;
+
+            if (this.playbackService.PlayingTrack != null)
             {
-                try
+                dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
+            }
+
+            await Task.Run(() =>
+        {
+            try
+            {
+                if (dbTrack != null)
                 {
-                    if (this.playbackService.PlayingTrack != null)
-                    {
-                        artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
-                        playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
-                        playingTrackinfoVm.TrackInfo = this.playbackService.PlayingTrack;
-                    }
+                    artworkPath = this.cacheService.GetCachedArtworkPath(dbTrack.AlbumArtworkID);
+                    playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
+                    playingTrackinfoVm.TrackInfo = dbTrack;
                 }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
+            }
+        });
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -126,7 +137,7 @@ namespace Dopamine.Common.Services.Notification
                                                       XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
                                                       XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationAutoCloseSeconds"));
 
-                                                     this.notification.DoubleClicked += ShowMainWindow;
+                this.notification.DoubleClicked += ShowMainWindow;
 
                 this.notification.Show();
             });

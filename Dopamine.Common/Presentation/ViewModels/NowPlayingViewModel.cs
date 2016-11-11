@@ -50,7 +50,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Protected
         protected async Task GetTracksAsync()
         {
-            await this.GetTracksCommonAsync(this.playbackService.Queue, TrackOrder.None);
+            var tracks = await this.trackRepository.GetTracksAsync(this.playbackService.Queue);
+            await this.GetTracksCommonAsync(tracks, TrackOrder.None);
         }
 
         protected override void ShowPlayingTrackAsync()
@@ -79,7 +80,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Collect the TrackInfoViewModels to remove
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Path).ToList().Contains(tivm.TrackInfo.Path))
+                    if (dequeueResult.DequeuedTracks.Contains(tivm.TrackInfo.Path))
                     {
                         trackInfoViewModelsToRemove.Add(tivm);
                     }

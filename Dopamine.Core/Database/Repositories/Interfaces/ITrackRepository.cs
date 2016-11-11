@@ -13,6 +13,7 @@ namespace Dopamine.Core.Database.Repositories.Interfaces
         Task<List<TrackInfo>> GetTracksAsync(IList<Album> albums);
         Task<List<TrackInfo>> GetTracksAsync(IList<Playlist> playlists);
         Task<Track> GetTrackAsync(string path);
+        Task<TrackInfo> GetTrackInfoAsync(string path);
         Task<RemoveTracksResult> RemoveTracksAsync(IList<TrackInfo> tracks);
         Task<bool> UpdateTrackAsync(Track track);
         Task<bool> UpdateTrackFileInformationAsync(string path);
