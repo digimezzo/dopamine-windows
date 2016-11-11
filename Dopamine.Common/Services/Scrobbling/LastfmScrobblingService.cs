@@ -101,11 +101,11 @@ namespace Dopamine.Common.Services.Scrobbling
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
 
-                var dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
+                TrackInfo dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
 
                 if(dbTrack == null)
                 {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
+                    LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 
@@ -144,11 +144,11 @@ namespace Dopamine.Common.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                var dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
+                TrackInfo dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
 
                 if (dbTrack == null)
                 {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
+                    LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 

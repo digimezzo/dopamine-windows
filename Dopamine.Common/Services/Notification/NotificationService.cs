@@ -107,9 +107,9 @@ namespace Dopamine.Common.Services.Notification
 
             TrackInfo dbTrack = null;
 
-            if (this.playbackService.PlayingTrack != null)
+            if (this.playbackService.PlayingFile != null)
             {
-                dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
+                dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
             }
 
             await Task.Run(() =>

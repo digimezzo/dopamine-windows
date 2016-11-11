@@ -64,41 +64,45 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 this.SlideDirection = SlideDirection.LeftToRight;
                 if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.RightToLeft;
-                await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+                await this.ShowArtistInfoAsync(this.playbackService.PlayingFile, false);
                 this.SlideDirection = SlideDirection.LeftToRight;
             };
 
             this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.PlayingTrack != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
+                if (this.playbackService.PlayingFile != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingFile, true);
             };
 
-            this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
+            this.ShowArtistInfoAsync(this.playbackService.PlayingFile, true);
         }
         #endregion
 
         #region Private
-        private async Task ShowArtistInfoAsync(string trackInfo, bool forceReload)
+        private void ClearArtistInformation()
+        {
+            this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
+            this.artist = null;
+        }
+
+        private async Task ShowArtistInfoAsync(string filename, bool forceReload)
         {
             this.previousArtist = this.artist;
 
             // User doesn't want to download artist info, or no track is selected.
-            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null)
+            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || filename == null)
             {
-                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
+                this.ClearArtistInformation();
                 return;
             }
 
             // Get the track from the database
-            var dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
+            var dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
 
             if (dbTrack == null)
             {
-                LogClient.Instance.Logger.Error("Track not found in the database: {0}", trackInfo);
+                LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
 
-                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
+                this.ClearArtistInformation();
                 return;
             }
 
@@ -151,9 +155,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo, ex.Message);
-                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
+                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", filename, ex.Message);
+                this.ClearArtistInformation();
             }
 
             this.IsBusy = false;

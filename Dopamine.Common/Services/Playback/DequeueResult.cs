@@ -6,6 +6,6 @@ namespace Dopamine.Common.Services.Playback
     public class DequeueResult
     {
         public bool IsSuccess { get; set; }
-        public IList<string> DequeuedTracks { get; set; }
+        public IList<string> DequeuedFiles { get; set; }
     }
 }
