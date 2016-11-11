@@ -23,7 +23,8 @@
         public static readonly string UnknownGenreString = "Unknown Genre";
         public static readonly string UnknownAlbumArtistString = "Unknown Album Artist";
         public static readonly string DefaultLanguageCode = "EN";
-        public static readonly string PopMUser = "Windows Media Player 9 Series";
+        public static readonly string WindowsPopMUser = "Windows Media Player 9 Series";
+        public static readonly string[] OtherPopMUsers = { "MusicBee" };
         public static readonly string[] UnsplittableTagValues = {
                                                                     "AC/DC",
                                                                     "De/Vision",

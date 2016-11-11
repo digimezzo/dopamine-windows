@@ -83,7 +83,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.title == null) this.title = new MetadataValue (this.file.Tag.Title);
+                if (this.title == null) this.title = new MetadataValue(this.file.Tag.Title);
                 return this.title;
             }
             set
@@ -252,12 +252,33 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                TagLib.Tag tag = this.file.GetTag(TagLib.TagTypes.Id3v2);
+                Tag tag = this.file.GetTag(TagTypes.Id3v2);
 
-                if (tag != null)
+                if (tag != null & this.rating == null)
                 {
-                    TagLib.Id3v2.PopularimeterFrame popM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
-                    if (this.rating == null) this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popM.Rating));
+                    TagLib.Id3v2.PopularimeterFrame popMFrame;
+
+                    // First, try to get the rating from the default Windows PopM user
+                    popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
+
+                    if (popMFrame.Rating > 0)
+                    {
+                        this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
+                    }
+                    else
+                    {
+                        // No rating found for the default Windows PopM user. Try for other PopM.
+                        foreach (var user in Defaults.OtherPopMUsers)
+                        {
+                            popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, user, true);
+
+                            if (popMFrame.Rating > 0)
+                            {
+                                this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
+                                break; // As soon as we found a rating, stop.
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -270,12 +291,12 @@ namespace Dopamine.Core.Metadata
             {
                 this.rating = value;
 
-                TagLib.Tag tag = this.file.GetTag(TagLib.TagTypes.Id3v2);
+                Tag tag = this.file.GetTag(TagTypes.Id3v2);
 
                 if (tag != null)
                 {
-                    TagLib.Id3v2.PopularimeterFrame PopM = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.PopMUser, true);
-                    PopM.Rating = MetadataUtils.Star2PopMRating(value.Value);
+                    TagLib.Id3v2.PopularimeterFrame popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
+                    popMFrame.Rating = MetadataUtils.Star2PopMRating(value.Value);
                 }
             }
         }
