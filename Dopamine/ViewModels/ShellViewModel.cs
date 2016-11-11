@@ -184,11 +184,11 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackSuccess += async(_) =>
             {
-                TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
+                TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
 
                 if(dbTrack == null)
                 {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
+                    LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 

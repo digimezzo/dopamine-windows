@@ -58,28 +58,28 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
-            this.metadataService.MetadataChanged += (_) => this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+            this.metadataService.MetadataChanged += (_) => this.ShowLyricsAsync(this.playbackService.PlayingFile);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
-                if (this.previousTrack == null || !this.playbackService.PlayingTrack.Equals(this.previousTrack))
+                if (this.previousTrack == null || !this.playbackService.PlayingFile.Equals(this.previousTrack))
                 {
-                    this.ShowLyricsAsync(this.playbackService.PlayingTrack);
-                    this.previousTrack = this.playbackService.PlayingTrack;
+                    this.ShowLyricsAsync(this.playbackService.PlayingFile);
+                    this.previousTrack = this.playbackService.PlayingFile;
                 }
             };
 
-            this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+            this.ShowLyricsAsync(this.playbackService.PlayingFile);
 
-            if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
+            if (this.playbackService.PlayingFile != null) this.previousTrack = this.playbackService.PlayingFile;
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.updateLyricsAfterEditingTimer.Stop();
-            this.ShowLyricsAsync(this.playbackService.PlayingTrack);
+            this.ShowLyricsAsync(this.playbackService.PlayingFile);
         }
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -91,12 +91,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async void ShowLyricsAsync(string trackInfo)
+        private async void ShowLyricsAsync(string filename)
         {
             this.highlightTimer.Stop();
 
             FileMetadata fmd = null;
-            if (trackInfo != null) fmd = await this.metadataService.GetFileMetadataAsync(trackInfo);
+            if (filename != null) fmd = await this.metadataService.GetFileMetadataAsync(filename);
 
             await Task.Run(() =>
             {
@@ -119,13 +119,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // Show the new lyrics
                     try
                     {
-                        this.LyricsViewModel = new LyricsViewModel(trackInfo, metadataService);
+                        this.LyricsViewModel = new LyricsViewModel(filename, metadataService);
                         this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? string.Empty : fmd.Lyrics.Value);
                         this.highlightTimer.Start();
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                        LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", filename, ex.Message);
                         this.LyricsViewModel = new LyricsViewModel();
                     }
                 }
