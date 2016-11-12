@@ -93,7 +93,7 @@ namespace Dopamine.Common.Presentation.Utils
                 {
                     for (int i = 0; i <= box.Items.Count - 1; i++)
                     {
-                        if (((TrackInfoViewModel)box.Items[i]).IsPlaying)
+                        if (((MergedTrackViewModel)box.Items[i]).IsPlaying)
                         {
                             itemObject = box.Items[i];
                             break;
@@ -130,7 +130,7 @@ namespace Dopamine.Common.Presentation.Utils
                 {
                     for (int i = 0; i <= grid.Items.Count - 1; i++)
                     {
-                        if (((TrackInfoViewModel)grid.Items[i]).IsPlaying)
+                        if (((MergedTrackViewModel)grid.Items[i]).IsPlaying)
                         {
                             itemObject = grid.Items[i];
                             break;

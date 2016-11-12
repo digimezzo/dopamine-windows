@@ -26,7 +26,7 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationWindow(TrackInfoViewModel trackInfoVm, string coverPictureSource, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
+        public NotificationWindow(MergedTrackViewModel viewModel, string coverPictureSource, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
         {
             this.InitializeComponent();
 
@@ -48,10 +48,10 @@ namespace Dopamine.Common.Services.Notification
                 this.VolumePanel.Visibility = Visibility.Collapsed;
             }
 
-            if (trackInfoVm != null)
+            if (viewModel != null)
             {
-                this.TextBoxTitle.Text = string.IsNullOrEmpty(trackInfoVm.TrackTitle) ? trackInfoVm.FileName : trackInfoVm.TrackTitle;
-                this.TextBoxArtist.Text = trackInfoVm.ArtistName;
+                this.TextBoxTitle.Text = string.IsNullOrEmpty(viewModel.TrackTitle) ? viewModel.FileName : viewModel.TrackTitle;
+                this.TextBoxArtist.Text = viewModel.ArtistName;
             }
             else
             {

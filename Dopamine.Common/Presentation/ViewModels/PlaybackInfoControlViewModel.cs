@@ -94,10 +94,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             // The track didn't change: leave the previous playback info.
             if (this.filename.Equals(this.previousFilename)) return;
 
-            // get the track from the database
-            TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
+            // Get the track from the database
+            MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(filename);
 
-            if(dbTrack == null)
+            if(mergedTrack == null)
             {
                 LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
                 this.ClearPlaybackInformation();
@@ -109,16 +109,16 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 string year = string.Empty;
 
-                if (dbTrack.Year != null && dbTrack.Year > 0)
+                if (mergedTrack.Year != null && mergedTrack.Year > 0)
                 {
-                    year = dbTrack.Year.ToString();
+                    year = mergedTrack.Year.ToString();
                 }
 
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
-                    Title = string.IsNullOrEmpty(dbTrack.TrackTitle) ? dbTrack.FileName : dbTrack.TrackTitle,
-                    Artist = dbTrack.ArtistName,
-                    Album = dbTrack.AlbumTitle,
+                    Title = string.IsNullOrEmpty(mergedTrack.TrackTitle) ? mergedTrack.FileName : mergedTrack.TrackTitle,
+                    Artist = mergedTrack.ArtistName,
+                    Album = mergedTrack.AlbumTitle,
                     Year = year,
                     CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
                     TotalTime = FormatUtils.FormatTime(new TimeSpan(0))

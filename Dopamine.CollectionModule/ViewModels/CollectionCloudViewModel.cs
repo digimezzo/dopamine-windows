@@ -8,7 +8,6 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

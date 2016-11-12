@@ -101,17 +101,17 @@ namespace Dopamine.Common.Services.Scrobbling
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
 
-                TrackInfo dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
+                MergedTrack mergedTrack = await trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
 
-                if(dbTrack == null)
+                if(mergedTrack == null)
                 {
                     LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 
-                string artist = dbTrack.ArtistName != Defaults.UnknownArtistString ? dbTrack.ArtistName : string.Empty;
-                string trackTitle = dbTrack.TrackTitle;
-                string albumTitle = dbTrack.AlbumTitle != Defaults.UnknownAlbumString ? dbTrack.AlbumTitle : string.Empty;
+                string artist = mergedTrack.ArtistName != Defaults.UnknownArtistString ? mergedTrack.ArtistName : string.Empty;
+                string trackTitle = mergedTrack.TrackTitle;
+                string albumTitle = mergedTrack.AlbumTitle != Defaults.UnknownAlbumString ? mergedTrack.AlbumTitle : string.Empty;
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -144,17 +144,17 @@ namespace Dopamine.Common.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                TrackInfo dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
+                MergedTrack mergedTrack = await trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
 
-                if (dbTrack == null)
+                if (mergedTrack == null)
                 {
                     LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 
-                string artist = dbTrack.ArtistName != Defaults.UnknownArtistString ? dbTrack.ArtistName : string.Empty;
-                string trackTitle = dbTrack.TrackTitle;
-                string albumTitle = dbTrack.AlbumTitle != Defaults.UnknownAlbumString ? dbTrack.AlbumTitle : string.Empty;
+                string artist = mergedTrack.ArtistName != Defaults.UnknownArtistString ? mergedTrack.ArtistName : string.Empty;
+                string trackTitle = mergedTrack.TrackTitle;
+                string albumTitle = mergedTrack.AlbumTitle != Defaults.UnknownAlbumString ? mergedTrack.AlbumTitle : string.Empty;
 
                 if (this.canScrobble && !string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -232,12 +232,12 @@ namespace Dopamine.Common.Services.Scrobbling
             this.SignInStateChanged(this.SignInState);
         }
 
-        public async Task<bool> SendTrackLoveAsync(TrackInfo track, bool love)
+        public async Task<bool> SendTrackLoveAsync(MergedTrack mergedTrack, bool love)
         {
             bool isSuccess = false;
 
             // We can't send track love for an unknown track
-            if (track.ArtistName == Defaults.UnknownArtistString | string.IsNullOrEmpty(track.TrackTitle)) return false;
+            if (mergedTrack.ArtistName == Defaults.UnknownArtistString | string.IsNullOrEmpty(mergedTrack.TrackTitle)) return false;
 
             if (this.SignInState == SignInState.SignedIn)
             {
@@ -245,7 +245,7 @@ namespace Dopamine.Common.Services.Scrobbling
                 {
                     try
                     {
-                        isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                        isSuccess = await LastfmApi.TrackLove(this.sessionKey, mergedTrack.ArtistName, mergedTrack.TrackTitle);
                     }
                     catch (Exception ex)
                     {
@@ -256,7 +256,7 @@ namespace Dopamine.Common.Services.Scrobbling
                 {
                     try
                     {
-                        isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                        isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, mergedTrack.ArtistName, mergedTrack.TrackTitle);
                     }
                     catch (Exception ex)
                     {

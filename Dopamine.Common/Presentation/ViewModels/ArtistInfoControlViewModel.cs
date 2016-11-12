@@ -96,9 +96,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             // Get the track from the database
-            var dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
+            MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(filename);
 
-            if (dbTrack == null)
+            if (mergedTrack == null)
             {
                 LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
 
@@ -107,7 +107,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             // Artist name is unknown
-            if (dbTrack.ArtistName == Defaults.UnknownArtistString)
+            if (mergedTrack.ArtistName == Defaults.UnknownArtistString)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
@@ -118,7 +118,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.artist = new Core.Database.Entities.Artist
             {
-                ArtistName = dbTrack.ArtistName
+                ArtistName = mergedTrack.ArtistName
             };
 
             // The artist didn't change: leave the previous artist info.
@@ -131,14 +131,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(dbTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(mergedTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmApi.ArtistGetInfo(dbTrack.ArtistName, true, "EN");
+                        lfmArtist = await LastfmApi.ArtistGetInfo(mergedTrack.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)

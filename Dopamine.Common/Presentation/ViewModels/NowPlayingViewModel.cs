@@ -50,8 +50,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Protected
         protected async Task GetTracksAsync()
         {
-            var tracks = await this.trackRepository.GetTracksAsync(this.playbackService.Queue);
-            await this.GetTracksCommonAsync(tracks, TrackOrder.None);
+            var mergedTracks = await this.trackRepository.GetMergedTracksAsync(this.playbackService.Queue);
+            await this.GetTracksCommonAsync(mergedTracks, TrackOrder.None);
         }
 
         protected override void ShowPlayingTrackAsync()
@@ -67,27 +67,27 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.allowFillAllLists = false;
 
-            // Remove TrackInfos from PlaybackService (this dequeues the Tracks)
-            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
+            // Dequeue paths from PlaybackService
+            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks.Select(t=>t.Path).ToList());
 
-            var trackInfoViewModelsToRemove = new List<TrackInfoViewModel>();
+            var mergedTrackViewModelsToRemove = new List<MergedTrackViewModel>();
 
             await Task.Run(() =>
             {
-                // Collect the TrackInfoViewModels to remove
-                foreach (TrackInfoViewModel tivm in this.Tracks)
+                // Collect the ViewModels to remove
+                foreach (MergedTrackViewModel vm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedFiles.Contains(tivm.TrackInfo.Path))
+                    if (dequeueResult.DequeuedPaths.Contains(vm.MergedTrack.Path))
                     {
-                        trackInfoViewModelsToRemove.Add(tivm);
+                        mergedTrackViewModelsToRemove.Add(vm);
                     }
                 }
             });
 
-            // Remove the TrackInfoViewModels from Tracks (this updates the UI)
-            foreach (TrackInfoViewModel tivm in trackInfoViewModelsToRemove)
+            // Remove the ViewModels from Tracks (this updates the UI)
+            foreach (MergedTrackViewModel vm in mergedTrackViewModelsToRemove)
             {
-                this.Tracks.Remove(tivm);
+                this.Tracks.Remove(vm);
             }
 
             this.TracksCount = this.Tracks.Count;

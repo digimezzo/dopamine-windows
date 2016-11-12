@@ -24,9 +24,9 @@ namespace Dopamine.Core.Database.Repositories
         #endregion
 
         #region ITrackRepository
-        public async Task<List<TrackInfo>> GetTracksAsync(IList<string> paths)
+        public async Task<List<MergedTrack>> GetMergedTracksAsync(IList<string> paths)
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -50,11 +50,11 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
                                                      " WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
 
-                            tracks = conn.Query<TrackInfo>(q);
+                            mergedTracks = conn.Query<MergedTrack>(q);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Tracks for Paths. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTracks for paths. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -64,12 +64,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
-        public async Task<TrackInfo> GetTrackInfoAsync(string path)
+        public async Task<MergedTrack> GetMergedTrackAsync(string path)
         {
-            TrackInfo track = null;
+            MergedTrack mergedTrack = null;
 
             await Task.Run(() =>
             {
@@ -89,13 +89,13 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                      " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " WHERE tra.SafePath = '{0}';", path.ToSafePath());
+                                                     " WHERE tra.SafePath = ?;");
 
-                            track = conn.Query<TrackInfo>(q).FirstOrDefault();
+                            mergedTrack = conn.Query<MergedTrack>(q, path.ToSafePath()).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Track for Path. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTrack for path '{0}'. Exception: {1}", path, ex.Message);
                         }
                     }
                 }
@@ -105,12 +105,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return track;
+            return mergedTrack;
         }
 
-        public async Task<List<TrackInfo>> GetTracksAsync()
+        public async Task<List<MergedTrack>> GetMergedTracksAsync()
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -120,22 +120,22 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                           " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
-                                                           " FROM Track tra" +
-                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                           " WHERE fol.ShowInCollection=1;");
+                            mergedTracks = conn.Query<MergedTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
+                                                                   " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
+                                                                   " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
+                                                                   " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                                   " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                                   " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                                   " FROM Track tra" +
+                                                                   " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                                   " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                                   " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
+                                                                   " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                                   " WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get all the Tracks. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get all the MergedTracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -145,12 +145,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
-        public async Task<List<TrackInfo>> GetTracksAsync(IList<Artist> artists)
+        public async Task<List<MergedTrack>> GetMergedTracksAsync(IList<Artist> artists)
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -176,11 +176,11 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
-                            tracks = conn.Query<TrackInfo>(q);
+                            mergedTracks = conn.Query<MergedTrack>(q);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTracks for Artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -190,12 +190,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
-        public async Task<List<TrackInfo>> GetTracksAsync(IList<Genre> genres)
+        public async Task<List<MergedTrack>> GetMergedTracksAsync(IList<Genre> genres)
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -220,11 +220,11 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
 
-                            tracks = conn.Query<TrackInfo>(q);
+                            mergedTracks = conn.Query<MergedTrack>(q);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTracks for Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -234,12 +234,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
-        public async Task<List<TrackInfo>> GetTracksAsync(IList<Album> albums)
+        public async Task<List<MergedTrack>> GetMergedTracksAsync(IList<Album> albums)
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -264,11 +264,11 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
 
-                            tracks = conn.Query<TrackInfo>(q);
+                            mergedTracks = conn.Query<MergedTrack>(q);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Tracks for Albums. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTracks for Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -278,12 +278,12 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
-        public async Task<List<TrackInfo>> GetTracksAsync(IList<Playlist> playlists)
+        public async Task<List<MergedTrack>> GetMergedTracksAsync(IList<Playlist> playlists)
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {
@@ -311,11 +311,11 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
                                                      " WHERE tra.TrackID IN ({0});", Utils.ToQueryList(trackIDs));
 
-                            tracks = conn.Query<TrackInfo>(q);
+                            mergedTracks = conn.Query<MergedTrack>(q);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Tracks for Playlists. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get the MergedTracks for Playlists. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -325,7 +325,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return tracks;
+            return mergedTracks;
         }
 
         public async Task<Track> GetTrackAsync(string path)
@@ -357,7 +357,7 @@ namespace Dopamine.Core.Database.Repositories
             return track;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<TrackInfo> tracks)
+        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<string> paths)
         {
             RemoveTracksResult result = RemoveTracksResult.Success;
 
@@ -367,7 +367,7 @@ namespace Dopamine.Core.Database.Repositories
                 {
                     using (var conn = this.factory.GetConnection())
                     {
-                        List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
+                        List<string> pathsToRemove = paths.ToList();
                         List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
                         List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
 
@@ -440,15 +440,15 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                            Track track = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
 
-                            if (dbTrack != null)
+                            if (track != null)
                             {
-                                dbTrack.FileSize = FileOperations.GetFileSize(path);
-                                dbTrack.DateFileModified = FileOperations.GetDateModified(path);
-                                dbTrack.DateLastSynced = DateTime.Now.Ticks;
+                                track.FileSize = FileOperations.GetFileSize(path);
+                                track.DateFileModified = FileOperations.GetDateModified(path);
+                                track.DateLastSynced = DateTime.Now.Ticks;
 
-                                conn.Update(dbTrack);
+                                conn.Update(track);
 
                                 updateSuccess = true;
                             }
@@ -481,18 +481,18 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             foreach (TrackStatistic stat in trackStatistics)
                             {
-                                Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", stat.Path.ToSafePath()).FirstOrDefault();
+                                Track track = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", stat.Path.ToSafePath()).FirstOrDefault();
 
-                                if (dbTrack != null)
+                                if (track != null)
                                 {
-                                    if (dbTrack.PlayCount == null) dbTrack.PlayCount = 0;
-                                    dbTrack.PlayCount += stat.PlayCount;
-                                    dbTrack.DateLastPlayed = stat.DateLastPlayed;
+                                    if (track.PlayCount == null) track.PlayCount = 0;
+                                    track.PlayCount += stat.PlayCount;
+                                    track.DateLastPlayed = stat.DateLastPlayed;
 
-                                    if (dbTrack.SkipCount == null) dbTrack.SkipCount = 0;
-                                    dbTrack.SkipCount += stat.SkipCount;
+                                    if (track.SkipCount == null) track.SkipCount = 0;
+                                    track.SkipCount += stat.SkipCount;
 
-                                    conn.Update(dbTrack);
+                                    conn.Update(track);
                                 }
                             }
                         }
