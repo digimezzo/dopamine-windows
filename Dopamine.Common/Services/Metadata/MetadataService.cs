@@ -158,6 +158,11 @@ namespace Dopamine.Common.Services.Metadata
             // Queue update of the file metadata
             await this.QueueFileMetadata(fileMetadatas);
 
+            // Find the changed paths
+            List<string> changedPaths = null;
+            await Task.Run(() => { changedPaths = fileMetadatas.Select(f => f.Path).ToList(); });
+            args.ChangedPaths = changedPaths;
+
             // Raise event
             this.MetadataChanged(args);
         }
@@ -182,17 +187,21 @@ namespace Dopamine.Common.Services.Metadata
             // Update artwork in database
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
+            List<MergedTrack> albumTracks = await this.trackRepository.GetMergedTracksAsync(album.ToList());
+            List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
+
             if (updateFileArtwork)
             {
-                List<MergedTrack> albumTracks = await this.trackRepository.GetMergedTracksAsync(album.ToList());
-                List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
-
                 // Queue update of the file metadata
                 await this.QueueFileMetadata(fileMetadatas);
             }
 
+            // Find the changed paths
+            List<string> changedPaths = null;
+            await Task.Run(() => { changedPaths = fileMetadatas.Select(f => f.Path).ToList(); });
+
             // Raise event
-            this.MetadataChanged(new MetadataChangedEventArgs() { IsArtworkChanged = true });
+            this.MetadataChanged(new MetadataChangedEventArgs() { IsArtworkChanged = true, ChangedPaths = changedPaths });
         }
 
         public async Task UpdateFilemetadataAsync()
