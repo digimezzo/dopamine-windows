@@ -1,5 +1,6 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -21,6 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
         private ICacheService cacheService;
+        private IMetadataService metadataService;
         private ITrackRepository trackRepository;
         private SlideDirection slideDirection;
         private Album previousAlbum;
@@ -42,30 +44,30 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService, ITrackRepository trackRepository)
+        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService,IMetadataService metadataService, ITrackRepository trackRepository)
         {
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.metadataService = metadataService;
             this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                if (isPlayingPreviousTrack)
-                {
-                    this.SlideDirection = SlideDirection.UpToDown;
-                }
-                else
-                {
-                    this.SlideDirection = SlideDirection.DownToUp;
-                }
+                this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
 
-                this.ShowCoverArtAsync(this.playbackService.PlayingPath);
+                this.ShowCoverArtAsync(this.playbackService.PlayingPath, false);
             };
 
-            this.ShowCoverArtAsync(this.playbackService.PlayingPath);
+            this.metadataService.MetadataChanged += (e) => {
+                if(this.playbackService.PlayingPath != null && e.IsArtworkChanged && e.ChangedPaths.Contains(this.playbackService.PlayingPath))
+                    this.ShowCoverArtAsync(this.playbackService.PlayingPath, true);
+            };
 
             // The default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
+
+            // Default cover art
+            this.ShowCoverArtAsync(this.playbackService.PlayingPath, false);
         }
         #endregion
 
@@ -78,7 +80,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(string filename)
+        protected async virtual void ShowCoverArtAsync(string filename, bool allowShowingSameAlbum)
         {
             this.previousAlbum = this.album;
 
@@ -92,7 +94,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Get the track from the database
             MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(filename);
 
-            if(mergedTrack == null)
+            if (mergedTrack == null)
             {
                 LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
                 this.ClearCoverArt();
@@ -108,7 +110,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // The album didn't change: leave the previous covert art.
-            if (this.album.Equals(this.previousAlbum)) return;
+            if (!allowShowingSameAlbum & this.album.Equals(this.previousAlbum)) return;
 
             // The album changed: we need to show new cover art.
             string artworkPath = string.Empty;
