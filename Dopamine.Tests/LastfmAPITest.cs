@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Dopamine.Tests
 {
     [TestClass]
-    public class LastfmAPITest
+    public class LastfmApiTest
     {
         private string username = "<username>";
         private string password = "<password>";

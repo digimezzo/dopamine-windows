@@ -142,6 +142,7 @@
     <Compile Include="Api\Lastfm\LastfmApi.cs" />
     <Compile Include="Api\Lastfm\Artist.cs" />
     <Compile Include="Api\Lastfm\Biography.cs" />
+    <Compile Include="Api\LyricWikia\LyricWikiaApi.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Utils\EnvironmentUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <Compile Include="Utils\ResourceUtils.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\VisualTreeUtils.cs" />
     <Compile Include="Utils\WindowUtils.cs" />
     <Compile Include="Win32\AccentPolicy.cs" />
