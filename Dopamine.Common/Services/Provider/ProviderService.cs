@@ -57,6 +57,12 @@ namespace Dopamine.Common.Services.Provider
                "<Url>https://www.musixmatch.com/search/</Url>" +
                "<Separator>%20</Separator>" +
                "</SearchProvider>" +
+               "<SearchProvider>" +
+               "<Id>6eec2184-6548-4e89-95a0-6462be33689d</Id>" +
+               "<Name>Lyrics (Google)</Name>" +
+               "<Url>https://www.google.com/search?q=lyrics+</Url>" +
+               "<Separator>+</Separator>" +
+               "</SearchProvider>" +
                "</SearchProviders>" +
                "</Providers>");
 

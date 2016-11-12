@@ -1,3 +1,9 @@
+2016-11-13: Dopamine 1.2 Build 780 (Preview)
+--------------------------------------------
+
+- [Added] Added Google as lyrics search provider in "Search online"
+
+
 2016-11-12: Dopamine 1.2 Build 779 (Preview)
 --------------------------------------------
 
