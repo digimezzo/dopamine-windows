@@ -302,7 +302,7 @@
   <Text Key="Large">Μεγάλο</Text>
   <Text Key="Cloud">Νέφος</Text>
   <Text Key="Showcase">Προσκήνιο</Text>
-  <Text Key="Cloud_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά.</Text>
+  <Text Key="Cloud_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά</Text>
   <Text Key="Dark">Σκούρο</Text>
   <Text Key="Light">Ανοιχτό</Text>
   <Text Key="Components">Τμήματα</Text>
