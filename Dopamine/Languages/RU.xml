@@ -302,7 +302,7 @@
   <Text Key="Large">Большой</Text>
   <Text Key="Cloud">Облако</Text>
   <Text Key="Showcase">Демонстрация</Text>
-  <Text Key="Cloud_Description">Ваши альбомы, воспроизводимые чаще всего, появятся здесь.</Text>
+  <Text Key="Cloud_Description">Ваши альбомы, воспроизводимые чаще всего, появятся здесь</Text>
   <Text Key="Dark">Тёмная</Text>
   <Text Key="Light">Светлая</Text>
   <Text Key="Components">Компоненты</Text>

@@ -302,7 +302,7 @@
   <Text Key="Large">Grande</Text>
   <Text Key="Cloud">Cloud</Text>
   <Text Key="Showcase">Mudar a vista</Text>
-  <Text Key="Cloud_Description">Os seus álbuns mais reproduzidos serão apresentados aqui.</Text>
+  <Text Key="Cloud_Description">Os seus álbuns mais reproduzidos serão apresentados aqui</Text>
   <Text Key="Dark">Escuro</Text>
   <Text Key="Light">Claro</Text>
   <Text Key="Components">Componentes</Text>

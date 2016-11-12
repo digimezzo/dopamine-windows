@@ -302,7 +302,7 @@
   <Text Key="Large">Velký</Text>
   <Text Key="Cloud">Cloud</Text>
   <Text Key="Showcase">Přehlídka</Text>
-  <Text Key="Cloud_Description">Zde budou vaše nejčastěji přehrávaná alba.</Text>
+  <Text Key="Cloud_Description">Zde budou vaše nejčastěji přehrávaná alba</Text>
   <Text Key="Dark">Dark</Text>
   <Text Key="Light">Light</Text>
   <Text Key="Components">Components</Text>

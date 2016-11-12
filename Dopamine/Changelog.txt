@@ -1,4 +1,4 @@
-2016-11-12: Dopamine 1.2 Build 778 (Preview)
+2016-11-12: Dopamine 1.2 Build 779 (Preview)
 --------------------------------------------
 
 - [Added] Added several buttons on the lyrics Now Playing screen to avoid confusion for users

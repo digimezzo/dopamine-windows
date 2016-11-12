@@ -302,7 +302,7 @@
   <Text Key="Large">Grande</Text>
   <Text Key="Cloud">Nuage</Text>
   <Text Key="Showcase">Exposé</Text>
-  <Text Key="Cloud_Description">Vos albums les plus écoutés seront affichés ici.</Text>
+  <Text Key="Cloud_Description">Vos albums les plus écoutés seront affichés ici</Text>
   <Text Key="Dark">Foncé</Text>
   <Text Key="Light">Clair</Text>
   <Text Key="Components">Composants</Text>
