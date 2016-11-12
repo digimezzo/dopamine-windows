@@ -252,30 +252,33 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                Tag tag = this.file.GetTag(TagTypes.Id3v2);
-
-                if (tag != null & this.rating == null)
+                if (System.IO.Path.GetExtension(this.file.Name.ToLower()) == FileFormats.MP3)
                 {
-                    TagLib.Id3v2.PopularimeterFrame popMFrame;
+                    Tag tag = this.file.GetTag(TagTypes.Id3v2);
 
-                    // First, try to get the rating from the default Windows PopM user
-                    popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
+                    if (tag != null & this.rating == null)
+                    {
+                        TagLib.Id3v2.PopularimeterFrame popMFrame;
 
-                    if (popMFrame != null && popMFrame.Rating > 0)
-                    {
-                        this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
-                    }
-                    else
-                    {
-                        // No rating found for the default Windows PopM user. Try for other PopM.
-                        foreach (var user in Defaults.OtherPopMUsers)
+                        // First, try to get the rating from the default Windows PopM user
+                        popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
+
+                        if (popMFrame != null && popMFrame.Rating > 0)
                         {
-                            popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, user, true);
-
-                            if (popMFrame != null && popMFrame.Rating > 0)
+                            this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
+                        }
+                        else
+                        {
+                            // No rating found for the default Windows PopM user. Try for other PopM.
+                            foreach (var user in Defaults.OtherPopMUsers)
                             {
-                                this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
-                                break; // As soon as we found a rating, stop.
+                                popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, user, true);
+
+                                if (popMFrame != null && popMFrame.Rating > 0)
+                                {
+                                    this.rating = new MetadataRatingValue(MetadataUtils.PopM2StarRating(popMFrame.Rating));
+                                    break; // As soon as we found a rating, stop.
+                                }
                             }
                         }
                     }
@@ -289,12 +292,15 @@ namespace Dopamine.Core.Metadata
             {
                 this.rating = value;
 
-                Tag tag = this.file.GetTag(TagTypes.Id3v2);
-
-                if (tag != null)
+                if (System.IO.Path.GetExtension(this.file.Name.ToLower()) == FileFormats.MP3)
                 {
-                    TagLib.Id3v2.PopularimeterFrame popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
-                    popMFrame.Rating = MetadataUtils.Star2PopMRating(value.Value);
+                    Tag tag = this.file.GetTag(TagTypes.Id3v2);
+
+                    if (tag != null)
+                    {
+                        TagLib.Id3v2.PopularimeterFrame popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
+                        popMFrame.Rating = MetadataUtils.Star2PopMRating(value.Value);
+                    }
                 }
             }
         }

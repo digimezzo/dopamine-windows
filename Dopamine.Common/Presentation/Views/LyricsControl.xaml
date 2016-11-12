@@ -21,14 +21,18 @@
                     Text="{DynamicResource Language_No_Lyrics}"
                     FontSize="{Binding FontSize}"
                     Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Content="{DynamicResource Language_Add_Lyrics}" Command="{Binding EditCommand}"/>
+                    <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_Lyrics}" Command="{Binding EditCommand}"/>
                 </StackPanel>
                 <DockPanel Panel.ZIndex="0" Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}">
                     <TextBlock
-                            DockPanel.Dock="Bottom" Margin="0,10,0,0" 
+                            DockPanel.Dock="Top" Margin="0,0,0,10" 
                             Text="{DynamicResource Language_Play_Song_And_Insert_Timestamp}" 
                             TextWrapping="Wrap" 
                             Foreground="{DynamicResource RG_AccentBrush}"/>
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <Button Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
+                        <Button Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Cancel_Edit}" Margin="10,0,0,0" Command="{Binding CancelEditCommand}"/>
+                    </StackPanel>
                     <Border 
                     Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}">
                         <TextBox 

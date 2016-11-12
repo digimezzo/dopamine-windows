@@ -24,11 +24,11 @@ namespace Dopamine.Core.IO
             string playlistName = string.Empty;
             List<string> paths = new List<string>();
 
-            if (System.IO.Path.GetExtension(fileName) == FileFormats.M3U)
+            if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.M3U)
             {
                 decodeResult = this.DecodeM3uPlaylist(fileName, ref playlistName, ref paths);
             }
-            else if (System.IO.Path.GetExtension(fileName) == FileFormats.WPL | System.IO.Path.GetExtension(fileName) == FileFormats.ZPL)
+            else if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.WPL | System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.ZPL)
             {
                 decodeResult = this.DecodeZplPlaylist(fileName, ref playlistName, ref paths);
             }

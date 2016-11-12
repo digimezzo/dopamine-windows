@@ -122,7 +122,7 @@ namespace Dopamine.Common.Services.Metadata
             if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
             {
                 // Only for MP3's
-                if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3.ToLower()))
+                if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3))
                 {
                     var metadataRatingValue = new MetadataRatingValue();
                     metadataRatingValue.Value = rating;
