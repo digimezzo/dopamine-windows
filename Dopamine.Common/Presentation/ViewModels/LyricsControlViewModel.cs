@@ -58,28 +58,28 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
-            this.metadataService.MetadataChanged += (_) => this.ShowLyricsAsync(this.playbackService.PlayingFile);
+            this.metadataService.MetadataChanged += (_) => this.ShowLyricsAsync(this.playbackService.PlayingPath);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
-                if (this.previousTrack == null || !this.playbackService.PlayingFile.Equals(this.previousTrack))
+                if (this.previousTrack == null || !this.playbackService.PlayingPath.Equals(this.previousTrack))
                 {
-                    this.ShowLyricsAsync(this.playbackService.PlayingFile);
-                    this.previousTrack = this.playbackService.PlayingFile;
+                    this.ShowLyricsAsync(this.playbackService.PlayingPath);
+                    this.previousTrack = this.playbackService.PlayingPath;
                 }
             };
 
-            this.ShowLyricsAsync(this.playbackService.PlayingFile);
+            this.ShowLyricsAsync(this.playbackService.PlayingPath);
 
-            if (this.playbackService.PlayingFile != null) this.previousTrack = this.playbackService.PlayingFile;
+            if (this.playbackService.PlayingPath != null) this.previousTrack = this.playbackService.PlayingPath;
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.updateLyricsAfterEditingTimer.Stop();
-            this.ShowLyricsAsync(this.playbackService.PlayingFile);
+            this.ShowLyricsAsync(this.playbackService.PlayingPath);
         }
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)

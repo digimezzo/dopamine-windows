@@ -64,16 +64,16 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 this.SlideDirection = SlideDirection.LeftToRight;
                 if (isPlayingPreviousTrack) this.SlideDirection = SlideDirection.RightToLeft;
-                await this.ShowArtistInfoAsync(this.playbackService.PlayingFile, false);
+                await this.ShowArtistInfoAsync(this.playbackService.PlayingPath, false);
                 this.SlideDirection = SlideDirection.LeftToRight;
             };
 
             this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.PlayingFile != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingFile, true);
+                if (this.playbackService.PlayingPath != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingPath, true);
             };
 
-            this.ShowArtistInfoAsync(this.playbackService.PlayingFile, true);
+            this.ShowArtistInfoAsync(this.playbackService.PlayingPath, true);
         }
         #endregion
 

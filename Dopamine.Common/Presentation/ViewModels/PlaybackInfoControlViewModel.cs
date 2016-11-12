@@ -51,12 +51,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.SlideDirection = SlideDirection.DownToUp;
                 }
 
-                this.ShowPlaybackInfoAsync(this.playbackService.PlayingFile);
+                this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingFile);
+            this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath);
 
             // Default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
