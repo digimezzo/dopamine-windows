@@ -44,13 +44,6 @@
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
                     KeyDown="TextBox_KeyDown">
-                            <TextBox.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                                    <MenuItem Header="{DynamicResource Language_Save}" Command="{Binding SaveCommand}"/>
-                                    <Separator/>
-                                    <MenuItem Header="{DynamicResource Language_Cancel_Edit}" Command="{Binding CancelEditCommand}"/>
-                                </ContextMenu>
-                            </TextBox.ContextMenu>
                         </TextBox>
                     </Border>
                 </DockPanel>
