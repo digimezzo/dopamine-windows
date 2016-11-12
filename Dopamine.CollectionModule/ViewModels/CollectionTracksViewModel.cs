@@ -7,6 +7,7 @@ using Dopamine.Core.Utils;
 using Prism.Commands;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+using System.Linq;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -105,7 +106,7 @@ namespace Dopamine.CollectionModule.ViewModels
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(this.SelectedTracks, playlistName));
-            this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
+            this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks.Select(t=>t.Path).ToList()), () => !this.IsIndexing);
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>

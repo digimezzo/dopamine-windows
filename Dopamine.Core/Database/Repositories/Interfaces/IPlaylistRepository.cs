@@ -12,11 +12,11 @@ namespace Dopamine.Core.Database.Repositories.Interfaces
         Task<Playlist> GetPlaylistAsync(string playlistName);
         Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> playlists);
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
-        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackInfo> tracks, string playlistName);
+        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> mergedTracks, string playlistName);
         Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
         Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName);
         Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName);
-        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<TrackInfo> tracks, Playlist selectedPlaylist);
+        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> mergedTracks, Playlist selectedPlaylist);
         Task<string> GetUniquePlaylistNameAsync(string name);
     }
 }

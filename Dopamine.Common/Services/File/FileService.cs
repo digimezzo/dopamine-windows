@@ -114,7 +114,7 @@ namespace Dopamine.Common.Services.File
 
         private async Task ImportFilesAsync()
         {
-            var tracks = new List<TrackInfo>();
+            var mergedTracks = new List<MergedTrack>();
 
             await Task.Run(async () =>
             {
@@ -136,7 +136,7 @@ namespace Dopamine.Common.Services.File
                     if (FileFormats.IsSupportedAudioFile(path))
                     {
                         // The file is a supported audio format: add it directly.
-                        tracks.Add(await this.Path2TrackInfoAsync(path, "file-" + this.instanceGuid));
+                        mergedTracks.Add(await this.Path2MergedTrackAsync(path, "file-" + this.instanceGuid));
 
                     }
                     else if (FileFormats.IsSupportedPlaylistFile(path))
@@ -146,7 +146,7 @@ namespace Dopamine.Common.Services.File
 
                         foreach (string audioFilePath in audioFilePaths)
                         {
-                            tracks.Add(await this.Path2TrackInfoAsync(audioFilePath, "file-" + this.instanceGuid));
+                            mergedTracks.Add(await this.Path2MergedTrackAsync(audioFilePath, "file-" + this.instanceGuid));
                         }
                     }
                     else if (Directory.Exists(path))
@@ -156,7 +156,7 @@ namespace Dopamine.Common.Services.File
 
                         foreach (string audioFilePath in audioFilePaths)
                         {
-                            tracks.Add(await this.Path2TrackInfoAsync(audioFilePath, "file-" + this.instanceGuid));
+                            mergedTracks.Add(await this.Path2MergedTrackAsync(audioFilePath, "file-" + this.instanceGuid));
                         }
                     }
                     else
@@ -166,12 +166,12 @@ namespace Dopamine.Common.Services.File
                 }
             });
 
-            LogClient.Instance.Logger.Info("Number of tracks to play = {0}", tracks.Count);
+            LogClient.Instance.Logger.Info("Number of tracks to play = {0}", mergedTracks.Count);
 
-            if (tracks.Count > 0)
+            if (mergedTracks.Count > 0)
             {
-                LogClient.Instance.Logger.Info("Enqueuing {0} tracks.", tracks.Count);
-                await this.playbackService.Enqueue(tracks);
+                LogClient.Instance.Logger.Info("Enqueuing {0} tracks.", mergedTracks.Count);
+                await this.playbackService.Enqueue(mergedTracks.Select(t=>t.Path).ToList());
             }
         }
 
@@ -247,70 +247,70 @@ namespace Dopamine.Common.Services.File
             });
         }
 
-        public async Task<TrackInfo> Path2TrackInfoAsync(string path, string artworkPrefix)
+        public async Task<MergedTrack> Path2MergedTrackAsync(string path, string artworkPrefix)
         {
-            var ti = new TrackInfo();
+            var mt = new MergedTrack();
 
             try
             {
                 var fmd = new FileMetadata(path);
                 var fi = new FileInformation(path);
 
-                ti.Path = path;
-                ti.SafePath = path.ToSafePath();
-                ti.FileName = fi.NameWithoutExtension;
-                ti.MimeType = fmd.MimeType;
-                ti.FileSize = fi.SizeInBytes;
-                ti.BitRate = fmd.BitRate;
-                ti.SampleRate = fmd.SampleRate;
-                ti.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
-                ti.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
-                ti.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
-                ti.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
-                ti.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
-                ti.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
-                ti.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                ti.Rating = fmd.Rating.Value;
+                mt.Path = path;
+                mt.SafePath = path.ToSafePath();
+                mt.FileName = fi.NameWithoutExtension;
+                mt.MimeType = fmd.MimeType;
+                mt.FileSize = fi.SizeInBytes;
+                mt.BitRate = fmd.BitRate;
+                mt.SampleRate = fmd.SampleRate;
+                mt.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
+                mt.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
+                mt.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
+                mt.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
+                mt.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
+                mt.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
+                mt.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
+                mt.Rating = fmd.Rating.Value;
 
-                ti.ArtistName = IndexerUtils.GetFirstArtist(fmd);
+                mt.ArtistName = IndexerUtils.GetFirstArtist(fmd);
 
-                ti.GenreName = IndexerUtils.GetFirstGenre(fmd);
+                mt.GenreName = IndexerUtils.GetFirstGenre(fmd);
 
-                ti.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                ti.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
+                mt.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                mt.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
 
                 var dummyAlbum = new Album
                 {
-                    AlbumTitle = ti.AlbumTitle,
-                    AlbumArtist = ti.AlbumArtist
+                    AlbumTitle = mt.AlbumTitle,
+                    AlbumArtist = mt.AlbumArtist
                 };
 
                 IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
-                ti.AlbumArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dummyAlbum, ti.Path));
-                ti.AlbumArtist = dummyAlbum.AlbumArtist;
-                ti.AlbumTitle = dummyAlbum.AlbumTitle;
-                ti.AlbumYear = dummyAlbum.Year;
+                mt.AlbumArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dummyAlbum, mt.Path));
+                mt.AlbumArtist = dummyAlbum.AlbumArtist;
+                mt.AlbumTitle = dummyAlbum.AlbumTitle;
+                mt.AlbumYear = dummyAlbum.Year;
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while creating TrackInfo from file '{0}'. Exception: {1}", path, ex.Message);
+                LogClient.Instance.Logger.Error("Error while creating MergedTrack from file '{0}'. Exception: {1}", path, ex.Message);
 
-                // Make sure the file can be opened by creating a TrackInfo with some default values
-                ti = new TrackInfo();
+                // Make sure the file can be opened by creating a MergedTrack with some default values
+                mt = new MergedTrack();
 
-                ti.Path = path;
-                ti.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                mt.Path = path;
+                mt.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
 
-                ti.ArtistName = Defaults.UnknownArtistString;
+                mt.ArtistName = Defaults.UnknownArtistString;
 
-                ti.GenreName = Defaults.UnknownGenreString;
+                mt.GenreName = Defaults.UnknownGenreString;
 
-                ti.AlbumTitle = Defaults.UnknownAlbumString;
-                ti.AlbumArtist = Defaults.UnknownAlbumArtistString;
+                mt.AlbumTitle = Defaults.UnknownAlbumString;
+                mt.AlbumArtist = Defaults.UnknownAlbumArtistString;
             }
 
-            return ti;
+            return mt;
         }
         #endregion
     }

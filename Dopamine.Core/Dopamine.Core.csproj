@@ -189,7 +189,7 @@
     <Compile Include="Database\Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackRepository.cs" />
     <Compile Include="Database\SQLiteConnectionFactory.cs" />
-    <Compile Include="Database\TrackInfo.cs" />
+    <Compile Include="Database\MergedTrack.cs" />
     <Compile Include="Database\TrackStatistic.cs" />
     <Compile Include="Database\Utils.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

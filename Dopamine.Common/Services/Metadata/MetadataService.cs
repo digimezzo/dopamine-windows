@@ -109,13 +109,13 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackRatingAsync(string path, int rating)
         {
-            Track dbTrack = await this.trackRepository.GetTrackAsync(path);
+            Track track = await this.trackRepository.GetTrackAsync(path);
 
             // Update datebase track rating only if the track can be found
-            if (dbTrack != null)
+            if (track != null)
             {
-                dbTrack.Rating = rating;
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                track.Rating = rating;
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             // Update the rating in the file if the user selected this option
@@ -138,13 +138,13 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackLoveAsync(string path, bool love)
         {
-            Track dbTrack = await this.trackRepository.GetTrackAsync(path);
+            Track track = await this.trackRepository.GetTrackAsync(path);
 
             // Update datebase track rating only if the track can be found
-            if (dbTrack != null)
+            if (track != null)
             {
-                dbTrack.Love = love ? 1 : 0;
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                track.Love = love ? 1 : 0;
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
@@ -184,7 +184,7 @@ namespace Dopamine.Common.Services.Metadata
 
             if (updateFileArtwork)
             {
-                List<TrackInfo> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
+                List<MergedTrack> albumTracks = await this.trackRepository.GetMergedTracksAsync(album.ToList());
                 List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
                 // Queue update of the file metadata
@@ -278,45 +278,45 @@ namespace Dopamine.Common.Services.Metadata
 
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
+            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Title.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.TrackTitle = fileMetadata.Title.Value;
+                track.TrackTitle = fileMetadata.Title.Value;
             }
 
             if (fileMetadata.Year.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.Year = fileMetadata.Year.Value.SafeConvertToLong();
+                track.Year = fileMetadata.Year.Value.SafeConvertToLong();
             }
 
             if (fileMetadata.TrackNumber.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.TrackNumber = fileMetadata.TrackNumber.Value.SafeConvertToLong();
+                track.TrackNumber = fileMetadata.TrackNumber.Value.SafeConvertToLong();
             }
 
             if (fileMetadata.TrackCount.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.TrackCount = fileMetadata.TrackCount.Value.SafeConvertToLong();
+                track.TrackCount = fileMetadata.TrackCount.Value.SafeConvertToLong();
             }
 
             if (fileMetadata.DiscNumber.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.DiscNumber = fileMetadata.DiscNumber.Value.SafeConvertToLong();
+                track.DiscNumber = fileMetadata.DiscNumber.Value.SafeConvertToLong();
             }
 
             if (fileMetadata.DiscCount.IsValueChanged)
             {
                 isMetadataChanged = true;
-                dbTrack.DiscCount = fileMetadata.DiscCount.Value.SafeConvertToLong();
+                track.DiscCount = fileMetadata.DiscCount.Value.SafeConvertToLong();
             }
 
-            if (isMetadataChanged) await this.trackRepository.UpdateTrackAsync(dbTrack);
+            if (isMetadataChanged) await this.trackRepository.UpdateTrackAsync(track);
 
             if (fileMetadata.Lyrics.IsValueChanged)
             {
@@ -331,7 +331,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
+            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Artists.IsValueChanged)
             {
@@ -340,9 +340,9 @@ namespace Dopamine.Common.Services.Metadata
                 string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistString;
                 dbArtist = await this.artistRepository.GetArtistAsync(newArtistName);
                 if (dbArtist == null) dbArtist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
-                if (dbArtist != null) dbTrack.ArtistID = dbArtist.ArtistID;
+                if (dbArtist != null) track.ArtistID = dbArtist.ArtistID;
 
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             return isMetadataChanged;
@@ -352,7 +352,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fmd.SafePath);
+            Track track = await this.trackRepository.GetTrackAsync(fmd.SafePath);
 
             if (fmd.Genres.IsValueChanged)
             {
@@ -361,9 +361,9 @@ namespace Dopamine.Common.Services.Metadata
                 string newGenreName = fmd.Genres.Values != null && !string.IsNullOrEmpty(fmd.Genres.Values.FirstOrDefault()) ? fmd.Genres.Values.FirstOrDefault() : Defaults.UnknownGenreString;
                 dbGenre = await this.genreRepository.GetGenreAsync(newGenreName);
                 if (dbGenre == null) dbGenre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
-                if (dbGenre != null) dbTrack.GenreID = dbGenre.GenreID;
+                if (dbGenre != null) track.GenreID = dbGenre.GenreID;
 
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             return isMetadataChanged;
@@ -373,7 +373,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             bool isMetadataChanged = false;
 
-            Track dbTrack = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
+            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
 
             if (fileMetadata.Album.IsValueChanged | fileMetadata.AlbumArtists.IsValueChanged | fileMetadata.Year.IsValueChanged)
             {
@@ -388,13 +388,13 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     dbAlbum = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
 
-                    dbAlbum.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dbAlbum, dbTrack.Path));
+                    dbAlbum.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dbAlbum, track.Path));
 
                     dbAlbum = await this.albumRepository.AddAlbumAsync(dbAlbum);
                 }
 
-                dbTrack.AlbumID = dbAlbum.AlbumID;
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                track.AlbumID = dbAlbum.AlbumID;
+                await this.trackRepository.UpdateTrackAsync(track);
 
                 await Task.Run(() => IndexerUtils.UpdateAlbumYear(dbAlbum, fileMetadata.Year.Value.SafeConvertToLong())); // Update the album's year
                 await this.albumRepository.UpdateAlbumAsync(dbAlbum);

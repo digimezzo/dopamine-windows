@@ -55,7 +55,7 @@ namespace Dopamine.Common.Presentation.Views
             {
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)lb.SelectedItem).TrackInfo.Path);
+                    Actions.TryViewInExplorer(((MergedTrackViewModel)lb.SelectedItem).MergedTrack.Path);
                 }
             }
             else if (e.Key == Key.Delete)
@@ -69,7 +69,7 @@ namespace Dopamine.Common.Presentation.Views
             try
             {
                 var dg = VisualTreeUtils.FindAncestor<DataGrid>((DataGridRow)sender);
-                await this.playBackService.Enqueue(dg.Items.OfType<TrackInfoViewModel>().ToList().Select(tivm => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)dg.SelectedItem).TrackInfo);
+                await this.playBackService.Enqueue(dg.Items.OfType<MergedTrackViewModel>().ToList().Select(t => t.MergedTrack.Path).ToList(), ((MergedTrackViewModel)dg.SelectedItem).MergedTrack.Path);
             }
             catch (Exception ex)
             {
@@ -100,14 +100,14 @@ namespace Dopamine.Common.Presentation.Views
                 if(!enqueue) {
 
                     // The user just wants to play the selected item. Don't enqueue.
-                    await this.playBackService.PlaySelectedAsync(((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
+                    await this.playBackService.PlaySelectedAsync(((MergedTrackViewModel)lb.SelectedItem).MergedTrack.Path);
                     return;
                 };
 
                 // The user wants to enqueue tracks for the selected item
-                if (lb.SelectedItem.GetType().Name == typeof(TrackInfoViewModel).Name)
+                if (lb.SelectedItem.GetType().Name == typeof(MergedTrackViewModel).Name)
                 {
-                    await this.playBackService.Enqueue(lb.Items.OfType<TrackInfoViewModel>().ToList().Select((tivm) => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
+                    await this.playBackService.Enqueue(lb.Items.OfType<MergedTrackViewModel>().ToList().Select((t) => t.MergedTrack.Path).ToList(), ((MergedTrackViewModel)lb.SelectedItem).MergedTrack.Path);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
@@ -163,7 +163,7 @@ namespace Dopamine.Common.Presentation.Views
             {
                 try
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)listBox.SelectedItem).TrackInfo.Path);
+                    Actions.TryViewInExplorer(((MergedTrackViewModel)listBox.SelectedItem).MergedTrack.Path);
                 }
                 catch (Exception ex)
                 {

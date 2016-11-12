@@ -1,9 +1,8 @@
-﻿using Dopamine.Core.Database.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Dopamine.Core.Database
 {
-    public class TrackInfo
+    public class MergedTrack
     {
         #region Track
         public long TrackID { get; set; }
@@ -52,10 +51,10 @@ namespace Dopamine.Core.Database
         #endregion
 
         #region Public
-        public List<TrackInfo> ToList()
+        public List<MergedTrack> ToList()
         {
 
-            List<TrackInfo> l = new List<TrackInfo>();
+            List<MergedTrack> l = new List<MergedTrack>();
             l.Add(this);
 
             return l;
@@ -75,7 +74,7 @@ namespace Dopamine.Core.Database
                 return false;
             }
 
-            return this.SafePath.Equals(((TrackInfo)obj).SafePath);
+            return this.SafePath.Equals(((MergedTrack)obj).SafePath);
         }
         #endregion
     }

@@ -103,24 +103,24 @@ namespace Dopamine.Common.Services.Notification
 
             string artworkPath = string.Empty;
 
-            TrackInfoViewModel playingTrackinfoVm = null; // Create a dummy track
+            MergedTrackViewModel viewModel = null; // Create a dummy track
 
-            TrackInfo dbTrack = null;
+            MergedTrack mergedTrack = null;
 
             if (this.playbackService.PlayingFile != null)
             {
-                dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
+                mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
             }
 
             await Task.Run(() =>
         {
             try
             {
-                if (dbTrack != null)
+                if (mergedTrack != null)
                 {
-                    artworkPath = this.cacheService.GetCachedArtworkPath(dbTrack.AlbumArtworkID);
-                    playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
-                    playingTrackinfoVm.TrackInfo = dbTrack;
+                    artworkPath = this.cacheService.GetCachedArtworkPath(mergedTrack.AlbumArtworkID);
+                    viewModel = this.container.Resolve<MergedTrackViewModel>();
+                    viewModel.MergedTrack = mergedTrack;
                 }
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace Dopamine.Common.Services.Notification
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.notification = new NotificationWindow(playingTrackinfoVm,
+                this.notification = new NotificationWindow(viewModel,
                                                       artworkPath,
                                                       (NotificationPosition)XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition"),
                                                       XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
