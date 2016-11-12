@@ -184,11 +184,11 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackSuccess += async(_) =>
             {
-                MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
+                MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingPath);
 
                 if(mergedTrack == null)
                 {
-                    LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
+                    LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingPath);
                     return;
                 }
 
