@@ -257,7 +257,7 @@ namespace Dopamine.Core.Audio
         {
             IWaveSource waveSource;
 
-            if (System.IO.Path.GetExtension(this.filename) == FileFormats.MP3)
+            if (System.IO.Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
             {
                 // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
                 // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 

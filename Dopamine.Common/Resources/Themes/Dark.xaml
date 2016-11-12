@@ -25,8 +25,12 @@
     <SolidColorBrush x:Key="RG_TextBoxInvisibleBackgroundBrush" Color="#00000000"/>
     <SolidColorBrush x:Key="RG_SliderTrackBackgroundBrush" Color="#3A3A3A"/>
 
-    <!-- Transparent Background Brushes (#AAAAAA is equivalent to #1B1B1B but with transparency) -->
+    <!-- Transparent Background Brushes 
+    (#AAAAAA is equivalent to #1A1A1A but with transparency)
+    (#CCCCCC is equivalent to #292929 but with transparency) 
+    -->
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#AAAAAA" Opacity="0.1"/>
+    <SolidColorBrush x:Key="RG_ControlsBackgroundHighTransparentBrush" Color="#CCCCCC" Opacity="0.15"/>
     <SolidColorBrush x:Key="RG_DimBackgroundBrush" Color="White" Opacity="0.2"/>
     <SolidColorBrush x:Key="RG_TooltipBackgroundBrush" Color="White" Opacity="0.9"/>
 
