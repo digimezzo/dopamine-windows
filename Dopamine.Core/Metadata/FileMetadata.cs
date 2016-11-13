@@ -260,7 +260,7 @@ namespace Dopamine.Core.Metadata
                     {
                         TagLib.Id3v2.PopularimeterFrame popMFrame;
 
-                        // First, try to get the rating from the default Windows PopM user
+                        // First, try to get the rating from the default Windows PopM user.
                         popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, Defaults.WindowsPopMUser, true);
 
                         if (popMFrame != null && popMFrame.Rating > 0)
@@ -269,7 +269,7 @@ namespace Dopamine.Core.Metadata
                         }
                         else
                         {
-                            // No rating found for the default Windows PopM user. Try for other PopM.
+                            // No rating found for the default Windows PopM user. Try for other PopM users.
                             foreach (var user in Defaults.OtherPopMUsers)
                             {
                                 popMFrame = TagLib.Id3v2.PopularimeterFrame.Get((TagLib.Id3v2.Tag)tag, user, true);
