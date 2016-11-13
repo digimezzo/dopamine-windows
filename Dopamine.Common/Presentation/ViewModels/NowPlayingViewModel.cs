@@ -56,7 +56,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected override void ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingFile == null) return;
+            if (this.playbackService.PlayingTrack == null)
+            {
+                return;
+            }
 
             base.ShowPlayingTrackAsync();
         }
@@ -77,7 +80,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Collect the TrackInfoViewModels to remove
                 foreach (TrackInfoViewModel tivm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedFiles.Contains(tivm.TrackInfo.Path))
+                    if (dequeueResult.DequeuedTracks.Contains(tivm.TrackInfo.Path))
                     {
                         trackInfoViewModelsToRemove.Add(tivm);
                     }
