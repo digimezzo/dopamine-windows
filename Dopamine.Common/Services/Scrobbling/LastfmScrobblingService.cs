@@ -6,7 +6,6 @@ using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Services.Scrobbling
 {
@@ -20,7 +19,6 @@ namespace Dopamine.Common.Services.Scrobbling
         private IPlaybackService playbackService;
         private DateTime trackStartTime;
         private bool canScrobble;
-        private ITrackRepository trackRepository;
         #endregion
 
         #region Events
@@ -69,10 +67,9 @@ namespace Dopamine.Common.Services.Scrobbling
         #endregion
 
         #region Construction
-        public LastFmScrobblingService(IPlaybackService playbackService, ITrackRepository trackRepository)
+        public LastFmScrobblingService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
-            this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
             this.playbackService.PlaybackProgressChanged += PlaybackService_PlaybackProgressChanged;
@@ -100,18 +97,9 @@ namespace Dopamine.Common.Services.Scrobbling
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
-
-                var dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
-
-                if(dbTrack == null)
-                {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
-                    return;
-                }
-
-                string artist = dbTrack.ArtistName != Defaults.UnknownArtistString ? dbTrack.ArtistName : string.Empty;
-                string trackTitle = dbTrack.TrackTitle;
-                string albumTitle = dbTrack.AlbumTitle != Defaults.UnknownAlbumString ? dbTrack.AlbumTitle : string.Empty;
+                string artist = this.playbackService.PlayingTrack.ArtistName != Defaults.UnknownArtistString ? this.playbackService.PlayingTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.PlayingTrack.TrackTitle;
+                string albumTitle = this.playbackService.PlayingTrack.AlbumTitle != Defaults.UnknownAlbumString ? this.playbackService.PlayingTrack.AlbumTitle : string.Empty;
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -144,17 +132,9 @@ namespace Dopamine.Common.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                var dbTrack = await trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
-
-                if (dbTrack == null)
-                {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
-                    return;
-                }
-
-                string artist = dbTrack.ArtistName != Defaults.UnknownArtistString ? dbTrack.ArtistName : string.Empty;
-                string trackTitle = dbTrack.TrackTitle;
-                string albumTitle = dbTrack.AlbumTitle != Defaults.UnknownAlbumString ? dbTrack.AlbumTitle : string.Empty;
+                string artist = this.playbackService.PlayingTrack.ArtistName != Defaults.UnknownArtistString ? this.playbackService.PlayingTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.PlayingTrack.TrackTitle;
+                string albumTitle = this.playbackService.PlayingTrack.AlbumTitle != Defaults.UnknownAlbumString ? this.playbackService.PlayingTrack.AlbumTitle : string.Empty;
 
                 if (this.canScrobble && !string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
