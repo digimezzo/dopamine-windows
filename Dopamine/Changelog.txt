@@ -1,15 +1,9 @@
-2016-11-13: Dopamine 1.2 Build 780 (Preview)
---------------------------------------------
-
-- [Added] Added Google as lyrics search provider in "Search online"
-
-
-2016-11-12: Dopamine 1.2 Build 779 (Preview)
+2016-11-12: Dopamine 1.2 Build 776 (Preview)
 --------------------------------------------
 
 - [Added] Added several buttons on the lyrics Now Playing screen to avoid confusion for users
 - [Fixed] Fixed a crash when reading lyrics during indexing
-- [Fixed] Fixed now playing information not updated when metadata changes
+- [Fixed] Fixed several small bugs
 
 
 2016-11-11: Dopamine 1.2 Build 772 (Preview)

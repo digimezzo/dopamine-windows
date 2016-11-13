@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Dopamine.Common.Services.Metadata
 {
@@ -11,12 +10,6 @@ namespace Dopamine.Common.Services.Metadata
         public bool IsAlbumChanged { get; set; }
         public bool IsTrackChanged { get; set; }
         public bool IsArtworkChanged { get; set; }
-        public List<string> ChangedPaths { get; set; }
-
-        public bool IsPlaybackInfoChanged
-        {
-            get { return this.IsArtistChanged | this.IsAlbumChanged | this.IsTrackChanged; }
-        }
 
         public bool IsMetadataChanged
         {
