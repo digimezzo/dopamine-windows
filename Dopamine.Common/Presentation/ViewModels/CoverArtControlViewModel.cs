@@ -1,16 +1,19 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -58,43 +61,37 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.SlideDirection = SlideDirection.DownToUp;
                 }
 
-                this.ShowCoverArtAsync(this.playbackService.PlayingFile);
+                this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
             };
 
-            this.ShowCoverArtAsync(this.playbackService.PlayingFile);
+            this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
 
             // The default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
         }
         #endregion
 
-        #region Private
-        private void ClearCoverArt()
-        {
-            this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            this.album = null;
-        }
-        #endregion
-
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(string filename)
+        protected async virtual void ShowCoverArtAsync(string trackInfo)
         {
             this.previousAlbum = this.album;
 
             // No track selected: clear cover art.
-            if (filename == null)
+            if (trackInfo == null)
             {
-                this.ClearCoverArt();
+                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+                this.album = null;
                 return;
             }
 
             // Get the track from the database
-            var dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
+            var dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
 
             if(dbTrack == null)
             {
-                LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
-                this.ClearCoverArt();
+                LogClient.Instance.Logger.Error("Could not get the track from the database: {0}", trackInfo);
+                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+                this.album = null;
                 return;
             }
 
@@ -119,7 +116,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             if (string.IsNullOrEmpty(artworkPath))
             {
-                this.ClearCoverArt();
+                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
                 return;
             }
 
@@ -135,8 +132,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", filename, ex.Message);
-                this.ClearCoverArt();
+                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             }
         }
         #endregion

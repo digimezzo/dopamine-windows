@@ -16,8 +16,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IPlaybackService playbackService;
         private ITrackRepository trackRepository;
         private SlideDirection slideDirection;
-        private string previousFilename;
-        private string filename;
+        private string previousTrackInfo;
+        private string trackInfo;
         #endregion
 
         #region Properties
@@ -51,12 +51,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.SlideDirection = SlideDirection.DownToUp;
                 }
 
-                this.ShowPlaybackInfoAsync(this.playbackService.PlayingFile);
+                this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingFile);
+            this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
 
             // Default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
@@ -64,43 +64,47 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void ClearPlaybackInformation()
+        private async void ShowPlaybackInfoAsync(string trackInfo)
         {
-            this.PlaybackInfoViewModel = new PlaybackInfoViewModel
-            {
-                Title = string.Empty,
-                Artist = string.Empty,
-                Album = string.Empty,
-                Year = string.Empty,
-                CurrentTime = string.Empty,
-                TotalTime = string.Empty
-            };
-            this.filename = null;
-        }
-
-        private async void ShowPlaybackInfoAsync(string filename)
-        {
-            this.previousFilename = this.filename;
+            this.previousTrackInfo = this.trackInfo;
 
             // No track selected: clear playback info.
-            if (filename == null)
+            if (trackInfo == null)
             {
-                this.ClearPlaybackInformation();
+                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
+                {
+                    Title = string.Empty,
+                    Artist = string.Empty,
+                    Album = string.Empty,
+                    Year = string.Empty,
+                    CurrentTime = string.Empty,
+                    TotalTime = string.Empty
+                };
+                this.trackInfo = null;
                 return;
             }
 
-            this.filename = filename;
+            this.trackInfo = trackInfo;
 
             // The track didn't change: leave the previous playback info.
-            if (this.filename.Equals(this.previousFilename)) return;
+            if (this.trackInfo.Equals(this.previousTrackInfo)) return;
 
             // get the track from the database
-            TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
+            TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
 
             if(dbTrack == null)
             {
-                LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
-                this.ClearPlaybackInformation();
+                LogClient.Instance.Logger.Error("The track could not be found in the database: {0}", trackInfo);
+                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
+                {
+                    Title = string.Empty,
+                    Artist = string.Empty,
+                    Album = string.Empty,
+                    Year = string.Empty,
+                    CurrentTime = string.Empty,
+                    TotalTime = string.Empty
+                };
+                this.trackInfo = null;
                 return;
             }
 
@@ -126,8 +130,16 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", filename, ex.Message);
-                this.ClearPlaybackInformation();
+                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
+                {
+                    Title = string.Empty,
+                    Artist = string.Empty,
+                    Album = string.Empty,
+                    Year = string.Empty,
+                    CurrentTime = string.Empty,
+                    TotalTime = string.Empty
+                };
             }
 
             this.UpdateTime();
