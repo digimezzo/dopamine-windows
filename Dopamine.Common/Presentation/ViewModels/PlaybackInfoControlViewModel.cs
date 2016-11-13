@@ -14,8 +14,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
         private SlideDirection slideDirection;
-        private TrackInfo previousTrackInfo;
-        private TrackInfo trackInfo;
+        private MergedTrack previousTrack;
+        private MergedTrack track;
         #endregion
 
         #region Properties
@@ -61,12 +61,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void ShowPlaybackInfoAsync(TrackInfo trackInfo)
+        private void ShowPlaybackInfoAsync(MergedTrack track)
         {
-            this.previousTrackInfo = this.trackInfo;
+            this.previousTrack = this.track;
 
             // No track selected: clear playback info.
-            if (trackInfo == null)
+            if (track == null)
             {
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
@@ -77,30 +77,30 @@ namespace Dopamine.Common.Presentation.ViewModels
                     CurrentTime = string.Empty,
                     TotalTime = string.Empty
                 };
-                this.trackInfo = null;
+                this.track = null;
                 return;
             }
 
-            this.trackInfo = trackInfo;
+            this.track = track;
 
             // The track didn't change: leave the previous playback info.
-            if (this.trackInfo.Equals(this.previousTrackInfo)) return;
+            if (this.track.Equals(this.previousTrack)) return;
 
             // The track changed: we need to show new playback info.
             try
             {
                 string year = string.Empty;
 
-                if (trackInfo.Year != null && trackInfo.Year > 0)
+                if (track.Year != null && track.Year > 0)
                 {
-                    year = trackInfo.Year.ToString();
+                    year = track.Year.ToString();
                 }
 
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
-                    Title = string.IsNullOrEmpty(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle,
-                    Artist = trackInfo.ArtistName,
-                    Album = trackInfo.AlbumTitle,
+                    Title = string.IsNullOrEmpty(track.TrackTitle) ? track.FileName : track.TrackTitle,
+                    Artist = track.ArtistName,
+                    Album = track.AlbumTitle,
                     Year = year,
                     CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
                     TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
@@ -108,7 +108,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
                     Title = string.Empty,

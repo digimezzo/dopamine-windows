@@ -7,7 +7,6 @@ using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -76,7 +75,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackInfo> tracks, string playlistName)
+        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)
         {
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
@@ -100,7 +99,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<TrackInfo> tracks, Playlist selectedPlaylist)
+        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> tracks, Playlist selectedPlaylist)
         {
             DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
 
@@ -112,7 +111,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<TrackInfo> selectedTracks)
+        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<MergedTrack> selectedTracks)
         {
             RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
 
@@ -206,9 +205,9 @@ namespace Dopamine.Common.Services.Collection
             AddPlaylistResult addPlaylistResult = await this.playlistRepository.AddPlaylistAsync(playlistName);
             if (addPlaylistResult != AddPlaylistResult.Success) return OpenPlaylistResult.Error;
 
-            // Add TrackInfo's to the Playlist
-            // -------------------------------
-            List<TrackInfo> tracks = await this.trackRepository.GetTracksAsync(paths);
+            // Add Tracks to the Playlist
+            // --------------------------
+            List<MergedTrack> tracks = await this.trackRepository.GetTracksAsync(paths);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
             if (!result.IsSuccess) return OpenPlaylistResult.Error;
 
@@ -219,7 +218,7 @@ namespace Dopamine.Common.Services.Collection
             return OpenPlaylistResult.Success;
         }
 
-        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, ObservableCollection<TrackInfoViewModel> trackInfoViewModels)
+        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, ObservableCollection<MergedTrackViewModel> viewModels)
         {
             List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
 
@@ -249,33 +248,33 @@ namespace Dopamine.Common.Services.Collection
                 });
             }
 
-            if (trackInfoViewModels != null && trackInfoViewModels.Count > 0)
+            if (viewModels != null && viewModels.Count > 0)
             {
                 await Task.Run(() =>
                 {
-                    foreach (TrackInfoViewModel tivm in trackInfoViewModels)
+                    foreach (MergedTrackViewModel vm in viewModels)
                     {
                         try
                         {
                             // Get an up to date version of this album from the database
-                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(tivm.TrackInfo.AlbumID)).Select((a) => a).FirstOrDefault();
+                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(vm.Track.AlbumID)).Select((a) => a).FirstOrDefault();
 
                             if (dbAlbum != null)
                             {
-                                tivm.TrackInfo.AlbumArtworkID = dbAlbum.ArtworkID;
-                                tivm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
+                                vm.Track.AlbumArtworkID = dbAlbum.ArtworkID;
+                                vm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while refreshing artwork for TrackInfo with path {0}. Exception: {1}", tivm.TrackInfo.Path, ex.Message);
+                            LogClient.Instance.Logger.Error("Error while refreshing artwork for Track with path {0}. Exception: {1}", vm.Track.Path, ex.Message);
                         }
                     }
                 });
             }
         }
 
-        public async Task SetTrackArtworkAsync(ObservableCollection<TrackInfoViewModel> trackInfoViewModels, int delayMilliSeconds)
+        public async Task SetTrackArtworkAsync(ObservableCollection<MergedTrackViewModel> viewModels, int delayMilliSeconds)
         {
             await Task.Delay(delayMilliSeconds);
 
@@ -283,15 +282,15 @@ namespace Dopamine.Common.Services.Collection
             {
                 try
                 {
-                    foreach (TrackInfoViewModel tivm in trackInfoViewModels)
+                    foreach (MergedTrackViewModel vm in viewModels)
                     {
                         try
                         {
-                            tivm.ArtworkPath = this.cacheService.GetCachedArtworkPath(tivm.TrackInfo.AlbumArtworkID);
+                            vm.ArtworkPath = this.cacheService.GetCachedArtworkPath(vm.Track.AlbumArtworkID);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while setting artwork for Track {0}. Exception: {1}", tivm.TrackInfo.Path, ex.Message);
+                            LogClient.Instance.Logger.Error("Error while setting artwork for Track {0}. Exception: {1}", vm.Track.Path, ex.Message);
                         }
                     }
                 }
@@ -340,7 +339,7 @@ namespace Dopamine.Common.Services.Collection
         {
             ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
-            List<TrackInfo> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
+            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
             await Task.Run(() => {
 
@@ -362,7 +361,7 @@ namespace Dopamine.Common.Services.Collection
                     // Write all the paths to the file
                     using (StreamWriter file = new StreamWriter(playlistFileFullPath))
                     {
-                        foreach (TrackInfo t in tracks)
+                        foreach (MergedTrack t in tracks)
                         {
                             string audioFileNameWithoutPath = Path.GetFileName(t.Path);
 

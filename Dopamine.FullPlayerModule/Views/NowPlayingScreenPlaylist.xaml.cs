@@ -42,7 +42,7 @@ namespace Dopamine.FullPlayerModule.Views
                 if (lb.SelectedItem == null)
                     return;
 
-                await this.playBackService.PlaySelectedAsync(((TrackInfoViewModel)lb.SelectedItem).TrackInfo);
+                await this.playBackService.PlaySelectedAsync(((MergedTrackViewModel)lb.SelectedItem).Track);
             }
             catch (Exception ex)
             {

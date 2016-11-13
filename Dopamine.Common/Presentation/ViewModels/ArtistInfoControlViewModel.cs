@@ -75,12 +75,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async Task ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
+        private async Task ShowArtistInfoAsync(MergedTrack track, bool forceReload)
         {
             this.previousArtist = this.artist;
 
             // User doesn't want to download artist info, or no track is selected.
-            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || trackInfo == null)
+            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || track == null)
             {
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
@@ -88,7 +88,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             // Artist name is unknown
-            if (trackInfo.ArtistName == Defaults.UnknownArtistString)
+            if (track.ArtistName == Defaults.UnknownArtistString)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
@@ -99,7 +99,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.artist = new Core.Database.Entities.Artist
             {
-                ArtistName = trackInfo.ArtistName
+                ArtistName = track.ArtistName
             };
 
             // The artist didn't change: leave the previous artist info.
@@ -112,14 +112,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, "EN");
+                        lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)
@@ -136,7 +136,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }

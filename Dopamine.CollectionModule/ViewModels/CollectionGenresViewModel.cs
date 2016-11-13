@@ -388,7 +388,7 @@ namespace Dopamine.CollectionModule.ViewModels
             base.ToggleTrackOrder();
 
             XmlSettingsClient.Instance.Set<int>("Ordering", "GenresTrackOrder", (int)this.TrackOrder);
-            await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.TrackInfo).ToList(), this.TrackOrder);
+            await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.Track).ToList(), this.TrackOrder);
         }
 
         protected async Task ToggleAlbumOrderAsync()

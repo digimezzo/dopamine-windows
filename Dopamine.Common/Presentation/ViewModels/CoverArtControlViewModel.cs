@@ -69,12 +69,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(TrackInfo trackInfo)
+        protected async virtual void ShowCoverArtAsync(MergedTrack track)
         {
             this.previousAlbum = this.album;
 
             // No track selected: clear cover art.
-            if (trackInfo == null)
+            if (track == null)
             {
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
                 this.album = null;
@@ -83,10 +83,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.album = new Album
             {
-                AlbumArtist = trackInfo.AlbumArtist,
-                AlbumTitle = trackInfo.AlbumTitle,
-                Year = trackInfo.AlbumYear,
-                ArtworkID = trackInfo.AlbumArtworkID,
+                AlbumArtist = track.AlbumArtist,
+                AlbumTitle = track.AlbumTitle,
+                Year = track.AlbumYear,
+                ArtworkID = track.AlbumArtworkID,
             };
 
             // The album didn't change: leave the previous covert art.
@@ -97,7 +97,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = this.cacheService.GetCachedArtworkPath(trackInfo.AlbumArtworkID);
+                artworkPath = this.cacheService.GetCachedArtworkPath(track.AlbumArtworkID);
             });
 
             if (string.IsNullOrEmpty(artworkPath))
@@ -118,7 +118,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             }
         }

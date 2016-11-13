@@ -15,6 +15,6 @@ namespace Dopamine.Common.Services.Scrobbling
         Task SignIn();
         void SignOut();
 
-        Task<bool> SendTrackLoveAsync(TrackInfo track, bool love);
+        Task<bool> SendTrackLoveAsync(MergedTrack track, bool love);
     }
 }

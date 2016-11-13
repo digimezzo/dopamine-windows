@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Dopamine.Core.Database
 {
-    public class TrackInfo : Track
+    public class MergedTrack : Track
     {
         #region Artist
         public string ArtistName { get; set; }
@@ -21,10 +21,10 @@ namespace Dopamine.Core.Database
         #endregion
 
         #region Public
-        public List<TrackInfo> ToList()
+        public List<MergedTrack> ToList()
         {
 
-            List<TrackInfo> l = new List<TrackInfo>();
+            List<MergedTrack> l = new List<MergedTrack>();
             l.Add(this);
 
             return l;
