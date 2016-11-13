@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Core.Api.LyricWikia
 {
+    /// <summary>
+    /// Idea borrowed from here: http://inversekarma.in/technology/net/fetching-lyrics-from-lyricwiki-in-/c
+    /// </summary>
     public static class LyricWikiaApi
     {
         private const string apiRootFormat = "http://lyrics.wikia.com/wiki/{0}:{1}?action=edit";
@@ -37,20 +40,45 @@ namespace Dopamine.Core.Api.LyricWikia
 
         private static async Task<string> ParseLyricsFromHtml(string html)
         {
-            string lyrics = null;
+            string lyrics = string.Empty;
 
-            await Task.Run(() =>
+            int start;
+            int end;
+
+            // We were redirected
+            if (html.Contains("#REDIRECT"))
             {
-                // Get start and end index
-                int start = html.IndexOf("&lt;lyrics>") + 12;
-                int end = html.IndexOf("&lt;/lyrics>") - 1;
+                string artist = string.Empty;
+                string title = string.Empty;
 
-                // Replace webpage newline with carriage return + newline (standard on Windows)
-                lyrics = html.Substring(start, end - start).Replace("\n", Environment.NewLine);
+                await Task.Run(() =>
+                {
+                    start = html.IndexOf("#REDIRECT [[") + 12;
+                    end = html.IndexOf("]]", start);
 
-                // No lyrics found
-                if (lyrics.Contains("!-- PUT LYRICS HERE (and delete this entire line) -->")) lyrics = string.Empty;
-            });
+                    artist = html.Substring(start, end - start).Split(':')[0];
+                    title = html.Substring(start, end - start).Split(':')[1];
+                });
+
+                lyrics = await GetLyricsAsync(artist, title);
+            }
+            // No lyrics found
+            else if(html.Contains("!-- PUT LYRICS HERE (and delete this entire line) -->"))
+            {
+                lyrics = string.Empty;
+            }
+            // Lyrics found
+            else
+            {
+                await Task.Run(() =>
+                {
+                    start = html.IndexOf("&lt;lyrics>") + 12;
+                    end = html.IndexOf("&lt;/lyrics>") - 1;
+
+                    // Replace webpage newline with carriage return + newline (standard on Windows)
+                    lyrics = html.Substring(start, end - start).Replace("\n", Environment.NewLine);
+                });
+            }
 
             return lyrics;
         }
