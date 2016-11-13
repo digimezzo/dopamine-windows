@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Presentation.ViewModels
@@ -8,7 +7,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Construction
 
-        public PlaybackInfoControlNanoViewModel(IPlaybackService playbackService, IMetadataService metadataService, ITrackRepository trackRepository) : base(playbackService, metadataService, trackRepository)
+        public PlaybackInfoControlNanoViewModel(IPlaybackService playbackService, ITrackRepository trackRepository) : base(playbackService, trackRepository)
         {
         }
         #endregion

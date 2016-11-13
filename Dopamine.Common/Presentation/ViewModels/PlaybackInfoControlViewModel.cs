@@ -1,5 +1,4 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Repositories.Interfaces;
@@ -15,11 +14,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
-        private IMetadataService metadataService;
         private ITrackRepository trackRepository;
         private SlideDirection slideDirection;
-        private string previousPath;
-        private string path;
+        private string previousFilename;
+        private string filename;
         #endregion
 
         #region Properties
@@ -37,30 +35,31 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public PlaybackInfoControlViewModel(IPlaybackService playbackService,IMetadataService metadataService, ITrackRepository trackRepository)
+        public PlaybackInfoControlViewModel(IPlaybackService playbackService, ITrackRepository trackRepository)
         {
             this.playbackService = playbackService;
-            this.metadataService = metadataService;
             this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath, false);
-            };
+                if (isPlayingPreviousTrack)
+                {
+                    this.SlideDirection = SlideDirection.UpToDown;
+                }
+                else
+                {
+                    this.SlideDirection = SlideDirection.DownToUp;
+                }
 
-            this.metadataService.MetadataChanged += (e) => {
-                if (this.playbackService.PlayingPath != null && e.IsPlaybackInfoChanged && e.ChangedPaths.Contains(this.playbackService.PlayingPath))
-                    this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath, true);
+                this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
+            this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath);
+
             // Default SlideDirection
             this.SlideDirection = SlideDirection.DownToUp;
-
-            // Default playbak information
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingPath, false);
         }
         #endregion
 
@@ -76,31 +75,31 @@ namespace Dopamine.Common.Presentation.ViewModels
                 CurrentTime = string.Empty,
                 TotalTime = string.Empty
             };
-            this.path = null;
+            this.filename = null;
         }
 
-        private async void ShowPlaybackInfoAsync(string path, bool allowShowingSamePath)
+        private async void ShowPlaybackInfoAsync(string filename)
         {
-            this.previousPath = this.path;
+            this.previousFilename = this.filename;
 
             // No track selected: clear playback info.
-            if (path == null)
+            if (filename == null)
             {
                 this.ClearPlaybackInformation();
                 return;
             }
 
-            this.path = path;
+            this.filename = filename;
 
             // The track didn't change: leave the previous playback info.
-            if (!allowShowingSamePath & this.path.Equals(this.previousPath)) return;
+            if (this.filename.Equals(this.previousFilename)) return;
 
             // Get the track from the database
-            MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(path);
+            MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(filename);
 
-            if (mergedTrack == null)
+            if(mergedTrack == null)
             {
-                LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", path);
+                LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
                 this.ClearPlaybackInformation();
                 return;
             }
@@ -127,7 +126,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", path, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", filename, ex.Message);
                 this.ClearPlaybackInformation();
             }
 

@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
@@ -40,32 +39,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             // PlaybackService
             this.playbackService.ShuffledTracksChanged += async (_, __) =>
             {
-                if (this.allowFillAllLists) await this.FillListsAsync();
-            };
-
-            // MetadataService
-            this.metadataService.MetadataChanged += MetadataService_MetadataChanged;
-        }
-
-        private async void MetadataService_MetadataChanged(MetadataChangedEventArgs e)
-        {
-            bool refreshTracks = false;
-
-            await Task.Run(() =>
-            {
-                List<string> paths = this.playbackService.Queue;
-
-                foreach (string path in paths)
+                if (this.allowFillAllLists)
                 {
-                    if (e.ChangedPaths.Contains(path))
-                    {
-                        refreshTracks = true;
-                        break;
-                    }
+                    await this.FillListsAsync();
                 }
-            });
-
-            if (refreshTracks) await this.FillListsAsync();
+            };
         }
         #endregion
 
@@ -90,7 +68,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.allowFillAllLists = false;
 
             // Dequeue paths from PlaybackService
-            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks.Select(t => t.Path).ToList());
+            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks.Select(t=>t.Path).ToList());
 
             var mergedTrackViewModelsToRemove = new List<MergedTrackViewModel>();
 
@@ -117,12 +95,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (!dequeueResult.IsSuccess)
             {
                 this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    true,
+                    0xe711, 
+                    16, 
+                    ResourceUtils.GetStringResource("Language_Error"), 
+                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"), 
+                    ResourceUtils.GetStringResource("Language_Ok"), 
+                    true, 
                     ResourceUtils.GetStringResource("Language_Log_File"));
             }
 
