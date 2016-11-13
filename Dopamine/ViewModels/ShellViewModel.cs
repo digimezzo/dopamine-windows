@@ -184,21 +184,21 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackSuccess += async(_) =>
             {
-                MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
+                TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingFile);
 
-                if(mergedTrack == null)
+                if(dbTrack == null)
                 {
                     LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", this.playbackService.PlayingFile);
                     return;
                 }
 
-                if (!string.IsNullOrWhiteSpace(mergedTrack.ArtistName) && !string.IsNullOrWhiteSpace(mergedTrack.TrackTitle))
+                if (!string.IsNullOrWhiteSpace(dbTrack.ArtistName) && !string.IsNullOrWhiteSpace(dbTrack.TrackTitle))
                 {
-                    this.TaskbarService.Description = mergedTrack.ArtistName + " - " + mergedTrack.TrackTitle;
+                    this.TaskbarService.Description = dbTrack.ArtistName + " - " + dbTrack.TrackTitle;
                 }
                 else
                 {
-                    this.TaskbarService.Description = mergedTrack.FileName;
+                    this.TaskbarService.Description = dbTrack.FileName;
                 }
                 
                 this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);

@@ -130,21 +130,21 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public FileInformationViewModel(IMetadataService metaDataService, MergedTrack selectedMergedTrack)
+        public FileInformationViewModel(IMetadataService metaDataService, TrackInfo selectedTrackInfo)
         {
             this.metaDataService = metaDataService;
 
-            this.GetFileMetadata(selectedMergedTrack);
-            this.GetFileInformation(selectedMergedTrack);
+            this.GetFileMetadata(selectedTrackInfo);
+            this.GetFileInformation(selectedTrackInfo);
         }
         #endregion
 
         #region Private
-        private void GetFileMetadata(MergedTrack selectedMergedTrack)
+        private void GetFileMetadata(TrackInfo selectedTrackInfo)
         {
             try
             {
-                var fm = new FileMetadata(selectedMergedTrack.Path);
+                var fm = new FileMetadata(selectedTrackInfo.Path);
 
                 this.SongTitle = fm.Title.Value;
                 this.SongAlbum = fm.Album.Value;
@@ -163,15 +163,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private void GetFileInformation(MergedTrack selectedMergedTrack)
+        private void GetFileInformation(TrackInfo selectedTrackInfo)
         {
             try
             {
-                var fi = new FileInformation(selectedMergedTrack.Path);
+                var fi = new FileInformation(selectedTrackInfo.Path);
 
                 this.FileName = fi.Name;
                 this.FileFolder = fi.Folder;
-                this.FilePath = selectedMergedTrack.Path;
+                this.FilePath = selectedTrackInfo.Path;
                 this.FileSize = FormatUtils.FormatFileSize(fi.SizeInBytes);
                 this.FileLastModified = fi.DateModified.ToString("D");
             }

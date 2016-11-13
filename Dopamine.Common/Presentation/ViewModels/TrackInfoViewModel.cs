@@ -6,12 +6,12 @@ using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class MergedTrackViewModel : BindableBase
+    public class TrackInfoViewModel : BindableBase
     {
         #region Variables
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
-        private MergedTrack mergedTrack;
+        private TrackInfo trackInfo;
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
@@ -23,33 +23,33 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                return this.MergedTrack.BitRate != null ? this.MergedTrack.BitRate + " kbps" : "";
+                return this.TrackInfo.BitRate != null ? this.TrackInfo.BitRate + " kbps" : "";
             }
         }
 
-        public MergedTrack MergedTrack
+        public TrackInfo TrackInfo
         {
-            get { return this.mergedTrack; }
-            set { SetProperty<MergedTrack>(ref this.mergedTrack, value); }
+            get { return this.trackInfo; }
+            set { SetProperty<TrackInfo>(ref this.trackInfo, value); }
         }
 
         public string TrackTitle
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.MergedTrack.TrackTitle))
+                if (!string.IsNullOrEmpty(this.TrackInfo.TrackTitle))
                 {
-                    return this.MergedTrack.TrackTitle;
+                    return this.TrackInfo.TrackTitle;
                 }
                 else
                 {
-                    return this.MergedTrack.FileName;
+                    return this.TrackInfo.FileName;
                 }
 
             }
             set
             {
-                this.MergedTrack.TrackTitle = value;
+                this.TrackInfo.TrackTitle = value;
                 OnPropertyChanged(() => this.TrackTitle);
             }
         }
@@ -58,9 +58,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.MergedTrack.TrackNumber.HasValue && this.MergedTrack.TrackNumber.Value > 0)
+                if (this.TrackInfo.TrackNumber.HasValue && this.TrackInfo.TrackNumber.Value > 0)
                 {
-                    return string.Format(Convert.ToInt32(this.MergedTrack.TrackNumber.Value).ToString(), "0");
+                    return string.Format(Convert.ToInt32(TrackInfo.TrackNumber.Value).ToString(), "0");
                 }
                 else
                 {
@@ -73,9 +73,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.MergedTrack.TrackNumber.HasValue && this.MergedTrack.TrackNumber.Value > 0)
+                if (this.TrackInfo.TrackNumber.HasValue && this.TrackInfo.TrackNumber.Value > 0)
                 {
-                    return this.MergedTrack.TrackNumber.ToString();
+                    return this.TrackInfo.TrackNumber.ToString();
                 }
                 else
                 {
@@ -84,7 +84,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             set
             {
-                this.MergedTrack.TrackNumber = Convert.ToInt64(value);
+                this.TrackInfo.TrackNumber = Convert.ToInt64(value);
                 OnPropertyChanged(() => this.TrackNumber);
             }
         }
@@ -93,9 +93,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.MergedTrack.Duration.HasValue)
+                if (this.TrackInfo.Duration.HasValue)
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.MergedTrack.Duration));
+                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.TrackInfo.Duration));
 
                     if (ts.Hours > 0)
                     {
@@ -118,9 +118,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.MergedTrack.Duration.HasValue)
+                if (this.TrackInfo.Duration.HasValue)
                 {
-                    return this.MergedTrack.Duration.Value;
+                    return this.TrackInfo.Duration.Value;
                 }
                 else
                 {
@@ -134,46 +134,46 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                return this.AlbumTitle + this.MergedTrack.TrackNumber.Value.ToString("0000");
+                return this.AlbumTitle + this.trackInfo.TrackNumber.Value.ToString("0000");
             }
         }
 
         public string AlbumTitle
         {
-            get { return this.MergedTrack.AlbumTitle; }
+            get { return this.TrackInfo.AlbumTitle; }
             set
             {
-                this.MergedTrack.AlbumTitle = value;
+                this.TrackInfo.AlbumTitle = value;
                 OnPropertyChanged(() => this.AlbumTitle);
             }
         }
 
         public string AlbumArtist
         {
-            get { return this.MergedTrack.AlbumArtist; }
+            get { return this.TrackInfo.AlbumArtist; }
             set
             {
-                this.MergedTrack.AlbumArtist = value;
+                this.TrackInfo.AlbumArtist = value;
                 OnPropertyChanged(() => this.AlbumArtist);
             }
         }
 
         public string ArtistName
         {
-            get { return this.MergedTrack.ArtistName; }
+            get { return this.TrackInfo.ArtistName; }
             set
             {
-                this.MergedTrack.ArtistName = value;
+                this.TrackInfo.ArtistName = value;
                 OnPropertyChanged(() => this.ArtistName);
             }
         }
 
         public string Genre
         {
-            get { return this.MergedTrack.GenreName; }
+            get { return this.TrackInfo.GenreName; }
             set
             {
-                this.MergedTrack.GenreName = value;
+                this.TrackInfo.GenreName = value;
                 OnPropertyChanged(() => this.Genre);
             }
         }
@@ -182,9 +182,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                if (this.MergedTrack.Year.HasValue && this.MergedTrack.Year.Value > 0)
+                if (this.TrackInfo.Year.HasValue && this.TrackInfo.Year.Value > 0)
                 {
-                    return this.MergedTrack.Year.Value.ToString();
+                    return this.TrackInfo.Year.Value.ToString();
                 }
                 else
                 {
@@ -193,26 +193,26 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             set
             {
-                this.MergedTrack.Year = Convert.ToInt64(value);
+                this.TrackInfo.Year = Convert.ToInt64(value);
                 OnPropertyChanged(() => Year);
             }
         }
 
         public int Rating
         {
-            get { return this.MergedTrack.Rating.HasValue ? Convert.ToInt32(this.MergedTrack.Rating.Value) : 0; }
+            get { return this.TrackInfo.Rating.HasValue ? Convert.ToInt32(this.TrackInfo.Rating.Value) : 0; }
             set
             {
-                this.MergedTrack.Rating = (long?)value;
+                this.TrackInfo.Rating = (long?)value;
                 OnPropertyChanged(() => this.Rating);
 
-                this.metadataService.UpdateTrackRatingAsync(this.MergedTrack.Path, value);
+                this.metadataService.UpdateTrackRatingAsync(this.TrackInfo.Path, value);
             }
         }
 
         public bool Love
         {
-            get { return this.MergedTrack.Love.HasValue && this.MergedTrack.Love.Value != 0 ? true : false; }
+            get { return this.TrackInfo.Love.HasValue && this.TrackInfo.Love.Value != 0 ? true : false; }
             set
             {
                 this.SetLoveAsync(value);
@@ -222,34 +222,34 @@ namespace Dopamine.Common.Presentation.ViewModels
         private async void SetLoveAsync(bool love)
         {
             // Update the UI
-            this.MergedTrack.Love = love ? 1 : 0;
+            this.TrackInfo.Love = love ? 1 : 0;
             OnPropertyChanged(() => this.Love);
 
             // Update Love in the database
-            await this.metadataService.UpdateTrackLoveAsync(this.MergedTrack.Path, love);
+            await this.metadataService.UpdateTrackLoveAsync(this.TrackInfo.Path, love);
 
             // Send Love/Unlove to the scrobbling service
-            await this.scrobblingService.SendTrackLoveAsync(this.MergedTrack, love);
+            await this.scrobblingService.SendTrackLoveAsync(this.TrackInfo, love);
         }
 
         public string GroupHeader
         {
             get
             {
-                if (this.MergedTrack.DiscCount.HasValue && this.MergedTrack.DiscCount.Value > 1 && this.MergedTrack.DiscNumber.HasValue && this.MergedTrack.DiscNumber.Value > 0)
+                if (this.TrackInfo.DiscCount.HasValue && this.TrackInfo.DiscCount.Value > 1 && this.TrackInfo.DiscNumber.HasValue && this.TrackInfo.DiscNumber.Value > 0)
                 {
-                    return string.Format("{0} ({1})", this.MergedTrack.AlbumTitle, this.MergedTrack.DiscNumber);
+                    return string.Format("{0} ({1})", this.TrackInfo.AlbumTitle, this.TrackInfo.DiscNumber);
                 }
                 else
                 {
-                    return this.MergedTrack.AlbumTitle;
+                    return this.TrackInfo.AlbumTitle;
                 }
             }
         }
 
         public string GroupSubHeader
         {
-            get { return this.MergedTrack.AlbumArtist; }
+            get { return this.TrackInfo.AlbumArtist; }
         }
 
         public bool IsPlaying
@@ -278,13 +278,13 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string FileName
         {
-            get { return this.MergedTrack.FileName; }
+            get { return this.TrackInfo.FileName; }
         }
 
         #endregion
 
         #region Construction
-        public MergedTrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
+        public TrackInfoViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
         {
             this.metadataService = metadataService;
             this.scrobblingService = scrobblingService;
@@ -304,25 +304,25 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return false;
             }
 
-            return this.MergedTrack.Equals(((MergedTrackViewModel)obj).MergedTrack);
+            return this.TrackInfo.Equals(((TrackInfoViewModel)obj).TrackInfo);
         }
 
         public override int GetHashCode()
         {
-            return this.MergedTrack.GetHashCode();
+            return this.TrackInfo.GetHashCode();
         }
         #endregion
 
         #region Public
         public void UpdateVisibleRating(int rating)
         {
-            this.MergedTrack.Rating = (long?)rating;
+            this.TrackInfo.Rating = (long?)rating;
             OnPropertyChanged(() => this.Rating);
         }
 
         public void UpdateVisibleLove(bool love)
         {
-            this.MergedTrack.Love = love ? 1 : 0;
+            this.TrackInfo.Love = love ? 1 : 0;
             OnPropertyChanged(() => this.Love);
         }
         #endregion

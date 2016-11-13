@@ -11,24 +11,24 @@ namespace Dopamine.Common.Services.Collection
 {
     public interface ICollectionService
     {
-        Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
-        Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName);
-        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> mergedTracks, string playlistName);
-        Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string iPlaylistName);
-        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> mergedTracks, Playlist selectedPlaylist);
-        Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
-        Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> playlists);
-        Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
+        Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> iArtists, string iPlaylistName);
+        Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> iGenres, string iPlaylistName);
+        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackInfo> iTracks, string iPlaylistName);
+        Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> iAlbums, string iPlaylistName);
+        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<TrackInfo> iTracks, Playlist iSelectedPlaylist);
+        Task<RenamePlaylistResult> RenamePlaylistAsync(string iOldPlaylistName, string iNewPlaylistName);
+        Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> iPlaylists);
+        Task<AddPlaylistResult> AddPlaylistAsync(string iPlaylistName);
         Task<List<Playlist>> GetPlaylistsAsync();
-        Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<string> selectedPaths);
+        Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<TrackInfo> iSelectedTracks);
         Task<OpenPlaylistResult> OpenPlaylistAsync(string iFileName);
-        Task SetTrackArtworkAsync(ObservableCollection<MergedTrackViewModel> mergedTrackViewModels, int delayMilliSeconds);
-        Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds);
-        Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, ObservableCollection<MergedTrackViewModel> mergedTrackViewModels);
-        Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<Playlist> playlists, string destinationDirectory);
-        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string fullPlaylistPath, bool generateUniqueName);
-        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string playlistName, bool generateUniqueName);
-        Task MarkFolderAsync(Folder folder);
+        Task SetTrackArtworkAsync(ObservableCollection<TrackInfoViewModel> iTrackInfoViewModels, int iDelayMilliSeconds);
+        Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> iAlbumViewmodels, int iDelayMilliSeconds);
+        Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> iAlbumViewModels, ObservableCollection<TrackInfoViewModel> iTrackInfoViewModels);
+        Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<Playlist> iPlaylists, string iDestinationDirectory);
+        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist iPlaylist, string iFullPlaylistPath, bool iGenerateUniqueName);
+        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist iPlaylist, string iDestinationDirectory, string iPlaylistName, bool iGenerateUniqueName);
+        Task MarkFolderAsync(Folder iFolder);
         Task SaveMarkedFoldersAsync();
 
         event EventHandler CollectionChanged;

@@ -141,7 +141,7 @@ namespace Dopamine.CollectionModule.ViewModels
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
-            this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks.Select(t=>t.Path).ToList()), () => !this.IsIndexing);
+            this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.AddGenresToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddGenresToPlaylistAsync(this.SelectedGenres, playlistName));
             this.SelectedGenresCommand = new DelegateCommand<object>(async (parameter) => await this.SelectedGenresHandlerAsync(parameter));
             this.ShowGenresZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
@@ -388,7 +388,7 @@ namespace Dopamine.CollectionModule.ViewModels
             base.ToggleTrackOrder();
 
             XmlSettingsClient.Instance.Set<int>("Ordering", "GenresTrackOrder", (int)this.TrackOrder);
-            await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.MergedTrack).ToList(), this.TrackOrder);
+            await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.TrackInfo).ToList(), this.TrackOrder);
         }
 
         protected async Task ToggleAlbumOrderAsync()
