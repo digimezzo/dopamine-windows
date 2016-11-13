@@ -107,9 +107,9 @@ namespace Dopamine.Common.Services.Notification
 
             MergedTrack mergedTrack = null;
 
-            if (this.playbackService.PlayingPath != null)
+            if (this.playbackService.PlayingFile != null)
             {
-                mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingPath);
+                mergedTrack = await this.trackRepository.GetMergedTrackAsync(this.playbackService.PlayingFile);
             }
 
             await Task.Run(() =>

@@ -728,9 +728,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async virtual void ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingPath == null) return;
+            if (this.playbackService.PlayingFile == null) return;
 
-            string path = this.playbackService.PlayingPath;
+            string path = this.playbackService.PlayingFile;
 
             await Task.Run(() =>
             {
