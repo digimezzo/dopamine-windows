@@ -9,8 +9,6 @@ using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
@@ -37,7 +35,6 @@ namespace Dopamine.ViewModels
         private IJumpListService jumpListService;
         private IFileService fileService;
         private IScrobblingService scrobblingService;
-        private ITrackRepository trackRepository;
         private bool isOverlayVisible;
         private string playPauseText;
         private ImageSource playPauseIcon;
@@ -81,7 +78,7 @@ namespace Dopamine.ViewModels
         #endregion
 
         #region Construction
-        public ShellViewModel(IUnityContainer container, IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService, IScrobblingService scrobblingService, ITrackRepository trackRepository)
+        public ShellViewModel(IUnityContainer container, IRegionManager regionManager, IDialogService dialogService, IPlaybackService playbackService, II18nService i18nService, ITaskbarService taskbarService, IJumpListService jumpListService, IFileService fileService, IScrobblingService scrobblingService)
         {
             this.container = container;
             this.regionManager = regionManager;
@@ -92,7 +89,6 @@ namespace Dopamine.ViewModels
             this.jumpListService = jumpListService;
             this.fileService = fileService;
             this.scrobblingService = scrobblingService; // Not used here, but needs to be instantiated in the main window to ensure scrobbling is enabled.
-            this.trackRepository = trackRepository;
 
             // When starting, we're not playing yet
             this.ShowTaskBarItemInfoPause(false);
@@ -182,23 +178,15 @@ namespace Dopamine.ViewModels
                 this.ShowTaskBarItemInfoPause(false);
             };
 
-            this.playbackService.PlaybackSuccess += async(_) =>
+            this.playbackService.PlaybackSuccess += (_) =>
             {
-                TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(this.playbackService.PlayingTrack);
-
-                if(dbTrack == null)
+                if(!string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.TrackTitle))
                 {
-                    LogClient.Instance.Logger.Error("Track not found in the database: {0}", this.playbackService.PlayingTrack);
-                    return;
-                }
-
-                if (!string.IsNullOrWhiteSpace(dbTrack.ArtistName) && !string.IsNullOrWhiteSpace(dbTrack.TrackTitle))
-                {
-                    this.TaskbarService.Description = dbTrack.ArtistName + " - " + dbTrack.TrackTitle;
+                    this.TaskbarService.Description = this.playbackService.PlayingTrack.ArtistName + " - " + this.playbackService.PlayingTrack.TrackTitle;
                 }
                 else
                 {
-                    this.TaskbarService.Description = dbTrack.FileName;
+                    this.TaskbarService.Description = this.playbackService.PlayingTrack.FileName;
                 }
                 
                 this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);

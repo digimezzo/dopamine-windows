@@ -1,7 +1,6 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
@@ -14,10 +13,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
-        private ITrackRepository trackRepository;
         private SlideDirection slideDirection;
-        private string previousTrackInfo;
-        private string trackInfo;
+        private TrackInfo previousTrackInfo;
+        private TrackInfo trackInfo;
         #endregion
 
         #region Properties
@@ -35,10 +33,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public PlaybackInfoControlViewModel(IPlaybackService playbackService, ITrackRepository trackRepository)
+        public PlaybackInfoControlViewModel(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
-            this.trackRepository = trackRepository;
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -64,7 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async void ShowPlaybackInfoAsync(string trackInfo)
+        private void ShowPlaybackInfoAsync(TrackInfo trackInfo)
         {
             this.previousTrackInfo = this.trackInfo;
 
@@ -89,40 +86,21 @@ namespace Dopamine.Common.Presentation.ViewModels
             // The track didn't change: leave the previous playback info.
             if (this.trackInfo.Equals(this.previousTrackInfo)) return;
 
-            // get the track from the database
-            TrackInfo dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
-
-            if(dbTrack == null)
-            {
-                LogClient.Instance.Logger.Error("The track could not be found in the database: {0}", trackInfo);
-                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
-                {
-                    Title = string.Empty,
-                    Artist = string.Empty,
-                    Album = string.Empty,
-                    Year = string.Empty,
-                    CurrentTime = string.Empty,
-                    TotalTime = string.Empty
-                };
-                this.trackInfo = null;
-                return;
-            }
-
             // The track changed: we need to show new playback info.
             try
             {
                 string year = string.Empty;
 
-                if (dbTrack.Year != null && dbTrack.Year > 0)
+                if (trackInfo.Year != null && trackInfo.Year > 0)
                 {
-                    year = dbTrack.Year.ToString();
+                    year = trackInfo.Year.ToString();
                 }
 
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
-                    Title = string.IsNullOrEmpty(dbTrack.TrackTitle) ? dbTrack.FileName : dbTrack.TrackTitle,
-                    Artist = dbTrack.ArtistName,
-                    Album = dbTrack.AlbumTitle,
+                    Title = string.IsNullOrEmpty(trackInfo.TrackTitle) ? trackInfo.FileName : trackInfo.TrackTitle,
+                    Artist = trackInfo.ArtistName,
+                    Album = trackInfo.AlbumTitle,
                     Year = year,
                     CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
                     TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
@@ -130,7 +108,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
                 this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                 {
                     Title = string.Empty,

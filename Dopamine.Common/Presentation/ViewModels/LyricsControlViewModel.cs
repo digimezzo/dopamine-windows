@@ -18,7 +18,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
-        private string previousTrack;
+        private TrackInfo previousTrack;
         private int contentSlideInFrom;
         private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
@@ -91,12 +91,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async void ShowLyricsAsync(string trackInfo)
+        private async void ShowLyricsAsync(TrackInfo trackInfo)
         {
             this.highlightTimer.Stop();
 
             FileMetadata fmd = null;
-            if (trackInfo != null) fmd = await this.metadataService.GetFileMetadataAsync(trackInfo);
+            if (trackInfo != null) fmd = await this.metadataService.GetFileMetadataAsync(trackInfo.Path);
 
             await Task.Run(() =>
             {
@@ -119,13 +119,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // Show the new lyrics
                     try
                     {
-                        this.LyricsViewModel = new LyricsViewModel(trackInfo, metadataService);
+                        this.LyricsViewModel = new LyricsViewModel(trackInfo.Path, metadataService);
                         this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? string.Empty : fmd.Lyrics.Value);
                         this.highlightTimer.Start();
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                        LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
                         this.LyricsViewModel = new LyricsViewModel();
                     }
                 }

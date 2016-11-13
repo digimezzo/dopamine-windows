@@ -4,7 +4,6 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
@@ -22,7 +21,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private ITrackRepository trackRepository;
         private Core.Database.Entities.Artist previousArtist;
         private Core.Database.Entities.Artist artist;
         private SlideDirection slideDirection;
@@ -51,12 +49,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public ArtistInfoControlViewModel(IUnityContainer container, IPlaybackService playbackService, II18nService i18nService, ITrackRepository trackRepository)
+        public ArtistInfoControlViewModel(IUnityContainer container, IPlaybackService playbackService, II18nService i18nService)
         {
             this.container = container;
             this.playbackService = playbackService;
             this.i18nService = i18nService;
-            this.trackRepository = trackRepository;
 
             this.SlideDirection = SlideDirection.LeftToRight; // Default SlideDirection
 
@@ -78,7 +75,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async Task ShowArtistInfoAsync(string trackInfo, bool forceReload)
+        private async Task ShowArtistInfoAsync(TrackInfo trackInfo, bool forceReload)
         {
             this.previousArtist = this.artist;
 
@@ -90,20 +87,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return;
             }
 
-            // Get the track from the database
-            var dbTrack = await this.trackRepository.GetTrackInfoAsync(trackInfo);
-
-            if (dbTrack == null)
-            {
-                LogClient.Instance.Logger.Error("Track not found in the database: {0}", trackInfo);
-
-                this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
-                return;
-            }
-
             // Artist name is unknown
-            if (dbTrack.ArtistName == Defaults.UnknownArtistString)
+            if (trackInfo.ArtistName == Defaults.UnknownArtistString)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
@@ -114,7 +99,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.artist = new Core.Database.Entities.Artist
             {
-                ArtistName = dbTrack.ArtistName
+                ArtistName = trackInfo.ArtistName
             };
 
             // The artist didn't change: leave the previous artist info.
@@ -127,14 +112,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(dbTrack.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
                     if (string.IsNullOrEmpty(lfmArtist.Biography.Content))
                     {
                         // In case there is no localized Biography, get the English one.
-                        lfmArtist = await LastfmApi.ArtistGetInfo(dbTrack.ArtistName, true, "EN");
+                        lfmArtist = await LastfmApi.ArtistGetInfo(trackInfo.ArtistName, true, "EN");
                     }
 
                     if (lfmArtist != null)
@@ -151,7 +136,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo, ex.Message);
+                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", trackInfo.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }

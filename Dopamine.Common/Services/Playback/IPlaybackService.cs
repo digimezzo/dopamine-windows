@@ -14,12 +14,12 @@ namespace Dopamine.Common.Services.Playback
     {
         #region ReadOnly Properties
         IPlayer Player { get; }
-        string PlayingTrack { get; }
+        TrackInfo PlayingTrack { get; }
         bool IsSavingQueuedTracks { get; }
         bool IsSavingTrackStatistics { get; }
         bool NeedsSavingQueuedTracks { get; }
         bool NeedsSavingTrackStatistics { get; }
-        List<string> Queue { get; }
+        List<TrackInfo> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
         bool IsStopped { get; }
