@@ -56,7 +56,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected override void ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingPath == null) return;
+            if (this.playbackService.PlayingFile == null) return;
 
             base.ShowPlayingTrackAsync();
         }

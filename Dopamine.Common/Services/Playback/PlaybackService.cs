@@ -20,7 +20,7 @@ namespace Dopamine.Common.Services.Playback
     public class PlaybackService : IPlaybackService
     {
         #region Variables
-        private string playingPath;
+        private string playingFile;
         private System.Timers.Timer progressTimer = new System.Timers.Timer();
         private double progressTimeoutSeconds = 0.5;
         private double progress = 0.0;
@@ -120,13 +120,13 @@ namespace Dopamine.Common.Services.Playback
             get { return this.shuffledPaths; }
         }
 
-        public string PlayingPath
+        public string PlayingFile
         {
             get
             {
-                if (this.playingPath != null)
+                if (this.playingFile != null)
                 {
-                    return this.playingPath;
+                    return this.playingFile;
                 }
                 else if (this.shuffledPaths != null && this.shuffledPaths.Count > 0)
                 {
@@ -483,24 +483,24 @@ namespace Dopamine.Common.Services.Playback
         {
             try
             {
-                if (this.playingPath != null)
+                if (this.playingFile != null)
                 {
                     int currentTime = this.GetCurrentTime.Seconds;
                     int totalTime = this.GetTotalTime.Seconds;
 
                     if (currentTime <= 10)
                     {
-                        this.UpdateTrackStatisticsAsync(this.playingPath, false, true); // Increase SkipCount
+                        this.UpdateTrackStatisticsAsync(this.playingFile, false, true); // Increase SkipCount
                     }
                     else
                     {
-                        this.UpdateTrackStatisticsAsync(this.playingPath, true, false); // Increase PlayCount
+                        this.UpdateTrackStatisticsAsync(this.playingFile, true, false); // Increase PlayCount
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingPath, ex.Message);
+                LogClient.Instance.Logger.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingFile, ex.Message);
             }
 
             // We don't want interruptions when trying to play the next Track.
@@ -660,7 +660,7 @@ namespace Dopamine.Common.Services.Playback
 
                             if (index >= 0)
                             {
-                                if (this.shuffledPaths[index].Equals(this.playingPath))
+                                if (this.shuffledPaths[index].Equals(this.playingFile))
                                 {
                                     playNext = true;
                                 }
@@ -919,11 +919,11 @@ namespace Dopamine.Common.Services.Playback
 
                 this.ToggleMute();
 
-                // We need to set playingPath before trying to play the file.
+                // We need to set PlayingFile before trying to play the file.
                 // So if we go into the Catch when trying to play the file,
                 // at least, the next time TryPlayNext is called, it will know that 
                 // we already tried to play this file and it can find the next file.
-                this.playingPath = filename;
+                this.playingFile = filename;
 
                 // Play the Track
                 await Task.Run(() => this.player.Play(filename));
@@ -987,7 +987,7 @@ namespace Dopamine.Common.Services.Playback
                 {
                     int firstIndex = 0;
                     int lastIndex = this.shuffledPaths.Count - 1;
-                    int playingTrackIndex = this.shuffledPaths.IndexOf(this.playingPath);
+                    int playingTrackIndex = this.shuffledPaths.IndexOf(this.playingFile);
 
                     if (this.LoopMode == LoopMode.One)
                     {
@@ -1030,7 +1030,7 @@ namespace Dopamine.Common.Services.Playback
                 {
                     int firstIndex = 0;
                     int lastIndex = this.shuffledPaths.Count - 1;
-                    int playingTrackIndex = this.shuffledPaths.IndexOf(this.playingPath);
+                    int playingTrackIndex = this.shuffledPaths.IndexOf(this.playingFile);
 
                     if (this.GetCurrentTime.Seconds > 3)
                     {
@@ -1079,7 +1079,7 @@ namespace Dopamine.Common.Services.Playback
 
         private void PlaybackInterruptedHandler(Object sender, PlaybackInterruptedEventArgs e)
         {
-            LogClient.Instance.Logger.Error("Playback of track '{0}' was interrupted. Trying to play the next track anyway. Exception: {1}", this.playingPath, e.Message);
+            LogClient.Instance.Logger.Error("Playback of track '{0}' was interrupted. Trying to play the next track anyway. Exception: {1}", this.playingFile, e.Message);
 
             // Try to play the next file from the list automatically.
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
@@ -1092,7 +1092,7 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
-                await this.UpdateTrackStatisticsAsync(this.playingPath, true, false); // Increase PlayCount
+                await this.UpdateTrackStatisticsAsync(this.playingFile, true, false); // Increase PlayCount
                 await this.TryPlayNextAsync();
             }), null);
         }
@@ -1104,7 +1104,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task GetSavedQueuedPathsAsync()
         {
-            List<string> savedQueuedPaths = await this.queuedTrackRepository.GetSavedQueuedPathsAsync();
+            List<string> savedQueuedFiles = await this.queuedTrackRepository.GetSavedQueuedPathsAsync();
 
             await Task.Run(() =>
             {
@@ -1114,7 +1114,7 @@ namespace Dopamine.Common.Services.Playback
                     // files were enqueued from the command line. To prevent overwriting the existing 
                     // queue (which was built based on command line files), we check if the queue is
                     // empty first, and fill it up with saved queued files only if it is empty.
-                    if (this.queuedPaths == null || this.queuedPaths.Count == 0) this.queuedPaths = savedQueuedPaths;
+                    if (this.queuedPaths == null || this.queuedPaths.Count == 0) this.queuedPaths = savedQueuedFiles;
                 }
             });
 
