@@ -212,7 +212,7 @@ namespace Dopamine.Common.Services.Scrobbling
             this.SignInStateChanged(this.SignInState);
         }
 
-        public async Task<bool> SendTrackLoveAsync(TrackInfo track, bool love)
+        public async Task<bool> SendTrackLoveAsync(MergedTrack track, bool love)
         {
             bool isSuccess = false;
 

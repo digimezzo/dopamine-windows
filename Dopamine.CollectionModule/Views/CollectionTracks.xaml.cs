@@ -71,7 +71,7 @@ namespace Dopamine.CollectionModule.Views
             {
                 try
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)iDataGrid.SelectedItem).TrackInfo.Path);
+                    Actions.TryViewInExplorer(((MergedTrackViewModel)iDataGrid.SelectedItem).Track.Path);
                 }
                 catch (Exception ex)
                 {
@@ -99,7 +99,7 @@ namespace Dopamine.CollectionModule.Views
                 if (dataGridCell == null) return;
 
                 DataGrid dg = (DataGrid)sender;
-                await this.playBackService.Enqueue(dg.Items.OfType<TrackInfoViewModel>().ToList().Select(tivm => tivm.TrackInfo).ToList(), ((TrackInfoViewModel)dg.SelectedItem).TrackInfo);
+                await this.playBackService.Enqueue(dg.Items.OfType<MergedTrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((MergedTrackViewModel)dg.SelectedItem).Track);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Dopamine.CollectionModule.Views
             {
                 if (dg.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackInfoViewModel)dg.SelectedItem).TrackInfo.Path);
+                    Actions.TryViewInExplorer(((MergedTrackViewModel)dg.SelectedItem).Track.Path);
                 }
             }
             else if (e.Key == Key.Delete)

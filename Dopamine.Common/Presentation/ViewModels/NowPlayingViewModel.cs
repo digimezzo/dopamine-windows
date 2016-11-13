@@ -69,27 +69,27 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.allowFillAllLists = false;
 
-            // Remove TrackInfos from PlaybackService (this dequeues the Tracks)
+            // Remove Tracks from PlaybackService (this dequeues the Tracks)
             DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
 
-            var trackInfoViewModelsToRemove = new List<TrackInfoViewModel>();
+            var viewModelsToRemove = new List<MergedTrackViewModel>();
 
             await Task.Run(() =>
             {
-                // Collect the TrackInfoViewModels to remove
-                foreach (TrackInfoViewModel tivm in this.Tracks)
+                // Collect the ViewModels to remove
+                foreach (MergedTrackViewModel vm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Path).ToList().Contains(tivm.TrackInfo.Path))
+                    if (dequeueResult.DequeuedTracks.Select((t) => t.Path).ToList().Contains(vm.Track.Path))
                     {
-                        trackInfoViewModelsToRemove.Add(tivm);
+                        viewModelsToRemove.Add(vm);
                     }
                 }
             });
 
-            // Remove the TrackInfoViewModels from Tracks (this updates the UI)
-            foreach (TrackInfoViewModel tivm in trackInfoViewModelsToRemove)
+            // Remove the ViewModels from Tracks (this updates the UI)
+            foreach (MergedTrackViewModel vm in viewModelsToRemove)
             {
-                this.Tracks.Remove(tivm);
+                this.Tracks.Remove(vm);
             }
 
             this.TracksCount = this.Tracks.Count;

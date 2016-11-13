@@ -45,19 +45,19 @@ namespace Dopamine.Core.Database
             return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterTracks(TrackInfo trackInfo, string filter)
+        public static bool FilterTracks(MergedTrack track, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
             // Just making sure that all fields are not Nothing
-            if (trackInfo.TrackTitle == null) trackInfo.TrackTitle = string.Empty;
-            if (trackInfo.ArtistName == null) trackInfo.ArtistName = string.Empty;
-            if (trackInfo.AlbumTitle == null) trackInfo.AlbumTitle = string.Empty;
-            if (trackInfo.FileName == null) trackInfo.FileName = string.Empty;
-            if (trackInfo.Year == null) trackInfo.Year = 0;
+            if (track.TrackTitle == null) track.TrackTitle = string.Empty;
+            if (track.ArtistName == null) track.ArtistName = string.Empty;
+            if (track.AlbumTitle == null) track.AlbumTitle = string.Empty;
+            if (track.FileName == null) track.FileName = string.Empty;
+            if (track.Year == null) track.Year = 0;
 
-            return pieces.All((s) => trackInfo.TrackTitle.ToLower().Contains(s.ToLower()) | trackInfo.ArtistName.ToLower().Contains(s.ToLower()) | trackInfo.AlbumTitle.ToLower().Contains(s.ToLower()) | trackInfo.FileName.ToLower().Contains(s.ToLower()) | trackInfo.Year.ToString().Contains(s.ToLower()));
+            return pieces.All((s) => track.TrackTitle.ToLower().Contains(s.ToLower()) | track.ArtistName.ToLower().Contains(s.ToLower()) | track.AlbumTitle.ToLower().Contains(s.ToLower()) | track.FileName.ToLower().Contains(s.ToLower()) | track.Year.ToString().Contains(s.ToLower()));
         }
 
         public static string GetSortableString(string originalString, bool removePrefix = false)
@@ -111,9 +111,9 @@ namespace Dopamine.Core.Database
             return orderedAlbums;
         }
 
-        public static async Task<List<TrackInfo>> OrderTracksAsync(IList<TrackInfo> tracks, TrackOrder trackOrder)
+        public static async Task<List<MergedTrack>> OrderTracksAsync(IList<MergedTrack> tracks, TrackOrder trackOrder)
         {
-            var orderedTracks = new List<TrackInfo>();
+            var orderedTracks = new List<MergedTrack>();
 
             await Task.Run(() =>
             {

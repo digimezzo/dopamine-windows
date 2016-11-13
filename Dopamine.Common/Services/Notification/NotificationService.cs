@@ -99,7 +99,7 @@ namespace Dopamine.Common.Services.Notification
 
             string artworkPath = string.Empty;
 
-            TrackInfoViewModel playingTrackinfoVm = null; // Create a dummy track
+            MergedTrackViewModel viewModel = null; // Create a dummy track
 
             await Task.Run(() =>
             {
@@ -108,8 +108,8 @@ namespace Dopamine.Common.Services.Notification
                     if (this.playbackService.PlayingTrack != null)
                     {
                         artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
-                        playingTrackinfoVm = this.container.Resolve<TrackInfoViewModel>();
-                        playingTrackinfoVm.TrackInfo = this.playbackService.PlayingTrack;
+                        viewModel = this.container.Resolve<MergedTrackViewModel>();
+                        viewModel.Track = this.playbackService.PlayingTrack;
                     }
                 }
                 catch (Exception ex)
@@ -120,7 +120,7 @@ namespace Dopamine.Common.Services.Notification
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.notification = new NotificationWindow(playingTrackinfoVm,
+                this.notification = new NotificationWindow(viewModel,
                                                       artworkPath,
                                                       (NotificationPosition)XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition"),
                                                       XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
