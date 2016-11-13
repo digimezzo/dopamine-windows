@@ -212,7 +212,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         public async Task GetTracksAsync(IList<Playlist> selectedPlaylists, TrackOrder trackOrder)
         {
-            await this.GetTracksCommonAsync(await this.trackRepository.GetMergedTracksAsync(selectedPlaylists), trackOrder);
+            await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedPlaylists), trackOrder);
         }
 
         private async Task ConfirmAddPlaylistAsync()

@@ -45,19 +45,19 @@ namespace Dopamine.Core.Database
             return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterTracks(MergedTrack mergedTrack, string filter)
+        public static bool FilterTracks(TrackInfo trackInfo, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
             // Just making sure that all fields are not Nothing
-            if (mergedTrack.TrackTitle == null) mergedTrack.TrackTitle = string.Empty;
-            if (mergedTrack.ArtistName == null) mergedTrack.ArtistName = string.Empty;
-            if (mergedTrack.AlbumTitle == null) mergedTrack.AlbumTitle = string.Empty;
-            if (mergedTrack.FileName == null) mergedTrack.FileName = string.Empty;
-            if (mergedTrack.Year == null) mergedTrack.Year = 0;
+            if (trackInfo.TrackTitle == null) trackInfo.TrackTitle = string.Empty;
+            if (trackInfo.ArtistName == null) trackInfo.ArtistName = string.Empty;
+            if (trackInfo.AlbumTitle == null) trackInfo.AlbumTitle = string.Empty;
+            if (trackInfo.FileName == null) trackInfo.FileName = string.Empty;
+            if (trackInfo.Year == null) trackInfo.Year = 0;
 
-            return pieces.All((s) => mergedTrack.TrackTitle.ToLower().Contains(s.ToLower()) | mergedTrack.ArtistName.ToLower().Contains(s.ToLower()) | mergedTrack.AlbumTitle.ToLower().Contains(s.ToLower()) | mergedTrack.FileName.ToLower().Contains(s.ToLower()) | mergedTrack.Year.ToString().Contains(s.ToLower()));
+            return pieces.All((s) => trackInfo.TrackTitle.ToLower().Contains(s.ToLower()) | trackInfo.ArtistName.ToLower().Contains(s.ToLower()) | trackInfo.AlbumTitle.ToLower().Contains(s.ToLower()) | trackInfo.FileName.ToLower().Contains(s.ToLower()) | trackInfo.Year.ToString().Contains(s.ToLower()));
         }
 
         public static string GetSortableString(string originalString, bool removePrefix = false)
@@ -111,40 +111,40 @@ namespace Dopamine.Core.Database
             return orderedAlbums;
         }
 
-        public static async Task<List<MergedTrack>> OrderMergedTracksAsync(IList<MergedTrack> mergedTracks, TrackOrder trackOrder)
+        public static async Task<List<TrackInfo>> OrderTracksAsync(IList<TrackInfo> tracks, TrackOrder trackOrder)
         {
-            var orderedMergedTracks = new List<MergedTrack>();
+            var orderedTracks = new List<TrackInfo>();
 
             await Task.Run(() =>
             {
                 switch (trackOrder)
                 {
                     case TrackOrder.Alphabetical:
-                        orderedMergedTracks = mergedTracks.OrderBy((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
+                        orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByAlbum:
-                        orderedMergedTracks = mergedTracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                     case TrackOrder.ByFileName:
-                        orderedMergedTracks = mergedTracks.OrderBy((t) => GetSortableString(t.FileName)).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByRating:
-                        orderedMergedTracks = mergedTracks.OrderByDescending((t) => t.Rating.HasValue ? t.Rating : 0).ToList();
+                        orderedTracks = tracks.OrderByDescending((t) => t.Rating.HasValue ? t.Rating : 0).ToList();
                         break;
                     case TrackOrder.ReverseAlphabetical:
-                        orderedMergedTracks = mergedTracks.OrderByDescending((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
+                        orderedTracks = tracks.OrderByDescending((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.None:
-                        orderedMergedTracks = mergedTracks.ToList();
+                        orderedTracks = tracks.ToList();
                         break;
                     default:
                         // By album
-                        orderedMergedTracks = mergedTracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                 }
             });
 
-            return orderedMergedTracks;
+            return orderedTracks;
         }
 
         public static string ToQueryList(IList<long> list)

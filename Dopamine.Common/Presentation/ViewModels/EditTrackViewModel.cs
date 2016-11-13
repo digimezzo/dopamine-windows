@@ -23,7 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool isBusy;
-        private IList<MergedTrack> mergedTracks;
+        private IList<TrackInfo> trackInfos;
         private IMetadataService metadataService;
         private IDialogService dialogService;
 
@@ -65,19 +65,19 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                string dialogTitle = this.mergedTracks.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
+                string dialogTitle = this.trackInfos.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
                 return dialogTitle.ToLower();
             }
         }
 
         public string MultipleTracksWarningText
         {
-            get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.mergedTracks.Count.ToString()); }
+            get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.trackInfos.Count.ToString()); }
         }
 
         public bool ShowMultipleTracksWarning
         {
-            get { return this.mergedTracks.Count > 1; }
+            get { return this.trackInfos.Count > 1; }
         }
 
         public bool HasArtwork
@@ -215,7 +215,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditTrackViewModel(IList<MergedTrack> mergedTracks, IMetadataService metadataService, IDialogService dialogService)
+        public EditTrackViewModel(IList<TrackInfo> trackinfos, IMetadataService metadataService, IDialogService dialogService)
         {
             this.multipleValuesText = ResourceUtils.GetStringResource("Language_Multiple_Values");
 
@@ -234,7 +234,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.lyrics = new MetadataValue();
             this.artwork = new MetadataArtworkValue();
 
-            this.mergedTracks = mergedTracks;
+            this.trackInfos = trackinfos;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
 
@@ -305,9 +305,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                foreach (MergedTrack mt in this.mergedTracks)
+                foreach (TrackInfo ti in this.trackInfos)
                 {
-                    fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(mt.Path));
+                    fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(ti.Path));
                 }
             }
             catch (Exception ex)
@@ -473,9 +473,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    foreach (MergedTrack mt in this.mergedTracks)
+                    foreach (TrackInfo ti in this.trackInfos)
                     {
-                        var fmd = new FileMetadata(mt.Path);
+                        var fmd = new FileMetadata(ti.Path);
 
                         if (this.artists.IsValueChanged) fmd.Artists = this.artists;
                         if (this.title.IsValueChanged) fmd.Title = this.title;

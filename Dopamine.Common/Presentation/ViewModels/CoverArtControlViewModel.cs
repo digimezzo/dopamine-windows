@@ -1,7 +1,6 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.IO;
@@ -90,9 +89,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             // Get the track from the database
-            MergedTrack mergedTrack = await this.trackRepository.GetMergedTrackAsync(filename);
+            var dbTrack = await this.trackRepository.GetTrackInfoAsync(filename);
 
-            if(mergedTrack == null)
+            if(dbTrack == null)
             {
                 LogClient.Instance.Logger.Error("Track not found in the database for path: {0}", filename);
                 this.ClearCoverArt();
@@ -101,10 +100,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.album = new Album
             {
-                AlbumArtist = mergedTrack.AlbumArtist,
-                AlbumTitle = mergedTrack.AlbumTitle,
-                Year = mergedTrack.AlbumYear,
-                ArtworkID = mergedTrack.AlbumArtworkID,
+                AlbumArtist = dbTrack.AlbumArtist,
+                AlbumTitle = dbTrack.AlbumTitle,
+                Year = dbTrack.AlbumYear,
+                ArtworkID = dbTrack.AlbumArtworkID,
             };
 
             // The album didn't change: leave the previous covert art.
@@ -115,7 +114,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                artworkPath = this.cacheService.GetCachedArtworkPath(mergedTrack.AlbumArtworkID);
+                artworkPath = this.cacheService.GetCachedArtworkPath(dbTrack.AlbumArtworkID);
             });
 
             if (string.IsNullOrEmpty(artworkPath))

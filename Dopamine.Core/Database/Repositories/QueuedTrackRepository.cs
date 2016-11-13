@@ -23,9 +23,9 @@ namespace Dopamine.Core.Database.Repositories
         #endregion
 
         #region IQueuedTrackRepository
-        public async Task<List<string>> GetSavedQueuedPathsAsync()
+        public async Task<List<TrackInfo>> GetSavedQueuedTracksAsync()
         {
-            var paths = new List<string>();
+            var tracks = new List<TrackInfo>();
 
             await Task.Run(() =>
             {
@@ -35,11 +35,24 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         try
                         {
-                            paths = conn.Table<QueuedTrack>().ToList().Select((t)=>t.Path).ToList();
+                            tracks = conn.Query<TrackInfo>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
+                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle,"+
+                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
+                                                           " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
+                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                           " FROM QueuedTrack qtra" +
+                                                           " INNER JOIN Track tra ON qtra.SafePath=tra.SafePath" +
+                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
+                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
+                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID"+
+                                                           " ORDER BY qtra.OrderID");
+
+        
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get queued paths. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not get Queued Tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -49,10 +62,10 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return paths;
+            return tracks;
         }
 
-        public async Task SaveQueuedPathsAsync(IList<string> paths)
+        public async Task SaveQueuedTracksAsync(IList<string> paths)
         {
             await Task.Run(() =>
             {
@@ -79,7 +92,7 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not save queued paths. Exception: {0}", ex.Message);
+                            LogClient.Instance.Logger.Error("Could not save queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }

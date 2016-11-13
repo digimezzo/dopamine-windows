@@ -594,22 +594,22 @@ namespace Dopamine.Common.Services.Indexing
                         long currentValue = 0;
                         long totalValue = alltracks.Count;
 
-                        foreach (Track track in alltracks)
+                        foreach (Track dbTrack in alltracks)
                         {
                             try
                             {
-                                if (IndexerUtils.IsTrackOutdated(track))
+                                if (IndexerUtils.IsTrackOutdated(dbTrack))
                                 {
-                                    if (this.ProcessTrack(track, conn))
+                                    if (this.ProcessTrack(dbTrack, conn))
                                     {
-                                        conn.Update(track);
+                                        conn.Update(dbTrack);
                                         numberUpdatedTracks += 1;
                                     }
                                 }
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", track.Path, ex.Message);
+                                LogClient.Instance.Logger.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
                             }
 
                             currentValue += 1;

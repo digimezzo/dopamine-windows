@@ -6,6 +6,6 @@ namespace Dopamine.Common.Services.Playback
     public class AddToQueueResult
     {
         public bool IsSuccess { get; set; }
-        public IList<string> AddedPaths { get; set; }
+        public IList<string> AddedFiles { get; set; }
     }
 }

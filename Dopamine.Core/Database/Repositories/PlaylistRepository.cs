@@ -228,7 +228,7 @@ namespace Dopamine.Core.Database.Repositories
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> mergedTracks, string playlistName)
+        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackInfo> tracks, string playlistName)
         {
             var result = new AddToPlaylistResult { IsSuccess = true };
             int numberTracksAdded = 0;
@@ -245,12 +245,12 @@ namespace Dopamine.Core.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
-                            foreach (MergedTrack mt in mergedTracks)
+                            foreach (TrackInfo ti in tracks)
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry
                                 {
                                     PlaylistID = playlistID,
-                                    TrackID = mt.TrackID
+                                    TrackID = ti.TrackID
                                 };
 
                                 if (!conn.Table<PlaylistEntry>().ToList().Contains(possiblePlaylistEntry))
@@ -457,7 +457,7 @@ namespace Dopamine.Core.Database.Repositories
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> mergedTracks, Playlist selectedPlaylist)
+        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<TrackInfo> tracks, Playlist selectedPlaylist)
         {
             DeleteTracksFromPlaylistsResult result = DeleteTracksFromPlaylistsResult.Success;
 
@@ -467,18 +467,18 @@ namespace Dopamine.Core.Database.Repositories
                 {
                     using (var conn = this.factory.GetConnection())
                     {
-                        if (mergedTracks != null)
+                        if (tracks != null)
                         {
-                            foreach (MergedTrack mt in mergedTracks)
+                            foreach (TrackInfo ti in tracks)
                             {
                                 try
                                 {
-                                    PlaylistEntry playlistEntryToDelete = conn.Table<PlaylistEntry>().Select((p) => p).Where((p) => p.TrackID.Equals(mt.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
+                                    PlaylistEntry playlistEntryToDelete = conn.Table<PlaylistEntry>().Select((p) => p).Where((p) => p.TrackID.Equals(ti.TrackID) & p.PlaylistID.Equals(selectedPlaylist.PlaylistID)).FirstOrDefault();
                                     conn.Delete(playlistEntryToDelete);
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogClient.Instance.Logger.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", mt.Path, ex.Message);
+                                    LogClient.Instance.Logger.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", ti.Path, ex.Message);
                                     result = DeleteTracksFromPlaylistsResult.Error;
                                 }
                             }
