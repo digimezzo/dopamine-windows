@@ -76,6 +76,57 @@ namespace Dopamine.Core.Metadata
         {
             get { return this.file.MimeType; }
         }
+
+        public bool IsTrackMetadataChanged
+        {
+            get
+            {
+                return this.Title.IsValueChanged ||
+                       this.Year.IsValueChanged ||
+                       this.TrackNumber.IsValueChanged ||
+                       this.TrackCount.IsValueChanged ||
+                       this.DiscNumber.IsValueChanged ||
+                       this.DiscCount.IsValueChanged ||
+                       this.Lyrics.IsValueChanged;
+            }
+        }
+
+        public bool IsArtistMetadataChanged
+        {
+            get
+            {
+                return this.Artists.IsValueChanged;
+            }
+        }
+
+        public bool IsGenreMetadataChanged
+        {
+            get
+            {
+                return this.Genres.IsValueChanged;
+            }
+        }
+
+        public bool IsAlbumMetadataChanged
+        {
+            get
+            {
+                return this.Album.IsValueChanged || 
+                       this.AlbumArtists.IsValueChanged || 
+                       this.Year.IsValueChanged;
+            }
+        }
+
+        public bool IsMetadataChanged
+        {
+            get
+            {
+                return this.IsTrackMetadataChanged ||
+                       this.IsArtistMetadataChanged ||
+                       this.IsGenreMetadataChanged ||
+                       this.IsAlbumMetadataChanged;
+            }
+        }
         #endregion
 
         #region Properties
