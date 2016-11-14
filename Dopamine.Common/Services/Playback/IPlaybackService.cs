@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Audio;
+﻿using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -82,6 +83,9 @@ namespace Dopamine.Common.Services.Playback
         event Action<int> AddedTracksToQueue;
         event EventHandler TrackStatisticsChanged;
         event Action<bool> LoadingTrack;
+        event EventHandler PlayingTrackArtworkChanged;
+        event EventHandler PlayingTrackInfoChanged;
+        event EventHandler QueueChanged;
         #endregion
     }
 }
