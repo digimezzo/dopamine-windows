@@ -1,6 +1,7 @@
 2016-11-13: Dopamine 1.2 Build 781 (Preview)
 --------------------------------------------
 
+- [Fixed] Loading of album art and artist info broken when playing songs from explorer
 
 
 2016-11-12: Dopamine 1.2 Build 779 (Preview)

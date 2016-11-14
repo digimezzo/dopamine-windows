@@ -109,13 +109,13 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackRatingAsync(string path, int rating)
         {
-            Track dbTrack = await this.trackRepository.GetTrackAsync(path);
+            Track track = await this.trackRepository.GetTrackAsync(path);
 
             // Update datebase track rating only if the track can be found
-            if (dbTrack != null)
+            if (track != null)
             {
-                dbTrack.Rating = rating;
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                track.Rating = rating;
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             // Update the rating in the file if the user selected this option
@@ -138,13 +138,13 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackLoveAsync(string path, bool love)
         {
-            Track dbTrack = await this.trackRepository.GetTrackAsync(path);
+            Track track = await this.trackRepository.GetTrackAsync(path);
 
-            // Update datebase track rating only if the track can be found
-            if (dbTrack != null)
+            // Update datebase track love only if the track can be found
+            if (track != null)
             {
-                dbTrack.Love = love ? 1 : 0;
-                await this.trackRepository.UpdateTrackAsync(dbTrack);
+                track.Love = love ? 1 : 0;
+                await this.trackRepository.UpdateTrackAsync(track);
             }
 
             this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
@@ -182,17 +182,19 @@ namespace Dopamine.Common.Services.Metadata
             // Update artwork in database
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
+            List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
+            List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
+
             if (updateFileArtwork)
             {
-                List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
-                List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
-
                 // Queue update of the file metadata
                 await this.QueueFileMetadata(fileMetadatas);
             }
 
+            var args = new MetadataChangedEventArgs() { IsArtworkChanged = true};
+
             // Raise event
-            this.MetadataChanged(new MetadataChangedEventArgs() { IsArtworkChanged = true });
+            this.MetadataChanged(args);
         }
 
         public async Task UpdateFilemetadataAsync()

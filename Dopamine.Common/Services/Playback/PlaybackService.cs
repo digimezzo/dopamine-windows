@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Services.Equalizer;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -340,6 +341,9 @@ namespace Dopamine.Common.Services.Playback
         public event Action<int> AddedTracksToQueue = delegate { };
         public event EventHandler TrackStatisticsChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
+        public event EventHandler PlayingTrackArtworkChanged = delegate { };
+        public event EventHandler PlayingTrackInfoChanged = delegate { };
+        public event EventHandler QueueChanged = delegate { };
         #endregion
 
         #region IPlaybackService
@@ -854,9 +858,7 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queuedTracks.Count > 0)
                     {
-                        // To make sure the original mQueuedTracks doesn't get cleared when randomizing, we first
-                        // create a new list by calling ListFunctions.CopyList(mQueuedTracks) before we randomize.
-                        this.shuffledTracks = new List<MergedTrack>(this.queuedTracks).Randomize();
+                        this.shuffledTracks = this.queuedTracks.Randomize();
                     }
                 }
             });
@@ -870,7 +872,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueSyncObject)
                 {
-                    this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
+                    this.shuffledTracks = this.queuedTracks;
                 }
             });
 
@@ -1194,7 +1196,6 @@ namespace Dopamine.Common.Services.Playback
             this.saveQueuedTracksTimer.Stop();
             this.saveQueuedTracksTimer.Start();
         }
-
 
         private void ResetSaveTrackStatisticsTimer()
         {
