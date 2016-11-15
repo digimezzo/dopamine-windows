@@ -40,19 +40,21 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
+                this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,false);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
+            this.playbackService.PlayingTrackInfoChanged += (_,__) => this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,true);
+
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
+            this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, false);
         }
         #endregion
 
         #region Private
-        private void ShowPlaybackInfoAsync(MergedTrack track)
+        private void RefreshPlaybackInfoAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
             this.previousTrack = this.track;
 
@@ -75,7 +77,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.track = track;
 
             // The track didn't change: leave the previous playback info.
-            if (this.track.Equals(this.previousTrack)) return;
+            if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
 
             // The track changed: we need to show new playback info.
             try

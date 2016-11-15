@@ -3,6 +3,7 @@ using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -65,6 +66,7 @@ namespace Dopamine.Common.Services.Playback
         Task SaveTrackStatisticsAsync();
         void ApplyPreset(EqualizerPreset preset);
         void SetIsEqualizerEnabled(bool isEnabled);
+        Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
         #endregion
 
         #region Events

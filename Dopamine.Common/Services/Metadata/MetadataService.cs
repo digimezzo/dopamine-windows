@@ -153,10 +153,13 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
-            var  args = new MetadataChangedEventArgs();
+            var args = new MetadataChangedEventArgs();
 
             // Update the metadata in the database
             await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
+
+            // Update the metadata in the PlaybackService
+            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Queue update of the file metadata
             await this.QueueFileMetadata(fileMetadatas);
@@ -197,12 +200,12 @@ namespace Dopamine.Common.Services.Metadata
             List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
             List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
-            if (updateFileArtwork)
-            {
-                // Queue update of the file metadata
-                await this.QueueFileMetadata(fileMetadatas);
-            }
+            // Update the metadata in the PlaybackService
+            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
+            // Queue update of the file metadata
+            if (updateFileArtwork) await this.QueueFileMetadata(fileMetadatas);
+            
             var args = new MetadataChangedEventArgs() { IsArtworkChanged = true };
 
             // Raise event
@@ -387,7 +390,7 @@ namespace Dopamine.Common.Services.Metadata
                 string albumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : string.Empty;
 
                 // If no album artist is found, use the artist name. The album was probably saved using the artist name.
-                if(string.IsNullOrEmpty(albumArtist))
+                if (string.IsNullOrEmpty(albumArtist))
                 {
                     albumArtist = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString;
                 }
