@@ -618,10 +618,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                 });
 
                 // Unbind to improve UI performance
-                if (this.TracksCvs != null)
-                    this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    this.TracksCvs = null;
+                });
+
                 this.Tracks = null;
-                this.TracksCvs = null;
 
                 // Populate ObservableCollection
                 this.Tracks = viewModels;
@@ -634,19 +637,22 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.Tracks = new ObservableCollection<MergedTrackViewModel>();
             }
 
-            // Populate CollectionViewSource
-            this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
-            this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+                this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
-            // Update count
-            this.TracksCount = this.TracksCvs.View.Cast<MergedTrackViewModel>().Count();
+                // Update count
+                this.TracksCount = this.TracksCvs.View.Cast<MergedTrackViewModel>().Count();
 
-            // Group by Album if needed
-            if (this.TrackOrder == TrackOrder.ByAlbum)
-                this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+                // Group by Album if needed
+                if (this.TrackOrder == TrackOrder.ByAlbum) this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+            });
 
             // Update duration and size
             this.SetSizeInformationAsync();
+
 
             // Show playing Track
             this.ShowPlayingTrackAsync();
@@ -661,11 +667,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.totalDuration = 0;
             this.totalSize = 0;
 
-            if (this.TracksCvs != null)
-            {
-                // Create copy of CollectionViewSource because only STA can access it
-                var viewCopy = new CollectionView(this.TracksCvs.View);
+            CollectionView viewCopy = null;
 
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.TracksCvs != null)
+                {
+                    // Create copy of CollectionViewSource because only STA can access it
+                    viewCopy = new CollectionView(this.TracksCvs.View);
+                }
+            });
+
+            if(viewCopy != null)
+            {
                 await Task.Run(() =>
                 {
                     try

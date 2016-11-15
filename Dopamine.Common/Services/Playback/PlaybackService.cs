@@ -7,9 +7,11 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -347,6 +349,57 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
+        {
+            await Task.Run(() =>
+            {
+                // Update playing track
+                if (this.playingTrack != null)
+                {
+                    FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == this.playingTrack.SafePath).FirstOrDefault();
+                    if (fmd != null)
+                    {
+                        this.UpdateTrackMetadata(this.playingTrack, fmd);
+                        this.PlayingTrackInfoChanged(this, new EventArgs());
+                        // TODO: how to update the artwork? :(
+                    }
+                }
+
+                // Update queue
+                lock (this.queueSyncObject)
+                {
+                    if (this.Queue != null)
+                    {
+                        bool isQueueChanged = false;
+
+                        foreach (MergedTrack track in this.queuedTracks)
+                        {
+                            FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
+
+                            if (fmd != null)
+                            {
+                                this.UpdateTrackMetadata(track, fmd);
+                                isQueueChanged = true;
+                            }
+                        }
+
+                        foreach (MergedTrack track in this.shuffledTracks)
+                        {
+                            FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
+
+                            if (fmd != null)
+                            {
+                                this.UpdateTrackMetadata(track, fmd);
+                                isQueueChanged = true;
+                            }
+                        }
+
+                        if (isQueueChanged) this.QueueChanged(this, new EventArgs());
+                    }
+                }
+            });
+        }
+
         public async void SetIsEqualizerEnabled(bool isEnabled)
         {
             this.isEqualizerEnabled = isEnabled;
@@ -779,6 +832,15 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Private
+        private void UpdateTrackMetadata(MergedTrack track, FileMetadata fileMetadata)
+        {
+            // Only update the properties that are displayed on Now Playing screens
+            if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
+            if (fileMetadata.Artists.IsValueChanged) track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
+            if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
+            if (fileMetadata.Album.IsValueChanged) track.AlbumTitle = fileMetadata.Album.Value;
+        }
+
         private void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
         {
             this.SaveTrackStatisticsAsync();

@@ -37,13 +37,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
 
             // PlaybackService
-            this.playbackService.ShuffledTracksChanged += async (_, __) =>
-            {
-                if (this.allowFillAllLists)
-                {
-                    await this.FillListsAsync();
-                }
-            };
+            this.playbackService.ShuffledTracksChanged += async (_, __) => await this.FillListsAsync();
+            this.playbackService.QueueChanged += async (_, __) => await this.FillListsAsync();
         }
         #endregion
 
@@ -97,12 +92,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (!dequeueResult.IsSuccess)
             {
                 this.dialogService.ShowNotification(
-                    0xe711, 
-                    16, 
-                    ResourceUtils.GetStringResource("Language_Error"), 
-                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"), 
-                    ResourceUtils.GetStringResource("Language_Ok"), 
-                    true, 
+                    0xe711,
+                    16,
+                    ResourceUtils.GetStringResource("Language_Error"),
+                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    true,
                     ResourceUtils.GetStringResource("Language_Log_File"));
             }
 
@@ -113,6 +108,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Overrides
         protected override async Task FillListsAsync()
         {
+            if (!this.allowFillAllLists) return;
             await this.GetTracksAsync();
         }
 
