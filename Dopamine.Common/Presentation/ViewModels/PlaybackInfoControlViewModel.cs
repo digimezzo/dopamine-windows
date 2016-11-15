@@ -39,24 +39,15 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                if (isPlayingPreviousTrack)
-                {
-                    this.SlideDirection = SlideDirection.UpToDown;
-                }
-                else
-                {
-                    this.SlideDirection = SlideDirection.DownToUp;
-                }
-
+                this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
                 this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
-            this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
-
-            // Default SlideDirection
+            // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
+            this.ShowPlaybackInfoAsync(this.playbackService.PlayingTrack);
         }
         #endregion
 
