@@ -116,7 +116,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
                 var fmdList = new List<FileMetadata>();
                 fmdList.Add(fmd);
-                this.metadataService.UpdateTrackAsync(fmdList, false);
+                this.metadataService.UpdateTracksAsync(fmdList, false);
             });
         }
 
