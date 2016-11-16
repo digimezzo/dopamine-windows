@@ -70,11 +70,11 @@ namespace Dopamine.Common.Services.Metadata
 
             this.updateFileMetadataTimer = new Timer();
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout;
-            this.updateFileMetadataTimer.Elapsed += DelayedUpdateFileMetadataHandler;
+            this.updateFileMetadataTimer.Elapsed += async (_,__) => await this.UpdateFilemetadataAsync();
 
-            this.playbackService.PlaybackStopped += DelayedUpdateFileMetadataHandler;
-            this.playbackService.PlaybackFailed += DelayedUpdateFileMetadataHandler;
-            this.playbackService.PlaybackSuccess += DelayedUpdateFileMetadataHandler;
+            this.playbackService.PlaybackStopped += async (_,__) => await this.UpdateFilemetadataAsync();
+            this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFilemetadataAsync();
+            this.playbackService.PlaybackSuccess += async (_) => await this.UpdateFilemetadataAsync();
         }
         #endregion
 
@@ -163,11 +163,13 @@ namespace Dopamine.Common.Services.Metadata
 
             foreach (FileMetadata fmd in fileMetadatas)
             {
-                if (fmd.IsArtistMetadataChanged) args.IsArtistChanged = true;
-                if (fmd.IsGenreMetadataChanged) args.IsGenreChanged = true;
-                if (fmd.IsAlbumMetadataChanged) args.IsAlbumChanged = true;
-                if (fmd.IsTrackMetadataChanged) args.IsTrackChanged = true;
+                if (fmd.Artists.IsValueChanged) args.IsArtistChanged = true;
+                if (fmd.Genres.IsValueChanged) args.IsGenreChanged = true;
+                if (fmd.Album.IsValueChanged || fmd.AlbumArtists.IsValueChanged || fmd.Year.IsValueChanged) args.IsAlbumChanged = true;
                 if (fmd.ArtworkData.IsValueChanged) args.IsArtworkChanged = true;
+                if (fmd.Title.IsValueChanged || fmd.Year.IsValueChanged || fmd.TrackNumber.IsValueChanged ||
+                    fmd.TrackCount.IsValueChanged || fmd.DiscNumber.IsValueChanged || fmd.DiscCount.IsValueChanged ||
+                    fmd.Lyrics.IsValueChanged) args.IsTrackChanged = true;
             }
 
             // Raise event
@@ -176,33 +178,23 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork)
         {
-            string artworkID = String.Empty;
-
             // Cache new artwork
-            if (artwork != null)
-            {
-                try
-                {
-                    artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("An error occured while caching artwork data for album with title='{0}' and album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
-                }
-            }
+            string artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
 
             // Update artwork in database
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
-            List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
-            List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
+            if (updateFileArtwork)
+            {
+                List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
+                List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
-            // Update the metadata in the PlaybackService
-            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
+                // Queue update of the file metadata
+                await this.QueueUpdateFileMetadata(fileMetadatas);
 
-            // Queue update of the file metadata
-            if (updateFileArtwork) await this.QueueUpdateFileMetadata(fileMetadatas);
-            
+                // Update the metadata in the PlaybackService
+                await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
+            }
             var args = new MetadataChangedEventArgs() { IsArtworkChanged = true };
 
             // Raise event
@@ -287,75 +279,44 @@ namespace Dopamine.Common.Services.Metadata
             this.updateFileMetadataTimer.Start();
         }
 
-        private async Task UpdateDatabaseTrackMetadataAsync(FileMetadata fileMetadata)
+        private async Task UpdateDatabaseMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
         {
             Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
-
             if (track == null) return;
-
-            if (fileMetadata.IsTrackMetadataChanged)
+          
+            // Track
+            if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
+            if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
+            if (fileMetadata.TrackNumber.IsValueChanged) track.TrackNumber = fileMetadata.TrackNumber.Value.SafeConvertToLong();
+            if (fileMetadata.TrackCount.IsValueChanged) track.TrackCount = fileMetadata.TrackCount.Value.SafeConvertToLong();
+            if (fileMetadata.DiscNumber.IsValueChanged) track.DiscNumber = fileMetadata.DiscNumber.Value.SafeConvertToLong();
+            if (fileMetadata.DiscCount.IsValueChanged) track.DiscCount = fileMetadata.DiscCount.Value.SafeConvertToLong();
+            if (fileMetadata.Lyrics.IsValueChanged) Debug.WriteLine("Lyrics are not saved in the database");
+           
+            // Artist
+            if (fileMetadata.Artists.IsValueChanged)
             {
-                if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
-                if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
-                if (fileMetadata.TrackNumber.IsValueChanged) track.TrackNumber = fileMetadata.TrackNumber.Value.SafeConvertToLong();
-                if (fileMetadata.TrackCount.IsValueChanged) track.TrackCount = fileMetadata.TrackCount.Value.SafeConvertToLong();
-                if (fileMetadata.DiscNumber.IsValueChanged) track.DiscNumber = fileMetadata.DiscNumber.Value.SafeConvertToLong();
-                if (fileMetadata.DiscCount.IsValueChanged) track.DiscCount = fileMetadata.DiscCount.Value.SafeConvertToLong();
-                if (fileMetadata.Lyrics.IsValueChanged) Debug.WriteLine("Lyrics are not saved in the database");
-
-                await this.trackRepository.UpdateTrackAsync(track);
-            }
-        }
-
-        private async Task UpdateDatabaseArtistMetadataAsync(FileMetadata fileMetadata)
-        {
-            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
-
-            if (track == null) return;
-
-            if (fileMetadata.IsArtistMetadataChanged)
-            {
-                Artist artist = null;
                 string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistString;
-                artist = await this.artistRepository.GetArtistAsync(newArtistName);
+                Artist artist = await this.artistRepository.GetArtistAsync(newArtistName);
                 if (artist == null) artist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
                 if (artist != null) track.ArtistID = artist.ArtistID;
-
-                await this.trackRepository.UpdateTrackAsync(track);
             }
-        }
 
-        private async Task UpdateDatabaseGenreMetadataAsync(FileMetadata fileMetadata)
-        {
-            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
-
-            if (track == null) return;
-
-            if (fileMetadata.IsGenreMetadataChanged)
+            // Genre
+            if (fileMetadata.Genres.IsValueChanged)
             {
-                Genre genre = null;
                 string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : Defaults.UnknownGenreString;
-                genre = await this.genreRepository.GetGenreAsync(newGenreName);
+                Genre genre = await this.genreRepository.GetGenreAsync(newGenreName);
                 if (genre == null) genre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
                 if (genre != null) track.GenreID = genre.GenreID;
-
-                await this.trackRepository.UpdateTrackAsync(track);
             }
-        }
 
-        private async Task UpdateDatabaseAlbumMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
-        {
-            Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
-
-            if (track == null) return;
-
-            if (fileMetadata.IsAlbumMetadataChanged)
+            // Album
+            if (fileMetadata.Album.IsValueChanged || fileMetadata.AlbumArtists.IsValueChanged || fileMetadata.Year.IsValueChanged)
             {
-                Album album = null;
                 string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString;
                 string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString;
-
-                album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
+                Album album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
 
                 if (album == null)
                 {
@@ -364,26 +325,20 @@ namespace Dopamine.Common.Services.Metadata
                     album = await this.albumRepository.AddAlbumAsync(album);
                 }
 
-                track.AlbumID = album.AlbumID;
+                if (album != null)  track.AlbumID = album.AlbumID;
 
-                await this.trackRepository.UpdateTrackAsync(track);
-                await Task.Run(() => IndexerUtils.UpdateAlbumYear(album, fileMetadata.Year.Value.SafeConvertToLong())); // Update the album's year
+                await Task.Run(() => IndexerUtils.UpdateAlbumYear(album, fileMetadata.Year.Value.SafeConvertToLong())); // Update Album year
                 await this.albumRepository.UpdateAlbumAsync(album);
             }
 
+            await this.trackRepository.UpdateTrackAsync(track); // Update Track in the database
+
             if (updateAlbumArtwork)
             {
-                string artworkID = String.Empty;
+                // Cache new artwork
+                string artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);
 
-                try
-                {
-                    artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("An error occured while caching artwork data", ex.Message);
-                }
-
+                // Get album artist
                 string albumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : string.Empty;
 
                 // If no album artist is found, use the artist name. The album was probably saved using the artist name.
@@ -401,18 +356,12 @@ namespace Dopamine.Common.Services.Metadata
         private async Task UpdateDatabaseMetadataAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             this.isUpdatingDatabaseMetadata = true;
-            bool mustDeleteOrphans = false;
 
             foreach (FileMetadata fmd in fileMetadatas)
             {
                 try
                 {
-                    await this.UpdateDatabaseTrackMetadataAsync(fmd);
-                    await this.UpdateDatabaseArtistMetadataAsync(fmd);
-                    await this.UpdateDatabaseGenreMetadataAsync(fmd);
-                    await this.UpdateDatabaseAlbumMetadataAsync(fmd, updateAlbumArtwork);
-
-                    if (fmd.IsMetadataChanged) mustDeleteOrphans = true;
+                    await this.UpdateDatabaseMetadataAsync(fmd,updateAlbumArtwork);
                 }
                 catch (Exception ex)
                 {
@@ -420,31 +369,18 @@ namespace Dopamine.Common.Services.Metadata
                 }
             }
 
-            if (mustDeleteOrphans)
+            try
             {
-                try
-                {
-                    await this.albumRepository.DeleteOrphanedAlbumsAsync();
-                    await this.genreRepository.DeleteOrphanedGenresAsync();
-                    await this.artistRepository.DeleteOrphanedArtistsAsync();
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Error while deleting orphans. Exception: {0}", ex.Message);
-                }
+                await this.albumRepository.DeleteOrphanedAlbumsAsync();
+                await this.genreRepository.DeleteOrphanedGenresAsync();
+                await this.artistRepository.DeleteOrphanedArtistsAsync();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Error while deleting orphans. Exception: {0}", ex.Message);
             }
 
             this.isUpdatingDatabaseMetadata = false;
-        }
-
-        private async void DelayedUpdateFileMetadataHandler(Object sender, EventArgs e)
-        {
-            await this.UpdateFilemetadataAsync();
-        }
-
-        private async void DelayedUpdateFileMetadataHandler(bool isPlayingPreviousTrack)
-        {
-            await this.UpdateFilemetadataAsync();
         }
         #endregion
     }
