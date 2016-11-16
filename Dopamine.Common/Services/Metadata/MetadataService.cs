@@ -125,12 +125,9 @@ namespace Dopamine.Common.Services.Metadata
                 // Only for MP3's
                 if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3))
                 {
-                    var metadataRatingValue = new MetadataRatingValue();
-                    metadataRatingValue.Value = rating;
-
                     var fmd = new FileMetadata(path);
-                    fmd.Rating = metadataRatingValue;
-                    await this.QueueFileMetadata(new FileMetadata[] { fmd }.ToList());
+                    fmd.Rating = new MetadataRatingValue() { Value = rating };
+                    await this.QueueUpdateFileMetadata(new FileMetadata[] { fmd }.ToList());
                 }
             }
 
@@ -151,7 +148,7 @@ namespace Dopamine.Common.Services.Metadata
             this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
         }
 
-        public async Task UpdateTrackAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
+        public async Task UpdateTracksAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             var args = new MetadataChangedEventArgs();
 
@@ -162,7 +159,7 @@ namespace Dopamine.Common.Services.Metadata
             await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Queue update of the file metadata
-            await this.QueueFileMetadata(fileMetadatas);
+            await this.QueueUpdateFileMetadata(fileMetadatas);
 
             foreach (FileMetadata fmd in fileMetadatas)
             {
@@ -204,7 +201,7 @@ namespace Dopamine.Common.Services.Metadata
             await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Queue update of the file metadata
-            if (updateFileArtwork) await this.QueueFileMetadata(fileMetadatas);
+            if (updateFileArtwork) await this.QueueUpdateFileMetadata(fileMetadatas);
             
             var args = new MetadataChangedEventArgs() { IsArtworkChanged = true };
 
@@ -271,7 +268,7 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region Private
-        private async Task QueueFileMetadata(List<FileMetadata> fileMetadatas)
+        private async Task QueueUpdateFileMetadata(List<FileMetadata> fileMetadatas)
         {
             this.updateFileMetadataTimer.Stop();
 
