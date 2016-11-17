@@ -1,5 +1,7 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Core.Base;
+using Dopamine.Core.Prism;
+using Dopamine.MiniPlayerModule.Views;
 using System.Threading.Tasks;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
@@ -9,6 +11,10 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         #region Construction
         public MiniPlayerPlaylistViewModel() : base()
         {
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(MiniPlayerPlaylist).FullName) this.RemoveFromNowPlayingCommand.Execute();
+            });
         }
         #endregion
 

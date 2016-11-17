@@ -1,5 +1,7 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Core.Base;
+using Dopamine.Core.Prism;
+using Dopamine.FullPlayerModule.Views;
 using System.Threading.Tasks;
 
 namespace Dopamine.FullPlayerModule.ViewModels
@@ -9,6 +11,10 @@ namespace Dopamine.FullPlayerModule.ViewModels
         #region Construction
         public NowPlayingScreenPlaylistViewModel() : base()
         {
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(NowPlayingScreenPlaylist).FullName) this.RemoveFromNowPlayingCommand.Execute();
+            });
         }
         #endregion
 

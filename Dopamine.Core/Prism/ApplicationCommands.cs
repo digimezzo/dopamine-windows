@@ -25,7 +25,6 @@ namespace Dopamine.Core.Prism
         public static CompositeCommand CoverPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand MicroPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand NanoPlayerPlaylistButtonCommand = new CompositeCommand();
-        public static CompositeCommand RemoveSelectedTracksCommand = new CompositeCommand();
         public static CompositeCommand ChangePlayerTypeCommand = new CompositeCommand();
         public static CompositeCommand ToggleMiniPlayerPositionLockedCommand = new CompositeCommand();
         public static CompositeCommand ToggleMiniPlayerAlwaysOnTopCommand = new CompositeCommand();

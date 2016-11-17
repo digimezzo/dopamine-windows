@@ -1,9 +1,11 @@
-﻿using Dopamine.Common.Presentation.Utils;
+﻿using Digimezzo.WPFControls;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
@@ -15,7 +17,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Digimezzo.WPFControls;
 
 namespace Dopamine.Common.Presentation.Views
 {
@@ -24,6 +25,7 @@ namespace Dopamine.Common.Presentation.Views
         #region Variables
         protected IEventAggregator eventAggregator;
         protected IPlaybackService playBackService;
+        protected string screenName;
         #endregion
 
         #region Commands
@@ -60,7 +62,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             else if (e.Key == Key.Delete)
             {
-                Core.Prism.ApplicationCommands.RemoveSelectedTracksCommand.Execute(null);
+                this.eventAggregator.GetEvent<RemoveSelectedTracks>().Publish(this.screenName);
             }
         }
 

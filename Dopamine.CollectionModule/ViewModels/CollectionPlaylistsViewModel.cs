@@ -19,6 +19,7 @@ using Dopamine.Core.Base;
 using System.Collections;
 using WPFFolderBrowser;
 using Dopamine.Core.IO;
+using Dopamine.CollectionModule.Views;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -126,6 +127,11 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddPlaylistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddPLaylistsToNowPlayingAsync(this.SelectedPlaylists));
 
             // Events
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(CollectionPlaylists).FullName) this.RemoveSelectedTracksCommand.Execute();
+            });
+
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(enableRating => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
@@ -609,8 +615,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected override void Unsubscribe()
         {
-            // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
         }
 
 
@@ -618,9 +622,6 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             // Prevents subscribing twice
             this.Unsubscribe();
-
-            // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
         }
 
         protected override void RefreshLanguage()

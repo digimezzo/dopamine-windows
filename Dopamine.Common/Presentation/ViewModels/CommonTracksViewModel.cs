@@ -772,7 +772,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             string title = ResourceUtils.GetStringResource("Language_Remove");
             string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song");
 
-            if (selectedTracks.Count > 1)
+            if (selectedTracks != null && selectedTracks.Count > 1)
             {
                 body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs");
             }

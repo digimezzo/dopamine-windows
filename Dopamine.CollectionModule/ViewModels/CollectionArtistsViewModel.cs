@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.Interfaces;
+﻿using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
@@ -168,6 +169,11 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
 
             // Events
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(CollectionArtists).FullName) this.RemoveSelectedTracksCommand.Execute();
+            });
+
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;
@@ -510,7 +516,6 @@ namespace Dopamine.CollectionModule.ViewModels
         protected override void Unsubscribe()
         {
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
             ApplicationCommands.AddAlbumsToPlaylistCommand.UnregisterCommand(this.AddAlbumsToPlaylistCommand);
@@ -529,7 +534,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Unsubscribe();
 
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
             ApplicationCommands.AddAlbumsToPlaylistCommand.RegisterCommand(this.AddAlbumsToPlaylistCommand);

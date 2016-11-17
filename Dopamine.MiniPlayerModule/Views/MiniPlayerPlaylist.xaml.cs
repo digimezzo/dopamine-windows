@@ -1,13 +1,9 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Presentation.Views;
-using Dopamine.Core.Logging;
+﻿using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
-using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dopamine.MiniPlayerModule.Views
@@ -22,6 +18,8 @@ namespace Dopamine.MiniPlayerModule.Views
         public MiniPlayerPlaylist() : base()
         {
             InitializeComponent();
+
+            this.screenName = typeof(MiniPlayerPlaylist).FullName;
 
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(() => this.ScrollToPlayingTrackAsync(this.ListBoxTracks));

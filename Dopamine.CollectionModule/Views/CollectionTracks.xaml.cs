@@ -30,6 +30,8 @@ namespace Dopamine.CollectionModule.Views
         {
             InitializeComponent();
 
+            this.screenName = typeof(CollectionTracks).FullName;
+
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.DataGridTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(async () => await this.ScrollToPlayingTrackAsync(this.DataGridTracks));
@@ -139,7 +141,7 @@ namespace Dopamine.CollectionModule.Views
             }
             else if (e.Key == Key.Delete)
             {
-                Core.Prism.ApplicationCommands.RemoveSelectedTracksCommand.Execute(null);
+                this.eventAggregator.GetEvent<RemoveSelectedTracks>().Publish(this.screenName);
             }
         }
         #endregion

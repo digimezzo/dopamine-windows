@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
+﻿using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -46,6 +47,11 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             // Events
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(CollectionAlbums).FullName) this.RemoveSelectedTracksCommand.Execute();
+            });
+
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;
@@ -137,7 +143,6 @@ namespace Dopamine.CollectionModule.ViewModels
         protected override void Unsubscribe()
         {
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
             ApplicationCommands.AddAlbumsToPlaylistCommand.UnregisterCommand(this.AddAlbumsToPlaylistCommand);
         }
@@ -148,7 +153,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Unsubscribe();
 
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
             ApplicationCommands.AddAlbumsToPlaylistCommand.RegisterCommand(this.AddAlbumsToPlaylistCommand);
         }

@@ -298,12 +298,9 @@
         </MenuItem>
         <Separator/>
 
-        <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
-        and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
-        That is why we are using a Prism CompositeCommand here. It allows executing a DelegateCommand from several places. -->
         <MenuItem 
             InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}">
+            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>
@@ -372,13 +369,9 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-
-        <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
-        and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
-        That is why we are using a Prism CompositeCommand here. It allows executing a DelegateCommand from several places. -->
         <MenuItem 
             InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}">
+            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>
@@ -447,13 +440,9 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-
-        <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
-        and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
-        That is why we are using a Prism CompositeCommand here. It allows executing a DelegateCommand from several places. -->
         <MenuItem 
             InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}">
+            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>
@@ -488,7 +477,7 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
@@ -501,7 +490,7 @@
         <Setter Property="ItemContainerStyle" Value="{DynamicResource MiniPlayer_ListBoxTracksItem}" />
     </Style>
 
-    <!-- Now playing list screen -->
+    <!-- Now playing screen playlist screen -->
 
     <ContextMenu x:Key="NowPlaying_ListBoxTracksContextMenu">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
@@ -517,7 +506,7 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
@@ -556,10 +545,7 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <!-- RemoveSelectedTracksCommand is special: it is executed in the ViewModel when clicking this ContextMenuItem with the mouse,
-        and it executed in the View by executing ApplicationCommands.RemoveSelectedTracksCommand.Execute(Nothing) when pressing the Delete key.
-        That is why we are using a Prism CompositeCommand here. It allows executing a DelegateCommand from several places. -->
-        <MenuItem Header="{DynamicResource Language_Remove_From_Playlist}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}"/>
+        <MenuItem Header="{DynamicResource Language_Remove_From_Playlist}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
