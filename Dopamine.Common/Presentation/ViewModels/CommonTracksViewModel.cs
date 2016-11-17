@@ -99,11 +99,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region ReadOnly Properties
         public abstract bool CanOrderByAlbum { get; }
 
-        public double UpscaledTrackCoverSize
-        {
-            get { return Constants.TrackCoverSize * Constants.CoverUpscaleFactor; }
-        }
-
         public bool HasContextMenuPlaylists
         {
             get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
@@ -656,9 +651,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Show playing Track
             this.ShowPlayingTrackAsync();
-
-            // Set Track artwork
-            this.collectionService.SetTrackArtworkAsync(this.Tracks, Constants.ArtworkLoadDelay);
         }
 
         private async Task SetSizeInformationAsync()

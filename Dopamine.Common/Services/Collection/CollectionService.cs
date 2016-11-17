@@ -218,7 +218,7 @@ namespace Dopamine.Common.Services.Collection
             return OpenPlaylistResult.Success;
         }
 
-        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, ObservableCollection<MergedTrackViewModel> viewModels)
+        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels)
         {
             List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
 
@@ -247,58 +247,6 @@ namespace Dopamine.Common.Services.Collection
                     }
                 });
             }
-
-            if (viewModels != null && viewModels.Count > 0)
-            {
-                await Task.Run(() =>
-                {
-                    foreach (MergedTrackViewModel vm in viewModels)
-                    {
-                        try
-                        {
-                            // Get an up to date version of this album from the database
-                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(vm.Track.AlbumID)).Select((a) => a).FirstOrDefault();
-
-                            if (dbAlbum != null)
-                            {
-                                vm.Track.AlbumArtworkID = dbAlbum.ArtworkID;
-                                vm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Error while refreshing artwork for Track with path {0}. Exception: {1}", vm.Track.Path, ex.Message);
-                        }
-                    }
-                });
-            }
-        }
-
-        public async Task SetTrackArtworkAsync(ObservableCollection<MergedTrackViewModel> viewModels, int delayMilliSeconds)
-        {
-            await Task.Delay(delayMilliSeconds);
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    foreach (MergedTrackViewModel vm in viewModels)
-                    {
-                        try
-                        {
-                            vm.ArtworkPath = this.cacheService.GetCachedArtworkPath(vm.Track.AlbumArtworkID);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Error while setting artwork for Track {0}. Exception: {1}", vm.Track.Path, ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Error while setting track artwork. Exception: {0}", ex.Message);
-                }
-            });
         }
 
         public async Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds)

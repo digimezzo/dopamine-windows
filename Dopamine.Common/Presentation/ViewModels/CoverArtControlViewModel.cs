@@ -62,56 +62,58 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            this.previousAlbum = this.album;
+            // TODO: artowrk needs to be loaded from the file
 
-            // No track selected: clear cover art.
-            if (track == null)
-            {
-                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-                this.album = null;
-                return;
-            }
+            //this.previousAlbum = this.album;
 
-            this.album = new Album
-            {
-                AlbumArtist = track.AlbumArtist,
-                AlbumTitle = track.AlbumTitle,
-                Year = track.AlbumYear,
-                ArtworkID = track.AlbumArtworkID,
-            };
+            //// No track selected: clear cover art.
+            //if (track == null)
+            //{
+            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+            //    this.album = null;
+            //    return;
+            //}
 
-            // The album didn't change: leave the previous covert art.
-            if (!allowRefreshingCurrentTrack & this.album.Equals(this.previousAlbum)) return;
+            //this.album = new Album
+            //{
+            //    AlbumArtist = track.AlbumArtist,
+            //    AlbumTitle = track.AlbumTitle,
+            //    Year = track.AlbumYear,
+            //    ArtworkID = track.AlbumArtworkID,
+            //};
 
-            // The album changed: we need to show new cover art.
-            string artworkPath = string.Empty;
+            //// The album didn't change: leave the previous covert art.
+            //if (!allowRefreshingCurrentTrack & this.album.Equals(this.previousAlbum)) return;
 
-            await Task.Run(() =>
-            {
-                artworkPath = this.cacheService.GetCachedArtworkPath(track.AlbumArtworkID);
-            });
+            //// The album changed: we need to show new cover art.
+            //string artworkPath = string.Empty;
 
-            if (string.IsNullOrEmpty(artworkPath))
-            {
-                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-                return;
-            }
+            //await Task.Run(() =>
+            //{
+            //    artworkPath = this.cacheService.GetCachedArtworkPath(track.AlbumArtworkID);
+            //});
 
-            try
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    var proxyImage = new Image();
-                    proxyImage.Stretch = Stretch.Fill;
-                    proxyImage.Source = ImageOperations.PathToBitmapImage(artworkPath, 0, 0);
-                    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
-                });
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", track.Path, ex.Message);
-                this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            }
+            //if (string.IsNullOrEmpty(artworkPath))
+            //{
+            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+            //    return;
+            //}
+
+            //try
+            //{
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        var proxyImage = new Image();
+            //        proxyImage.Stretch = Stretch.Fill;
+            //        proxyImage.Source = ImageOperations.PathToBitmapImage(artworkPath, 0, 0);
+            //        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
+            //    });
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", track.Path, ex.Message);
+            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+            //}
         }
         #endregion
     }

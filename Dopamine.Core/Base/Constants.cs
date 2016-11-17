@@ -32,7 +32,6 @@
         // is set to 150%, images won't need to be upscaled by Windows and they'll remain sharp.
         public static readonly double CoverUpscaleFactor = 1.5;
         public static readonly int CoverQualityPercent = 80;
-        public static readonly double TrackCoverSize = 38;
         public static readonly double AlbumToolTipCoverSize = 70;
 
         // Headphone icon

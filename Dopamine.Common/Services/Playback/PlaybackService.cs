@@ -840,7 +840,6 @@ namespace Dopamine.Common.Services.Playback
                 if (fileMetadata.Artists.IsValueChanged) track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
                 if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
                 if (fileMetadata.Album.IsValueChanged) track.AlbumTitle = fileMetadata.Album.Value;
-                if (fileMetadata.ArtworkData.IsValueChanged) track.AlbumArtworkID = fileMetadata.ArtworkData.ArtworkID;
             }
             catch (Exception ex)
             {

@@ -167,7 +167,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ListBoxTracksWithCover" TargetType="{x:Type ListBox}">
+    <Style x:Key="ListBoxTracksPlaylist" TargetType="{x:Type ListBox}">
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -189,31 +189,13 @@
                                 </ToolTip>
                             </Border.ToolTip>
                             <DockPanel>
-                                <Grid DockPanel.Dock="Left" Margin="3,0,0,0">
-                                    <controls:Tile 
-                                             Panel.ZIndex="0"  
-                                             Width="{x:Static base:Constants.TrackCoverSize}" 
-                                             Height="{x:Static base:Constants.TrackCoverSize}"
-                                             IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
-                                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
-                                        <controls:Tile.Content>
-                                            <Viewbox>
-                                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
-                                            </Viewbox>
-                                        </controls:Tile.Content>
-                                    </controls:Tile>
-                                    <Image Panel.ZIndex="1" 
-                                   Width="{x:Static base:Constants.TrackCoverSize}"
-                                   Height="{x:Static base:Constants.TrackCoverSize}" 
-                                   RenderOptions.BitmapScalingMode="LowQuality">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource PathToImageConverter}">
-                                                <Binding Path="ArtworkPath" IsAsync="True"/>
-                                                <Binding Path="DataContext.UpscaledTrackCoverSize" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                </Grid>
+                                <Border MinWidth="17" Height="38">
+                                    <TextBlock 
+                                        Text="{Binding FormattedTrackNumber}" 
+                                        Foreground="{Binding Foreground,ElementName=DummyLabel}" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                                </Border>
                                 <StackPanel VerticalAlignment="Center" Height="38">
                                     <DockPanel Height="19">
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -515,7 +497,7 @@
         <Setter Property="ContextMenu" Value="{StaticResource MiniPlayer_ListBoxTracksContextMenu}"/>
     </Style>
 
-    <Style x:Key="MiniPlayer_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksWithCover}">
+    <Style x:Key="MiniPlayer_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource MiniPlayer_ListBoxTracksItem}" />
     </Style>
 
@@ -544,7 +526,7 @@
         <Setter Property="ContextMenu" Value="{StaticResource NowPlaying_ListBoxTracksContextMenu}"/>
     </Style>
 
-    <Style x:Key="NowPlaying_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksWithCover}">
+    <Style x:Key="NowPlaying_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource NowPlaying_ListBoxTracksItem}" />
     </Style>
 
@@ -586,7 +568,7 @@
         <Setter Property="ContextMenu" Value="{StaticResource Playlists_ListBoxTracksContextMenu}"/>
     </Style>
 
-    <Style x:Key="Playlists_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksWithCover}">
+    <Style x:Key="Playlists_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource Playlists_ListBoxTracksItem}" />
     </Style>
 </ResourceDictionary>

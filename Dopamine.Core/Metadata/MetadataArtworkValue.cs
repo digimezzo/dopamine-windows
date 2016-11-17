@@ -7,7 +7,6 @@ namespace Dopamine.Core.Metadata
         #region Private
         private byte[] value;
         private bool isValueChanged;
-        private string artworkID;
         #endregion
 
         #region Readonly Properties
@@ -26,19 +25,6 @@ namespace Dopamine.Core.Metadata
                 this.value = value;
                 this.isValueChanged = true;
                 this.OnPropertiesChanged();
-            }
-        }
-
-        public string ArtworkID
-        {
-            get
-            {
-                if (this.artworkID == null) this.artworkID = string.Empty;
-                return this.artworkID;
-            }
-            set
-            {
-                SetProperty<string>(ref this.artworkID, value);
             }
         }
         #endregion
