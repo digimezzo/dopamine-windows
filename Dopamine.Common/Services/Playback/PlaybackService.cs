@@ -343,8 +343,7 @@ namespace Dopamine.Common.Services.Playback
         public event Action<int> AddedTracksToQueue = delegate { };
         public event EventHandler TrackStatisticsChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
-        public event EventHandler PlayingTrackArtworkChanged = delegate { };
-        public event EventHandler PlayingTrackInfoChanged = delegate { };
+        public event EventHandler PlayingTrackChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
         #endregion
 
@@ -357,11 +356,11 @@ namespace Dopamine.Common.Services.Playback
                 if (this.playingTrack != null)
                 {
                     FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == this.playingTrack.SafePath).FirstOrDefault();
+
                     if (fmd != null)
                     {
                         this.UpdateTrackMetadata(this.playingTrack, fmd);
-                        this.PlayingTrackInfoChanged(this, new EventArgs());
-                        // TODO: how to update the artwork? :(
+                        this.PlayingTrackChanged(this, new EventArgs());
                     }
                 }
 
@@ -834,11 +833,19 @@ namespace Dopamine.Common.Services.Playback
         #region Private
         private void UpdateTrackMetadata(MergedTrack track, FileMetadata fileMetadata)
         {
-            // Only update the properties that are displayed on Now Playing screens
-            if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
-            if (fileMetadata.Artists.IsValueChanged) track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
-            if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
-            if (fileMetadata.Album.IsValueChanged) track.AlbumTitle = fileMetadata.Album.Value;
+            try
+            {
+                // Only update the properties that are displayed on Now Playing screens
+                if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
+                if (fileMetadata.Artists.IsValueChanged) track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
+                if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
+                if (fileMetadata.Album.IsValueChanged) track.AlbumTitle = fileMetadata.Album.Value;
+                if (fileMetadata.ArtworkData.IsValueChanged) track.AlbumArtworkID = fileMetadata.ArtworkData.ArtworkID;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not update the track metadata. Exception: {0}", ex.Message);
+            }
         }
 
         private void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
