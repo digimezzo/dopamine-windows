@@ -445,13 +445,6 @@ namespace Dopamine.Common.Services.Indexing
                 await this.artistRepository.DeleteOrphanedArtistsAsync(); // Delete orphaned Artists
                 await this.genreRepository.DeleteOrphanedGenresAsync(); // Delete orphaned Genres
                 await this.playlistEntryRepository.DeleteOrphanedPlaylistEntriesAsync(); // Delete orphaned PlaylistEntries
-
-                // Step 5: compact the database
-                // ----------------------------
-                using (var conn = factory.GetConnection())
-                {
-                    conn.Execute("VACUUM;");
-                }
             }
             catch (Exception ex)
             {
