@@ -69,7 +69,7 @@
         <Separator/>
         <MenuItem 
             InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{x:Static prism:ApplicationCommands.RemoveSelectedTracksCommand}">
+            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>

@@ -8,11 +8,7 @@ using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using Digimezzo.WPFControls;
 
 namespace Dopamine.CollectionModule.Views
 {
@@ -30,6 +26,8 @@ namespace Dopamine.CollectionModule.Views
         public CollectionArtists()
         {
             InitializeComponent();
+
+            this.screenName = typeof(CollectionArtists).FullName;
 
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));

@@ -1,5 +1,4 @@
 ﻿using Dopamine.Common.Services.Equalizer;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -11,7 +10,6 @@ using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -926,7 +924,8 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queuedTracks.Count > 0)
                     {
-                        this.shuffledTracks = this.queuedTracks.Randomize();
+                        // Make sure the lists are deep copies
+                        this.shuffledTracks = new List<MergedTrack>(this.queuedTracks).Randomize();
                     }
                 }
             });
@@ -940,7 +939,8 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueSyncObject)
                 {
-                    this.shuffledTracks = this.queuedTracks;
+                    // Make sure the lists are deep copies
+                    this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
                 }
             });
 

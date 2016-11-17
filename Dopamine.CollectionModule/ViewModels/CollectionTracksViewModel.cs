@@ -101,13 +101,17 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Construction
         public CollectionTracksViewModel() : base()
         {
-
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(this.SelectedTracks, playlistName));
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             // Events
+            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            {
+                if (screenName == typeof(CollectionTracks).FullName) this.RemoveSelectedTracksCommand.Execute();
+            });
+
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
             {
                 this.EnableRating = enableRating;
@@ -205,7 +209,6 @@ namespace Dopamine.CollectionModule.ViewModels
         protected override void Unsubscribe()
         {
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.UnregisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
         }
 
@@ -215,7 +218,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Unsubscribe();
 
             // Commands
-            ApplicationCommands.RemoveSelectedTracksCommand.RegisterCommand(this.RemoveSelectedTracksCommand);
             ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
         }
 

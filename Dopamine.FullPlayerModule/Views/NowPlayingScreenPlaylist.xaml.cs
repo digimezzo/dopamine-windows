@@ -1,11 +1,13 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +24,8 @@ namespace Dopamine.FullPlayerModule.Views
         public NowPlayingScreenPlaylist()
         {
             InitializeComponent();
+
+            this.screenName = typeof(NowPlayingScreenPlaylist).FullName;
 
             // Add any initialization after the InitializeComponent() call.
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));

@@ -66,4 +66,8 @@ namespace Dopamine.Core.Prism
     public class SettingEnableLoveChanged : PubSubEvent<bool>
     {
     }
+
+    public class RemoveSelectedTracks : PubSubEvent<string>
+    {
+    }
 }
