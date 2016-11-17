@@ -44,8 +44,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-
-            this.playbackService.PlayingTrackInfoChanged += (_,__) => this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,true);
+            this.playbackService.PlayingTrackChanged += (_,__) => this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,true);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;

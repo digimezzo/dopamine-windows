@@ -5,14 +5,12 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -50,17 +48,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
+                this.RefreshCoverArtAsync(this.playbackService.PlayingTrack,false);
             };
+
+            this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, true);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.ShowCoverArtAsync(this.playbackService.PlayingTrack);
+            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack,false);
         }
         #endregion
 
         #region Virtual
-        protected async virtual void ShowCoverArtAsync(MergedTrack track)
+        protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
             this.previousAlbum = this.album;
 
@@ -81,7 +81,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // The album didn't change: leave the previous covert art.
-            if (this.album.Equals(this.previousAlbum)) return;
+            if (!allowRefreshingCurrentTrack & this.album.Equals(this.previousAlbum)) return;
 
             // The album changed: we need to show new cover art.
             string artworkPath = string.Empty;
