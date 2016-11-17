@@ -28,7 +28,7 @@ namespace Dopamine.Core.Database
         #region Public
         public SQLiteConnection GetConnection()
         {
-            return new SQLiteConnection(this.databaseFile);
+            return new SQLiteConnection(this.databaseFile) { BusyTimeout = new System.TimeSpan(0,0,1)};
         }
         #endregion
     }
