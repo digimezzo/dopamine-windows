@@ -189,12 +189,13 @@
                                 </ToolTip>
                             </Border.ToolTip>
                             <DockPanel>
-                                <Border MinWidth="17" Height="38">
+                                <Border MinWidth="20" Height="38">
                                     <TextBlock 
                                         Text="{Binding FormattedTrackNumber}" 
                                         Foreground="{Binding Foreground,ElementName=DummyLabel}" 
                                         HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center"
+                                        FontSize="13"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center" Height="38">
                                     <DockPanel Height="19">
@@ -203,10 +204,9 @@
                                                    Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                                   Margin="0" 
+                                                   Margin="0,0,10,0" 
                                                    VerticalAlignment="Center"/>
                                             <TextBlock
-                                                Width="60"
                                                 Text="{Binding Duration}" 
                                                 TextAlignment="Right"
                                                 FontSize="13" 
