@@ -440,7 +440,6 @@ namespace Dopamine.Common.Services.Indexing
 
                 // Step 4: delete orphans
                 // ----------------------
-
                 await this.albumRepository.DeleteOrphanedAlbumsAsync(); // Delete orphaned Albums
                 await this.artistRepository.DeleteOrphanedArtistsAsync(); // Delete orphaned Artists
                 await this.genreRepository.DeleteOrphanedGenresAsync(); // Delete orphaned Genres
@@ -515,7 +514,6 @@ namespace Dopamine.Common.Services.Indexing
                         {
                             remainingTracks = alltracks;
                         }
-                        
 
                         // 1. Process tracks in missing folders
                         // ------------------------------------
