@@ -17,7 +17,6 @@ namespace Dopamine.Core.Database
         public string AlbumTitle { get; set; }
         public string AlbumArtist { get; set; }
         public long? AlbumYear { get; set; }
-        public string AlbumArtworkID { get; set; }
         #endregion
 
         #region Public

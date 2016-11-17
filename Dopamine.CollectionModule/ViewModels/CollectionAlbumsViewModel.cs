@@ -38,7 +38,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public CollectionAlbumsViewModel()
         {
             // IndexingService
-            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
 
             //  Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
@@ -84,7 +84,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged)await this.collectionService.RefreshArtworkAsync(this.Albums, this.Tracks);
+            if (e.IsArtworkChanged)await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
             if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }

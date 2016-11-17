@@ -107,7 +107,8 @@ namespace Dopamine.Common.Services.Notification
                 {
                     if (this.playbackService.PlayingTrack != null)
                     {
-                        artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
+                        // TODO: artwork needs to come from file 
+                        //artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
                         viewModel = this.container.Resolve<MergedTrackViewModel>();
                         viewModel.Track = this.playbackService.PlayingTrack;
                     }

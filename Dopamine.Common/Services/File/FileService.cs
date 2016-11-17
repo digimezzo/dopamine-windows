@@ -287,7 +287,6 @@ namespace Dopamine.Common.Services.File
 
                 IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
-                t.AlbumArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(dummyAlbum, t.Path));
                 t.AlbumArtist = dummyAlbum.AlbumArtist;
                 t.AlbumTitle = dummyAlbum.AlbumTitle;
                 t.AlbumYear = dummyAlbum.Year;
