@@ -40,7 +40,7 @@ namespace Dopamine.Core.Database.Repositories
                                                            " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year,"+
                                                            " tra.Rating, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
                                                            " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                           " alb.AlbumArtist, alb.Year AS AlbumYear, alb.ArtworkID AS AlbumArtworkID" +
+                                                           " alb.AlbumArtist, alb.Year AS AlbumYear" +
                                                            " FROM QueuedTrack qtra" +
                                                            " INNER JOIN Track tra ON qtra.SafePath=tra.SafePath" +
                                                            " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
