@@ -84,7 +84,8 @@ namespace Dopamine.Common.Services.Playback
         event Action<int> AddedTracksToQueue;
         event EventHandler TrackStatisticsChanged;
         event Action<bool> LoadingTrack;
-        event EventHandler PlayingTrackChanged;
+        event EventHandler PlayingTrackPlaybackInfoChanged;
+        event EventHandler PlayingTrackArtworkChanged;
         event EventHandler QueueChanged;
         #endregion
     }

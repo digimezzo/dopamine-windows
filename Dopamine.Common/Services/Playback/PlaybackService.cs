@@ -341,7 +341,8 @@ namespace Dopamine.Common.Services.Playback
         public event Action<int> AddedTracksToQueue = delegate { };
         public event EventHandler TrackStatisticsChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
-        public event EventHandler PlayingTrackChanged = delegate { };
+        public event EventHandler PlayingTrackPlaybackInfoChanged = delegate { };
+        public event EventHandler PlayingTrackArtworkChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
         #endregion
 
@@ -351,14 +352,14 @@ namespace Dopamine.Common.Services.Playback
             await Task.Run(() =>
             {
                 // Update playing track
-                if (this.playingTrack != null)
+                if (this.PlayingTrack != null)
                 {
-                    FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == this.playingTrack.SafePath).FirstOrDefault();
+                    FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == this.PlayingTrack.SafePath).FirstOrDefault();
 
                     if (fmd != null)
                     {
-                        this.UpdateTrackMetadata(this.playingTrack, fmd);
-                        this.PlayingTrackChanged(this, new EventArgs());
+                        if(this.UpdateTrackPlaybackInfo(this.PlayingTrack, fmd)) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+                        if (fmd.ArtworkData.IsValueChanged) this.PlayingTrackArtworkChanged(this, new EventArgs());
                     }
                 }
 
@@ -375,7 +376,7 @@ namespace Dopamine.Common.Services.Playback
 
                             if (fmd != null)
                             {
-                                this.UpdateTrackMetadata(track, fmd);
+                                this.UpdateTrackPlaybackInfo(track, fmd);
                                 isQueueChanged = true;
                             }
                         }
@@ -386,7 +387,7 @@ namespace Dopamine.Common.Services.Playback
 
                             if (fmd != null)
                             {
-                                this.UpdateTrackMetadata(track, fmd);
+                                this.UpdateTrackPlaybackInfo(track, fmd);
                                 isQueueChanged = true;
                             }
                         }
@@ -829,20 +830,43 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Private
-        private void UpdateTrackMetadata(MergedTrack track, FileMetadata fileMetadata)
+        private bool UpdateTrackPlaybackInfo(MergedTrack track, FileMetadata fileMetadata)
         {
+            bool isPlaybackInfoUpdated = false;
+
             try
             {
                 // Only update the properties that are displayed on Now Playing screens
-                if (fileMetadata.Title.IsValueChanged) track.TrackTitle = fileMetadata.Title.Value;
-                if (fileMetadata.Artists.IsValueChanged) track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
-                if (fileMetadata.Year.IsValueChanged) track.Year = fileMetadata.Year.Value.SafeConvertToLong();
-                if (fileMetadata.Album.IsValueChanged) track.AlbumTitle = fileMetadata.Album.Value;
+                if (fileMetadata.Title.IsValueChanged)
+                {
+                    track.TrackTitle = fileMetadata.Title.Value;
+                    isPlaybackInfoUpdated = true;
+                }
+
+                if (fileMetadata.Artists.IsValueChanged)
+                {
+                    track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
+                    isPlaybackInfoUpdated = true;
+                }
+
+                if (fileMetadata.Year.IsValueChanged)
+                {
+                    track.Year = fileMetadata.Year.Value.SafeConvertToLong();
+                    isPlaybackInfoUpdated = true;
+                }
+
+                if (fileMetadata.Album.IsValueChanged)
+                {
+                    track.AlbumTitle = fileMetadata.Album.Value;
+                    isPlaybackInfoUpdated = true;
+                }
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not update the track metadata. Exception: {0}", ex.Message);
             }
+
+            return isPlaybackInfoUpdated;
         }
 
         private void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
