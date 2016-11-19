@@ -159,6 +159,12 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTracksAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
+            // Make sure that cached artwork cannot be out of date
+            lock(this.cachedArtworkLock)
+            {
+                this.cachedArtwork = null;
+            }
+
             // Set event args
             var args = new MetadataChangedEventArgs();
 
@@ -176,11 +182,11 @@ namespace Dopamine.Common.Services.Metadata
             // Update the metadata in the database
             await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
 
-            // Update the metadata in the PlaybackService
-            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
-
             // Queue update of the file metadata
             await this.QueueUpdateFileMetadata(fileMetadatas);
+
+            // Update the metadata in the PlaybackService
+            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Raise event
             this.MetadataChanged(args);
@@ -200,14 +206,20 @@ namespace Dopamine.Common.Services.Metadata
             List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
             List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
 
-            // Update the metadata in the PlaybackService
-            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
-
             if (updateFileArtwork)
             {
+                // Make sure that cached artwork cannot be out of date
+                lock (this.cachedArtworkLock)
+                {
+                    this.cachedArtwork = null;
+                }
+
                 // Queue update of the file metadata
                 await this.QueueUpdateFileMetadata(fileMetadatas);
             }
+
+            // Update the metadata in the PlaybackService
+            await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Raise event
             this.MetadataChanged(args);
@@ -224,12 +236,6 @@ namespace Dopamine.Common.Services.Metadata
 
             await Task.Run(() =>
             {
-                // Make sure that cached artwork cannot be out of date
-                lock (this.cachedArtworkLock)
-                {
-                    this.cachedArtwork = null;
-                }
-
                 lock (lockObject)
                 {
                     var failedFileMetadatas = new Queue<FileMetadata>();
