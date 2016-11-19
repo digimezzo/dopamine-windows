@@ -9,6 +9,7 @@ namespace Dopamine.Core.Database.Repositories.Interfaces
         Task<List<Album>> GetAlbumsAsync();
         Task<List<Album>> GetAlbumsAsync(IList<Artist> artists);
         Task<List<Album>> GetAlbumsAsync(IList<Genre> genres);
+        Album GetAlbum(long albumID);
         Task<Album> GetAlbumAsync(string albumTitle, string albumArtist);
         Task<List<Album>> GetAlbumHistoryAsync(int limit);
         Task<Album> AddAlbumAsync(Album album);

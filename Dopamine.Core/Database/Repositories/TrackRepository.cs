@@ -287,30 +287,39 @@ namespace Dopamine.Core.Database.Repositories
             return tracks;
         }
 
+        public Track GetTrack(string path)
+        {
+            Track track = null;
+
+            try
+            {
+                using (var conn = this.factory.GetConnection())
+                {
+                    try
+                    {
+                        track = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not get the Track with Path='{0}'. Exception: {1}", path, ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+            }
+
+            return track;
+        }
+
         public async Task<Track> GetTrackAsync(string path)
         {
             Track track = null;
 
             await Task.Run(() =>
             {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            track = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Instance.Logger.Error("Could not get the Track with Path='{0}'. Exception: {1}", path, ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
+                track = this.GetTrack(path);
             });
 
             return track;

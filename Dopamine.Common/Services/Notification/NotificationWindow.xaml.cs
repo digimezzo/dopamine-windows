@@ -1,11 +1,13 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -26,7 +28,7 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationWindow(MergedTrackViewModel viewModel, string coverPictureSource, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
+        public NotificationWindow(MergedTrack track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
         {
             this.InitializeComponent();
 
@@ -48,10 +50,10 @@ namespace Dopamine.Common.Services.Notification
                 this.VolumePanel.Visibility = Visibility.Collapsed;
             }
 
-            if (viewModel != null)
+            if (track != null)
             {
-                this.TextBoxTitle.Text = string.IsNullOrEmpty(viewModel.TrackTitle) ? viewModel.FileName : viewModel.TrackTitle;
-                this.TextBoxArtist.Text = viewModel.ArtistName;
+                this.TextBoxTitle.Text = string.IsNullOrEmpty(track.TrackTitle) ? track.FileName : track.TrackTitle;
+                this.TextBoxArtist.Text = track.ArtistName;
             }
             else
             {
@@ -62,12 +64,12 @@ namespace Dopamine.Common.Services.Notification
             this.ToolTipTitle.Text = this.TextBoxTitle.Text;
             this.ToolTipArtist.Text = this.TextBoxArtist.Text;
 
-            if (!string.IsNullOrEmpty(coverPictureSource))
+            if (artworkData != null)
             {
                 try
                 {
                     // Width and Height are 300px. They need to be big enough, otherwise the picture is blurry
-                    this.CoverPicture.Source = ImageOperations.PathToBitmapImage(coverPictureSource, 300, 300);
+                    this.CoverPicture.Source = ImageOperations.ByteToBitmapImage(artworkData, 300, 300);
                     this.CloseBorder.Opacity = 1.0;
                 }
                 catch (Exception)

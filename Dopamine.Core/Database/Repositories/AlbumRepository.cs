@@ -151,9 +151,36 @@ namespace Dopamine.Core.Database.Repositories
                 catch (Exception ex)
                 {
                     album = null;
-                    LogClient.Instance.Logger.Error("Could not get the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
+            return album;
+        }
+
+        public Album GetAlbum(long albumID)
+        {
+            Album album = null;
+
+            try
+            {
+                using (var conn = this.factory.GetConnection())
+                {
+                    try
+                    {
+                        album = conn.Table<Album>().Select((a) => a).Where((a) => a.AlbumID == albumID).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not get the Album with AlbumID='{0}'. Exception: {1}", albumID, ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                album = null;
+                LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+            }
+
             return album;
         }
 

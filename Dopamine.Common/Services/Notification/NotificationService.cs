@@ -1,11 +1,10 @@
 ﻿using Dopamine.Common.Controls;
-using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using System;
 using System.Threading.Tasks;
@@ -20,6 +19,7 @@ namespace Dopamine.Common.Services.Notification
         private NotificationWindow notification;
         private IPlaybackService playbackService;
         private ICacheService cacheService;
+        private IMetadataService metadataService;
         private DopamineWindow mainWindow;
         private DopamineWindow playlistWindow;
         private Window trayControlsWindow;
@@ -40,14 +40,15 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationService(IUnityContainer container, IPlaybackService playbackService, ICacheService cacheService)
+        public NotificationService(IUnityContainer container, IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.container = container;
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.metadataService = metadataService;
 
             this.playbackService.PlaybackSuccess += async (_) => await this.ShowNotificationIfAllowedAsync();
-            this.playbackService.PlaybackPaused += async (_,__) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackPaused += async (_, __) => await this.ShowNotificationIfAllowedAsync();
             this.playbackService.PlaybackResumed += async (_, __) => await this.ShowNotificationIfAllowedAsync();
         }
         #endregion
@@ -78,7 +79,7 @@ namespace Dopamine.Common.Services.Notification
                 this.notification.DoubleClicked -= ShowMainWindow;
             }
 
-            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying") 
+            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")
                 & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
                 & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
             {
@@ -87,50 +88,39 @@ namespace Dopamine.Common.Services.Notification
 
             try
             {
-                if (this.notification != null)
-                {
-                    this.notification.Disable();
-                }
+                if (this.notification != null) this.notification.Disable();
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Error while trying to disable the notification. Exception: {0}", ex.Message);
             }
 
-            string artworkPath = string.Empty;
-
-            MergedTrackViewModel viewModel = null; // Create a dummy track
-
-            await Task.Run(() =>
+            try
             {
-                try
-                {
-                    if (this.playbackService.PlayingTrack != null)
-                    {
-                        // TODO: artwork needs to come from file 
-                        //artworkPath = this.cacheService.GetCachedArtworkPath(this.playbackService.PlayingTrack.AlbumArtworkID);
-                        viewModel = this.container.Resolve<MergedTrackViewModel>();
-                        viewModel.Track = this.playbackService.PlayingTrack;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
-                }
-            });
+                byte[] artworkData = null;
 
-            Application.Current.Dispatcher.Invoke(() =>
+                if (this.playbackService.PlayingTrack != null)
+                {
+                    artworkData = await this.metadataService.GetArtworkAsync(this.playbackService.PlayingTrack.Path);
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.notification = new NotificationWindow(this.playbackService.PlayingTrack,
+                                                          artworkData,
+                                                          (NotificationPosition)XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition"),
+                                                          XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
+                                                          XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationAutoCloseSeconds"));
+
+                    this.notification.DoubleClicked += ShowMainWindow;
+
+                    this.notification.Show();
+                });
+            }
+            catch (Exception ex)
             {
-                this.notification = new NotificationWindow(viewModel,
-                                                      artworkPath,
-                                                      (NotificationPosition)XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition"),
-                                                      XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
-                                                      XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationAutoCloseSeconds"));
-
-                                                     this.notification.DoubleClicked += ShowMainWindow;
-
-                this.notification.Show();
-            });
+                LogClient.Instance.Logger.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
+            }
         }
 
         public void HideNotification()

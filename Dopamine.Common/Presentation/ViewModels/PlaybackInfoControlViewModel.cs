@@ -53,6 +53,20 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
+        private void ClearPlaybackInfo()
+        {
+            this.PlaybackInfoViewModel = new PlaybackInfoViewModel
+            {
+                Title = string.Empty,
+                Artist = string.Empty,
+                Album = string.Empty,
+                Year = string.Empty,
+                CurrentTime = string.Empty,
+                TotalTime = string.Empty
+            };
+            this.track = null;
+        }
+
         private void RefreshPlaybackInfoAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
             this.previousTrack = this.track;
@@ -60,16 +74,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // No track selected: clear playback info.
             if (track == null)
             {
-                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
-                {
-                    Title = string.Empty,
-                    Artist = string.Empty,
-                    Album = string.Empty,
-                    Year = string.Empty,
-                    CurrentTime = string.Empty,
-                    TotalTime = string.Empty
-                };
-                this.track = null;
+                this.ClearPlaybackInfo();
                 return;
             }
 
@@ -101,15 +106,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", track.Path, ex.Message);
-                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
-                {
-                    Title = string.Empty,
-                    Artist = string.Empty,
-                    Album = string.Empty,
-                    Year = string.Empty,
-                    CurrentTime = string.Empty,
-                    TotalTime = string.Empty
-                };
+                this.ClearPlaybackInfo();
             }
 
             this.UpdateTime();
