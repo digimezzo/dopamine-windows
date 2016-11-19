@@ -60,7 +60,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, false);
             };
 
-            this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, true);
+            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, true);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;

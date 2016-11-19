@@ -415,7 +415,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.HasMultipleArtwork = false;
             }
 
-            this.VisualizeArtwork(foundArtwork);
+            this.ShowArtwork(foundArtwork);
         }
 
         private bool AllEntriesValid()
@@ -443,16 +443,28 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ArtworkSize = string.Empty;
             }
 
-            // Artwork data
-            this.Artwork.Value = imageData;
-
             this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, Convert.ToInt32(Constants.CoverLargeSize), Convert.ToInt32(Constants.CoverLargeSize));
             OnPropertyChanged(() => this.HasArtwork);
         }
 
+        private void ShowArtwork(byte[] imageData)
+        {
+            // Artwork data
+            this.Artwork = new MetadataArtworkValue(imageData);
+
+            // Visualize the artwork
+            this.VisualizeArtwork(imageData);
+
+            // Artwork is updated. Multiple artwork is now impossible.
+            this.HasMultipleArtwork = false;
+        }
+
         private void UpdateArtwork(byte[] imageData)
         {
-            // Set the artwork
+            // Artwork data
+            this.Artwork.Value = imageData;
+
+            // Visualize the artwork
             this.VisualizeArtwork(imageData);
 
             // Artwork is updated. Multiple artwork is now impossible.
