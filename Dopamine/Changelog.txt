@@ -1,7 +1,9 @@
-2016-11-13: Dopamine 1.2 Build 781 (Preview)
+2016-11-19: Dopamine 1.2 Build 782 (Preview)
 --------------------------------------------
 
-- [Fixed] Loading of album art and artist info broken when playing songs from explorer
+- [Changed] Removed song covers from playlists. They were in fact albums covers and were confusing. 
+- [Fixed] Song covers are more accurate. Covers stored in or with the audio files have higher priority than album covers.
+- [Fixed] Loading of covers and artist info broken when playing songs from explorer
 
 
 2016-11-12: Dopamine 1.2 Build 779 (Preview)

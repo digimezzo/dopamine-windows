@@ -321,7 +321,7 @@ namespace Dopamine.Common.Services.Playback
             this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
-            this.GetSavedQueuedTracksAsync();
+            this.GetSavedQueuedTracks();
         }
         #endregion
 
@@ -1184,26 +1184,23 @@ namespace Dopamine.Common.Services.Playback
             this.SaveQueuedTracksAsync();
         }
 
-        private async Task GetSavedQueuedTracksAsync()
+        private void GetSavedQueuedTracks()
         {
-            List<MergedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
+            List<MergedTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
 
-            await Task.Run(() =>
+            lock (this.queueSyncObject)
             {
-                lock (this.queueSyncObject)
+                // It could be that, while getting saved queued tracks from the database above, 
+                // tracks were enqueued from the command line. To prevent overwriting the existing 
+                // queue (which was built based on command line files), we check if the queue is
+                // empty first, and fill it up with saved queued tracks only if it is empty.
+                if (this.queuedTracks == null || this.queuedTracks.Count == 0)
                 {
-                    // It could be that, while getting saved queued tracks from the database above, 
-                    // tracks were enqueued from the command line. To prevent overwriting the existing 
-                    // queue (which was built based on command line files), we check if the queue is
-                    // empty first, and fill it up with saved queued tracks only if it is empty.
-                    if (this.queuedTracks == null || this.queuedTracks.Count == 0)
-                    {
-                        this.queuedTracks = new List<MergedTrack>(savedQueuedTracks);
-                    }
+                    this.queuedTracks = new List<MergedTrack>(savedQueuedTracks);
                 }
-            });
+            }
 
-            await this.SetPlaybackSettingsAsync();
+            this.SetPlaybackSettingsAsync();
         }
 
         private void HandleProgress()
