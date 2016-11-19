@@ -224,6 +224,12 @@ namespace Dopamine.Common.Services.Metadata
 
             await Task.Run(() =>
             {
+                // Make sure that cached artwork cannot be out of date
+                lock (this.cachedArtworkLock)
+                {
+                    this.cachedArtwork = null;
+                }
+
                 lock (lockObject)
                 {
                     var failedFileMetadatas = new Queue<FileMetadata>();
@@ -231,15 +237,6 @@ namespace Dopamine.Common.Services.Metadata
                     while (this.queuedFileMetadatas.Count > 0)
                     {
                         FileMetadata fmd = this.queuedFileMetadatas.Dequeue();
-
-                        // Make sure that cached artwork cannot be out of date
-                        lock (this.cachedArtworkLock)
-                        {
-                            if (this.cachedArtwork != null && (this.cachedArtwork.Item1.ToSafePath() == fmd.Path.ToSafePath() & fmd.ArtworkData.IsValueChanged))
-                            {
-                                this.cachedArtwork = null;
-                            }
-                        }
 
                         try
                         {
