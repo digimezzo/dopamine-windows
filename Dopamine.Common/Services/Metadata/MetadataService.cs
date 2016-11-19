@@ -6,6 +6,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
@@ -35,6 +36,8 @@ namespace Dopamine.Common.Services.Metadata
         private Timer updateFileMetadataTimer;
         private int updateFileMetadataShortTimeout = 250; // 250 milliseconds
         private int updateFileMetadataLongTimeout = 15000; // 15 seconds
+        private Tuple<string, byte[]> cachedArtwork;
+        private object cachedArtworkLock = new object();
         #endregion
 
         #region ReadOnly Property
@@ -79,31 +82,37 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region IMetadataService
-        public async Task<FileMetadata> GetFileMetadataAsync(string path)
+        private FileMetadata GetFileMetadata(string path)
         {
             bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
             this.updateFileMetadataTimer.Stop();
 
             FileMetadata returnFileMetadata = null;
 
-            await Task.Run(() =>
+            // Check if there is a queued FileMetadata for this path, if yes, use that as it has more up to date information.
+            lock (lockObject)
             {
-                // Check if there is a queued FileMetadata for this path, if yes, use that as it has more up to date information.
-                lock (lockObject)
+                foreach (FileMetadata fmd in this.queuedFileMetadatas)
                 {
-                    foreach (FileMetadata fmd in this.queuedFileMetadatas)
+                    if (fmd.SafePath == path.ToSafePath())
                     {
-                        if (fmd.SafePath == path.ToSafePath())
-                        {
-                            returnFileMetadata = fmd;
-                        }
+                        returnFileMetadata = fmd;
                     }
                 }
-            });
+            }
 
             // If no queued FileMetadata was found, create a new one from the actual file.
             if (returnFileMetadata == null) returnFileMetadata = new FileMetadata(path);
             if (restartTimer) this.updateFileMetadataTimer.Start(); // Restart the timer if necessary
+
+            return returnFileMetadata;
+        }
+
+        public async Task<FileMetadata> GetFileMetadataAsync(string path)
+        {
+            FileMetadata returnFileMetadata = null;
+
+            await Task.Run(() => { returnFileMetadata = this.GetFileMetadata(path); });
 
             return returnFileMetadata;
         }
@@ -223,6 +232,15 @@ namespace Dopamine.Common.Services.Metadata
                     {
                         FileMetadata fmd = this.queuedFileMetadatas.Dequeue();
 
+                        // Make sure that cached artwork cannot be out of date
+                        lock (this.cachedArtworkLock)
+                        {
+                            if (this.cachedArtwork != null && (this.cachedArtwork.Item1.ToSafePath() == fmd.Path.ToSafePath() & fmd.ArtworkData.IsValueChanged))
+                            {
+                                this.cachedArtwork = null;
+                            }
+                        }
+
                         try
                         {
                             fmd.Save();
@@ -259,6 +277,57 @@ namespace Dopamine.Common.Services.Metadata
             this.isUpdatingFileMetadata = false;
 
             if (restartTimer) this.updateFileMetadataTimer.Start();
+        }
+
+        public async Task<byte[]> GetArtworkAsync(string path)
+        {
+            byte[] artwork = null;
+
+            await Task.Run(() =>
+            {
+                lock (this.cachedArtworkLock)
+                {
+                    // First, check if artwork for this path has been asked recently.
+                    if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == path.ToSafePath())
+                    {
+                        if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no cached artwork was found, try to load embedded artwork.
+                        FileMetadata fmd = this.GetFileMetadata(path);
+                        if (fmd.ArtworkData.Value != null)
+                        {
+                            artwork = fmd.ArtworkData.Value;
+                            this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                        }
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no embedded artwork was found, try to find external artwork.
+                        artwork = IndexerUtils.GetExternalArtwork(path);
+                        if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no embedded artwork was found, try to find album artwork.
+                        Track track = this.trackRepository.GetTrack(path);
+                        Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+
+                        if (album != null)
+                        {
+                            string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
+                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageOperations.Image2ByteArray(artworkPath);
+                            if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                        }
+                    }
+                }
+            });
+
+            return artwork;
         }
         #endregion
 

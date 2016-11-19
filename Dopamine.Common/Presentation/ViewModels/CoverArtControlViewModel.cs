@@ -1,5 +1,6 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
@@ -7,7 +8,6 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Prism.Mvvm;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,9 +20,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
         private ICacheService cacheService;
+        private IMetadataService metadataService;
         private SlideDirection slideDirection;
-        private Album previousAlbum;
-        private Album album;
+        private Track previousTrack;
+        private Track track;
         #endregion
 
         #region Properties
@@ -39,82 +40,80 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
 
+        #region Private
+        private void ClearArtwork()
+        {
+            this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+        }
+        #endregion
+
         #region Construction
-        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService)
+        public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.metadataService = metadataService;
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.RefreshCoverArtAsync(this.playbackService.PlayingTrack,false);
+                this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, false);
             };
 
             this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, true);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack,false);
+            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, false);
         }
         #endregion
 
         #region Virtual
         protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            // TODO: artowrk needs to be loaded from the file
+            this.previousTrack = this.track;
 
-            //this.previousAlbum = this.album;
+            // No track selected: clear cover art.
+            if (track == null)
+            {
+                this.ClearArtwork();
+                return;
+            }
 
-            //// No track selected: clear cover art.
-            //if (track == null)
-            //{
-            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            //    this.album = null;
-            //    return;
-            //}
+            this.track = track;
 
-            //this.album = new Album
-            //{
-            //    AlbumArtist = track.AlbumArtist,
-            //    AlbumTitle = track.AlbumTitle,
-            //    Year = track.AlbumYear,
-            //    ArtworkID = track.AlbumArtworkID,
-            //};
+            // The track didn't change: leave the previous playback info.
+            if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
 
-            //// The album didn't change: leave the previous covert art.
-            //if (!allowRefreshingCurrentTrack & this.album.Equals(this.previousAlbum)) return;
+            // 1. Try to find File artwork
+            byte[] artWork = await this.metadataService.GetArtworkAsync(track.Path);
 
-            //// The album changed: we need to show new cover art.
-            //string artworkPath = string.Empty;
+            if (artWork != null)
+            {
+                try
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        var proxyImage = new Image();
+                        proxyImage.Stretch = Stretch.Fill;
+                        proxyImage.Source = ImageOperations.ByteToBitmapImage(artWork, 0, 0);
+                        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
+                    });
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                    this.ClearArtwork();
+                }
 
-            //await Task.Run(() =>
-            //{
-            //    artworkPath = this.cacheService.GetCachedArtworkPath(track.AlbumArtworkID);
-            //});
-
-            //if (string.IsNullOrEmpty(artworkPath))
-            //{
-            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            //    return;
-            //}
-
-            //try
-            //{
-            //    Application.Current.Dispatcher.Invoke(() =>
-            //    {
-            //        var proxyImage = new Image();
-            //        proxyImage.Stretch = Stretch.Fill;
-            //        proxyImage.Source = ImageOperations.PathToBitmapImage(artworkPath, 0, 0);
-            //        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
-            //    });
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogClient.Instance.Logger.Error("Could not show cover art for Track {0}. Exception: {1}", track.Path, ex.Message);
-            //    this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            //}
+                return;
+            }
+            else
+            {
+                this.ClearArtwork();
+                return;
+            }
         }
-        #endregion
     }
+    #endregion
 }
