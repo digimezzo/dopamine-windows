@@ -121,12 +121,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.StopHighlighting();
 
-            await Task.Run(async () =>
+            FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
+
+            await Task.Run(() =>
             {
-                FileMetadata fmd = null;
-                if (track != null) fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
-
-
                 // If we're in editing mode, delay changing the lyrics.
                 if (this.LyricsViewModel != null && this.LyricsViewModel.IsEditing)
                 {
@@ -140,35 +138,50 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.ClearLyrics();
                     return;
                 }
+            });
 
-                // Show the new lyrics
-                try
+            try
+            {
+                string lyrics = string.Empty;
+                string artist = string.Empty;
+                string title = string.Empty;
+
+                bool mustDownloadLyrics = false;
+
+                // If the file has no lyrics, indicate that we need to try to download.
+                await Task.Run(() =>
                 {
-                    string lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
+                    lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
 
                     if (string.IsNullOrWhiteSpace(lyrics))
                     {
-                        // No lyrics were found in the file: try to download.
-                        string artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
-                        string title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
+                        artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
+                        title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
 
-                        if (!string.IsNullOrWhiteSpace(artist) & !string.IsNullOrWhiteSpace(title))
-                        {
-                            this.IsDownloadingLyrics = true;
-                            lyrics = await LyricWikiaApi.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
-                            this.IsDownloadingLyrics = false;
-                        }
+                        if (!string.IsNullOrWhiteSpace(artist) & !string.IsNullOrWhiteSpace(title)) mustDownloadLyrics = true;
                     }
+                });
 
-                    this.LyricsViewModel = new LyricsViewModel(track.Path, metadataService);
-                    this.LyricsViewModel.SetLyrics(string.IsNullOrWhiteSpace(lyrics) ? string.Empty : lyrics);
-                }
-                catch (Exception ex)
+                // No lyrics were found in the file: try to download.
+                if (mustDownloadLyrics)
                 {
-                    LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
-                    this.ClearLyrics();
+                    this.IsDownloadingLyrics = true;
+                    lyrics = await LyricWikiaApi.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
+                    this.IsDownloadingLyrics = false;
                 }
-            });
+
+                await Task.Run(() =>
+                            {
+                                this.LyricsViewModel = new LyricsViewModel(track.Path, metadataService);
+                                this.LyricsViewModel.SetLyrics(lyrics);
+                            });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
+                this.ClearLyrics();
+                return;
+            }
 
             this.StartHighlighting();
         }
