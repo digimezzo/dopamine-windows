@@ -29,6 +29,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int updateLyricsAfterEditingTimerIntervalMilliseconds = 100;
         private bool isDownloadingLyrics;
         private bool canHighlight;
+        private Timer refreshTimer = new Timer();
+        private int refreshTimerIntervalMilliseconds = 500;
         #endregion
 
         #region Properties
@@ -64,6 +66,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.updateLyricsAfterEditingTimer.Interval = this.updateLyricsAfterEditingTimerIntervalMilliseconds;
             this.updateLyricsAfterEditingTimer.Elapsed += UpdateLyricsAfterEditingTimer_Elapsed;
 
+            this.refreshTimer.Interval = this.refreshTimerIntervalMilliseconds;
+            this.refreshTimer.Elapsed += RefreshTimer_Elapsed;
+
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
@@ -75,7 +80,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 if (this.previousTrack == null || !this.playbackService.PlayingTrack.Equals(this.previousTrack))
                 {
-                    this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+                    this.refreshTimer.Stop();
+                    this.refreshTimer.Start();
                     this.previousTrack = this.playbackService.PlayingTrack;
                 }
             };
@@ -83,6 +89,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
 
             if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
+        }
+
+        private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.refreshTimer.Stop();
+            this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)

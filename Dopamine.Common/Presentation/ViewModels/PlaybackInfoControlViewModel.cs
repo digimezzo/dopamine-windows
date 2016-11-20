@@ -6,6 +6,7 @@ using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -17,6 +18,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private SlideDirection slideDirection;
         private MergedTrack previousTrack;
         private MergedTrack track;
+        private Timer refreshTimer = new Timer();
+        private int refreshTimerIntervalMilliseconds = 250;
         #endregion
 
         #region Properties
@@ -38,10 +41,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.playbackService = playbackService;
 
+            this.refreshTimer.Interval = this.refreshTimerIntervalMilliseconds;
+            this.refreshTimer.Elapsed += RefreshTimer_Elapsed;
+
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, false);
+                this.refreshTimer.Stop();
+                this.refreshTimer.Start();
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
@@ -49,6 +56,12 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
+            this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, false);
+        }
+
+        private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.refreshTimer.Stop();
             this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, false);
         }
         #endregion
