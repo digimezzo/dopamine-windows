@@ -5,6 +5,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -40,11 +41,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,false);
+                this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, false);
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-            this.playbackService.PlayingTrackPlaybackInfoChanged += (_,__) => this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack,true);
+            this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.PlayingTrack, true);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
@@ -64,52 +65,56 @@ namespace Dopamine.Common.Presentation.ViewModels
                 CurrentTime = string.Empty,
                 TotalTime = string.Empty
             };
+
             this.track = null;
         }
 
-        private void RefreshPlaybackInfoAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
+        private async void RefreshPlaybackInfoAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            this.previousTrack = this.track;
-
-            // No track selected: clear playback info.
-            if (track == null)
+            await Task.Run(() =>
             {
-                this.ClearPlaybackInfo();
-                return;
-            }
+                this.previousTrack = this.track;
 
-            this.track = track;
-
-            // The track didn't change: leave the previous playback info.
-            if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
-
-            // The track changed: we need to show new playback info.
-            try
-            {
-                string year = string.Empty;
-
-                if (track.Year != null && track.Year > 0)
+                // No track selected: clear playback info.
+                if (track == null)
                 {
-                    year = track.Year.ToString();
+                    this.ClearPlaybackInfo();
+                    return;
                 }
 
-                this.PlaybackInfoViewModel = new PlaybackInfoViewModel
-                {
-                    Title = string.IsNullOrEmpty(track.TrackTitle) ? track.FileName : track.TrackTitle,
-                    Artist = track.ArtistName,
-                    Album = track.AlbumTitle,
-                    Year = year,
-                    CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
-                    TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
-                };
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", track.Path, ex.Message);
-                this.ClearPlaybackInfo();
-            }
+                this.track = track;
 
-            this.UpdateTime();
+                // The track didn't change: leave the previous playback info.
+                if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
+
+                // The track changed: we need to show new playback info.
+                try
+                {
+                    string year = string.Empty;
+
+                    if (track.Year != null && track.Year > 0)
+                    {
+                        year = track.Year.ToString();
+                    }
+
+                    this.PlaybackInfoViewModel = new PlaybackInfoViewModel
+                    {
+                        Title = string.IsNullOrEmpty(track.TrackTitle) ? track.FileName : track.TrackTitle,
+                        Artist = track.ArtistName,
+                        Album = track.AlbumTitle,
+                        Year = year,
+                        CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
+                        TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
+                    };
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not show playback information for Track {0}. Exception: {1}", track.Path, ex.Message);
+                    this.ClearPlaybackInfo();
+                }
+
+                this.UpdateTime();
+            });
         }
 
         private void UpdateTime()

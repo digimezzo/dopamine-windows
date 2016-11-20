@@ -8,6 +8,7 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Prism.Mvvm;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -71,48 +72,54 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            this.previousTrack = this.track;
-
-            // No track selected: clear cover art.
-            if (track == null)
+            await Task.Run(() =>
             {
-                this.ClearArtwork();
-                return;
-            }
+                this.previousTrack = this.track;
 
-            this.track = track;
+                // No track selected: clear cover art.
+                if (track == null)
+                {
+                    this.ClearArtwork();
+                    return;
+                }
 
-            // The track didn't change: leave the previous playback info.
-            if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
+                this.track = track;
+
+                // The track didn't change: leave the previous playback info.
+                if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
+            });
 
             // 1. Try to find File artwork
             byte[] artWork = await this.metadataService.GetArtworkAsync(track.Path);
 
-            if (artWork != null)
+            await Task.Run(() =>
             {
-                try
+                if (artWork != null)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    try
                     {
-                        var proxyImage = new Image();
-                        proxyImage.Stretch = Stretch.Fill;
-                        proxyImage.Source = ImageOperations.ByteToBitmapImage(artWork, 0, 0);
-                        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
-                    });
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Instance.Logger.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
-                    this.ClearArtwork();
-                }
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            var proxyImage = new Image();
+                            proxyImage.Stretch = Stretch.Fill;
+                            proxyImage.Source = ImageOperations.ByteToBitmapImage(artWork, 0, 0);
+                            this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                        this.ClearArtwork();
+                    }
 
-                return;
-            }
-            else
-            {
-                this.ClearArtwork();
-                return;
-            }
+                    return;
+                }
+                else
+                {
+                    this.ClearArtwork();
+                    return;
+                }
+            });
         }
     }
     #endregion
