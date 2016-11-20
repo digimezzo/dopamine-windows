@@ -38,7 +38,7 @@ namespace Dopamine.Core.Api.LyricWikia
             return url;
         }
 
-        private static async Task<string> ParseLyricsFromHtml(string html)
+        private static async Task<string> ParseLyricsFromHtmlAsync(string html)
         {
             string lyrics = string.Empty;
 
@@ -102,7 +102,7 @@ namespace Dopamine.Core.Api.LyricWikia
                 result = await response.Content.ReadAsStringAsync();
             }
 
-            string lyrics = await ParseLyricsFromHtml(result);
+            string lyrics = await ParseLyricsFromHtmlAsync(result);
 
             return lyrics;
         }
