@@ -1,4 +1,4 @@
-2016-11-21: Dopamine 1.2 Build 784 (Preview)
+2016-11-21: Dopamine 1.2 Build 785 (Preview)
 --------------------------------------------
 
 - [Added] Option to download lyrics automatically

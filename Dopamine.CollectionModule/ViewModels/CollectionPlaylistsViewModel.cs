@@ -20,6 +20,7 @@ using System.Collections;
 using WPFFolderBrowser;
 using Dopamine.Core.IO;
 using Dopamine.CollectionModule.Views;
+using Microsoft.Practices.Unity;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -110,7 +111,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionPlaylistsViewModel(IPlaylistRepository playlistRepository) : base()
+        public CollectionPlaylistsViewModel(IUnityContainer container, IPlaylistRepository playlistRepository) : base(container)
         {
             // Repositories
             this.playlistRepository = playlistRepository;

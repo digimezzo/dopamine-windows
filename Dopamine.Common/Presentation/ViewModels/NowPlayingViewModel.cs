@@ -2,6 +2,7 @@
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public NowPlayingViewModel() : base()
+        public NowPlayingViewModel(IUnityContainer container) : base(container)
         {
             // Commands
             this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());

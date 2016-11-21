@@ -187,6 +187,7 @@
     <Compile Include="Presentation\ViewModels\BackgroundCoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CommonAlbumsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CommonTracksViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\CommonViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CompactPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtViewModel.cs" />

@@ -99,7 +99,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionTracksViewModel() : base()
+        public CollectionTracksViewModel(IUnityContainer container) : base(container)
         {
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);

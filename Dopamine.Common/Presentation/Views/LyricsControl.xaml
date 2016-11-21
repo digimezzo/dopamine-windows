@@ -77,7 +77,7 @@
                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                 <MenuItem StaysOpenOnClick="True">
                                     <MenuItem.Header>
-                                        <DockPanel Tag="{Binding ElementName=LyricsListBox, Path=DataContext}">
+                                        <DockPanel>
                                             <TextBlock DockPanel.Dock="Left" Text="{DynamicResource Language_Font_Size}" HorizontalAlignment="Left"/>
                                             <StackPanel DockPanel.Dock="Right" Margin="50,0,0,0" Orientation="Horizontal">
                                                 <Button Content="-" Style="{StaticResource ContextMenuButton}" Command="{Binding DecreaseFontSizeCommand}"/>
@@ -92,6 +92,16 @@
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
+                                <Separator/>
+                                <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding ContextMenuSearchProviders}" DisplayMemberPath="Name" IsEnabled="{Binding HasContextMenuSearchProviders}">
+                                    <MenuItem.ItemContainerStyle>
+                                        <Style TargetType="MenuItem">
+                                            <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                                            <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}}"/>
+                                            <Setter Property="CommandParameter" Value="{Binding Id}"/>
+                                        </Style>
+                                    </MenuItem.ItemContainerStyle>
+                                </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}" Click="EditMenuItem_Click"/>
                                 <Separator/>

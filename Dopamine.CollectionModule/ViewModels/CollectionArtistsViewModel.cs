@@ -13,6 +13,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -152,7 +153,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionArtistsViewModel(IArtistRepository artistRepository) : base()
+        public CollectionArtistsViewModel(IUnityContainer container, IArtistRepository artistRepository) : base(container)
         {
             // Repositories
             this.artistRepository = artistRepository;

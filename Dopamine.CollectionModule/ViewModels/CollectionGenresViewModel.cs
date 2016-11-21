@@ -13,6 +13,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -134,7 +135,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionGenresViewModel(IGenreRepository genreRepository) : base()
+        public CollectionGenresViewModel(IUnityContainer container, IGenreRepository genreRepository) : base(container)
         {
             // Repositories
             this.genreRepository = genreRepository;
