@@ -48,6 +48,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void ClearArtwork()
         {
             this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
+            this.track = null;
         }
         #endregion
 
@@ -85,7 +86,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 this.previousTrack = this.track;
 
@@ -100,13 +101,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 // The track didn't change: leave the previous playback info.
                 if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
-            });
 
-            // 1. Try to find File artwork
-            byte[] artWork = await this.metadataService.GetArtworkAsync(track.Path);
+                // 1. Try to find File artwork
+                byte[] artWork = await this.metadataService.GetArtworkAsync(track.Path);
 
-            await Task.Run(() =>
-            {
                 if (artWork != null)
                 {
                     try
