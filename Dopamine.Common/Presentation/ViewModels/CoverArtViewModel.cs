@@ -6,14 +6,14 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class CoverArtViewModel : BindableBase
     {
         #region Variables
-        private Image coverArt;
+        private byte[] coverArt;
         #endregion
 
         #region Properties
-        public Image CoverArt
+        public byte[] CoverArt
         {
             get { return this.coverArt; }
-            set { SetProperty<Image>(ref this.coverArt, value); }
+            set { SetProperty<byte[]>(ref this.coverArt, value); }
         }
         #endregion
     }

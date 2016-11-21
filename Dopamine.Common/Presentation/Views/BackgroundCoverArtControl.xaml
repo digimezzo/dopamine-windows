@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.BackgroundCoverArtControl"
+             x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,12 +12,15 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" SizeChanged="UserControl_SizeChanged">
 
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type commonviewmodels:CoverArtViewModel}">
+            <Image Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Source="{Binding CoverArt}" RenderOptions.BitmapScalingMode="LowQuality"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Border x:Name="CoverImage" Opacity="{Binding Opacity}">
         <Border Opacity="0.15">
-            <controls:CrossFadeContentControl 
-                Content="{Binding CoverArtViewModel.CoverArt}"
-                Duration="1.0"
-                RenderOptions.BitmapScalingMode="LowQuality"/>
+            <controls:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0"/>
             <!--<Border.Effect>
                 <BlurEffect Radius="20" KernelType="Gaussian"/>
             </Border.Effect>-->
