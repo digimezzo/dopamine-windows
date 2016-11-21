@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionAlbumsViewModel()
+        public CollectionAlbumsViewModel(IUnityContainer container) : base(container)
         {
             // IndexingService
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
@@ -90,7 +91,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged)await this.collectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
             if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }

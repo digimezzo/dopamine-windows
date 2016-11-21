@@ -144,25 +144,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        /// <summary>
-        /// Constructor which allows Dependency Injection. This can be useful for Unit Testing.
-        /// </summary>
-        /// <param name="albumrepository"></param>
-        /// <remarks></remarks>
-        public CommonAlbumsViewModel(IAlbumRepository albumrepository) : base()
-        {
-
-            // Repositories
-            this.albumRepository = albumrepository;
-
-            this.Initialize();
-        }
-
-        /// <summary>
-        /// Parameterless Constructor used by child classes.
-        /// </summary>
-        /// <remarks></remarks>
-        public CommonAlbumsViewModel() : base()
+        public CommonAlbumsViewModel(IUnityContainer container) : base(container)
         {
             this.albumRepository = ServiceLocator.Current.GetInstance<IAlbumRepository>();
             this.Initialize();

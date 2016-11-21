@@ -1,6 +1,8 @@
 ﻿using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Database;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -10,10 +12,10 @@ using System.IO;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class LyricsViewModel : BindableBase
+    public class LyricsViewModel : CommonViewModel
     {
         #region Variables
-        private string filename;
+        private MergedTrack track;
         private string lyrics;
         private string uneditedLyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
@@ -89,9 +91,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsViewModel(string filename, IMetadataService metadataService)
+        public LyricsViewModel(IUnityContainer container, MergedTrack track, IMetadataService metadataService) : base(container)
         {
-            this.filename = filename;
+            this.track = track;
             this.metadataService = metadataService;
 
             this.FontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
@@ -112,15 +114,20 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ParseLyrics(this.lyrics);
 
                 // Save to the file
-                var fmd = new FileMetadata(this.filename);
+                var fmd = new FileMetadata(this.track.Path);
                 fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
                 var fmdList = new List<FileMetadata>();
                 fmdList.Add(fmd);
                 this.metadataService.UpdateTracksAsync(fmdList, false);
             });
+
+            this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
+            {
+                    this.PerformSearchOnline(id, this.track.ArtistName, this.track.TrackTitle);
+            });
         }
 
-        public LyricsViewModel()
+        public LyricsViewModel(IUnityContainer container) : base(container)
         {
         }
         #endregion

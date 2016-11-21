@@ -6,6 +6,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
+using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -17,6 +18,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class LyricsControlViewModel : BindableBase
     {
         #region Variables
+        private IUnityContainer container;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
@@ -55,8 +57,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
         {
+            this.container = container;
             this.metadataService = metadataService;
             this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
@@ -129,7 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void ClearLyrics()
         {
-            this.LyricsViewModel = new LyricsViewModel();
+            this.LyricsViewModel = new LyricsViewModel(container);
         }
 
         private async void RefreshLyricsAsync(MergedTrack track)
@@ -189,7 +192,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(() =>
                             {
-                                this.LyricsViewModel = new LyricsViewModel(track.Path, metadataService);
+                                this.LyricsViewModel = new LyricsViewModel(container,track, metadataService);
                                 this.LyricsViewModel.SetLyrics(lyrics);
                             });
             }

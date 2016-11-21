@@ -2,6 +2,7 @@
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
 using Dopamine.MiniPlayerModule.Views;
+using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
@@ -9,7 +10,7 @@ namespace Dopamine.MiniPlayerModule.ViewModels
     public class MiniPlayerPlaylistViewModel : NowPlayingViewModel
     {
         #region Construction
-        public MiniPlayerPlaylistViewModel() : base()
+        public MiniPlayerPlaylistViewModel(IUnityContainer container) : base(container)
         {
             this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
             {

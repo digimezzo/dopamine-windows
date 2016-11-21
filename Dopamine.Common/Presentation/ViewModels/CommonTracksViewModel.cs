@@ -5,6 +5,7 @@ using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -16,13 +17,12 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
-using Prism.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,16 +31,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Services.Provider;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public abstract class CommonTracksViewModel : BindableBase, INavigationAware, IActiveAware
+    public abstract class CommonTracksViewModel : CommonViewModel, INavigationAware, IActiveAware
     {
         #region Variables
-        // Unity Container
-        protected IUnityContainer container;
-
         // Services
         protected IIndexingService indexingService;
         protected IPlaybackService playbackService;
@@ -49,7 +45,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected ICollectionService collectionService;
         protected IMetadataService metadataService;
         protected II18nService i18nService;
-        protected IProviderService providerService;
 
         // Event aggregator
         protected IEventAggregator eventAggregator;
@@ -59,7 +54,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         // Lists
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<MergedTrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<MergedTrack> selectedTracks;
@@ -92,21 +86,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
-        public DelegateCommand<string> SearchOnlineCommand { get; set; }
         public DelegateCommand ShuffleAllCommand { get; set; }
         #endregion
 
-        #region ReadOnly Properties
+        #region Properties
         public abstract bool CanOrderByAlbum { get; }
 
         public bool HasContextMenuPlaylists
         {
             get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
-        }
-
-        public bool HasContextMenuSearchProviders
-        {
-            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
         }
 
         public string TrackOrderText
@@ -123,9 +111,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty; }
         }
-        #endregion
 
-        #region Properties
         public bool EnableRating
         {
             get { return this.enableRating; }
@@ -145,16 +131,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
-            }
-        }
-
-        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
-        {
-            get { return this.contextMenuSearchProviders; }
-            set
-            {
-                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
-                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
             }
         }
 
@@ -206,68 +182,23 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        /// <summary>
-        /// Constructor which allows Dependency Injection. This can be useful for Unit Testing.
-        /// </summary>
-        /// <param name="container"></param>
-        /// <param name="indexingService"></param>
-        /// <param name="eventAggregator"></param>
-        /// <param name="playbackService"></param>
-        /// <param name="searchService"></param>
-        /// <param name="dialogService"></param>
-        /// <param name="collectionService"></param>
-        /// <param name="trackRepository"></param>
-        /// <param name="i18nService"></param>
-        /// <remarks></remarks>
-        public CommonTracksViewModel(IUnityContainer container, IIndexingService indexingService, IEventAggregator eventAggregator, IPlaybackService playbackService, ISearchService searchService, IDialogService dialogService, ICollectionService collectionService, ITrackRepository trackRepository, IMetadataService metadataService, II18nService i18nService, IProviderService providerService)
+        public CommonTracksViewModel(IUnityContainer container) : base(container)
         {
-            // Unity Container
-            this.container = container;
-
             // EventAggregator
-            this.eventAggregator = eventAggregator;
+            this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Services
-            this.indexingService = indexingService;
-            this.playbackService = playbackService;
-            this.searchService = searchService;
-            this.dialogService = dialogService;
-            this.collectionService = collectionService;
-            this.metadataService = metadataService;
-            this.i18nService = i18nService;
-            this.providerService = providerService;
+            this.indexingService = container.Resolve<IIndexingService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.collectionService = container.Resolve<ICollectionService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.i18nService = container.Resolve<II18nService>();
+            this.providerService = container.Resolve<IProviderService>();
 
             // Repositories
-            this.trackRepository = trackRepository;
-
-            // Initialize
-            this.Initialize();
-        }
-
-        /// <summary>
-        /// Parameterless Constructor used by child classes.
-        /// </summary>
-        /// <remarks></remarks>
-        public CommonTracksViewModel()
-        {
-            // Unity Container
-            this.container = ServiceLocator.Current.GetInstance<IUnityContainer>();
-
-            // EventAggregator
-            this.eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
-
-            // Services
-            this.indexingService = ServiceLocator.Current.GetInstance<IIndexingService>();
-            this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
-            this.searchService = ServiceLocator.Current.GetInstance<ISearchService>();
-            this.dialogService = ServiceLocator.Current.GetInstance<IDialogService>();
-            this.collectionService = ServiceLocator.Current.GetInstance<ICollectionService>();
-            this.metadataService = ServiceLocator.Current.GetInstance<IMetadataService>();
-            this.i18nService = ServiceLocator.Current.GetInstance<II18nService>();
-            this.providerService = ServiceLocator.Current.GetInstance<IProviderService>();
-
-            // Repositories
-            this.trackRepository = ServiceLocator.Current.GetInstance<ITrackRepository>();
+            this.trackRepository = container.Resolve<ITrackRepository>();
 
             // Initialize
             this.Initialize();
@@ -289,7 +220,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.selectedTracks != null && this.selectedTracks.Count > 0)
                 {
-                    this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
+                    this.PerformSearchOnline(id, this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle);
                 }
             });
 
@@ -318,8 +249,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
             this.metadataService.LoveChanged += MetadataService_LoveChangedAsync;
 
-            this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
-
             this.i18nService.LanguageChanged += (_, __) =>
             {
                 OnPropertyChanged(() => this.TotalDurationInformation);
@@ -338,9 +267,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Initialize the playlists in the ContextMenu
             this.GetContextMenuPlaylistsAsync();
-
-            // Initialize the search providers in the ContextMenu
-            this.GetSearchProvidersAsync();
         }
 
         private void ShowSelectedTrackInformation()
@@ -403,24 +329,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // If loading from the database failed, create and empty Collection.
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
-        }
-
-        private async void GetSearchProvidersAsync()
-        {
-            this.ContextMenuSearchProviders = null;
-
-            List<SearchProvider> providersList = await this.providerService.GetSearchProvidersAsync();
-            var localProviders = new ObservableCollection<SearchProvider>();
-
-            await Task.Run(() =>
-            {
-                foreach (SearchProvider vp in providersList)
-                {
-                    localProviders.Add(vp);
-                }
-            });
-
-            this.ContextMenuSearchProviders = localProviders;
         }
 
         private bool CheckAllSelectedTracksExist()
