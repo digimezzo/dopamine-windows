@@ -42,7 +42,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool IsEditing
         {
             get { return this.isEditing; }
-            set {
+            set
+            {
                 SetProperty<bool>(ref this.isEditing, value);
                 OnPropertyChanged(() => this.IsNoLyricsTextVisible);
             }
@@ -119,11 +120,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                 var fmdList = new List<FileMetadata>();
                 fmdList.Add(fmd);
                 this.metadataService.UpdateTracksAsync(fmdList, false);
-            });
+            }, () => !string.IsNullOrWhiteSpace(this.lyrics));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
-                    this.PerformSearchOnline(id, this.track.ArtistName, this.track.TrackTitle);
+                this.PerformSearchOnline(id, this.track.ArtistName, this.track.TrackTitle);
             });
         }
 
