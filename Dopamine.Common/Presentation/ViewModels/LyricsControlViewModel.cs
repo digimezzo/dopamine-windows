@@ -121,12 +121,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void StartHighlighting()
         {
             this.highlightTimer.Start();
-            this.canHighlight = false;
+            this.canHighlight = true;
         }
 
         private void StopHighlighting()
         {
-            this.canHighlight = true;
+            this.canHighlight = false;
             this.highlightTimer.Stop();
         }
 
