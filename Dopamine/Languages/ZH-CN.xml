@@ -343,7 +343,6 @@
   <Text Key="Biography">Biography</Text>
   <Text Key="Similar">Similar</Text>
   <Text Key="Not_Available">Not available</Text>
-  <Text Key="Download_Artist_Information_From_Lastfm">Download artist information from Last.fm</Text>
   <Text Key="Download_An_Image">Download an image</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
@@ -366,4 +365,6 @@
   <Text Key="Show_Notification_When_Resuming_Song">Show a notification when resuming a song</Text>
   <Text Key="Add_Lyrics">Add lyrics</Text>
   <Text Key="Save_In_Audio_File">Save in audio file</Text>
+  <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
+  <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Download artist information from Last.fm automatically</Text>
 </Language>

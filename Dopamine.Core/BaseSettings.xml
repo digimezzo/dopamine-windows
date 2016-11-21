@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>66</Value>
+      <Value>67</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -274,6 +274,9 @@
     </Setting>
     <Setting Name="FontSize">
       <Value>18</Value>
+    </Setting>
+    <Setting Name="DownloadLyrics">
+      <Value>True</Value>
     </Setting>
   </Namespace>
 </Settings>

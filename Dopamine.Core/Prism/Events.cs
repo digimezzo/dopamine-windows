@@ -70,4 +70,8 @@ namespace Dopamine.Core.Prism
     public class RemoveSelectedTracks : PubSubEvent<string>
     {
     }
+
+    public class SettingDownloadLyricsChanged : PubSubEvent<bool>
+    {
+    }
 }

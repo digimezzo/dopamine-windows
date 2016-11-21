@@ -343,7 +343,6 @@
   <Text Key="Biography">Biografie</Text>
   <Text Key="Similar">Gelijkaardig</Text>
   <Text Key="Not_Available">Niet beschikbaar</Text>
-  <Text Key="Download_Artist_Information_From_Lastfm">Download artiest informatie van Last.fm</Text>
   <Text Key="Download_An_Image">Download een afbeelding</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Songtekst</Text>
@@ -366,4 +365,6 @@
   <Text Key="Show_Notification_When_Resuming_Song">Toon een popup bij het hervatten van een nummer</Text>
   <Text Key="Add_Lyrics">Songtekst toevoegen</Text>
   <Text Key="Save_In_Audio_File">Opslaan in audio bestand</Text>
+  <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
+  <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Artiest informatie automatisch downloaden van Last.fm</Text>
 </Language>

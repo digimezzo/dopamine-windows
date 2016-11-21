@@ -5,6 +5,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
+using Dopamine.Core.Settings;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -73,6 +74,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
             this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+
+            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.PlayingTrack); });
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -160,17 +163,19 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 bool mustDownloadLyrics = false;
 
-                // If the file has no lyrics, indicate that we need to try to download.
+                // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
                 await Task.Run(() =>
                 {
-                    lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
+                    if(XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics")){
+                        lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
 
-                    if (string.IsNullOrWhiteSpace(lyrics))
-                    {
-                        artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
-                        title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
+                        if (string.IsNullOrWhiteSpace(lyrics))
+                        {
+                            artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
+                            title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
 
-                        if (!string.IsNullOrWhiteSpace(artist) & !string.IsNullOrWhiteSpace(title)) mustDownloadLyrics = true;
+                            if (!string.IsNullOrWhiteSpace(artist) & !string.IsNullOrWhiteSpace(title)) mustDownloadLyrics = true;
+                        }
                     }
                 });
 
