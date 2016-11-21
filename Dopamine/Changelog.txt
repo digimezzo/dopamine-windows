@@ -1,3 +1,9 @@
+2016-11-21: Dopamine 1.2 Build 790 (Preview)
+--------------------------------------------
+
+- [Fixed] Refreshing of covers is more fluid
+
+
 2016-11-21: Dopamine 1.2 Build 788 (Preview)
 --------------------------------------------
 

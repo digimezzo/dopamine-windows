@@ -86,7 +86,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Virtual
         protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
         {
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 this.previousTrack = this.track;
 
@@ -109,13 +109,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     try
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            var proxyImage = new Image();
-                            proxyImage.Stretch = Stretch.Fill;
-                            proxyImage.Source = ImageOperations.ByteToBitmapImage(artWork, 0, 0);
-                            this.CoverArtViewModel = new CoverArtViewModel { CoverArt = proxyImage };
-                        });
+                        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = artWork };
+
                     }
                     catch (Exception ex)
                     {

@@ -21,7 +21,7 @@
                         <Path x:Name="FullLogo" Data="{StaticResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                     </Viewbox>
                 </Border>
-                <ContentControl Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Content="{Binding CoverArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Source="{Binding CoverArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
