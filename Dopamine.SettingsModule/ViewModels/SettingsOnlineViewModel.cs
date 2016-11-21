@@ -3,13 +3,16 @@ using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
+using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -19,11 +22,13 @@ namespace Dopamine.SettingsModule.ViewModels
         private IUnityContainer container;
         private IProviderService providerService;
         private IDialogService dialogService;
+        private IEventAggregator eventAggregator;
         private ObservableCollection<SearchProvider> searchProviders;
         private SearchProvider selectedSearchProvider;
         private IScrobblingService scrobblingService;
         private bool isLastFmSignInInProgress;
         private bool checkBoxDownloadArtistInformationChecked;
+        private bool checkBoxDownloadLyricsChecked;
         #endregion
 
         #region Commands
@@ -67,6 +72,17 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
+        public bool CheckBoxDownloadLyricsChecked
+        {
+            get { return this.checkBoxDownloadLyricsChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Lyrics", "DownloadLyrics", value);
+                SetProperty<bool>(ref this.checkBoxDownloadLyricsChecked, value);
+                this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Publish(value);
+            }
+        }
+
         public bool IsLastFmSignedIn
         {
             get { return this.scrobblingService.SignInState == SignInState.SignedIn; }
@@ -97,12 +113,13 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Construction
-        public SettingsOnlineViewModel(IUnityContainer container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService)
+        public SettingsOnlineViewModel(IUnityContainer container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService, IEventAggregator eventAggregator)
         {
             this.container = container;
             this.providerService = providerService;
             this.dialogService = dialogService;
             this.scrobblingService = scrobblingService;
+            this.eventAggregator = eventAggregator;
 
             this.scrobblingService.SignInStateChanged += (_) =>
             {
@@ -217,6 +234,7 @@ namespace Dopamine.SettingsModule.ViewModels
             await Task.Run(() =>
             {
                 this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.CheckBoxDownloadLyricsChecked = XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics");
             });
         }
         #endregion

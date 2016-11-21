@@ -94,6 +94,8 @@
                                 <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}" Click="EditMenuItem_Click"/>
+                                <Separator/>
+                                <MenuItem Header="{DynamicResource Language_Save_In_Audio_File}" Command="{Binding SaveCommand}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
