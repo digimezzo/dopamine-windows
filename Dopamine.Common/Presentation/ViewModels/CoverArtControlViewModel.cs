@@ -24,8 +24,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ICacheService cacheService;
         private IMetadataService metadataService;
         private SlideDirection slideDirection;
-        private Track previousTrack;
-        private Track track;
+        private byte[] previousArtwork;
+        private byte[] artwork;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
         #endregion
@@ -48,7 +48,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void ClearArtwork()
         {
             this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
-            this.track = null;
+            this.artwork = null;
         }
         #endregion
 
@@ -84,11 +84,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
+        protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentArtwork)
         {
             await Task.Run(async () =>
             {
-                this.previousTrack = this.track;
+                this.previousArtwork = this.artwork;
 
                 // No track selected: clear cover art.
                 if (track == null)
@@ -97,20 +97,22 @@ namespace Dopamine.Common.Presentation.ViewModels
                     return;
                 }
 
-                this.track = track;
+                // Try to find artwork
+                byte[] artwork = await this.metadataService.GetArtworkAsync(track.Path);
 
-                // The track didn't change: leave the previous playback info.
-                if (!allowRefreshingCurrentTrack & this.track.Equals(this.previousTrack)) return;
+                this.artwork = artwork;
 
-                // 1. Try to find File artwork
-                byte[] artWork = await this.metadataService.GetArtworkAsync(track.Path);
+                // The artwork didn't change: leave the previous cover art.
+                if(this.artwork != null & this.previousArtwork != null)
+                {
+                    if (!allowRefreshingCurrentArtwork & this.artwork.LongLength == this.previousArtwork.LongLength) return;
+                }
 
-                if (artWork != null)
+                if (artwork != null)
                 {
                     try
                     {
-                        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = artWork };
-
+                        this.CoverArtViewModel = new CoverArtViewModel { CoverArt = artwork };
                     }
                     catch (Exception ex)
                     {
