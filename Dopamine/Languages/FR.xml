@@ -355,7 +355,7 @@
   <Text Key="Automatic_Scrolling">Défilement automatique</Text>
   <Text Key="Font_Size">Taille de police</Text>
   <Text Key="Cancel_Edit">Annuler modification</Text>
-  <Text Key="Play_Song_And_Insert_Timestamp">Jouez le numéro et appuyez sur Ctrl-T pour insérer un horodatage au début de la ligne courante</Text>
+  <Text Key="Play_Song_And_Insert_Timestamp">Jouez le numéro et appuyez sur Ctrl+T pour insérer un horodatage au début de la ligne courante</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Connectez-vous pour activer Last.fm 'Scrobble' et 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Créér un compte Last.fm</Text>
   <Text Key="Love">Love</Text>

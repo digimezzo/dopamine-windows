@@ -73,10 +73,14 @@ namespace Dopamine.Common.Presentation.Views
 
             try
             {
-                await Application.Current.Dispatcher.Invoke(async () =>
+                // When shutting down, Application.Current is null
+                if (Application.Current != null)
                 {
-                    await ScrollUtils.ScrollToHighlightedLyricsLineAsync(this.lyricsListBox);
-                });
+                    await Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        await ScrollUtils.ScrollToHighlightedLyricsLineAsync(this.lyricsListBox);
+                    });
+                }
             }
             catch (Exception ex)
             {
