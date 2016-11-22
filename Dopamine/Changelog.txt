@@ -3,6 +3,7 @@
 
 - [Fixed] Refreshing of covers is more fluid
 - [Fixed] Lyrics editor causes crash when the lyrics end in an empty line
+- [Fixed] Lyrics timing now has an accuracy of milliseconds instead of seconds
 
 
 2016-11-21: Dopamine 1.2 Build 788 (Preview)
