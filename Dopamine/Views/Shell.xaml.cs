@@ -479,7 +479,13 @@ namespace Dopamine.Views
             {
                 this.WindowState = WindowState.Normal;
 
-                this.SetGeometry(XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"));
+                this.SetGeometry(
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"), 
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"), 
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"), 
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"),
+                    Constants.DefaultShellTop, 
+                    Constants.DefaultShellLeft);
             }
 
             // Set MinWidth and MinHeight AFTER SetGeometry(). This prevents flicker.
@@ -492,7 +498,13 @@ namespace Dopamine.Views
 
         private void SetMiniPlayerDimensions()
         {
-            this.SetGeometry(XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Top"), XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Left"), Convert.ToInt32(this.MinWidth), Convert.ToInt32(this.MinHeight));
+            this.SetGeometry(
+                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Top"),
+                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Left"), 
+                Convert.ToInt32(this.MinWidth), 
+                Convert.ToInt32(this.MinHeight),
+                Constants.DefaultShellTop,
+                Constants.DefaultShellLeft);
 
             this.SetWindowAlwaysOnTop(true);
         }
@@ -826,7 +838,13 @@ namespace Dopamine.Views
             // with the coordinates of the Mini Player when switching to the Mini
             // Player. Returning to the full player doesn't update RestoreBounds,
             // because the full player is still maximized at that point.
-            this.SetGeometry(XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"), XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"));
+            this.SetGeometry(
+                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"),
+                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"),
+                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"),
+                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"),
+                Constants.DefaultShellTop,
+                Constants.DefaultShellLeft);
         }
 
         private void Shell_CloseToolTipChanged(object sender, EventArgs e)
