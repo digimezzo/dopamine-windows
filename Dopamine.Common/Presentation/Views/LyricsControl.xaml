@@ -105,7 +105,7 @@
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Edit}" Command="{Binding EditCommand}" Click="EditMenuItem_Click"/>
                                 <Separator/>
-                                <MenuItem Header="{DynamicResource Language_Save_In_Audio_File}" Command="{Binding SaveCommand}"/>
+                                <MenuItem Header="{DynamicResource Language_Save_In_Audio_File}" Command="{Binding SaveIfNotEmptyCommand}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>

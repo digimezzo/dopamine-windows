@@ -355,7 +355,7 @@
   <Text Key="Automatic_Scrolling">Αυτόματη μετακίνηση</Text>
   <Text Key="Font_Size">Μέγεθος κειμένου</Text>
   <Text Key="Cancel_Edit">Ακύρωση επεξεργασίας</Text>
-  <Text Key="Play_Song_And_Insert_Timestamp">Πιέστε Ctrl-T κατά την αναπαραγωγή τραγουδιού για την εισαγωγή χρονοσήμανσης στην αρχή της τρέχουσας γραμμής</Text>
+  <Text Key="Play_Song_And_Insert_Timestamp">Πιέστε Ctrl+T κατά την αναπαραγωγή τραγουδιού για την εισαγωγή χρονοσήμανσης στην αρχή της τρέχουσας γραμμής</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Είσοδος σε Last.fm για τις ενέργειες 'Καταγραφή' και 'Προτίμηση'</Text>
   <Text Key="Create_A_Lastfm_Account">Δημιουργία λογαριασμού Last.fm</Text>
   <Text Key="Love">Προτίμηση</Text>

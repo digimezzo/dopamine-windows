@@ -31,6 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand CancelEditCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand SaveIfNotEmptyCommand { get; set; }
         #endregion
 
         #region Properties
@@ -109,23 +110,26 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.IsEditing = false;
             });
 
-            this.SaveCommand = new DelegateCommand(() =>
-            {
-                this.IsEditing = false;
-                this.ParseLyrics(this.lyrics);
-
-                // Save to the file
-                var fmd = new FileMetadata(this.track.Path);
-                fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
-                var fmdList = new List<FileMetadata>();
-                fmdList.Add(fmd);
-                this.metadataService.UpdateTracksAsync(fmdList, false);
-            }, () => !string.IsNullOrWhiteSpace(this.lyrics));
+            this.SaveCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile());
+            this.SaveIfNotEmptyCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile(), () => !string.IsNullOrWhiteSpace(this.lyrics));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
                 this.PerformSearchOnline(id, this.track.ArtistName, this.track.TrackTitle);
             });
+        }
+
+        private void SaveLyricsInAudioFile()
+        {
+            this.IsEditing = false;
+            this.ParseLyrics(this.lyrics);
+
+            // Save to the file
+            var fmd = new FileMetadata(this.track.Path);
+            fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
+            var fmdList = new List<FileMetadata>();
+            fmdList.Add(fmd);
+            this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
         public LyricsViewModel(IUnityContainer container) : base(container)
