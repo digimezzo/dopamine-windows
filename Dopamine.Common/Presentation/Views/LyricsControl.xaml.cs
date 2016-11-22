@@ -151,6 +151,8 @@ namespace Dopamine.Common.Presentation.Views
 
                     while (line.Trim().Length == 0)
                     {
+                        // Make sure to get out of the loop if an empty line was found at the end of the lyrics
+                        if (this.lyricsTextBox.CaretIndex == this.lyricsTextBox.Text.Length) break;
                         this.lyricsTextBox.CaretIndex += 1;
                         line = this.lyricsTextBox.GetLineText(this.lyricsTextBox.GetLineIndexFromCharacterIndex(this.lyricsTextBox.CaretIndex));
                     }
