@@ -1,7 +1,8 @@
-2016-11-23: Dopamine 1.2 Build 794 (Preview)
+2016-11-23: Dopamine 1.2 Build 795 (Preview)
 --------------------------------------------
 
 - [Added] A more visible tray icon for systems which are not running Windows 10
+- [Fixed] It is now possible to edit tags from the playlist on Now Playing screen and Mini Player
 
 
 2016-11-22: Dopamine 1.2 Build 793 (Preview)

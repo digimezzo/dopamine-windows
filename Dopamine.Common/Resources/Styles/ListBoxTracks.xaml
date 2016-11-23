@@ -258,6 +258,7 @@
 
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem
             InputGestureText="" 
             Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
@@ -330,6 +331,7 @@
 
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem
             InputGestureText="" 
             Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
@@ -398,9 +400,9 @@
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         </ContextMenu.Resources>
-
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem
             InputGestureText="" 
             Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
@@ -467,6 +469,17 @@
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
+        <MenuItem
+            InputGestureText="" 
+            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Edit}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <Separator/>
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
@@ -491,10 +504,20 @@
     </Style>
 
     <!-- Now playing screen playlist screen -->
-
     <ContextMenu x:Key="NowPlaying_ListBoxTracksContextMenu">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
+        <MenuItem
+            InputGestureText="" 
+            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Edit}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
@@ -524,6 +547,7 @@
     <ContextMenu x:Key="Playlists_ListBoxTracksContextMenu">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem
             InputGestureText="" 
             Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
