@@ -14,13 +14,13 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:CoverArtViewModel}">
-            <Image Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Source="{Binding CoverArt}" RenderOptions.BitmapScalingMode="LowQuality"/>
+            <Image Source="{Binding CoverArt}" RenderOptions.BitmapScalingMode="LowQuality"/>
         </DataTemplate>
     </UserControl.Resources>
 
     <Border x:Name="CoverImage" Opacity="{Binding Opacity}">
         <Border Opacity="0.15">
-            <controls:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0"/>
+            <controls:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0" />
             <!--<Border.Effect>
                 <BlurEffect Radius="20" KernelType="Gaussian"/>
             </Border.Effect>-->
