@@ -103,6 +103,11 @@ namespace Dopamine.Core.Base
         Link = "http://dotnetzip.codeplex.com"
     },
     new ExternalComponent {
+        Name = "GongSolutions.WPF.DragDrop",
+        Description = "An easy to use drag'n'drop framework for WPF.",
+        Link = "https://github.com/punker76/gong-wpf-dragdrop"
+    },
+    new ExternalComponent {
         Name = "NLog",
         Description = "A free logging platform for .NET, Silverlight and Windows Phone with rich log routing and management capabilities.",
         Link = "http://nlog-project.org"

@@ -12,6 +12,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -58,6 +59,9 @@
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
                 <dc:MultiSelectListBox x:Name="ListBoxTracks"
+                         dd:DragDrop.IsDragSource="True" 
+                         dd:DragDrop.IsDropTarget="True" 
+                         dd:DragDrop.DropHandler="{Binding}"
                          VirtualizingStackPanel.IsVirtualizing="True"
                          VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                          VirtualizingStackPanel.VirtualizationMode="Recycling"  

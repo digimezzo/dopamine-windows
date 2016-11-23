@@ -362,6 +362,7 @@
     </Content>
     <Content Include="Libraries\CSCore.dll" />
     <Content Include="Libraries\Digimezzo.WPFControls.dll" />
+    <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
     <Content Include="Libraries\Ionic.Zip.dll" />
     <Content Include="Libraries\NVorbis.dll" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />
@@ -374,6 +375,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Licenses\DotNetZip.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Licenses\GongSolutions.WPF.DragDrop.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Licenses\NLog.txt">

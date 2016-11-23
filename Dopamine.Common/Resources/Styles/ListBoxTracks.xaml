@@ -177,7 +177,33 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <DockPanel>
+                    <DockPanel Margin="0,0,0,-2">
+                        <DockPanel.Triggers>
+                            <EventTrigger RoutedEvent="Grid.DragEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.01" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Grid.DragLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.01" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Grid.Drop">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.01" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </DockPanel.Triggers>
+                        <Border Height="2" DockPanel.Dock="Bottom">
+                            <Border x:Name="DropBorder" Opacity="0" VerticalAlignment="Bottom" Height="1" Background="{DynamicResource RG_BorderBrush}"/>
+                        </Border>
                         <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
                                 Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                             <Border.ToolTip>
@@ -322,7 +348,6 @@
     </Style>
 
     <!-- Albums screen  -->
-
     <ContextMenu x:Key="Albums_ListBoxTracksContextMenu">
         <ContextMenu.Resources>
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
@@ -394,7 +419,6 @@
     </Style>
 
     <!-- Genres screen  -->
-
     <ContextMenu x:Key="Genres_ListBoxTracksContextMenu">
         <ContextMenu.Resources>
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
@@ -543,7 +567,6 @@
     </Style>
 
     <!-- Playlists screen -->
-
     <ContextMenu x:Key="Playlists_ListBoxTracksContextMenu">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>

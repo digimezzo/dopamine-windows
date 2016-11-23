@@ -2,8 +2,15 @@
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
 using Dopamine.FullPlayerModule.Views;
+using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+using System;
+using System.Windows;
+using System.Collections.Generic;
+using System.Collections;
+using Dopamine.Core.Database;
+using Dopamine.Core.Logging;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {

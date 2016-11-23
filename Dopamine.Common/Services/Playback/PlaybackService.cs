@@ -347,6 +347,10 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async Task MoveTracksAsync(List<MergedTrack> sourceTracks, MergedTrack targetTrack)
+        {
+
+        }
         public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
         {
             await Task.Run(() =>
