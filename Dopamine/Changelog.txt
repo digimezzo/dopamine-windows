@@ -1,4 +1,4 @@
-2016-11-23: Dopamine 1.2 Build 795 (Preview)
+2016-11-23: Dopamine 1.2 Build 796 (Preview)
 --------------------------------------------
 
 - [Added] A more visible tray icon for systems which are not running Windows 10
