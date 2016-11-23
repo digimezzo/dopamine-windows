@@ -59,6 +59,9 @@
     <Reference Include="Digimezzo.WPFControls">
       <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop">
+      <HintPath>..\Dopamine\Libraries\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\Dopamine\Libraries\Ionic.Zip.dll</HintPath>
     </Reference>

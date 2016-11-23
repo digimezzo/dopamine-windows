@@ -1,16 +1,20 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
+using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class NowPlayingViewModel : CommonTracksViewModel
+    public class NowPlayingViewModel : CommonTracksViewModel, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;
@@ -126,6 +130,46 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected override void RefreshLanguage()
         {
             // Do Nothing
+        }
+        #endregion
+
+        #region IDropTarget
+        public void DragOver(IDropInfo dropInfo)
+        {
+            try
+            {
+                dropInfo.NotHandled = true;
+            }
+            catch (Exception ex)
+            {
+                dropInfo.NotHandled = false;
+                LogClient.Instance.Logger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+            }
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            try
+            {
+                if (dropInfo.Data == null || dropInfo.TargetItem == null) return;
+
+                IEnumerable dataList = DefaultDropHandler.ExtractData(dropInfo.Data);
+
+                var sourceTracks = new List<MergedTrack>();
+
+                foreach (var data in dataList)
+                {
+                    sourceTracks.Add(((MergedTrackViewModel)data).Track);
+                }
+
+                var targetTrack = dropInfo.TargetItem as MergedTrackViewModel;
+
+                this.playbackService.MoveTracksAsync(sourceTracks, targetTrack.Track);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+            }
         }
         #endregion
     }

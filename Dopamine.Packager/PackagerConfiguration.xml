@@ -20,6 +20,7 @@
         <File>License.txt</File>
         <File>Changelog.txt</File>
         <File>BaseSettings.xml</File>
+        <File>GongSolutions.WPF.DragDrop.dll</File>
         <File>Microsoft.Practices.ServiceLocation.dll</File>
         <File>Microsoft.Practices.Unity.Configuration.dll</File>
         <File>Microsoft.Practices.Unity.dll</File>
