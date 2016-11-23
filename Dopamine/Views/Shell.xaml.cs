@@ -245,7 +245,9 @@ namespace Dopamine.Views
 
             // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
             // without specifying the full path, the application fails to find the Tray icon and crashes here
-            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, "Tray.ico");
+            string iconFile = EnvironmentUtils.IsWindows10() ? "Tray.ico" : "Legacy tray.ico";
+
+            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
             this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
 
             this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(TrayIcon_MouseClick);
@@ -480,11 +482,11 @@ namespace Dopamine.Views
                 this.WindowState = WindowState.Normal;
 
                 this.SetGeometry(
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"), 
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"), 
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"), 
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"),
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"),
+                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"),
                     XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"),
-                    Constants.DefaultShellTop, 
+                    Constants.DefaultShellTop,
                     Constants.DefaultShellLeft);
             }
 
@@ -500,8 +502,8 @@ namespace Dopamine.Views
         {
             this.SetGeometry(
                 XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Top"),
-                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Left"), 
-                Convert.ToInt32(this.MinWidth), 
+                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Left"),
+                Convert.ToInt32(this.MinWidth),
                 Convert.ToInt32(this.MinHeight),
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
