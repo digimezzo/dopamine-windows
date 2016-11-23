@@ -267,6 +267,9 @@
     <Content Include="Icons\Generic.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\Legacy tray.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\M3u.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -355,6 +358,7 @@
     </Content>
     <Content Include="Languages\ZH-TW.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Libraries\CSCore.dll" />
     <Content Include="Libraries\Digimezzo.WPFControls.dll" />
