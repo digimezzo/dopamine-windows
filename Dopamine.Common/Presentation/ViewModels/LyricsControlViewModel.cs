@@ -161,16 +161,17 @@ namespace Dopamine.Common.Presentation.ViewModels
             try
             {
                 string lyrics = string.Empty;
-                string artist = string.Empty;
-                string title = string.Empty;
-
                 bool mustDownloadLyrics = false;
 
-                // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
                 await Task.Run(() =>
                 {
-                    if(XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics")){
-                        lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
+                    lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
+
+                    // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
+                    if (XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics"))
+                    {
+                        string artist = string.Empty;
+                        string title = string.Empty;
 
                         if (string.IsNullOrWhiteSpace(lyrics))
                         {
@@ -192,7 +193,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(() =>
                             {
-                                this.LyricsViewModel = new LyricsViewModel(container,track, metadataService);
+                                this.LyricsViewModel = new LyricsViewModel(container, track, metadataService);
                                 this.LyricsViewModel.SetLyrics(lyrics);
                             });
             }
