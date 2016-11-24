@@ -177,37 +177,31 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <DockPanel>
+                    <DockPanel Margin="0,0,0,-2">
                         <DockPanel.Triggers>
                             <EventTrigger RoutedEvent="Grid.DragEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Height" To="2" Duration="0:0:0.1" />
                                         <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
-                                        <ThicknessAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Margin" To="0,2,0,2" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                             <EventTrigger RoutedEvent="Grid.DragLeave">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.1" />
                                         <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
-                                        <ThicknessAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                             <EventTrigger RoutedEvent="Grid.Drop">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.1" />
                                         <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
-                                        <ThicknessAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </DockPanel.Triggers>
-                        <Border x:Name="DropBorder" DockPanel.Dock="Bottom" Height="0" Opacity="0" Margin="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
+                        <Border x:Name="DropBorder" DockPanel.Dock="Bottom" Height="2" Opacity="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
                         <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
                                 Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                             <Border.ToolTip>
