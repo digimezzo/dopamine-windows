@@ -346,7 +346,7 @@
   <Text Key="Download_An_Image">Download een afbeelding</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Songtekst</Text>
-  <Text Key="No_Lyrics">Geen songtekst</Text>
+  <Text Key="No_Lyrics_Found">Er werd geen songtekst gevonden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
   <Text Key="Refresh_Collection_On_Startup">Collectie verversen bij het opstarten</Text>

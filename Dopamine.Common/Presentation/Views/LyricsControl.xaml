@@ -18,7 +18,7 @@
             <Grid>
                 <StackPanel Panel.ZIndex="1" Visibility="{Binding IsNoLyricsTextVisible,Converter={StaticResource BooleanToCollapsedConverter}}">
                     <TextBlock 
-                    Text="{DynamicResource Language_No_Lyrics}"
+                    Text="{DynamicResource Language_No_Lyrics_Found}"
                     FontSize="{Binding FontSize}"
                     Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_Lyrics}" Command="{Binding EditCommand}"/>

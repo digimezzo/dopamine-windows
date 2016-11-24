@@ -346,7 +346,7 @@
   <Text Key="Download_An_Image">Télécharger une image</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Paroles</Text>
-  <Text Key="No_Lyrics">Pas de paroles</Text>
+  <Text Key="No_Lyrics_Found">Aucune parole n'a été trouvée</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Défiler automatiquement vers le morceau en cours de lecture</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Défilement de la souris modifie le volume de</Text>
   <Text Key="Refresh_Collection_On_Startup">Actualiser la collection au démarrage</Text>
