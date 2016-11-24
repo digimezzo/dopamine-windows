@@ -346,7 +346,7 @@
   <Text Key="Download_An_Image">Download an image</Text>
   <Text Key="Tags">Tags</Text>
   <Text Key="Lyrics">Lyrics</Text>
-  <Text Key="No_Lyrics">No lyrics</Text>
+  <Text Key="No_Lyrics_Found">No lyrics were found</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
   <Text Key="Refresh_Collection_On_Startup">Refresh the collection on startup</Text>

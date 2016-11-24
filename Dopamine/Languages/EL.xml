@@ -346,7 +346,7 @@
   <Text Key="Download_An_Image">Λήψη εικόνας</Text>
   <Text Key="Tags">Ετικέτες</Text>
   <Text Key="Lyrics">Στίχοι</Text>
-  <Text Key="No_Lyrics">Χωρίς στίχους</Text>
+  <Text Key="No_Lyrics_Found">Χωρίς στίχους</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Αυτόματη μετακίνηση στο αναπαραγόμενο τραγούδι</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Η κύλιση ροδέλας ποντικιού αλλάζει τον ήχο κατά</Text>
   <Text Key="Refresh_Collection_On_Startup">Ανανέωση της συλλογής κατά την έναρξη</Text>
