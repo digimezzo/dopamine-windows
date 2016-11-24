@@ -118,7 +118,7 @@ namespace Dopamine.Common.Services.Playback
 
         public List<MergedTrack> Queue
         {
-            get { return this.shuffledTracks; }
+            get { return this.queuedTracks; }
         }
 
         public MergedTrack PlayingTrack
@@ -349,7 +349,35 @@ namespace Dopamine.Common.Services.Playback
         #region IPlaybackService
         public async Task MoveTracksAsync(List<MergedTrack> sourceTracks, MergedTrack targetTrack)
         {
+            if (sourceTracks == null || sourceTracks.Count == 0) return;
+            if (sourceTracks.Count == 1 && sourceTracks[0].Equals(targetTrack)) return;
 
+            try
+            {
+                await Task.Run(() =>
+                {
+                    lock (this.queueSyncObject)
+                    {
+                        foreach (MergedTrack track in sourceTracks)
+                        {
+                            this.queuedTracks.Remove(track);
+                        }
+
+                        this.queuedTracks.InsertRange(this.queuedTracks.IndexOf(targetTrack) + 1, sourceTracks);
+
+                        if (!XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"))
+                        {
+                            this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
+                        }
+
+                        this.QueueChanged(this, new EventArgs());
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not move tracks. Exception: {0}", ex.Message);
+            }
         }
         public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
         {
@@ -362,7 +390,7 @@ namespace Dopamine.Common.Services.Playback
 
                     if (fmd != null)
                     {
-                        if(this.UpdateTrackPlaybackInfo(this.PlayingTrack, fmd)) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+                        if (this.UpdateTrackPlaybackInfo(this.PlayingTrack, fmd)) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
                         if (fmd.ArtworkData.IsValueChanged) this.PlayingTrackArtworkChanged(this, new EventArgs());
                     }
                 }
