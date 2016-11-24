@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Added] A more visible tray icon for systems which are not running Windows 10
+- [Added] Possibility to re-order Now Playing songs by drag and drop
 - [Fixed] It is now possible to edit tags from the playlist on Now Playing screen and Mini Player
 - [Fixed] Scaling of Now Playing screen background is incorrect
 - [Fixed] Embedded lyrics only shown when "Download lyrics automatically" option is enabled
