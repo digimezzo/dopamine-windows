@@ -3,16 +3,11 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -98,7 +93,16 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
 
                 // Try to find artwork
-                byte[] artwork = await this.metadataService.GetArtworkAsync(track.Path);
+                byte[] artwork = null;
+
+                try
+                {
+                    artwork = await this.metadataService.GetArtworkAsync(track.Path);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not get artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                }
 
                 this.artwork = artwork;
 
