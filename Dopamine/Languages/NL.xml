@@ -367,4 +367,5 @@
   <Text Key="Save_In_Audio_File">Opslaan in audio bestand</Text>
   <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Artiest informatie automatisch downloaden van Last.fm</Text>
+  <Text Key="Searching_For_Lyrics_Online">Songteksten aan het zoeken online...</Text>
 </Language>
