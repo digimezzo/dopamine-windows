@@ -25,12 +25,12 @@ namespace Dopamine.Core.Api.Lastfm
         {
             string protocol = isSecure ? "https" : "http";
             string result = string.Empty;
-            string url = Uri.EscapeUriString(string.Format(apiRootFormat, protocol, method));
+            Uri uri = new Uri (string.Format(apiRootFormat, protocol, method));
 
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.ExpectContinue = false;
-                var response = await client.PostAsync(url, new FormUrlEncodedContent(parameters));
+                var response = await client.PostAsync(uri, new FormUrlEncodedContent(parameters));
                 result = await response.Content.ReadAsStringAsync();
             }
 
@@ -53,15 +53,15 @@ namespace Dopamine.Core.Api.Lastfm
             // Add everything to the list
             foreach (KeyValuePair<string, string> parameter in parameters)
             {
-                dataList.Add(string.Format("{0}={1}", parameter.Key, parameter.Value));
+                dataList.Add(string.Format("{0}={1}", parameter.Key, Uri.EscapeDataString(parameter.Value)));
             }
 
-            string url = Uri.EscapeUriString(string.Format(apiRootFormat + "&{2}", protocol, method, string.Join("&", dataList.ToArray())));
+            Uri uri = new Uri(string.Format(apiRootFormat + "&{2}", protocol, method, string.Join("&", dataList.ToArray())));
 
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.ExpectContinue = false;
-                var response = await client.GetAsync(url);
+                var response = await client.GetAsync(uri);
                 result = await response.Content.ReadAsStringAsync();
             }
 

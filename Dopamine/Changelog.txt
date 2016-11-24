@@ -5,6 +5,7 @@
 - [Fixed] It is now possible to edit tags from the playlist on Now Playing screen and Mini Player
 - [Fixed] Scaling of Now Playing screen background is incorrect
 - [Fixed] Embedded lyrics only shown when "Download lyrics automatically" option is enabled
+- [Fixed] Unable to fetch album covers if artist name or album title contain "&"
 
 
 2016-11-22: Dopamine 1.2 Build 793 (Preview)
