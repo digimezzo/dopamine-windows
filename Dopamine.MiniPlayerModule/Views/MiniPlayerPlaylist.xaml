@@ -54,6 +54,8 @@
                          dd:DragDrop.IsDragSource="True" 
                          dd:DragDrop.IsDropTarget="True" 
                          dd:DragDrop.DropHandler="{Binding}"
+                         dd:DragDrop.UseDefaultDragAdorner="True"
+                         dd:DragDrop.DefaultDragAdornerOpacity="0.5"
                          VirtualizingStackPanel.IsVirtualizing="True"
                          VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                          VirtualizingStackPanel.VirtualizationMode="Recycling"  
