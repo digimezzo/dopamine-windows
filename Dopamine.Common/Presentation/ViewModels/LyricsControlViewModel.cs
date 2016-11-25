@@ -199,6 +199,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
+                this.IsDownloadingLyrics = false;
                 LogClient.Instance.Logger.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ClearLyrics();
                 return;
