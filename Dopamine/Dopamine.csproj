@@ -171,6 +171,8 @@
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="app.manifest" />
+    <Resource Include="Dopamine.full.png" />
+    <Resource Include="Dopamine.png" />
     <Content Include="Equalizer\Classical.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
