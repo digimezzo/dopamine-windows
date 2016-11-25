@@ -74,7 +74,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="Rating" MinWidth="70" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).RatingVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <dc:LabelToLower Padding="0" Margin="5,0,0,0" Content="{DynamicResource Language_Rating}"/>
+                        <dc:LabelToLower Padding="0" Margin="10,0,0,0" Content="{DynamicResource Language_Rating}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
