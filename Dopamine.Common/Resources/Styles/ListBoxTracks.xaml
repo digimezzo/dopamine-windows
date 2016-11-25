@@ -177,97 +177,71 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <DockPanel Margin="0,0,0,-2">
-                        <DockPanel.Triggers>
-                            <EventTrigger RoutedEvent="Grid.DragEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="Grid.DragLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="Grid.Drop">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DropBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </DockPanel.Triggers>
-                        <Border x:Name="DropBorder" DockPanel.Dock="Bottom" Height="2" Opacity="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
-                        <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
+                    <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
                                 Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                            <Border.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding ArtistName}"/>
-                                    </StackPanel>
-                                </ToolTip>
-                            </Border.ToolTip>
-                            <DockPanel>
-                                <Border MinWidth="20" Height="38">
-                                    <TextBlock 
+                        <Border.ToolTip>
+                            <ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding ArtistName}"/>
+                                </StackPanel>
+                            </ToolTip>
+                        </Border.ToolTip>
+                        <DockPanel>
+                            <Border MinWidth="20" Height="38">
+                                <TextBlock 
                                         Text="{Binding FormattedTrackNumber}" 
                                         Foreground="{Binding Foreground,ElementName=DummyLabel}" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         FontSize="13"/>
-                                </Border>
-                                <StackPanel VerticalAlignment="Center" Height="38">
-                                    <DockPanel Height="19">
-                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                            <Label Style="{DynamicResource SpectrumAnimation}"
+                            </Border>
+                            <StackPanel VerticalAlignment="Center" Height="38">
+                                <DockPanel Height="19">
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                        <Label Style="{DynamicResource SpectrumAnimation}"
                                                    Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    Foreground="{Binding Foreground,ElementName=DummyLabel}" 
                                                    Margin="0,0,10,0" 
                                                    VerticalAlignment="Center"/>
-                                            <TextBlock
+                                        <TextBlock
                                                 Text="{Binding Duration}" 
                                                 TextAlignment="Right"
                                                 FontSize="13" 
                                                 VerticalAlignment="Center"
                                                 Margin="0,0,2,0"/>
-                                        </StackPanel>
-                                        <TextBlock Text="{Binding TrackTitle}"
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TrackTitle}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
                                                TextTrimming="CharacterEllipsis"
                                                Margin="10,0,10,0"
                                                FontSize="13"/>
-                                    </DockPanel>
-                                    <DockPanel Height="19">
-                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                            <controls:RatingButton 
+                                </DockPanel>
+                                <DockPanel Height="19">
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
+                                        <controls:RatingButton 
                                             VerticalAlignment="Center" 
                                             Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                            <controls:LoveButton 
+                                        <controls:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
                                             Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        </StackPanel>
-                                        <TextBlock Text="{Binding ArtistName}"
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding ArtistName}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
                                                TextTrimming="CharacterEllipsis"
                                                Margin="10,0,10,0"
                                                FontSize="11"
                                                Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
-                                    </DockPanel>
-                                </StackPanel>
-                            </DockPanel>
-                        </Border>
-                    </DockPanel>
+                                </DockPanel>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

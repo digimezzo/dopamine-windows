@@ -18,6 +18,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool allowFillAllLists = true;
+        private bool isDroppingTracks;
         #endregion
 
         #region Commands
@@ -43,7 +44,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // PlaybackService
             this.playbackService.ShuffledTracksChanged += async (_, __) => await this.FillListsAsync();
-            this.playbackService.QueueChanged += async (_, __) => await this.FillListsAsync();
+            this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
         }
         #endregion
 
@@ -136,6 +137,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
+            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+
             try
             {
                 dropInfo.NotHandled = true;
@@ -147,29 +150,29 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public void Drop(IDropInfo dropInfo)
+        public async void Drop(IDropInfo dropInfo)
         {
+            isDroppingTracks = true;
+
+            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+
             try
             {
-                if (dropInfo.Data == null || dropInfo.TargetItem == null) return;
+                var tracks = new List<MergedTrack>();
 
-                IEnumerable dataList = DefaultDropHandler.ExtractData(dropInfo.Data);
-
-                var sourceTracks = new List<MergedTrack>();
-
-                foreach (var data in dataList)
+                foreach (var item in dropInfo.TargetCollection)
                 {
-                    sourceTracks.Add(((MergedTrackViewModel)data).Track);
+                    tracks.Add(((MergedTrackViewModel)item).Track);
                 }
 
-                var targetTrack = dropInfo.TargetItem as MergedTrackViewModel;
-
-                this.playbackService.MoveTracksAsync(sourceTracks, targetTrack.Track);
+                await this.playbackService.UpdateQueueOrderAsync(tracks);
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
+
+            isDroppingTracks = false;
         }
         #endregion
     }

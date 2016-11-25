@@ -66,7 +66,7 @@ namespace Dopamine.Common.Services.Playback
         void ApplyPreset(EqualizerPreset preset);
         void SetIsEqualizerEnabled(bool isEnabled);
         Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
-        Task MoveTracksAsync(List<MergedTrack> sourceTracks, MergedTrack targetTrack);
+        Task UpdateQueueOrderAsync(List<MergedTrack> tracks);
         #endregion
 
         #region Events
