@@ -357,7 +357,6 @@ namespace Dopamine.Common.Services.Playback
                 {
                     lock (this.queueSyncObject)
                     {
-
                         this.queuedTracks = new List<MergedTrack>(tracks);
 
                         if (!XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"))
