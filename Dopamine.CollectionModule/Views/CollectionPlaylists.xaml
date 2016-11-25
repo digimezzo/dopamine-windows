@@ -14,6 +14,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -55,16 +56,16 @@
                             <controls:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="10,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
                         </StackPanel>
                         <dc:MultiSelectListBox x:Name="ListBoxPlaylists"
-                                                                     VirtualizingStackPanel.IsVirtualizing="True"
-                                                                     VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                                                     VirtualizingStackPanel.VirtualizationMode="Recycling"    
-                                                                     Style="{StaticResource Playlists_ListBoxPlaylists}"
-                                                                     ItemsSource="{Binding Playlists,IsAsync=True}"
-                                                                     BorderThickness="0"
-                                                                     KeyUp="ListBoxPlaylists_KeyUp"    
-                                                                     MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
-                                                                     PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
-                                                                     SelectionMode="Extended">
+                                               VirtualizingStackPanel.IsVirtualizing="True"
+                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                               VirtualizingStackPanel.VirtualizationMode="Recycling"    
+                                               Style="{StaticResource Playlists_ListBoxPlaylists}"
+                                               ItemsSource="{Binding Playlists,IsAsync=True}"
+                                               BorderThickness="0"
+                                               KeyUp="ListBoxPlaylists_KeyUp"    
+                                               MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
+                                               PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
+                                               SelectionMode="Extended">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SelectedPlaylistsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxPlaylists}"/>
@@ -97,16 +98,21 @@
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
                         <dc:MultiSelectListBox x:Name="ListBoxTracks"
-                                                                     VirtualizingStackPanel.IsVirtualizing="True"
-                                                                     VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                                                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                                                                     BorderThickness="0"
-                                                                     Style="{StaticResource Playlists_ListBoxTracks}"
-                                                                     ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
-                                                                     KeyUp="ListBoxTracks_KeyUp"
-                                                                     PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                                                                     MouseDoubleClick="ListBoxTracks_MouseDoubleClick" 
-                                                                     SelectionMode="Extended">
+                                               dd:DragDrop.IsDragSource="True" 
+                                               dd:DragDrop.IsDropTarget="True" 
+                                               dd:DragDrop.DropHandler="{Binding}"
+                                               dd:DragDrop.UseDefaultDragAdorner="True"
+                                               dd:DragDrop.DefaultDragAdornerOpacity="0.5"
+                                               VirtualizingStackPanel.IsVirtualizing="True"
+                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                               VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                               BorderThickness="0"
+                                               Style="{StaticResource Playlists_ListBoxTracks}"
+                                               ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                                               KeyUp="ListBoxTracks_KeyUp"
+                                               PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
+                                               MouseDoubleClick="ListBoxTracks_MouseDoubleClick" 
+                                               SelectionMode="Extended">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>

@@ -21,10 +21,11 @@ using WPFFolderBrowser;
 using Dopamine.Core.IO;
 using Dopamine.CollectionModule.Views;
 using Microsoft.Practices.Unity;
+using GongSolutions.Wpf.DragDrop;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionPlaylistsViewModel : CommonTracksViewModel
+    public class CollectionPlaylistsViewModel : CommonTracksViewModel, IDropTarget
     {
         #region Variables
         // Lists
@@ -148,7 +149,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());
             this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Subscribe(async (_) => await this.DeleteSelectedPlaylistsAsync());
 
-            this.TrackOrder = TrackOrder.ByAlbum;
+            this.TrackOrder = TrackOrder.None;
 
             // Subscribe to Events and Commands on creation
             this.Subscribe();
@@ -628,6 +629,49 @@ namespace Dopamine.CollectionModule.ViewModels
         protected override void RefreshLanguage()
         {
             // Do Nothing
+        }
+        #endregion
+
+        #region IDropTarget
+        public void DragOver(IDropInfo dropInfo)
+        {
+            // We don't allow drag and drop when more as 1 playlist is selected
+            if (this.selectedPlaylists != null && this.selectedPlaylists.Count == 1)
+            {
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+
+                try
+                {
+                    dropInfo.NotHandled = true;
+                }
+                catch (Exception ex)
+                {
+                    dropInfo.NotHandled = false;
+                    LogClient.Instance.Logger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                }
+            }
+        }
+
+        public async void Drop(IDropInfo dropInfo)
+        {
+            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+
+            try
+            {
+                var tracks = new List<MergedTrack>();
+
+                foreach (var item in dropInfo.TargetCollection)
+                {
+                    tracks.Add(((MergedTrackViewModel)item).Track);
+                }
+
+                await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylists[0]);
+                await this.playlistRepository.AddTracksToPlaylistAsync(tracks, selectedPlaylists[0].PlaylistName);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+            }
         }
         #endregion
     }

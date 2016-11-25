@@ -256,8 +256,6 @@ namespace Dopamine.Core.Database.Repositories
 
                             if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
 
-                            List<long> trackIDs = conn.Table<PlaylistEntry>().Select((t) => t).Where((t) => playlistIDs.Contains(t.PlaylistID)).ToList().Select((t) => t.TrackID).ToList();
-
                             string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
                                                      " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
                                                      " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
@@ -268,7 +266,9 @@ namespace Dopamine.Core.Database.Repositories
                                                      " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
                                                      " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
                                                      " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " WHERE tra.TrackID IN ({0});", Utils.ToQueryList(trackIDs));
+                                                     " INNER JOIN PlaylistEntry ple ON tra.TrackID=ple.TrackID" +
+                                                     " WHERE ple.PlaylistID IN ({0})" +
+                                                     " ORDER BY ple.EntryID;", Utils.ToQueryList(playlistIDs));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
