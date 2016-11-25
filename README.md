@@ -1,4 +1,4 @@
-![logo](Dopamine.full.png)
+![Dopamine](Dopamine.full.png)
 
 # Dopamine #
 
