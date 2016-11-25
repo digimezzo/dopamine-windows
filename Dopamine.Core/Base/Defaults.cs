@@ -5,15 +5,18 @@
         public static readonly string IconsLibrary = "Dopamine.Icons.dll";
         public static readonly string IndexerSafeGuardGuid = "f6273692-445c-4e90-8e32-63073dc71baf";
         public static readonly string[] ExternalCoverArtPatterns = {
+                                                                        "front.png",
                                                                         "front.jpg",
                                                                         "front.jpeg",
-                                                                        "front.png",
+                                                                        "cover.png",
                                                                         "cover.jpg",
                                                                         "cover.jpeg",
-                                                                        "cover.png",
+                                                                        "folder.png",
                                                                         "folder.jpg",
                                                                         "folder.jpeg",
-                                                                        "folder.png"
+                                                                        "%filename%.png",
+                                                                        "%filename%.jpg",
+                                                                        "%filename%.jpeg"
                                                                    };
 
         public static readonly string ManualPresetName = "Manual";

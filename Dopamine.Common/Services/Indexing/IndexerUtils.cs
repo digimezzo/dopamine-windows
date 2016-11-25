@@ -32,9 +32,11 @@ namespace Dopamine.Common.Services.Indexing
 
             foreach (string externalCoverArtPattern in Defaults.ExternalCoverArtPatterns)
             {
-                if (System.IO.File.Exists(Path.Combine(directory, externalCoverArtPattern)))
+                var filename = (Path.Combine(directory, externalCoverArtPattern.Replace("%filename%", Path.GetFileNameWithoutExtension(path))));
+
+                if (System.IO.File.Exists(filename))
                 {
-                    return Path.Combine(directory, externalCoverArtPattern);
+                    return filename;
                 }
             }
 
