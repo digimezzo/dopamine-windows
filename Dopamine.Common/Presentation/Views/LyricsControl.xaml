@@ -17,13 +17,10 @@
         <DataTemplate DataType="{x:Type commonviewmodels:LyricsViewModel}">
             <Grid>
                 <Border Panel.ZIndex="1" Visibility="{Binding IsNoLyricsTextVisible,Converter={StaticResource BooleanToCollapsedConverter}}">
-                    <Grid>
-                        <StackPanel Visibility="{Binding DataContext.IsDownloadingLyrics,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
-                            <TextBlock Text="{DynamicResource Language_No_Lyrics_Found}" FontSize="18" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                            <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_Lyrics}" Command="{Binding EditCommand}"/>
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource Language_Searching_For_Lyrics_Online}" FontSize="18" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding DataContext.IsDownloadingLyrics,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </Grid>
+                    <StackPanel Visibility="{Binding DataContext.IsDownloadingLyrics,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
+                        <TextBlock Text="{DynamicResource Language_No_Lyrics_Found}" FontSize="18" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_Lyrics}" Command="{Binding EditCommand}"/>
+                    </StackPanel>
                 </Border>
                 <DockPanel Panel.ZIndex="0" Visibility="{Binding IsEditing,Converter={StaticResource BooleanToCollapsedConverter}}">
                     <TextBlock
