@@ -1,4 +1,4 @@
-![Dopamine](http://www.digimezzo.com/content/Images/Dopamine_transparent.png)
+![Dopamine](Dopamine.full.png)
 
 # Dopamine #
 
