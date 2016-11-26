@@ -170,8 +170,19 @@ namespace Dopamine.Core.Settings
         {
             bool returnValue = false;
 
+            // Try to get the previous settings version
+            int previousVersion = 0;
+
+            try
+            {
+                previousVersion = this.Get<int>("Settings", "Version");
+            }
+            catch (Exception)
+            {
+            }
+
             // Check if the existing Settings.xml is out of date
-            if (this.Get<int>("Settings", "Version") < this.BaseGet<int>("Settings", "Version"))
+            if (previousVersion < this.BaseGet<int>("Settings", "Version"))
             {
                 returnValue = true;
             }
