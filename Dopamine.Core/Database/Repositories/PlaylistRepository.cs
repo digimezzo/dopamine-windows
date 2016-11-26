@@ -506,7 +506,7 @@ namespace Dopamine.Core.Database.Repositories
                     {
                         int number = 1;
 
-                        while (conn.Table<Playlist>().Select((p) => p.PlaylistName).ToList().Contains(uniqueName))
+                        while (conn.Table<Playlist>().Select((p) => p).ToList().Select((p) => p.PlaylistName).ToList().Contains(uniqueName))
                         {
                             number += 1;
                             uniqueName = name + " " + number;
