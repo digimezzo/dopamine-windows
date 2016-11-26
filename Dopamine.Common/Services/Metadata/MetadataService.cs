@@ -45,11 +45,6 @@ namespace Dopamine.Common.Services.Metadata
         {
             get { return this.isUpdatingDatabaseMetadata; }
         }
-
-        public bool IsUpdatingFileMetadata
-        {
-            get { return this.isUpdatingFileMetadata; }
-        }
         #endregion
 
         #region Events
@@ -73,11 +68,11 @@ namespace Dopamine.Common.Services.Metadata
 
             this.updateFileMetadataTimer = new Timer();
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout;
-            this.updateFileMetadataTimer.Elapsed += async (_, __) => await this.UpdateFilemetadataAsync();
+            this.updateFileMetadataTimer.Elapsed += async (_, __) => await this.UpdateFileMetadataAsync();
 
-            this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFilemetadataAsync();
-            this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFilemetadataAsync();
-            this.playbackService.PlaybackSuccess += async (_) => await this.UpdateFilemetadataAsync();
+            this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFileMetadataAsync();
+            this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync();
+            this.playbackService.PlaybackSuccess += async (_) => await this.UpdateFileMetadataAsync();
         }
         #endregion
 
@@ -225,7 +220,94 @@ namespace Dopamine.Common.Services.Metadata
             this.MetadataChanged(args);
         }
 
-        public async Task UpdateFilemetadataAsync()
+        public async Task<byte[]> GetArtworkAsync(string path)
+        {
+            byte[] artwork = null;
+
+            await Task.Run(() =>
+            {
+                lock (this.cachedArtworkLock)
+                {
+                    // First, check if artwork for this path has been asked recently.
+                    if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == path.ToSafePath())
+                    {
+                        if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no cached artwork was found, try to load embedded artwork.
+                        FileMetadata fmd = this.GetFileMetadata(path);
+                        if (fmd.ArtworkData.Value != null)
+                        {
+                            artwork = fmd.ArtworkData.Value;
+                            this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                        }
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no embedded artwork was found, try to find external artwork.
+                        artwork = IndexerUtils.GetExternalArtwork(path);
+                        if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                    }
+
+                    if (artwork == null)
+                    {
+                        // If no embedded artwork was found, try to find album artwork.
+                        Track track = this.trackRepository.GetTrack(path);
+                        Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+
+                        if (album != null)
+                        {
+                            string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
+                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageOperations.Image2ByteArray(artworkPath);
+                            if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                        }
+                    }
+                }
+            });
+
+            return artwork;
+        }
+
+        public async Task SafeUpdateFileMetadataAsync()
+        {
+            if (this.isUpdatingFileMetadata)
+            {
+                while (this.isUpdatingFileMetadata)
+                {
+                    await Task.Delay(50);
+                }
+            }
+
+            // In case the previous loop didn't save all metadata to files, force it again.
+            await this.UpdateFileMetadataAsync();
+        }
+
+        #endregion
+
+        #region Private
+        private async Task QueueUpdateFileMetadata(List<FileMetadata> fileMetadatas)
+        {
+            this.updateFileMetadataTimer.Stop();
+
+            await Task.Run(() =>
+            {
+                lock (this.lockObject)
+                {
+                    foreach (FileMetadata fmd in fileMetadatas)
+                    {
+                        this.queuedFileMetadatas.Enqueue(fmd);
+                    }
+                }
+            });
+
+            this.updateFileMetadataTimer.Interval = this.updateFileMetadataShortTimeout; // The next time, almost don't wait.
+            this.updateFileMetadataTimer.Start();
+        }
+
+        private async Task UpdateFileMetadataAsync()
         {
             bool restartTimer = false;
             this.updateFileMetadataTimer.Stop();
@@ -280,78 +362,6 @@ namespace Dopamine.Common.Services.Metadata
             this.isUpdatingFileMetadata = false;
 
             if (restartTimer) this.updateFileMetadataTimer.Start();
-        }
-
-        public async Task<byte[]> GetArtworkAsync(string path)
-        {
-            byte[] artwork = null;
-
-            await Task.Run(() =>
-            {
-                lock (this.cachedArtworkLock)
-                {
-                    // First, check if artwork for this path has been asked recently.
-                    if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == path.ToSafePath())
-                    {
-                        if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
-                    }
-
-                    if (artwork == null)
-                    {
-                        // If no cached artwork was found, try to load embedded artwork.
-                        FileMetadata fmd = this.GetFileMetadata(path);
-                        if (fmd.ArtworkData.Value != null)
-                        {
-                            artwork = fmd.ArtworkData.Value;
-                            this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
-                        }
-                    }
-
-                    if (artwork == null)
-                    {
-                        // If no embedded artwork was found, try to find external artwork.
-                        artwork = IndexerUtils.GetExternalArtwork(path);
-                        if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
-                    }
-
-                    if (artwork == null)
-                    {
-                        // If no embedded artwork was found, try to find album artwork.
-                        Track track = this.trackRepository.GetTrack(path);
-                        Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
-
-                        if (album != null)
-                        {
-                            string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
-                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageOperations.Image2ByteArray(artworkPath);
-                            if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
-                        }
-                    }
-                }
-            });
-
-            return artwork;
-        }
-        #endregion
-
-        #region Private
-        private async Task QueueUpdateFileMetadata(List<FileMetadata> fileMetadatas)
-        {
-            this.updateFileMetadataTimer.Stop();
-
-            await Task.Run(() =>
-            {
-                lock (this.lockObject)
-                {
-                    foreach (FileMetadata fmd in fileMetadatas)
-                    {
-                        this.queuedFileMetadatas.Enqueue(fmd);
-                    }
-                }
-            });
-
-            this.updateFileMetadataTimer.Interval = this.updateFileMetadataShortTimeout; // The next time, almost don't wait.
-            this.updateFileMetadataTimer.Start();
         }
 
         private async Task UpdateDatabaseMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
