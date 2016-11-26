@@ -1,3 +1,9 @@
+2016-11-26: Dopamine 1.2 Build 805 (Preview)
+--------------------------------------------
+
+- [Fixed] Opening a playlist causes a crash
+
+
 2016-11-25: Dopamine 1.2 Build 804 (Preview)
 --------------------------------------------
 
