@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Fixed] Opening a playlist causes a crash
+- [Fixed] Multiple metadata editing issues
 
 
 2016-11-25: Dopamine 1.2 Build 804 (Preview)

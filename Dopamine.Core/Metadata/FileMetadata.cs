@@ -83,7 +83,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.title == null) this.title = new MetadataValue(this.file.Tag.Title);
+                if (this.title == null) this.title = new MetadataValue(this.file.Tag.Title == null ? string.Empty : this.file.Tag.Title);
                 return this.title;
             }
             set
@@ -97,7 +97,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.album == null) this.album = new MetadataValue(this.file.Tag.Album);
+                if (this.album == null) this.album = new MetadataValue(this.file.Tag.Album == null ? string.Empty : this.file.Tag.Album);
                 return this.album;
             }
             set
@@ -111,7 +111,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.albumArtists == null) this.albumArtists = new MetadataValue(this.file.Tag.AlbumArtists);
+                if (this.albumArtists == null) this.albumArtists = this.file.Tag.AlbumArtists == null ? new MetadataValue(string.Empty) : new MetadataValue(this.file.Tag.AlbumArtists);
                 return this.albumArtists;
             }
             set
@@ -125,7 +125,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.artists == null) this.artists = new MetadataValue(this.file.Tag.Performers);
+                if (this.artists == null) this.artists = this.file.Tag.Performers == null ? new MetadataValue(string.Empty) : new MetadataValue(this.file.Tag.Performers);
                 return this.artists;
             }
             set
@@ -139,8 +139,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.genres == null)
-                    this.genres = new MetadataValue(this.file.Tag.Genres);
+                if (this.genres == null) this.genres = this.file.Tag.Genres == null ? new MetadataValue(string.Empty) : new MetadataValue(this.file.Tag.Genres);
                 return this.genres;
             }
             set
@@ -154,7 +153,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.comment == null) this.comment = new MetadataValue(this.file.Tag.Comment);
+                if (this.comment == null) this.comment = new MetadataValue(this.file.Tag.Comment == null ? string.Empty : this.file.Tag.Comment);
                 return this.comment;
             }
             set
@@ -168,7 +167,7 @@ namespace Dopamine.Core.Metadata
         {
             get
             {
-                if (this.grouping == null) this.grouping = new MetadataValue(this.file.Tag.Grouping);
+                if (this.grouping == null) this.grouping = new MetadataValue(this.file.Tag.Grouping == null ? string.Empty : this.file.Tag.Grouping);
                 return this.grouping;
             }
             set
