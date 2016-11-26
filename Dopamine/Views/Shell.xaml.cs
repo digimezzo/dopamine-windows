@@ -694,19 +694,9 @@ namespace Dopamine.Views
             // ------------
             this.playbackService.Stop();
 
-            // Update file metadata if still queued
-            // ------------------------------------
-            if (this.metadataService.IsUpdatingFileMetadata)
-            {
-                while (this.metadataService.IsUpdatingFileMetadata)
-                {
-                    await Task.Delay(50);
-                }
-            }
-            else
-            {
-                await this.metadataService.UpdateFilemetadataAsync();
-            }
+            // Update file metadata
+            // --------------------
+            await this.metadataService.SafeUpdateFileMetadataAsync();
 
             // Save queued tracks
             // ------------------

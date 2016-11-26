@@ -515,8 +515,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata)
-                return;
+            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
             await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
         }
