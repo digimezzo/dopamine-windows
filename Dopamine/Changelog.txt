@@ -1,3 +1,9 @@
+2016-11-27: Dopamine 1.2 Build 807 (Preview)
+--------------------------------------------
+
+- [Fixed] Lyrics lines starting with text in square bracket are incorrectly interpreted as timestamped lyrics
+
+
 2016-11-27: Dopamine 1.2 Build 806 (Preview)
 --------------------------------------------
 

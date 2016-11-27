@@ -171,6 +171,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                             if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                             {
                                 this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
+                            }else
+                            {
+                                // The string between square brackets could not be parsed to a timestamp.
+                                // In such case, just add the complete lyrics line.
+                                this.lyricsLines.Add(new LyricsLineViewModel(line));
                             }
                         }
                     }
