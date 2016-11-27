@@ -7,7 +7,6 @@ namespace Dopamine.Common.Services.I18n
         #region Variables
         private string code;
         private string name;
-        private string author;
         private Dictionary<string, string> texts;
         #endregion
 
@@ -22,12 +21,6 @@ namespace Dopamine.Common.Services.I18n
         {
             get { return this.name; }
             set { this.name = value; }
-        }
-
-        public string Author
-        {
-            get { return this.author; }
-            set { this.author = value; }
         }
 
         public Dictionary<string, string> Texts

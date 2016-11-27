@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Language Code="ZH-CN" Name="Chinese (Simplified)" Author="刘文进/gjhwssg(update)/PeoLeser(update)">
+<Language Code="ZH-CN" Name="Chinese (Simplified)">
   <Text Key="ISO639-1">ZH</Text>
   <Text Key="Ok">确认</Text>
   <Text Key="Cancel">取消</Text>
@@ -367,4 +367,6 @@
   <Text Key="Save_In_Audio_File">保存至文件</Text>
   <Text Key="Download_Lyrics_Automatically">自动获取歌词</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">从 Last.fm 自动获取艺术家信息</Text>
+  <Text Key="Username">Username</Text>
+  <Text Key="Password">Password</Text>
 </Language>

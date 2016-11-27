@@ -54,9 +54,9 @@
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Username"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Language_Username}"/>
                         <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource MetroTextBox}" Text="{Binding LastFmUsername}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Password"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Language_Password}"/>
                         <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2" Style="{StaticResource MetroPasswordBox}" PasswordChanged="PasswordBox_PasswordChanged"/>
                     </Grid>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Right">

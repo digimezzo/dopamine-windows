@@ -110,7 +110,6 @@ namespace Dopamine.Common.Services.I18n
             {
                 returnLanguage.Code = languageInfo.Attribute("Code").Value;
                 returnLanguage.Name = languageInfo.Attribute("Name").Value;
-                returnLanguage.Author = languageInfo.Attribute("Author").Value;
 
                 var textElements = (from t in xdoc.Element("Language").Elements("Text")
                                     select t).ToList();
