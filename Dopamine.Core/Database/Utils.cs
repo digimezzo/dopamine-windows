@@ -123,7 +123,7 @@ namespace Dopamine.Core.Database
                         orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(GetSortableString(t.TrackTitle)) ? GetSortableString(t.TrackTitle) : GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByAlbum:
-                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => GetSortableString(t.AlbumArtist)).ThenBy((t) => GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                     case TrackOrder.ByFileName:
                         orderedTracks = tracks.OrderBy((t) => GetSortableString(t.FileName)).ToList();
