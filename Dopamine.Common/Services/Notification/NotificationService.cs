@@ -47,9 +47,20 @@ namespace Dopamine.Common.Services.Notification
             this.cacheService = cacheService;
             this.metadataService = metadataService;
 
-            this.playbackService.PlaybackSuccess += async (_) => await this.ShowNotificationIfAllowedAsync();
-            this.playbackService.PlaybackPaused += async (_, __) => await this.ShowNotificationIfAllowedAsync();
-            this.playbackService.PlaybackResumed += async (_, __) => await this.ShowNotificationIfAllowedAsync();
+            this.playbackService.PlaybackSuccess += async (_) =>
+            {
+                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")) await this.ShowNotificationIfAllowedAsync();
+            };
+
+            this.playbackService.PlaybackPaused += async (_, __) =>
+            {
+                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")) await this.ShowNotificationIfAllowedAsync();
+            };
+
+            this.playbackService.PlaybackResumed += async (_, __) =>
+            {
+                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming")) await this.ShowNotificationIfAllowedAsync();
+            };
         }
         #endregion
 
@@ -77,13 +88,6 @@ namespace Dopamine.Common.Services.Notification
             if (this.notification != null)
             {
                 this.notification.DoubleClicked -= ShowMainWindow;
-            }
-
-            if (!XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")
-                & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")
-                & !XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming"))
-            {
-                return;
             }
 
             try
