@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="NL" Name="Dutch" Author="Raphaël Godart">
+<Language Code="NL" Name="Dutch">
   <Text Key="ISO639-1">NL</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Annuleren</Text>
@@ -367,4 +367,6 @@
   <Text Key="Save_In_Audio_File">Opslaan in audio bestand</Text>
   <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Artiest informatie automatisch downloaden van Last.fm</Text>
+  <Text Key="Username">Gebruikersnaam</Text>
+  <Text Key="Password">Paswoord</Text>
 </Language>

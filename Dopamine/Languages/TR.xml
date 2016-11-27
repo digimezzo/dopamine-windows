@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="TR" Name="Turkish" Author="Ertuğrul Seyhan">
+<Language Code="TR" Name="Turkish">
   <Text Key="ISO639-1">TR</Text>
   <Text Key="Ok">Tamam</Text>
   <Text Key="Cancel">İptal</Text>
@@ -367,4 +367,6 @@
   <Text Key="Save_In_Audio_File">Save in audio file</Text>
   <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Download artist information from Last.fm automatically</Text>
+  <Text Key="Username">Username</Text>
+  <Text Key="Password">Password</Text>
 </Language>

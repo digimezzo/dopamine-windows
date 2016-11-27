@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="HU" Name="Hungarian" Author="Durzegon">
+<Language Code="HU" Name="Hungarian">
   <Text Key="ISO639-1">HU</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Visszavon</Text>
@@ -367,4 +367,6 @@
   <Text Key="Save_In_Audio_File">Save in audio file</Text>
   <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Download artist information from Last.fm automatically</Text>
+  <Text Key="Username">Username</Text>
+  <Text Key="Password">Password</Text>
 </Language>

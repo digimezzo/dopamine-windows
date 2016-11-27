@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="FR" Name="French" Author="Anthony Jonas">
+<Language Code="FR" Name="French">
   <Text Key="ISO639-1">FR</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Annuler</Text>
@@ -367,4 +367,6 @@
   <Text Key="Save_In_Audio_File">Sauvegarder dans fichier audio</Text>
   <Text Key="Download_Lyrics_Automatically">Download lyrics automatically</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Télécharger automatiquement de Last.fm des informations sur l'artiste</Text>
+  <Text Key="Username">Utilisateur</Text>
+  <Text Key="Password">Mot de passe</Text>
 </Language>
