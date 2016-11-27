@@ -91,14 +91,14 @@ namespace Dopamine.Core.Api.LyricWikia
         /// <returns></returns>
         public static async Task<string> GetLyricsAsync(string artist, string title)
         {
-            string url = Uri.EscapeUriString(await BuildUrlAsync(artist, title));
+            Uri uri = new Uri(await BuildUrlAsync(artist, title));
 
             string result = string.Empty;
 
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.ExpectContinue = false;
-                var response = await client.GetAsync(url);
+                var response = await client.GetAsync(uri);
                 result = await response.Content.ReadAsStringAsync();
             }
 
