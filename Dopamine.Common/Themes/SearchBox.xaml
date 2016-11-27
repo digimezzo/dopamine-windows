@@ -4,11 +4,21 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenu.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:SearchBox}" TargetType="{x:Type controls:SearchBox}">
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}"/>
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu Style="{DynamicResource ContextMenuStyle}">
+                    <MenuItem Header="Cut" Command="Cut"/>
+                    <MenuItem Header="Copy" Command="Copy"/>
+                    <MenuItem Header="Paste" Command="Paste"/>
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:SearchBox}">
