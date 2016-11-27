@@ -62,8 +62,15 @@ namespace Dopamine.Core.Metadata
 
         public MetadataValue(string value)
         {
-            this.value = value;
+            this.value = value != null ? value : string.Empty;
             this.values = this.ConvertToValues(value);
+            this.OnPropertiesChanged();
+        }
+
+        public MetadataValue(uint value)
+        {
+            this.value = value == 0 ? string.Empty : value.ToString();
+            this.values = null;
             this.OnPropertiesChanged();
         }
 
@@ -93,7 +100,7 @@ namespace Dopamine.Core.Metadata
         private string ConvertToValue(string[] values)
         {
             if (values != null && values.Count() > 0) return string.Join(";", values);
-            return null;
+            return string.Empty;
         }
         #endregion
     }
