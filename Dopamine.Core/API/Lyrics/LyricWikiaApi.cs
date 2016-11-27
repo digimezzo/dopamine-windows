@@ -1,18 +1,23 @@
-﻿using Dopamine.Core.Utils;
+﻿using Dopamine.Core.Api.Lyrics;
+using Dopamine.Core.Utils;
 using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dopamine.Core.Api.LyricWikia
+namespace Dopamine.Core.Api.Lyrics
 {
     /// <summary>
+    /// LyricWikia doesn't have a proper API anymore.
     /// Idea borrowed from here: http://inversekarma.in/technology/net/fetching-lyrics-from-lyricwiki-in-/c
     /// </summary>
-    public static class LyricWikiaApi
+    public class LyricWikiaApi : ILyricsApi
     {
+        #region Variables
         private const string apiRootFormat = "http://lyrics.wikia.com/wiki/{0}:{1}?action=edit";
+        #endregion
 
+        #region Private
         /// <summary>
         /// The url must have the format: http://lyrics.wikia.com/wiki/Massive_Attack:Teardrop?action=edit
         /// Capitalization of the first letter of all words is important. It doesn't find lyrics without it.
@@ -20,7 +25,7 @@ namespace Dopamine.Core.Api.LyricWikia
         /// <param name="artist"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        private static async Task<string> BuildUrlAsync(string artist, string title)
+        private async Task<string> BuildUrlAsync(string artist, string title)
         {
             string url = string.Empty;
 
@@ -38,7 +43,7 @@ namespace Dopamine.Core.Api.LyricWikia
             return url;
         }
 
-        private static async Task<string> ParseLyricsFromHtmlAsync(string html)
+        private async Task<string> ParseLyricsFromHtmlAsync(string html)
         {
             string lyrics = string.Empty;
 
@@ -63,7 +68,7 @@ namespace Dopamine.Core.Api.LyricWikia
                 lyrics = await GetLyricsAsync(artist, title);
             }
             // No lyrics found
-            else if(html.Contains("!-- PUT LYRICS HERE (and delete this entire line) -->"))
+            else if (html.Contains("!-- PUT LYRICS HERE (and delete this entire line) -->"))
             {
                 lyrics = string.Empty;
             }
@@ -76,20 +81,22 @@ namespace Dopamine.Core.Api.LyricWikia
                     end = html.IndexOf("&lt;/lyrics>") - 1;
 
                     // Replace webpage newline with carriage return + newline (standard on Windows)
-                    lyrics = html.Substring(start, end - start).Replace("\n", Environment.NewLine);
+                    if (start > 0 && end > 0) lyrics = html.Substring(start, end - start).Replace("\n", Environment.NewLine);
                 });
             }
 
             return lyrics;
         }
+        #endregion
 
+        #region ILyricsApi
         /// <summary>
         /// Searches for lyrics for the given artist and title
         /// </summary>
         /// <param name="artist"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static async Task<string> GetLyricsAsync(string artist, string title)
+        public async Task<string> GetLyricsAsync(string artist, string title)
         {
             Uri uri = new Uri(await BuildUrlAsync(artist, title));
 
@@ -106,5 +113,6 @@ namespace Dopamine.Core.Api.LyricWikia
 
             return lyrics;
         }
+        #endregion
     }
 }

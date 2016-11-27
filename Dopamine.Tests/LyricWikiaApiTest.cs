@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Api.LyricWikia;
+﻿using Dopamine.Core.Api.Lyrics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -10,7 +10,8 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task GetNormalLyricsTest()
         {
-            string lyrics = await LyricWikiaApi.GetLyricsAsync("Massive Attack", "Teardrop");
+            var api = new LyricWikiaApi();
+            string lyrics = await api.GetLyricsAsync("Massive Attack", "Teardrop");
 
             Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
         }
@@ -18,7 +19,8 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task GetMalformedLyricsTest()
         {
-            string lyrics = await LyricWikiaApi.GetLyricsAsync("masSivE AtTack", "tEarDrop");
+            var api = new LyricWikiaApi();
+            string lyrics = await api.GetLyricsAsync("masSivE AtTack", "tEarDrop");
 
             Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
         }
@@ -26,7 +28,8 @@ namespace Dopamine.Tests
         [TestMethod()]
         public async Task GetRedirectedLyricsTest()
         {
-            string lyrics = await LyricWikiaApi.GetLyricsAsync("30 Seconds To Mars", "Echelon");
+            var api = new LyricWikiaApi();
+            string lyrics = await api.GetLyricsAsync("30 Seconds To Mars", "Echelon");
 
             Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
         }

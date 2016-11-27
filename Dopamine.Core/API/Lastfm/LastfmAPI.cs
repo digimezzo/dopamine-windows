@@ -134,7 +134,7 @@ namespace Dopamine.Core.Api.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If Status is ok, get the session key
-                if (lfmStatus != null && lfmStatus == "ok")
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok")
                 {
                     sessionKey = (from t in resultXml.Element("lfm").Element("session").Elements("key")
                                   select t.Value).FirstOrDefault();
@@ -183,7 +183,7 @@ namespace Dopamine.Core.Api.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If Status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok") isSuccess = true;
             }
 
             return isSuccess;
@@ -227,7 +227,7 @@ namespace Dopamine.Core.Api.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If the status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok") isSuccess = true;
             }
 
             return isSuccess;
@@ -384,6 +384,7 @@ namespace Dopamine.Core.Api.Lastfm
                                       where t.Attribute("size").Value == "mega"
                                       select t.Value).FirstOrDefault();
             }
+
             return lfmAlbum;
         }
 
@@ -423,7 +424,7 @@ namespace Dopamine.Core.Api.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If Status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok") isSuccess = true;
             }
 
             return isSuccess;
@@ -465,7 +466,7 @@ namespace Dopamine.Core.Api.Lastfm
                                     select t.Attribute("status").Value).FirstOrDefault();
 
                 // If Status is ok, return true.
-                if (lfmStatus != null && lfmStatus == "ok") isSuccess = true;
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok") isSuccess = true;
             }
 
             return isSuccess;

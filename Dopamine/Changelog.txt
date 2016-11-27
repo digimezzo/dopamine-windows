@@ -1,4 +1,4 @@
-2016-11-26: Dopamine 1.2 Build 805 (Preview)
+2016-11-27: Dopamine 1.2 Build 806 (Preview)
 --------------------------------------------
 
 - [Fixed] Opening a playlist causes a crash
@@ -6,6 +6,7 @@
 - [Fixed] Fixed "Username" and "Password" are not translatable
 - [Fixed] Songs ordered randomly when adding to playlists
 - [Fixed] Notification options unreliable
+- [Fixed] Improved online lyrics search. It will now provide results for more songs.
 
 
 2016-11-25: Dopamine 1.2 Build 804 (Preview)

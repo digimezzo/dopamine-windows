@@ -142,7 +142,10 @@
     <Compile Include="Api\Lastfm\LastfmApi.cs" />
     <Compile Include="Api\Lastfm\Artist.cs" />
     <Compile Include="Api\Lastfm\Biography.cs" />
-    <Compile Include="Api\LyricWikia\LyricWikiaApi.cs" />
+    <Compile Include="Api\Lyrics\ILyricsApi.cs" />
+    <Compile Include="Api\Lyrics\LololyricsApi.cs" />
+    <Compile Include="Api\Lyrics\LyricsFactory.cs" />
+    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />

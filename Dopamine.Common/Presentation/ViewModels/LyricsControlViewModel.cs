@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Api.LyricWikia;
+using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
@@ -187,7 +187,17 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (mustDownloadLyrics)
                 {
                     this.IsDownloadingLyrics = true;
-                    lyrics = await LyricWikiaApi.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
+
+                    try
+                    {
+                        var factory = new LyricsFactory();
+                        lyrics = await factory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
+                    }
+                    
                     this.IsDownloadingLyrics = false;
                 }
 
