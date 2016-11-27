@@ -53,7 +53,8 @@ namespace Dopamine.Common.Services.Collection
         #region ICollectionService
         public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            AddToPlaylistResult result = await this.playlistRepository.AddArtistsToPlaylistAsync(artists, playlistName);
+            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
             {
@@ -65,7 +66,8 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
         {
-            AddToPlaylistResult result = await this.playlistRepository.AddGenresToPlaylistAsync(genres, playlistName);
+            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
             {
@@ -89,7 +91,8 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
-            AddToPlaylistResult result = await this.playlistRepository.AddAlbumsToPlaylistAsync(albums, playlistName);
+            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
             {

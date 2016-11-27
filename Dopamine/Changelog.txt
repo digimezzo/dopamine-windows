@@ -4,6 +4,7 @@
 - [Fixed] Opening a playlist causes a crash
 - [Fixed] Multiple metadata editing issues
 - [Fixed] Fixed "Username" and "Password" are not translatable
+- [Fixed] Songs ordered randomly when adding to playlists
 
 
 2016-11-25: Dopamine 1.2 Build 804 (Preview)
