@@ -53,6 +53,7 @@
         <File>Unity.Wcf.dll</File>
         <File>WPFFolderBrowser.dll</File>
         <File>WPFSoundVisualizationLib.dll</File>
+        <File>Test.m4a</File>
       </Files>
     </Portable>
   </Packaging>

@@ -438,6 +438,10 @@
           <Component Id="WPFSoundVisualizationLib.dll" DiskId="1" Guid="ba9f9fdb-9e17-4b3e-a009-4e7835a94eeb">
             <File Id="WPFSoundVisualizationLib.dll" Name="WPFSoundVisualizationLib.dll" Source="WPFSoundVisualizationLib.dll" />
           </Component>
+          <!-- Test files -->
+          <Component Id="Test.m4a" DiskId="1" Guid="b6bb7d5d-7e0d-48df-a1e5-8772eca82132">
+            <File Id="Test.m4a" Name="Test.m4a" Source="Test.m4a" />
+          </Component>
         </Directory>
       </Directory>
     </Directory>
@@ -556,6 +560,8 @@
       <ComponentRef Id="Unity.Wcf.dll" />
       <ComponentRef Id="WPFFolderBrowser.dll" />
       <ComponentRef Id="WPFSoundVisualizationLib.dll" />
+      <!-- Test files -->
+      <ComponentRef Id="Test.m4a" />
       <!-- Start Menu -->
       <!--<ComponentRef Id="StartMenuShortcuts" />-->
       
