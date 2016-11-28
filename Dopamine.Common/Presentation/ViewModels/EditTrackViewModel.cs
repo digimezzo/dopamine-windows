@@ -486,7 +486,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     foreach (MergedTrack t in this.tracks)
                     {
-                        var fmd = new FileMetadata(t.Path);
+                        var fmd = this.metadataService.GetFileMetadata(t.Path);
 
                         if (this.artists.IsValueChanged) fmd.Artists = this.artists;
                         if (this.title.IsValueChanged) fmd.Title = this.title;
