@@ -21,7 +21,7 @@
                         <Path x:Name="FullLogo" Data="{StaticResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                     </Viewbox>
                 </Border>
-                <Image Source="{Binding CoverArt}" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="{Binding CoverArt, Converter={StaticResource NullImageConverter}}" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

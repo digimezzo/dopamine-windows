@@ -64,22 +64,22 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.refreshTimer.Start();
             };
 
-            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, true);
+            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, false);
+            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack, false);
+            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
         }
         #endregion
 
         #region Virtual
-        protected async virtual void RefreshCoverArtAsync(MergedTrack track, bool allowRefreshingCurrentArtwork)
+        protected async virtual void RefreshCoverArtAsync(MergedTrack track)
         {
             await Task.Run(async () =>
             {
@@ -106,10 +106,14 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 this.artwork = artwork;
 
-                // The artwork didn't change: leave the previous cover art.
-                if(this.artwork != null & this.previousArtwork != null)
+                // Verify if the artwork changed
+                if ((this.artwork != null & this.previousArtwork != null) && (this.artwork.LongLength == this.previousArtwork.LongLength))
                 {
-                    if (!allowRefreshingCurrentArtwork & this.artwork.LongLength == this.previousArtwork.LongLength) return;
+                    return;
+                }
+                else if (this.artwork == null & this.previousArtwork == null & this.CoverArtViewModel != null)
+                {
+                    return;
                 }
 
                 if (artwork != null)
