@@ -32,7 +32,7 @@
     </Style>
 
     <!-- Outer menu -->
-    <Style TargetType="{x:Type ContextMenu}">
+    <Style x:Key="ContextMenuStyle" TargetType="{x:Type ContextMenu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
@@ -55,6 +55,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource ContextMenuStyle}"/>
+
 
     <!-- SubmenuItem -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
