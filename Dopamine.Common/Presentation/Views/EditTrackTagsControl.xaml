@@ -36,8 +36,9 @@
                             Panel.ZIndex="1" 
                             ToolTip="{Binding ArtworkSize}"
                             Source="{Binding ArtworkThumbnail,IsAsync=True}" 
-                            Width="{x:Static corebase:Constants.CoverLargeSize}" 
-                            Height="{x:Static corebase:Constants.CoverLargeSize}" 
+                            Stretch="Uniform"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             RenderOptions.BitmapScalingMode="HighQuality" 
                             Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 <TextBlock Panel.ZIndex="2" Text="{DynamicResource Language_Multiple_Images}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding HasMultipleArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
