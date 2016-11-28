@@ -13,9 +13,9 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu Style="{DynamicResource ContextMenuStyle}">
-                    <MenuItem Header="Cut" Command="Cut"/>
-                    <MenuItem Header="Copy" Command="Copy"/>
-                    <MenuItem Header="Paste" Command="Paste"/>
+                    <MenuItem Command="ApplicationCommands.Cut"/>
+                    <MenuItem Command="ApplicationCommands.Copy"/>
+                    <MenuItem Command="ApplicationCommands.Paste"/>
                 </ContextMenu>
             </Setter.Value>
         </Setter>
