@@ -183,6 +183,7 @@ namespace Dopamine.Views
                 await Task.Run(() => {
                     var factory = new PlayerFactory();
                     var player = factory.Create("Test.m4a");
+                    player.SetVolume(0);
                     player.Play("Test.m4a");
                 });
 
