@@ -135,11 +135,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void VisualizeArtwork(byte[] imageData)
         {
+            this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
+
             // Size of the artwork
             if (imageData != null)
             {
-                this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
-
                 // Use PixelWidth and PixelHeight instead of Width and Height:
                 // Width and Height take DPI into account. We don't want that here.
                 this.ArtworkSize = this.ArtworkThumbnail.PixelWidth + "x" + this.ArtworkThumbnail.PixelHeight;
@@ -149,14 +149,14 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ArtworkSize = string.Empty;
             }
 
-            // Artwork data
-            this.Artwork.Value = imageData;
-
             OnPropertyChanged(() => this.HasArtwork);
         }
 
         private void UpdateArtwork(byte[] imageData)
         {
+            // Artwork data
+            this.Artwork.Value = imageData;
+
             // Set the artwork
             this.VisualizeArtwork(imageData);
         }
