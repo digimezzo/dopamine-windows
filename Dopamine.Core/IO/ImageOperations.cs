@@ -206,7 +206,7 @@ namespace Dopamine.Core.IO
             return null;
         }
 
-        public static BitmapImage ByteToBitmapImage(byte[] byteData, int imageWidth, int imageHeight)
+        public static BitmapImage ByteToBitmapImage(byte[] byteData, int imageWidth, int imageHeight, int maxLength)
         {
             if (byteData != null && byteData.Length > 0)
             {
@@ -219,8 +219,11 @@ namespace Dopamine.Core.IO
 
                     if (imageWidth > 0 && imageHeight > 0)
                     {
-                        bi.DecodePixelWidth = imageWidth;
-                        bi.DecodePixelHeight = imageHeight;
+                        var size = new Size(imageWidth, imageHeight);
+                        if (maxLength > 0) size = GetScaledSize(new Size(imageWidth, imageHeight), maxLength);
+
+                        bi.DecodePixelWidth = size.Width;
+                        bi.DecodePixelHeight = size.Height;
                     }
 
                     bi.CacheOption = BitmapCacheOption.OnLoad;
@@ -233,6 +236,24 @@ namespace Dopamine.Core.IO
             }
 
             return null;
+        }
+
+        public static Size GetScaledSize(Size originalSize, int maxLength)
+        {
+            var scaledSize = new Size();
+
+            if (originalSize.Height > originalSize.Width)
+            {
+                scaledSize.Height = maxLength;
+                scaledSize.Width = Convert.ToInt32(((double)originalSize.Width / maxLength) * 100);
+            }
+            else
+            {
+                scaledSize.Width = maxLength;
+                scaledSize.Height = Convert.ToInt32(((double)originalSize.Height / maxLength) * 100);
+            }
+
+            return scaledSize;
         }
     }
 }

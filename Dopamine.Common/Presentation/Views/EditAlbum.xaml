@@ -67,13 +67,14 @@
                         </controls:Tile.Content>
                     </controls:Tile>
                     <Image 
-                    Panel.ZIndex="1"
-                    ToolTip="{Binding ArtworkSize}"
-                    Source="{Binding ArtworkThumbnail,IsAsync=True}" 
-                    Width="{x:Static corebase:Constants.CoverLargeSize}" 
-                    Height="{x:Static corebase:Constants.CoverLargeSize}" 
-                    RenderOptions.BitmapScalingMode="HighQuality" 
-                    Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                        Panel.ZIndex="1"
+                        ToolTip="{Binding ArtworkSize}"
+                        Source="{Binding ArtworkThumbnail,IsAsync=True}" 
+                        Stretch="Uniform"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderOptions.BitmapScalingMode="HighQuality" 
+                        Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 </Grid>
                 <StackPanel Margin="2">
                     <StackPanel.ToolTip>

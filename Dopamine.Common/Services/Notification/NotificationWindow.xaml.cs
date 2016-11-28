@@ -69,7 +69,7 @@ namespace Dopamine.Common.Services.Notification
                 try
                 {
                     // Width and Height are 300px. They need to be big enough, otherwise the picture is blurry
-                    this.CoverPicture.Source = ImageOperations.ByteToBitmapImage(artworkData, 300, 300);
+                    this.CoverPicture.Source = ImageOperations.ByteToBitmapImage(artworkData, 300, 300,0);
                     this.CloseBorder.Opacity = 1.0;
                 }
                 catch (Exception)
