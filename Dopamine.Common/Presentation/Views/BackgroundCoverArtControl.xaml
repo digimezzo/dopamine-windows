@@ -14,7 +14,7 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type commonviewmodels:CoverArtViewModel}">
-            <Image Source="{Binding CoverArt}" RenderOptions.BitmapScalingMode="LowQuality" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image Source="{Binding CoverArt, Converter={StaticResource NullImageConverter}}" RenderOptions.BitmapScalingMode="LowQuality" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </DataTemplate>
     </UserControl.Resources>
 

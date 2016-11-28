@@ -6,6 +6,7 @@
              DispatcherUnhandledException="App_DispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>
+            <converters:NullImageConverter x:Key="NullImageConverter"/>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter"/>
             <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter"/>

@@ -189,6 +189,12 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork)
         {
+            // Make sure that cached artwork cannot be out of date
+            lock (this.cachedArtworkLock)
+            {
+                this.cachedArtwork = null;
+            }
+
             // Set event args
             var args = new MetadataChangedEventArgs() { IsArtworkChanged = true };
 
@@ -203,12 +209,6 @@ namespace Dopamine.Common.Services.Metadata
 
             if (updateFileArtwork)
             {
-                // Make sure that cached artwork cannot be out of date
-                lock (this.cachedArtworkLock)
-                {
-                    this.cachedArtwork = null;
-                }
-
                 // Queue update of the file metadata
                 await this.QueueUpdateFileMetadata(fileMetadatas);
             }

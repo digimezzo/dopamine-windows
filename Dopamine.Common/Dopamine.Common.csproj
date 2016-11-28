@@ -166,6 +166,7 @@
     <Compile Include="Presentation\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LoveConverter.cs" />
+    <Compile Include="Presentation\Converters\NullImageConverter.cs" />
     <Compile Include="Presentation\Converters\PathToImageConverter.cs" />
     <Compile Include="Presentation\Converters\PercentSizeConverter.cs" />
     <Compile Include="Presentation\Converters\RatingConverter.cs" />
