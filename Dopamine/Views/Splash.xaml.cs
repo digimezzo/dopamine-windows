@@ -1,4 +1,7 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Audio;
+using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Settings;
 using System;
@@ -80,9 +83,13 @@ namespace Dopamine.Views
 
             if (continueInitializing)
             {
+                // Initialize the database
+                continueInitializing = await this.TestAudioCapabilitiesAsync();
+            }
+
+            if (continueInitializing)
+            {
                 // If initializing was successful, start the application.
-
-
                 if (this.ShowProgressRing)
                 {
                     this.ShowProgressRing = false;
@@ -130,7 +137,6 @@ namespace Dopamine.Views
 
         private async Task<bool> InitializeDatabaseAsync()
         {
-
             bool isInitializeDatabaseSuccess = false;
 
             try
@@ -166,6 +172,35 @@ namespace Dopamine.Views
             }
 
             return isInitializeDatabaseSuccess;
+        }
+
+        private async Task<bool> TestAudioCapabilitiesAsync()
+        {
+            bool isTestAudioCapabilitiesSuccess = false;
+
+            try
+            {
+                await Task.Run(() => {
+                    var factory = new PlayerFactory();
+                    var player = factory.Create("Test.m4a");
+                    player.Play("Test.m4a");
+                });
+
+                isTestAudioCapabilitiesSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("There was a problem testing the audio capabilities. Exception: {0}", ex.Message);
+                this.errorMessage =
+                    "Your computer does not have sufficient audio capabilities to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
+                    "This issue can occur if you have a N version of Windows. The N versions of Windows include the same functionality as other versions of " +
+                    "Windows except for media-related technologies (Example: Windows Media Player and Windows Media Foundation are not preinstalled on N versions). " +
+                    "Windows Media Foundation is required to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
+                    "If you are using a N version of Windows, please install the Media Feature Pack for N versions of Windows to fix this issue.";
+                isTestAudioCapabilitiesSuccess = false;
+            }
+
+            return isTestAudioCapabilitiesSuccess;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
