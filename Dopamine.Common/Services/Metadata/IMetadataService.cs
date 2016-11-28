@@ -13,6 +13,7 @@ namespace Dopamine.Common.Services.Metadata
         Task UpdateTrackLoveAsync(string path, bool love);
         Task UpdateTracksAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork);
         Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork);
+        FileMetadata GetFileMetadata(string path);
         Task<FileMetadata> GetFileMetadataAsync(string path);
         Task<byte[]> GetArtworkAsync(string path);
         Task SafeUpdateFileMetadataAsync();

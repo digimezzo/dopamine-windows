@@ -31,7 +31,7 @@ namespace Dopamine.Common.Services.Metadata
         private bool isUpdatingFileMetadata;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
-        private Queue<FileMetadata> queuedFileMetadatas;
+        private Dictionary<string, FileMetadata> fileMetadataDictionary;
         private object lockObject = new object();
         private Timer updateFileMetadataTimer;
         private int updateFileMetadataShortTimeout = 250; // 250 milliseconds
@@ -64,7 +64,7 @@ namespace Dopamine.Common.Services.Metadata
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
 
-            this.queuedFileMetadatas = new Queue<FileMetadata>();
+            this.fileMetadataDictionary = new Dictionary<string, FileMetadata>();
 
             this.updateFileMetadataTimer = new Timer();
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout;
@@ -77,7 +77,7 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region IMetadataService
-        private FileMetadata GetFileMetadata(string path)
+        public FileMetadata GetFileMetadata(string path)
         {
             bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
             this.updateFileMetadataTimer.Stop();
@@ -87,12 +87,9 @@ namespace Dopamine.Common.Services.Metadata
             // Check if there is a queued FileMetadata for this path, if yes, use that as it has more up to date information.
             lock (lockObject)
             {
-                foreach (FileMetadata fmd in this.queuedFileMetadatas)
+                if (this.fileMetadataDictionary.ContainsKey(path.ToSafePath()))
                 {
-                    if (fmd.SafePath == path.ToSafePath())
-                    {
-                        returnFileMetadata = fmd;
-                    }
+                    returnFileMetadata = this.fileMetadataDictionary[path.ToSafePath()];
                 }
             }
 
@@ -129,7 +126,7 @@ namespace Dopamine.Common.Services.Metadata
                 // Only for MP3's
                 if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3))
                 {
-                    var fmd = new FileMetadata(path);
+                    var fmd = await this.GetFileMetadataAsync(path);
                     fmd.Rating = new MetadataRatingValue() { Value = rating };
                     await this.QueueUpdateFileMetadata(new FileMetadata[] { fmd }.ToList());
                 }
@@ -155,7 +152,7 @@ namespace Dopamine.Common.Services.Metadata
         public async Task UpdateTracksAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             // Make sure that cached artwork cannot be out of date
-            lock(this.cachedArtworkLock)
+            lock (this.cachedArtworkLock)
             {
                 this.cachedArtwork = null;
             }
@@ -205,7 +202,15 @@ namespace Dopamine.Common.Services.Metadata
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
             List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
-            List<FileMetadata> fileMetadatas = (from t in albumTracks select new FileMetadata(t.Path) { ArtworkData = artwork }).ToList();
+
+            var fileMetadatas = new List<FileMetadata>();
+           
+            foreach (MergedTrack track in albumTracks)
+            {
+                var fmd = await this.GetFileMetadataAsync(track.Path);
+                fmd.ArtworkData = artwork;
+                fileMetadatas.Add(fmd);
+            }
 
             if (updateFileArtwork)
             {
@@ -298,7 +303,13 @@ namespace Dopamine.Common.Services.Metadata
                 {
                     foreach (FileMetadata fmd in fileMetadatas)
                     {
-                        this.queuedFileMetadatas.Enqueue(fmd);
+                        if (this.fileMetadataDictionary.ContainsKey(fmd.SafePath))
+                        {
+                            this.fileMetadataDictionary[fmd.SafePath] = fmd;
+                        }else
+                        {
+                            this.fileMetadataDictionary.Add(fmd.SafePath,fmd);
+                        }
                     }
                 }
             });
@@ -320,34 +331,28 @@ namespace Dopamine.Common.Services.Metadata
             {
                 lock (lockObject)
                 {
-                    var failedFileMetadatas = new Queue<FileMetadata>();
+                    int numberToProcess = this.fileMetadataDictionary.Count;
+                    if (numberToProcess == 0) return;
 
-                    while (this.queuedFileMetadatas.Count > 0)
+                    while (numberToProcess > 0)
                     {
-                        FileMetadata fmd = this.queuedFileMetadatas.Dequeue();
+                        FileMetadata fmd = this.fileMetadataDictionary.First().Value;
+                        numberToProcess--;
 
                         try
                         {
                             fmd.Save();
                             filesToSync.Add(fmd);
+                            this.fileMetadataDictionary.Remove(fmd.SafePath);
                         }
                         catch (Exception ex)
                         {
                             LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
-                            failedFileMetadatas.Enqueue(fmd);
                         }
                     }
 
-                    // Make sure failed FileMetadata's are processed the next time the timer elapses
-                    if (failedFileMetadatas.Count > 0)
-                    {
-                        restartTimer = true; // If there are still queued FileMetadata's, start the timer.
-
-                        foreach (FileMetadata fmd in failedFileMetadatas)
-                        {
-                            this.queuedFileMetadatas.Enqueue(fmd);
-                        }
-                    }
+                    // If there are still queued FileMetadata's, start the timer.
+                    if (this.fileMetadataDictionary.Count > 0) restartTimer = true;
                 }
             });
 
