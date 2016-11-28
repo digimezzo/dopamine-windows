@@ -34,7 +34,7 @@ namespace Dopamine.Common.Services.Metadata
         private Dictionary<string, FileMetadata> fileMetadataDictionary;
         private object lockObject = new object();
         private Timer updateFileMetadataTimer;
-        private int updateFileMetadataShortTimeout = 250; // 250 milliseconds
+        private int updateFileMetadataShortTimeout = 50; // 50 milliseconds
         private int updateFileMetadataLongTimeout = 15000; // 15 seconds
         private Tuple<string, byte[]> cachedArtwork;
         private object cachedArtworkLock = new object();
