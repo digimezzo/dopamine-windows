@@ -100,7 +100,6 @@
         public static readonly double TrayControlsHeight = 255;
 
         // ListBoxAlbums
-        public static readonly int ListBoxAlbumsWidthCorrection = -10;
-        public static readonly double AlbumTileAlbumInfoHeight = 45;
+        public static readonly double AlbumTileAlbumInfoHeight = 40;
     }
 }
