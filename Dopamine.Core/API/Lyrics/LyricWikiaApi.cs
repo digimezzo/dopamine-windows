@@ -43,7 +43,7 @@ namespace Dopamine.Core.Api.Lyrics
             return url;
         }
 
-        private async Task<string> ParseLyricsFromHtmlAsync(string html)
+        private async Task<string> ParseLyricsFromHtmlAsync(string html, string originalArtist, string originalTitle)
         {
             string lyrics = string.Empty;
 
@@ -65,7 +65,9 @@ namespace Dopamine.Core.Api.Lyrics
                     title = html.Substring(start, end - start).Split(':')[1];
                 });
 
-                lyrics = await GetLyricsAsync(artist, title);
+                // We don't want to perform a redirect if we're proposed the 
+                // same artist and title That would cause an infinite loop here.
+                if (artist != originalArtist || title != originalTitle) lyrics = await GetLyricsAsync(artist, title);
             }
             // No lyrics found
             else if (html.Contains("!-- PUT LYRICS HERE (and delete this entire line) -->"))
@@ -109,7 +111,7 @@ namespace Dopamine.Core.Api.Lyrics
                 result = await response.Content.ReadAsStringAsync();
             }
 
-            string lyrics = await ParseLyricsFromHtmlAsync(result);
+            string lyrics = await ParseLyricsFromHtmlAsync(result, artist, title);
 
             return lyrics;
         }
