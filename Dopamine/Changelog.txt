@@ -1,6 +1,7 @@
-2016-11-28: Dopamine 1.2 Build 808 (Preview)
+2016-11-29: Dopamine 1.2 Build 809 (Preview)
 --------------------------------------------
 
+- [Changed] Changed the album selection box, as it wasn't visible enough.
 - [Fixed] Lyrics lines starting with text in square bracket are incorrectly interpreted as timestamped lyrics
 - [Fixed] A lot of bugs in processing of metadata changes
 - [Fixed] Non-square covers are not streched anymore

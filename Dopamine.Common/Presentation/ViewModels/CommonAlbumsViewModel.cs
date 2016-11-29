@@ -38,6 +38,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private AlbumOrder albumOrder;
         private string albumOrderText;
         private double coverSize;
+        private double albumWidth;
         private double albumHeight;
         private CoverSizeType selectedCoverSize;
 
@@ -65,6 +66,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.coverSize; }
             set { SetProperty<double>(ref this.coverSize, value); }
+        }
+
+        public double AlbumWidth
+        {
+            get { return this.albumWidth; }
+            set { SetProperty<double>(ref this.albumWidth, value); }
         }
 
         public double AlbumHeight
@@ -267,9 +274,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                         break;
                 }
 
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight;
+                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 4; // 4 = margin of 2px at top and bottom
+                this.AlbumWidth = this.CoverSize + 4; // 4 = margin of 2px at left and right
 
                 OnPropertyChanged(() => this.CoverSize);
+                OnPropertyChanged(() => this.AlbumWidth);
                 OnPropertyChanged(() => this.AlbumHeight);
                 OnPropertyChanged(() => this.UpscaledCoverSize);
                 OnPropertyChanged(() => this.IsSmallCoverSizeSelected);

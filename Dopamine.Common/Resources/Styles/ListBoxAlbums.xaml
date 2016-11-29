@@ -32,12 +32,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Border x:Name="ProxyBorder" Visibility="Hidden"/>
+                        <Border x:Name="ProxyBorder" Height="0" Visibility="Hidden" Background="{DynamicResource RG_ForegroundBrush}"/>
+                        <Border x:Name="ProxyBorderLight" Height="0" Visibility="Hidden" Background="{DynamicResource RG_InactiveWhiteBrush}"/>
                         <ContentPresenter/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="ProxyBorder" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ProxyBorder" Property="Background" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="ProxyBorderLight" Property="Background" Value="{DynamicResource RG_WhiteBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -54,57 +57,53 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <dc:VirtualizingWrapPanel 
+                    <!--<dc:VirtualizingWrapPanel 
                         ChildWidth="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource AddValueConverter},ConverterParameter=4}" 
-                        ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource AddValueConverter},ConverterParameter=4}" ScrollOffset="50"/>
+                        ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource AddValueConverter},ConverterParameter=4}" ScrollOffset="50"/>-->
+                    <dc:VirtualizingWrapPanel 
+                        ChildWidth="{Binding Path=DataContext.AlbumWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                        ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                        ScrollOffset="50"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <StackPanel 
-                        Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                        Height="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                        <Grid Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                            <!-- Selection -->
-                            <Border x:Name="SelectionBorder" 
-                                Margin="0" 
-                                Background="Transparent" 
-                                BorderThickness="3" 
-                                Panel.ZIndex="1"
-                                BorderBrush="{DynamicResource RG_AccentBrush}"
-                                Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
-                            <!-- Margin="2.9" for resolutions higher as 100%. Margin="3" causes 
-                            a gap of 1 pixel between the right of the triangle and the border -->
-                            <Polygon x:Name="Triangle" 
+                    <Grid>
+                        <!-- Selection border -->
+                        <Border 
+                            Panel.ZIndex="0" 
+                            Background="{DynamicResource RG_AccentBrush}"
+                            Width="{Binding Path=DataContext.AlbumWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                            Height="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                            Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
+                        <StackPanel>
+                            <Grid Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2,2,2,0">
+                                <!--<Polygon x:Name="Triangle" 
                                      Fill="{DynamicResource RG_AccentBrush}" 
                                      Panel.ZIndex="2"
                                      Stroke="Transparent"
                                      Visibility="{Binding Visibility,ElementName=ProxyBorder}"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Top"
-                                     Margin="2">
-                                <Polygon.Points>
-                                    <Point X="-28" Y="0"/>
-                                    <Point X="0" Y="0"/>
-                                    <Point X="0" Y="28"/>
-                                </Polygon.Points>
-                            </Polygon>
-                            <TextBlock x:Name="AlbumSelector"
+                                     Margin="0,-1,-1,0">
+                                    <Polygon.Points>
+                                        <Point X="-30" Y="0"/>
+                                        <Point X="0" Y="0"/>
+                                        <Point X="0" Y="30"/>
+                                    </Polygon.Points>
+                                </Polygon>
+                                <TextBlock x:Name="AlbumSelector"
                                    Text="&#xE8FB;"
                                    Style="{StaticResource SegoeAssets}"
                                    Panel.ZIndex="3"
-                                   Margin="3"
+                                   Margin="1"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
                                    Foreground="{DynamicResource RG_WhiteBrush}" 
                                    Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                   FontSize="13"/>
-                            <!-- Cover Art -->
-                            <Grid Panel.ZIndex="0">
+                                   FontSize="13"/>-->
                                 <controls:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                              Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                              Panel.ZIndex="0"
@@ -117,6 +116,8 @@
                                     </controls:Tile.Content>
                                 </controls:Tile>
                                 <Image Panel.ZIndex="1" 
+                                   Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                   Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                    RenderOptions.BitmapScalingMode="LowQuality">
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource PathToImageConverter}">
@@ -126,30 +127,29 @@
                                     </Image.Source>
                                 </Image>
                             </Grid>
-                        </Grid>
-                        <!-- Album Info -->
-                        <StackPanel Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
-                            <StackPanel Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                <TextBlock Margin="0,2,0,0" Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                                <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
-                            </StackPanel>
-                            <StackPanel Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                <TextBlock Margin="0,2,0,0" Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                                <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
-                            </StackPanel>
-                            <StackPanel.ToolTip>
-                                <ToolTip>
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding AlbumArtist}" FontWeight="Bold"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding AlbumTitle}"/>
-                                            <TextBlock Margin="5,0,0,0" Text="{Binding ToolTipYear}"/>
+                            <StackPanel Panel.ZIndex="1" Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
+                                <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                    <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorder}"/>
+                                    <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorderLight}"/>
+                                </StackPanel>
+                                <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                    <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorder}"/>
+                                    <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorderLight}"/>
+                                </StackPanel>
+                                <StackPanel.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding AlbumArtist}" FontWeight="Bold"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding AlbumTitle}"/>
+                                                <TextBlock Margin="5,0,0,0" Text="{Binding ToolTipYear}"/>
+                                            </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                </ToolTip>
-                            </StackPanel.ToolTip>
+                                    </ToolTip>
+                                </StackPanel.ToolTip>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
