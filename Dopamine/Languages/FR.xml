@@ -369,4 +369,5 @@
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Télécharger automatiquement de Last.fm des informations sur l'artiste</Text>
   <Text Key="Username">Utilisateur</Text>
   <Text Key="Password">Mot de passe</Text>
+  <Text Key="Shuffle_All_Songs">Lecture aléatoire de tous les numéros</Text>
 </Language>

@@ -369,4 +369,5 @@
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Artiest informatie automatisch downloaden van Last.fm</Text>
   <Text Key="Username">Gebruikersnaam</Text>
   <Text Key="Password">Paswoord</Text>
+  <Text Key="Shuffle_All_Songs">Alle nummers gemixt afspelen</Text>
 </Language>
