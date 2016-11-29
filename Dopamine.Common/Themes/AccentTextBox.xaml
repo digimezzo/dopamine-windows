@@ -5,7 +5,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenu.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
@@ -16,7 +15,7 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
         <Setter Property="ContextMenu">
             <Setter.Value>
-                <ContextMenu Style="{DynamicResource ContextMenuStyle}">
+                <ContextMenu>
                     <MenuItem Command="ApplicationCommands.Cut"/>
                     <MenuItem Command="ApplicationCommands.Copy"/>
                     <MenuItem Command="ApplicationCommands.Paste"/>
