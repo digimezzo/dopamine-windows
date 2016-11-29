@@ -8,6 +8,7 @@
     
     <!-- Separator -->
     <Style TargetType="{x:Type Separator}" x:Key="{x:Static MenuItem.SeparatorStyleKey}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="5,0,5,0"/>
         <Setter Property="Template">
@@ -21,6 +22,7 @@
 
     <!--Outer menu items-->
     <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}"/>
         <Style.Triggers>
@@ -32,8 +34,9 @@
     </Style>
 
     <!-- Outer menu -->
-    <Style x:Key="ContextMenuStyle" TargetType="{x:Type ContextMenu}">
+    <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
             <Setter.Value>
@@ -55,8 +58,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource ContextMenuStyle}"/>
-
 
     <!-- SubmenuItem -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">

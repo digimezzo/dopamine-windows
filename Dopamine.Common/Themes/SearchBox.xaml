@@ -4,7 +4,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenu.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:SearchBox}" TargetType="{x:Type controls:SearchBox}">
@@ -12,7 +11,7 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}"/>
         <Setter Property="ContextMenu">
             <Setter.Value>
-                <ContextMenu Style="{DynamicResource ContextMenuStyle}">
+                <ContextMenu>
                     <MenuItem Command="ApplicationCommands.Cut"/>
                     <MenuItem Command="ApplicationCommands.Copy"/>
                     <MenuItem Command="ApplicationCommands.Paste"/>
