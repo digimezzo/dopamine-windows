@@ -67,6 +67,42 @@
                         Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                         Height="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                         <Grid Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                            <!-- Selection -->
+                            <Border x:Name="SelectionBorder" 
+                                Margin="0" 
+                                Background="Transparent" 
+                                BorderThickness="3" 
+                                Panel.ZIndex="1"
+                                BorderBrush="{DynamicResource RG_AccentBrush}"
+                                Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
+                            <!-- Margin="2.9" for resolutions higher as 100%. Margin="3" causes 
+                            a gap of 1 pixel between the right of the triangle and the border -->
+                            <Polygon x:Name="Triangle" 
+                                     Fill="{DynamicResource RG_AccentBrush}" 
+                                     Panel.ZIndex="2"
+                                     Stroke="Transparent"
+                                     Visibility="{Binding Visibility,ElementName=ProxyBorder}"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Margin="2">
+                                <Polygon.Points>
+                                    <Point X="-28" Y="0"/>
+                                    <Point X="0" Y="0"/>
+                                    <Point X="0" Y="28"/>
+                                </Polygon.Points>
+                            </Polygon>
+                            <TextBlock x:Name="AlbumSelector"
+                                   Text="&#xE8FB;"
+                                   Style="{StaticResource SegoeAssets}"
+                                   Panel.ZIndex="3"
+                                   Margin="3"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Foreground="{DynamicResource RG_WhiteBrush}" 
+                                   Visibility="{Binding Visibility,ElementName=ProxyBorder}"
+                                   FontSize="13"/>
                             <!-- Cover Art -->
                             <Grid Panel.ZIndex="0">
                                 <controls:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
@@ -89,27 +125,6 @@
                                         </MultiBinding>
                                     </Image.Source>
                                 </Image>
-                            </Grid>
-                            <!-- Selection -->
-                            <Grid Panel.ZIndex="1">
-                                <!-- Selection Background -->
-                                <Border x:Name="SelectionBorder" 
-                                Margin="0" 
-                                Background="{DynamicResource RG_AccentBrush}" 
-                                Panel.ZIndex="0"
-                                BorderThickness="0" 
-                                Opacity="0.6"
-                                Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
-                                <!-- Selection Icon -->
-                                <TextBlock x:Name="AlbumSelector"
-                                   Text="&#xE8FB;"
-                                   Style="{StaticResource SegoeAssets}"
-                                   Panel.ZIndex="1"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource RG_WhiteBrush}" 
-                                   Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                   FontSize="25"/>
                             </Grid>
                         </Grid>
                         <!-- Album Info -->
