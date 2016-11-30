@@ -1,4 +1,4 @@
-2016-11-30: Dopamine 1.2 Build 811 (Preview)
+2016-11-30: Dopamine 1.2 Build 812 (Preview)
 --------------------------------------------
 
 - [Changed] Changed the album selection box, as it wasn't visible enough.
