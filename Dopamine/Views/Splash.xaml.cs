@@ -189,14 +189,13 @@ namespace Dopamine.Views
                 });
 
                 isTestAudioCapabilitiesSuccess = true;
-                throw new Exception();
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("There was a problem testing the audio capabilities. Exception: {0}", ex.Message);
                 this.errorMessage =
                     "Your computer does not have sufficient audio capabilities to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
-                    "This issue usually occurs on N versions of Windows. The N versions of Windows include the same functionality as other versions of " +
+                    "This issue mostly occurs on N versions of Windows. The N versions of Windows include the same functionality as other versions of " +
                     "Windows except for media-related technologies (Example: Windows Media Player and Windows Media Foundation are not preinstalled on N versions of Windows). " +
                     "Windows Media Foundation is required to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
                     "If you are using a N version of Windows, please install the Media Feature Pack for N versions of Windows to fix this issue." + Environment.NewLine + Environment.NewLine +
