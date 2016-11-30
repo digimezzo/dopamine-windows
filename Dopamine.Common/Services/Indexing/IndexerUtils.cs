@@ -1,11 +1,9 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
 using System.IO;
