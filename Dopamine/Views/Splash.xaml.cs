@@ -180,7 +180,8 @@ namespace Dopamine.Views
 
             try
             {
-                await Task.Run(() => {
+                await Task.Run(() =>
+                {
                     var factory = new PlayerFactory();
                     var player = factory.Create("Test.m4a");
                     player.SetVolume(0);
@@ -188,16 +189,20 @@ namespace Dopamine.Views
                 });
 
                 isTestAudioCapabilitiesSuccess = true;
+                throw new Exception();
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("There was a problem testing the audio capabilities. Exception: {0}", ex.Message);
                 this.errorMessage =
                     "Your computer does not have sufficient audio capabilities to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
-                    "This issue can occur if you have a N version of Windows. The N versions of Windows include the same functionality as other versions of " +
-                    "Windows except for media-related technologies (Example: Windows Media Player and Windows Media Foundation are not preinstalled on N versions). " +
+                    "This issue usually occurs on N versions of Windows. The N versions of Windows include the same functionality as other versions of " +
+                    "Windows except for media-related technologies (Example: Windows Media Player and Windows Media Foundation are not preinstalled on N versions of Windows). " +
                     "Windows Media Foundation is required to use " + ProductInformation.ApplicationDisplayName + "." + Environment.NewLine +
-                    "If you are using a N version of Windows, please install the Media Feature Pack for N versions of Windows to fix this issue.";
+                    "If you are using a N version of Windows, please install the Media Feature Pack for N versions of Windows to fix this issue." + Environment.NewLine + Environment.NewLine +
+                    "Media Feature Pack for Windows 7 N: https://www.microsoft.com/en-us/download/details.aspx?id=16546" + Environment.NewLine +
+                    "Media Feature Pack for Windows 8 N: https://www.microsoft.com/en-us/download/details.aspx?id=30685" + Environment.NewLine +
+                    "Media Feature Pack for Windows 10 N: https://www.microsoft.com/en-us/download/details.aspx?id=48231";
                 isTestAudioCapabilitiesSuccess = false;
             }
 
