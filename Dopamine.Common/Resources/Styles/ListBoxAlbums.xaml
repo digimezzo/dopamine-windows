@@ -80,30 +80,32 @@
                             Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
                         <StackPanel>
                             <Grid Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2,2,2,0">
-                                <!--<Polygon x:Name="Triangle" 
-                                     Fill="{DynamicResource RG_AccentBrush}" 
-                                     Panel.ZIndex="2"
-                                     Stroke="Transparent"
-                                     Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Top"
-                                     Margin="0,-1,-1,0">
-                                    <Polygon.Points>
-                                        <Point X="-30" Y="0"/>
-                                        <Point X="0" Y="0"/>
-                                        <Point X="0" Y="30"/>
-                                    </Polygon.Points>
-                                </Polygon>
-                                <TextBlock x:Name="AlbumSelector"
-                                   Text="&#xE8FB;"
-                                   Style="{StaticResource SegoeAssets}"
-                                   Panel.ZIndex="3"
-                                   Margin="1"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Top"
-                                   Foreground="{DynamicResource RG_WhiteBrush}" 
-                                   Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                   FontSize="13"/>-->
+                                <Grid Panel.ZIndex="2" Visibility="{Binding DataContext.IsMultipleAlbumsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Polygon x:Name="Triangle" 
+                                         Fill="{DynamicResource RG_AccentBrush}" 
+                                         Panel.ZIndex="0"
+                                         Stroke="Transparent"
+                                         Visibility="{Binding Visibility,ElementName=ProxyBorder}"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Top"
+                                         Margin="0,-1,-1,0">
+                                         <Polygon.Points>
+                                            <Point X="-30" Y="0"/>
+                                            <Point X="0" Y="0"/>
+                                            <Point X="0" Y="30"/>
+                                         </Polygon.Points>
+                                    </Polygon>
+                                    <TextBlock x:Name="AlbumSelector"
+                                       Text="&#xE8FB;"
+                                       Style="{StaticResource SegoeAssets}"
+                                       Panel.ZIndex="1"
+                                       Margin="1"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Foreground="{DynamicResource RG_WhiteBrush}" 
+                                       Visibility="{Binding Visibility,ElementName=ProxyBorder}"
+                                       FontSize="13"/>
+                                </Grid>
                                 <controls:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                              Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                              Panel.ZIndex="0"
@@ -161,7 +163,7 @@
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         </ContextMenu.Resources>
-        
+
         <MenuItem
             InputGestureText="" 
             Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
@@ -212,7 +214,7 @@
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         </ContextMenu.Resources>
-        
+
         <MenuItem InputGestureText="" Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -261,7 +263,7 @@
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         </ContextMenu.Resources>
-        
+
         <MenuItem InputGestureText="" Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
