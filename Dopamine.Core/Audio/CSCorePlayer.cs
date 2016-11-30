@@ -148,16 +148,10 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetCurrentTime()
         {
-            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped)
+            // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
-                try
-                {
-                    return this.soundOut.WaveSource.GetPosition();
-                }
-                catch (Exception)
-                {
-                    // Swallow
-                }
+                return this.soundOut.WaveSource.GetPosition();
             }
 
             return new TimeSpan(0);
@@ -165,16 +159,10 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetTotalTime()
         {
-            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped)
+            // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
-                try
-                {
-                    return this.soundOut.WaveSource.GetLength();
-                }
-                catch (Exception)
-                {
-                    // Swallow
-                }
+                return this.soundOut.WaveSource.GetLength();
             }
 
             return new TimeSpan(0);
@@ -541,7 +529,7 @@ namespace Dopamine.Core.Audio
                 this.pauseAfterSwitchingDefaultDevice = !this.canPause;
 
                 if (this.suspendTime.Equals(TimeSpan.Zero)) this.Suspend();
-                
+
                 this.defaultDeviceChangedTimer.Start();
             }
         }
