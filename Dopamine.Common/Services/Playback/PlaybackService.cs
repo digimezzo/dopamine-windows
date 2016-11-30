@@ -1211,11 +1211,9 @@ namespace Dopamine.Common.Services.Playback
 
         private void PlaybackInterruptedHandler(Object sender, PlaybackInterruptedEventArgs e)
         {
-            LogClient.Instance.Logger.Error("Playback of track '{0}' was interrupted. Trying to play the same track again. Exception: {1}", this.playingTrack.Path, e.Message);
-
-            // Try to play the same Track again.
+            // Playback was interrupted for some reason. Make sure we are in a correct state.
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
-            this.context.Post(new SendOrPostCallback(async (state) => await this.TryPlayAsync(this.playingTrack)), null);
+            this.context.Post(new SendOrPostCallback((state) => this.Stop()), null);
         }
 
         private void PlaybackFinishedHandler(Object sender, EventArgs e)
