@@ -1,3 +1,9 @@
+2016-11-30: Dopamine 1.2 Build 813 (Preview)
+--------------------------------------------
+
+- [Fixed] A crash when switching audio devices
+
+
 2016-11-30: Dopamine 1.2 Build 812 (Preview)
 --------------------------------------------
 

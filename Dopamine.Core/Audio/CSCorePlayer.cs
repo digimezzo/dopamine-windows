@@ -148,11 +148,8 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetCurrentTime()
         {
-            if (this.soundOut != null && this.soundOut.WaveSource != null)
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped)
             {
-                // try catch because sometimes this fails silently because 
-                // this.soundOut == null, even if we checked if this.soundOut 
-                // != null before calling this function.
                 try
                 {
                     return this.soundOut.WaveSource.GetPosition();
@@ -168,11 +165,8 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetTotalTime()
         {
-            if (this.soundOut != null && this.soundOut.WaveSource != null)
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped)
             {
-                // try catch because sometimes this fails silently because 
-                // this.soundOut == null, even if we checked if this.soundOut 
-                // != null before calling this function.
                 try
                 {
                     return this.soundOut.WaveSource.GetLength();
