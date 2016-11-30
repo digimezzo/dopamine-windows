@@ -57,6 +57,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool IsMultipleAlbumsSelected
+        {
+            get
+            {
+                if (this.selectedAlbums != null && this.selectedAlbums.Count > 1) return true;
+                return false;
+            }
+        }
         public bool OrderedByYear
         {
             get { return this.AlbumOrder == AlbumOrder.ByYear; }
@@ -508,6 +516,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     this.SelectedAlbums.Add(item.Album);
                 }
+
+                OnPropertyChanged(() => this.IsMultipleAlbumsSelected);
             }
         }
         #endregion
