@@ -370,4 +370,5 @@
   <Text Key="Username">Gebruikersnaam</Text>
   <Text Key="Password">Paswoord</Text>
   <Text Key="Shuffle_All_Songs">Alle nummers gemixt afspelen</Text>
+  <Text Key="Search_Again">Opnieuw zoeken</Text>
 </Language>
