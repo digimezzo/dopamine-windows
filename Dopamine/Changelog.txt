@@ -1,6 +1,8 @@
-2016-11-30: Dopamine 1.2 Build 814 (Preview)
+2016-12-01: Dopamine 1.2 Build 815 (Preview)
 --------------------------------------------
 
+- [Added] Added option to search for lyrics again on the lyrics screen
+- [Changed] Dopamine now has 3 automatic lyrics providers: LyricWikia, Lololyrics and ChartLyrics.
 - [Fixed] A crash when switching audio devices
 
 
