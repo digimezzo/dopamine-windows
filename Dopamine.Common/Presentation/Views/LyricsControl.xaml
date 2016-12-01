@@ -9,6 +9,7 @@
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:prism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -91,6 +92,8 @@
                                 </MenuItem>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
+                                <Separator/>
+                                <MenuItem Header="{DynamicResource Language_Search_Again}" Command="{x:Static prism:ApplicationCommands.RefreshLyricsCommand}"/>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding ContextMenuSearchProviders}" DisplayMemberPath="Name" IsEnabled="{Binding HasContextMenuSearchProviders}">
                                     <MenuItem.ItemContainerStyle>

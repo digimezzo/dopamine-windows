@@ -7,6 +7,7 @@ using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -36,6 +37,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int refreshTimerIntervalMilliseconds = 500;
         #endregion
 
+        #region Commands
+        public DelegateCommand RefreshLyricsCommand { get; set; }
+        #endregion
+
         #region Properties
         public int ContentSlideInFrom
         {
@@ -52,7 +57,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool IsDownloadingLyrics
         {
             get { return this.isDownloadingLyrics; }
-            set { SetProperty<bool>(ref this.isDownloadingLyrics, value); }
+            set
+            {
+                SetProperty<bool>(ref this.isDownloadingLyrics, value);
+                this.RefreshLyricsCommand.RaiseCanExecuteChanged();
+            }
         }
         #endregion
 
@@ -79,6 +88,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
 
             this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.PlayingTrack); });
+
+            this.RefreshLyricsCommand = new DelegateCommand(() => this.RefreshLyricsAsync(this.playbackService.PlayingTrack), () => !this.IsDownloadingLyrics);
+            ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
@@ -137,6 +149,8 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void RefreshLyricsAsync(MergedTrack track)
         {
+            if (track == null) return;
+
             this.StopHighlighting();
 
             FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
@@ -197,7 +211,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     {
                         LogClient.Instance.Logger.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
                     }
-                    
+
                     this.IsDownloadingLyrics = false;
                 }
 
