@@ -521,17 +521,16 @@ namespace Dopamine.Core.Audio
 
         private void MMNotificationClient_DefaultDeviceChanged(object sender, DefaultDeviceChangedEventArgs e)
         {
+            this.defaultDeviceChangedTimer.Stop();
+
             // Only try to resume on new default device if not stopped
             if (this.canStop)
             {
-                this.defaultDeviceChangedTimer.Stop();
-
                 this.pauseAfterSwitchingDefaultDevice = !this.canPause;
-
-                if (this.suspendTime.Equals(TimeSpan.Zero)) this.Suspend();
-
-                this.defaultDeviceChangedTimer.Start();
+                this.Suspend();
             }
+
+            this.defaultDeviceChangedTimer.Start();
         }
 
         private void DefaultDeviceChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
