@@ -7,6 +7,7 @@ namespace Dopamine.Core.Api.Lyrics
         #region Variables
         private LyricWikiaApi lyricWikiaApi;
         private LololyricsApi lololyricsApi;
+        private ChartLyricsApi chartLyricsApi;
         #endregion
 
         #region COnstruction
@@ -14,6 +15,7 @@ namespace Dopamine.Core.Api.Lyrics
         {
             lyricWikiaApi = new LyricWikiaApi();
             lololyricsApi = new LololyricsApi();
+            chartLyricsApi = new ChartLyricsApi();
         }
         #endregion
 
@@ -24,6 +26,7 @@ namespace Dopamine.Core.Api.Lyrics
 
             lyrics = await lyricWikiaApi.GetLyricsAsync(artist, title);
             if(string.IsNullOrWhiteSpace(lyrics)) lyrics = await lololyricsApi.GetLyricsAsync(artist, title);
+            if (string.IsNullOrWhiteSpace(lyrics)) lyrics = await chartLyricsApi.GetLyricsAsync(artist, title);
 
             return lyrics;
         }
