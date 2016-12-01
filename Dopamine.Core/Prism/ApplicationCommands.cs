@@ -38,5 +38,6 @@ namespace Dopamine.Core.Prism
         public static CompositeCommand AddAlbumsToPlaylistCommand = new CompositeCommand();
         public static CompositeCommand AddArtistsToPlaylistCommand = new CompositeCommand();
         public static CompositeCommand AddGenresToPlaylistCommand = new CompositeCommand();
+        public static CompositeCommand RefreshLyricsCommand = new CompositeCommand();
     }
 }
