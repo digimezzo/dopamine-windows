@@ -10,7 +10,7 @@
 - [Changed] Changed the album selection box, as it wasn't visible enough.
 - [Fixed] Lyrics lines starting with text in square bracket are incorrectly interpreted as timestamped lyrics
 - [Fixed] A lot of bugs in processing of metadata changes
-- [Fixed] Non-square covers are not streched anymore
+- [Fixed] Non-square covers are not stretched anymore
 - [Fixed] Moved the "Shuffle all" button to a, hopefully, more logical place.
 - [Fixed] A possible infinite loop while searching for lyrics online
 
