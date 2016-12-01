@@ -145,6 +145,7 @@
     <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
     <Compile Include="Api\Lyrics\ILyricsApi.cs" />
     <Compile Include="Api\Lyrics\LololyricsApi.cs" />
+    <Compile Include="Api\Lyrics\Lyrics.cs" />
     <Compile Include="Api\Lyrics\LyricsFactory.cs" />
     <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />

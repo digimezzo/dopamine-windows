@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Database;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
@@ -16,13 +17,14 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private MergedTrack track;
-        private string lyrics;
-        private string uneditedLyrics;
+        private Lyrics lyrics;
+        private Lyrics uneditedLyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         private double fontSize;
         private bool automaticScrolling;
         private bool isEditing;
         private IMetadataService metadataService;
+        private bool showSource;
         #endregion
 
         #region Commands
@@ -35,9 +37,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool ShowSource
+        {
+            get { return this.lyrics != null ? this.lyrics.HasText : false; }
+        }
+
         public bool IsNoLyricsTextVisible
         {
-            get { return string.IsNullOrEmpty(this.lyrics) & !this.IsEditing; }
+            get { return string.IsNullOrEmpty(this.lyrics.Text) & !this.IsEditing; }
         }
 
         public bool IsEditing
@@ -76,13 +83,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.fontSize.ToString() + " px"; }
         }
 
-        public string Lyrics
+        public Lyrics Lyrics
         {
             get { return this.lyrics; }
             set
             {
-                SetProperty<string>(ref this.lyrics, value);
+                SetProperty<Lyrics>(ref this.lyrics, value);
                 OnPropertyChanged(() => this.IsNoLyricsTextVisible);
+                OnPropertyChanged(() => this.ShowSource);
             }
         }
 
@@ -111,7 +119,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.SaveCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile());
-            this.SaveIfNotEmptyCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile(), () => !string.IsNullOrWhiteSpace(this.lyrics));
+            this.SaveIfNotEmptyCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
@@ -126,7 +134,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Save to the file
             var fmd = new FileMetadata(this.track.Path);
-            fmd.Lyrics = new MetadataValue() { Value = this.lyrics };
+            fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
             var fmdList = new List<FileMetadata>();
             fmdList.Add(fmd);
             this.metadataService.UpdateTracksAsync(fmdList, false);
@@ -138,7 +146,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Public
-        public void SetLyrics(string lyrics)
+        public void SetLyrics(Lyrics lyrics)
         {
             this.Lyrics = lyrics;
             this.uneditedLyrics = lyrics;
@@ -147,10 +155,10 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void ParseLyrics(string lyrics)
+        private void ParseLyrics(Lyrics lyrics)
         {
             this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
-            var reader = new StringReader(lyrics);
+            var reader = new StringReader(lyrics.Text);
             string line;
 
             while (true)

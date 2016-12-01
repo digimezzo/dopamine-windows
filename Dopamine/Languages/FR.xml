@@ -371,4 +371,5 @@
   <Text Key="Password">Mot de passe</Text>
   <Text Key="Shuffle_All_Songs">Lecture aléatoire de tous les numéros</Text>
   <Text Key="Search_Again">Chercher à nouveau</Text>
+  <Text Key="Audio_File">Fichier audio</Text>
 </Language>

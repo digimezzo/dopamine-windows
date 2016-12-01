@@ -20,13 +20,13 @@ namespace Dopamine.Core.Api.Lyrics
         #endregion
 
         #region Public
-        public async Task<string> GetLyricsAsync(string artist, string title)
+        public async Task<Lyrics> GetLyricsAsync(string artist, string title)
         {
-            string lyrics = string.Empty;
+            Lyrics lyrics = null;
 
-            lyrics = await lyricWikiaApi.GetLyricsAsync(artist, title);
-            if(string.IsNullOrWhiteSpace(lyrics)) lyrics = await lololyricsApi.GetLyricsAsync(artist, title);
-            if (string.IsNullOrWhiteSpace(lyrics)) lyrics = await chartLyricsApi.GetLyricsAsync(artist, title);
+            lyrics = new Lyrics( await lyricWikiaApi.GetLyricsAsync(artist, title), "LyricWikia");
+            if (!lyrics.HasText) lyrics = new Lyrics(await lololyricsApi.GetLyricsAsync(artist, title),"LoloLyrics");
+            if (!lyrics.HasText) lyrics = new Lyrics(await chartLyricsApi.GetLyricsAsync(artist, title),"ChartLyrics");
 
             return lyrics;
         }
