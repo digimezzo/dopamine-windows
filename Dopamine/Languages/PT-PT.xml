@@ -371,4 +371,5 @@
   <Text Key="Password">Password</Text>
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
+  <Text Key="Audio_File">Audio file</Text>
 </Language>

@@ -7,6 +7,7 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
@@ -39,7 +40,7 @@
                     x:Name="LyricsTextBox" 
                     Loaded="LyricsTextBox_Loaded"
                     Style="{StaticResource LargeMetroTextBox}"
-                    Text="{Binding Lyrics, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding Lyrics.Text, Mode=OneWay}"
                     Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"
                     AcceptsReturn="True" 
                     VerticalScrollBarVisibility="Auto" 
@@ -124,6 +125,22 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <!--<controls:TransitioningContentControl Content="{Binding LyricsViewModel}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0"/>-->
-    <ContentControl Content="{Binding LyricsViewModel}"/>
+    <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- Cover -->
+        <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
+            <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
+                <commonviews:CoverArtControl/>
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                </Border.Effect>
+            </Border>
+            <commonviews:PlaybackInfoControl Height="50" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="False"/>
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.ShowSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock VerticalAlignment="Center" Text="&#xE930;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding LyricsViewModel.Lyrics.Source}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+            </StackPanel>
+        </StackPanel>
+        <!-- Lyrics -->
+        <ContentControl Content="{Binding LyricsViewModel}" Margin="10,20,0,0"/>
+    </DockPanel>
 </UserControl>

@@ -11,24 +11,5 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
-    <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <!-- Cover -->
-        <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
-            <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
-                <commonviews:CoverArtControl/>
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
-                </Border.Effect>
-            </Border>
-            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
-        </StackPanel>
-        <!-- Lyrics -->
-        <commonviews:LyricsControl Margin="10,20,0,0"/>
-    </DockPanel>
+    <commonviews:LyricsControl />
 </UserControl>

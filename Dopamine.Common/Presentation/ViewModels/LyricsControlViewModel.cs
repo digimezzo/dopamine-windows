@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Metadata;
+﻿using Dopamine.Common.Services.I18n;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Database;
@@ -6,6 +7,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
+using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -22,6 +24,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IUnityContainer container;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
+        private II18nService i18nService;
         private LyricsViewModel lyricsViewModel;
         private MergedTrack previousTrack;
         private int contentSlideInFrom;
@@ -66,11 +69,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService,II18nService i18nService, EventAggregator eventAggregator)
         {
             this.container = container;
             this.metadataService = metadataService;
             this.playbackService = playbackService;
+            this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
@@ -86,6 +90,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
             this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+
+            this.i18nService.LanguageChanged += (_, __) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
 
             this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.PlayingTrack); });
 
@@ -174,23 +180,20 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                string lyrics = string.Empty;
+                Lyrics lyrics = null;
                 bool mustDownloadLyrics = false;
 
                 await Task.Run(() =>
                 {
-                    lyrics = fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty;
+                    lyrics = new Lyrics( fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty, ResourceUtils.GetStringResource("Language_Audio_File"));
 
                     // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
-                    if (XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics"))
+                    if (!lyrics.HasText)
                     {
-                        string artist = string.Empty;
-                        string title = string.Empty;
-
-                        if (string.IsNullOrWhiteSpace(lyrics))
+                        if (XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics"))
                         {
-                            artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
-                            title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
+                            string artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
+                            string title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;
 
                             if (!string.IsNullOrWhiteSpace(artist) & !string.IsNullOrWhiteSpace(title)) mustDownloadLyrics = true;
                         }
