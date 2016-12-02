@@ -11,6 +11,7 @@
         public string Text
         {
             get { return this.text; }
+            set { this.text = value; }
         }
 
         public string Source

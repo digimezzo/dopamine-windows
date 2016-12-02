@@ -1,4 +1,4 @@
-2016-12-02: Dopamine 1.2 Build 816 (Preview)
+2016-12-02: Dopamine 1.2 Build 817 (Preview)
 --------------------------------------------
 
 - [Added] Option to search for lyrics again on the lyrics screen

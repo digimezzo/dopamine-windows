@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -125,8 +126,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.IsEditing = false;
             });
 
-            this.SaveCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile());
-            this.SaveIfNotEmptyCommand = new DelegateCommand(() => this.SaveLyricsInAudioFile(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
+            this.SaveCommand = new DelegateCommand(async() => await this.SaveLyricsInAudioFileAsync());
+            this.SaveIfNotEmptyCommand = new DelegateCommand(async() => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
@@ -134,17 +135,17 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
         }
 
-        private void SaveLyricsInAudioFile()
+        private async Task SaveLyricsInAudioFileAsync()
         {
             this.IsEditing = false;
             this.ParseLyrics(this.lyrics);
 
             // Save to the file
-            var fmd = new FileMetadata(this.track.Path);
+            var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
             fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
             var fmdList = new List<FileMetadata>();
             fmdList.Add(fmd);
-            this.metadataService.UpdateTracksAsync(fmdList, false);
+            await this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
         public LyricsViewModel(IUnityContainer container) : base(container)
