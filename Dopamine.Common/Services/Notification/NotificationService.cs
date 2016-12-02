@@ -30,11 +30,11 @@ namespace Dopamine.Common.Services.Notification
         {
             get
             {
-                bool returnValue = false;
+                if (this.trayControlsWindow != null && this.trayControlsWindow.IsActive) return false; // Never show a notification when the tray controls are visible.
+                if (this.mainWindow != null && this.mainWindow.IsActive && XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
+                if (this.playlistWindow != null && this.playlistWindow.IsActive && XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
 
-                Application.Current.Dispatcher.Invoke(() => { returnValue = this.mainWindow == null || this.playlistWindow == null || this.trayControlsWindow == null ? true : !(XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible") && (this.mainWindow.IsActive | this.playlistWindow.IsActive | this.trayControlsWindow.IsActive)); });
-
-                return returnValue;
+                return true;
             }
         }
         #endregion
