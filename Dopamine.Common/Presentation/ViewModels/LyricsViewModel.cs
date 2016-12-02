@@ -25,6 +25,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool isEditing;
         private IMetadataService metadataService;
         private bool showSource;
+        private bool hasSource;
         #endregion
 
         #region Commands
@@ -37,6 +38,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool HasSource
+        {
+            get { return this.lyrics != null ? this.lyrics.HasSource : false; }
+        }
+
         public bool ShowSource
         {
             get { return this.lyrics != null ? this.lyrics.HasText : false; }
@@ -91,6 +97,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 SetProperty<Lyrics>(ref this.lyrics, value);
                 OnPropertyChanged(() => this.IsNoLyricsTextVisible);
                 OnPropertyChanged(() => this.ShowSource);
+                OnPropertyChanged(() => this.HasSource);
             }
         }
 
