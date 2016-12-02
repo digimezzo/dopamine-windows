@@ -14,8 +14,6 @@ namespace Dopamine.Core.Audio
         #endregion
 
         #region Functions
-        void Suspend();
-        void Unsuspend();
         void Stop();
         void Play(string filename);
         void Skip(int gotoSeconds);
