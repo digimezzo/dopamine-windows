@@ -1,4 +1,4 @@
-2016-12-02: Dopamine 1.2 Build 819 (Preview)
+2016-12-02: Dopamine 1.2 Build 820 (Preview)
 --------------------------------------------
 
 - [Added] Option to search for lyrics again on the lyrics screen
@@ -6,6 +6,7 @@
 - [Changed] Upgraded to the latest version of CSCore Audio Library
 - [Changed] Dopamine now has 3 automatic lyrics providers: LyricWikia, Lololyrics and ChartLyrics.
 - [Fixed] Multiple when switching audio devices
+- [Fixed] Notifications cause closing of tray controls
 
 
 2016-11-30: Dopamine 1.2 Build 812 (Preview)
