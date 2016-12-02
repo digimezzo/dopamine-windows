@@ -22,13 +22,18 @@
         {
             get { return !string.IsNullOrWhiteSpace(this.Text); }
         }
+
+        public bool HasSource
+        {
+            get { return !string.IsNullOrWhiteSpace(this.source); }
+        }
         #endregion
 
         #region Construction
         public Lyrics(string text, string source)
         {
-            this.text = !string.IsNullOrWhiteSpace(text) ? text : string.Empty;
-            this.source = !string.IsNullOrWhiteSpace(text) ? source : string.Empty;
+            this.text = text;
+            this.source = source;
         }
         #endregion
     }

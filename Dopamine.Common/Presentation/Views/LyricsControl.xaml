@@ -135,10 +135,16 @@
                 </Border.Effect>
             </Border>
             <commonviews:PlaybackInfoControl Height="50" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="False"/>
-            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.ShowSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock VerticalAlignment="Center" Text="&#xE930;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
-                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding LyricsViewModel.Lyrics.Source}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
-            </StackPanel>
+            <Grid Visibility="{Binding LyricsViewModel.ShowSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.HasSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
+                    <TextBlock VerticalAlignment="Center" Text="&#xE73E;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{DynamicResource Language_Audio_File}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.HasSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock VerticalAlignment="Center" Text="&#xE753;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding LyricsViewModel.Lyrics.Source}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
         <!-- Lyrics -->
         <ContentControl Content="{Binding LyricsViewModel}" Margin="10,20,0,0"/>

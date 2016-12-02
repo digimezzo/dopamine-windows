@@ -24,7 +24,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IUnityContainer container;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
-        private II18nService i18nService;
         private LyricsViewModel lyricsViewModel;
         private MergedTrack previousTrack;
         private int contentSlideInFrom;
@@ -69,12 +68,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService,II18nService i18nService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
         {
             this.container = container;
             this.metadataService = metadataService;
             this.playbackService = playbackService;
-            this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
@@ -90,8 +88,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
             this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
-
-            this.i18nService.LanguageChanged += (_, __) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
 
             this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.PlayingTrack); });
 
@@ -185,7 +181,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(() =>
                 {
-                    lyrics = new Lyrics( fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty, ResourceUtils.GetStringResource("Language_Audio_File"));
+                    lyrics = new Lyrics(fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty, string.Empty);
 
                     // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
                     if (!lyrics.HasText)
