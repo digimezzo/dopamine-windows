@@ -44,16 +44,6 @@ namespace Dopamine.Core.Audio
 
         // Flags
         private bool isPlaying;
-        private bool pauseAfterSwitchingDefaultDevice;
-
-        // MMNotificationClient
-        private MMNotificationClient MMNotificationClient;
-
-        // Helpers
-        private TimeSpan suspendTime;
-
-        // Timers
-        private System.Timers.Timer defaultDeviceChangedTimer = new System.Timers.Timer();
         #endregion
 
         #region Construction
@@ -61,9 +51,6 @@ namespace Dopamine.Core.Audio
         {
             // Register the NVorbis new codec
             CodecFactory.Instance.Register("ogg-vorbis", new CodecFactoryEntry((s) => new NVorbisSource(s).ToWaveSource(), ".ogg"));
-
-            this.defaultDeviceChangedTimer.Interval = 250;
-            this.defaultDeviceChangedTimer.Elapsed += this.DefaultDeviceChangedTimer_Elapsed;
 
             this.canPlay = true;
             this.canPause = false;
@@ -311,41 +298,6 @@ namespace Dopamine.Core.Audio
                 this.canStop = false;
             }
         }
-
-        public void Suspend()
-        {
-            this.suspendTime = this.GetCurrentTime();
-
-            if (this.soundOut != null)
-            {
-                try
-                {
-                    // Remove the handler because we don't want to trigger this.soundOut.Stopped()
-                    // when manually stopping the player. That event should only be triggered
-                    // when CSCore reaches the end of the Track by itself.
-                    this.soundOut.Stopped -= this.SoundOutStoppedHandler;
-                    this.soundOut.Stop();
-
-                    if (this.soundOut.WaveSource != null) this.soundOut.WaveSource.Dispose();
-                    if (this.equalizer != null) this.equalizer.Dispose();
-                }
-                catch (Exception)
-                {
-                    // Swallow
-                }
-            }
-        }
-
-        public void Unsuspend()
-        {
-            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
-
-            this.Play(this.filename);
-
-            if (this.pauseAfterSwitchingDefaultDevice) this.Pause();
-            this.Skip(Convert.ToInt32(this.suspendTime.TotalSeconds));
-            this.suspendTime = TimeSpan.Zero;
-        }
         #endregion
 
         #region Private
@@ -353,10 +305,7 @@ namespace Dopamine.Core.Audio
         {
             // SoundOut implementation which plays the sound
             this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
-
-            // MMNotificationClient
-            this.MMNotificationClient = new MMNotificationClient();
-            this.MMNotificationClient.DefaultDeviceChanged += this.MMNotificationClient_DefaultDeviceChanged;
+            ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
 
             // Initialize the soundOut 
             this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
@@ -378,8 +327,6 @@ namespace Dopamine.Core.Audio
 
         private void CloseSoundOut()
         {
-            this.CloseNotificationClient(); // Prevents a NullReferenceException in CSCore
-
             if (this.soundOut != null)
             {
                 try
@@ -400,17 +347,6 @@ namespace Dopamine.Core.Audio
                 {
                     //Swallow
                 }
-            }
-        }
-
-        private void CloseNotificationClient()
-        {
-            if (this.MMNotificationClient != null)
-            {
-                this.MMNotificationClient.DefaultDeviceChanged -= MMNotificationClient_DefaultDeviceChanged;
-
-                this.MMNotificationClient.Dispose();
-                this.MMNotificationClient = null;
             }
         }
 
@@ -517,26 +453,6 @@ namespace Dopamine.Core.Audio
             {
                 // Do nothing. It might be that we get in this handler when the application is closed.
             }
-        }
-
-        private void MMNotificationClient_DefaultDeviceChanged(object sender, DefaultDeviceChangedEventArgs e)
-        {
-            this.defaultDeviceChangedTimer.Stop();
-
-            // Only try to resume on new default device if not stopped
-            if (this.canStop)
-            {
-                this.pauseAfterSwitchingDefaultDevice = !this.canPause;
-                this.Suspend();
-            }
-
-            this.defaultDeviceChangedTimer.Start();
-        }
-
-        private void DefaultDeviceChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            this.defaultDeviceChangedTimer.Stop();
-            this.Unsuspend();
         }
         #endregion
 
