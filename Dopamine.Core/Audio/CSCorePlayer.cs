@@ -10,7 +10,6 @@ using Dopamine.Core.Base;
 using System;
 using System.ComponentModel;
 using System.Threading;
-using System.Timers;
 using WPFSoundVisualizationLib;
 
 namespace Dopamine.Core.Audio
