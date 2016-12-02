@@ -106,8 +106,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             };
 
+            this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
             this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
-
             if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
         }
 

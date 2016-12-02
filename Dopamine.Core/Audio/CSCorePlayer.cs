@@ -163,6 +163,7 @@ namespace Dopamine.Core.Audio
         {
             if (this.CanPause)
             {
+                // TODO: is this still needed.
                 // A CSCore.MmException can occur here when unplugging and USB headset
                 // Just in case, we try to make sure this doesn't crash the application.
                 try
