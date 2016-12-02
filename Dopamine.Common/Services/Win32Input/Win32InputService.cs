@@ -27,6 +27,67 @@ namespace Dopamine.Common.Services.Win32Input
         }
         #endregion
 
+        #region Window styles
+        [Flags]
+        private enum ExtendedWindowStyles
+        {
+            WS_EX_ACCEPTFILES = 0x00000010,
+            WS_EX_APPWINDOW = 0x00040000,
+            WS_EX_TOOLWINDOW = 0x00000080,
+        }
+
+        private enum GetWindowLongFields
+        {
+            GWL_EXSTYLE = -20,
+            GWL_HINSTANCE = -6,
+            GWL_ID = -12,
+            GWL_STYLE = -16,
+            GWL_USERDATA = -21,
+            GWL_WNDPROC = -4
+        }
+
+        private const int normalEWS = 262400;
+
+        public void RestoreFromAppSwither(WindowInteropHelper wndHelper)
+        {
+            SetWindowLongPtr(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE, (IntPtr) normalEWS);
+        }
+
+        public void RemoveFromAppSwither(WindowInteropHelper wndHelper)
+        {
+            var exStyle =
+                (IntPtr)
+                ((int) GetWindowLongPtr(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE) |
+                 (int) ExtendedWindowStyles.WS_EX_TOOLWINDOW);
+            SetWindowLongPtr(wndHelper.Handle, (int) GetWindowLongFields.GWL_EXSTYLE, exStyle);
+        }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+
+        private static IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+        {
+            // SetWindowLongPtr won't clear the previous error if successfully
+            SetLastError(0);
+
+            var result = InnerSetWindowLongPtr(hWnd, nIndex, dwNewLong);
+            var error = Marshal.GetLastWin32Error();
+
+            if ((result == IntPtr.Zero) && (error != 0))
+            {
+                throw new System.ComponentModel.Win32Exception(error);
+            }
+
+            return result;
+        }
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+        private static extern IntPtr InnerSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
+        private static extern void SetLastError(int dwErrorCode);
+        #endregion
+
         #region Low-Level Keyboard Hook
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYUP = 0x101;

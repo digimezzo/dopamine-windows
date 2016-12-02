@@ -617,6 +617,9 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
         {
+            // Restore GWL_EXSTYLE to normal
+            win32InputService.RestoreFromAppSwither(new WindowInteropHelper(this));
+
             // By default, the window appears in the background when showing
             // from the tray menu. We force it on the foreground here.
             this.ActivateNow();
@@ -660,8 +663,8 @@ namespace Dopamine.Views
         private void Shell_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon") &
-                                  XmlSettingsClient.Instance.Get<bool>("Behaviour", "CloseToTray") &
-                                  !this.isShuttingDown)
+                XmlSettingsClient.Instance.Get<bool>("Behaviour", "CloseToTray") &
+                !this.isShuttingDown)
             {
                 e.Cancel = true;
 
@@ -669,6 +672,10 @@ namespace Dopamine.Views
                 // remains visible in the lower left corner of the screen.
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
+
+                // Set GWL_EXSTYLE to WS_EX_TOOLWINDOW
+                // to ensure when minimized to tray it doesn't display in alt+tab
+                win32InputService.RemoveFromAppSwither(new WindowInteropHelper(this));
             }
             else
             {
