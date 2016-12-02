@@ -454,26 +454,6 @@ namespace Dopamine.Core.Audio
                 // Do nothing. It might be that we get in this handler when the application is closed.
             }
         }
-
-        private void MMNotificationClient_DefaultDeviceChanged(object sender, DefaultDeviceChangedEventArgs e)
-        {
-            this.defaultDeviceChangedTimer.Stop();
-
-            // Only try to resume on new default device if not stopped
-            if (this.canStop)
-            {
-                this.pauseAfterSwitchingDefaultDevice = !this.canPause;
-                this.Suspend();
-            }
-
-            this.defaultDeviceChangedTimer.Start();
-        }
-
-        private void DefaultDeviceChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            this.defaultDeviceChangedTimer.Stop();
-            this.Unsuspend();
-        }
         #endregion
 
         #region IDisposable Support
