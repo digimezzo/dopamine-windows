@@ -1,3 +1,9 @@
+2016-12-02: Dopamine 1.2 Build 821 (Preview)
+--------------------------------------------
+
+- [Fixed] Main window is still visible in ALT-TAB menu when minimized or closed to tray
+
+
 2016-12-02: Dopamine 1.2 Build 820 (Preview)
 --------------------------------------------
 
