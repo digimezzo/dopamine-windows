@@ -36,6 +36,20 @@ namespace Dopamine.Core.Api.Lyrics
         #endregion
 
         #region ILyricsApi
+        public string SourceName
+        {
+            get
+            {
+                return "ChartLyrics";
+            }
+        }
+
+        /// <summary>
+        /// Searches for lyrics for the given artist and title
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public async Task<string> GetLyricsAsync(string artist, string title)
         {
             Uri uri = new Uri(string.Format(apiRootFormat, artist, title));

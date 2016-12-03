@@ -1,21 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dopamine.Core.Api.Lyrics
 {
     public class LyricsFactory
     {
         #region Variables
-        private LyricWikiaApi lyricWikiaApi;
-        private LololyricsApi lololyricsApi;
-        private ChartLyricsApi chartLyricsApi;
+        private List<ILyricsApi> lyricsApis;
         #endregion
 
         #region COnstruction
         public LyricsFactory()
         {
-            lyricWikiaApi = new LyricWikiaApi();
-            lololyricsApi = new LololyricsApi();
-            chartLyricsApi = new ChartLyricsApi();
+            lyricsApis = new List<ILyricsApi>();
+
+            lyricsApis.Add(new LyricWikiaApi());
+            lyricsApis.Add(new LololyricsApi());
+            lyricsApis.Add(new ChartLyricsApi());
         }
         #endregion
 
@@ -23,12 +25,32 @@ namespace Dopamine.Core.Api.Lyrics
         public async Task<Lyrics> GetLyricsAsync(string artist, string title)
         {
             Lyrics lyrics = null;
+            ILyricsApi api = this.GetRandomApi();
 
-            lyrics = new Lyrics( await lyricWikiaApi.GetLyricsAsync(artist, title), "LyricWikia");
-            if (!lyrics.HasText) lyrics = new Lyrics(await lololyricsApi.GetLyricsAsync(artist, title),"LoloLyrics");
-            if (!lyrics.HasText) lyrics = new Lyrics(await chartLyricsApi.GetLyricsAsync(artist, title),"ChartLyrics");
+            while (api != null && (lyrics == null || !lyrics.HasText))
+            {
+                lyrics = new Lyrics(await api.GetLyricsAsync(artist, title), api.SourceName);
+                api = this.GetRandomApi();
+            }
 
             return lyrics;
+        }
+        #endregion
+
+        #region Private
+        private ILyricsApi GetRandomApi()
+        {
+            ILyricsApi api = null;
+
+            if (lyricsApis.Count > 0)
+            {
+                var rnd = new Random();
+                int index = rnd.Next(lyricsApis.Count);
+                api = lyricsApis[index];
+                lyricsApis.RemoveAt(index);
+            }
+
+            return api;
         }
         #endregion
     }
