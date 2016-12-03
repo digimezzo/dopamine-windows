@@ -304,9 +304,6 @@ namespace Dopamine.Common.Services.Playback
 
             this.context = SynchronizationContext.Current;
 
-            // Initialize the PlayerFactory
-            this.playerFactory = new PlayerFactory();
-
             // Set up timers
             this.progressTimer.Interval = TimeSpan.FromSeconds(this.progressTimeoutSeconds).TotalMilliseconds;
             this.progressTimer.Elapsed += new ElapsedEventHandler(this.ProgressTimeoutHandler);
@@ -317,11 +314,7 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Interval = TimeSpan.FromSeconds(this.saveTrackStatisticsTimeoutSeconds).TotalMilliseconds;
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
 
-            // Equalizer
-            this.SetIsEqualizerEnabled(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
-
-            // Queued tracks
-            this.GetSavedQueuedTracks();
+            this.Initialize();
         }
         #endregion
 
@@ -424,7 +417,7 @@ namespace Dopamine.Common.Services.Playback
             });
         }
 
-        public async void SetIsEqualizerEnabled(bool isEnabled)
+        public async Task SetIsEqualizerEnabledAsync(bool isEnabled)
         {
             this.isEqualizerEnabled = isEnabled;
 
@@ -856,6 +849,18 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Private
+        private async void Initialize()
+        {
+            // Initialize the PlayerFactory
+            this.playerFactory = new PlayerFactory();
+
+            // Equalizer
+            await this.SetIsEqualizerEnabledAsync(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
+
+            // Queued tracks
+            this.GetSavedQueuedTracks();
+        }
+
         private bool UpdateTrackPlaybackInfo(MergedTrack track, FileMetadata fileMetadata)
         {
             bool isPlaybackInfoUpdated = false;
