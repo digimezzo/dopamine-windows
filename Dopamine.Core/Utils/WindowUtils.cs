@@ -63,8 +63,8 @@ namespace Dopamine.Core.Utils
             WindowInteropHelper wndHelper = new WindowInteropHelper(win);
 
             int exStyle = Convert.ToInt32(NativeMethods.GetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE)));
-
             exStyle = exStyle | Convert.ToInt32(WSEX.TOOLWINDOW);
+
             SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
         }
 
@@ -72,10 +72,8 @@ namespace Dopamine.Core.Utils
         {
             WindowInteropHelper wndHelper = new WindowInteropHelper(win);
 
-            int exStyle = Convert.ToInt32(NativeMethods.GetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE)));
-
-            exStyle = exStyle | Convert.ToInt32(WSEX.APPWINDOW);
-            SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
+            int normalEWS = 262400; // 'exStyle' cannot be restored by 'OR' operation. Use this number instead.
+            SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)normalEWS);
         }
         #endregion
 
