@@ -5,7 +5,6 @@ using Dopamine.Core.Metadata;
 using Dopamine.Core.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,8 +24,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool automaticScrolling;
         private bool isEditing;
         private IMetadataService metadataService;
-        private bool showSource;
-        private bool hasSource;
         #endregion
 
         #region Commands
@@ -51,7 +48,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public bool IsNoLyricsTextVisible
         {
-            get { return string.IsNullOrEmpty(this.lyrics.Text) & !this.IsEditing; }
+            get { return (this.lyrics == null || string.IsNullOrEmpty(this.lyrics.Text)) & !this.IsEditing; }
         }
 
         public bool IsEditing

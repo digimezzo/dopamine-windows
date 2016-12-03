@@ -1,6 +1,7 @@
-2016-12-02: Dopamine 1.2 Build 821 (Preview)
+2016-12-02: Dopamine 1.2 Build 822 (Preview)
 --------------------------------------------
 
+- [Changed] Automatic lyrics providers are now queried randomly
 - [Fixed] Main window is still visible in ALT-TAB menu when minimized or closed to tray
 
 

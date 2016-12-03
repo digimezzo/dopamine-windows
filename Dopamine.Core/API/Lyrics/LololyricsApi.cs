@@ -41,6 +41,14 @@ namespace Dopamine.Core.Api.Lyrics
         #endregion
 
         #region ILyricsApi
+        public string SourceName
+        {
+            get
+            {
+                return "LoloLyrics";
+            }
+        }
+
         /// <summary>
         /// Searches for lyrics for the given artist and title
         /// </summary>
