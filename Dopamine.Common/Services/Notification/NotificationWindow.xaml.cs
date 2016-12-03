@@ -157,10 +157,10 @@ namespace Dopamine.Common.Services.Notification
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.ShowInTaskbar = false;
             WindowUtils.HideWindowFromAltTab(this);
             this.IsEnabled = true;
-            // This activates fade-in
-            this.hideTimer.Start();
+            this.hideTimer.Start(); // This activates fade-in
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

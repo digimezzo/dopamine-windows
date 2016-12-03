@@ -58,15 +58,23 @@ namespace Dopamine.Core.Utils
 
         public static void HideWindowFromAltTab(Window win)
         {
-            win.ShowInTaskbar = false;
-            // This is also necessary
-
-            // All this hides this window from ALT-TAB. Code found at http://stackoverflow.com/questions/357076/best-way-to-hide-a-window-from-the-alt-tab-program-switcher
+            // All this hides this window from ALT-TAB. Code found at
+            // http://stackoverflow.com/questions/357076/best-way-to-hide-a-window-from-the-alt-tab-program-switcher
             WindowInteropHelper wndHelper = new WindowInteropHelper(win);
 
             int exStyle = Convert.ToInt32(NativeMethods.GetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE)));
 
             exStyle = exStyle | Convert.ToInt32(WSEX.TOOLWINDOW);
+            SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
+        }
+
+        public static void ShowWindowInAltTab(Window win)
+        {
+            WindowInteropHelper wndHelper = new WindowInteropHelper(win);
+
+            int exStyle = Convert.ToInt32(NativeMethods.GetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE)));
+
+            exStyle = exStyle | Convert.ToInt32(WSEX.APPWINDOW);
             SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
         }
         #endregion

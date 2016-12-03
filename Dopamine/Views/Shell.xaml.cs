@@ -617,6 +617,10 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
         {
+            // When restored, show this window in Taskbar and ALT-TAB menu.
+            this.ShowInTaskbar = true;
+            WindowUtils.ShowWindowInAltTab(this);
+
             // By default, the window appears in the background when showing
             // from the tray menu. We force it on the foreground here.
             this.ActivateNow();
@@ -646,12 +650,16 @@ namespace Dopamine.Views
                 if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon") &
                     XmlSettingsClient.Instance.Get<bool>("Behaviour", "MinimizeToTray"))
                 {
+                    // When minimizing to tray, hide this window from Taskbar and ALT-TAB menu.
                     this.ShowInTaskbar = false;
+                    WindowUtils.HideWindowFromAltTab(this);
                 }
             }
             else
             {
+                // When restored, show this window in Taskbar and ALT-TAB menu.
                 this.ShowInTaskbar = true;
+                WindowUtils.ShowWindowInAltTab(this);
             }
 
             this.SaveWindowState();
@@ -668,7 +676,10 @@ namespace Dopamine.Views
                 // Minimize first, then hide from Taskbar. Otherwise a small window
                 // remains visible in the lower left corner of the screen.
                 this.WindowState = WindowState.Minimized;
+
+                // When closing to tray, hide this window from Taskbar and ALT-TAB menu.
                 this.ShowInTaskbar = false;
+                WindowUtils.HideWindowFromAltTab(this);
             }
             else
             {
