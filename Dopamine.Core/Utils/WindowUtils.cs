@@ -58,55 +58,24 @@ namespace Dopamine.Core.Utils
 
         public static void HideWindowFromAltTab(Window win)
         {
-            // All this hides this window from ALT-TAB. Code found at
-            // http://stackoverflow.com/questions/357076/best-way-to-hide-a-window-from-the-alt-tab-program-switcher
             WindowInteropHelper wndHelper = new WindowInteropHelper(win);
 
             int exStyle = Convert.ToInt32(NativeMethods.GetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE)));
             exStyle = exStyle | Convert.ToInt32(WSEX.TOOLWINDOW);
 
-            SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
+            NativeMethods.SetWindowLongPtr(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)exStyle);
         }
 
         public static void ShowWindowInAltTab(Window win)
         {
             WindowInteropHelper wndHelper = new WindowInteropHelper(win);
 
-            int normalEWS = 262400; // 'exStyle' cannot be restored by 'OR' operation. Use this number instead.
-            SetWindowLong(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)normalEWS);
+            int normalEWS = 262400; // 'exStyle' cannot be restored by 'OR' operation. Use this 'magic' number instead.
+            NativeMethods.SetWindowLongPtr(wndHelper.Handle, Convert.ToInt32(GWL.EXSTYLE), (IntPtr)normalEWS);
         }
         #endregion
 
         #region Private
-        private static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
-        {
-            int error = 0;
-            IntPtr result = IntPtr.Zero;
-            // Win32 SetWindowLong doesn't clear error on success
-            NativeMethods.SetLastError(0);
-
-            if (IntPtr.Size == 4)
-            {
-                // use SetWindowLong
-                Int32 tempResult = NativeMethods.IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
-                error = Marshal.GetLastWin32Error();
-                result = new IntPtr(tempResult);
-            }
-            else
-            {
-                // use SetWindowLongPtr
-                result = NativeMethods.IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
-                error = Marshal.GetLastWin32Error();
-            }
-
-            if ((result == IntPtr.Zero) && (error != 0))
-            {
-                //Throw New System.ComponentModel.Win32Exception([error]) ' We shallow this exception, should we?
-            }
-
-            return result;
-        }
-
         private static int IntPtrToInt32(IntPtr intPtr)
         {
             return Convert.ToInt32(intPtr.ToInt64());
