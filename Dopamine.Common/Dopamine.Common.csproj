@@ -158,6 +158,7 @@
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
+    <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Presentation\Converters\AddEllipsisConverter.cs" />
     <Compile Include="Presentation\Converters\AddValueConverter.cs" />

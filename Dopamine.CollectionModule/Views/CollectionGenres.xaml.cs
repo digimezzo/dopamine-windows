@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.Utils;
+﻿using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Logging;

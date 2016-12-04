@@ -39,6 +39,7 @@
                 <controls:IconMenuButton  
                 x:Name="ShowcaseButton"
                 GroupName="NowPlayingScreenButtons"
+                IsChecked="{Binding IsShowCaseSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 
@@ -58,7 +59,7 @@
                 <controls:IconMenuButton 
                 x:Name="PlaylistButton"
                 GroupName="NowPlayingScreenButtons"
-                IsChecked="True"
+                IsChecked="{Binding IsPlaylistSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 
@@ -78,6 +79,7 @@
                 <controls:IconMenuButton 
                 x:Name="LyricsButton"
                 GroupName="NowPlayingScreenButtons"
+                IsChecked="{Binding IsLyricsSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 
@@ -97,6 +99,7 @@
                 <controls:IconMenuButton 
                 x:Name="ArtistInformationButton"
                 GroupName="NowPlayingScreenButtons"
+                IsChecked="{Binding IsArtistInformationSelected, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
                 Width="30" 
                 Height="30" 
                 HorizontalContentAlignment="Center" 

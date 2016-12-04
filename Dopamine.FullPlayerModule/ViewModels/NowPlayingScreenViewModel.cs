@@ -1,7 +1,9 @@
 ﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
+using Dopamine.Core.Settings;
 using Dopamine.FullPlayerModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -50,7 +52,30 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.regionManager = regionManager;
             this.playbackService = playbackService;
 
-            this.isPlaylistVisible = true; // default
+            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            {
+                SelectedNowPlayingPage screen = (SelectedNowPlayingPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedNowPlayingPage");
+
+                switch (screen)
+                {
+                    case SelectedNowPlayingPage.ShowCase:
+                        this.isShowCaseVisible = true;
+                        break;
+                    case SelectedNowPlayingPage.Playlist:
+                        this.isPlaylistVisible = true;
+                        break;
+                    case SelectedNowPlayingPage.Lyrics:
+                        this.isLyricsVisible = true;
+                        break;
+                    case SelectedNowPlayingPage.ArtistInformation:
+                        this.isArtistInformationVisible = true;
+                        break;
+                }
+            }
+            else
+            {
+                this.isPlaylistVisible = true;
+            }
 
             this.playbackService.PlaybackSuccess += (_) => this.SetNowPlaying();
 
@@ -73,6 +98,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             this.SlideDirection = SlideDirection.LeftToRight;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenShowcase).FullName);
+            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int) SelectedNowPlayingPage.ShowCase);
 
             isShowCaseVisible = true;
             isPlaylistVisible = false;
@@ -85,6 +111,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.SlideDirection = SlideDirection.LeftToRight;
             if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenPlaylist).FullName);
+            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Playlist);
 
             isShowCaseVisible = false;
             isPlaylistVisible = true;
@@ -97,6 +124,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.SlideDirection = SlideDirection.RightToLeft;
             if (isArtistInformationVisible) this.SlideDirection = SlideDirection.LeftToRight;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenLyrics).FullName);
+            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Lyrics);
 
             isShowCaseVisible = false;
             isPlaylistVisible = false;
@@ -108,6 +136,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             this.SlideDirection = SlideDirection.RightToLeft;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenArtistInformation).FullName);
+            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.ArtistInformation);
 
             isShowCaseVisible = false;
             isPlaylistVisible = false;
@@ -126,6 +155,10 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 else if (isPlaylistVisible)
                 {
                     this.SetPlaylist();
+                }
+                else if (isLyricsVisible)
+                {
+                    this.SetLyrics();
                 }
                 else if (isArtistInformationVisible)
                 {
