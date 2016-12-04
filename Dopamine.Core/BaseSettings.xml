@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>67</Value>
+      <Value>68</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -141,7 +141,7 @@
   </Namespace>
   <Namespace Name="Startup">
     <Setting Name="ShowLastSelectedPage">
-      <Value>False</Value>
+      <Value>True</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Updates">
