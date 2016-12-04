@@ -52,7 +52,6 @@ namespace Dopamine.Views
         private bool isMiniPlayerPositionLocked;
         private bool isMiniPlayerAlwaysOnTop;
         private IEventAggregator eventAggregator;
-        private bool isNowPlayingActive;
         private TrayControls trayControls;
         private Storyboard enableWindowTransparencyStoryboard;
         private Storyboard disableWindowTransparencyStoryboard;
@@ -214,8 +213,6 @@ namespace Dopamine.Views
             // -------
             this.NavigateToMainScreenCommand = new DelegateCommand(() =>
             {
-                this.isNowPlayingActive = false;
-                this.ShowWindowControls = true;
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(MainScreen).FullName);
             });
 
@@ -224,8 +221,6 @@ namespace Dopamine.Views
 
             this.NavigateToNowPlayingScreenCommand = new DelegateCommand(() =>
             {
-                this.isNowPlayingActive = true;
-                this.ShowWindowControls = false;
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(NowPlayingScreen).FullName);
             });
 
@@ -471,7 +466,7 @@ namespace Dopamine.Views
 
             this.ResizeMode = ResizeMode.CanResize;
 
-            if (!this.isNowPlayingActive) this.ShowWindowControls = true;
+            this.ShowWindowControls = true;
 
             if (XmlSettingsClient.Instance.Get<bool>("FullPlayer", "IsMaximized"))
             {

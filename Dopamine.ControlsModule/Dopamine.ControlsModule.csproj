@@ -149,9 +149,6 @@
     <Compile Include="Views\NowPlayingPlaybackControls.xaml.cs">
       <DependentUpon>NowPlayingPlaybackControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlayingScreenWindowControls.xaml.cs">
-      <DependentUpon>NowPlayingScreenWindowControls.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlayAllControl.xaml.cs">
       <DependentUpon>PlayAllControl.xaml</DependentUpon>
     </Compile>
@@ -216,10 +213,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NowPlayingPlaybackControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NowPlayingScreenWindowControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

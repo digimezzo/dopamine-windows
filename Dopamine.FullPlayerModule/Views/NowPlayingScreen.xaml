@@ -58,7 +58,6 @@
                             Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                             FontSize="14"/>
                     </Button>
-                    <controlsModuleViews:NowPlayingScreenWindowControls DockPanel.Dock="Right"/>
                     <FrameworkElement Visibility="Collapsed"/>
                 </DockPanel>
                 <Border.Style>
