@@ -214,6 +214,7 @@ namespace Dopamine.Views
             this.NavigateToMainScreenCommand = new DelegateCommand(() =>
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(MainScreen).FullName);
+                XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
             });
 
 
@@ -222,6 +223,7 @@ namespace Dopamine.Views
             this.NavigateToNowPlayingScreenCommand = new DelegateCommand(() =>
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(NowPlayingScreen).FullName);
+                XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
             });
 
             Core.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);

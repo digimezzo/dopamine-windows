@@ -16,10 +16,17 @@
              xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              MouseMove="NowPlaying_MouseMove" 
              Loaded="NowPlaying_Loaded"
              Background="Transparent" 
              SizeChanged="NowPlaying_SizeChanged">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <UserControl.Resources>
         <Storyboard x:Key="Taller">

@@ -9,7 +9,7 @@ using Prism.Regions;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
-    public class NowPlayingScreenViewModel : BindableBase, INavigationAware
+    public class NowPlayingScreenViewModel : BindableBase
     {
         #region Variables
         private bool isShowcaseButtonChecked;
@@ -58,6 +58,8 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.NowPlayingScreenPlaylistButtonCommand = new DelegateCommand(() => this.SetPlaylist());
             this.NowPlayingScreenLyricsButtonCommand = new DelegateCommand(() => this.SetLyrics());
             this.NowPlayingScreenArtistInformationButtonCommand = new DelegateCommand(() => this.SetArtistInformation());
+
+            this.LoadedCommand = new DelegateCommand(() => this.SetNowPlaying());
 
             ApplicationCommands.NowPlayingScreenShowcaseButtonCommand.RegisterCommand(this.NowPlayingScreenShowcaseButtonCommand);
             ApplicationCommands.NowPlayingScreenPlaylistButtonCommand.RegisterCommand(this.NowPlayingScreenPlaylistButtonCommand);
@@ -134,22 +136,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
             {
                 this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NothingPlayingControl).FullName);
             }
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.SetNowPlaying();
         }
         #endregion
     }

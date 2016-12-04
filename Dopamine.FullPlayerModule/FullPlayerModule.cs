@@ -5,6 +5,8 @@ using Dopamine.FullPlayerModule.Views;
 using Prism.Modularity;
 using Prism.Regions;
 using Microsoft.Practices.Unity;
+using Dopamine.Core.Settings;
+using Dopamine.CollectionModule;
 
 namespace Dopamine.FullPlayerModule
 {
@@ -45,12 +47,26 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenLyrics>(typeof(NowPlayingScreenLyrics).FullName);
             this.container.RegisterType<object, NowPlayingScreenLyricsViewModel>(typeof(NowPlayingScreenLyricsViewModel).FullName);
 
-            this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.MainScreen));
             this.regionManager.RegisterViewWithRegion(RegionNames.StatusRegion, typeof(Views.Status));
             this.regionManager.RegisterViewWithRegion(RegionNames.MainMenuRegion, typeof(Views.MainMenu));
             this.regionManager.RegisterViewWithRegion(RegionNames.NowPlayingPlaybackControlsRegion, typeof(NowPlayingPlaybackControls));
             this.regionManager.RegisterViewWithRegion(RegionNames.NowPlayingSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
             this.regionManager.RegisterViewWithRegion(RegionNames.FullPlayerSearchRegion, typeof(SearchControl));
+
+            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            {
+                if (XmlSettingsClient.Instance.Get<bool>("FullPlayer", "IsNowPlayingSelected")){
+                    this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.NowPlayingScreen));
+                }
+                else
+                {
+                    this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.MainScreen));
+                }
+            }
+            else
+            {
+                this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.MainScreen));
+            }
         }
         #endregion
     }
