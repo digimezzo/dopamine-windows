@@ -54,9 +54,9 @@ namespace Dopamine.CollectionModule
 
             if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedPage screen = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
+                SelectedPage page = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
 
-                switch (screen)
+                switch (page)
                 {
                     case SelectedPage.Artists:
                         this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));
