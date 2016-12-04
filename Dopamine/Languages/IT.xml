@@ -261,8 +261,6 @@
   <Text Key="Edit_Album">Modifica album</Text>
   <Text Key="Update_File_Covers">Aggiorna file delle copertine</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Seleziona questo box per aggiornare la copertina in tutti i file di questo album.</Text>
-  <Text Key="Startup_Page">Pagina d'avvio</Text>
-  <Text Key="Start_At_Last_Selected_Page">Apri l'ultima pagina selezionata all'avvio</Text>
   <Text Key="Rating">Voto</Text>
   <Text Key="Save_Rating_In_Audio_Files">Salva la votazione nel file audio (solo per MP3)</Text>
   <Text Key="By_Rating">Per voto</Text>
@@ -372,4 +370,6 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
+  <Text Key="Startup_Page">Pagina d'avvio</Text>
+  <Text Key="Start_At_Last_Selected_Page">Apri l'ultima pagina selezionata all'avvio</Text>
 </Language>

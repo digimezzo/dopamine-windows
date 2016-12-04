@@ -261,8 +261,6 @@
   <Text Key="Edit_Album">Edycja albumu</Text>
   <Text Key="Update_File_Covers">Aktualizacja okładek w plikach</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Zaznacz to pole wyboru aby zaktualizować okładki we wszystkich plików tego albumu</Text>
-  <Text Key="Startup_Page">Strona startowa</Text>
-  <Text Key="Start_At_Last_Selected_Page">Otwórz ostatnią wybraną stronę przy uruchamianiu</Text>
   <Text Key="Rating">Ocena</Text>
   <Text Key="Save_Rating_In_Audio_Files">Zapisz ocenę w plikach dźwiękowych (tylko MP3)</Text>
   <Text Key="By_Rating">Wg oceny</Text>
@@ -372,4 +370,6 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
+  <Text Key="Startup_Page">Strona startowa</Text>
+  <Text Key="Start_At_Last_Selected_Page">Otwórz ostatnią wybraną stronę przy uruchamianiu</Text>
 </Language>
