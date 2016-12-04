@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">Éditer album</Text>
   <Text Key="Update_File_Covers">Mettre à jour la pochette dans les fichiers</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Cochez cette case pour mettre à jour la pochette dans tous les fichiers de cet album</Text>
+  <Text Key="Startup_Page">Page de démarrage</Text>
+  <Text Key="Start_At_Last_Selected_Page">Afficher la dernière page sélectionnée au démarrage</Text>
   <Text Key="Rating">Note</Text>
   <Text Key="Save_Rating_In_Audio_Files">Sauvegarder les notes dans les fichiers audio (MP3 uniquement)</Text>
   <Text Key="By_Rating">Par note</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Lecture aléatoire de tous les numéros</Text>
   <Text Key="Search_Again">Chercher à nouveau</Text>
   <Text Key="Audio_File">Fichier audio</Text>
-  <Text Key="Startup_Page">Page de démarrage</Text>
-  <Text Key="Start_At_Last_Selected_Page">Afficher la dernière page sélectionnée au démarrage</Text>
 </Language>

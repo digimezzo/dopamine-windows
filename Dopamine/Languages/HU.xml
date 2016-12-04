@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">Edit album</Text>
   <Text Key="Update_File_Covers">Update file covers</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Check this box to update the cover in all the files of this album</Text>
+  <Text Key="Startup_Page">Startup page</Text>
+  <Text Key="Start_At_Last_Selected_Page">Open the last selected page at startup</Text>
   <Text Key="Rating">Rating</Text>
   <Text Key="Save_Rating_In_Audio_Files">Save the rating in the audio files (MP3 only)</Text>
   <Text Key="By_Rating">By rating</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
-  <Text Key="Startup_Page">Startup page</Text>
-  <Text Key="Start_At_Last_Selected_Page">Open the last selected page at startup</Text>
 </Language>

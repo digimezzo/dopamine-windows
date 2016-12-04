@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">編輯專輯</Text>
   <Text Key="Update_File_Covers">更新檔案封面</Text>
   <Text Key="Check_Box_To_Update_File_Covers">選取此核取方塊以更新專輯中的歌曲封面</Text>
+  <Text Key="Startup_Page">啟動畫面</Text>
+  <Text Key="Start_At_Last_Selected_Page">啟動時跳轉至最後選定的畫面</Text>
   <Text Key="Rating">評分</Text>
   <Text Key="Save_Rating_In_Audio_Files">儲存評分至MP3檔案</Text>
   <Text Key="By_Rating">按評分</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
-  <Text Key="Startup_Page">啟動畫面</Text>
-  <Text Key="Start_At_Last_Selected_Page">啟動時跳轉至最後選定的畫面</Text>
 </Language>

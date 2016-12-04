@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">Rediger album</Text>
   <Text Key="Update_File_Covers">Opdater filcover</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Sæt kryds i denne boks for at opdatere albumbilledet på alle filer i dette album</Text>
+  <Text Key="Startup_Page">Opstartside</Text>
+  <Text Key="Start_At_Last_Selected_Page">Vis den sidste brugte side ved opstart</Text>
   <Text Key="Rating">Bedømmelse</Text>
   <Text Key="Save_Rating_In_Audio_Files">Gem bedømmelsen i lydfilerne (kun MP3)</Text>
   <Text Key="By_Rating">Bedømmelser</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
-  <Text Key="Startup_Page">Opstartside</Text>
-  <Text Key="Start_At_Last_Selected_Page">Vis den sidste brugte side ved opstart</Text>
 </Language>

@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">Album aanpassen</Text>
   <Text Key="Update_File_Covers">Afbeelding in bestanden bijwerken</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Vink dit aan om de afbeelding in alle bestanden van dit album bij te werken</Text>
+  <Text Key="Startup_Page">Startpagina</Text>
+  <Text Key="Start_At_Last_Selected_Page">Toon de laatst geselecteerde pagina bij het opstarten</Text>
   <Text Key="Rating">Beoordeling</Text>
   <Text Key="Save_Rating_In_Audio_Files">Beoordeling opslaan in de audio bestanden (uitsluitend MP3)</Text>
   <Text Key="By_Rating">Per beoordeling</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Alle nummers gemixt afspelen</Text>
   <Text Key="Search_Again">Opnieuw zoeken</Text>
   <Text Key="Audio_File">Audio bestand</Text>
-  <Text Key="Startup_Page">Startpagina</Text>
-  <Text Key="Start_At_Last_Selected_Page">Toon de laatst geselecteerde pagina bij het opstarten</Text>
 </Language>
