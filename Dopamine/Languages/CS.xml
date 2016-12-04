@@ -261,6 +261,8 @@
   <Text Key="Edit_Album">Upravit album</Text>
   <Text Key="Update_File_Covers">Aktualizovat obal souboru</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Zaškrtněte toto políčko, abyste aktualizovali obal souboru v kolekci</Text>
+  <Text Key="Startup_Page">Stránka po spuštění</Text>
+  <Text Key="Start_At_Last_Selected_Page">Po spuštění otevřít naposledy použitou stránku</Text>
   <Text Key="Rating">Hodnocení</Text>
   <Text Key="Save_Rating_In_Audio_Files">Ukládat hodnocení do audio souborů (pouze MP3)</Text>
   <Text Key="By_Rating">Podle hodnocení</Text>
@@ -370,6 +372,4 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
-  <Text Key="Startup_Page">Stránka po spuštění</Text>
-  <Text Key="Start_At_Last_Selected_Page">Po spuštění otevřít naposledy použitou stránku</Text>
 </Language>
