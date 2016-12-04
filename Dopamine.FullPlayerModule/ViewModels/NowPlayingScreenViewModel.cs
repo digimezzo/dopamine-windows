@@ -54,9 +54,9 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
             if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedNowPlayingPage screen = (SelectedNowPlayingPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedNowPlayingPage");
+                SelectedNowPlayingPage page = (SelectedNowPlayingPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedNowPlayingPage");
 
-                switch (screen)
+                switch (page)
                 {
                     case SelectedNowPlayingPage.ShowCase:
                         this.isShowCaseVisible = true;

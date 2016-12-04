@@ -65,9 +65,9 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedPage screen = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
+                SelectedPage page = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
 
-                switch (screen)
+                switch (page)
                 {
                     case SelectedPage.Artists:
                         this.IsArtistsSelected = true;
