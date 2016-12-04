@@ -261,8 +261,6 @@
   <Text Key="Edit_Album">Editar álbum</Text>
   <Text Key="Update_File_Covers">Actualizar archivos de portadas</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Marca esta casilla para actualizar la portada en todos los archivos de este album</Text>
-  <Text Key="Startup_Page">Modalidad de inicio</Text>
-  <Text Key="Start_At_Last_Selected_Page">Usar la última modalidad seleccionada al iniciar Dopamine</Text>
   <Text Key="Rating">Valoración</Text>
   <Text Key="Save_Rating_In_Audio_Files">Guardar la valoración en los archivos de audio (sólo MP3)</Text>
   <Text Key="By_Rating">Por valoración</Text>
@@ -372,4 +370,6 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
+  <Text Key="Startup_Page">Modalidad de inicio</Text>
+  <Text Key="Start_At_Last_Selected_Page">Usar la última modalidad seleccionada al iniciar Dopamine</Text>
 </Language>

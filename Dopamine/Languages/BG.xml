@@ -261,8 +261,6 @@
   <Text Key="Edit_Album">Редактиране на албум</Text>
   <Text Key="Update_File_Covers">Актуализация на файловете на обложки</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Маркирайте тази отметка, за да се актуализира корицата на всички файлове от този албум</Text>
-  <Text Key="Startup_Page">Начална страница</Text>
-  <Text Key="Start_At_Last_Selected_Page">Отвори последния избраната страница при стартиране</Text>
   <Text Key="Rating">Оценка</Text>
   <Text Key="Save_Rating_In_Audio_Files">Запазване на рейтинга в аудио файловете (Само за MP3 )</Text>
   <Text Key="By_Rating">By rating</Text>
@@ -372,4 +370,6 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
+  <Text Key="Startup_Page">Начална страница</Text>
+  <Text Key="Start_At_Last_Selected_Page">Отвори последния избраната страница при стартиране</Text>
 </Language>

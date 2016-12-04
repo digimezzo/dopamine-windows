@@ -261,8 +261,6 @@
   <Text Key="Edit_Album">Επεξεργασία άλμπουμ</Text>
   <Text Key="Update_File_Covers">Ενημέρωση εξωφύλλων</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Τσεκάρετε το πλαίσιο για ενημέρωση των εξωφύλλων σε όλα τα τραγούδια του άλμπουμ</Text>
-  <Text Key="Startup_Page">Σελίδα έναρξης</Text>
-  <Text Key="Start_At_Last_Selected_Page">Άνοιγμα της πιο πρόσφατης επιλογής στην εκκίνηση</Text>
   <Text Key="Rating">Αξιολόγηση</Text>
   <Text Key="Save_Rating_In_Audio_Files">Αποθήκευση αξιολόγησης στα αρχεία μουσικής (μόνο MP3)</Text>
   <Text Key="By_Rating">κατά αξιολόγηση</Text>
@@ -372,4 +370,6 @@
   <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
+  <Text Key="Startup_Page">Σελίδα έναρξης</Text>
+  <Text Key="Start_At_Last_Selected_Page">Άνοιγμα της πιο πρόσφατης επιλογής στην εκκίνηση</Text>
 </Language>
