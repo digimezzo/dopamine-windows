@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Settings;
 using Prism.Commands;

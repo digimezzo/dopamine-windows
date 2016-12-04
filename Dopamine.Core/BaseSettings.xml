@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>69</Value>
+      <Value>70</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -39,6 +39,9 @@
     </Setting>
     <Setting Name="SelectedPage">
       <Value>1</Value>
+    </Setting>
+    <Setting Name="SelectedNowPlayingPage">
+      <Value>2</Value>
     </Setting>
     <Setting Name="IsNowPlayingSelected">
       <Value>False</Value>

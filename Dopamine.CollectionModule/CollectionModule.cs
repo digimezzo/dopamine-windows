@@ -6,6 +6,7 @@ using Dopamine.Core.Settings;
 using Prism.Modularity;
 using Prism.Regions;
 using Microsoft.Practices.Unity;
+using Dopamine.Common.Enums;
 
 namespace Dopamine.CollectionModule
 {

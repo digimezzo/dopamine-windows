@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Settings;
+﻿using Dopamine.Common.Enums;
+using Dopamine.Core.Settings;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Windows.Controls;
