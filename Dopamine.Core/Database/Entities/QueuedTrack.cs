@@ -9,6 +9,8 @@ namespace Dopamine.Core.Database.Entities
         public long QueuedTrackID { get; set; }
         public string Path { get; set; }
         public string SafePath { get; set; }
+        public long IsPlaying { get; set; }
+        public long ProgressSeconds { get; set; }
         public long OrderID { get; set; }
         #endregion
 

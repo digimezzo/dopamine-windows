@@ -343,7 +343,7 @@ namespace Dopamine.Common.Services.Playback
         public async Task UpdateQueueOrderAsync(List<MergedTrack> tracks)
         {
             if (tracks == null || tracks.Count == 0) return;
-            
+
             try
             {
                 await Task.Run(() =>
@@ -462,7 +462,28 @@ namespace Dopamine.Common.Services.Playback
                 }
             });
 
-            if (paths != null) await this.queuedTrackRepository.SaveQueuedTracksAsync(paths);
+            if (paths != null)
+            {
+                if (this.player.CanStop && this.playingTrack != null)
+                {
+                    double progressSeconds = 0;
+
+                    try
+                    {
+                        progressSeconds = this.player.GetCurrentTime().TotalSeconds;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Info("Could not get progress in seconds. Exception: {0}", ex.Message);
+                    }
+
+                    await this.queuedTrackRepository.SaveQueuedTracksAsync(paths, this.playingTrack.Path, progressSeconds);
+                }
+                else
+                {
+                    await this.queuedTrackRepository.SaveQueuedTracksAsync(paths, null, 0);
+                }
+            }
 
             LogClient.Instance.Logger.Info("Saved queued tracks");
 
@@ -1232,12 +1253,12 @@ namespace Dopamine.Common.Services.Playback
             }), null);
         }
 
-        private void SaveQueuedTracksTimeoutHandler(object sender, ElapsedEventArgs e)
+        private async void SaveQueuedTracksTimeoutHandler(object sender, ElapsedEventArgs e)
         {
-            this.SaveQueuedTracksAsync();
+            await this.SaveQueuedTracksAsync();
         }
 
-        private void GetSavedQueuedTracks()
+        private async void GetSavedQueuedTracks()
         {
             List<MergedTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
 
@@ -1253,7 +1274,43 @@ namespace Dopamine.Common.Services.Playback
                 }
             }
 
-            this.SetPlaybackSettingsAsync();
+            await this.SetPlaybackSettingsAsync();
+            QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
+
+            if (queuedTrack != null)
+            {
+                MergedTrack track = null;
+
+                lock (this.queueSyncObject)
+                {
+                    track = this.shuffledTracks.Select(t => t).Where(t => t.SafePath == queuedTrack.SafePath).FirstOrDefault();
+                }
+
+                if (track != null)
+                {
+                    try
+                    {
+                        await this.StartTrackPausedAsync(track, Convert.ToInt32(queuedTrack.ProgressSeconds));
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Instance.Logger.Error("Could not configure the playing track. Exception: {0}", ex.Message);
+                        this.Stop();
+                    }
+                }
+            }
+        }
+
+        private async Task StartTrackPausedAsync(MergedTrack track, int progressSeconds)
+        {
+            // Make sure player is not null when we set the volume to 0
+            this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
+            this.player.SetVolume(0.0f);
+            await this.TryPlayAsync(track);
+            await this.PauseAsync();
+            this.player.SetVolume(this.Volume);
+            this.player.Skip(progressSeconds);
+            PlaybackProgressChanged(this, new EventArgs());
         }
 
         private void HandleProgress()
@@ -1270,10 +1327,7 @@ namespace Dopamine.Common.Services.Playback
                 this.Progress = 0.0;
             }
 
-            if (PlaybackProgressChanged != null)
-            {
-                PlaybackProgressChanged(this, null);
-            }
+            PlaybackProgressChanged(this, new EventArgs());
         }
 
         private async Task EnqueueIfRequired(List<MergedTrack> tracks)

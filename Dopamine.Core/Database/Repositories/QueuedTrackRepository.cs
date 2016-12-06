@@ -62,7 +62,7 @@ namespace Dopamine.Core.Database.Repositories
             return tracks;
         }
 
-        public async Task SaveQueuedTracksAsync(IList<string> paths)
+        public async Task SaveQueuedTracksAsync(IList<string> paths, string playingPath, double progressSeconds)
         {
             await Task.Run(() =>
             {
@@ -85,6 +85,18 @@ namespace Dopamine.Core.Database.Repositories
 
                             conn.Execute("UPDATE QueuedTrack SET OrderID=QueuedTrackID;");
 
+                            try
+                            {
+                                if (playingPath != null)
+                                {
+                                    conn.Execute("UPDATE QueuedTrack SET IsPlaying=1, ProgressSeconds=? WHERE SafePath=?;",Convert.ToInt64(progressSeconds), playingPath.ToSafePath());
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Instance.Logger.Error("Could not update the playing queued track. Exception: {0}", ex.Message);
+                            }
+
                             conn.Execute("COMMIT;");
                         }
                         catch (Exception ex)
@@ -99,6 +111,36 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
         }
+
+        public async Task<QueuedTrack> GetPlayingTrackAsync()
+        {
+            QueuedTrack track = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            track = conn.Query<QueuedTrack>("SELECT * FROM QueuedTrack WHERE IsPlaying=1;").FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Instance.Logger.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return track;
+        }
+
         #endregion
     }
 }
