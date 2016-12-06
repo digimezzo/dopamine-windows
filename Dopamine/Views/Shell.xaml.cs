@@ -698,14 +698,6 @@ namespace Dopamine.Views
             // ------------------
             XmlSettingsClient.Instance.Write();
 
-            // Stop playing
-            // ------------
-            this.playbackService.Stop();
-
-            // Update file metadata
-            // --------------------
-            await this.metadataService.SafeUpdateFileMetadataAsync();
-
             // Save queued tracks
             // ------------------
             if (this.playbackService.IsSavingQueuedTracks)
@@ -719,6 +711,14 @@ namespace Dopamine.Views
             {
                 await this.playbackService.SaveQueuedTracksAsync();
             }
+
+            // Stop playing
+            // ------------
+            this.playbackService.Stop();
+
+            // Update file metadata
+            // --------------------
+            await this.metadataService.SafeUpdateFileMetadataAsync();
 
             // Save track statistics
             // ---------------------

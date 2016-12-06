@@ -27,7 +27,7 @@ namespace Dopamine.ControlsModule.Views
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.RegisterPlayer();
 
             // Just in case we switched Views after the playBackService.PlaybackSuccess was triggered
-            if (this.playbackService.IsPlaying) this.RegisterPlayer();
+            this.RegisterPlayer();
         }
         #endregion
 
