@@ -330,7 +330,6 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler PlaybackLoopChanged = delegate { };
         public event EventHandler PlaybackShuffleChanged = delegate { };
         public event Action<bool> SpectrumVisibilityChanged = delegate { };
-        public event EventHandler ShuffledTracksChanged = delegate { };
         public event Action<int> AddedTracksToQueue = delegate { };
         public event EventHandler TrackStatisticsChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
@@ -801,7 +800,7 @@ namespace Dopamine.Common.Services.Playback
 
             var dequeueResult = new DequeueResult { IsSuccess = isSuccess, DequeuedTracks = removedShuffledTracks };
 
-            this.ShuffledTracksChanged(this, new EventArgs());
+            this.QueueChanged(this, new EventArgs());
 
             this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
 
@@ -831,15 +830,54 @@ namespace Dopamine.Common.Services.Playback
 
             await this.SetPlaybackSettingsAsync();
 
-            if (result.AddedTracks != null)
+            if (result.AddedTracks != null && result.IsSuccess)
             {
-                if (AddedTracksToQueue != null)
-                {
-                    AddedTracksToQueue(result.AddedTracks.Count);
-                }
+                this.AddedTracksToQueue(result.AddedTracks.Count);
+                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
             }
 
-            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+            return result;
+        }
+
+        public async Task<AddToQueueResult> AddToQueueNext(IList<MergedTrack> tracks)
+        {
+            var result = new AddToQueueResult { IsSuccess = true };
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    lock (this.queueSyncObject)
+                    {
+                        result.AddedTracks = tracks;
+
+                        int queuedIndex = 0;
+                        int shuffledIndex = 0;
+
+                        if (this.playingTrack != null)
+                        {
+                            queuedIndex = this.queuedTracks.IndexOf(this.playingTrack);
+                            shuffledIndex = this.shuffledTracks.IndexOf(this.playingTrack);
+                        }
+
+                        this.queuedTracks.InsertRange(queuedIndex+1, tracks);
+                        this.shuffledTracks.InsertRange(shuffledIndex + 1, tracks);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.IsSuccess = false;
+                    LogClient.Instance.Logger.Error("Error while adding tracks next. Exception: {0}", ex.Message);
+                }
+            });
+
+            this.QueueChanged(this, new EventArgs());
+
+            if (result.AddedTracks != null  && result.IsSuccess)
+            {
+                this.AddedTracksToQueue(result.AddedTracks.Count);
+                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+            }
 
             return result;
         }
@@ -1006,7 +1044,7 @@ namespace Dopamine.Common.Services.Playback
                 }
             });
 
-            this.ShuffledTracksChanged(this, new EventArgs());
+            this.QueueChanged(this, new EventArgs());
         }
 
         private async Task UnShuffleTracks()
@@ -1020,7 +1058,7 @@ namespace Dopamine.Common.Services.Playback
                 }
             });
 
-            this.ShuffledTracksChanged(this, new EventArgs());
+            this.QueueChanged(this, new EventArgs());
         }
 
         private void ToggleMute()

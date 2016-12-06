@@ -34,7 +34,10 @@ namespace Dopamine.ControlsModule.Views
         #region Private
         private void RegisterPlayer()
         {
-            Application.Current.Dispatcher.Invoke(() => { this.SpectrumAnalyzer.RegisterSoundPlayer((WPFSoundVisualizationLib.ISpectrumPlayer)this.playbackService.Player); });
+            if(this.playbackService.Player != null)
+            {
+                Application.Current.Dispatcher.Invoke(() => { this.SpectrumAnalyzer.RegisterSoundPlayer((WPFSoundVisualizationLib.ISpectrumPlayer)this.playbackService.Player); });
+            }
         }
         #endregion
     }

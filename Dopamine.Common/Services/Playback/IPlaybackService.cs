@@ -60,6 +60,7 @@ namespace Dopamine.Common.Services.Playback
         Task<AddToQueueResult> AddToQueue(IList<Genre> genres);
         Task<AddToQueueResult> AddToQueue(IList<Album> albums);
         Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists);
+        Task<AddToQueueResult> AddToQueueNext(IList<MergedTrack> tracks);
         Task<DequeueResult> Dequeue(IList<MergedTrack> selectedTracks);
         Task SaveQueuedTracksAsync();
         Task SaveTrackStatisticsAsync();
@@ -81,7 +82,6 @@ namespace Dopamine.Common.Services.Playback
         event EventHandler PlaybackLoopChanged;
         event EventHandler PlaybackShuffleChanged;
         event Action<bool> SpectrumVisibilityChanged;
-        event EventHandler ShuffledTracksChanged;
         event Action<int> AddedTracksToQueue;
         event EventHandler TrackStatisticsChanged;
         event Action<bool> LoadingTrack;
