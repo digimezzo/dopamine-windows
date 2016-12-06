@@ -43,7 +43,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
 
             // PlaybackService
-            this.playbackService.ShuffledTracksChanged += async (_, __) => await this.FillListsAsync();
             this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
         }
         #endregion

@@ -85,6 +85,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
+        public DelegateCommand PlayNextCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
         public DelegateCommand ShuffleAllCommand { get; set; }
         #endregion
@@ -214,6 +215,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
+            this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync(this.SelectedTracks));
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
@@ -762,6 +764,16 @@ namespace Dopamine.Common.Presentation.ViewModels
                 default:
                     // Never happens
                     break;
+            }
+        }
+
+        protected async Task PlayNextAsync(IList<MergedTrack> tracks)
+        {
+            AddToQueueResult result = await this.playbackService.AddToQueueNext(tracks);
+
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
