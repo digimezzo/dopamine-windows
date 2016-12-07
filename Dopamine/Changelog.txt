@@ -1,4 +1,4 @@
-2016-12-06: Dopamine 1.2 Build 826 (Preview)
+2016-12-06: Dopamine 1.2 Build 828 (Preview)
 --------------------------------------------
 
 - [Added] The last played song and its progress is now remembered on next start
