@@ -59,20 +59,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             // Set initial volume
             // ------------------
-
-            // Important: set volumeValue directly, not the VolumeValue 
-            // Property, because the VolumeValue Property Setter is empty!
-            this.volumeValue = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
-            this.SetPlayBackServiceVolume(this.volumeValue);
+            this.GetPlayBackServiceVolume();
 
             // Set initial mute
-            // ------------------
-
-            // Important: set mute directly, not the Mute 
-            // Property, because the Mute Property Setter is empty!
-            this.mute = XmlSettingsClient.Instance.Get<bool>("Playback", "Mute");
-
-            this.playBackService.SetMute(this.Mute);
+            // ----------------
+            this.GetPlaybackServiceMute();
         }
         #endregion
 
@@ -89,9 +80,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.volumeValue = this.playBackService.Volume;
             OnPropertyChanged(() => this.VolumeValue);
             OnPropertyChanged(() => this.VolumeValuePercent);
-
-            // Save the volume in the Settings
-            XmlSettingsClient.Instance.Set<double>("Playback", "Volume", Math.Round(this.volumeValue, 2));
         }
 
         private void SetPlayBackServiceMute(bool iMute)
@@ -106,9 +94,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Property, because the Mute Property Setter is empty!
             this.mute = this.playBackService.Mute;
             OnPropertyChanged(() => this.Mute);
-
-            // Save the mute value in the Settings
-            XmlSettingsClient.Instance.Set<bool>("Playback", "Mute", this.mute);
         }
         #endregion
     }

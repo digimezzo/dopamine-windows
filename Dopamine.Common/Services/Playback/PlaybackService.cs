@@ -164,11 +164,9 @@ namespace Dopamine.Common.Services.Playback
 
                 this.volume = value;
 
-                if (this.player != null && !this.mute)
-                {
-                    this.player.SetVolume(value);
-                }
+                if (this.player != null && !this.mute) this.player.SetVolume(value);
 
+                XmlSettingsClient.Instance.Set<double>("Playback", "Volume", Math.Round(value, 2));
                 this.PlaybackVolumeChanged(this, new EventArgs());
             }
         }
@@ -554,7 +552,14 @@ namespace Dopamine.Common.Services.Playback
         public void SetMute(bool mute)
         {
             this.mute = mute;
-            this.ToggleMute();
+
+            if (this.player != null)
+            {
+                this.player.SetVolume(mute ? 0.0f : this.Volume);
+            }
+
+            XmlSettingsClient.Instance.Set<bool>("Playback", "Mute", this.mute);
+            this.PlaybackMuteChanged(this, new EventArgs());
         }
 
         public void Skip(double progress)
@@ -596,11 +601,11 @@ namespace Dopamine.Common.Services.Playback
 
                     if (currentTime <= 10)
                     {
-                        this.UpdateTrackStatisticsAsync(this.playingTrack.Path, false, true); // Increase SkipCount
+                        await this.UpdateTrackStatisticsAsync(this.playingTrack.Path, false, true); // Increase SkipCount
                     }
                     else
                     {
-                        this.UpdateTrackStatisticsAsync(this.playingTrack.Path, true, false); // Increase PlayCount
+                        await this.UpdateTrackStatisticsAsync(this.playingTrack.Path, true, false); // Increase PlayCount
                     }
                 }
             }
@@ -860,7 +865,7 @@ namespace Dopamine.Common.Services.Playback
                             shuffledIndex = this.shuffledTracks.IndexOf(this.playingTrack);
                         }
 
-                        this.queuedTracks.InsertRange(queuedIndex+1, tracks);
+                        this.queuedTracks.InsertRange(queuedIndex + 1, tracks);
                         this.shuffledTracks.InsertRange(shuffledIndex + 1, tracks);
                     }
                 }
@@ -873,7 +878,7 @@ namespace Dopamine.Common.Services.Playback
 
             this.QueueChanged(this, new EventArgs());
 
-            if (result.AddedTracks != null  && result.IsSuccess)
+            if (result.AddedTracks != null && result.IsSuccess)
             {
                 this.AddedTracksToQueue(result.AddedTracks.Count);
                 this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
@@ -912,6 +917,12 @@ namespace Dopamine.Common.Services.Playback
         {
             // Initialize the PlayerFactory
             this.playerFactory = new PlayerFactory();
+
+            // Set initial volume
+            this.Volume = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
+
+            // Set initial mute
+            this.SetMute(XmlSettingsClient.Instance.Get<bool>("Playback", "Mute"));
 
             // Equalizer
             await this.SetIsEqualizerEnabledAsync(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
@@ -959,9 +970,9 @@ namespace Dopamine.Common.Services.Playback
             return isPlaybackInfoUpdated;
         }
 
-        private void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
+        private async void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
         {
-            this.SaveTrackStatisticsAsync();
+            await this.SaveTrackStatisticsAsync();
         }
 
         private async Task UpdateTrackStatisticsAsync(string path, bool incrementPlayCount, bool incrementSkipCount)
@@ -1061,24 +1072,7 @@ namespace Dopamine.Common.Services.Playback
             this.QueueChanged(this, new EventArgs());
         }
 
-        private void ToggleMute()
-        {
-            if (this.player != null)
-            {
-                if (this.mute)
-                {
-                    this.player.SetVolume(0.0f);
-                }
-                else
-                {
-                    this.player.SetVolume(this.Volume);
-                }
-            }
-
-            this.PlaybackMuteChanged(this, new EventArgs());
-        }
-
-        private async Task<bool> TryPlayAsync(MergedTrack track)
+        private async Task<bool> TryPlayAsync(MergedTrack track, bool silent = false)
         {
             bool isPlaybackSuccess = true;
             PlaybackFailedEventArgs playbackFailedEventArgs = null;
@@ -1112,8 +1106,7 @@ namespace Dopamine.Common.Services.Playback
                 this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
 
                 this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
-
-                this.ToggleMute();
+                this.player.SetVolume(silent ? 0.0f : this.Volume);
 
                 // We need to set PlayingTrack before trying to play the Track.
                 // So if we go into the Catch when trying to play the Track,
@@ -1341,12 +1334,9 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartTrackPausedAsync(MergedTrack track, int progressSeconds)
         {
-            // Make sure player is not null when we set the volume to 0
-            this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
-            this.player.SetVolume(0.0f);
-            await this.TryPlayAsync(track);
+            await this.TryPlayAsync(track, true);
             await this.PauseAsync();
-            this.player.SetVolume(this.Volume);
+            if (!this.mute) this.player.SetVolume(this.Volume);
             this.player.Skip(progressSeconds);
             PlaybackProgressChanged(this, new EventArgs());
         }
