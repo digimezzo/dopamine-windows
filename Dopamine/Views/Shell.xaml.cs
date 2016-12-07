@@ -625,6 +625,8 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
+            LogClient.Instance.Logger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
+            this.isShuttingDown = true;
             this.Close();
         }
 
