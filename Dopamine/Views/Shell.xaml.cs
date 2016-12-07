@@ -623,16 +623,9 @@ namespace Dopamine.Views
             this.ActivateNow();
         }
 
-        private void Shutdown()
-        {
-            LogClient.Instance.Logger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
-            this.isShuttingDown = true;
-            Application.Current.Shutdown();
-        }
-
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Shutdown();
+            this.Close();
         }
 
         private void Shell_SourceInitialized(object sender, EventArgs e)
