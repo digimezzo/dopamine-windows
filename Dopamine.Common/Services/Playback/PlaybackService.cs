@@ -461,7 +461,7 @@ namespace Dopamine.Common.Services.Playback
 
             if (paths != null)
             {
-                if (this.player.CanStop && this.playingTrack != null)
+                if (this.player != null && this.player.CanStop && this.playingTrack != null)
                 {
                     double progressSeconds = 0;
 

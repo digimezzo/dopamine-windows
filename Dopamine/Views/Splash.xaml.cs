@@ -125,10 +125,13 @@ namespace Dopamine.Views
                 isSuccess = false;
             }
 
-            isSuccess = false;
             if (!isSuccess)
             {
-                this.errorMessage = string.Format("Your version of Windows doesn't have Windows Media Foundation, which is required to use {0}. If you are using a 'N' version of Windows, please install the Media Feature Pack for you version of Windows. Media Feature Pack for Windows 7 N: {1}, Media Feature Pack for Windows 8 N: {2}, Media Feature Pack for Windows 10 N: {3}", ProductInformation.ApplicationDisplayName, "https://www.microsoft.com/en-us/download/details.aspx?id=16546", "https://www.microsoft.com/en-us/download/details.aspx?id=30685", "https://www.microsoft.com/en-us/download/details.aspx?id=48231");
+                this.errorMessage = "Windows Media Foundation was not found on your computer. It is required by "+ ProductInformation.ApplicationDisplayName + " to play audio." + Environment.NewLine +
+                                    "If you are using a 'N' version of Windows, please install the Media Feature Pack for your version of Windows." + Environment.NewLine + Environment.NewLine +
+                                    "Media Feature Pack for Windows 7 N: https://www.microsoft.com/en-us/download/details.aspx?id=16546" + Environment.NewLine +
+                                    "Media Feature Pack for Windows 8 N: https://www.microsoft.com/en-us/download/details.aspx?id=30685" + Environment.NewLine +
+                                    "Media Feature Pack for Windows 10 N: https://www.microsoft.com/en-us/download/details.aspx?id=48231";
             }
 
             return isSuccess;
