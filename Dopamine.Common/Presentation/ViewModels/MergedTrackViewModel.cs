@@ -19,6 +19,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool HasLyrics
+        {
+            get
+            {
+                return this.Track.HasLyrics == 0 ? false : true;
+            }
+        }
+
         public string Bitrate
         {
             get

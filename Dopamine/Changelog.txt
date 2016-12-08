@@ -1,8 +1,9 @@
-2016-12-06: Dopamine 1.2 Build 828 (Preview)
+2016-12-08: Dopamine 1.2 Build 829 (Preview)
 --------------------------------------------
 
 - [Added] The last played song and its progress is now remembered on next start
 - [Added] Added "Play next" feature
+- [Added] Songs screen has an optional column that shows if a song has lyrics
 - [Changed] Automatic lyrics providers are now queried randomly
 - [Changed] When enabling "Open the last selected page at startup", the last selected Now Playing page is now also remembered.
 - [Fixed] Main window is still visible in ALT-TAB menu when minimized or closed to tray

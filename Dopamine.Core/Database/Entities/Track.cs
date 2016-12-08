@@ -26,6 +26,7 @@ namespace Dopamine.Core.Database.Entities
         public long? Duration { get; set; }
         public long? Year { get; set; }
         public long? Rating { get; set; }
+        public long? HasLyrics { get; set; }
         public long? Love { get; set; }
         public long? PlayCount { get; set; }
         public long? SkipCount { get; set; }

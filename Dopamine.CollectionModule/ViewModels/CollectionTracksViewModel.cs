@@ -16,6 +16,7 @@ namespace Dopamine.CollectionModule.ViewModels
         // Flags
         private bool ratingVisible;
         private bool loveVisible;
+        private bool lyricsVisible;
         private bool artistVisible;
         private bool albumVisible;
         private bool genreVisible;
@@ -37,6 +38,12 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             get { return this.loveVisible; }
             set { SetProperty<bool>(ref this.loveVisible, value); }
+        }
+
+        public bool LyricsVisible
+        {
+            get { return this.lyricsVisible; }
+            set { SetProperty<bool>(ref this.lyricsVisible, value); }
         }
 
         public bool ArtistVisible
@@ -176,6 +183,7 @@ namespace Dopamine.CollectionModule.ViewModels
             Utils.GetVisibleSongsColumns(
                 ref columnRatingVisible,
                 ref columnLoveVisible,
+                ref this.lyricsVisible,
                 ref this.artistVisible,
                 ref this.albumVisible,
                 ref this.genreVisible,
@@ -185,6 +193,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.yearVisible,
                 ref this.bitrateVisible);
 
+            OnPropertyChanged(() => this.LyricsVisible);
             OnPropertyChanged(() => this.ArtistVisible);
             OnPropertyChanged(() => this.AlbumVisible);
             OnPropertyChanged(() => this.GenreVisible);

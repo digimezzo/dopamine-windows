@@ -232,8 +232,8 @@ namespace Dopamine.Common.Services.File
                     {
                         try
                         {
-                        // Do not delete file from this instance
-                        if (!artworkFile.StartsWith("file-" + this.instanceGuid))
+                            // Do not delete file from this instance
+                            if (!artworkFile.StartsWith("file-" + this.instanceGuid))
                             {
                                 System.IO.File.Delete(artworkFile);
                             }
@@ -251,63 +251,67 @@ namespace Dopamine.Common.Services.File
         {
             var t = new MergedTrack();
 
-            try
+            await Task.Run(() =>
             {
-                var fmd = new FileMetadata(path);
-                var fi = new FileInformation(path);
-
-                t.Path = path;
-                t.SafePath = path.ToSafePath();
-                t.FileName = fi.NameWithoutExtension;
-                t.MimeType = fmd.MimeType;
-                t.FileSize = fi.SizeInBytes;
-                t.BitRate = fmd.BitRate;
-                t.SampleRate = fmd.SampleRate;
-                t.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
-                t.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
-                t.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
-                t.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
-                t.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
-                t.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
-                t.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                t.Rating = fmd.Rating.Value;
-
-                t.ArtistName = IndexerUtils.GetFirstArtist(fmd);
-
-                t.GenreName = IndexerUtils.GetFirstGenre(fmd);
-
-                t.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                t.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
-
-                var dummyAlbum = new Album
+                try
                 {
-                    AlbumTitle = t.AlbumTitle,
-                    AlbumArtist = t.AlbumArtist
-                };
+                    var fmd = new FileMetadata(path);
+                    var fi = new FileInformation(path);
 
-                IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
+                    t.Path = path;
+                    t.SafePath = path.ToSafePath();
+                    t.FileName = fi.NameWithoutExtension;
+                    t.MimeType = fmd.MimeType;
+                    t.FileSize = fi.SizeInBytes;
+                    t.BitRate = fmd.BitRate;
+                    t.SampleRate = fmd.SampleRate;
+                    t.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
+                    t.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
+                    t.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
+                    t.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
+                    t.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
+                    t.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
+                    t.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
+                    t.Rating = fmd.Rating.Value;
+                    t.HasLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? 0 : 1;
 
-                t.AlbumArtist = dummyAlbum.AlbumArtist;
-                t.AlbumTitle = dummyAlbum.AlbumTitle;
-                t.AlbumYear = dummyAlbum.Year;
-            }
-            catch (Exception ex)
-            {
-                LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Exception: {1}", path, ex.Message);
+                    t.ArtistName = IndexerUtils.GetFirstArtist(fmd);
 
-                // Make sure the file can be opened by creating a Track with some default values
-                t = new MergedTrack();
+                    t.GenreName = IndexerUtils.GetFirstGenre(fmd);
 
-                t.Path = path;
-                t.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                    t.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                    t.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
 
-                t.ArtistName = Defaults.UnknownArtistString;
+                    var dummyAlbum = new Album
+                    {
+                        AlbumTitle = t.AlbumTitle,
+                        AlbumArtist = t.AlbumArtist
+                    };
 
-                t.GenreName = Defaults.UnknownGenreString;
+                    IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
-                t.AlbumTitle = Defaults.UnknownAlbumString;
-                t.AlbumArtist = Defaults.UnknownAlbumArtistString;
-            }
+                    t.AlbumArtist = dummyAlbum.AlbumArtist;
+                    t.AlbumTitle = dummyAlbum.AlbumTitle;
+                    t.AlbumYear = dummyAlbum.Year;
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Exception: {1}", path, ex.Message);
+
+                    // Make sure the file can be opened by creating a Track with some default values
+                    t = new MergedTrack();
+
+                    t.Path = path;
+                    t.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+
+                    t.ArtistName = Defaults.UnknownArtistString;
+
+                    t.GenreName = Defaults.UnknownGenreString;
+
+                    t.AlbumTitle = Defaults.UnknownAlbumString;
+                    t.AlbumArtist = Defaults.UnknownAlbumArtistString;
+                }
+            });
 
             return t;
         }

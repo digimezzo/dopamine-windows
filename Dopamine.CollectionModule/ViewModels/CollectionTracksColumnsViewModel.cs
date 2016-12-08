@@ -12,6 +12,7 @@ namespace Dopamine.CollectionModule.ViewModels
         private bool checkBoxLoveVisible;
         private bool checkBoxRatingChecked;
         private bool checkBoxLoveChecked;
+        private bool checkBoxLyricsChecked;
         private bool checkBoxArtistChecked;
         private bool checkBoxAlbumChecked;
         private bool checkBoxGenreChecked;
@@ -35,16 +36,22 @@ namespace Dopamine.CollectionModule.ViewModels
             set { SetProperty<bool>(ref this.checkBoxLoveVisible, value); }
         }
 
+        public bool CheckBoxRatingChecked
+        {
+            get { return checkBoxRatingChecked; }
+            set { SetProperty<bool>(ref this.checkBoxRatingChecked, value); }
+        }
+
         public bool CheckBoxLoveChecked
         {
             get { return checkBoxLoveChecked; }
             set { SetProperty<bool>(ref this.checkBoxLoveChecked, value); }
         }
 
-        public bool CheckBoxRatingChecked
+        public bool CheckBoxLyricsChecked
         {
-            get { return checkBoxRatingChecked; }
-            set { SetProperty<bool>(ref this.checkBoxRatingChecked, value); }
+            get { return checkBoxLyricsChecked; }
+            set { SetProperty<bool>(ref this.checkBoxLyricsChecked, value); }
         }
 
         public bool CheckBoxArtistChecked
@@ -117,6 +124,7 @@ namespace Dopamine.CollectionModule.ViewModels
             Utils.GetVisibleSongsColumns(
                 ref this.checkBoxRatingChecked,
                 ref this.checkBoxLoveChecked,
+                ref this.checkBoxLyricsChecked,
                 ref this.checkBoxArtistChecked,
                 ref this.checkBoxAlbumChecked,
                 ref this.checkBoxGenreChecked,
@@ -128,6 +136,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             OnPropertyChanged(() => this.CheckBoxRatingChecked);
             OnPropertyChanged(() => this.CheckBoxLoveChecked);
+            OnPropertyChanged(() => this.CheckBoxLyricsChecked);
             OnPropertyChanged(() => this.CheckBoxArtistChecked);
             OnPropertyChanged(() => this.CheckBoxAlbumChecked);
             OnPropertyChanged(() => this.CheckBoxGenreChecked);
@@ -146,7 +155,8 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 Utils.SetVisibleSongsColumns(
                     this.CheckBoxRatingChecked,
-                     this.CheckBoxLoveChecked,
+                    this.CheckBoxLoveChecked,
+                    this.CheckBoxLyricsChecked,
                     this.CheckBoxArtistChecked,
                     this.CheckBoxAlbumChecked,
                     this.CheckBoxGenreChecked,
