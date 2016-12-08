@@ -1,10 +1,32 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Management;
 
 namespace Dopamine.Core.Utils
 {
     public static class EnvironmentUtils
     {
+        /// <summary>
+        /// Uses WMI to get the "friendly" Windows version
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFriendlyWindowsVersion()
+        {
+            var name = (from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>()
+                        select x.GetPropertyValue("Caption")).FirstOrDefault();
+            return name != null ? name.ToString() : "Unknown";
+        }
+
+        /// <summary>
+        /// Uses Environment.OSVersion to get the internal Windows version
+        /// </summary>
+        /// <returns></returns>
+        public static string GetInternalWindowsVersion()
+        {
+            return Environment.OSVersion.VersionString;
+        }
+
         public static bool IsWindows10()
         {
             // IMPORTANT: Windows 8.1. and Windows 10 will ONLY admit their real version if your program's manifest 
