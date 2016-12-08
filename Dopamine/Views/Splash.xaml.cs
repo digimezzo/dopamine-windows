@@ -71,6 +71,12 @@ namespace Dopamine.Views
 
             if (continueInitializing)
             {
+                // Check if Windows Media Foundation is installed
+                continueInitializing = await this.CheckWindowsMediaFoundationAsync();
+            }
+
+            if (continueInitializing)
+            {
                 // Initialize the settings
                 continueInitializing = await this.InitializeSettingsAsync();
             }
@@ -102,10 +108,36 @@ namespace Dopamine.Views
             }
         }
 
+        private async Task<bool> CheckWindowsMediaFoundationAsync()
+        {
+            bool isSuccess = false;
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    isSuccess = System.IO.File.Exists(System.IO.Path.Combine(Environment.SystemDirectory, "mf.dll"));
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Windows Media Foundation could not be found. Exception: {0}", ex.Message);
+                isSuccess = false;
+            }
+
+            isSuccess = false;
+            if (!isSuccess)
+            {
+                this.errorMessage = string.Format("Your version of Windows doesn't have Windows Media Foundation, which is required to use {0}. If you are using a 'N' version of Windows, please install the Media Feature Pack for you version of Windows. Media Feature Pack for Windows 7 N: {1}, Media Feature Pack for Windows 8 N: {2}, Media Feature Pack for Windows 10 N: {3}", ProductInformation.ApplicationDisplayName, "https://www.microsoft.com/en-us/download/details.aspx?id=16546", "https://www.microsoft.com/en-us/download/details.aspx?id=30685", "https://www.microsoft.com/en-us/download/details.aspx?id=48231");
+            }
+
+            return isSuccess;
+        }
+
         private async Task<bool> InitializeSettingsAsync()
         {
 
-            bool isInitializeSettingsSuccess = false;
+            bool isSuccess = false;
 
             try
             {
@@ -117,21 +149,21 @@ namespace Dopamine.Views
                     await Task.Run(() => XmlSettingsClient.Instance.UpgradeSettings());
                 }
 
-                isInitializeSettingsSuccess = true;
+                isSuccess = true;
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
-                isInitializeSettingsSuccess = false;
+                isSuccess = false;
             }
 
-            return isInitializeSettingsSuccess;
+            return isSuccess;
         }
 
         private async Task<bool> InitializeDatabaseAsync()
         {
-            bool isInitializeDatabaseSuccess = false;
+            bool isSuccess = false;
 
             try
             {
@@ -156,16 +188,16 @@ namespace Dopamine.Views
                     }
                 }
 
-                isInitializeDatabaseSuccess = true;
+                isSuccess = true;
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
-                isInitializeDatabaseSuccess = false;
+                isSuccess = false;
             }
 
-            return isInitializeDatabaseSuccess;
+            return isSuccess;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
