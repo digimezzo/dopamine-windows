@@ -7,7 +7,7 @@ namespace Dopamine.Core.Utils
     {
         public static bool IsWindows10()
         {
-            // IMPORTANT: Windows 8.1. and Windows 10 will ONLY admit their real version if you program's manifest 
+            // IMPORTANT: Windows 8.1. and Windows 10 will ONLY admit their real version if your program's manifest 
             // claims to be compatible. Otherwise they claim to be Windows 8. See the first comment on:
             // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724833%28v=vs.85%29.aspx
 
