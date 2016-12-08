@@ -29,7 +29,7 @@ namespace Dopamine.Core.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 14;
+        protected const int CURRENT_VERSION = 15;
         private SQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -125,6 +125,7 @@ namespace Dopamine.Core.Database
                              "Duration	            INTEGER," +
                              "Year	                INTEGER," +
                              "Rating	            INTEGER," +
+                             "HasLyrics	            INTEGER," +
                              "Love	                INTEGER," +
                              "PlayCount	            INTEGER," +
                              "SkipCount	            INTEGER," +
@@ -769,6 +770,23 @@ namespace Dopamine.Core.Database
 
                 conn.Execute("ALTER TABLE QueuedTrack ADD IsPlaying INTEGER;");
                 conn.Execute("ALTER TABLE QueuedTrack ADD ProgressSeconds INTEGER;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 15
+        [DatabaseVersion(15)]
+        private void Migrate15()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("ALTER TABLE Track ADD HasLyrics INTEGER;");
+                conn.Execute("UPDATE Track SET HasLyrics=0;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

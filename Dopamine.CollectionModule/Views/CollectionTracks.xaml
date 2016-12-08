@@ -96,6 +96,16 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn SortMemberPath="Lyrics" MinWidth="30" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LyricsVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Margin="0,6,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="0,3,0,0" Text="&#xE73E;" Style="{StaticResource SegoeAssets}" FontSize="15" Visibility="{Binding HasLyrics, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="2*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding ArtistName}" Visibility="{Binding (FrameworkElement.DataContext).ArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Artist}"/>

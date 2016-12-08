@@ -13,6 +13,7 @@
     <StackPanel>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Rating}" IsChecked="{Binding CheckBoxRatingChecked}" Visibility="{Binding CheckBoxRatingVisible,Converter={StaticResource BooleanToCollapsedConverter}}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Love}" IsChecked="{Binding CheckBoxLoveChecked}" Visibility="{Binding CheckBoxLoveVisible,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+        <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Lyrics}" IsChecked="{Binding CheckBoxLyricsChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Artist}" IsChecked="{Binding CheckBoxArtistChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Album}" IsChecked="{Binding CheckBoxAlbumChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Genre}" IsChecked="{Binding CheckBoxGenreChecked}"/>
