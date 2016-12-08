@@ -26,7 +26,7 @@ namespace Dopamine.Core.Logging
         #endregion
 
         #region Construction
-        public LogClient()
+        private LogClient()
         {
             // Step 1. Create configuration object 
             var config = new LoggingConfiguration();
