@@ -94,6 +94,7 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
                     IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
+                    long needsIndexingCount = conn.Table<Track>().Select(t => t).Where(t => t.NeedsIndexing == 1).ToList().LongCount();
 
                     long lastFileCount = 0;
                     long lastDateFileModified = 0;
@@ -101,7 +102,7 @@ namespace Dopamine.Common.Services.Indexing
                     if (lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
                     if (lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
 
-                    if (lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+                    if (needsIndexingCount > 0 | lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
                     {
                         this.needsIndexing = true;
                         await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
@@ -589,7 +590,7 @@ namespace Dopamine.Common.Services.Indexing
                         {
                             try
                             {
-                                if (IndexerUtils.IsTrackOutdated(dbTrack))
+                                if (IndexerUtils.IsTrackOutdated(dbTrack) | dbTrack.NeedsIndexing == 1)
                                 {
                                     if (this.ProcessTrack(dbTrack, conn))
                                     {

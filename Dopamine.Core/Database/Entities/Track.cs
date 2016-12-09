@@ -35,6 +35,7 @@ namespace Dopamine.Core.Database.Entities
         public long DateLastSynced { get; set; }
         public long DateFileModified { get; set; }
         public string MetaDataHash { get; set; }
+        public long? NeedsIndexing { get; set; }
         #endregion
 
         #region Overrides

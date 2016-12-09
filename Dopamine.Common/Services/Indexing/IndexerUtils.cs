@@ -144,6 +144,7 @@ namespace Dopamine.Common.Services.Indexing
                 track.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
                 track.Rating = fmd.Rating.Value;
                 track.HasLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? 0 : 1;
+                track.NeedsIndexing = 0;
 
                 // Before proceeding, get the available artists
                 string albumArtist = GetFirstAlbumArtist(fmd);
