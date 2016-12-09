@@ -49,9 +49,22 @@ namespace Dopamine.ViewModels
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ShowEqualizerCommand { get; set; }
+        public DelegateCommand ShowLogfileCommand { get; set; }
         #endregion
 
         #region Properties
+        public bool IsPreview
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+		        return false;
+#endif
+            }
+        }
+
         public bool IsOverlayVisible
         {
             get { return this.isOverlayVisible; }
@@ -98,6 +111,18 @@ namespace Dopamine.ViewModels
             // Event handlers
             this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
+            this.ShowLogfileCommand = new DelegateCommand(() =>
+            {
+                try
+                {
+                    Actions.TryViewInExplorer(LogClient.Instance.LogFile);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Instance.Logger.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Instance.LogFile, ex.Message);
+                }
+            });
+
             this.OpenPathCommand = new DelegateCommand<string>((string path) =>
             {
                 try
@@ -138,7 +163,7 @@ namespace Dopamine.ViewModels
             ApplicationCommands.OpenMailCommand.RegisterCommand(this.OpenMailCommand);
 
             this.PreviousCommand = new DelegateCommand(async () => await this.playbackService.PlayPreviousAsync());
-            this.NextCommand = new DelegateCommand(async() => await this.playbackService.PlayNextAsync());
+            this.NextCommand = new DelegateCommand(async () => await this.playbackService.PlayNextAsync());
 
             this.LoadedCommand = new DelegateCommand(() => this.fileService.ProcessArguments(Environment.GetCommandLineArgs()));
 
@@ -159,19 +184,19 @@ namespace Dopamine.ViewModels
                 }
             };
 
-            this.playbackService.PlaybackPaused += (_,__) =>
+            this.playbackService.PlaybackPaused += (_, __) =>
             {
                 this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
             };
 
-            this.playbackService.PlaybackResumed += (_,__) =>
+            this.playbackService.PlaybackResumed += (_, __) =>
             {
                 this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 
-            this.playbackService.PlaybackStopped += (_,__) =>
+            this.playbackService.PlaybackStopped += (_, __) =>
             {
                 this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
                 this.TaskbarService.SetTaskbarProgressState(false, false);
@@ -180,7 +205,7 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackSuccess += (_) =>
             {
-                if(!string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.TrackTitle))
+                if (!string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.TrackTitle))
                 {
                     this.TaskbarService.Description = this.playbackService.PlayingTrack.ArtistName + " - " + this.playbackService.PlayingTrack.TrackTitle;
                 }
@@ -188,30 +213,31 @@ namespace Dopamine.ViewModels
                 {
                     this.TaskbarService.Description = this.playbackService.PlayingTrack.FileName;
                 }
-                
+
                 this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 
-            this.playbackService.PlaybackProgressChanged += (_,__) => { this.TaskbarService.ProgressValue = this.playbackService.Progress; };
+            this.playbackService.PlaybackProgressChanged += (_, __) => { this.TaskbarService.ProgressValue = this.playbackService.Progress; };
 
             // Equalizer
-            this.ShowEqualizerCommand = new DelegateCommand(() => {
+            this.ShowEqualizerCommand = new DelegateCommand(() =>
+            {
                 EqualizerControl view = this.container.Resolve<EqualizerControl>();
                 view.DataContext = this.container.Resolve<EqualizerControlViewModel>();
 
                 this.dialogService.ShowCustomDialog(
                     new EqualizerIcon() { IsDialogIcon = true },
-                    ResourceUtils.GetStringResource("Language_Equalizer"), 
-                    view, 
-                    570, 
-                    0, 
+                    ResourceUtils.GetStringResource("Language_Equalizer"),
+                    view,
+                    570,
+                    0,
                     false,
                     true,
                     true,
-                    false, 
-                    ResourceUtils.GetStringResource("Language_Close"), 
-                    string.Empty, 
+                    false,
+                    ResourceUtils.GetStringResource("Language_Close"),
+                    string.Empty,
                     null);
             });
 
