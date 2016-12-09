@@ -384,6 +384,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\fontawesome-webfont.ttf" />
     <Resource Include="Resources\Fonts\Monoglyceride.ttf" />
     <Resource Include="Resources\Fonts\segmdl2.ttf" />
   </ItemGroup>

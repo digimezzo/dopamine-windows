@@ -4,4 +4,8 @@
     <Style x:Key="SegoeAssets">
         <Setter Property="TextElement.FontFamily" Value="/Dopamine.Common;component/Resources/Fonts/#Segoe MDL2 Assets" />
     </Style>
+
+    <Style x:Key="FontAwesome">
+        <Setter Property="TextElement.FontFamily" Value="/Dopamine.Common;component/Resources/Fonts/#FontAwesome" />
+    </Style>
 </ResourceDictionary>
