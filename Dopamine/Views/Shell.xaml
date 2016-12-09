@@ -61,16 +61,35 @@
             <!-- Log file -->
             <Button 
                 x:Name="PART_LogfileButton" 
-                Margin="0,0,20,0" 
-                VerticalAlignment="Center" 
+                Style="{StaticResource WindowButton}" 
+                Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" 
+                Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" 
+                BorderBrush="{x:Null}" 
+                BorderThickness="0" 
+                Background="{x:Null}" 
                 ToolTip="{DynamicResource Language_Log_File}" 
-                Content="{DynamicResource Language_Log_File}" 
-                Style="{StaticResource TransparentButton}" 
-                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
-                Visibility="{Binding IsPreview,Converter={StaticResource BooleanToCollapsedConverter}}"
-                Command="{Binding ShowLogfileCommand}"/>
+                Command="{Binding ShowLogfileCommand}"
+                Visibility="{Binding IsPreview,Converter={StaticResource BooleanToCollapsedConverter}}">
+                <Button.Content>
+                    <TextBlock 
+                        Style="{StaticResource FontAwesome}" 
+                        Text="&#xf188;" 
+                        FontSize="16" 
+                        HorizontalAlignment="center" 
+                        VerticalAlignment="Center"/>
+                </Button.Content>
+            </Button>
             <!-- Mini Player switch button -->
-            <Button x:Name="PART_MiniPlayerButton" Style="{StaticResource WindowButton}" Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Mini_Player}"  Command="{x:Static coreprism:ApplicationCommands.TogglePlayerCommand}">
+            <Button 
+                x:Name="PART_MiniPlayerButton" 
+                Style="{StaticResource WindowButton}" 
+                Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" 
+                Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" 
+                BorderBrush="{x:Null}" 
+                BorderThickness="0" 
+                Background="{x:Null}" 
+                ToolTip="{DynamicResource Language_Mini_Player}" 
+                Command="{x:Static coreprism:ApplicationCommands.TogglePlayerCommand}">
                 <Path x:Name="Icon" Data="{StaticResource MiniPlayer}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
