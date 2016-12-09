@@ -23,7 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                return this.Track.HasLyrics == 0 ? false : true;
+                return this.Track.HasLyrics == 1 ? true : false;
             }
         }
 
