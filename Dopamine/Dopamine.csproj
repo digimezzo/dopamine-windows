@@ -377,6 +377,9 @@
     <Content Include="Licenses\DotNetZip.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Licenses\Font Awesome.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Licenses\GongSolutions.WPF.DragDrop.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

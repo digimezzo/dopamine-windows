@@ -1,6 +1,7 @@
-2016-12-08: Dopamine 1.2 Build 829 (Preview)
+2016-12-09: Dopamine 1.2 Build 831 (Preview)
 --------------------------------------------
 
+- [Added] Previews will, from now on, show a little "bug" icon on the main Window. It allows easy access to the log file.
 - [Added] The last played song and its progress is now remembered on next start
 - [Added] Added "Play next" feature
 - [Added] Songs screen has an optional column that shows if a song has lyrics
