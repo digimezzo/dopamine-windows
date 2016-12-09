@@ -134,6 +134,7 @@ namespace Dopamine.Core.Database
                              "DateLastSynced	    INTEGER," +
                              "DateFileModified	    INTEGER," +
                              "MetaDataHash	        TEXT," +
+                             "NeedsIndexing 	    INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
                 conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
@@ -786,7 +787,9 @@ namespace Dopamine.Core.Database
                 conn.Execute("BEGIN TRANSACTION;");
 
                 conn.Execute("ALTER TABLE Track ADD HasLyrics INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD NeedsIndexing INTEGER;");
                 conn.Execute("UPDATE Track SET HasLyrics=0;");
+                conn.Execute("UPDATE Track SET NeedsIndexing=1;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
