@@ -96,7 +96,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn SortMemberPath="Lyrics" MinWidth="30" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LyricsVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTemplateColumn SortMemberPath="HasLyrics" MinWidth="30" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LyricsVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Margin="0,6,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </DataGridTemplateColumn.Header>

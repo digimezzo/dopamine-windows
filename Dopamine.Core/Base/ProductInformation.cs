@@ -103,6 +103,11 @@ namespace Dopamine.Core.Base
         Link = "http://dotnetzip.codeplex.com"
     },
     new ExternalComponent {
+        Name = "Font Awesome",
+        Description = "Font Awesome by Dave Gandy.",
+        Link = "http://fontawesome.io"
+    },
+    new ExternalComponent {
         Name = "GongSolutions.WPF.DragDrop",
         Description = "An easy to use drag'n'drop framework for WPF.",
         Link = "https://github.com/punker76/gong-wpf-dragdrop"
