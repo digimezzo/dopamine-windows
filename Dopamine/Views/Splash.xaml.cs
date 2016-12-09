@@ -18,6 +18,18 @@ namespace Dopamine.Views
         #endregion
 
         #region Properties
+        public bool IsPreview
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+		        return false;
+#endif
+            }
+        }
+
         public bool ShowErrorPanel
         {
             get { return Convert.ToBoolean(GetValue(ShowErrorPanelProperty)); }

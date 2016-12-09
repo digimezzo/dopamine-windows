@@ -161,14 +161,27 @@
                                 </Path.Fill>
                             </Path>
                         </Viewbox>
+
                     </Grid>
-                    <Label 
-                        Margin="15,-4,0,0" 
+                    <StackPanel>
+                        <Label 
+                        Margin="15,5,0,0" 
                         Padding="0" 
                         Content="{Binding Source={x:Static base:ProductInformation.ApplicationDisplayName},Converter={StaticResource StringToLowerConverter}}" 
                         Foreground="{StaticResource Local_ForegroundBrush}" 
                         FontFamily="/Dopamine.Common;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" 
                         FontSize="{Binding Source={x:Static base:Constants.SplashAppNameFontSize}}"/>
+                        <Border 
+                            Margin="0,-5,0,0" 
+                            HorizontalAlignment="Right" 
+                            Background="{DynamicResource Local_AccentBrush}" 
+                            Padding="4,2,4,2" 
+                            CornerRadius="2"
+                            Visibility="{Binding IsPreview,ElementName=Me,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="{x:Static base:ProductInformation.VersionTag}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource Local_WhiteBrush}"/>
+                        </Border>
+                    </StackPanel>
+                    
                 </StackPanel>
             </Grid>
             <DockPanel x:Name="ErrorPanel" Opacity="0" Panel.ZIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="15">
