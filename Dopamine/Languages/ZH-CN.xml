@@ -369,7 +369,6 @@
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">从 Last.fm 自动获取艺术家信息</Text>
   <Text Key="Username">Username</Text>
   <Text Key="Password">Password</Text>
-  <Text Key="Shuffle_All_Songs">Shuffle all songs</Text>
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
   <Text Key="Play_Next">Play next</Text>
