@@ -1,3 +1,9 @@
+2016-12-10: Dopamine 1.2 Build 832 (Preview)
+--------------------------------------------
+
+- [Fixed] Lyrics sometimes fail to show
+
+
 2016-12-09: Dopamine 1.2 Build 831 (Preview)
 --------------------------------------------
 
