@@ -76,10 +76,4 @@
         Error = 0,
         Success = 1
     }
-    public enum ArtistType
-    {
-        All = 0,
-        Track = 1,
-        Album = 2
-    }
 }
