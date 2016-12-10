@@ -83,42 +83,32 @@
                             Visibility="{Binding IsGenresZoomVisible,Converter={StaticResource BooleanToCollapsedConverter}}" 
                             MaxWidth="300" 
                             MaxHeight="600">
-                        <Grid>
-                            <Border 
+                        <Border 
                                 Opacity="0"
                                 Panel.ZIndex="1"
                                 Background="#00000000"
                                 HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Stretch">
-                                <Border.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsGenresZoomVisible}" Value="True">
-                                                <DataTrigger.EnterActions>
-                                                    <BeginStoryboard Storyboard ="{StaticResource ShowSemanticZoom}"/>
-                                                </DataTrigger.EnterActions>
-                                                <DataTrigger.ExitActions>
-                                                    <BeginStoryboard Storyboard ="{StaticResource HideSemanticZoom}"/>
-                                                </DataTrigger.ExitActions>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <ListBox 
+                            <Border.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsGenresZoomVisible}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard ="{StaticResource ShowSemanticZoom}"/>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard Storyboard ="{StaticResource HideSemanticZoom}"/>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ListBox 
                                          HorizontalAlignment="Stretch"
                                          VerticalAlignment="Stretch"
                                          Style="{StaticResource ListBoxSemanticZoom}"
                                          ItemsSource="{Binding GenresZoomSelectors,IsAsync=True}"/>
-                            </Border>
-                            <Rectangle Panel.ZIndex="0" Opacity="0.4">
-                                <Rectangle.Effect>
-                                    <BlurEffect Radius="20" KernelType="Gaussian"/>
-                                </Rectangle.Effect>
-                                <Rectangle.Fill>
-                                    <VisualBrush Visual="{Binding ElementName=ListBoxGenres}"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Grid>
+                        </Border>
                     </Border>
                 </Grid>
             </DockPanel>
@@ -128,14 +118,14 @@
                 <DockPanel DockPanel.Dock="Top" Margin="5,0,5,15">
                     <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
                         <Button x:Name="AlbumsButton" Margin="12,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
-                        <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
+                            <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"/>
-                    </Button>
-                    <Label Content="{Binding AlbumsCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding AlbumOrderText,Converter={StaticResource StringToLowerConverter}}" 
+                        </Button>
+                        <Label Content="{Binding AlbumsCount}" Style="{StaticResource CountLabel}"/>
+                        <Button Content="{Binding AlbumOrderText,Converter={StaticResource StringToLowerConverter}}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontWeight="Light" 
                                 FontSize="20" 

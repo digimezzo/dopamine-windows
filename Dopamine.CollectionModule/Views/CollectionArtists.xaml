@@ -90,42 +90,32 @@
                             Visibility="{Binding IsArtistsZoomVisible,Converter={StaticResource BooleanToCollapsedConverter}}" 
                             MaxWidth="300" 
                             MaxHeight="600">
-                        <Grid>
-                            <Border 
+                        <Border 
                                 Opacity="0"
                                 Panel.ZIndex="1"
                                 Background="#00000000"
                                 HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Stretch">
-                                <Border.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsArtistsZoomVisible}" Value="True">
-                                                <DataTrigger.EnterActions>
-                                                    <BeginStoryboard Storyboard ="{StaticResource ShowSemanticZoom}"/>
-                                                </DataTrigger.EnterActions>
-                                                <DataTrigger.ExitActions>
-                                                    <BeginStoryboard Storyboard ="{StaticResource HideSemanticZoom}"/>
-                                                </DataTrigger.ExitActions>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <ListBox 
+                            <Border.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsArtistsZoomVisible}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard ="{StaticResource ShowSemanticZoom}"/>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard Storyboard ="{StaticResource HideSemanticZoom}"/>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ListBox 
                                          HorizontalAlignment="Stretch"
                                          VerticalAlignment="Stretch"
                                          Style="{StaticResource ListBoxSemanticZoom}"
                                          ItemsSource="{Binding ArtistsZoomSelectors,IsAsync=True}"/>
-                            </Border>
-                            <Rectangle Panel.ZIndex="0" Opacity="0.4">
-                                <Rectangle.Effect>
-                                    <BlurEffect Radius="20" KernelType="Gaussian"/>
-                                </Rectangle.Effect>
-                                <Rectangle.Fill>
-                                    <VisualBrush Visual="{Binding ElementName=ListBoxArtists}"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Grid>
+                        </Border>
                     </Border>
                 </Grid>
             </DockPanel>
