@@ -451,10 +451,10 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.TracksCvs.View.Refresh();
                     this.TracksCount = this.TracksCvs.View.Cast<MergedTrackViewModel>().Count();
                 }
-
-                this.ShowPlayingTrackAsync();
-                this.SetSizeInformationAsync();
             });
+
+            this.SetSizeInformationAsync();
+            this.ShowPlayingTrackAsync();
         }
 
         /// <summary>
@@ -527,19 +527,21 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
                     this.TracksCvs = null;
+                    this.Tracks = null;
                 });
 
-                this.Tracks = null;
-
                 // Populate ObservableCollection
-                this.Tracks = viewModels;
+                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
             }
             catch (Exception ex)
             {
                 LogClient.Instance.Logger.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
-                this.Tracks = new ObservableCollection<MergedTrackViewModel>();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.Tracks = new ObservableCollection<MergedTrackViewModel>();
+                });
             }
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -563,7 +565,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.ShowPlayingTrackAsync();
         }
 
-        private async Task SetSizeInformationAsync()
+        private async void SetSizeInformationAsync()
         {
             // Reset duration and size
             this.totalDuration = 0;
@@ -580,7 +582,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            if(viewCopy != null)
+            if (viewCopy != null)
             {
                 await Task.Run(() =>
                 {

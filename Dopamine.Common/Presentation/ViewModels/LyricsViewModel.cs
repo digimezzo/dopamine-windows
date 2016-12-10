@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -123,8 +124,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.IsEditing = false;
             });
 
-            this.SaveCommand = new DelegateCommand(async() => await this.SaveLyricsInAudioFileAsync());
-            this.SaveIfNotEmptyCommand = new DelegateCommand(async() => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
+            this.SaveCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync());
+            this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
@@ -162,7 +163,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private void ParseLyrics(Lyrics lyrics)
         {
-            this.lyricsLines = new ObservableCollection<LyricsLineViewModel>();
+            Application.Current.Dispatcher.Invoke(() => this.lyricsLines = null);
+            var localLyricsLines = new ObservableCollection<LyricsLineViewModel>();
             var reader = new StringReader(lyrics.Text);
             string line;
 
@@ -183,18 +185,19 @@ namespace Dopamine.Common.Presentation.ViewModels
                             var subString = line.Substring(1, index - 1);
                             if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
                             {
-                                this.lyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                            }else
+                                localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
+                            }
+                            else
                             {
                                 // The string between square brackets could not be parsed to a timestamp.
                                 // In such case, just add the complete lyrics line.
-                                this.lyricsLines.Add(new LyricsLineViewModel(line));
+                                localLyricsLines.Add(new LyricsLineViewModel(line));
                             }
                         }
                     }
                     else
                     {
-                        this.lyricsLines.Add(new LyricsLineViewModel(line));
+                        localLyricsLines.Add(new LyricsLineViewModel(line));
                     }
                 }
                 else
@@ -203,7 +206,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             }
 
-            OnPropertyChanged(() => this.LyricsLines);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.lyricsLines = localLyricsLines;
+                OnPropertyChanged(() => this.LyricsLines);
+            });
         }
         #endregion
     }
