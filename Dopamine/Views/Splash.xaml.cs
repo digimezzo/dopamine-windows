@@ -69,7 +69,7 @@ namespace Dopamine.Views
             DateTime currentTime = DateTime.Now;
             string currentTimeString = currentTime.Year.ToString() + currentTime.Month.ToString() + currentTime.Day.ToString() + currentTime.Hour.ToString() + currentTime.Minute.ToString() + currentTime.Second.ToString() + currentTime.Millisecond.ToString();
 
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Dopamine_" + currentTimeString + ".txt");
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ProductInformation.ApplicationDisplayName + "_" + currentTimeString + ".txt");
             System.IO.File.WriteAllText(path, this.errorMessage);
             System.Diagnostics.Process.Start(path);
         }
@@ -139,7 +139,7 @@ namespace Dopamine.Views
 
             if (!isSuccess)
             {
-                this.errorMessage = "Windows Media Foundation was not found on your computer. It is required by "+ ProductInformation.ApplicationDisplayName + " to play audio." + Environment.NewLine +
+                this.errorMessage = "Windows Media Foundation was not found on your computer. It is required by " + ProductInformation.ApplicationDisplayName + " to play audio." + Environment.NewLine +
                                     "If you are using a 'N' version of Windows, please install the Media Feature Pack for your version of Windows." + Environment.NewLine + Environment.NewLine +
                                     "Media Feature Pack for Windows 7 N: https://www.microsoft.com/en-us/download/details.aspx?id=16546" + Environment.NewLine +
                                     "Media Feature Pack for Windows 8 N: https://www.microsoft.com/en-us/download/details.aspx?id=30685" + Environment.NewLine +
