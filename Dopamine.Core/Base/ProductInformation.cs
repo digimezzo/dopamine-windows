@@ -14,7 +14,6 @@ namespace Dopamine.Core.Base
             private string mLink;
             #endregion
 
-
             #region Properties
             public string Name
             {

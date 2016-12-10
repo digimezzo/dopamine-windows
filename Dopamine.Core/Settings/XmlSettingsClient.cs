@@ -10,339 +10,339 @@ using System.Xml.Linq;
 
 namespace Dopamine.Core.Settings
 {
-    public class XmlSettingsClient : ISettingsClient
-    {
-        #region Variables
-        private static XmlSettingsClient instance;
-        private Timer timer;
-        private object timerMutex = new object();
-        private bool delayWrite;
-        private string baseSettingsFile = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, "BaseSettings.xml");
-        private XDocument baseSettingsDoc;
-        private string applicationFolder;
-        private string settingsFile;
-        private XDocument settingsDoc;
-        #endregion
-
-        #region Properties
-        public string SettingsFile
+        public class XmlSettingsClient : ISettingsClient
         {
-            get { return this.settingsFile; }
-        }
-        public string ApplicationFolder
-        {
-            get { return this.applicationFolder; }
-        }
-        #endregion
+            #region Variables
+            private static XmlSettingsClient instance;
+            private Timer timer;
+            private object timerMutex = new object();
+            private bool delayWrite;
+            private string baseSettingsFile = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, "BaseSettings.xml");
+            private XDocument baseSettingsDoc;
+            private string applicationFolder;
+            private string settingsFile;
+            private XDocument settingsDoc;
+            #endregion
 
-        #region Construction
-        private XmlSettingsClient()
-        {
-            this.timer = new System.Timers.Timer(100); // a 10th of a second
-            this.timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
-
-            // Check in BaseSettings.xml if we're using the portable application
-            this.baseSettingsDoc = XDocument.Load(this.baseSettingsFile);
-
-            if (this.applicationFolder == null)
+            #region Properties
+            public string SettingsFile
             {
-                bool isPortable = false;
+                get { return this.settingsFile; }
+            }
+            public string ApplicationFolder
+            {
+                get { return this.applicationFolder; }
+            }
+            #endregion
 
-                // Set the path of Settings.xml
-                if (this.BaseTryGet<bool>("Application", "IsPortable", ref isPortable))
+            #region Construction
+            private XmlSettingsClient()
+            {
+                this.timer = new System.Timers.Timer(100); // a 10th of a second
+                this.timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
+
+                // Check in BaseSettings.xml if we're using the portable application
+                this.baseSettingsDoc = XDocument.Load(this.baseSettingsFile);
+
+                if (this.applicationFolder == null)
                 {
-                    // Sets the application folder
-                    if (isPortable)
+                    bool isPortable = false;
+
+                    // Set the path of Settings.xml
+                    if (this.BaseTryGet<bool>("Application", "IsPortable", ref isPortable))
                     {
-                        this.applicationFolder = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ProductInformation.ApplicationAssemblyName);
+                        // Sets the application folder
+                        if (isPortable)
+                        {
+                            this.applicationFolder = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ProductInformation.ApplicationAssemblyName);
+                        }
+                        else
+                        {
+                            this.applicationFolder = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName);
+                        }
                     }
                     else
                     {
+                        // By default, we save in the user's Roaming folder
                         this.applicationFolder = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName);
                     }
+
+                    this.TryCreateApplicationFolder();
                 }
-                else
+
+                this.settingsFile = System.IO.Path.Combine(ApplicationFolder, "Settings.xml");
+
+                // Check if Settings.xml exists in the given path. If not,
+                // create a new Settings.xml based on BaseSettings.xml
+                if (!File.Exists(this.settingsFile))
                 {
-                    // By default, we save in the user's Roaming folder
-                    this.applicationFolder = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName);
+                    File.Copy(this.baseSettingsFile, this.settingsFile);
                 }
 
-                this.TryCreateApplicationFolder();
-            }
-
-            this.settingsFile = System.IO.Path.Combine(ApplicationFolder, "Settings.xml");
-
-            // Check if Settings.xml exists in the given path. If not,
-            // create a new Settings.xml based on BaseSettings.xml
-            if (!File.Exists(this.settingsFile))
-            {
-                File.Copy(this.baseSettingsFile, this.settingsFile);
-            }
-
-            try
-            {
-                // Load Settings.xml in memory
-                this.settingsDoc = XDocument.Load(this.settingsFile);
-            }
-            catch (Exception)
-            {
-                // After a crash, the Settings file is sometimes empty.  If that
-                // happens, copy the BaseSettings file (there is no way to restore
-                // settings from a broken file anyway) and try to load the Settings
-                // file again. 
-                File.Copy(this.baseSettingsFile, this.settingsFile, true);
-                this.settingsDoc = XDocument.Load(this.settingsFile);
-            }
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            lock (this.timerMutex)
-            {
-                if (this.delayWrite)
-                {
-                    this.delayWrite = false;
-                }
-                else
-                {
-                    this.timer.Stop();
-                    this.settingsDoc.Save(this.settingsFile);
-                }
-            }
-        }
-
-        public static XmlSettingsClient Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new XmlSettingsClient();
-                }
-                return instance;
-            }
-        }
-        #endregion
-
-        #region Private
-        private bool SettingExists<T>(string settingNamespace, string settingName)
-        {
-            T value = this.Get<T>(settingNamespace, settingName);
-
-            return value != null;
-        }
-
-        private void TryCreateApplicationFolder()
-        {
-            if (!Directory.Exists(this.ApplicationFolder))
-            {
-                Directory.CreateDirectory(this.ApplicationFolder);
-            }
-        }
-
-        // Queue XML file writes to minimize disk access
-        private void QueueWrite()
-        {
-            lock (this.timerMutex)
-            {
-                if (!this.timer.Enabled)
-                {
-                    this.timer.Start();
-                }
-                else
-                {
-                    this.delayWrite = true;
-                }
-            }
-        }
-        #endregion
-
-        #region ISettingsClient
-        // Provides immediate writing of settings to the XML file
-        public void Write()
-        {
-            this.timer.Stop();
-            this.delayWrite = false;
-            this.settingsDoc.Save(this.settingsFile);
-        }
-
-        public bool IsSettingsUpgradeNeeded()
-        {
-            bool returnValue = false;
-
-            // Try to get the previous settings version
-            int previousVersion = 0;
-
-            try
-            {
-                previousVersion = this.Get<int>("Settings", "Version");
-            }
-            catch (Exception)
-            {
-            }
-
-            // Check if the existing Settings.xml is out of date
-            if (previousVersion < this.BaseGet<int>("Settings", "Version"))
-            {
-                returnValue = true;
-            }
-
-            return returnValue;
-        }
-
-        public void UpgradeSettings()
-        {
-            // Get the old settings
-            List<SettingEntry> oldSettings = default(List<SettingEntry>);
-
-            oldSettings = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
-                           from s in n.Elements("Setting")
-                           from v in s.Elements("Value")
-                           where !n.Attribute("Name").Value.ToString().ToLower().Equals("settings")
-                           select new SettingEntry
-                           {
-                               Namespace = n.Attribute("Name").Value,
-                               Setting = s.Attribute("Name").Value,
-                               Value = v.Value
-                           }).ToList();
-
-            // Create a new Settings file, based on the new BaseSettings file
-            File.Copy(this.baseSettingsFile, this.settingsFile, true);
-
-            // Load the new Settings file in memory
-            this.settingsDoc = XDocument.Load(this.settingsFile);
-
-            // Try to write the old settings in the new Settings file
-            foreach (SettingEntry item in oldSettings)
-            {
                 try
                 {
-                    if (SettingExists<string>(item.Namespace, item.Setting))
-                    {
-                        // We don't know the type of the setting. So set all settings as String
-                        Set<string>(item.Namespace, item.Setting, item.Value);
-                    }
+                    // Load Settings.xml in memory
+                    this.settingsDoc = XDocument.Load(this.settingsFile);
                 }
                 catch (Exception)
                 {
-                    // If we fail, we do nothing.
+                    // After a crash, the Settings file is sometimes empty.  If that
+                    // happens, copy the BaseSettings file (there is no way to restore
+                    // settings from a broken file anyway) and try to load the Settings
+                    // file again. 
+                    File.Copy(this.baseSettingsFile, this.settingsFile, true);
+                    this.settingsDoc = XDocument.Load(this.settingsFile);
                 }
             }
-        }
 
-        public void Set<T>(string settingNamespace, string settingName, T value)
-        {
-            lock (this.settingsDoc)
+            private void Timer_Elapsed(object sender, ElapsedEventArgs e)
             {
-                XElement setting = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
-                                    from s in n.Elements("Setting")
-                                    from v in s.Elements("Value")
-                                    where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
-                                    select v).FirstOrDefault();
-
-                if (setting != null)
+                lock (this.timerMutex)
                 {
-                    setting.SetValue(value);
-                }
-
-                this.QueueWrite();
-            }
-        }
-
-        public bool TryGet<T>(string settingNamespace, string settingName, ref T value)
-        {
-            value = this.Get<T>(settingNamespace, settingName);
-
-            return value != null;
-        }
-
-        public T Get<T>(string settingNamespace, string settingName)
-        {
-            lock (this.settingsDoc)
-            {
-                XElement setting = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
-                                    from s in n.Elements("Setting")
-                                    from v in s.Elements("Value")
-                                    where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
-                                    select v).FirstOrDefault();
-
-                // For numbers, we need to provide CultureInfo.InvariantCulture. 
-                // Otherwise, deserializing from XML can cause a FormatException.
-                if (typeof(T) == typeof(float))
-                {
-                    float floatValue;
-                    float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
-                    return (T)Convert.ChangeType(floatValue, typeof(T));
-                }
-                else if (typeof(T) == typeof(double))
-                {
-                    float doubleValue;
-                    float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
-                    return (T)Convert.ChangeType(doubleValue, typeof(T));
-                }
-                else
-                {
-                    return (T)Convert.ChangeType(setting.Value, typeof(T));
+                    if (this.delayWrite)
+                    {
+                        this.delayWrite = false;
+                    }
+                    else
+                    {
+                        this.timer.Stop();
+                        this.settingsDoc.Save(this.settingsFile);
+                    }
                 }
             }
-        }
 
-        public T BaseGet<T>(string settingNamespace, string settingName)
-        {
-
-            lock (this.baseSettingsDoc)
+            public static XmlSettingsClient Instance
             {
-                XElement baseSetting = (from n in this.baseSettingsDoc.Element("Settings").Elements("Namespace")
+                get
+                {
+                    if (instance == null)
+                    {
+                        instance = new XmlSettingsClient();
+                    }
+                    return instance;
+                }
+            }
+            #endregion
+
+            #region Private
+            private bool SettingExists<T>(string settingNamespace, string settingName)
+            {
+                T value = this.Get<T>(settingNamespace, settingName);
+
+                return value != null;
+            }
+
+            private void TryCreateApplicationFolder()
+            {
+                if (!Directory.Exists(this.ApplicationFolder))
+                {
+                    Directory.CreateDirectory(this.ApplicationFolder);
+                }
+            }
+
+            // Queue XML file writes to minimize disk access
+            private void QueueWrite()
+            {
+                lock (this.timerMutex)
+                {
+                    if (!this.timer.Enabled)
+                    {
+                        this.timer.Start();
+                    }
+                    else
+                    {
+                        this.delayWrite = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region ISettingsClient
+            // Provides immediate writing of settings to the XML file
+            public void Write()
+            {
+                this.timer.Stop();
+                this.delayWrite = false;
+                this.settingsDoc.Save(this.settingsFile);
+            }
+
+            public bool IsSettingsUpgradeNeeded()
+            {
+                bool returnValue = false;
+
+                // Try to get the previous settings version
+                int previousVersion = 0;
+
+                try
+                {
+                    previousVersion = this.Get<int>("Settings", "Version");
+                }
+                catch (Exception)
+                {
+                }
+
+                // Check if the existing Settings.xml is out of date
+                if (previousVersion < this.BaseGet<int>("Settings", "Version"))
+                {
+                    returnValue = true;
+                }
+
+                return returnValue;
+            }
+
+            public void UpgradeSettings()
+            {
+                // Get the old settings
+                List<SettingEntry> oldSettings = default(List<SettingEntry>);
+
+                oldSettings = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
+                               from s in n.Elements("Setting")
+                               from v in s.Elements("Value")
+                               where !n.Attribute("Name").Value.ToString().ToLower().Equals("settings")
+                               select new SettingEntry
+                               {
+                                   Namespace = n.Attribute("Name").Value,
+                                   Setting = s.Attribute("Name").Value,
+                                   Value = v.Value
+                               }).ToList();
+
+                // Create a new Settings file, based on the new BaseSettings file
+                File.Copy(this.baseSettingsFile, this.settingsFile, true);
+
+                // Load the new Settings file in memory
+                this.settingsDoc = XDocument.Load(this.settingsFile);
+
+                // Try to write the old settings in the new Settings file
+                foreach (SettingEntry item in oldSettings)
+                {
+                    try
+                    {
+                        if (SettingExists<string>(item.Namespace, item.Setting))
+                        {
+                            // We don't know the type of the setting. So set all settings as String
+                            Set<string>(item.Namespace, item.Setting, item.Value);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // If we fail, we do nothing.
+                    }
+                }
+            }
+
+            public void Set<T>(string settingNamespace, string settingName, T value)
+            {
+                lock (this.settingsDoc)
+                {
+                    XElement setting = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
                                         from s in n.Elements("Setting")
                                         from v in s.Elements("Value")
                                         where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
                                         select v).FirstOrDefault();
 
-                // For numbers, we need to provide CultureInfo.InvariantCulture. 
-                // Otherwise, deserializing from XML can cause a FormatException.
-                if (typeof(T) == typeof(float))
-                {
-                    float floatValue;
-                    float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
-                    return (T)Convert.ChangeType(floatValue, typeof(T));
-                }
-                else if (typeof(T) == typeof(double))
-                {
-                    float doubleValue;
-                    float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
-                    return (T)Convert.ChangeType(doubleValue, typeof(T));
-                }
-                else
-                {
-                    return (T)Convert.ChangeType(baseSetting.Value, typeof(T));
+                    if (setting != null)
+                    {
+                        setting.SetValue(value);
+                    }
+
+                    this.QueueWrite();
                 }
             }
-        }
 
-        public bool BaseTryGet<T>(string settingNamespace, string settingName, ref T value)
-        {
-            value = this.BaseGet<T>(settingNamespace, settingName);
-
-            return value != null;
-        }
-        #endregion
-
-        #region Event Handlers
-        private void OnTimerElapsedEvent(object sender, ElapsedEventArgs e)
-        {
-            lock (this.timerMutex)
+            public bool TryGet<T>(string settingNamespace, string settingName, ref T value)
             {
-                if (this.delayWrite)
+                value = this.Get<T>(settingNamespace, settingName);
+
+                return value != null;
+            }
+
+            public T Get<T>(string settingNamespace, string settingName)
+            {
+                lock (this.settingsDoc)
                 {
-                    this.delayWrite = false;
-                }
-                else
-                {
-                    this.timer.Stop();
-                    this.settingsDoc.Save(this.settingsFile);
+                    XElement setting = (from n in this.settingsDoc.Element("Settings").Elements("Namespace")
+                                        from s in n.Elements("Setting")
+                                        from v in s.Elements("Value")
+                                        where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
+                                        select v).FirstOrDefault();
+
+                    // For numbers, we need to provide CultureInfo.InvariantCulture. 
+                    // Otherwise, deserializing from XML can cause a FormatException.
+                    if (typeof(T) == typeof(float))
+                    {
+                        float floatValue;
+                        float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
+                        return (T)Convert.ChangeType(floatValue, typeof(T));
+                    }
+                    else if (typeof(T) == typeof(double))
+                    {
+                        float doubleValue;
+                        float.TryParse(setting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
+                        return (T)Convert.ChangeType(doubleValue, typeof(T));
+                    }
+                    else
+                    {
+                        return (T)Convert.ChangeType(setting.Value, typeof(T));
+                    }
                 }
             }
+
+            public T BaseGet<T>(string settingNamespace, string settingName)
+            {
+
+                lock (this.baseSettingsDoc)
+                {
+                    XElement baseSetting = (from n in this.baseSettingsDoc.Element("Settings").Elements("Namespace")
+                                            from s in n.Elements("Setting")
+                                            from v in s.Elements("Value")
+                                            where n.Attribute("Name").Value.Equals(settingNamespace) && s.Attribute("Name").Value.Equals(settingName)
+                                            select v).FirstOrDefault();
+
+                    // For numbers, we need to provide CultureInfo.InvariantCulture. 
+                    // Otherwise, deserializing from XML can cause a FormatException.
+                    if (typeof(T) == typeof(float))
+                    {
+                        float floatValue;
+                        float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out floatValue);
+                        return (T)Convert.ChangeType(floatValue, typeof(T));
+                    }
+                    else if (typeof(T) == typeof(double))
+                    {
+                        float doubleValue;
+                        float.TryParse(baseSetting.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out doubleValue);
+                        return (T)Convert.ChangeType(doubleValue, typeof(T));
+                    }
+                    else
+                    {
+                        return (T)Convert.ChangeType(baseSetting.Value, typeof(T));
+                    }
+                }
+            }
+
+            public bool BaseTryGet<T>(string settingNamespace, string settingName, ref T value)
+            {
+                value = this.BaseGet<T>(settingNamespace, settingName);
+
+                return value != null;
+            }
+            #endregion
+
+            #region Event Handlers
+            private void OnTimerElapsedEvent(object sender, ElapsedEventArgs e)
+            {
+                lock (this.timerMutex)
+                {
+                    if (this.delayWrite)
+                    {
+                        this.delayWrite = false;
+                    }
+                    else
+                    {
+                        this.timer.Stop();
+                        this.settingsDoc.Save(this.settingsFile);
+                    }
+                }
+            }
+            #endregion
         }
-        #endregion
-    }
 }

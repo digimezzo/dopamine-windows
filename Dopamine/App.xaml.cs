@@ -45,8 +45,7 @@ namespace Dopamine
             }
             else
             {
-                LogClient.Instance.Logger.Warn("Dopamine is already running. Shutting down.");
-
+                LogClient.Instance.Logger.Warn("{0} is already running. Shutting down.", ProductInformation.ApplicationDisplayName);
                 this.Shutdown();
             }
         }
