@@ -31,8 +31,7 @@ namespace Dopamine.Core.Extensions
 
         public static string ToSafePath(this string path)
         {
-            //return path != null ? path.ToLower() : path;
-            return path.ToLower();
+            return path != null ? path.ToLower() : path;
         }
     }
 }
