@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Indexing;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -8,7 +8,6 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
 using System.Collections.Concurrent;
@@ -26,6 +25,7 @@ namespace Dopamine.Common.Services.File
         #region Variables
         private IPlaybackService playbackService;
         private ICacheService cacheService;
+        private IMetadataService metadataService;
         private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
@@ -34,10 +34,11 @@ namespace Dopamine.Common.Services.File
         #endregion
 
         #region Construction
-        public FileService(IPlaybackService playbackService, ICacheService cacheService)
+        public FileService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.metadataService = metadataService;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -249,72 +250,53 @@ namespace Dopamine.Common.Services.File
 
         public async Task<MergedTrack> Path2TrackAsync(string path, string artworkPrefix)
         {
-            var t = new MergedTrack();
+            var mergedTrack = new MergedTrack();
 
             await Task.Run(() =>
             {
+                var track = new Track();
+                var album = new Album();
+                var artist = new Artist();
+                var genre = new Genre();
+
                 try
                 {
-                    var fi = new FileInformation(path);
-                    var fmd = new FileMetadata(path);
+                    MetadataUtils.SplitMetadata(path, ref track, ref album, ref artist, ref genre);
 
-                    t.Path = path;
-                    t.SafePath = path.ToSafePath();
-                    t.FileName = fi.NameWithoutExtension;
-                    t.MimeType = fmd.MimeType;
-                    t.FileSize = fi.SizeInBytes;
-                    t.BitRate = fmd.BitRate;
-                    t.SampleRate = fmd.SampleRate;
-                    t.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
-                    t.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
-                    t.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
-                    t.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
-                    t.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
-                    t.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
-                    t.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                    t.Rating = fmd.Rating.Value;
-                    t.HasLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? 0 : 1;
+                    mergedTrack.Path = track.Path;
+                    mergedTrack.SafePath = track.Path.ToSafePath();
+                    mergedTrack.FileName = track.FileName;
+                    mergedTrack.MimeType = track.MimeType;
+                    mergedTrack.FileSize = track.FileSize;
+                    mergedTrack.BitRate = track.BitRate;
+                    mergedTrack.SampleRate = track.SampleRate;
+                    mergedTrack.TrackTitle = track.TrackTitle;
+                    mergedTrack.TrackNumber = track.TrackNumber;
+                    mergedTrack.TrackCount = track.TrackCount;
+                    mergedTrack.DiscNumber = track.DiscNumber;
+                    mergedTrack.DiscCount = track.DiscCount;
+                    mergedTrack.Duration = track.Duration;
+                    mergedTrack.Year = track.Year;
+                    mergedTrack.Rating = track.Rating;
+                    mergedTrack.HasLyrics = track.HasLyrics;
 
-                    t.ArtistName = IndexerUtils.GetFirstArtist(fmd);
+                    mergedTrack.ArtistName = artist.ArtistName;
 
-                    t.GenreName = IndexerUtils.GetFirstGenre(fmd);
+                    mergedTrack.GenreName = genre.GenreName;
 
-                    t.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                    t.AlbumArtist = IndexerUtils.GetFirstAlbumArtist(fmd);
-
-                    var dummyAlbum = new Album
-                    {
-                        AlbumTitle = t.AlbumTitle,
-                        AlbumArtist = t.AlbumArtist
-                    };
-
-                    IndexerUtils.UpdateAlbumYear(dummyAlbum, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
-
-                    t.AlbumArtist = dummyAlbum.AlbumArtist;
-                    t.AlbumTitle = dummyAlbum.AlbumTitle;
-                    t.AlbumYear = dummyAlbum.Year;
+                    mergedTrack.AlbumTitle = album.AlbumTitle;
+                    mergedTrack.AlbumArtist = album.AlbumArtist;
+                    mergedTrack.AlbumYear = album.Year;
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Exception: {1}", path, ex.Message);
-
                     // Make sure the file can be opened by creating a Track with some default values
-                    t = new MergedTrack();
-
-                    t.Path = path;
-                    t.SafePath = path.ToSafePath();
-                    t.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
-
-                    t.ArtistName = Defaults.UnknownArtistString;
-
-                    t.GenreName = Defaults.UnknownGenreString;
-
-                    t.AlbumTitle = Defaults.UnknownAlbumString;
-                    t.AlbumArtist = Defaults.UnknownAlbumArtistString;
+                    mergedTrack = MergedTrack.CreateDefault(path);
+                    LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
                 }
             });
 
-            return t;
+            return mergedTrack;
         }
         #endregion
     }

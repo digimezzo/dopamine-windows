@@ -416,7 +416,7 @@ namespace Dopamine.Common.Services.Metadata
 
                 if (album != null) track.AlbumID = album.AlbumID;
 
-                await Task.Run(() => IndexerUtils.UpdateAlbumYear(album, fileMetadata.Year.Value.SafeConvertToLong())); // Update Album year
+                await Task.Run(() => MetadataUtils.UpdateAlbumYear(album, fileMetadata.Year.Value.SafeConvertToLong())); // Update Album year
                 await this.albumRepository.UpdateAlbumAsync(album);
             }
 

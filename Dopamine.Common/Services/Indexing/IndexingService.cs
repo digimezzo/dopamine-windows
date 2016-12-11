@@ -3,6 +3,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Metadata;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -714,7 +715,7 @@ namespace Dopamine.Common.Services.Indexing
 
             try
             {
-                IndexerUtils.SplitMetadata(track.Path, ref track, ref newAlbum, ref newArtist, ref newGenre);
+                MetadataUtils.SplitMetadata(track.Path, ref track, ref newAlbum, ref newArtist, ref newGenre);
                 processingSuccessful = true;
             }
             catch (Exception ex)
