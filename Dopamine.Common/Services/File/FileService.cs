@@ -255,8 +255,8 @@ namespace Dopamine.Common.Services.File
             {
                 try
                 {
-                    var fmd = new FileMetadata(path);
                     var fi = new FileInformation(path);
+                    var fmd = new FileMetadata(path);
 
                     t.Path = path;
                     t.SafePath = path.ToSafePath();
