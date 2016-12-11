@@ -1,4 +1,4 @@
-2016-12-11: Dopamine 1.2 Build 836 (Preview)
+2016-12-11: Dopamine 1.2 Build 837 (Preview)
 --------------------------------------------
 
 - [Changed] The list of artist now always shows all artists (song and album artists). The artist toggle wasn't reliable.
@@ -6,6 +6,7 @@
 - [Fixed] Lyrics sometimes fail to show
 - [Fixed] Removed blurry background when semantic zoom is visible. It made semantic zoom harder to read.
 - [Fixed] Now Playing doesn't respect the song order of playlists when double clicking a playlist
+- [Fixed] Some possible crashes
 
 
 2016-12-09: Dopamine 1.2 Build 831 (Preview)
