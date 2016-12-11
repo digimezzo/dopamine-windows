@@ -302,6 +302,7 @@ namespace Dopamine.Common.Services.File
                     t = new MergedTrack();
 
                     t.Path = path;
+                    t.SafePath = path.ToSafePath();
                     t.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
 
                     t.ArtistName = Defaults.UnknownArtistString;
