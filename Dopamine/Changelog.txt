@@ -1,4 +1,4 @@
-2016-12-10: Dopamine 1.2 Build 835 (Preview)
+2016-12-11: Dopamine 1.2 Build 836 (Preview)
 --------------------------------------------
 
 - [Changed] The list of artist now always shows all artists (song and album artists). The artist toggle wasn't reliable.

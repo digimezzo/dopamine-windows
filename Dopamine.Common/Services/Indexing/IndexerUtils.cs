@@ -121,81 +121,6 @@ namespace Dopamine.Common.Services.Indexing
             }
         }
 
-        public static void SplitMetadata(string path, ref Track track, ref Album album, ref Artist artist, ref Genre genre)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                var fmd = new FileMetadata(path);
-                var fi = new FileInformation(path);
-
-                // Track information
-                track.Path = path;
-                track.SafePath = path.ToSafePath();
-                track.FileName = fi.NameWithoutExtension;
-                track.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
-                track.MimeType = fmd.MimeType;
-                track.BitRate = fmd.BitRate;
-                track.SampleRate = fmd.SampleRate;
-                track.TrackTitle = MetadataUtils.SanitizeTag(fmd.Title.Value);
-                track.TrackNumber = MetadataUtils.SafeConvertToLong(fmd.TrackNumber.Value);
-                track.TrackCount = MetadataUtils.SafeConvertToLong(fmd.TrackCount.Value);
-                track.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
-                track.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
-                track.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                track.Rating = fmd.Rating.Value;
-                track.HasLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? 0 : 1;
-                track.NeedsIndexing = 0;
-
-                // Before proceeding, get the available artists
-                string albumArtist = GetFirstAlbumArtist(fmd);
-                string trackArtist = GetFirstArtist(fmd); // will be used for the album if no album artist is found
-
-                // Album information
-                album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                album.AlbumArtist = (albumArtist == Defaults.UnknownAlbumArtistString ? trackArtist : albumArtist);
-                album.DateAdded = FileOperations.GetDateCreated(path);
-
-                IndexerUtils.UpdateAlbumYear(album, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
-
-                // Artist information
-                artist.ArtistName = trackArtist;
-
-                // Genre information
-                genre.GenreName = GetFirstGenre(fmd);
-
-                // Metadata hash
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-                sb.Append(album.AlbumTitle);
-                sb.Append(artist.ArtistName);
-                sb.Append(genre.GenreName);
-                sb.Append(track.TrackTitle);
-                sb.Append(track.TrackNumber);
-                sb.Append(track.Year);
-                track.MetaDataHash = CryptographyUtils.MD5Hash(sb.ToString());
-
-                // File information
-                track.FileSize = fi.SizeInBytes;
-                track.DateFileModified = fi.DateModifiedTicks;
-                track.DateLastSynced = DateTime.Now.Ticks;
-            }
-        }
-
-        public static string GetFirstGenre(FileMetadata fmd)
-        {
-            return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);
-        }
-
-        public static string GetFirstArtist(FileMetadata iFileMetadata)
-        {
-            return string.IsNullOrWhiteSpace(iFileMetadata.Artists.Value) ? Defaults.UnknownArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistString));
-        }
-
-        public static string GetFirstAlbumArtist(FileMetadata iFileMetadata)
-        {
-            return string.IsNullOrWhiteSpace(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownAlbumArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownAlbumArtistString));
-        }
-
         public static int CalculatePercent(long currentValue, long totalValue)
         {
             int percent = 0;
@@ -206,17 +131,6 @@ namespace Dopamine.Common.Services.Indexing
             }
 
             return percent;
-        }
-
-        public static bool UpdateAlbumYear(Album album, long year)
-        {
-            if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumString) && year > 0 && (album.Year == null || album.Year != year))
-            {
-                album.Year = year;
-                return true;
-            }
-
-            return false;
         }
     }
 
