@@ -1335,11 +1335,13 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartTrackPausedAsync(MergedTrack track, int progressSeconds)
         {
-            await this.TryPlayAsync(track, true);
-            await this.PauseAsync();
-            if (!this.mute) this.player.SetVolume(this.Volume);
-            this.player.Skip(progressSeconds);
-            PlaybackProgressChanged(this, new EventArgs());
+            if(await this.TryPlayAsync(track, true))
+            {
+                await this.PauseAsync();
+                if (!this.mute) this.player.SetVolume(this.Volume);
+                this.player.Skip(progressSeconds);
+                PlaybackProgressChanged(this, new EventArgs());
+            }
         }
 
         private void HandleProgress()
