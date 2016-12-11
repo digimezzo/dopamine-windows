@@ -720,7 +720,8 @@ namespace Dopamine.Common.Services.Playback
         {
             if (playlist == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByAlbum);
+            // No ordering needed for playlists. Just enqueue tracks in the order that they are in the playlist.
+            List<MergedTrack> tracks = await this.trackRepository.GetTracksAsync(playlist.ToList());
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
