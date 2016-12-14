@@ -163,9 +163,6 @@ namespace Dopamine.Core.Audio
         {
             if (this.CanPause)
             {
-                // TODO: is this still needed.
-                // A CSCore.MmException can occur here when unplugging and USB headset
-                // Just in case, we try to make sure this doesn't crash the application.
                 try
                 {
                     this.soundOut.Pause();
@@ -176,9 +173,10 @@ namespace Dopamine.Core.Audio
                     this.canPause = false;
                     this.canStop = true;
                 }
-                catch (CSCore.MmException)
+                catch (Exception)
                 {
                     this.Stop();
+                    throw;
                 }
             }
         }
@@ -201,6 +199,7 @@ namespace Dopamine.Core.Audio
                 catch (Exception)
                 {
                     this.Stop();
+                    throw;
                 }
             }
 
@@ -396,7 +395,14 @@ namespace Dopamine.Core.Audio
 
         public bool GetFFTData(ref float[] fftDataBuffer)
         {
-            this.fftProvider.GetFftData(fftDataBuffer);
+            try
+            {
+                this.fftProvider.GetFftData(fftDataBuffer);
+            }
+            catch (Exception)
+            {
+            }
+            
             return this.IsPlaying;
         }
 
@@ -425,7 +431,13 @@ namespace Dopamine.Core.Audio
 
         private void InputStream_Sample(object sender, SingleBlockReadEventArgs e)
         {
-            this.fftProvider.Add(e.Left, e.Right);
+            try
+            {
+                this.fftProvider.Add(e.Left, e.Right);
+            }
+            catch (Exception)
+            {
+            }
         }
         #endregion
 
