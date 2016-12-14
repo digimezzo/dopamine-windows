@@ -1131,7 +1131,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Instance.Logger.Error("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle);
+                LogClient.Instance.Logger.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle);
             }
             catch (FileNotFoundException fnfex)
             {
