@@ -1008,29 +1008,42 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task PauseAsync()
         {
-
-            if (this.player != null)
+            try
             {
-                await Task.Run(() => this.player.Pause());
-                this.PlaybackPaused(this, new EventArgs());
+                if (this.player != null)
+                {
+                    await Task.Run(() => this.player.Pause());
+                    this.PlaybackPaused(this, new EventArgs());
+                }
             }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+            } 
         }
 
         private async Task ResumeAsync()
         {
-            if (this.player != null)
+            try
             {
-                bool isResumed = false;
-                await Task.Run(() => isResumed = this.player.Resume());
+                if (this.player != null)
+                {
+                    bool isResumed = false;
+                    await Task.Run(() => isResumed = this.player.Resume());
 
-                if (isResumed)
-                {
-                    this.PlaybackResumed(this, new EventArgs());
+                    if (isResumed)
+                    {
+                        this.PlaybackResumed(this, new EventArgs());
+                    }
+                    else
+                    {
+                        this.PlaybackStopped(this, new EventArgs());
+                    }
                 }
-                else
-                {
-                    this.PlaybackStopped(this, new EventArgs());
-                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Instance.Logger.Error("Could not resume track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
             }
         }
 
