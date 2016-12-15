@@ -50,8 +50,8 @@
         <dc:MultiPanePanel.LeftPaneContent>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                    <Button x:Name="ShuffleAllButton" Margin="10,5,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="18"/>
+                    <Button x:Name="ShuffleAllButton" Margin="10,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
                     </Button>
                     <Button x:Name="ArtistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Artists}" Style="{StaticResource TransparentButton}" Click="ArtistsButton_Click">
                         <dc:LabelToLower Content="{DynamicResource Language_Artists}" 
