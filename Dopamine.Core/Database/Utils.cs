@@ -81,6 +81,54 @@ namespace Dopamine.Core.Database
             return returnString;
         }
 
+        public static async Task<List<Artist>> OrderArtistsAsync(IList<Artist> artists, ArtistOrder artistOrder)
+        {
+            var orderedArtists = new List<Artist>();
+
+            await Task.Run(() =>
+            {
+                switch (artistOrder)
+                {
+                    case ArtistOrder.Alphabetical:
+                        orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                        break;
+                    case ArtistOrder.ReverseAlphabetical:
+                        orderedArtists = artists.OrderByDescending((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                        break;
+                    default:
+                        // Alphabetical
+                        orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                        break;
+                }
+            });
+
+            return orderedArtists;
+        }
+
+        public static async Task<List<Genre>> OrderGenresAsync(IList<Genre> genres, GenreOrder genreOrder)
+        {
+            var orderedGenres = new List<Genre>();
+
+            await Task.Run(() =>
+            {
+                switch (genreOrder)
+                {
+                    case GenreOrder.Alphabetical:
+                        orderedGenres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        break;
+                    case GenreOrder.ReverseAlphabetical:
+                        orderedGenres = genres.OrderByDescending((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        break;
+                    default:
+                        // Alphabetical
+                        orderedGenres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        break;
+                }
+            });
+
+            return orderedGenres;
+        }
+
         public static async Task<List<Album>> OrderAlbumsAsync(IList<Album> albums, AlbumOrder albumOrder)
         {
             var orderedAlbums = new List<Album>();

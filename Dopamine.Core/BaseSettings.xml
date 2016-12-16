@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>71</Value>
+      <Value>72</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -191,6 +191,12 @@
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">
+    <Setting Name="ArtistsArtistOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="GenresGenreOrder">
+      <Value>1</Value>
+    </Setting>
     <Setting Name="ArtistsTrackOrder">
       <Value>2</Value>
     </Setting>
