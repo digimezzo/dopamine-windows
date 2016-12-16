@@ -61,13 +61,6 @@
                                                  Padding="0"/>
                     </Button>
                     <Label Content="{Binding ArtistsCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding ArtistOrderText,Converter={StaticResource StringToLowerConverter}}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
-                                Command="{Binding ToggleArtistOrderCommand}"/>
                 </StackPanel>
                 <Grid>
                     <Border Panel.ZIndex="0" Visibility="{Binding IsArtistsZoomVisible,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">

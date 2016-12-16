@@ -47,8 +47,6 @@ namespace Dopamine.CollectionModule.ViewModels
         private SubscriptionToken shellMouseUpToken;
         private double leftPaneWidthPercent;
         private double rightPaneWidthPercent;
-        private ArtistOrder artistOrder;
-        private string artistOrderText;
         #endregion
 
         #region Commands
@@ -57,25 +55,9 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand ShowArtistsZoomCommand { get; set; }
         public DelegateCommand SemanticJumpCommand { get; set; }
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
-        public DelegateCommand ToggleArtistOrderCommand { get; set; }
         #endregion
 
         #region Properties
-        public string ArtistOrderText
-        {
-            get { return this.artistOrderText; }
-        }
-
-        public ArtistOrder ArtistOrder
-        {
-            get { return this.artistOrder; }
-            set
-            {
-                SetProperty<ArtistOrder>(ref this.artistOrder, value);
-                this.UpdateArtistOrderText(value);
-            }
-        }
-
         public double LeftPaneWidthPercent
         {
             get { return this.leftPaneWidthPercent; }
@@ -101,7 +83,6 @@ namespace Dopamine.CollectionModule.ViewModels
             get { return this.artists; }
             set { SetProperty<ObservableCollection<ISemanticZoomable>>(ref this.artists, value); }
         }
-
         ObservableCollection<ISemanticZoomable> ISemanticZoomViewModel.SemanticZoomables
         {
             get { return Artists; }
@@ -160,7 +141,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.artistRepository = artistRepository;
 
             // Commands
-            this.ToggleArtistOrderCommand = new DelegateCommand(async () => await this.ToggleArtistOrderAsync());
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
@@ -196,9 +176,6 @@ namespace Dopamine.CollectionModule.ViewModels
             // IndexingService
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
 
-            // Set the initial ArtistOrder
-            this.SetArtistOrder("ArtistsArtistOrder");
-
             // Set the initial AlbumOrder
             this.AlbumOrder = (AlbumOrder)XmlSettingsClient.Instance.Get<int>("Ordering", "ArtistsAlbumOrder");
 
@@ -221,6 +198,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public async Task ShowSemanticZoomAsync()
         {
             this.ArtistsZoomSelectors = await SemanticZoomUtils.UpdateSemanticZoomSelectors(this.ArtistsCvs.View);
+
             this.IsArtistsZoomVisible = true;
         }
 
@@ -239,8 +217,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     previousHeader = avm.Header;
                     avm.IsHeader = true;
-                }
-                else
+                }else
                 {
                     avm.IsHeader = false;
                 }
@@ -249,52 +226,23 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Private
-        private void SetArtistOrder(string settingName)
-        {
-            this.ArtistOrder = (ArtistOrder)XmlSettingsClient.Instance.Get<int>("Ordering", settingName);
-        }
-
-        protected void UpdateArtistOrderText(ArtistOrder artistOrder)
-        {
-            switch (artistOrder)
-            {
-                case ArtistOrder.Alphabetical:
-                    this.artistOrderText = ResourceUtils.GetStringResource("Language_A_Z");
-                    break;
-                case ArtistOrder.ReverseAlphabetical:
-                    this.artistOrderText = ResourceUtils.GetStringResource("Language_Z_A");
-                    break;
-                default:
-                    // Cannot happen, but just in case.
-                    this.artistOrderText = ResourceUtils.GetStringResource("Language_A_Z");
-                    break;
-            }
-
-            OnPropertyChanged(() => this.ArtistOrderText);
-        }
-
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
             if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsArtistChanged | e.IsAlbumChanged)
             {
-                await this.GetArtistsAsync(this.ArtistOrder);
-                await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+                    await this.GetArtistsAsync();
+                    await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             }
             if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 
-        private async Task GetArtistsAsync(ArtistOrder artistOrder)
-        {
-            await this.GetArtistsCommonAsync(await this.artistRepository.GetArtistsAsync(), artistOrder);
-        }
-
-        private async Task GetArtistsCommonAsync(IList<Artist> artists, ArtistOrder artistOrder)
+        private async Task GetArtistsAsync()
         {
             try
             {
-                // Order the incoming Artists
-                List<Artist> orderedArtists = await Core.Database.Utils.OrderArtistsAsync(artists, artistOrder);
+                // Get Artists from database
+                List<Artist> artists = await this.artistRepository.GetArtistsAsync();
 
                 // Create new ObservableCollection
                 ObservableCollection<ArtistViewModel> artistViewModels = new ObservableCollection<ArtistViewModel>();
@@ -303,10 +251,9 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
 
-                    // Workaround to make sure the "#" GroupHeader is shown at the top or bottom of the list
-                    if (artistOrder == ArtistOrder.Alphabetical) tempArtistViewModels.AddRange(orderedArtists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
-                    tempArtistViewModels.AddRange(orderedArtists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => !avm.Header.Equals("#")));
-                    if (artistOrder == ArtistOrder.ReverseAlphabetical) tempArtistViewModels.AddRange(orderedArtists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
+                    // Workaround to make sure the "#" GroupHeader is shown at the top of the list
+                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
+                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => !avm.Header.Equals("#")));
 
                     foreach (ArtistViewModel avm in tempArtistViewModels)
                     {
@@ -426,35 +373,6 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        private void ArtistsCvs_Filter(object sender, FilterEventArgs e)
-        {
-            ArtistViewModel avm = e.Item as ArtistViewModel;
-
-            e.Accepted = Dopamine.Core.Database.Utils.FilterArtists(avm.Artist, this.searchService.SearchText);
-        }
-
-        private async Task ToggleArtistOrderAsync()
-        {
-            switch (this.ArtistOrder)
-            {
-                case ArtistOrder.Alphabetical:
-                    this.ArtistOrder = ArtistOrder.ReverseAlphabetical;
-                    break;
-                case ArtistOrder.ReverseAlphabetical:
-                    this.ArtistOrder = ArtistOrder.Alphabetical;
-                    break;
-                default:
-                    // Cannot happen, but just in case.
-                    this.ArtistOrder = ArtistOrder.Alphabetical;
-                    break;
-            }
-
-            XmlSettingsClient.Instance.Set<int>("Ordering", "ArtistsArtistOrder", (int)this.ArtistOrder);
-            await this.GetArtistsCommonAsync(this.Artists.Select((a) => ((ArtistViewModel)a).Artist).ToList(), this.ArtistOrder);
-        }
-        #endregion
-
-        #region Protected
         protected async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
         {
             AddToQueueResult result = await this.playbackService.AddToQueue(artists);
@@ -465,6 +383,15 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
+        private void ArtistsCvs_Filter(object sender, FilterEventArgs e)
+        {
+            ArtistViewModel avm = e.Item as ArtistViewModel;
+
+            e.Accepted = Dopamine.Core.Database.Utils.FilterArtists(avm.Artist, this.searchService.SearchText);
+        }
+        #endregion
+
+        #region Protected
         protected async Task ToggleTrackOrderAsync()
         {
             base.ToggleTrackOrder();
@@ -492,7 +419,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected async override Task FillListsAsync()
         {
-            await this.GetArtistsAsync(this.ArtistOrder);
+            await this.GetArtistsAsync();
             await this.GetAlbumsAsync(null, null, this.AlbumOrder);
             await this.GetTracksAsync(null, null, null, this.TrackOrder);
         }
@@ -553,7 +480,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected override void RefreshLanguage()
         {
-            this.UpdateArtistOrderText(this.ArtistOrder);
             this.UpdateAlbumOrderText(this.AlbumOrder);
             this.UpdateTrackOrderText(this.TrackOrder);
         }

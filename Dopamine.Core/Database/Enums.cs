@@ -13,18 +13,6 @@
         Success = 1
     }
 
-    public enum ArtistOrder
-    {
-        Alphabetical = 1,
-        ReverseAlphabetical = 2
-    }
-
-    public enum GenreOrder
-    {
-        Alphabetical = 1,
-        ReverseAlphabetical = 2
-    }
-
     public enum TrackOrder
     {
         Alphabetical = 1,
