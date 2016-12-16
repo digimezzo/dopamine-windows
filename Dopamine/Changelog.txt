@@ -1,7 +1,8 @@
 2016-12-14: Dopamine 1.2 Build 838 (Preview)
 --------------------------------------------
 
-- [Fixed] Some possible crashes
+- [Added] Added Artist and Genre order toggle
+- [Fixed] Crashes at startup which multiple users were experiencing
 
 
 2016-12-11: Dopamine 1.2 Build 837 (Preview)
