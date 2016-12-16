@@ -56,6 +56,9 @@ namespace Dopamine.Core.Database.Repositories
                                     artists.Add(new Artist { ArtistName = albumArtist });
                                 }
                             }
+
+                            // Orders the artists
+                            artists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
                         }
                         catch (Exception ex)
                         {
