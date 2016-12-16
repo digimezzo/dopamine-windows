@@ -330,6 +330,8 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
+                    if (this.notificationSource != null) this.notificationSource.SingleBlockRead -= this.InputStream_Sample;
+
                     // Remove the handler because we don't want to trigger this.soundOut.Stopped()
                     // when manually stopping the player. That event should only be triggered
                     // when CSCore reaches the end of the Track by itself.
@@ -402,7 +404,7 @@ namespace Dopamine.Core.Audio
             catch (Exception)
             {
             }
-            
+
             return this.IsPlaying;
         }
 
