@@ -61,6 +61,13 @@
                                                  Padding="0"/>
                     </Button>
                     <Label Content="{Binding GenresCount}" Style="{StaticResource CountLabel}"/>
+                    <Button Content="{Binding GenreOrderText,Converter={StaticResource StringToLowerConverter}}" 
+                                Style="{StaticResource TransparentButton}"
+                                FontWeight="Light" 
+                                FontSize="20" 
+                                Margin="10,0,0,0"
+                                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+                                Command="{Binding ToggleGenreOrderCommand}"/>
                 </StackPanel>
                 <Grid>
                     <Border Panel.ZIndex="0" Visibility="{Binding IsGenresZoomVisible,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
