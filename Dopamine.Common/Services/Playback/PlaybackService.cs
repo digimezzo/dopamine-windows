@@ -1321,6 +1321,9 @@ namespace Dopamine.Common.Services.Playback
             }
 
             await this.SetPlaybackSettingsAsync();
+
+            if (!XmlSettingsClient.Instance.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+
             QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
 
             if (queuedTrack != null)

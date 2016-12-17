@@ -12,6 +12,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxAlsoCheckForPreReleasesChecked;
         private bool checkBoxInstallUpdatesAutomaticallyChecked;
         private bool checkBoxStartupPageChecked;
+        private bool checkBoxRembemberLastPlayedTrackChecked;
         private IUpdateService updateService;
         private bool isportable;
         #endregion
@@ -84,6 +85,16 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
+        public bool CheckBoxRembemberLastPlayedTrackChecked
+        {
+            get { return this.checkBoxRembemberLastPlayedTrackChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Startup", "RememberLastPlayedTrack", value);
+                SetProperty<bool>(ref this.checkBoxRembemberLastPlayedTrackChecked, value);
+            }
+        }
+
         public bool IsPortable
         {
             get { return this.isportable; }
@@ -121,6 +132,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxCheckForUpdatesChecked = XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates");
                 this.CheckBoxAlsoCheckForPreReleasesChecked = XmlSettingsClient.Instance.Get<bool>("Updates", "AlsoCheckForPreReleases");
                 this.CheckBoxStartupPageChecked = XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage");
+                this.CheckBoxRembemberLastPlayedTrackChecked = XmlSettingsClient.Instance.Get<bool>("Startup", "RememberLastPlayedTrack");
             });
         }
         #endregion

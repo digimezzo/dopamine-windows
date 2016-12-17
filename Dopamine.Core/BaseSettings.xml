@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Settings">
     <Setting Name="Version">
-      <Value>72</Value>
+      <Value>73</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Application">
@@ -147,6 +147,9 @@
   </Namespace>
   <Namespace Name="Startup">
     <Setting Name="ShowLastSelectedPage">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="RememberLastPlayedTrack">
       <Value>True</Value>
     </Setting>
   </Namespace>

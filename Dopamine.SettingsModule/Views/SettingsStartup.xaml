@@ -62,6 +62,11 @@
                 <TextBlock Text="{DynamicResource Language_Start_At_Last_Selected_Page}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxStartupPage" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxStartupPageChecked}"/>
             </StackPanel>
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Last_Played}" />
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Remember_Last_played_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxRembemberLastPlayedTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxRembemberLastPlayedTrackChecked}"/>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
