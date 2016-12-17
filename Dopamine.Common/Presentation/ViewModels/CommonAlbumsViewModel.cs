@@ -108,11 +108,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.selectedCoverSize == CoverSizeType.Large; }
         }
 
-        public double UpscaledToolTipCoverSize
-        {
-            get { return Constants.AlbumToolTipCoverSize * Constants.CoverUpscaleFactor; }
-        }
-
         public ObservableCollection<AlbumViewModel> Albums
         {
             get { return this.albums; }
@@ -282,8 +277,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                         break;
                 }
 
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 4; // 4 = margin of 2px at top and bottom
-                this.AlbumWidth = this.CoverSize + 4; // 4 = margin of 2px at left and right
+                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
+                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
 
                 OnPropertyChanged(() => this.CoverSize);
                 OnPropertyChanged(() => this.AlbumWidth);
