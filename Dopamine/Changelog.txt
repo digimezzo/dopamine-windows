@@ -1,8 +1,10 @@
-2016-12-14: Dopamine 1.2 Build 839 (Preview)
+2016-12-17: Dopamine 1.2 Build 840 (Preview)
 --------------------------------------------
 
+- [Added] Added option to remember the last played song and its playback progress at the next start up
 - [Added] Added Artist and Genre order toggle
 - [Fixed] Crashes at startup which multiple users were experiencing
+- [Fixed] Album art is trimmed horizontally
 
 
 2016-12-11: Dopamine 1.2 Build 837 (Preview)
