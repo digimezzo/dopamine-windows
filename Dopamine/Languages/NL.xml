@@ -372,4 +372,6 @@
   <Text Key="Search_Again">Opnieuw zoeken</Text>
   <Text Key="Audio_File">Audio bestand</Text>
   <Text Key="Play_Next">Volgend nummer</Text>
+  <Text Key="Last_Played">Laatst afgespeeld</Text>
+  <Text Key="Remember_Last_played_Song">Het laatste afgespeelde nummer en de afspeel voortgang onthouden</Text>
 </Language>
