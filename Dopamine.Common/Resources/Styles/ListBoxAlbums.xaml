@@ -27,7 +27,7 @@
     <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="Margin" Value="2,2,2,2"/>
+        <Setter Property="Margin" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -79,7 +79,7 @@
                             Height="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                             Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
                         <StackPanel>
-                            <Grid Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2,2,2,0">
+                            <Grid Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2">
                                 <Grid Panel.ZIndex="2" Visibility="{Binding DataContext.IsMultipleAlbumsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Polygon x:Name="Triangle" 
                                          Fill="{DynamicResource RG_AccentBrush}" 
