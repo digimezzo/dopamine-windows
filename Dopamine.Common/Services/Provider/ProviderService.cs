@@ -47,7 +47,7 @@ namespace Dopamine.Common.Services.Provider
                "<SearchProviders>" +
                "<SearchProvider>" +
                "<Id>e76c9f60-ef0e-4468-b47a-2889810fde85</Id>" +
-               "<Name>Video (Youtube)</Name>" +
+               "<Name>Video (YouTube)</Name>" +
                "<Url>https://www.youtube.com/results?search_query=</Url>" +
                "<Separator>+</Separator>" +
                "</SearchProvider>" +
