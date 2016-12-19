@@ -134,7 +134,7 @@ namespace Dopamine.Core.Database.Repositories
 
         public async Task<List<Tuple<long, string, long>>> GetPathsAsync()
         {
-            var diskPaths = new List<Tuple<long, string, long>>();
+            var diskPaths = new Dictionary<string, Tuple<long, string, long>>();
             List<Folder> folders = await this.GetFoldersAsync();
 
             await Task.Run(() =>
@@ -171,7 +171,11 @@ namespace Dopamine.Core.Database.Repositories
                         {
                             try
                             {
-                                diskPaths.Add(new Tuple<long, string, long>(fol.FolderID, path, FileOperations.GetDateModified(path)));
+                                // Avoid adding duplicate paths
+                                if (!diskPaths.Keys.Contains(path))
+                                {
+                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileOperations.GetDateModified(path)));
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -182,7 +186,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
             });
 
-            return diskPaths;
+            return diskPaths.Values.ToList();
         }
 
         public async Task UpdateFoldersAsync(IList<Folder> folders)
