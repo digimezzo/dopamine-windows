@@ -1,3 +1,10 @@
+2016-12-19: Dopamine 1.2 Build 841 (Preview)
+--------------------------------------------
+
+- [Fixed] Improved sorting on the Songs screen
+- [Fixed] The same audio files are added multiple times in some cases
+
+
 2016-12-17: Dopamine 1.2 Build 840 (Preview)
 --------------------------------------------
 
