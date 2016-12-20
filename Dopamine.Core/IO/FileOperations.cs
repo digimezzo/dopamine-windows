@@ -78,30 +78,30 @@ namespace Dopamine.Core.IO
             }
         }
 
-        public static long GetFileSize(string iPath)
+        public static long GetFileSize(string path)
         {
-            return new System.IO.FileInfo(iPath).Length;
+            return new System.IO.FileInfo(path).Length;
         }
 
-        public static long GetDateModified(string iPath)
+        public static long GetDateModified(string path)
         {
-            return new System.IO.FileInfo(iPath).LastWriteTime.Ticks;
+            return new System.IO.FileInfo(path).LastWriteTime.Ticks;
         }
 
-        public static long GetDateCreated(string iPath)
+        public static long GetDateCreated(string path)
         {
-            return new System.IO.FileInfo(iPath).CreationTime.Ticks;
+            return new System.IO.FileInfo(path).CreationTime.Ticks;
         }
 
-        public static bool IsPathTooLong(string iPath)
+        public static bool IsPathTooLong(string path)
         {
             bool retVal = false;
 
             // The fully qualified file name must be less than 260 characters, and the 
             // directory name must be less than 248 characters."
-            string[] pieces = iPath.Split('\\');
+            string[] pieces = path.Split('\\');
 
-            if (iPath.Length >= 248)
+            if (path.Length >= 248)
             {
                 retVal = true;
             }
