@@ -290,9 +290,9 @@ namespace Dopamine.Common.Services.File
                 }
                 catch (Exception ex)
                 {
-                    // Make sure the file can be opened by creating a Track with some default values
-                    mergedTrack = MergedTrack.CreateDefault(path);
-                    LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
+                    // Error while reading audio file. Set empty path, to make sure the file cannot be opened to avoid crashes in the audio engine.
+                    mergedTrack.Path = string.Empty;
+                    LogClient.Instance.Logger.Error("Error while creating Track from file '{0}'. Setting empty path. Exception: {1}", path, ex.Message);
                 }
             });
 
