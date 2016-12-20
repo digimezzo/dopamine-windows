@@ -229,7 +229,7 @@ namespace Dopamine.Core.Metadata
                 // Album information
                 album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
                 album.AlbumArtist = (albumArtist == Defaults.UnknownAlbumArtistString ? trackArtist : albumArtist);
-                album.DateAdded = FileOperations.GetDateCreated(path);
+                album.DateAdded = DateTime.Now.Ticks;
 
                 UpdateAlbumYear(album, MetadataUtils.SafeConvertToLong(fmd.Year.Value));
 
