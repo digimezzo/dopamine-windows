@@ -88,11 +88,6 @@ namespace Dopamine.Core.IO
             return new System.IO.FileInfo(path).LastWriteTime.Ticks;
         }
 
-        public static long GetDateCreated(string path)
-        {
-            return new System.IO.FileInfo(path).CreationTime.Ticks;
-        }
-
         public static bool IsPathTooLong(string path)
         {
             bool retVal = false;
