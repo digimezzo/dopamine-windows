@@ -179,18 +179,14 @@ namespace Dopamine.FullPlayerModule.ViewModels
                             this.IsIndexerAddingSongs = true;
                             this.IsIndexerUpdatingSongs = false;
                             this.IsIndexerUpdatingArtwork = false;
-                            this.IndexingProgress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
-                            this.IndexingProgress = this.IndexingProgress.Replace("%current%", indexingStatusEventArgs.ProgressCurrent.ToString());
-                            this.IndexingProgress = this.IndexingProgress.Replace("%total%", indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
                             break;
                         case IndexingAction.UpdateTracks:
                             this.IsIndexerRemovingSongs = false;
                             this.IsIndexerAddingSongs = false;
                             this.IsIndexerUpdatingSongs = true;
                             this.IsIndexerUpdatingArtwork = false;
-                            this.IndexingProgress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
-                            this.IndexingProgress = this.IndexingProgress.Replace("%current%", indexingStatusEventArgs.ProgressCurrent.ToString());
-                            this.IndexingProgress = this.IndexingProgress.Replace("%total%", indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
                             break;
                         case IndexingAction.UpdateArtwork:
                             this.IsIndexerRemovingSongs = false;
@@ -214,6 +210,17 @@ namespace Dopamine.FullPlayerModule.ViewModels
                     }
                 }
             });
+        }
+
+        private string FillProgress(string currentProgres, string totalProgress)
+        {
+            string progress = string.Empty;
+
+            progress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
+            progress = progress.Replace("%current%", currentProgres);
+            progress = progress.Replace("%total%", totalProgress);
+
+            return progress;
         }
 
         private void IndexingService_IndexingStopped(object sender, EventArgs e)
