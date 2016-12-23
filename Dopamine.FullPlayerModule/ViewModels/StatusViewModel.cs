@@ -24,7 +24,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         // Indexing
         private bool isIndexing;
         private string indexingProgress;
-        private bool isIndexerScanningFiles;
         private bool isIndexerRemovingSongs;
         private bool isIndexerAddingSongs;
         private bool isIndexerUpdatingSongs;
@@ -36,7 +35,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private string destinationPath;
         private string updateToolTip;
         private bool isUpdateStatusHiddenByUser;
-        private bool showInstallUpdateButton;
         #endregion
 
         #region Properties
