@@ -1120,7 +1120,7 @@ namespace Dopamine.Common.Services.Playback
                 this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
 
                 this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
-                this.player.SetVolume(silent ? 0.0f : this.Volume);
+                this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
 
                 // We need to set PlayingTrack before trying to play the Track.
                 // So if we go into the Catch when trying to play the Track,
