@@ -1,5 +1,4 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Dopamine.Packager
@@ -169,6 +167,7 @@ namespace Dopamine.Packager
 
 
                     // Get the bin directory for the WIX runtimes
+
                     var wixBinDirectory = (from p in this.packagerDoc.Element("Packager").Element("Packaging").Element("Installable").Elements("WixBinDirectory")
                                            select p.Value).FirstOrDefault();
 
@@ -188,10 +187,6 @@ namespace Dopamine.Packager
                         writer.WriteLine(String.Format(@"""" + wixBinDirectory + @"\light.exe"" -ext WixUIExtension -ext WixUtilExtension -out ""{0}"" *.wixobj", this.installablePackageName));
                         writer.WriteLine("PAUSE");
                     }
-
-                    // Replaces the Guid's of all components in the wxs file. This avoids an issue where 
-                    // removing the application doesn't remove the installation directory and its files.
-                    this.ReplaceGuids();
 
                     Process.Start("CreateMsiInstaller.bat");
 
@@ -485,32 +480,6 @@ namespace Dopamine.Packager
                                                this.versionsFileName),
                                  "STOR",
                                  this.versionsFileName);
-            }
-        }
-
-        /// <summary>
-        /// Workaround for an issue where performing a MSI Remove operation, doesn't remove the installed files.
-        /// See: http://stackoverflow.com/questions/7532863/wix-not-removing-files-on-uninstall
-        /// </summary>
-        private void ReplaceGuids()
-        {
-            string[] wxsFiles = Directory.GetFiles(ApplicationPaths.ExecutionFolder, "*.wxs");
-
-            foreach (var wxsFile in wxsFiles)
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.PreserveWhitespace = true; // space inside tags are still lost
-                doc.Load(wxsFile);
-
-                foreach (XmlNode node in doc.GetElementsByTagName("Component"))
-                {
-                    Guid guid = Guid.NewGuid();
-                    string value = guid.ToString("B").ToUpper();
-
-                    node.Attributes["Guid"].Value = value;
-                }
-
-                doc.Save(wxsFile);
             }
         }
         #endregion
