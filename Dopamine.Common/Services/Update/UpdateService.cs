@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
+﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.Settings;
+using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace Dopamine.Common.Services.Update
         {
             this.checkNewVersionTimer.Elapsed += new ElapsedEventHandler(this.CheckNewVersionTimerHandler);
 
-            this.updatesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.UpdatesFolder);
+            this.updatesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.UpdatesFolder);
             this.canCheckForUpdates = false;
         }
         #endregion
@@ -461,8 +461,8 @@ namespace Dopamine.Common.Services.Update
             this.checkNewVersionTimer.Interval = TimeSpan.FromSeconds(Constants.UpdateCheckIntervalSeconds).TotalMilliseconds;
 
             // Set flags based on update settings
-            this.automaticDownload = XmlSettingsClient.Instance.Get<bool>("Updates", "AutomaticDownload") & !XmlSettingsClient.Instance.BaseGet<bool>("Application", "IsPortable");
-            this.checkForPreReleases = XmlSettingsClient.Instance.Get<bool>("Updates", "AlsoCheckForPreReleases");
+            this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Application", "IsPortable");
+            this.checkForPreReleases = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
 
             // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
             if (!this.checkingForUpdates) this.CheckForUpdatesAsync();

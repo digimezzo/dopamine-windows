@@ -1,15 +1,16 @@
-﻿using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Logging;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Collections.Concurrent;
-using Dopamine.Core.IO;
+﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.IO;
+using Dopamine.Core.Logging;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -174,7 +175,7 @@ namespace Dopamine.Core.Database.Repositories
                                 // Avoid adding duplicate paths
                                 if (!diskPaths.Keys.Contains(path))
                                 {
-                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileOperations.GetDateModified(path)));
+                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileUtils.DateModifiedTicks(path)));
                                 }
                             }
                             catch (Exception ex)

@@ -1,27 +1,26 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using GongSolutions.Wpf.DragDrop;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Dopamine.Core.Database;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Utils;
-using Dopamine.Core.Logging;
 using System.Windows;
-using Dopamine.Core.Base;
-using System.Collections;
 using WPFFolderBrowser;
-using Dopamine.Core.IO;
-using Dopamine.CollectionModule.Views;
-using Microsoft.Practices.Unity;
-using GongSolutions.Wpf.DragDrop;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -61,7 +60,7 @@ namespace Dopamine.CollectionModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
-                XmlSettingsClient.Instance.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
+                SettingsClient.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
             }
         }
 
@@ -155,7 +154,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Subscribe();
 
             // Set width of the panels
-            this.LeftPaneWidthPercent = XmlSettingsClient.Instance.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
+            this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
         #endregion
 
@@ -569,7 +568,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     // Save 1 playlist
                     // ---------------
                     var dlg = new Microsoft.Win32.SaveFileDialog();
-                    dlg.FileName = FileOperations.SanitizeFilename(this.SelectedPlaylists[0].PlaylistName);
+                    dlg.FileName = FileUtils.SanitizeFilename(this.SelectedPlaylists[0].PlaylistName);
                     dlg.DefaultExt = FileFormats.M3U;
                     dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Playlists"), " (", FileFormats.M3U, ")|*", FileFormats.M3U);
 

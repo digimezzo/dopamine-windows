@@ -1,7 +1,8 @@
-﻿using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using System;
 using System.IO;
 using System.Net;
@@ -40,9 +41,9 @@ namespace Dopamine.Common.Services.Cache
         #region Construction
         public CacheService()
         {
-            string cacheFolderPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder);
-            this.coverArtCacheFolderPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
-            this.temporaryCacheFolderPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
+            string cacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder);
+            this.coverArtCacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
+            this.temporaryCacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
 
             // If it doesn't exist, create the cache folder.
             if (!Directory.Exists(cacheFolderPath)) Directory.CreateDirectory(cacheFolderPath);
@@ -84,7 +85,7 @@ namespace Dopamine.Common.Services.Cache
             {
                 await Task.Run(() =>
                 {
-                    ImageOperations.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
+                    ImageUtils.Byte2Jpg(artwork, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), 0, 0, Constants.CoverQualityPercent);
                 });
             }
             catch (Exception ex)

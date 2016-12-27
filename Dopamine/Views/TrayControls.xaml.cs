@@ -1,7 +1,7 @@
-﻿using Dopamine.Common.Services.Notification;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Notification;
 using Dopamine.Core.Base;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using System;
 using System.Windows;
 
@@ -51,7 +51,7 @@ namespace Dopamine.Views
 
         private void SetTransparency()
         {
-            if (EnvironmentUtils.IsWindows10() && XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableTransparency"))
+            if (EnvironmentUtils.IsWindows10() && SettingsClient.Get<bool>("Appearance", "EnableTransparency"))
             {
                 this.WindowBackground.Opacity = Constants.OpacityWhenBlurred;
                 WindowUtils.EnableBlur(this);

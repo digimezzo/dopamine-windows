@@ -1,12 +1,12 @@
-﻿using Dopamine.Core.Database.Entities;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Dopamine.Core.IO;
-using Dopamine.Core.Extensions;
+using System.Threading.Tasks;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -412,8 +412,8 @@ namespace Dopamine.Core.Database.Repositories
 
                             if (dbTrack != null)
                             {
-                                dbTrack.FileSize = FileOperations.GetFileSize(path);
-                                dbTrack.DateFileModified = FileOperations.GetDateModified(path);
+                                dbTrack.FileSize = FileUtils.SizeInBytes(path);
+                                dbTrack.DateFileModified = FileUtils.DateModifiedTicks(path);
                                 dbTrack.DateLastSynced = DateTime.Now.Ticks;
 
                                 conn.Update(dbTrack);

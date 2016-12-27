@@ -1,11 +1,11 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
@@ -58,7 +58,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.selectedLatency; }
             set
             {
-                XmlSettingsClient.Instance.Set<int>("Playback", "AudioLatency", value.Value);
+                SettingsClient.Set<int>("Playback", "AudioLatency", value.Value);
                 SetProperty<NameValue>(ref this.selectedLatency, value);
 
                 if (this.playbackService != null)
@@ -89,7 +89,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowNotificationWhenPlayingChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenPlaying", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPlaying", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPlayingChecked, value);
                 OnPropertyChanged(() => this.IsNotificationEnabled);
             }
@@ -100,7 +100,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowNotificationWhenPausingChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenPausing", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPausing", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPausingChecked, value);
                 OnPropertyChanged(() => this.IsNotificationEnabled);
             }
@@ -111,7 +111,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowNotificationWhenResumingChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationWhenResuming", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenResuming", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenResumingChecked, value);
                 OnPropertyChanged(() => this.IsNotificationEnabled);
             }
@@ -122,7 +122,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowNotificationControlsChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationControls", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationControls", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationControlsChecked, value);
             }
         }
@@ -132,7 +132,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowProgressInTaskbarChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Playback", "ShowProgressInTaskbar", value);
+                SettingsClient.Set<bool>("Playback", "ShowProgressInTaskbar", value);
                 SetProperty<bool>(ref this.checkBoxShowProgressInTaskbarChecked, value);
 
                 if (this.taskbarService != null && this.playbackService != null)
@@ -147,7 +147,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked, value);
             }
         }
@@ -163,7 +163,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.selectedNotificationPosition; }
             set
             {
-                XmlSettingsClient.Instance.Set<int>("Behaviour", "NotificationPosition", value.Value);
+                SettingsClient.Set<int>("Behaviour", "NotificationPosition", value.Value);
                 SetProperty<NameValue>(ref this.selectedNotificationPosition, value);
             }
         }
@@ -179,7 +179,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.selectedNotificationSecond; }
             set
             {
-                XmlSettingsClient.Instance.Set<int>("Behaviour", "NotificationAutoCloseSeconds", value);
+                SettingsClient.Set<int>("Behaviour", "NotificationAutoCloseSeconds", value);
                 SetProperty<int>(ref this.selectedNotificationSecond, value);
             }
         }
@@ -236,7 +236,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             NameValue localSelectedLatency = null;
 
-            await Task.Run(() => localSelectedLatency = this.Latencies.Where((pa) => pa.Value == XmlSettingsClient.Instance.Get<int>("Playback", "AudioLatency")).Select((pa) => pa).First());
+            await Task.Run(() => localSelectedLatency = this.Latencies.Where((pa) => pa.Value == SettingsClient.Get<int>("Playback", "AudioLatency")).Select((pa) => pa).First());
 
             this.SelectedLatency = localSelectedLatency;
         }
@@ -257,7 +257,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             NameValue localSelectedNotificationPosition = null;
 
-            await Task.Run(() => localSelectedNotificationPosition = NotificationPositions.Where((np) => np.Value == XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition")).Select((np) => np).First());
+            await Task.Run(() => localSelectedNotificationPosition = NotificationPositions.Where((np) => np.Value == SettingsClient.Get<int>("Behaviour", "NotificationPosition")).Select((np) => np).First());
 
             this.SelectedNotificationPosition = localSelectedNotificationPosition;
         }
@@ -279,7 +279,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             int localSelectedNotificationSecond = 0;
 
-            await Task.Run(() => localSelectedNotificationSecond = NotificationSeconds.Where((ns) => ns == XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationAutoCloseSeconds")).Select((ns) => ns).First());
+            await Task.Run(() => localSelectedNotificationSecond = NotificationSeconds.Where((ns) => ns == SettingsClient.Get<int>("Behaviour", "NotificationAutoCloseSeconds")).Select((ns) => ns).First());
 
             this.SelectedNotificationSecond = localSelectedNotificationSecond;
         }
@@ -289,15 +289,15 @@ namespace Dopamine.SettingsModule.ViewModels
             await Task.Run(() =>
             {
                 // Change the backing field, not the property. Otherwise the confirmation popup is shown when the screen is constructed.
-                this.checkBoxWasapiExclusiveModeChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
+                this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
                 OnPropertyChanged(() => this.CheckBoxWasapiExclusiveModeChecked);
 
-                this.CheckBoxShowNotificationWhenPlayingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying");
-                this.CheckBoxShowNotificationWhenPausingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing");
-                this.CheckBoxShowNotificationWhenResumingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming");
-                this.CheckBoxShowNotificationControlsChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls");
-                this.CheckBoxShowProgressInTaskbarChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar");
-                this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
+                this.CheckBoxShowNotificationWhenPlayingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPlaying");
+                this.CheckBoxShowNotificationWhenPausingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPausing");
+                this.CheckBoxShowNotificationWhenResumingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming");
+                this.CheckBoxShowNotificationControlsChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationControls");
+                this.CheckBoxShowProgressInTaskbarChecked = SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar");
+                this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
 
             });
         }
@@ -318,7 +318,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         private void ApplyExclusiveMode(bool isEnabled)
         {
-            XmlSettingsClient.Instance.Set<bool>("Playback", "WasapiExclusiveMode", isEnabled);
+            SettingsClient.Set<bool>("Playback", "WasapiExclusiveMode", isEnabled);
             SetProperty<bool>(ref this.checkBoxWasapiExclusiveModeChecked, isEnabled);
             if (this.playbackService != null) this.playbackService.ExclusiveMode = isEnabled;
         }

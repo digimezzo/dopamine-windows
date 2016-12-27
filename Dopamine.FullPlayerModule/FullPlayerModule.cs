@@ -1,12 +1,11 @@
-﻿using Dopamine.ControlsModule.Views;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
 using Dopamine.FullPlayerModule.ViewModels;
 using Dopamine.FullPlayerModule.Views;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using Microsoft.Practices.Unity;
-using Dopamine.Core.Settings;
-using Dopamine.CollectionModule;
 
 namespace Dopamine.FullPlayerModule
 {
@@ -53,9 +52,9 @@ namespace Dopamine.FullPlayerModule
             this.regionManager.RegisterViewWithRegion(RegionNames.NowPlayingSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
             this.regionManager.RegisterViewWithRegion(RegionNames.FullPlayerSearchRegion, typeof(SearchControl));
 
-            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                if (XmlSettingsClient.Instance.Get<bool>("FullPlayer", "IsNowPlayingSelected")){
+                if (SettingsClient.Get<bool>("FullPlayer", "IsNowPlayingSelected")){
                     this.regionManager.RegisterViewWithRegion(RegionNames.ScreenTypeRegion, typeof(Views.NowPlayingScreen));
                 }
                 else

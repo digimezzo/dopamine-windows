@@ -1,4 +1,7 @@
-﻿using Dopamine.Common.Controls;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Appearance;
@@ -11,8 +14,6 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
@@ -190,8 +191,8 @@ namespace Dopamine.Views
 
             // Mini Player
             // -----------
-            this.isMiniPlayerPositionLocked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-            this.isMiniPlayerAlwaysOnTop = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MiniPlayerOnTop");
+            this.isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
+            this.isMiniPlayerAlwaysOnTop = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
 
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
@@ -214,7 +215,7 @@ namespace Dopamine.Views
             this.NavigateToMainScreenCommand = new DelegateCommand(() =>
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(MainScreen).FullName);
-                XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
+                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
             });
 
 
@@ -223,7 +224,7 @@ namespace Dopamine.Views
             this.NavigateToNowPlayingScreenCommand = new DelegateCommand(() =>
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(NowPlayingScreen).FullName);
-                XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
+                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
             });
 
             Core.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);
@@ -252,7 +253,7 @@ namespace Dopamine.Views
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
 
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon"))
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon"))
             {
                 this.trayIcon.Visible = true;
             }
@@ -276,7 +277,7 @@ namespace Dopamine.Views
 
             // This makes sure the position and size of the window is correct and avoids jumping of 
             // the window to the correct position when SetPlayer() is called later while starting up
-            this.SetPlayerType(XmlSettingsClient.Instance.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)XmlSettingsClient.Instance.Get<int>("General", "MiniPlayerType"));
+            this.SetPlayerType(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
         }
 
         private void TogglePlayer()
@@ -289,7 +290,7 @@ namespace Dopamine.Views
             else
             {
                 // Show the Mini Player, with the player type which is saved in the settings
-                this.SetPlayer(true, (MiniPlayerType)XmlSettingsClient.Instance.Get<int>("General", "MiniPlayerType"));
+                this.SetPlayer(true, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
             }
         }
 
@@ -337,10 +338,10 @@ namespace Dopamine.Views
         private void SetPlayerType(bool isMiniPlayer, MiniPlayerType miniPlayerType)
         {
             // Save the player type in the settings
-            XmlSettingsClient.Instance.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
+            SettingsClient.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
 
             // Only save the Mini Player Type in the settings if the current player is set to the Mini Player
-            if (isMiniPlayer) XmlSettingsClient.Instance.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
+            if (isMiniPlayer) SettingsClient.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
 
             // Set the current player type
             this.isMiniPlayer = isMiniPlayer;
@@ -424,11 +425,11 @@ namespace Dopamine.Views
             {
                 if (this.WindowState == WindowState.Maximized)
                 {
-                    XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsMaximized", true);
+                    SettingsClient.Set<bool>("FullPlayer", "IsMaximized", true);
                 }
                 else
                 {
-                    XmlSettingsClient.Instance.Set<bool>("FullPlayer", "IsMaximized", false);
+                    SettingsClient.Set<bool>("FullPlayer", "IsMaximized", false);
                 }
             }
         }
@@ -439,8 +440,8 @@ namespace Dopamine.Views
             {
                 if (!this.isMiniPlayer & !(this.WindowState == WindowState.Maximized))
                 {
-                    XmlSettingsClient.Instance.Set<int>("FullPlayer", "Width", Convert.ToInt32(this.ActualWidth));
-                    XmlSettingsClient.Instance.Set<int>("FullPlayer", "Height", Convert.ToInt32(this.ActualHeight));
+                    SettingsClient.Set<int>("FullPlayer", "Width", Convert.ToInt32(this.ActualWidth));
+                    SettingsClient.Set<int>("FullPlayer", "Height", Convert.ToInt32(this.ActualHeight));
                 }
             }
         }
@@ -451,13 +452,13 @@ namespace Dopamine.Views
             {
                 if (this.isMiniPlayer)
                 {
-                    XmlSettingsClient.Instance.Set<int>("MiniPlayer", "Top", Convert.ToInt32(this.Top));
-                    XmlSettingsClient.Instance.Set<int>("MiniPlayer", "Left", Convert.ToInt32(this.Left));
+                    SettingsClient.Set<int>("MiniPlayer", "Top", Convert.ToInt32(this.Top));
+                    SettingsClient.Set<int>("MiniPlayer", "Left", Convert.ToInt32(this.Left));
                 }
                 else if (!this.isMiniPlayer & !(this.WindowState == WindowState.Maximized))
                 {
-                    XmlSettingsClient.Instance.Set<int>("FullPlayer", "Top", Convert.ToInt32(this.Top));
-                    XmlSettingsClient.Instance.Set<int>("FullPlayer", "Left", Convert.ToInt32(this.Left));
+                    SettingsClient.Set<int>("FullPlayer", "Top", Convert.ToInt32(this.Top));
+                    SettingsClient.Set<int>("FullPlayer", "Left", Convert.ToInt32(this.Left));
                 }
             }
         }
@@ -470,7 +471,7 @@ namespace Dopamine.Views
 
             this.ShowWindowControls = true;
 
-            if (XmlSettingsClient.Instance.Get<bool>("FullPlayer", "IsMaximized"))
+            if (SettingsClient.Get<bool>("FullPlayer", "IsMaximized"))
             {
                 this.WindowState = WindowState.Maximized;
             }
@@ -479,10 +480,10 @@ namespace Dopamine.Views
                 this.WindowState = WindowState.Normal;
 
                 this.SetGeometry(
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"),
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"),
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"),
-                    XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"),
+                    SettingsClient.Get<int>("FullPlayer", "Top"),
+                    SettingsClient.Get<int>("FullPlayer", "Left"),
+                    SettingsClient.Get<int>("FullPlayer", "Width"),
+                    SettingsClient.Get<int>("FullPlayer", "Height"),
                     Constants.DefaultShellTop,
                     Constants.DefaultShellLeft);
             }
@@ -498,8 +499,8 @@ namespace Dopamine.Views
         private void SetMiniPlayerDimensions()
         {
             this.SetGeometry(
-                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Top"),
-                XmlSettingsClient.Instance.Get<int>("MiniPlayer", "Left"),
+                SettingsClient.Get<int>("MiniPlayer", "Top"),
+                SettingsClient.Get<int>("MiniPlayer", "Left"),
                 Convert.ToInt32(this.MinWidth),
                 Convert.ToInt32(this.MinHeight),
                 Constants.DefaultShellTop,
@@ -580,7 +581,7 @@ namespace Dopamine.Views
         private void Shell_ContentRendered(object sender, EventArgs e)
         {
             // Corrects size of the window (taking into account the HasBorders Property which is now set) and sets the content of the player
-            this.SetPlayer(XmlSettingsClient.Instance.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)XmlSettingsClient.Instance.Get<int>("General", "MiniPlayerType"));
+            this.SetPlayer(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
         }
 
         private void ThemeChangedHandler(object sender, EventArgs e)
@@ -639,8 +640,8 @@ namespace Dopamine.Views
         {
             if (this.WindowState == WindowState.Minimized)
             {
-                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon") &
-                    XmlSettingsClient.Instance.Get<bool>("Behaviour", "MinimizeToTray"))
+                if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
+                    SettingsClient.Get<bool>("Behaviour", "MinimizeToTray"))
                 {
                     // When minimizing to tray, hide this window from Taskbar and ALT-TAB menu.
                     this.ShowInTaskbar = false;
@@ -659,8 +660,8 @@ namespace Dopamine.Views
 
         private void Shell_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon") &
-                                  XmlSettingsClient.Instance.Get<bool>("Behaviour", "CloseToTray") &
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
+                                  SettingsClient.Get<bool>("Behaviour", "CloseToTray") &
                                   !this.isShuttingDown)
             {
                 e.Cancel = true;
@@ -691,7 +692,7 @@ namespace Dopamine.Views
 
             // Write the settings
             // ------------------
-            XmlSettingsClient.Instance.Write();
+            SettingsClient.Write();
 
             // Save queued tracks
             // ------------------
@@ -834,10 +835,10 @@ namespace Dopamine.Views
             // Player. Returning to the full player doesn't update RestoreBounds,
             // because the full player is still maximized at that point.
             this.SetGeometry(
-                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Top"),
-                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Left"),
-                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Width"),
-                XmlSettingsClient.Instance.Get<int>("FullPlayer", "Height"),
+                SettingsClient.Get<int>("FullPlayer", "Top"),
+                SettingsClient.Get<int>("FullPlayer", "Left"),
+                SettingsClient.Get<int>("FullPlayer", "Width"),
+                SettingsClient.Get<int>("FullPlayer", "Height"),
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
         }

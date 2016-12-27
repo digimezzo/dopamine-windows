@@ -1,7 +1,7 @@
-﻿using Dopamine.Common.Services.Collection;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -112,7 +112,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.DelayedIndexCollectionAsync(1000, XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
             this.collectionService.SaveMarkedFoldersAsync();
         }
 

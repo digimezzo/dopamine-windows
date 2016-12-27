@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Services.Dialog;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.InformationModule.Views;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
-using Microsoft.Practices.Unity;
 
 namespace Dopamine.InformationModule.ViewModels
 {

@@ -1,5 +1,5 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

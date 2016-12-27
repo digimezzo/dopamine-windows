@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.IO;
-using Dopamine.Core.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -202,12 +202,11 @@ namespace Dopamine.Core.Metadata
             if (!string.IsNullOrEmpty(path))
             {
                 var fmd = new FileMetadata(path);
-                var fi = new FileInformation(path);
-
+                
                 // Track information
                 track.Path = path;
                 track.SafePath = path.ToSafePath();
-                track.FileName = fi.NameWithoutExtension;
+                track.FileName = FileUtils.NameWithoutExtension(path);
                 track.Duration = Convert.ToInt64(fmd.Duration.TotalMilliseconds);
                 track.MimeType = fmd.MimeType;
                 track.BitRate = fmd.BitRate;
@@ -251,8 +250,8 @@ namespace Dopamine.Core.Metadata
                 track.MetaDataHash = CryptographyUtils.MD5Hash(sb.ToString());
 
                 // File information
-                track.FileSize = fi.SizeInBytes;
-                track.DateFileModified = fi.DateModifiedTicks;
+                track.FileSize = FileUtils.SizeInBytes(path);
+                track.DateFileModified = FileUtils.DateModifiedTicks(path);
                 track.DateLastSynced = DateTime.Now.Ticks;
             }
         }

@@ -1,5 +1,6 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
+﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Dopamine.Core.IO
             var fullPath = string.Empty;
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
-            if (FileOperations.IsAbsolutePath(trackPath))
+            if (FileUtils.IsAbsolutePath(trackPath))
             {
                 // The line contains the full path.
                 fullPath = trackPath;
@@ -66,7 +67,7 @@ namespace Dopamine.Core.IO
 
                 tempFullPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(playlistDirectory, trackPath));
 
-                if (!string.IsNullOrEmpty(tempFullPath) && FileOperations.IsAbsolutePath(tempFullPath))
+                if (!string.IsNullOrEmpty(tempFullPath) && FileUtils.IsAbsolutePath(tempFullPath))
                 {
                     fullPath = tempFullPath;
                 }

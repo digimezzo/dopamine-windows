@@ -1,12 +1,12 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Core.IO;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
-using Prism.Mvvm;
 using Prism.Events;
+using Prism.Mvvm;
 using System.Threading.Tasks;
 using System.Windows;
-using Dopamine.Core.IO;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -26,7 +26,7 @@ namespace Dopamine.SettingsModule.ViewModels
             this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
 
-            this.ColorSchemesDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesFolder);
+            this.ColorSchemesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
             this.GetCheckBoxesAsync();
         }
@@ -40,7 +40,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxCheckBoxShowWindowBorderChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Appearance", "ShowWindowBorder", value);
+                SettingsClient.Set<bool>("Appearance", "ShowWindowBorder", value);
                 SetProperty<bool>(ref this.checkBoxCheckBoxShowWindowBorderChecked, value);
                 Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowWindowBorderChanged>().Publish(value));
             }
@@ -51,7 +51,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowSpectrumAnalyzerChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
+                SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
                 SetProperty<bool>(ref this.checkBoxShowSpectrumAnalyzerChecked, value);
                 this.playbackService.IsSpectrumVisible = value;
             }
@@ -62,7 +62,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxEnableTransparencyChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Appearance", "EnableTransparency", value);
+                SettingsClient.Set<bool>("Appearance", "EnableTransparency", value);
                 SetProperty<bool>(ref this.checkBoxEnableTransparencyChecked, value);
             }
         }
@@ -78,9 +78,9 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxShowSpectrumAnalyzerChecked = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowSpectrumAnalyzer");
-                this.CheckBoxCheckBoxShowWindowBorderChecked = XmlSettingsClient.Instance.Get<bool>("Appearance", "ShowWindowBorder");
-                this.CheckBoxEnableTransparencyChecked = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableTransparency");
+                this.CheckBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
+                this.CheckBoxCheckBoxShowWindowBorderChecked = SettingsClient.Get<bool>("Appearance", "ShowWindowBorder");
+                this.CheckBoxEnableTransparencyChecked = SettingsClient.Get<bool>("Appearance", "EnableTransparency");
             });
         }
         #endregion

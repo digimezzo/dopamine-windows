@@ -43,6 +43,7 @@
         <File>NLog.dll</File>
         <File>NVorbis.dll</File>
         <File>policy.2.0.taglib-sharp.dll</File>
+        <File>Digimezzo.Utilities.dll</File>
         <File>Digimezzo.WPFControls.dll</File>
         <File>SQLite-net.dll</File>
         <File>SQLitePCL.batteries.dll</File>

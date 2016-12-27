@@ -56,6 +56,9 @@
     <Reference Include="CSCore">
       <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="Digimezzo.Utilities">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Digimezzo.WPFControls">
       <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
@@ -204,14 +207,8 @@
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AddToPlaylistResult.cs" />
-    <Compile Include="Helpers\NameValue.cs" />
-    <Compile Include="Helpers\OperationResult.cs" />
-    <Compile Include="IO\Actions.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
-    <Compile Include="IO\FileInformation.cs" />
     <Compile Include="IO\FileOperations.cs" />
-    <Compile Include="IO\ImageOperations.cs" />
-    <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
     <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
     <Compile Include="Logging\ILogClient.cs" />
@@ -237,26 +234,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Settings\ISettingsClient.cs" />
-    <Compile Include="Settings\SettingEntry.cs" />
-    <Compile Include="Settings\XmlSettingsClient.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
-    <Compile Include="Utils\CryptographyUtils.cs" />
-    <Compile Include="Utils\DateTimeUtils.cs" />
-    <Compile Include="Utils\EnvironmentUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
-    <Compile Include="Utils\ResourceUtils.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
-    <Compile Include="Utils\VisualTreeUtils.cs" />
-    <Compile Include="Utils\WindowUtils.cs" />
-    <Compile Include="Win32\AccentPolicy.cs" />
-    <Compile Include="Win32\AccentState.cs" />
-    <Compile Include="Win32\GWL.cs" />
-    <Compile Include="Win32\NativeMethods.cs" />
-    <Compile Include="Win32\WindowCompositionAttribute.cs" />
-    <Compile Include="Win32\WindowCompositionAttributeData.cs" />
-    <Compile Include="Win32\WS.cs" />
-    <Compile Include="Win32\WSEX.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

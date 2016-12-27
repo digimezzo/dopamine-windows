@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.ViewModels;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

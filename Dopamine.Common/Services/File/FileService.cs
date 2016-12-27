@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Cache;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
@@ -8,7 +9,6 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

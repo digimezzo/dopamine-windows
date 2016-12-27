@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Services.I18n;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lyrics;
@@ -6,8 +6,6 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -186,7 +184,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
                     if (!lyrics.HasText)
                     {
-                        if (XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics"))
+                        if (SettingsClient.Get<bool>("Lyrics", "DownloadLyrics"))
                         {
                             string artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
                             string title = fmd.Title != null && fmd.Title.Value != null ? fmd.Title.Value : string.Empty;

@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Threading.Tasks;
@@ -111,8 +111,8 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Construction
         public CollectionTracksColumnsViewModel()
         {
-            this.CheckBoxRatingVisible = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
-            this.CheckBoxLoveVisible = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
+            this.CheckBoxRatingVisible = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+            this.CheckBoxLoveVisible = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             this.GetVisibleColumns();
         }

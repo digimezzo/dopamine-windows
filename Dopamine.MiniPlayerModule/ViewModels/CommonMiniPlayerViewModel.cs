@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Enums;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Events;
+using Prism.Mvvm;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {
@@ -72,13 +72,13 @@ namespace Dopamine.MiniPlayerModule.ViewModels
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
                 IsMiniPlayerPositionLocked = !IsMiniPlayerPositionLocked;
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "MiniPlayerPositionLocked", IsMiniPlayerPositionLocked);
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", IsMiniPlayerPositionLocked);
             });
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
                 IsMiniPlayerAlwaysOnTop = !IsMiniPlayerAlwaysOnTop;
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "MiniPlayerOnTop", IsMiniPlayerAlwaysOnTop);
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", IsMiniPlayerAlwaysOnTop);
             });
 
             // Register Commands: all 3 Mini Players need to listen to these Commands, even if 
@@ -119,11 +119,11 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         private void Initialize()
         {
             // Set the default IsMiniPlayerPositionLocked value
-            this.IsMiniPlayerPositionLocked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-            this.IsMiniPlayerAlwaysOnTop = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MiniPlayerOnTop");
+            this.IsMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
+            this.IsMiniPlayerAlwaysOnTop = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
 
             // This sets the initial state of the ContextMenu CheckBoxes
-            this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)XmlSettingsClient.Instance.Get<int>("General", "MiniPlayerType"));
+            this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
         }
         #endregion
     }

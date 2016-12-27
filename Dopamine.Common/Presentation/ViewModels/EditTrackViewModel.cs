@@ -1,13 +1,12 @@
-﻿using Dopamine.Common.Presentation.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -429,7 +428,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void VisualizeArtwork(byte[] imageData)
         {
-            this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
+            this.ArtworkThumbnail = ImageUtils.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
 
             // Size of the artwork
             if (imageData != null)

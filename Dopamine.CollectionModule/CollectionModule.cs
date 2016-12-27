@@ -1,12 +1,12 @@
-﻿using Dopamine.CollectionModule.ViewModels;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.CollectionModule.ViewModels;
 using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Enums;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using Microsoft.Practices.Unity;
-using Dopamine.Common.Enums;
 
 namespace Dopamine.CollectionModule
 {
@@ -52,9 +52,9 @@ namespace Dopamine.CollectionModule
             this.regionManager.RegisterViewWithRegion(RegionNames.CollectionPlaybackControlsRegion, typeof(CollectionPlaybackControls));
             this.regionManager.RegisterViewWithRegion(RegionNames.CollectionSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
 
-            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedPage page = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
+                SelectedPage page = (SelectedPage)SettingsClient.Get<int>("FullPlayer", "SelectedPage");
 
                 switch (page)
                 {

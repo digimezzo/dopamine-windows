@@ -1,5 +1,4 @@
-﻿using Dopamine.Core.Api.Lyrics;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
 using System;
 using System.Linq;
 using System.Net.Http;

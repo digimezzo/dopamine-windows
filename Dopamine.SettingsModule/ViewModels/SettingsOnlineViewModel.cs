@@ -1,18 +1,17 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -67,7 +66,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxDownloadArtistInformationChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Lastfm", "DownloadArtistInformation", value);
+                SettingsClient.Set<bool>("Lastfm", "DownloadArtistInformation", value);
                 SetProperty<bool>(ref this.checkBoxDownloadArtistInformationChecked, value);
             }
         }
@@ -77,7 +76,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxDownloadLyricsChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Lyrics", "DownloadLyrics", value);
+                SettingsClient.Set<bool>("Lyrics", "DownloadLyrics", value);
                 SetProperty<bool>(ref this.checkBoxDownloadLyricsChecked, value);
                 this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Publish(value);
             }
@@ -233,8 +232,8 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
-                this.CheckBoxDownloadLyricsChecked = XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics");
+                this.CheckBoxDownloadArtistInformationChecked = SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.CheckBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
             });
         }
         #endregion

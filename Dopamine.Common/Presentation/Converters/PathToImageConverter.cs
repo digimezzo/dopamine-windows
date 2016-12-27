@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.IO;
+﻿using Digimezzo.Utilities.Utils;
 using System;
 using System.Globalization;
 using System.IO;
@@ -21,7 +21,7 @@ namespace Dopamine.Common.Presentation.Converters
 
                     if (info.Exists && info.Length > 0)
                     {
-                        return ImageOperations.PathToBitmapImage(info.FullName, size, size);
+                        return ImageUtils.PathToBitmapImage(info.FullName, size, size);
                     }
                 }
             }

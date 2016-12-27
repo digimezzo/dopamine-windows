@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Enums;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -141,7 +141,7 @@ namespace Dopamine.CollectionModule.Views
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.Subscribe();
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Artists);
+            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Artists);
         }
         #endregion
     }
