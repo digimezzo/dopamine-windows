@@ -1,9 +1,7 @@
-﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Audio;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -157,11 +155,11 @@ namespace Dopamine.Views
             try
             {
                 // Checks if an upgrade of the settings is needed
-                if (XmlSettingsClient.Instance.IsSettingsUpgradeNeeded())
+                if (SettingsClient.IsUpgradeNeeded())
                 {
                     this.ShowProgressRing = true;
                     LogClient.Instance.Logger.Info("Upgrading settings");
-                    await Task.Run(() => XmlSettingsClient.Instance.UpgradeSettings());
+                    await Task.Run(() => SettingsClient.Upgrade());
                 }
 
                 isSuccess = true;

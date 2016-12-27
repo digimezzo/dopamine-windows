@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Settings;
-using System.Threading.Tasks;
 using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Logging;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
+using Dopamine.Core.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Scrobbling
 {
@@ -74,9 +74,9 @@ namespace Dopamine.Common.Services.Scrobbling
             this.playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
             this.playbackService.PlaybackProgressChanged += PlaybackService_PlaybackProgressChanged;
 
-            this.username = XmlSettingsClient.Instance.Get<string>("Lastfm", "Username");
-            this.password = XmlSettingsClient.Instance.Get<string>("Lastfm", "Password");
-            this.sessionKey = XmlSettingsClient.Instance.Get<string>("Lastfm", "Key");
+            this.username = SettingsClient.Get<string>("Lastfm", "Username");
+            this.password = SettingsClient.Get<string>("Lastfm", "Password");
+            this.sessionKey = SettingsClient.Get<string>("Lastfm", "Key");
 
             if (!string.IsNullOrEmpty(this.username) && !string.IsNullOrEmpty(this.password) && !string.IsNullOrEmpty(this.sessionKey))
             {
@@ -180,9 +180,9 @@ namespace Dopamine.Common.Services.Scrobbling
 
                 if (!string.IsNullOrEmpty(this.sessionKey))
                 {
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Username", this.username);
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", this.sessionKey);
+                    SettingsClient.Set<string>("Lastfm", "Username", this.username);
+                    SettingsClient.Set<string>("Lastfm", "Password", this.password);
+                    SettingsClient.Set<string>("Lastfm", "Key", this.sessionKey);
                     LogClient.Instance.Logger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
                     this.SignInState = SignInState.SignedIn;
                 }
@@ -204,7 +204,7 @@ namespace Dopamine.Common.Services.Scrobbling
         public void SignOut()
         {
             this.sessionKey = string.Empty;
-            XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", string.Empty);
+            SettingsClient.Set<string>("Lastfm", "Key", string.Empty);
 
             LogClient.Instance.Logger.Info("User '{0}' signed out of Last.fm.", this.username);
             this.SignInState = SignInState.SignedOut;

@@ -1,4 +1,6 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.I18n;
@@ -15,13 +17,11 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections;
@@ -259,8 +259,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // Initialize flags
-            this.EnableRating = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
-            this.EnableLove = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
+            this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+            this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             // This makes sure the IsIndexing is correct even when this ViewModel is 
             // created after the Indexer is started, and thus after triggering the 
@@ -354,7 +354,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
                 {
                     this.indexingService.NeedsIndexing = true;
-                    this.indexingService.IndexCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+                    this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
                 }
             }
 
@@ -392,7 +392,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected void SetTrackOrder(string settingName)
         {
-            TrackOrder savedTrackOrder = (TrackOrder)XmlSettingsClient.Instance.Get<int>("Ordering", settingName);
+            TrackOrder savedTrackOrder = (TrackOrder)SettingsClient.Get<int>("Ordering", settingName);
 
             if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating) | (!this.CanOrderByAlbum & savedTrackOrder == TrackOrder.ByAlbum))
             {
@@ -625,7 +625,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     break;
                 case TrackOrder.ByAlbum:
-                    if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating"))
+                    if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
                     {
                         this.TrackOrder = TrackOrder.ByRating;
                     }
@@ -839,7 +839,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected void ConditionalScrollToPlayingTrack()
         {
             // Trigger ScrollToPlayingTrack only if set in the settings
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "FollowTrack"))
+            if (SettingsClient.Get<bool>("Behaviour", "FollowTrack"))
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {

@@ -1,10 +1,10 @@
-﻿using Dopamine.Common.Controls;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using Microsoft.Practices.Unity;
 using System;
 using System.Threading.Tasks;
@@ -31,8 +31,8 @@ namespace Dopamine.Common.Services.Notification
             get
             {
                 if (this.trayControlsWindow != null && this.trayControlsWindow.IsActive) return false; // Never show a notification when the tray controls are visible.
-                if (this.mainWindow != null && this.mainWindow.IsActive && XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
-                if (this.playlistWindow != null && this.playlistWindow.IsActive && XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
+                if (this.mainWindow != null && this.mainWindow.IsActive && SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
+                if (this.playlistWindow != null && this.playlistWindow.IsActive && SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
 
                 return true;
             }
@@ -49,17 +49,17 @@ namespace Dopamine.Common.Services.Notification
 
             this.playbackService.PlaybackSuccess += async (_) =>
             {
-                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")) await this.ShowNotificationIfAllowedAsync();
+                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")) await this.ShowNotificationIfAllowedAsync();
             };
 
             this.playbackService.PlaybackPaused += async (_, __) =>
             {
-                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenPausing")) await this.ShowNotificationIfAllowedAsync();
+                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPausing")) await this.ShowNotificationIfAllowedAsync();
             };
 
             this.playbackService.PlaybackResumed += async (_, __) =>
             {
-                if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationWhenResuming")) await this.ShowNotificationIfAllowedAsync();
+                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming")) await this.ShowNotificationIfAllowedAsync();
             };
         }
         #endregion
@@ -112,9 +112,9 @@ namespace Dopamine.Common.Services.Notification
                 {
                     this.notification = new NotificationWindow(this.playbackService.PlayingTrack,
                                                           artworkData,
-                                                          (NotificationPosition)XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationPosition"),
-                                                          XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowNotificationControls"),
-                                                          XmlSettingsClient.Instance.Get<int>("Behaviour", "NotificationAutoCloseSeconds"));
+                                                          (NotificationPosition)SettingsClient.Get<int>("Behaviour", "NotificationPosition"),
+                                                          SettingsClient.Get<bool>("Behaviour", "ShowNotificationControls"),
+                                                          SettingsClient.Get<int>("Behaviour", "NotificationAutoCloseSeconds"));
 
                     this.notification.DoubleClicked += ShowMainWindow;
 

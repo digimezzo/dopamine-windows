@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Presentation.Views;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Input;
@@ -23,7 +23,7 @@ namespace Dopamine.MiniPlayerModule.Views
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() => this.isMiniPlayerPositionLocked = !this.isMiniPlayerPositionLocked);
             Core.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
-            this.isMiniPlayerPositionLocked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
+            this.isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
         }
         #endregion
 
@@ -34,10 +34,7 @@ namespace Dopamine.MiniPlayerModule.Views
             {
                 // We need to use a custom function because the built-in DragMove function causes 
                 // flickering when blurring the cover art and releasing the mouse button after a drag.
-                if (e.ClickCount == 1)
-                {
-                    WindowUtils.MoveWindow(Application.Current.MainWindow);
-                }
+                if (e.ClickCount == 1) WindowUtils.MoveWindow(Application.Current.MainWindow);
             }
         }
         #endregion

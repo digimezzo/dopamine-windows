@@ -1,12 +1,12 @@
-﻿using Digimezzo.WPFControls.Enums;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
@@ -78,7 +78,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.previousArtist = this.artist;
 
             // User doesn't want to download artist info, or no track is selected.
-            if (!XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation") || track == null)
+            if (!SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation") || track == null)
             {
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;

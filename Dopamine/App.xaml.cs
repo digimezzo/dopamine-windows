@@ -1,11 +1,11 @@
-﻿using Dopamine.Common.Services.Command;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.File;
 using Dopamine.Core.Base;
-using Dopamine.Core.Database;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Dopamine.Views;
 using System;
 using System.Linq;
@@ -52,7 +52,7 @@ namespace Dopamine
 
         private void ExecuteStartup()
         {
-            LogClient.Instance.Logger.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, XmlSettingsClient.Instance.Get<bool>("Application", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
+            LogClient.Instance.Logger.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, SettingsClient.Get<bool>("Application", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -218,7 +218,7 @@ namespace Dopamine
             LogClient.Instance.Logger.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
 
             // Emergency save of the settings
-            XmlSettingsClient.Instance.Write();
+            SettingsClient.Write();
 
             Application.Current.Shutdown();
         }

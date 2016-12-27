@@ -1,7 +1,6 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.IO;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -31,7 +30,7 @@ namespace Dopamine.Common.Presentation.Utils
                 {
                     try
                     {
-                        byteArray = ImageOperations.Image2ByteArray(dlg.FileName);
+                        byteArray = ImageUtils.Image2ByteArray(dlg.FileName);
                     }
                     catch (Exception ex)
                     {

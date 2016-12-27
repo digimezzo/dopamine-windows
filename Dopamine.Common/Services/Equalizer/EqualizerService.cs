@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Audio;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Dopamine.Common.Services.Equalizer
     public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private string equalizerSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.EqualizerFolder);
+        private string equalizerSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.EqualizerFolder);
         #endregion
 
         #region Construction
@@ -38,7 +38,7 @@ namespace Dopamine.Common.Services.Equalizer
         {
             var presets = await this.GetPresetsAsync();
 
-            string selectedPresetName = XmlSettingsClient.Instance.Get<string>("Equalizer", "SelectedPreset");
+            string selectedPresetName = SettingsClient.Get<string>("Equalizer", "SelectedPreset");
             EqualizerPreset selectedPreset = presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
 
             if(selectedPreset == null)
@@ -71,7 +71,7 @@ namespace Dopamine.Common.Services.Equalizer
 
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
-            manualPreset.Load(ArrayUtils.ConvertArray(XmlSettingsClient.Instance.Get<string>("Equalizer", "ManualPreset").Split(';')));
+            manualPreset.Load(ArrayUtils.ConvertArray(SettingsClient.Get<string>("Equalizer", "ManualPreset").Split(';')));
             presets.Insert(0, manualPreset);
 
             return presets;

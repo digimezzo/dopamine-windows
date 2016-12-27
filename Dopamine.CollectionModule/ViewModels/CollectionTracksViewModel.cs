@@ -1,12 +1,12 @@
-﻿using Dopamine.CollectionModule.Views;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Database;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
 
 namespace Dopamine.CollectionModule.ViewModels
 {

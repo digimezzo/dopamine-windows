@@ -1,4 +1,7 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
@@ -9,11 +12,8 @@ using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -170,7 +170,7 @@ namespace Dopamine.ViewModels
             this.playbackService.PlaybackFailed += (iSender, iPlaybackFailedEventArgs) =>
             {
                 this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
 
                 switch (iPlaybackFailedEventArgs.FailureReason)
@@ -186,13 +186,13 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackPaused += (_, __) =>
             {
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
             };
 
             this.playbackService.PlaybackResumed += (_, __) =>
             {
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 
@@ -214,7 +214,7 @@ namespace Dopamine.ViewModels
                     this.TaskbarService.Description = this.playbackService.PlayingTrack.FileName;
                 }
 
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 

@@ -1,4 +1,6 @@
-﻿using Dopamine.Common.Services.Collection;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Core.Database;
@@ -6,8 +8,6 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -82,7 +82,7 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.ForceShowAllFoldersInCollection();
                 }
 
-                XmlSettingsClient.Instance.Set<bool>("Indexing", "ShowAllFoldersInCollection", value);
+                SettingsClient.Set<bool>("Indexing", "ShowAllFoldersInCollection", value);
             }
         }
         #endregion
@@ -115,7 +115,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
             });
 
-            this.ShowAllFoldersInCollection = XmlSettingsClient.Instance.Get<bool>("Indexing", "ShowAllFoldersInCollection");
+            this.ShowAllFoldersInCollection = SettingsClient.Get<bool>("Indexing", "ShowAllFoldersInCollection");
 
             // Makes sure Me.IsIndexng is set if this ViewModel is created after the Indexer has started indexing
             if (this.indexingService.IsIndexing)

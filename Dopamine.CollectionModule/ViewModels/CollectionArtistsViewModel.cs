@@ -1,4 +1,6 @@
-﻿using Dopamine.CollectionModule.Views;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
@@ -11,8 +13,6 @@ using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -82,7 +82,7 @@ namespace Dopamine.CollectionModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
-                XmlSettingsClient.Instance.Set<int>("ColumnWidths", "ArtistsLeftPaneWidthPercent", Convert.ToInt32(value));
+                SettingsClient.Set<int>("ColumnWidths", "ArtistsLeftPaneWidthPercent", Convert.ToInt32(value));
             }
         }
 
@@ -92,7 +92,7 @@ namespace Dopamine.CollectionModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.rightPaneWidthPercent, value);
-                XmlSettingsClient.Instance.Set<int>("ColumnWidths", "ArtistsRightPaneWidthPercent", Convert.ToInt32(value));
+                SettingsClient.Set<int>("ColumnWidths", "ArtistsRightPaneWidthPercent", Convert.ToInt32(value));
             }
         }
 
@@ -200,7 +200,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.SetArtistOrder("ArtistsArtistOrder");
 
             // Set the initial AlbumOrder
-            this.AlbumOrder = (AlbumOrder)XmlSettingsClient.Instance.Get<int>("Ordering", "ArtistsAlbumOrder");
+            this.AlbumOrder = (AlbumOrder)SettingsClient.Get<int>("Ordering", "ArtistsAlbumOrder");
 
             // Set the initial TrackOrder
             this.SetTrackOrder("ArtistsTrackOrder");
@@ -209,11 +209,11 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Subscribe();
 
             // Set width of the panels
-            this.LeftPaneWidthPercent = XmlSettingsClient.Instance.Get<int>("ColumnWidths", "ArtistsLeftPaneWidthPercent");
-            this.RightPaneWidthPercent = XmlSettingsClient.Instance.Get<int>("ColumnWidths", "ArtistsRightPaneWidthPercent");
+            this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "ArtistsLeftPaneWidthPercent");
+            this.RightPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "ArtistsRightPaneWidthPercent");
 
             // Cover size
-            this.SetCoversizeAsync((CoverSizeType)XmlSettingsClient.Instance.Get<int>("CoverSizes", "ArtistsCoverSize"));
+            this.SetCoversizeAsync((CoverSizeType)SettingsClient.Get<int>("CoverSizes", "ArtistsCoverSize"));
         }
         #endregion
 
@@ -251,7 +251,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private void SetArtistOrder(string settingName)
         {
-            this.ArtistOrder = (ArtistOrder)XmlSettingsClient.Instance.Get<int>("Ordering", settingName);
+            this.ArtistOrder = (ArtistOrder)SettingsClient.Get<int>("Ordering", settingName);
         }
 
         protected void UpdateArtistOrderText(ArtistOrder artistOrder)
@@ -449,7 +449,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     break;
             }
 
-            XmlSettingsClient.Instance.Set<int>("Ordering", "ArtistsArtistOrder", (int)this.ArtistOrder);
+            SettingsClient.Set<int>("Ordering", "ArtistsArtistOrder", (int)this.ArtistOrder);
             await this.GetArtistsCommonAsync(this.Artists.Select((a) => ((ArtistViewModel)a).Artist).ToList(), this.ArtistOrder);
         }
         #endregion
@@ -469,7 +469,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             base.ToggleTrackOrder();
 
-            XmlSettingsClient.Instance.Set<int>("Ordering", "ArtistsTrackOrder", (int)this.TrackOrder);
+            SettingsClient.Set<int>("Ordering", "ArtistsTrackOrder", (int)this.TrackOrder);
             await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.Track).ToList(), this.TrackOrder);
         }
 
@@ -478,7 +478,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             base.ToggleAlbumOrder();
 
-            XmlSettingsClient.Instance.Set<int>("Ordering", "ArtistsAlbumOrder", (int)this.AlbumOrder);
+            SettingsClient.Set<int>("Ordering", "ArtistsAlbumOrder", (int)this.AlbumOrder);
             await this.GetAlbumsCommonAsync(this.Albums.Select((a) => a.Album).ToList(), this.AlbumOrder);
         }
         #endregion
@@ -487,7 +487,7 @@ namespace Dopamine.CollectionModule.ViewModels
         protected async override Task SetCoversizeAsync(CoverSizeType coverSize)
         {
             await base.SetCoversizeAsync(coverSize);
-            XmlSettingsClient.Instance.Set<int>("CoverSizes", "ArtistsCoverSize", (int)coverSize);
+            SettingsClient.Set<int>("CoverSizes", "ArtistsCoverSize", (int)coverSize);
         }
 
         protected async override Task FillListsAsync()

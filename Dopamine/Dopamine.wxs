@@ -411,6 +411,9 @@
           <Component Id="policy.2.0.taglib_sharp.dll" DiskId="1" Guid="1c5d2896-42aa-4f45-ba92-671f22386d11">
             <File Id="policy.2.0.taglib_sharp.dll" Name="policy.2.0.taglib-sharp.dll" Source="policy.2.0.taglib-sharp.dll" />
           </Component>
+          <Component Id="Digimezzo.Utilities.dll" DiskId="1" Guid="542f1682-93b7-4efe-99f5-72f470d9666c">
+            <File Id="Digimezzo.Utilities.dll" Name="Digimezzo.Utilities.dll" Source="Digimezzo.Utilities.dll" />
+          </Component>
           <Component Id="Digimezzo.WPFControls.dll" DiskId="1" Guid="64ba1fef-87a2-4a2e-9fe8-7353cd2ed4e2">
             <File Id="Digimezzo.WPFControls.dll" Name="Digimezzo.WPFControls.dll" Source="Digimezzo.WPFControls.dll" />
           </Component>
@@ -548,6 +551,7 @@
       <ComponentRef Id="NLog.dll" />
       <ComponentRef Id="NVorbis.dll" />
       <ComponentRef Id="policy.2.0.taglib_sharp.dll" />
+      <ComponentRef Id="Digimezzo.Utilities.dll" />
       <ComponentRef Id="Digimezzo.WPFControls.dll" />
       <ComponentRef Id="SQLite_net.dll" />
       <ComponentRef Id="SQLitePCL.batteries.dll" />

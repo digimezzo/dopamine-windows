@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +20,7 @@ namespace Dopamine.CollectionModule
             yearVisible = false;
             bitrateVisible = false;
 
-            string visibleColumnsSettings = XmlSettingsClient.Instance.Get<string>("TracksGrid", "VisibleColumns");
+            string visibleColumnsSettings = SettingsClient.Get<string>("TracksGrid", "VisibleColumns");
             string[] visibleColumns = null;
 
             if (!string.IsNullOrEmpty(visibleColumnsSettings))
@@ -108,7 +108,7 @@ namespace Dopamine.CollectionModule
             if (bitrateVisible)
                 visibleColumns.Add("bitrate");
 
-            XmlSettingsClient.Instance.Set<string>("TracksGrid", "VisibleColumns", string.Join(";", visibleColumns.ToArray()));
+            SettingsClient.Set<string>("TracksGrid", "VisibleColumns", string.Join(";", visibleColumns.ToArray()));
         }
 
     }

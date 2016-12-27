@@ -1,13 +1,12 @@
-﻿using Dopamine.Common.Presentation.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -118,7 +117,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (!string.IsNullOrEmpty(artworkPath))
                     {
-                        this.UpdateArtwork(ImageOperations.Image2ByteArray(artworkPath));
+                        this.UpdateArtwork(ImageUtils.Image2ByteArray(artworkPath));
                     }
                     else
                     {
@@ -135,7 +134,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void VisualizeArtwork(byte[] imageData)
         {
-            this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
+            this.ArtworkThumbnail = ImageUtils.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
 
             // Size of the artwork
             if (imageData != null)
@@ -176,7 +175,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     if (!string.IsNullOrEmpty(temporaryFilePath))
                     {
-                        this.UpdateArtwork(ImageOperations.Image2ByteArray(temporaryFilePath));
+                        this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFilePath));
                     }
                 }
             }

@@ -1,6 +1,7 @@
-﻿using Dopamine.Common.Services.Metadata;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Database;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
 using Dopamine.Core.Utils;
@@ -167,13 +168,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             try
             {
-                var fi = new FileInformation(selectedTrack.Path);
-
-                this.FileName = fi.Name;
-                this.FileFolder = fi.Folder;
+                this.FileName = FileUtils.Name(selectedTrack.Path);
+                this.FileFolder = FileUtils.Folder(selectedTrack.Path);
                 this.FilePath = selectedTrack.Path;
-                this.FileSize = FormatUtils.FormatFileSize(fi.SizeInBytes);
-                this.FileLastModified = fi.DateModified.ToString("D");
+                this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(selectedTrack.Path));
+                this.FileLastModified = FileUtils.DateModified(selectedTrack.Path).ToString("D");
             }
             catch (Exception ex)
             {

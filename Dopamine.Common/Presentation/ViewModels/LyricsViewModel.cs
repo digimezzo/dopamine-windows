@@ -1,8 +1,8 @@
-﻿using Dopamine.Common.Services.Metadata;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Database;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
@@ -68,7 +68,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.fontSize, value);
-                XmlSettingsClient.Instance.Set<int>("Lyrics", "FontSize", (int)value);
+                SettingsClient.Set<int>("Lyrics", "FontSize", (int)value);
                 OnPropertyChanged(() => this.FontSizePixels);
             }
         }
@@ -79,7 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<bool>(ref this.automaticScrolling, value);
-                XmlSettingsClient.Instance.Set<bool>("Lyrics", "AutomaticScrolling", value);
+                SettingsClient.Set<bool>("Lyrics", "AutomaticScrolling", value);
             }
         }
 
@@ -112,8 +112,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.track = track;
             this.metadataService = metadataService;
 
-            this.FontSize = XmlSettingsClient.Instance.Get<double>("Lyrics", "FontSize");
-            this.AutomaticScrolling = XmlSettingsClient.Instance.Get<bool>("Lyrics", "AutomaticScrolling");
+            this.FontSize = SettingsClient.Get<double>("Lyrics", "FontSize");
+            this.AutomaticScrolling = SettingsClient.Get<bool>("Lyrics", "AutomaticScrolling");
 
             this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 11) this.FontSize--; });
             this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });

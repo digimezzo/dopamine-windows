@@ -1,6 +1,6 @@
-﻿using Dopamine.Core.IO;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ namespace Dopamine.Common.Services.Provider
         #region Construction
         public ProviderService()
         {
-            this.providersXmlPath = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, "Providers.xml");
+            this.providersXmlPath = Path.Combine(SettingsClient.ApplicationFolder(), "Providers.xml");
 
             // Create the XML containing the Providers
             this.CreateProvidersXml();

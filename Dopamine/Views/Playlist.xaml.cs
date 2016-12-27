@@ -1,10 +1,10 @@
-﻿using Dopamine.Common.Controls;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -70,8 +70,8 @@ namespace Dopamine.Views
 
             this.parent.LocationChanged += Parent_LocationChanged;
 
-            this.alignCoverPlayerPlaylistVertically = XmlSettingsClient.Instance.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
-            this.SetWindowBorder(XmlSettingsClient.Instance.Get<bool>("Appearance", "ShowWindowBorder"));
+            this.alignCoverPlayerPlaylistVertically = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
+            this.SetWindowBorder(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"));
 
             // Makes sure the playlist doesn't appear briefly at the topleft 
             // of the screen just before it is positioned by Me.SetGeometry()
@@ -96,7 +96,7 @@ namespace Dopamine.Views
         #region Private
         private void SetTransparency()
         {
-            if (EnvironmentUtils.IsWindows10() && XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableTransparency"))
+            if (EnvironmentUtils.IsWindows10() && SettingsClient.Get<bool>("Appearance", "EnableTransparency"))
             {
                 this.PlaylistBackground.Opacity = Constants.OpacityWhenBlurred;
                 WindowUtils.EnableBlur(this);

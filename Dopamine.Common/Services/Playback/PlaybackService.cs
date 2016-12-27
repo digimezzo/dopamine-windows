@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Equalizer;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Equalizer;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -7,7 +8,6 @@ using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -166,7 +166,7 @@ namespace Dopamine.Common.Services.Playback
 
                 if (this.player != null && !this.mute) this.player.SetVolume(value);
 
-                XmlSettingsClient.Instance.Set<double>("Playback", "Volume", Math.Round(value, 2));
+                SettingsClient.Set<double>("Playback", "Volume", Math.Round(value, 2));
                 this.PlaybackVolumeChanged(this, new EventArgs());
             }
         }
@@ -349,7 +349,7 @@ namespace Dopamine.Common.Services.Playback
                     {
                         this.queuedTracks = new List<MergedTrack>(tracks);
 
-                        if (!XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"))
+                        if (!SettingsClient.Get<bool>("Playback", "Shuffle"))
                         {
                             this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
                         }
@@ -558,7 +558,7 @@ namespace Dopamine.Common.Services.Playback
                 this.player.SetVolume(mute ? 0.0f : this.Volume);
             }
 
-            XmlSettingsClient.Instance.Set<bool>("Playback", "Mute", this.mute);
+            SettingsClient.Set<bool>("Playback", "Mute", this.mute);
             this.PlaybackMuteChanged(this, new EventArgs());
         }
 
@@ -920,13 +920,13 @@ namespace Dopamine.Common.Services.Playback
             this.playerFactory = new PlayerFactory();
 
             // Set initial volume
-            this.Volume = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
+            this.Volume = SettingsClient.Get<float>("Playback", "Volume");
 
             // Set initial mute
-            this.SetMute(XmlSettingsClient.Instance.Get<bool>("Playback", "Mute"));
+            this.SetMute(SettingsClient.Get<bool>("Playback", "Mute"));
 
             // Equalizer
-            await this.SetIsEqualizerEnabledAsync(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
+            await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
             this.GetSavedQueuedTracks();
@@ -1322,7 +1322,7 @@ namespace Dopamine.Common.Services.Playback
 
             await this.SetPlaybackSettingsAsync();
 
-            if (!XmlSettingsClient.Instance.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+            if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
 
             QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
 
@@ -1425,16 +1425,16 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task SetPlaybackSettingsAsync()
         {
-            this.LoopMode = (LoopMode)XmlSettingsClient.Instance.Get<int>("Playback", "LoopMode");
-            this.Latency = XmlSettingsClient.Instance.Get<int>("Playback", "AudioLatency");
-            this.Volume = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
-            this.mute = XmlSettingsClient.Instance.Get<bool>("Playback", "Mute");
+            this.LoopMode = (LoopMode)SettingsClient.Get<int>("Playback", "LoopMode");
+            this.Latency = SettingsClient.Get<int>("Playback", "AudioLatency");
+            this.Volume = SettingsClient.Get<float>("Playback", "Volume");
+            this.mute = SettingsClient.Get<bool>("Playback", "Mute");
             this.EventMode = false;
-            //this.EventMode = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiEventMode");
+            //this.EventMode = SettingsClient.Get<bool>("Playback", "WasapiEventMode");
             //this.ExclusiveMode = false;
-            this.ExclusiveMode = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
+            this.ExclusiveMode = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
 
-            await SetShuffle(XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"));
+            await SetShuffle(SettingsClient.Get<bool>("Playback", "Shuffle"));
         }
         #endregion
     }

@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
-using Dopamine.Core.Utils;
 using Prism.Mvvm;
 using System.Threading.Tasks;
 

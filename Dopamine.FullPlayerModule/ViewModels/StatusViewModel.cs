@@ -1,10 +1,10 @@
-﻿using Dopamine.Common.Services.Indexing;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Update;
 using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -140,7 +140,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
             this.updateService.UpdateCheckDisabled += (_,__) => this.IsUpdateAvailable = false;
 
-            if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+            if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
             {
                 this.updateService.EnableUpdateCheck();
             }
@@ -202,7 +202,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 {
                     this.IndexingProgress = string.Empty;
 
-                    if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+                    if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
                     {
                         this.updateService.EnableUpdateCheck();
                     }
@@ -228,7 +228,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.IsIndexing = false;
                 this.IndexingProgress = string.Empty;
 
-                if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+                if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
                 {
                     this.updateService.EnableUpdateCheck();
                 }

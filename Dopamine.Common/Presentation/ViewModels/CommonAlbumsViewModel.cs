@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -7,7 +8,6 @@ using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

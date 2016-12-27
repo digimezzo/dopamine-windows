@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
@@ -286,7 +287,7 @@ namespace Dopamine.Common.Services.Collection
                                          System.IO.Path.GetFileNameWithoutExtension(fullPlaylistPath), generateUniqueName);
         }
 
-        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string iPlaylistName, bool generateUniqueName)
+        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string playlistName, bool generateUniqueName)
         {
             ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
@@ -296,7 +297,7 @@ namespace Dopamine.Common.Services.Collection
 
                 try
                 {
-                    string playlistFileNameWithoutPathAndExtension = FileOperations.SanitizeFilename(iPlaylistName);
+                    string playlistFileNameWithoutPathAndExtension = FileUtils.SanitizeFilename(playlistName);
                     string playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
 
                     if (generateUniqueName)
