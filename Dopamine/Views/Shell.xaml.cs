@@ -12,7 +12,7 @@ using Dopamine.Common.Services.Win32Input;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
@@ -626,7 +626,7 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
-            LogClient.Instance.Logger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
             this.isShuttingDown = true;
             this.Close();
         }
@@ -686,7 +686,7 @@ namespace Dopamine.Views
 
         private async Task PerformClosingTasksAsync()
         {
-            LogClient.Instance.Logger.Info("Performing closing tasks");
+            LogClient.Info("Performing closing tasks");
 
             this.ShowClosingAnimation();
 
@@ -730,7 +730,7 @@ namespace Dopamine.Views
                 await this.playbackService.SaveTrackStatisticsAsync();
             }
 
-            LogClient.Instance.Logger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
 
             this.mustPerformClosingTasks = false;
             this.Close();
@@ -816,11 +816,11 @@ namespace Dopamine.Views
                 // View the log file
                 try
                 {
-                    Actions.TryViewInExplorer(LogClient.Instance.LogFile);
+                    Actions.TryViewInExplorer(LogClient.Logfile());
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Instance.LogFile, ex.Message);
+                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                 }
             }
         }

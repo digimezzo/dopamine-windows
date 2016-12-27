@@ -78,10 +78,6 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NVorbis">
       <HintPath>..\Dopamine\Libraries\NVorbis.dll</HintPath>
     </Reference>
@@ -211,8 +207,6 @@
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
     <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
-    <Compile Include="Logging\ILogClient.cs" />
-    <Compile Include="Logging\LogClient.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />

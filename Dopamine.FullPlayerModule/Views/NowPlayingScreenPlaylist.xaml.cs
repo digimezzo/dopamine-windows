@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -50,7 +50,7 @@ namespace Dopamine.FullPlayerModule.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
             }
         }
 

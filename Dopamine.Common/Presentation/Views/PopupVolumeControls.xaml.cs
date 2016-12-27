@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Timers;
@@ -74,7 +74,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem changing the volume by mouse scroll. Exception: {0}", ex.Message);
+                LogClient.Error("There was a problem changing the volume by mouse scroll. Exception: {0}", ex.Message);
             }
         }
 

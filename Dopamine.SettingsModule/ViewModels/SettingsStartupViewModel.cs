@@ -107,7 +107,7 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             this.updateService = updateService;
 
-            this.IsPortable = SettingsClient.Get<bool>("Application", "IsPortable");
+            this.IsPortable = SettingsClient.Get<bool>("Configuration", "IsPortable");
 
             // CheckBoxes
             this.GetCheckBoxesAsync();

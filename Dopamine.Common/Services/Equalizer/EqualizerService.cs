@@ -2,7 +2,7 @@
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -97,7 +97,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        LogClient.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });
@@ -121,7 +121,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        LogClient.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });

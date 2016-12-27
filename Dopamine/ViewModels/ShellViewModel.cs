@@ -12,7 +12,7 @@ using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -115,11 +115,11 @@ namespace Dopamine.ViewModels
             {
                 try
                 {
-                    Actions.TryViewInExplorer(LogClient.Instance.LogFile);
+                    Actions.TryViewInExplorer(LogClient.Logfile());
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Instance.LogFile, ex.Message);
+                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                 }
             });
 
@@ -131,7 +131,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
+                    LogClient.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
                 }
             });
             ApplicationCommands.OpenPathCommand.RegisterCommand(this.OpenPathCommand);
@@ -144,7 +144,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
+                    LogClient.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);
@@ -157,7 +157,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not execute mailto command for the e-mail {0}. Exception: {1}", emailAddress, ex.Message);
+                    LogClient.Error("Could not execute mailto command for the e-mail {0}. Exception: {1}", emailAddress, ex.Message);
                 }
             });
             ApplicationCommands.OpenMailCommand.RegisterCommand(this.OpenMailCommand);
@@ -267,7 +267,7 @@ namespace Dopamine.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
+                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
             }
 
         }

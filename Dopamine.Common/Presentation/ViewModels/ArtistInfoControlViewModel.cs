@@ -6,7 +6,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
@@ -134,7 +134,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
+                LogClient.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }

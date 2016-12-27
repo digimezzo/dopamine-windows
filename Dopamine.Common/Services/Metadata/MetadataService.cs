@@ -8,7 +8,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Metadata;
 using System;
 using System.Collections.Generic;
@@ -346,7 +346,7 @@ namespace Dopamine.Common.Services.Metadata
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                            LogClient.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                         }
                     }
 
@@ -456,7 +456,7 @@ namespace Dopamine.Common.Services.Metadata
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                    LogClient.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                 }
             }
 
@@ -468,7 +468,7 @@ namespace Dopamine.Common.Services.Metadata
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while deleting orphans. Exception: {0}", ex.Message);
+                LogClient.Error("Error while deleting orphans. Exception: {0}", ex.Message);
             }
 
             this.isUpdatingDatabaseMetadata = false;

@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -231,13 +231,13 @@ namespace Dopamine.Common.Services.Appearance
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                        LogClient.Error("Exception: {0}", ex.Message);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                    LogClient.Error("Exception: {0}", ex.Message);
                 }
             }
         }

@@ -11,7 +11,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -324,7 +324,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occured while getting Artists. Exception: {0}", ex.Message);
+                LogClient.Error("An error occured while getting Artists. Exception: {0}", ex.Message);
 
                 // Failed getting Artists. Create empty ObservableCollection.
                 this.Artists = new ObservableCollection<ISemanticZoomable>();

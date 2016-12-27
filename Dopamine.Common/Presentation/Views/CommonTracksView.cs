@@ -5,7 +5,7 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
@@ -75,7 +75,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
                 }
             }
         }

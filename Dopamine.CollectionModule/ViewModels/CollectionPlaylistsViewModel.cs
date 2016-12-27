@@ -8,7 +8,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
@@ -204,7 +204,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occured while getting Playlists. Exception: {0}", ex.Message);
+                LogClient.Error("An error occured while getting Playlists. Exception: {0}", ex.Message);
 
                 // If loading from the database failed, create and empty Collection.
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
@@ -549,7 +549,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                            LogClient.Error("Exception: {0}", ex.Message);
 
                             this.dialogService.ShowNotification(
                                 0xe711,
@@ -592,7 +592,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                            LogClient.Error("Exception: {0}", ex.Message);
 
                             this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                         }
@@ -645,7 +645,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 catch (Exception ex)
                 {
                     dropInfo.NotHandled = false;
-                    LogClient.Instance.Logger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
                 }
             }
         }
@@ -668,7 +668,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
         }
         #endregion

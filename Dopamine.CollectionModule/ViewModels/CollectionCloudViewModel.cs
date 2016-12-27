@@ -6,7 +6,7 @@ using Dopamine.ControlsModule.Views;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
 using Prism.Commands;
@@ -160,7 +160,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
                 }
 
             });

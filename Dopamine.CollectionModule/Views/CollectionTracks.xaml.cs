@@ -6,7 +6,7 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -64,7 +64,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Dopamine.CollectionModule.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
                 }
             }
         }

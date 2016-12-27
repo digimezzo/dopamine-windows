@@ -7,7 +7,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -132,7 +132,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Private
         private async void AddFolder()
         {
-            LogClient.Instance.Logger.Info("Adding a folder to the collection.");
+            LogClient.Info("Adding a folder to the collection.");
 
             var dlg = new WPFFolderBrowserDialog();
 
@@ -175,7 +175,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                    LogClient.Error("Exception: {0}", ex.Message);
 
                     this.dialogService.ShowNotification(
                         0xe711,
@@ -214,7 +214,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                LogClient.Error("Exception: {0}", ex.Message);
 
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Folder"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
