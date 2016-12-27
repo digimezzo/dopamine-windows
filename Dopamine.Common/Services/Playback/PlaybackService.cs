@@ -6,7 +6,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Metadata;
 using System;
 using System.Collections.Generic;
@@ -360,7 +360,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not move tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not move tracks. Exception: {0}", ex.Message);
             }
         }
         public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
@@ -471,7 +471,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Info("Could not get progress in seconds. Exception: {0}", ex.Message);
+                        LogClient.Info("Could not get progress in seconds. Exception: {0}", ex.Message);
                     }
 
                     await this.queuedTrackRepository.SaveQueuedTracksAsync(paths, this.playingTrack.Path, progressSeconds);
@@ -482,7 +482,7 @@ namespace Dopamine.Common.Services.Playback
                 }
             }
 
-            LogClient.Instance.Logger.Info("Saved queued tracks");
+            LogClient.Info("Saved queued tracks");
 
             this.isSavingQueuedTracks = false;
         }
@@ -510,7 +510,7 @@ namespace Dopamine.Common.Services.Playback
 
             this.TrackStatisticsChanged(this, new EventArgs());
 
-            LogClient.Instance.Logger.Info("Saved Track Statistics");
+            LogClient.Info("Saved Track Statistics");
 
             this.isSavingTrackStatistics = false;
 
@@ -611,7 +611,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingTrack.Path, ex.Message);
+                LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingTrack.Path, ex.Message);
             }
 
             // We don't want interruptions when trying to play the next Track.
@@ -758,7 +758,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            LogClient.Instance.Logger.Error("Error while removing queued track with path='{0}'. Exception: {1}", t.Path, ex.Message);
+                            LogClient.Error("Error while removing queued track with path='{0}'. Exception: {1}", t.Path, ex.Message);
                         }
                     }
 
@@ -786,7 +786,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            LogClient.Instance.Logger.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", t.Path, ex.Message);
+                            LogClient.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", t.Path, ex.Message);
                         }
                     }
                 }
@@ -830,7 +830,7 @@ namespace Dopamine.Common.Services.Playback
                 catch (Exception ex)
                 {
                     result.IsSuccess = false;
-                    LogClient.Instance.Logger.Error("Error while adding tracks to queue. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while adding tracks to queue. Exception: {0}", ex.Message);
                 }
             });
 
@@ -873,7 +873,7 @@ namespace Dopamine.Common.Services.Playback
                 catch (Exception ex)
                 {
                     result.IsSuccess = false;
-                    LogClient.Instance.Logger.Error("Error while adding tracks next. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while adding tracks next. Exception: {0}", ex.Message);
                 }
             });
 
@@ -965,7 +965,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not update the track metadata. Exception: {0}", ex.Message);
+                LogClient.Error("Could not update the track metadata. Exception: {0}", ex.Message);
             }
 
             return isPlaybackInfoUpdated;
@@ -998,7 +998,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not update playback statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
+                        LogClient.Error("Could not update playback statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
                     }
                 }
             });
@@ -1018,7 +1018,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
             } 
         }
 
@@ -1043,7 +1043,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not resume track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
             }
         }
 
@@ -1144,7 +1144,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Instance.Logger.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle);
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1165,10 +1165,10 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception)
                 {
-                    LogClient.Instance.Logger.Error("Could not stop the Player");
+                    LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1343,7 +1343,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not configure the playing track. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not configure the playing track. Exception: {0}", ex.Message);
                         this.Stop();
                     }
                 }

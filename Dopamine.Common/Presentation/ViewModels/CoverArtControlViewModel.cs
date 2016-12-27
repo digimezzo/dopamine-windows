@@ -3,7 +3,7 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -101,7 +101,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not get artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                    LogClient.Error("Could not get artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
                 }
 
                 this.artwork = artwork;
@@ -124,7 +124,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                        LogClient.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
                         this.ClearArtwork();
                     }
 

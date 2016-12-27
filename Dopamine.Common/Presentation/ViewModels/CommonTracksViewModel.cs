@@ -15,7 +15,7 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Prism;
 using Dopamine.Core.Utils;
 using Microsoft.Practices.Unity;
@@ -535,7 +535,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
                 Application.Current.Dispatcher.Invoke(() =>
@@ -596,7 +596,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("An error occured while setting size information. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occured while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });

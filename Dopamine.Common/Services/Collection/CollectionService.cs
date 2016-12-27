@@ -7,7 +7,7 @@ using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -191,7 +191,7 @@ namespace Dopamine.Common.Services.Collection
 
             if (!decodeResult.DecodeResult.Result)
             {
-                LogClient.Instance.Logger.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
                 return OpenPlaylistResult.Error;
             }
 
@@ -246,7 +246,7 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
+                            LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
                         }
                     }
                 });
@@ -269,13 +269,13 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
+                            LogClient.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error while setting album artwork. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while setting album artwork. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -333,7 +333,7 @@ namespace Dopamine.Common.Services.Collection
                 catch (Exception ex)
                 {
                     result = ExportPlaylistsResult.Error;
-                    LogClient.Instance.Logger.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                    LogClient.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist.PlaylistName, ex.Message);
                 }
             });
 
@@ -378,7 +378,7 @@ namespace Dopamine.Common.Services.Collection
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
+                    LogClient.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
                 }
             });
         }
@@ -395,7 +395,7 @@ namespace Dopamine.Common.Services.Collection
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error updating folders. Exception: {0}", ex.Message);
+                LogClient.Error("Error updating folders. Exception: {0}", ex.Message);
             }
 
             if (isCollectionChanged) this.CollectionChanged(this, new EventArgs());

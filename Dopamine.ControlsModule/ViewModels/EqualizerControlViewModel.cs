@@ -7,7 +7,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -389,7 +389,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
+                            LogClient.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
 
                             this.dialogService.ShowNotification(
                                                 0xe711,
@@ -434,7 +434,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset, ex.Message);
+                    LogClient.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset.Name, ex.Message);
 
                     this.dialogService.ShowNotification(
                                         0xe711,

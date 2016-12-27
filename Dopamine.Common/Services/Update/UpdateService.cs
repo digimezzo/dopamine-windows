@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -171,7 +171,7 @@ namespace Dopamine.Common.Services.Update
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Update check: could not retrieve online version information. Exception: {0}", ex.Message);
+                    LogClient.Error("Update check: could not retrieve online version information. Exception: {0}", ex.Message);
                 }
             });
 
@@ -196,7 +196,7 @@ namespace Dopamine.Common.Services.Update
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Update check: could not create the Updates subdirectory. Exception: {0}", ex.Message);
+                    LogClient.Error("Update check: could not create the Updates subdirectory. Exception: {0}", ex.Message);
                     createSuccessful = false;
                 }
             });
@@ -216,13 +216,13 @@ namespace Dopamine.Common.Services.Update
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Update check: could not delete the file {0}. Exception: {1}", fi.FullName, ex.Message);
+                        LogClient.Error("Update check: could not delete the file {0}. Exception: {1}", fi.FullName, ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Update check: Error while cleaning the Updates subdirectory. Exception: {0}", ex.Message);
+                LogClient.Error("Update check: Error while cleaning the Updates subdirectory. Exception: {0}", ex.Message);
             }
         }
 
@@ -251,7 +251,7 @@ namespace Dopamine.Common.Services.Update
 
                 this.downloadClient = new WebClient();
 
-                LogClient.Instance.Logger.Info("Update check: downloading file '{0}'", downloadLink);
+                LogClient.Info("Update check: downloading file '{0}'", downloadLink);
 
                 await this.downloadClient.DownloadFileTaskAsync(new Uri(downloadLink), packageToDownload + ".part");
 
@@ -344,13 +344,13 @@ namespace Dopamine.Common.Services.Update
             // Get the current version
             // -----------------------
             var currentVersion = new VersionInfo { Version = ProductInformation.AssemblyVersion };
-            LogClient.Instance.Logger.Info("Update check: current version = {0}.{1}.{2}.{3}", currentVersion.Version.Major, currentVersion.Version.Minor, currentVersion.Version.Build, currentVersion.Version.Revision);
+            LogClient.Info("Update check: current version = {0}.{1}.{2}.{3}", currentVersion.Version.Major.ToString(), currentVersion.Version.Minor.ToString(), currentVersion.Version.Build.ToString(), currentVersion.Version.Revision.ToString());
 
             // Get the latest version online
             // -----------------------------
             if (!this.canCheckForUpdates) return; // Stop here if the update check was disabled while we were running
             VersionInfo latestOnlineVersion = await this.GetLatestOnlineVersionAsync();
-            LogClient.Instance.Logger.Info("Update check: latest online version = {0}.{1}.{2}.{3}", latestOnlineVersion.Version.Major, latestOnlineVersion.Version.Minor, latestOnlineVersion.Version.Build, latestOnlineVersion.Version.Revision);
+            LogClient.Info("Update check: latest online version = {0}.{1}.{2}.{3}", latestOnlineVersion.Version.Major.ToString(), latestOnlineVersion.Version.Minor.ToString(), latestOnlineVersion.Version.Build.ToString(), latestOnlineVersion.Version.Revision.ToString());
 
             // Compare the versions
             // --------------------
@@ -394,7 +394,7 @@ namespace Dopamine.Common.Services.Update
                                 else
                                 {
                                     // Processing the downloaded file failed. Log the failure reason.
-                                    LogClient.Instance.Logger.Error("Update check: could not process downloaded files. User is notified that there is a new version online. Exception: {0}", processResult.GetFirstMessage());
+                                    LogClient.Error("Update check: could not process downloaded files. User is notified that there is a new version online. Exception: {0}", processResult.GetFirstMessage());
 
                                     // Raise an event that there is a new version available online.
                                     if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(latestOnlineVersion);
@@ -403,7 +403,7 @@ namespace Dopamine.Common.Services.Update
                             else
                             {
                                 // Downloading failed: log the failure reason.
-                                LogClient.Instance.Logger.Error("Update check: could not download the file. Exception: {0}", downloadResult.GetFirstMessage());
+                                LogClient.Error("Update check: could not download the file. Exception: {0}", downloadResult.GetFirstMessage());
                             }
                         }
                         else
@@ -418,7 +418,7 @@ namespace Dopamine.Common.Services.Update
                             else
                             {
                                 // Extracting failed: log the failure reason.
-                                LogClient.Instance.Logger.Error("Update check: could not extract the package. Exception: {0}", extractResult.GetFirstMessage());
+                                LogClient.Error("Update check: could not extract the package. Exception: {0}", extractResult.GetFirstMessage());
                             }
                         }
                     }
@@ -435,7 +435,7 @@ namespace Dopamine.Common.Services.Update
             else
             {
                 this.NoNewVersionAvailable(latestOnlineVersion);
-                LogClient.Instance.Logger.Info("Update check: no newer version was found.");
+                LogClient.Info("Update check: no newer version was found.");
             }
 
             // Indicate for the rest of the class that we have finished checking for updates
@@ -452,7 +452,7 @@ namespace Dopamine.Common.Services.Update
         public void EnableUpdateCheck()
         {
             // Log that we start checking for updates
-            LogClient.Instance.Logger.Info("Update check: checking for updates. AlsoCheckForPreReleases = {0}", this.checkForPreReleases);
+            LogClient.Info("Update check: checking for updates. AlsoCheckForPreReleases = {0}", this.checkForPreReleases.ToString());
 
             // We can check for updates
             this.canCheckForUpdates = true;
@@ -461,7 +461,7 @@ namespace Dopamine.Common.Services.Update
             this.checkNewVersionTimer.Interval = TimeSpan.FromSeconds(Constants.UpdateCheckIntervalSeconds).TotalMilliseconds;
 
             // Set flags based on update settings
-            this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Application", "IsPortable");
+            this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Configuration", "IsPortable");
             this.checkForPreReleases = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
 
             // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)

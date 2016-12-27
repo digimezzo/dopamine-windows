@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
@@ -26,7 +27,6 @@ using Dopamine.Core.Database.Repositories;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -163,12 +163,12 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                LogClient.Instance.Logger.Info("Showing Oobe screen");
+                LogClient.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                LogClient.Instance.Logger.Info("Showing Main screen");
+                LogClient.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
@@ -190,11 +190,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                LogClient.Instance.Logger.Info("CommandService was started successfully");
+                LogClient.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -205,11 +205,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                LogClient.Instance.Logger.Info("FileService was started successfully");
+                LogClient.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not start FileService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }

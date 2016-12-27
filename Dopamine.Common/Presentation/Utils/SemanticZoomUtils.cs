@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -45,7 +45,7 @@ namespace Dopamine.Common.Presentation.Utils
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error while setting the availability of the semantic zoom selectors.", ex.Message);
+                    LogClient.Error("Error while setting the availability of the semantic zoom selectors.", ex.Message);
                 }
             });
 

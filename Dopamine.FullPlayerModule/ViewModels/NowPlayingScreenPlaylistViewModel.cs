@@ -10,7 +10,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Collections;
 using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
