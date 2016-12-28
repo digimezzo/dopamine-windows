@@ -113,11 +113,6 @@ namespace Dopamine.Common.Base
                 Link = "https://github.com/punker76/gong-wpf-dragdrop"
             },
             new ExternalComponent {
-                Name = "NLog",
-                Description = "A free logging platform for .NET, Silverlight and Windows Phone with rich log routing and management capabilities.",
-                Link = "http://nlog-project.org"
-            },
-            new ExternalComponent {
                 Name = "NVorbis",
                 Description = "A .NET library for decoding Xiph.org Vorbis files.",
                 Link = "https://github.com/ioctlLR/NVorbis"
