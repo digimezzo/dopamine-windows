@@ -381,9 +381,6 @@
     <Content Include="Licenses\GongSolutions.WPF.DragDrop.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licenses\NLog.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Licenses\NVorbis.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

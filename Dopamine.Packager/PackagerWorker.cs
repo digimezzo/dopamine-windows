@@ -241,7 +241,7 @@ namespace Dopamine.Packager
             var isPortableElement = (from n in baseSettingsDoc.Element("Settings").Elements("Namespace")
                                      from s in n.Elements("Setting")
                                      from v in s.Elements("Value")
-                                     where n.Attribute("Name").Value.Equals("Application") & s.Attribute("Name").Value.Equals("IsPortable")
+                                     where n.Attribute("Name").Value.Equals("Configuration") & s.Attribute("Name").Value.Equals("IsPortable")
                                      select v).FirstOrDefault();
 
             isPortableElement.Value = isPortable.ToString();

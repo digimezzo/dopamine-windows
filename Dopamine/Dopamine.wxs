@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.2.847.2" ?>
+<?define Version="1.2.848.2" ?>
 <?define VersionMin="1.0.0.0" ?>
 <?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -158,9 +158,6 @@
             </Component>
             <Component Id="GongSolutions.WPF.DragDrop.txt" DiskId="1" Guid="a4affc00-1c42-419e-a05a-7fea1b58c78f">
               <File Id="GongSolutions.WPF.DragDrop.txt" Name="GongSolutions.WPF.DragDrop.txt" Source="Licenses\GongSolutions.WPF.DragDrop.txt" />
-            </Component>
-            <Component Id="NLog.txt" DiskId="1" Guid="9d173143-37df-4f1a-9d44-ec3bc3c79ff3">
-              <File Id="NLog.txt" Name="NLog.txt" Source="Licenses\NLog.txt" />
             </Component>
             <Component Id="NVorbis.txt" DiskId="1" Guid="244b3b69-e3fe-4c0e-91a5-d48922a9cd5a">
               <File Id="NVorbis.txt" Name="NVorbis.txt" Source="Licenses\NVorbis.txt" />
@@ -402,9 +399,6 @@
           <Component Id="Ionic.Zip.dll" DiskId="1" Guid="bcd931de-b648-407b-9e2d-b74d3520388b">
             <File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="Ionic.Zip.dll" />
           </Component>
-          <Component Id="NLog.dll" DiskId="1" Guid="84aea469-7c7d-4f31-b0cf-35340252fe69">
-            <File Id="NLog.dll" Name="NLog.dll" Source="NLog.dll" />
-          </Component>
           <Component Id="NVorbis.dll" DiskId="1" Guid="f885e796-bbee-44be-9a2a-33ecf609c4b1">
             <File Id="NVorbis.dll" Name="NVorbis.dll" Source="NVorbis.dll" />
           </Component>
@@ -491,7 +485,6 @@
       <ComponentRef Id="DotNetZip.txt" />
       <ComponentRef Id="Font_Awesome.txt" />
       <ComponentRef Id="GongSolutions.WPF.DragDrop.txt" />
-      <ComponentRef Id="NLog.txt" />
       <ComponentRef Id="NVorbis.txt" />
       <ComponentRef Id="Prism.txt" />
       <ComponentRef Id="SQLite_net.txt" />
@@ -548,7 +541,6 @@
       <ComponentRef Id="CSCore.dll" />
       <ComponentRef Id="GongSolutions.WPF.DragDrop.dll" />
       <ComponentRef Id="Ionic.Zip.dll" />
-      <ComponentRef Id="NLog.dll" />
       <ComponentRef Id="NVorbis.dll" />
       <ComponentRef Id="policy.2.0.taglib_sharp.dll" />
       <ComponentRef Id="Digimezzo.Utilities.dll" />
