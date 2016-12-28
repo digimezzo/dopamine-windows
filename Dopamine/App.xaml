@@ -1,7 +1,6 @@
 ﻿<Application x:Class="Dopamine.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Dopamine"
              xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters;assembly=Dopamine.Common"
              DispatcherUnhandledException="App_DispatcherUnhandledException">
     <Application.Resources>

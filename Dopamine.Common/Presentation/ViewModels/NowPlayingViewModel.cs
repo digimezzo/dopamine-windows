@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.IO;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
+using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace Dopamine.Common.Services.Collection
         #region ICollectionService
         public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -67,7 +67,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -92,7 +92,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -291,7 +291,7 @@ namespace Dopamine.Common.Services.Collection
         {
             ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
             await Task.Run(() => {
 

@@ -3,7 +3,7 @@ using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using Digimezzo.Utilities.Log;
 using Microsoft.Practices.Unity;
 using System;

@@ -9,7 +9,7 @@
         Title="Splash" 
         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-        xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+        xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
         Height="250" 
         Width="450" 
         Background="Transparent" 

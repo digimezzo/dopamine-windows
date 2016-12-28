@@ -3,7 +3,7 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;

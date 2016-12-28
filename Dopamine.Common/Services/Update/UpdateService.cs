@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
 using Ionic.Zip;
 using System;

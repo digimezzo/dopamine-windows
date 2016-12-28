@@ -6,13 +6,13 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Helpers;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -311,7 +311,7 @@ namespace Dopamine.CollectionModule.ViewModels
             try
             {
                 // Order the incoming Genres
-                List<Genre> orderedGenres = await Core.Database.Utils.OrderGenresAsync(genres, genreOrder);
+                List<Genre> orderedGenres = await Common.Database.Utils.OrderGenresAsync(genres, genreOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<GenreViewModel> genreViewModels = new ObservableCollection<GenreViewModel>();
@@ -457,7 +457,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = Dopamine.Core.Database.Utils.FilterGenres(gvm.Genre, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterGenres(gvm.Genre, this.searchService.SearchText);
         }
         #endregion
 

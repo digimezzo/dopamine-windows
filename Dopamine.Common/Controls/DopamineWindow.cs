@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using System;
 using System.Windows;
 using System.Windows.Media;

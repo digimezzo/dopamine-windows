@@ -138,33 +138,6 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Api\Lastfm\Album.cs" />
-    <Compile Include="Api\Lastfm\LastfmApi.cs" />
-    <Compile Include="Api\Lastfm\Artist.cs" />
-    <Compile Include="Api\Lastfm\Biography.cs" />
-    <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
-    <Compile Include="Api\Lyrics\ILyricsApi.cs" />
-    <Compile Include="Api\Lyrics\LololyricsApi.cs" />
-    <Compile Include="Api\Lyrics\Lyrics.cs" />
-    <Compile Include="Api\Lyrics\LyricsFactory.cs" />
-    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
-    <Compile Include="Audio\CSCorePlayer.cs" />
-    <Compile Include="Audio\EqualizerPreset.cs" />
-    <Compile Include="Audio\IPlayer.cs" />
-    <Compile Include="Audio\IPlayerFactory.cs" />
-    <Compile Include="Audio\NVorbisSource.cs" />
-    <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
-    <Compile Include="Audio\PlayerFactory.cs" />
-    <Compile Include="Base\Constants.cs" />
-    <Compile Include="Base\ContactInformation.cs" />
-    <Compile Include="Base\Defaults.cs" />
-    <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\PackagingInformation.cs" />
-    <Compile Include="Base\ProductInformation.cs" />
-    <Compile Include="Base\SensitiveInformation.cs" />
-    <Compile Include="Base\UpdateInformation.cs" />
-    <Compile Include="Base\VersionInfo.cs" />
     <Compile Include="Database\DbMigrator.cs" />
     <Compile Include="Database\Entities\Album.cs" />
     <Compile Include="Database\Entities\Artist.cs" />

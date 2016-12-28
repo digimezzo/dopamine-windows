@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Base;
+﻿using Dopamine.Common.Base;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -151,13 +151,13 @@ namespace Dopamine.Packager
                 try
                 {
                     // Delete all installable files if they exist
-                    foreach (FileInfo f in new DirectoryInfo(Core.IO.ApplicationPaths.ExecutionFolder).GetFiles(@"*" + PackagingInformation.GetInstallablePackageFileExtesion()))
+                    foreach (FileInfo f in new DirectoryInfo(Common.IO.ApplicationPaths.ExecutionFolder).GetFiles(@"*" + PackagingInformation.GetInstallablePackageFileExtesion()))
                     {
                         f.Delete();
                     }
 
                     // Delete all portable files if they exist
-                    foreach (FileInfo f in new DirectoryInfo(Core.IO.ApplicationPaths.ExecutionFolder).GetFiles(@"*" + PackagingInformation.GetPortablePackageFileExtesion()))
+                    foreach (FileInfo f in new DirectoryInfo(Common.IO.ApplicationPaths.ExecutionFolder).GetFiles(@"*" + PackagingInformation.GetPortablePackageFileExtesion()))
                     {
                         f.Delete();
                     }
@@ -269,7 +269,7 @@ namespace Dopamine.Packager
                         // See: https://dotnetzip.codeplex.com/workitem/14087
                         zip.ParallelDeflateThreshold = -1;
 
-                        zip.AddFile(System.IO.Path.Combine(Core.IO.ApplicationPaths.ExecutionFolder, this.installablePackageName), "");
+                        zip.AddFile(System.IO.Path.Combine(Common.IO.ApplicationPaths.ExecutionFolder, this.installablePackageName), "");
 
                         // Save package
                         zip.Save(this.updatePackageName);
@@ -324,7 +324,7 @@ namespace Dopamine.Packager
             {
                 try
                 {
-                    string currentFolder = Core.IO.ApplicationPaths.ExecutionFolder;
+                    string currentFolder = Common.IO.ApplicationPaths.ExecutionFolder;
 
                     // Delete all portable files if they exist
                     foreach (FileInfo f in new DirectoryInfo(currentFolder).GetFiles(@"*" + PackagingInformation.GetPortablePackageFileExtesion()))

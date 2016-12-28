@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+   <Namespace Name="Configuration">
+    <Setting Name="Version">
+      <Value>74</Value>
+    </Setting>
+    <Setting Name="IsPortable">
+      <Value>False</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="General">
+    <Setting Name="IsMiniPlayer">
+      <Value>false</Value>
+    </Setting>
+    <Setting Name="MiniPlayerType">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="ShowOobe">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="FullPlayer">
+    <Setting Name="Width">
+      <Value>950</Value>
+    </Setting>
+    <Setting Name="Height">
+      <Value>600</Value>
+    </Setting>
+    <Setting Name="IsMaximized">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="Top">
+      <Value>50</Value>
+    </Setting>
+    <Setting Name="Left">
+      <Value>50</Value>
+    </Setting>
+    <Setting Name="SelectedPage">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="SelectedNowPlayingPage">
+      <Value>2</Value>
+    </Setting>
+    <Setting Name="IsNowPlayingSelected">
+      <Value>False</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="MiniPlayer">
+    <Setting Name="Top">
+      <Value>50</Value>
+    </Setting>
+    <Setting Name="Left">
+      <Value>50</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="CoverSizes">
+    <Setting Name="ArtistsCoverSize">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="GenresCoverSize">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="AlbumsCoverSize">
+      <Value>3</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Appearance">
+    <Setting Name="EnableLightTheme">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ColorScheme">
+      <Value>Blue</Value>
+    </Setting>
+    <Setting Name="ShowWindowBorder">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="FollowWindowsColor">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="Language">
+      <Value>EN</Value>
+    </Setting>
+    <Setting Name="EnableTransparency">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Behaviour">
+    <Setting Name="EnableRating">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="EnableLove">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="SaveRatingToAudioFiles">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowTrayIcon">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="MinimizeToTray">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="CloseToTray">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="FollowTrack">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ShowNotificationWhenPlaying">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ShowNotificationWhenPausing">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowNotificationWhenResuming">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowNotificationControls">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="NotificationPosition">
+      <Value>3</Value>
+    </Setting>
+    <Setting Name="NotificationAutoCloseSeconds">
+      <Value>4</Value>
+    </Setting>
+    <Setting Name="ShowNotificationOnlyWhenPlayerNotVisible">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="MiniPlayerOnTop">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="MiniPlayerPositionLocked">
+      <Value>false</Value>
+    </Setting>
+    <Setting Name="CoverPlayerAlwaysShowPlaybackInfo">
+      <Value>true</Value>
+    </Setting>
+    <Setting Name="CoverPlayerAlignPlaylistVertically">
+      <Value>false</Value>
+    </Setting>
+    <Setting Name="ScrollVolumePercentage">
+      <Value>5</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Startup">
+    <Setting Name="ShowLastSelectedPage">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="RememberLastPlayedTrack">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Updates">
+    <Setting Name="CheckForUpdates">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="AlsoCheckForPreReleases">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="AutomaticDownload">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Playback">
+    <Setting Name="AudioLatency">
+      <Value>200</Value>
+    </Setting>
+    <Setting Name="WasapiEventMode">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="WasapiExclusiveMode">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="Volume">
+      <Value>0.5</Value>
+    </Setting>
+    <Setting Name="Mute">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="LoopMode">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="Shuffle">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="ShowProgressInTaskbar">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="ShowSpectrumAnalyzer">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Ordering">
+    <Setting Name="ArtistsArtistOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="GenresGenreOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="ArtistsTrackOrder">
+      <Value>2</Value>
+    </Setting>
+    <Setting Name="AlbumsTrackOrder">
+      <Value>2</Value>
+    </Setting>
+    <Setting Name="GenresTrackOrder">
+      <Value>2</Value>
+    </Setting>
+    <Setting Name="ArtistsAlbumOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="AlbumsAlbumOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="GenresAlbumOrder">
+      <Value>1</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="ColumnWidths">
+    <Setting Name="ArtistsLeftPaneWidthPercent">
+      <Value>20</Value>
+    </Setting>
+    <Setting Name="ArtistsRightPaneWidthPercent">
+      <Value>35</Value>
+    </Setting>
+    <Setting Name="GenresLeftPaneWidthPercent">
+      <Value>20</Value>
+    </Setting>
+    <Setting Name="GenresRightPaneWidthPercent">
+      <Value>35</Value>
+    </Setting>
+    <Setting Name="AlbumsLeftPaneWidthPercent">
+      <Value>65</Value>
+    </Setting>
+    <Setting Name="PlaylistsLeftPaneWidthPercent">
+      <Value>30</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="TracksGrid">
+    <Setting Name="VisibleColumns">
+      <Value>rating;artist;album;genre;length;albumartist;tracknumber;year</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Indexing">
+    <Setting Name="ShowAllFoldersInCollection">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="IgnoreRemovedFiles">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="RefreshCollectionOnStartup">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Equalizer">
+    <Setting Name="IsEnabled">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="SelectedPreset">
+      <Value>Manual</Value>
+    </Setting>
+    <Setting Name="ManualPreset">
+      <Value>0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Lastfm">
+    <Setting Name="Username">
+      <Value></Value>
+    </Setting>
+    <Setting Name="Password">
+      <Value></Value>
+    </Setting>
+    <Setting Name="Key">
+      <Value></Value>
+    </Setting>
+    <Setting Name="DownloadArtistInformation">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Lyrics">
+    <Setting Name="AutomaticScrolling">
+      <Value>True</Value>
+    </Setting>
+    <Setting Name="FontSize">
+      <Value>18</Value>
+    </Setting>
+    <Setting Name="DownloadLyrics">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+</Settings>

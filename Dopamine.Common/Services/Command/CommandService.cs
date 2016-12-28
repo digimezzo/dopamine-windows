@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Prism;
+﻿using Dopamine.Common.Prism;
 
 namespace Dopamine.Common.Services.Command
 {

@@ -2,7 +2,7 @@
 using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.OobeModule.Views;
 using Prism.Events;
 using Prism.Regions;

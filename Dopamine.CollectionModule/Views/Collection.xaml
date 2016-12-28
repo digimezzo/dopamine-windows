@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
@@ -15,10 +15,10 @@
 
     <DockPanel>
         <Grid DockPanel.Dock="Bottom">
-            <controls:TransitioningContentControl Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="-30" SlideInTo="0" Name="CollectionPlaybackControlsRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.CollectionPlaybackControlsRegion}"/>
-            <ContentControl Name="CollectionSpectrumAnalyzerRegion" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.CollectionSpectrumAnalyzerRegion}"/>
+            <controls:TransitioningContentControl Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="-30" SlideInTo="0" Name="CollectionPlaybackControlsRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionPlaybackControlsRegion}"/>
+            <ContentControl Name="CollectionSpectrumAnalyzerRegion" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionSpectrumAnalyzerRegion}"/>
         </Grid>
-        <controls:TransitioningContentControl Margin="0,0,0,10" Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionContentRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.CollectionContentRegion}"/>
+        <controls:TransitioningContentControl Margin="0,0,0,10" Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionContentRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionContentRegion}"/>
     </DockPanel>
 </UserControl>
 

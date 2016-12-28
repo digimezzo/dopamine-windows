@@ -3,14 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Dopamine.ControlsModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:prism="http://www.codeplex.com/prism"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -30,7 +26,7 @@
             <DockPanel x:Name="PlaybackInfoPanel" Background="#00000000" Grid.Column="0" Height="50" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10,10,0,10">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
-                        <i:InvokeCommandAction Command="{x:Static coreprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
+                        <i:InvokeCommandAction Command="{x:Static commonprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="50" Height="50" Margin="0,0,10,0"/>
@@ -56,7 +52,7 @@
                 VerticalContentAlignment="Center" 
                 VerticalAlignment="Center" 
                 ToolTip="{DynamicResource Language_Equalizer}" 
-                Command="{x:Static coreprism:ApplicationCommands.ShowEqualizerCommand}">
+                Command="{x:Static commonprism:ApplicationCommands.ShowEqualizerCommand}">
                 <ToggleButton.Content>
                     <commonviews:EqualizerIcon/>
                 </ToggleButton.Content>

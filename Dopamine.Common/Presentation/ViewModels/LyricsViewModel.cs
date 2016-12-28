@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Api.Lyrics;
-using Dopamine.Core.Database;
-using Dopamine.Core.Metadata;
+using Dopamine.Common.Api.Lyrics;
+using Dopamine.Common.Database;
+using Dopamine.Common.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;

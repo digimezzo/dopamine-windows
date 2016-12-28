@@ -2,8 +2,8 @@
 using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Database;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Database;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Threading.Tasks;

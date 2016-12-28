@@ -5,7 +5,7 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;

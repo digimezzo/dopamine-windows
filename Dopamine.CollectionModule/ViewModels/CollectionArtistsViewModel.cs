@@ -6,13 +6,13 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Helpers;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -294,7 +294,7 @@ namespace Dopamine.CollectionModule.ViewModels
             try
             {
                 // Order the incoming Artists
-                List<Artist> orderedArtists = await Core.Database.Utils.OrderArtistsAsync(artists, artistOrder);
+                List<Artist> orderedArtists = await Common.Database.Utils.OrderArtistsAsync(artists, artistOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<ArtistViewModel> artistViewModels = new ObservableCollection<ArtistViewModel>();
@@ -430,7 +430,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            e.Accepted = Dopamine.Core.Database.Utils.FilterArtists(avm.Artist, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterArtists(avm.Artist, this.searchService.SearchText);
         }
 
         private async Task ToggleArtistOrderAsync()

@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Database.Entities;
+using Dopamine.Common.Database.Entities;
 using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels
@@ -31,7 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string SortArtistName
         {
-            get { return Core.Database.Utils.GetSortableString(this.ArtistName, true); }
+            get { return Database.Utils.GetSortableString(this.ArtistName, true); }
         }
 
         public string Header

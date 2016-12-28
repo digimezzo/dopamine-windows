@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Presentation.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;

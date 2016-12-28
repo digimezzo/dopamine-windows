@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Metadata;
+using Dopamine.Common.Utils;
 using Prism.Mvvm;
 using System;
 
