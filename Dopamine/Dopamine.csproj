@@ -168,6 +168,9 @@
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="app.manifest" />
+    <Content Include="BaseSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Equalizer\Classical.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
