@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;

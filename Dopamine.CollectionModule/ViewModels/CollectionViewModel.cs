@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Prism;
+﻿using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

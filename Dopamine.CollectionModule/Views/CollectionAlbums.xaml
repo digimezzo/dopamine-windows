@@ -11,9 +11,9 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>

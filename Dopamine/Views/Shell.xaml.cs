@@ -9,11 +9,11 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
-using Dopamine.Core.Base;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.IO;
+using Dopamine.Common.Base;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
@@ -154,15 +154,15 @@ namespace Dopamine.Views
             // TaskbarItemInfo
             // ---------------
             TaskbarItemInfoPlayCommand = new DelegateCommand(async () => await this.playbackService.PlayOrPauseAsync());
-            Core.Prism.ApplicationCommands.TaskbarItemInfoPlayCommand.RegisterCommand(this.TaskbarItemInfoPlayCommand);
+            Common.Prism.ApplicationCommands.TaskbarItemInfoPlayCommand.RegisterCommand(this.TaskbarItemInfoPlayCommand);
 
             // Window State
             // ------------
             this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
-            Core.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
+            Common.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
 
             this.RestoreWindowCommand = new DelegateCommand(() => this.SetPlayer(false, MiniPlayerType.CoverPlayer));
-            Core.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
+            Common.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
 
             this.MaximizeRestoreWindowCommand = new DelegateCommand(() =>
             {
@@ -176,18 +176,18 @@ namespace Dopamine.Views
                 }
             });
 
-            Core.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
+            Common.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
 
             this.CloseWindowCommand = new DelegateCommand(() => this.Close());
-            Core.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
+            Common.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
 
             // Player type
             // -----------
             this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) => this.SetPlayer(true, (MiniPlayerType)Convert.ToInt32(miniPlayerType)));
-            Core.Prism.ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
+            Common.Prism.ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
 
             this.TogglePlayerCommand = new DelegateCommand(() => this.TogglePlayer());
-            Core.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
+            Common.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
 
             // Mini Player
             // -----------
@@ -200,7 +200,7 @@ namespace Dopamine.Views
                 this.SetWindowPositionLocked(isMiniPlayer);
             });
 
-            Core.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
+            Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
@@ -208,7 +208,7 @@ namespace Dopamine.Views
                 this.SetWindowAlwaysOnTop(this.isMiniPlayer);
             });
 
-            Core.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
+            Common.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
 
             // Screens
             // -------
@@ -219,7 +219,7 @@ namespace Dopamine.Views
             });
 
 
-            Core.Prism.ApplicationCommands.NavigateToMainScreenCommand.RegisterCommand(this.NavigateToMainScreenCommand);
+            Common.Prism.ApplicationCommands.NavigateToMainScreenCommand.RegisterCommand(this.NavigateToMainScreenCommand);
 
             this.NavigateToNowPlayingScreenCommand = new DelegateCommand(() =>
             {
@@ -227,13 +227,13 @@ namespace Dopamine.Views
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
             });
 
-            Core.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);
+            Common.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);
 
             // Application
             // -----------
 
             this.ShowMainWindowCommand = new DelegateCommand(() => this.ActivateNow());
-            Core.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
+            Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
         }
 
         private void InitializeTrayIcon()

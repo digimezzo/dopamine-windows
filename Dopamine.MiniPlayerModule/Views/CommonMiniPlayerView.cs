@@ -21,7 +21,7 @@ namespace Dopamine.MiniPlayerModule.Views
         public CommonMiniPlayerView() : base()
         {
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() => this.isMiniPlayerPositionLocked = !this.isMiniPlayerPositionLocked);
-            Core.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
+            Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
             this.isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
         }

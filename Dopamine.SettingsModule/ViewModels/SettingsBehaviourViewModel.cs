@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;

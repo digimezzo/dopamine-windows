@@ -172,10 +172,6 @@
       <Project>{7C852F68-0E22-4A26-BA7F-962A8B3B2AD0}</Project>
       <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{f4a6aa5e-5167-48ae-ac87-bcc0414fbd3d}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Collection.xaml">

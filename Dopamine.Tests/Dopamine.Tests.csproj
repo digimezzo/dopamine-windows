@@ -108,10 +108,6 @@
       <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{f4a6aa5e-5167-48ae-ac87-bcc0414fbd3d}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\AudioFormatsTest\test.m4a">

@@ -3,7 +3,7 @@ using Dopamine.CollectionModule.ViewModels;
 using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Enums;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;

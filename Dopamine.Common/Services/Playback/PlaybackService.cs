@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Equalizer;
-using Dopamine.Core.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Metadata;
+using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -664,7 +664,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task Enqueue()
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -690,7 +690,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (artist == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -700,7 +700,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (genre == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -710,7 +710,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (album == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -890,25 +890,25 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<AddToQueueResult> AddToQueue(IList<Artist> artists)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Genre> genres)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Album> albums)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
         #endregion

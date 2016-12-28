@@ -7,9 +7,9 @@
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -49,7 +49,7 @@
                         <Grid>
                             <StackPanel>
                                 <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}" Visibility="{Binding HasBiography, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                                <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static coreprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
+                                <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
                             </StackPanel>
                             <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasBiography, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                         </Grid>

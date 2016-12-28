@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
 using Microsoft.Win32;
 using System;

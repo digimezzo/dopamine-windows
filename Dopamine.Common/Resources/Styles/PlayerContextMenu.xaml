@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:prism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core">
+    xmlns:prism="clr-namespace:Dopamine.Common.Prism">
 
     <ContextMenu x:Key="CoverPlayerContextMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
         <MenuItem Header="{DynamicResource Language_Always_On_Top}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerAlwaysOnTop,Mode=OneWay}"/>

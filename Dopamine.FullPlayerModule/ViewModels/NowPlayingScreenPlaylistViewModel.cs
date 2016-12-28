@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Core.Base;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Base;
+using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.Views;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
@@ -9,7 +9,7 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using System.Collections;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
 
 namespace Dopamine.FullPlayerModule.ViewModels

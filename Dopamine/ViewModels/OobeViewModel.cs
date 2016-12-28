@@ -1,6 +1,6 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism.Mvvm;
 using Prism.Events;
 

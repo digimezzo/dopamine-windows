@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Helpers;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

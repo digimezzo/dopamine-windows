@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Scrobbling;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Prism.Mvvm;
 using System;
 

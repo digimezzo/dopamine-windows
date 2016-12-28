@@ -9,15 +9,15 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Prism;
+using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
@@ -427,7 +427,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             MergedTrackViewModel vm = e.Item as MergedTrackViewModel;
-            e.Accepted = Dopamine.Core.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
         /// <summary>
@@ -509,7 +509,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 ObservableCollection<MergedTrackViewModel> viewModels = new ObservableCollection<MergedTrackViewModel>();
 
                 // Order the incoming Tracks
-                List<MergedTrack> orderedTracks = await Core.Database.Utils.OrderTracksAsync(tracks, trackOrder);
+                List<MergedTrack> orderedTracks = await Database.Utils.OrderTracksAsync(tracks, trackOrder);
 
                 await Task.Run(() =>
                 {

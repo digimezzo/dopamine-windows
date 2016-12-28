@@ -423,10 +423,6 @@
       <Project>{7C852F68-0E22-4A26-BA7F-962A8B3B2AD0}</Project>
       <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.FullPlayerModule\Dopamine.FullPlayerModule.csproj">
       <Project>{0032CFAA-6E3B-4BB3-875D-89A5D33262AC}</Project>
       <Name>Dopamine.FullPlayerModule</Name>

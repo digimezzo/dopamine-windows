@@ -1,11 +1,11 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Api.Lyrics;
-using Dopamine.Core.Database;
+using Dopamine.Common.Api.Lyrics;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Metadata;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

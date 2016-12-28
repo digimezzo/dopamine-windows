@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.IO;
+﻿using Dopamine.Common.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dopamine.Tests

@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

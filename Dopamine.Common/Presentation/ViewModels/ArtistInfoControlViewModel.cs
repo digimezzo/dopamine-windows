@@ -3,9 +3,9 @@ using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
+using Dopamine.Common.Api.Lastfm;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
@@ -21,8 +21,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private Core.Database.Entities.Artist previousArtist;
-        private Core.Database.Entities.Artist artist;
+        private Database.Entities.Artist previousArtist;
+        private Database.Entities.Artist artist;
         private SlideDirection slideDirection;
         private bool isBusy;
         #endregion
@@ -89,13 +89,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (track.ArtistName == Defaults.UnknownArtistString)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Common.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;
             }
 
-            this.artist = new Core.Database.Entities.Artist
+            this.artist = new Common.Database.Entities.Artist
             {
                 ArtistName = track.ArtistName
             };
@@ -110,7 +110,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Common.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {

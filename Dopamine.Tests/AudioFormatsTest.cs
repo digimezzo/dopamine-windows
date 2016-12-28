@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dopamine.Core.Audio;
+using Dopamine.Common.Audio;
 
 namespace Dopamine.Tests
 {

@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Api.Lyrics;
+﻿using Dopamine.Common.Api.Lyrics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 

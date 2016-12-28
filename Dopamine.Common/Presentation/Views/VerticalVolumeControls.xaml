@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:views="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -13,6 +13,6 @@
 
     <StackPanel VerticalAlignment="Center" Background="#00000000" HorizontalAlignment="Center" Width="30" PreviewMouseWheel="StackPanel_PreviewMouseWheel">
         <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-        <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static base:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
     </StackPanel>
 </views:CommonVolumeControl>

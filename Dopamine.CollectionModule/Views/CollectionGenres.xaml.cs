@@ -4,7 +4,7 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -135,7 +135,7 @@ namespace Dopamine.CollectionModule.Views
         private void Unsubscribe()
         {
             // Commands
-            Core.Prism.ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
+            Common.Prism.ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
 
             // Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Unsubscribe(this.scrollToPlayingTrackToken);
@@ -147,7 +147,7 @@ namespace Dopamine.CollectionModule.Views
             this.Unsubscribe();
 
             // Commands
-            Core.Prism.ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
+            Common.Prism.ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
 
             // Events
             this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (s) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));

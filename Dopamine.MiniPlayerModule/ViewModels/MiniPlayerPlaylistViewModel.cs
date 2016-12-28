@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Core.Base;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Base;
+using Dopamine.Common.Prism;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;

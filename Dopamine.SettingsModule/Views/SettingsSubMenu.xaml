@@ -8,14 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:myViews="clr-namespace:Dopamine.SettingsModule.Views"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core">
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common">
 
     <StackPanel Orientation="Horizontal">
-        <controls:SubMenuButton x:Name="MenuSettingsCollection" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Collection}" IsChecked="True" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="1"/>
-        <controls:SubMenuButton x:Name="MenuSettingsAppearance" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Appearance}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="2"/>
-        <controls:SubMenuButton x:Name="MenuSettingsBehaviour" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Behaviour}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="3"/>
-        <controls:SubMenuButton x:Name="MenuSettingsAudio" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Playback}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="4"/>
-        <controls:SubMenuButton x:Name="MenuSettingsStartup" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Startup}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="5"/>
-        <controls:SubMenuButton x:Name="MenuSettingsOnline" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Online}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="6"/>
+        <controls:SubMenuButton x:Name="MenuSettingsCollection" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Collection}" IsChecked="True" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="1"/>
+        <controls:SubMenuButton x:Name="MenuSettingsAppearance" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Appearance}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="2"/>
+        <controls:SubMenuButton x:Name="MenuSettingsBehaviour" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Behaviour}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="3"/>
+        <controls:SubMenuButton x:Name="MenuSettingsAudio" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Playback}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="4"/>
+        <controls:SubMenuButton x:Name="MenuSettingsStartup" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Startup}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="5"/>
+        <controls:SubMenuButton x:Name="MenuSettingsOnline" GroupName="SettingsGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Online}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenSettingsCommand}" CommandParameter="6"/>
     </StackPanel>
 </UserControl>

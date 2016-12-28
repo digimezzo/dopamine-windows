@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.ViewModels;
 using Dopamine.FullPlayerModule.Views;
 using Microsoft.Practices.Unity;

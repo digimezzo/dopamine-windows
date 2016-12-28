@@ -1,5 +1,5 @@
-﻿using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Metadata;
+﻿using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

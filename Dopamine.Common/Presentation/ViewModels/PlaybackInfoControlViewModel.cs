@@ -1,8 +1,8 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Digimezzo.Utilities.Log;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Utils;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;

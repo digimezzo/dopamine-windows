@@ -8,10 +8,10 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:myViews="clr-namespace:Dopamine.InformationModule.Views"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core">
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common">
 
     <StackPanel Orientation="Horizontal">
-        <controls:SubMenuButton x:Name="MenuInformationHelp" GroupName="InformationGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Help}" IsChecked="True" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenInformationCommand}" CommandParameter="1"/>
-        <controls:SubMenuButton x:Name="MenuInformationAbout" GroupName="InformationGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_About}" Command="{x:Static coreprism:ApplicationCommands.NavigateBetweenInformationCommand}" CommandParameter="2"/>
+        <controls:SubMenuButton x:Name="MenuInformationHelp" GroupName="InformationGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Help}" IsChecked="True" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenInformationCommand}" CommandParameter="1"/>
+        <controls:SubMenuButton x:Name="MenuInformationAbout" GroupName="InformationGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_About}" Command="{x:Static commonprism:ApplicationCommands.NavigateBetweenInformationCommand}" CommandParameter="2"/>
     </StackPanel>
 </UserControl>

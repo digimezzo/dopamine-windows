@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0" PanningMode="Both">
