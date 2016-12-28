@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Digimezzo.Utilities.Log;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +30,15 @@ namespace Dopamine.Core.Api.Lyrics
 
             while (api != null && (lyrics == null || !lyrics.HasText))
             {
-                lyrics = new Lyrics(await api.GetLyricsAsync(artist, title), api.SourceName);
+                try
+                {
+                    lyrics = new Lyrics(await api.GetLyricsAsync(artist, title), api.SourceName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while getting lyrics from '{0}'. Exception: {1}", api.SourceName, ex.Message);
+                }
+                
                 api = this.GetRandomApi();
             }
 
