@@ -10,6 +10,14 @@ namespace Dopamine.Common.Api.Lyrics
     {
         #region Variables
         private const string apiRootFormat = "http://www.metrolyrics.com/{0}-lyrics-{1}.html";
+        private int timeoutSeconds;
+        #endregion
+
+        #region Construction
+        public MetroLyricsApi(int timeoutSeconds)
+        {
+            this.timeoutSeconds = timeoutSeconds;
+        }
         #endregion
 
         #region Private
@@ -44,10 +52,15 @@ namespace Dopamine.Common.Api.Lyrics
 
             await Task.Run(() =>
             {
-                int start = html.IndexOf("<div id=\"lyrics-body-text\" class=\"js-lyric-text\">") + 49;
+                int start = html.IndexOf("<div id=\"lyrics-body-text\" class=\"js-lyric-text\">");
                 int end = html.IndexOf("</div>", start);
 
-                if (start > 0 && end > 0) lyrics = html.Substring(start, end - start).Replace("<p class='verse'>", "").Replace("</p>", Environment.NewLine + Environment.NewLine).Replace("<br>", "").Trim();
+                if (start > 0 && end > 0)
+                {
+                    int correctedStart = start + 49;
+                    int correctedEnd = end;
+                    lyrics = html.Substring(correctedStart, correctedEnd - correctedStart).Replace("<p class='verse'>", "").Replace("</p>", Environment.NewLine + Environment.NewLine).Replace("<br>", "").Trim();
+                }
             });
 
             return lyrics;
@@ -77,6 +90,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             using (var client = new HttpClient())
             {
+                if (this.timeoutSeconds > 0) client.Timeout = TimeSpan.FromSeconds(this.timeoutSeconds);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 var response = await client.GetAsync(uri);
                 result = await response.Content.ReadAsStringAsync();

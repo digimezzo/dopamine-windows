@@ -14,6 +14,14 @@ namespace Dopamine.Common.Api.Lyrics
     {
         #region Variables
         private const string apiRootFormat = "http://lyrics.wikia.com/wiki/{0}:{1}?action=edit";
+        private int timeoutSeconds;
+        #endregion
+
+        #region Construction
+        public LyricWikiaApi(int timeoutSeconds)
+        {
+            this.timeoutSeconds = timeoutSeconds;
+        }
         #endregion
 
         #region Private
@@ -78,11 +86,17 @@ namespace Dopamine.Common.Api.Lyrics
             {
                 await Task.Run(() =>
                 {
-                    start = html.IndexOf("&lt;lyrics>") + 12;
-                    end = html.IndexOf("&lt;/lyrics>") - 1;
+                    start = html.IndexOf("&lt;lyrics>");
+                    end = html.IndexOf("&lt;/lyrics>");
 
-                    // Replace webpage newline with carriage return + newline (standard on Windows)
-                    if (start > 0 && end > 0) lyrics = html.Substring(start, end - start).Replace("\n", Environment.NewLine);
+                    if (start > 0 && end > 0)
+                    {
+                        int correctedStart = start + 12;
+                        int correctedEnd = end - 1;
+
+                        // Replace webpage newline with carriage return + newline (standard on Windows)
+                        lyrics = html.Substring(correctedStart, correctedEnd - correctedStart).Replace("\n", Environment.NewLine);
+                    }
                 });
             }
 
@@ -113,6 +127,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             using (var client = new HttpClient())
             {
+                if (this.timeoutSeconds > 0) client.Timeout = TimeSpan.FromSeconds(this.timeoutSeconds);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 var response = await client.GetAsync(uri);
                 result = await response.Content.ReadAsStringAsync();

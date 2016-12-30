@@ -10,6 +10,14 @@ namespace Dopamine.Common.Api.Lyrics
     {
         #region Variables
         private const string apiRootFormat = "http://api.lololyrics.com/0.5/getLyric?artist={0}&track={1}";
+        private int timeoutSeconds;
+        #endregion
+
+        #region Construction
+        public LololyricsApi(int timeoutSeconds)
+        {
+            this.timeoutSeconds = timeoutSeconds;
+        }
         #endregion
 
         #region Private
@@ -63,6 +71,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             using (var client = new HttpClient())
             {
+                if (this.timeoutSeconds > 0) client.Timeout = TimeSpan.FromSeconds(this.timeoutSeconds);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 var response = await client.GetAsync(uri);
                 result = await response.Content.ReadAsStringAsync();
