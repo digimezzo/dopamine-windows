@@ -54,7 +54,7 @@
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Volume}" />
             <TextBlock Text="{DynamicResource Language_Mouse_Scroll_Changes_Volume_By}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <ComboBox x:Name="ComboBoxVolumePercentage" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding ScrollVolumePercentages}" SelectedItem="{Binding SelectedScrollVolumePercentage}"/>
+            <ComboBox x:Name="ComboBoxVolumePercentage" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="100" ItemsSource="{Binding ScrollVolumePercentages}" SelectedItem="{Binding SelectedScrollVolumePercentage}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
