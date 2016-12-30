@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>74</Value>
+      <Value>75</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -287,6 +287,12 @@
     </Setting>
     <Setting Name="DownloadLyrics">
       <Value>True</Value>
+    </Setting>
+    <Setting Name="TimeoutSeconds">
+      <Value>0</Value>
+    </Setting>
+    <Setting Name="Providers">
+      <Value>ChartLyrics;LoloLyrics;LyricWikia;MetroLyrics</Value>
     </Setting>
   </Namespace>
 </Settings>

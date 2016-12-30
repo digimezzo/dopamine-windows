@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,10 +17,13 @@ namespace Dopamine.Common.Api.Lyrics
         {
             lyricsApis = new List<ILyricsApi>();
 
-            lyricsApis.Add(new LyricWikiaApi());
-            lyricsApis.Add(new LololyricsApi());
-            lyricsApis.Add(new ChartLyricsApi());
-            lyricsApis.Add(new MetroLyricsApi());
+            int timeoutSeconds = SettingsClient.Get<int>("Lyrics", "TimeoutSeconds");
+            string providers = SettingsClient.Get<string>("Lyrics", "Providers");
+
+            if (providers.Contains("LyricWikia")) lyricsApis.Add(new LyricWikiaApi(timeoutSeconds));
+            if (providers.Contains("LoloLyrics")) lyricsApis.Add(new LololyricsApi(timeoutSeconds));
+            if (providers.Contains("ChartLyrics")) lyricsApis.Add(new ChartLyricsApi(timeoutSeconds));
+            if (providers.Contains("MetroLyrics")) lyricsApis.Add(new MetroLyricsApi(timeoutSeconds));
         }
         #endregion
 
@@ -39,7 +43,7 @@ namespace Dopamine.Common.Api.Lyrics
                 {
                     LogClient.Error("Error while getting lyrics from '{0}'. Exception: {1}", api.SourceName, ex.Message);
                 }
-                
+
                 api = this.GetRandomApi();
             }
 
