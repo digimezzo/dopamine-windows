@@ -11,7 +11,7 @@ namespace Dopamine.Common.Api.Lyrics
         private List<ILyricsApi> lyricsApis;
         #endregion
 
-        #region COnstruction
+        #region Construction
         public LyricsFactory()
         {
             lyricsApis = new List<ILyricsApi>();
@@ -19,6 +19,7 @@ namespace Dopamine.Common.Api.Lyrics
             lyricsApis.Add(new LyricWikiaApi());
             lyricsApis.Add(new LololyricsApi());
             lyricsApis.Add(new ChartLyricsApi());
+            lyricsApis.Add(new MetroLyricsApi());
         }
         #endregion
 

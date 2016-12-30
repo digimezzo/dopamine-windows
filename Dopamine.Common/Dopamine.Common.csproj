@@ -154,6 +154,7 @@
     <Compile Include="Api\Lyrics\Lyrics.cs" />
     <Compile Include="Api\Lyrics\LyricsFactory.cs" />
     <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
+    <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
