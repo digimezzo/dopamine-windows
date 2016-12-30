@@ -289,10 +289,10 @@
       <Value>True</Value>
     </Setting>
     <Setting Name="TimeoutSeconds">
-      <Value>0</Value>
+      <Value>5</Value>
     </Setting>
     <Setting Name="Providers">
-      <Value>ChartLyrics;LoloLyrics;LyricWikia;MetroLyrics</Value>
+      <Value>LoloLyrics;LyricWikia;MetroLyrics</Value>
     </Setting>
   </Namespace>
 </Settings>
