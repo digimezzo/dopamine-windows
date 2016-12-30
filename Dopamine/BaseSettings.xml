@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>75</Value>
+      <Value>77</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -289,10 +289,10 @@
       <Value>True</Value>
     </Setting>
     <Setting Name="TimeoutSeconds">
-      <Value>5</Value>
+      <Value>0</Value>
     </Setting>
     <Setting Name="Providers">
-      <Value>LoloLyrics;LyricWikia;MetroLyrics</Value>
+      <Value>lololyrics;lyricwikia;metrolyrics</Value>
     </Setting>
   </Namespace>
 </Settings>

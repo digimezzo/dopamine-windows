@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Prism;
 using Prism.Events;
 using Prism.Mvvm;
@@ -149,7 +150,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 localScrollVolumePercentages.Add(new NameValue { Name = "1 %", Value = 1 });
                 localScrollVolumePercentages.Add(new NameValue { Name = "2 %", Value = 2 });
-                localScrollVolumePercentages.Add(new NameValue { Name = "5 % (" + Application.Current.FindResource("Language_Default").ToString().ToLower() + ")", Value = 5 });
+                localScrollVolumePercentages.Add(new NameValue { Name = "5 %", Value = 5 });
                 localScrollVolumePercentages.Add(new NameValue { Name = "10 %", Value = 10 });
                 localScrollVolumePercentages.Add(new NameValue { Name = "15 %", Value = 15 });
                 localScrollVolumePercentages.Add(new NameValue { Name = "20 %", Value = 20 });

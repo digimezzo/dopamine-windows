@@ -1,9 +1,10 @@
-2016-12-28: Dopamine 1.2.2 Build 852 (Release)
+2016-12-30: Dopamine 1.2.2 Build 854 (Release)
 ----------------------------------------------
 
-- [Added] Added MetroLyrics as automatic lyrics provider
-- [Fixed] Mute doesn't stick when the next song starts playing
+- [Added] MetroLyrics as extra automatic lyrics provider
+- [Added] Option to enable/disable automatic lyrics providers and option to set a lyrics download timeout
 - [Fixed] Lyrics search stops if querying 1 lyrics provider fails, even if there are still other providers to left to use.
+- [Fixed] Mute doesn't stick when the next song starts playing
 
 
 2016-12-24: Dopamine 1.2.1 Build 846 (Release)

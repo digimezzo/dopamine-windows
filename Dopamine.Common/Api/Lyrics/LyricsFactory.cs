@@ -20,10 +20,10 @@ namespace Dopamine.Common.Api.Lyrics
             int timeoutSeconds = SettingsClient.Get<int>("Lyrics", "TimeoutSeconds");
             string providers = SettingsClient.Get<string>("Lyrics", "Providers");
 
-            if (providers.Contains("LyricWikia")) lyricsApis.Add(new LyricWikiaApi(timeoutSeconds));
-            if (providers.Contains("LoloLyrics")) lyricsApis.Add(new LololyricsApi(timeoutSeconds));
-            if (providers.Contains("ChartLyrics")) lyricsApis.Add(new ChartLyricsApi(timeoutSeconds));
-            if (providers.Contains("MetroLyrics")) lyricsApis.Add(new MetroLyricsApi(timeoutSeconds));
+            if (providers.ToLower().Contains("chartlyrics")) lyricsApis.Add(new ChartLyricsApi(timeoutSeconds));
+            if (providers.ToLower().Contains("lololyrics")) lyricsApis.Add(new LololyricsApi(timeoutSeconds));
+            if (providers.ToLower().Contains("lyricwikia")) lyricsApis.Add(new LyricWikiaApi(timeoutSeconds));
+            if (providers.ToLower().Contains("metrolyrics")) lyricsApis.Add(new MetroLyricsApi(timeoutSeconds));
         }
         #endregion
 
