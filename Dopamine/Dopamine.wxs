@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.2.850.2" ?>
-<?define VersionMin="1.0.0.0" ?>
+<?define Version="1.2.851.2" ?>
+<?define Manufacturer="Digimezzo" ?>
+<?define Product="Dopamine" ?>
+<?define ProductCab="Dopamine.cab" ?>
+<?define DowngradeMessage="A newer version of this application is already installed. If you are sure you want to downgrade, remove the existing installation via Programs and Features." ?>
+<?define License="Dopamine.License.rtf" ?>
+<?define BannerBmp="Dopamine.BannerBmp.bmp" ?>
+<?define DialogBmp="Dopamine.DialogBmp.bmp" ?>
 <?define UpgradeCode="744d2eee-0923-4e96-9efd-1ee5f13db75b"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Dopamine" Language="1033" Version="$(var.Version)" Manufacturer="Digimezzo" UpgradeCode="$(var.UpgradeCode)">
-    <Package Description="Dopamine" Comments="Dopamine" InstallerVersion="200" Compressed="yes" />
-    <Media Id="1" Cabinet="Dopamine.cab" EmbedCab="yes" />
-    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
-    <Property Id="REINSTALLMODE" Value="amus"/>
-    <!-- This should replace all components, even if their version didn't change -->
-    <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Minimum="$(var.VersionMin)" Maximum="$(var.Version)" Property="PREVIOUSVERSIONSINSTALLED" IncludeMinimum="yes" IncludeMaximum="no" />
-      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="yes" OnlyDetect="yes" Property="NEWERVERSIONINSTALLED" />
-    </Upgrade>
-    <Condition Message="A newer version of this product has been detected on your system. Setup cannot continue and will now terminate."><![CDATA[NOT NEWERVERSIONINSTALLED]]></Condition>
+  <Product Id="*" Name="$(var.Product)" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package Description="$(var.Product)" Comments="$(var.Product)" InstallerVersion="200" Compressed="yes" />
+    <Media Id="1" Cabinet="$(var.ProductCab)" EmbedCab="yes" />
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="$(var.DowngradeMessage)" />
     <InstallExecuteSequence>
       <Custom Action="KillApplication" After="LaunchConditions"/>
-      <RemoveExistingProducts After="InstallFinalize"/>
+      <!--<RemoveExistingProducts After="InstallInitialize"/>-->
     </InstallExecuteSequence>
-    <!--<WixVariable Id="WixUILicenseRtf" Value="Dopamine.License.rtf" />-->
-    <WixVariable Id="WixUIBannerBmp" Value="Dopamine.BannerBmp.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="Dopamine.DialogBmp.bmp" />
+    <!--<WixVariable Id="WixUILicenseRtf" Value="$(var.License)" />-->
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.BannerBmp)" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.DialogBmp)" />
     <Directory Id="TARGETDIR" Name="SourceDir">
       <!-- Start Menu -->
       <Directory Id="ProgramMenuFolder" />

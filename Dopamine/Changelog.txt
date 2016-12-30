@@ -1,4 +1,4 @@
-2016-12-28: Dopamine 1.2.2 Build 850 (Release)
+2016-12-28: Dopamine 1.2.2 Build 851 (Release)
 ----------------------------------------------
 
 - [Fixed] Mute doesn't stick when the next song starts playing
