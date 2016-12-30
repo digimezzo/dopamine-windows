@@ -15,7 +15,7 @@
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="$(var.DowngradeMessage)" />
     <InstallExecuteSequence>
       <Custom Action="KillApplication" After="LaunchConditions"/>
-      <!--<RemoveExistingProducts After="InstallInitialize"/>-->
+      <RemoveShortcuts>0</RemoveShortcuts>
     </InstallExecuteSequence>
     <!--<WixVariable Id="WixUILicenseRtf" Value="$(var.License)" />-->
     <WixVariable Id="WixUIBannerBmp" Value="$(var.BannerBmp)" />
