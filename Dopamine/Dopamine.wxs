@@ -24,7 +24,7 @@
     <!-- Icons -->
     <!-- ===== -->
     <!-- This just defines an icon that can be used anywhere else -->
-    <Icon Id="REUSABLEICON" SourceFile="$(var.Product).exe" />
+    <Icon Id="$(var.Product).ico" SourceFile="$(var.Product).exe" />
     <!-- Properties -->
     <!-- ========== -->
     <Property Id="WixShellExecTarget" Value="[#$(var.Product).exe]" />
@@ -32,7 +32,7 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.Product)" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <!-- This adds an icon for Add/Remove Programs. The Value is the Id of the Icon defined above -->
-    <Property Id="ARPPRODUCTICON" Value="REUSABLEICON" />
+    <Property Id="ARPPRODUCTICON" Value="$(var.Product).ico" />
     <!-- Custom actions -->
     <!-- ============== -->
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
@@ -152,7 +152,7 @@
           <Component Id="MAINCMP" DiskId="1" Guid="9B925874-C592-453A-BCA8-4CF8D8E60511">
             <!-- Files -->
             <File Source="Dopamine.exe">
-              <Shortcut Id="ExeShortcut" Directory="ProgramMenuFolder" Name="Dopamine" WorkingDirectory="INSTALLFOLDER" Icon="REUSABLEICON" IconIndex="0" />
+              <Shortcut Id="ExeShortcut" Directory="ProgramMenuFolder" Name="Dopamine" WorkingDirectory="INSTALLFOLDER" Icon="$(var.Product).ico" IconIndex="0" />
             </File>
             <File Source="Dopamine.exe.config" />
             <File Source="License.txt" />
