@@ -1,4 +1,4 @@
-2016-12-30: Dopamine 1.2.2 Build 855 (Release)
+2016-12-30: Dopamine 1.2.2 Build 856 (Release)
 ----------------------------------------------
 
 - [Added] MetroLyrics as extra automatic lyrics provider
