@@ -119,14 +119,6 @@
             </Component>
           </Directory>
           <!-- Application -->
-          <Component Id="REGISTRYCMP" Guid="DE319F08-4619-4218-AF24-3191C0264E25">
-            <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine" Action="createAndRemoveOnUninstall">
-              <RegistryValue Type="string" Value="Play with Dopamine"/>
-            </RegistryKey>
-            <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine\command" Action="createAndRemoveOnUninstall">
-              <RegistryValue Type="string" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;"/>
-            </RegistryKey>
-          </Component>
           <Component Id="MAINCMP" DiskId="1" Guid="9B925874-C592-453A-BCA8-4CF8D8E60511">
             <!-- Files -->
             <File Source="Dopamine.exe">
@@ -169,6 +161,12 @@
             <File Source="WPFFolderBrowser.dll" />
             <File Source="WPFSoundVisualizationLib.dll" />
             <!-- Registry -->
+            <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine" Action="createAndRemoveOnUninstall">
+              <RegistryValue Type="string" Value="Play with Dopamine"/>
+            </RegistryKey>
+            <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine\command" Action="createAndRemoveOnUninstall">
+              <RegistryValue Type="string" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;"/>
+            </RegistryKey>
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationName" Value="Dopamine" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationDescription" Value="Dopamine audio player" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".m3u" Value="Dopamine.m3u" Type="string" />
@@ -238,8 +236,6 @@
       <ComponentRef Id="EQUALIZERCMP" />
       <!-- Main -->
       <ComponentRef Id="MAINCMP" />
-      <!-- Registry -->
-      <ComponentRef Id="REGISTRYCMP" />
       <!-- Sqlite -->
       <ComponentRef Id="X64CMP" />
       <ComponentRef Id="X86CMP" />
