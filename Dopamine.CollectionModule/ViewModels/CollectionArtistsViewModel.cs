@@ -267,10 +267,7 @@ namespace Dopamine.CollectionModule.ViewModels
             try
             {
                 // Get all artists from the database
-                IList<Artist> artists = await this.artistRepository.GetArtistsAsync();
-
-                // Order the incoming Artists
-                List<Artist> orderedArtists = await Common.Database.Utils.OrderArtistsAsync(artists, artistOrder);
+                IList<Artist> artists = await this.artistRepository.GetArtistsAsync(artistOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<ArtistViewModel> artistViewModels = new ObservableCollection<ArtistViewModel>();
@@ -279,9 +276,10 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
 
-                    tempArtistViewModels.AddRange(orderedArtists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
-                    tempArtistViewModels.AddRange(orderedArtists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => !avm.Header.Equals("#")));
-                    
+                    // Workaround to make sure the "#" GroupHeader is shown at the top of the list
+                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
+                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => !avm.Header.Equals("#")));
+
                     foreach (ArtistViewModel avm in tempArtistViewModels)
                     {
                         artistViewModels.Add(avm);
