@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>77</Value>
+      <Value>79</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -219,13 +219,13 @@
   </Namespace>
   <Namespace Name="ColumnWidths">
     <Setting Name="ArtistsLeftPaneWidthPercent">
-      <Value>20</Value>
+      <Value>22</Value>
     </Setting>
     <Setting Name="ArtistsRightPaneWidthPercent">
       <Value>35</Value>
     </Setting>
     <Setting Name="GenresLeftPaneWidthPercent">
-      <Value>20</Value>
+      <Value>22</Value>
     </Setting>
     <Setting Name="GenresRightPaneWidthPercent">
       <Value>35</Value>

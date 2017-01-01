@@ -53,7 +53,7 @@ namespace Dopamine.Common.Database.Repositories
                             {
                                 if (!artists.Select((art) => art.ArtistName).Contains(albumArtist))
                                 {
-                                    artists.Add(new Artist { ArtistName = albumArtist });
+                                    artists.Add(new Artist { ArtistID = -1, ArtistName = albumArtist });
                                 }
                             }
                         }
