@@ -617,7 +617,15 @@ namespace Dopamine.Views
         {
             // When restored, show this window in Taskbar and ALT-TAB menu.
             this.ShowInTaskbar = true;
-            WindowUtils.ShowWindowInAltTab(this);
+
+            try
+            {
+                WindowUtils.ShowWindowInAltTab(this);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+            }
 
             // By default, the window appears in the background when showing
             // from the tray menu. We force it on the foreground here.
@@ -645,14 +653,30 @@ namespace Dopamine.Views
                 {
                     // When minimizing to tray, hide this window from Taskbar and ALT-TAB menu.
                     this.ShowInTaskbar = false;
-                    WindowUtils.HideWindowFromAltTab(this);
+
+                    try
+                    {
+                        WindowUtils.HideWindowFromAltTab(this);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                    }
                 }
             }
             else
             {
                 // When restored, show this window in Taskbar and ALT-TAB menu.
                 this.ShowInTaskbar = true;
-                WindowUtils.ShowWindowInAltTab(this);
+
+                try
+                {
+                    WindowUtils.ShowWindowInAltTab(this);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                }
             }
 
             this.SaveWindowState();
@@ -672,7 +696,15 @@ namespace Dopamine.Views
 
                 // When closing to tray, hide this window from Taskbar and ALT-TAB menu.
                 this.ShowInTaskbar = false;
-                WindowUtils.HideWindowFromAltTab(this);
+
+                try
+                {
+                    WindowUtils.HideWindowFromAltTab(this);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                }
             }
             else
             {
