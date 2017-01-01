@@ -12,7 +12,7 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 
 ## Reporting bugs ##
 
-Software doesn't react the same way for all users. When you experience unexpected behavior, your bug report needs to give me all details necessary to reproduce this issue on my computer. It's simple: what can't be reproduced, won't be fixed.
+Software doesn't react the same way for all users. When you experience unexpected behavior, your bug report needs to give me all details necessary to reproduce this issue on my computer. It's simple: **what can't be reproduced, won't be fixed**.
 
 Example:
 
