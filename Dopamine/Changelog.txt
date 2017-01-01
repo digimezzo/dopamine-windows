@@ -1,7 +1,8 @@
-2017-01-01: Dopamine 1.2.3 Build 858 (Release)
+2017-01-01: Dopamine 1.2.3 Build 859 (Release)
 ----------------------------------------------
 
-- [Fixed] Instability on 32-bit Windows versions.
+- [Fixed] Instability on 32-bit Windows versions
+- [Fixed] Fixed a bug in the Artists sorting
 
 
 2016-12-30: Dopamine 1.2.2 Build 857 (Release)

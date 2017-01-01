@@ -81,33 +81,6 @@ namespace Dopamine.Common.Database
             return returnString;
         }
 
-        public static async Task<List<Artist>> OrderArtistsAsync(IList<Artist> artists, ArtistOrder artistOrder)
-        {
-            var orderedArtists = new List<Artist>();
-
-            await Task.Run(() =>
-            {
-                switch (artistOrder)
-                {
-                    case ArtistOrder.All:
-                        orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
-                        break;
-                    case ArtistOrder.Track:
-                        orderedArtists = artists.Where((a) => a.ArtistID != -1).OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
-                        break;
-                    case ArtistOrder.Album:
-                        orderedArtists = artists.Where((a) => a.ArtistID == -1).OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
-                        break;
-                    default:
-                        // All
-                        orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
-                        break;
-                }
-            });
-
-            return orderedArtists;
-        }
-
         public static async Task<List<Genre>> OrderGenresAsync(IList<Genre> genres, GenreOrder genreOrder)
         {
             var orderedGenres = new List<Genre>();

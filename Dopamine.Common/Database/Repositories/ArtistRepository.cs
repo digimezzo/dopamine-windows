@@ -22,7 +22,7 @@ namespace Dopamine.Common.Database.Repositories
         #endregion
 
         #region IArtistRepository
-        public async Task<List<Artist>> GetArtistsAsync()
+        public async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
         {
             var artists = new List<Artist>();
 
@@ -34,26 +34,40 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
+                            var trackArtists = new List<Artist>();
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            artists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, art.ArtistName FROM Artist art" +
-                                                         " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
-                                                         " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                         " WHERE fol.ShowInCollection=1");
+                            trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, art.ArtistName FROM Artist art" +
+                                                              " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
+                                                              " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
+                                                              " WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
-                            albumArtists = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                            var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
                                                            " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                                            " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                            " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                           " WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1").ToList().Select((a) => a.AlbumArtist).ToList();
+                                                           " WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
 
-                            foreach (string albumArtist in albumArtists)
+                            albumArtists = albums.Select((a) => a.AlbumArtist).ToList();
+
+                            if (artistOrder == ArtistOrder.All | artistOrder == ArtistOrder.Track)
                             {
-                                if (!artists.Select((art) => art.ArtistName).Contains(albumArtist))
+                                foreach (Artist trackArtist in trackArtists)
                                 {
-                                    artists.Add(new Artist { ArtistID = -1, ArtistName = albumArtist });
+                                    artists.Add(trackArtist);
+                                }
+                            }
+
+                            if (artistOrder == ArtistOrder.All | artistOrder == ArtistOrder.Album)
+                            {
+                                foreach (string albumArtist in albumArtists)
+                                {
+                                    if (!artists.Select((art) => art.ArtistName).Contains(albumArtist))
+                                    {
+                                        artists.Add(new Artist { ArtistName = albumArtist });
+                                    }
                                 }
                             }
                         }
