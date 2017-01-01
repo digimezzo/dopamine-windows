@@ -825,7 +825,6 @@ namespace Dopamine.Views
             }
         }
 
-
         private async void Shell_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.XButton1)
