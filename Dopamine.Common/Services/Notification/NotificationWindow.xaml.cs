@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using System;
@@ -154,7 +155,16 @@ namespace Dopamine.Common.Services.Notification
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.ShowInTaskbar = false;
-            WindowUtils.HideWindowFromAltTab(this);
+
+            try
+            {
+                WindowUtils.HideWindowFromAltTab(this);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not hide notification window from ALT-TAB menu. Exception: {0}", ex.Message);
+            }
+            
             this.IsEnabled = true;
             this.hideTimer.Start(); // This activates fade-in
         }
