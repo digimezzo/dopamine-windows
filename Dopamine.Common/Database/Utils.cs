@@ -89,14 +89,17 @@ namespace Dopamine.Common.Database
             {
                 switch (artistOrder)
                 {
-                    case ArtistOrder.Alphabetical:
+                    case ArtistOrder.All:
                         orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
                         break;
-                    case ArtistOrder.ReverseAlphabetical:
-                        orderedArtists = artists.OrderByDescending((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                    case ArtistOrder.Track:
+                        orderedArtists = artists.Where((a) => a.ArtistID != -1).OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                        break;
+                    case ArtistOrder.Album:
+                        orderedArtists = artists.Where((a) => a.ArtistID == -1).OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
                         break;
                     default:
-                        // Alphabetical
+                        // All
                         orderedArtists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
                         break;
                 }
@@ -202,7 +205,7 @@ namespace Dopamine.Common.Database
 
         public static string ToQueryList(IList<string> list)
         {
-            var str = string.Join(",", list.Select((item) => "'" + item.Replace("'","''") + "'").ToArray());
+            var str = string.Join(",", list.Select((item) => "'" + item.Replace("'", "''") + "'").ToArray());
             return str;
         }
     }

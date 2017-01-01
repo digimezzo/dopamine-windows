@@ -15,8 +15,9 @@
 
     public enum ArtistOrder
     {
-        Alphabetical = 1,
-        ReverseAlphabetical = 2
+        All = 0,
+        Track = 1,
+        Album = 2
     }
 
     public enum GenreOrder

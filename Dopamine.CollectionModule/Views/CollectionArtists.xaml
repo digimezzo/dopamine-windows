@@ -44,7 +44,7 @@
         ContentResizeDelay="25" 
         LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}" 
         RightPaneWidthPercent="{Binding RightPaneWidthPercent, Mode=TwoWay}" 
-        LeftPaneMinimumWidth="200"
+        LeftPaneMinimumWidth="230"
         MiddlePaneMinimumWidth="250"
         RightPaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
