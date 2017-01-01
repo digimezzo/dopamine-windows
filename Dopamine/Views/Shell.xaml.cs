@@ -825,6 +825,19 @@ namespace Dopamine.Views
             }
         }
 
+
+        private async void Shell_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1)
+            {
+                await playbackService.PlayPreviousAsync();
+            }
+            else if (e.ChangedButton == MouseButton.XButton2)
+            {
+                await playbackService.PlayNextAsync();
+            }
+        }
+
         private void Shell_Restored(object sender, EventArgs e)
         {
             // This workaround is needed because when executing the following 

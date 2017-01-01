@@ -20,6 +20,7 @@
         SizeChanged="Shell_SizeChanged"
         LocationChanged="Shell_LocationChanged"
         KeyDown="Shell_KeyDown"
+        MouseDown="Shell_MouseDown"
         Closing="Shell_Closing"
         OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
         IsOverlayVisible="{Binding Path=IsOverlayVisible}"
