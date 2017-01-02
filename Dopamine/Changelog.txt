@@ -1,4 +1,4 @@
-2017-01-01: Dopamine 1.2.3 Build 859 (Release)
+2017-01-01: Dopamine 1.2.3 Build 860 (Release)
 ----------------------------------------------
 
 - [Fixed] Instability on 32-bit Windows versions
