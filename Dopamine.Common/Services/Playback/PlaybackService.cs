@@ -662,6 +662,20 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
+        public async Task ShuffleAllAsync()
+        {
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+
+            lock (this.queueSyncObject)
+            {
+                this.queuedTracks = new List<MergedTrack>(tracks);
+            }
+
+            await this.SetPlaybackSettingsAsync();
+            if(!this.shuffle) await SetShuffle(true); // Make sure tracks get shuffled
+            await this.PlayFirstAsync();
+        }
+
         public async Task Enqueue()
         {
             List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
