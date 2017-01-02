@@ -226,11 +226,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            this.ShuffleAllCommand = new DelegateCommand(() =>
-            {
-                this.playbackService.SetShuffle(true);
-                this.playbackService.Enqueue();
-            });
+            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();

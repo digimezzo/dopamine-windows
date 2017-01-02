@@ -55,6 +55,7 @@ namespace Dopamine.Common.Services.Playback
         Task Enqueue(Genre genre);
         Task Enqueue(Album album);
         Task Enqueue(Playlist playlist);
+        Task ShuffleAllAsync();
         Task<AddToQueueResult> AddToQueue(IList<MergedTrack> tracks);
         Task<AddToQueueResult> AddToQueue(IList<Artist> artists);
         Task<AddToQueueResult> AddToQueue(IList<Genre> genres);

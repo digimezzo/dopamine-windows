@@ -1,7 +1,8 @@
-2017-01-02: Dopamine 1.2.4 Build 861 (Release)
+2017-01-03: Dopamine 1.2.4 Build 862 (Release)
 ----------------------------------------------
 
 - [Fixed] Artists are not sorted alphabetically
+- [Fixed] "Shuffle all" doesn't shuffle
 
 
 2017-01-01: Dopamine 1.2.3 Build 860 (Release)
