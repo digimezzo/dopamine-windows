@@ -32,3 +32,5 @@ To expand on the "Covers don't show!" bug report I got some time ago. After quit
 - I'm used to open audio files by double clicking on them in Windows Explorer
 - When I double click a file on Windows Explorer, it starts playing in Dopamine, but there is no album cover displayed for the playing track. Albums however, in the album lists, do have covers.
 - This is a screenshot of what I am observing: [screenshot]
+
+Thanks!
