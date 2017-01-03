@@ -17,7 +17,7 @@
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="$(var.DowngradeMessage)" />
     <InstallExecuteSequence>
       <Custom Action="KillApplication" After="LaunchConditions"/>
-      <RemoveShortcuts>Installed AND NOT UPGRADINGPRODUCTCODE</RemoveShortcuts>
+      <RemoveShortcuts>0</RemoveShortcuts>
     </InstallExecuteSequence>
     <!--<WixVariable Id="WixUILicenseRtf" Value="$(var.License)" />-->
     <WixVariable Id="WixUIBannerBmp" Value="$(var.BannerBmp)" />
@@ -51,7 +51,11 @@
     <!-- ============== -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <!-- Start Menu -->
-      <Directory Id="ProgramMenuFolder" />
+      <Directory Id="ProgramMenuFolder">
+        <Component Id="STARTMENUCMP" Guid="2DC1D8A2-73D0-47DB-BE6D-D3A0FFDC7A9A">
+          <RemoveFile Id="RemoveShortcut" Name="$(var.Product).lnk" On="uninstall" />
+        </Component>
+      </Directory>
       <!-- Program Files -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLFOLDER" Name="$(var.Product)">
@@ -257,6 +261,7 @@
     <!-- Components to add -->
     <!-- ================= -->
     <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+      <ComponentRef Id="STARTMENUCMP" />
       <ComponentRef Id="ICONSCMP" />
       <ComponentRef Id="LANGUAGESCMP" />
       <ComponentRef Id="LICENSESCMP" />
