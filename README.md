@@ -10,7 +10,7 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 [![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
-## Reporting bugs ##
+## How to correctly report a bug? ##
 
 Software doesn't react the same way for all users. If a bug slipped through, it means I didn't see it. In such case it'll require specific steps to reproduce it on my computer. When you experience unexpected behavior, your bug report needs to give me all details necessary to reproduce this issue. It's simple: **what can't be reproduced, won't be fixed**.
 
