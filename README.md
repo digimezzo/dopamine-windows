@@ -14,7 +14,7 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 
 Software doesn't react the same way for all users. If a bug slipped through, it means I didn't see it. In such case it'll require specific steps to reproduce it on my computer. When you experience unexpected behavior, your bug report needs to give me all details necessary to reproduce this issue. It's simple: **what can't be reproduced, won't be fixed**.
 
-Example of bug reports:
+Examples:
 
 **WRONG :(**
 
