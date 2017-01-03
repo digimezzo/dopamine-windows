@@ -60,6 +60,7 @@
       <!-- Program Files -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLFOLDER" Name="$(var.Product)">
+          <!-- SQLite -->
           <Directory Id="X64FOLDER" Name="x64">
             <Component Id="X64CMP" DiskId="1" Guid="89332F0B-AF41-49AC-9B8D-D1E8AD9E50F1">
               <File Id="ESQLITEX64" Source="x64\esqlite3.dll" />
@@ -89,6 +90,7 @@
               <File Source="Icons\Zpl.ico" />
             </Component>
           </Directory>
+          <!-- Language -->
           <Directory Id="LANGUAGESFOLDER" Name="Languages">
             <Component Id="LANGUAGESCMP" DiskId="1" Guid="9226C125-A567-45E2-ADC8-95D5256BB8B7">
               <File Source="Languages\BG.xml" />
