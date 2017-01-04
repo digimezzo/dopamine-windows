@@ -216,7 +216,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public EditTrackViewModel(IList<MergedTrack> tracks, IMetadataService metadataService, IDialogService dialogService)
         {
-            this.multipleValuesText = ResourceUtils.GetStringResource("Language_Multiple_Values");
+            this.multipleValuesText = "<"+ ResourceUtils.GetStringResource("Language_Multiple_Values")+">";
 
             this.artists = new MetadataValue();
             this.title = new MetadataValue();
