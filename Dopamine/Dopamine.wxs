@@ -343,13 +343,16 @@
         <Control Id="OptionalText" Type="Text" X="135" Y="110" Width="220" Height="80" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="[WIXUI_EXITDIALOGOPTIONALTEXT]">
           <Condition Action="show">WIXUI_EXITDIALOGOPTIONALTEXT AND NOT Installed</Condition>
         </Control>
-        <Control Id="DonateHyperLink" Type="Hyperlink" X="135" Y="135" Height="40" Width="200" Transparent="yes">
+        <Control Id="DonateHyperLink" Type="Hyperlink" X="135" Y="125" Height="40" Width="200" Transparent="yes">
           <Text>
             <![CDATA[If you like this software, please consider donating.
 Thank you! <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8">Donate via PayPal</a>]]>
           </Text>
         </Control>
-        <Control Id="OptionalCheckBox" Type="CheckBox" X="10" Y="243" Width="170" Height="17" Hidden="yes" Property="WIXUI_EXITDIALOGOPTIONALCHECKBOX" CheckBoxValue="1" Text="[WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT]">
+        <Control Id="OptionalCheckBoxText" Type="Text" X="148" Y="190" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="[WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT]">
+          <Condition Action="show">WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT AND NOT Installed</Condition>
+        </Control>
+        <Control Id="OptionalCheckBox" Type="CheckBox" X="135" Y="190" Width="10" Height="10" Hidden="yes" Property="WIXUI_EXITDIALOGOPTIONALCHECKBOX" CheckBoxValue="1" Text="[WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT]">
           <Condition Action="show">WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT AND NOT Installed</Condition>
         </Control>
       </Dialog>
