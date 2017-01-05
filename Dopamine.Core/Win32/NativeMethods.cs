@@ -19,5 +19,27 @@ namespace Dopamine.Core.Win32
 
         [DllImport("user32.dll")]
         static internal extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        #region SHFileOperation
+        private const int FO_DELETE = 3;
+        private const int FOF_ALLOWUNDO = 40;
+        private const int FOF_NOCONFIRMATION = 10;
+        private const int FOF_SILENT = 44;
+        private const int FOF_NOERRORUI = 400;
+        private const int FOF_NOCONFIRMMKDIR = 0200;
+        private const int FOF_NO_UI = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR;
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+
+        public static void RemoveFileToRecycleBin(string file)
+        {
+            var shf = new SHFILEOPSTRUCT();
+            shf.wFunc = FO_DELETE;
+            shf.fFlags = FOF_NO_UI;
+            shf.pFrom = file;
+            SHFileOperation(ref shf);
+        }
+        #endregion
     }
 }

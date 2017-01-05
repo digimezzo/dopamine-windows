@@ -144,6 +144,9 @@
     <Setting Name="ScrollVolumePercentage">
       <Value>5</Value>
     </Setting>
+    <Setting Name="AddRemoveTrackFromDisk">
+      <Value>False</Value>
+    </Setting>
   </Namespace>
   <Namespace Name="Startup">
     <Setting Name="ShowLastSelectedPage">

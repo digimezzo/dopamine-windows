@@ -308,6 +308,15 @@
                 </StackPanel>
             </MenuItem.Header>
         </MenuItem>
+        <MenuItem 
+            Command="{Binding DataContext.RemoveSelectedTracksFromDiskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
@@ -376,6 +385,15 @@
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <MenuItem 
+            Command="{Binding DataContext.RemoveSelectedTracksFromDiskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
                     <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </MenuItem.Header>
