@@ -138,7 +138,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
         {
-            RemoveTracksResult result;
+            RemoveTracksResult result = RemoveTracksResult.Success;
             IList<MergedTrack> singletrack = new List<MergedTrack>();
 
             foreach (var track in selectedTracks)
@@ -157,10 +157,18 @@ namespace Dopamine.Common.Services.Collection
                     // Delete orphaned Genres
                     await this.genreRepository.DeleteOrphanedGenresAsync();
 
+                    // Delete file from disk
+                    FileUtils.MoveToRecycleBin(track.Path);
+
                     this.CollectionChanged(this, new EventArgs());
                 }
+                else
+                {
+                    result = RemoveTracksResult.Error;
+                    break;
+                }
             }
-            throw new Exception();
+            return result;
         }
 
         public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
