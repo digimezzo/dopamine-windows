@@ -21,6 +21,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxEnableRatingChecked;
         private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
+        private bool checkBoxAddRemoveTrackFromDiskChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
         #endregion
@@ -114,6 +115,16 @@ namespace Dopamine.SettingsModule.ViewModels
                 SetProperty<NameValue>(ref this.selectedScrollVolumePercentage, value);
             }
         }
+
+        public bool CheckBoxAddRemoveTrackFromDiskChecked
+        {
+            get { return this.checkBoxAddRemoveTrackFromDiskChecked; }
+            set
+            {
+                XmlSettingsClient.Instance.Set<bool>("Behaviour", "AddRemoveTrackFromDisk", value);
+                SetProperty<bool>(ref this.checkBoxAddRemoveTrackFromDiskChecked, value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -138,6 +149,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxEnableRatingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
                 this.CheckBoxEnableLoveChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
                 this.CheckBoxSaveRatingInAudioFilesChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
+                this.CheckBoxAddRemoveTrackFromDiskChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "AddRemoveTrackFromDisk");
             });
         }
 

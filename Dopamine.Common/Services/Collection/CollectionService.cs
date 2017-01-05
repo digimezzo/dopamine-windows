@@ -135,6 +135,33 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
+        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        {
+            RemoveTracksResult result;
+            IList<MergedTrack> singletrack = new List<MergedTrack>();
+
+            foreach (var track in selectedTracks)
+            {
+                singletrack.Clear();
+                singletrack.Add(track);
+                result = await this.trackRepository.RemoveTracksAsync(singletrack);
+                if (result == RemoveTracksResult.Success)
+                {
+                    // Delete orphaned Albums
+                    await this.albumRepository.DeleteOrphanedAlbumsAsync();
+
+                    // Delete orphaned Artists
+                    await this.artistRepository.DeleteOrphanedArtistsAsync();
+
+                    // Delete orphaned Genres
+                    await this.genreRepository.DeleteOrphanedGenresAsync();
+
+                    this.CollectionChanged(this, new EventArgs());
+                }
+            }
+            throw new Exception();
+        }
+
         public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
         {
             RenamePlaylistResult result = await this.playlistRepository.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);

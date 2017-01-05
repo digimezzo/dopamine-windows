@@ -253,6 +253,7 @@
     <Compile Include="Win32\AccentState.cs" />
     <Compile Include="Win32\GWL.cs" />
     <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Win32\SHFILEOPSTRUCT.cs" />
     <Compile Include="Win32\WindowCompositionAttribute.cs" />
     <Compile Include="Win32\WindowCompositionAttributeData.cs" />
     <Compile Include="Win32\WS.cs" />

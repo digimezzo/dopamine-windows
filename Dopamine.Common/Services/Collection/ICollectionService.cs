@@ -21,6 +21,7 @@ namespace Dopamine.Common.Services.Collection
         Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
         Task<List<Playlist>> GetPlaylistsAsync();
         Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<MergedTrack> selectedTracks);
+        Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks);
         Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
         Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds);
         Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels);
