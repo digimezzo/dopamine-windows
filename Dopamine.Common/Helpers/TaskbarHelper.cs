@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dopamine.Common.Helpers
 {
     /// <summary>
-    /// see https://winsharp93.wordpress.com/2009/06/29/find-out-size-and-position-of-the-taskbar/
+    /// See https://winsharp93.wordpress.com/2009/06/29/find-out-size-and-position-of-the-taskbar/
     /// </summary>
     public class TaskbarHelper
     {
         private const string ClassName = "Shell_TrayWnd";
-
 
         public enum ABM : uint
         {
@@ -105,6 +100,7 @@ namespace Dopamine.Common.Helpers
                 return this.Bounds.Size;
             }
         }
+
         //Always returns false under Windows 7
         public bool AlwaysOnTop
         {
