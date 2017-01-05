@@ -68,7 +68,7 @@ namespace Dopamine.Views
         {
             TaskbarHelper taskbar = new TaskbarHelper();
             Rectangle taskbarbounds = taskbar.Bounds;
-            Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            //Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
 
             //this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
             //this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
