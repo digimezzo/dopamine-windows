@@ -376,4 +376,9 @@
   <Text Key="Remember_Last_played_Song">Retenir le dernièr numéro joué et la progression de la lecture</Text>
   <Text Key="Download_Lyrics_From">Télécharger paroles de</Text>
   <Text Key="Lyrics_Download_Timeout">Délai de téléchargement des paroles</Text>
+  <Text Key="Add_Remove_Track_From_Disk">Add remove track from disk to context menu</Text>
+  <Text Key="Remove_From_Disk">Remove from the disk</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from recycle bin.</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from recycle bin.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">An error occured while removing songs from the collection. Please consult the log file for more information.</Text>
 </Language>
