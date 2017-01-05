@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Extensions;
+﻿using Dopamine.Common.Extensions;
 using System;
 using System.Globalization;
 using System.Windows.Data;

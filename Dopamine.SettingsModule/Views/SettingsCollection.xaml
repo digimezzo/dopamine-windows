@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Dopamine.SettingsModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:myViews="clr-namespace:Dopamine.SettingsModule.Views"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"

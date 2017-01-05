@@ -9,7 +9,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:views="clr-namespace:Dopamine.ControlsModule.Views"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -48,7 +48,7 @@
                 Foreground="{DynamicResource RG_ForegroundBrush}"
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Showcase}" 
-                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenShowcaseButtonCommand}" 
+                Command="{x:Static commonprism:ApplicationCommands.NowPlayingScreenShowcaseButtonCommand}" 
                 CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xEA69;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ShowcaseButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
@@ -68,7 +68,7 @@
                 Foreground="{DynamicResource RG_ForegroundBrush}"
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Playlist}" 
-                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenPlaylistButtonCommand}" 
+                Command="{x:Static commonprism:ApplicationCommands.NowPlayingScreenPlaylistButtonCommand}" 
                 CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
@@ -88,7 +88,7 @@
                 Foreground="{DynamicResource RG_ForegroundBrush}"
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Lyrics}" 
-                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenLyricsButtonCommand}" 
+                Command="{x:Static commonprism:ApplicationCommands.NowPlayingScreenLyricsButtonCommand}" 
                 CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xE720;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=LyricsButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
@@ -108,7 +108,7 @@
                 Foreground="{DynamicResource RG_ForegroundBrush}"
                 AccentForeground="{DynamicResource RG_AccentBrush}"
                 ToolTip="{DynamicResource Language_Artist_Information}" 
-                Command="{x:Static coreprism:ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand}" 
+                Command="{x:Static commonprism:ApplicationCommands.NowPlayingScreenArtistInformationButtonCommand}" 
                 CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <TextBlock Text="&#xE13D;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16" Visibility="{Binding IsChecked,ElementName=ArtistInformationButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
@@ -128,7 +128,7 @@
                 VerticalContentAlignment="Center" 
                 VerticalAlignment="Center" 
                 ToolTip="{DynamicResource Language_Equalizer}"
-                Command="{x:Static coreprism:ApplicationCommands.ShowEqualizerCommand}">
+                Command="{x:Static commonprism:ApplicationCommands.ShowEqualizerCommand}">
                 <ToggleButton.Content>
                     <commonviews:EqualizerIcon/>
                 </ToggleButton.Content>

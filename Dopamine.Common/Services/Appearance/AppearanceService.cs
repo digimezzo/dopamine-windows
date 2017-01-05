@@ -1,7 +1,7 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
+using Digimezzo.Utilities.Log;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Dopamine.Common.Services.Appearance
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
-        private string colorSchemesSubDirectory = Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.ColorSchemesFolder);
+        private string colorSchemesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
         private double colorSchemeTimeoutSeconds = 0.2;
         private ColorScheme[] builtInColorSchemes = {
@@ -231,13 +231,13 @@ namespace Dopamine.Common.Services.Appearance
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                        LogClient.Error("Exception: {0}", ex.Message);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                    LogClient.Error("Exception: {0}", ex.Message);
                 }
             }
         }

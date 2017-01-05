@@ -29,7 +29,6 @@
         <File>Prism.Unity.Wpf.dll</File>
         <File>Prism.Wpf.dll</File>
         <File>Dopamine.Common.dll</File>
-        <File>Dopamine.Core.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.CollectionModule.dll</File>
         <File>Dopamine.ControlsModule.dll</File>
@@ -40,9 +39,9 @@
         <File>Dopamine.SettingsModule.dll</File>
         <File>CSCore.dll</File>
         <File>Ionic.Zip.dll</File>
-        <File>NLog.dll</File>
         <File>NVorbis.dll</File>
         <File>policy.2.0.taglib-sharp.dll</File>
+        <File>Digimezzo.Utilities.dll</File>
         <File>Digimezzo.WPFControls.dll</File>
         <File>SQLite-net.dll</File>
         <File>SQLitePCL.batteries.dll</File>

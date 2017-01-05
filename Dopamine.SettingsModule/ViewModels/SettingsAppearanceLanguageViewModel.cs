@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Services.I18n;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.I18n;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +32,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
                 if (value != null)
                 {
-                    XmlSettingsClient.Instance.Set<string>("Appearance", "Language", value.Code);
+                    SettingsClient.Set<string>("Appearance", "Language", value.Code);
                     Application.Current.Dispatcher.Invoke(() => i18nService.ApplyLanguageAsync(value.Code));
                 }
 
@@ -70,7 +70,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             await Task.Run(() =>
             {
-                string savedLanguageCode = XmlSettingsClient.Instance.Get<string>("Appearance", "Language");
+                string savedLanguageCode = SettingsClient.Get<string>("Appearance", "Language");
 
                 if (!string.IsNullOrEmpty(savedLanguageCode))
                 {

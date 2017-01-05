@@ -1,7 +1,7 @@
 ﻿using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

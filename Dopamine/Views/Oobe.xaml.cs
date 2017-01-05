@@ -1,8 +1,8 @@
-﻿using Dopamine.Common.Controls;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Prism;
 using Dopamine.OobeModule.Views;
 using Prism.Events;
 using Prism.Regions;
@@ -58,13 +58,13 @@ namespace Dopamine.Views
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             // Prevent the Oobe window from appearing the next time the application is started
-            XmlSettingsClient.Instance.Set<bool>("General", "ShowOobe", false);
+            SettingsClient.Set<bool>("General", "ShowOobe", false);
 
             // Closing the Oobe windows, must show the main window
             Application.Current.MainWindow.Show();
 
             // We're closeing the OOBE screen, tell the IndexingService to start.
-            this.indexingService.IndexCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
         }
 
         private void ThemeChangedHandler(object sender, EventArgs e)

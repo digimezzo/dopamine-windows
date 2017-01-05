@@ -1,5 +1,5 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.OobeModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;

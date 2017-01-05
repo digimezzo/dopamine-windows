@@ -1,4 +1,7 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
@@ -8,12 +11,9 @@ using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -115,11 +115,11 @@ namespace Dopamine.ViewModels
             {
                 try
                 {
-                    Actions.TryViewInExplorer(LogClient.Instance.LogFile);
+                    Actions.TryViewInExplorer(LogClient.Logfile());
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Instance.LogFile, ex.Message);
+                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                 }
             });
 
@@ -131,7 +131,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
+                    LogClient.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
                 }
             });
             ApplicationCommands.OpenPathCommand.RegisterCommand(this.OpenPathCommand);
@@ -144,7 +144,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
+                    LogClient.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);
@@ -157,7 +157,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not execute mailto command for the e-mail {0}. Exception: {1}", emailAddress, ex.Message);
+                    LogClient.Error("Could not execute mailto command for the e-mail {0}. Exception: {1}", emailAddress, ex.Message);
                 }
             });
             ApplicationCommands.OpenMailCommand.RegisterCommand(this.OpenMailCommand);
@@ -170,7 +170,7 @@ namespace Dopamine.ViewModels
             this.playbackService.PlaybackFailed += (iSender, iPlaybackFailedEventArgs) =>
             {
                 this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
 
                 switch (iPlaybackFailedEventArgs.FailureReason)
@@ -186,13 +186,13 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackPaused += (_, __) =>
             {
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
             };
 
             this.playbackService.PlaybackResumed += (_, __) =>
             {
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 
@@ -214,7 +214,7 @@ namespace Dopamine.ViewModels
                     this.TaskbarService.Description = this.playbackService.PlayingTrack.FileName;
                 }
 
-                this.TaskbarService.SetTaskbarProgressState(XmlSettingsClient.Instance.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(true);
             };
 
@@ -267,7 +267,7 @@ namespace Dopamine.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
+                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
             }
 
         }

@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Enums;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -41,7 +41,7 @@ namespace Dopamine.CollectionModule.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
                 }
             });
 
@@ -108,7 +108,7 @@ namespace Dopamine.CollectionModule.Views
         private void Unsubscribe()
         {
             // Commands
-            Core.Prism.ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
+            Common.Prism.ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
 
             // Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Unsubscribe(this.scrollToPlayingTrackToken);
@@ -120,7 +120,7 @@ namespace Dopamine.CollectionModule.Views
             this.Unsubscribe();
 
             // Commands
-            Core.Prism.ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
+            Common.Prism.ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
 
             // Events
             this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (s) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
@@ -141,7 +141,7 @@ namespace Dopamine.CollectionModule.Views
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.Subscribe();
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Artists);
+            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Artists);
         }
         #endregion
     }

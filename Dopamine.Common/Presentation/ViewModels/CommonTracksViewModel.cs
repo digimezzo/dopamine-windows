@@ -1,4 +1,6 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.I18n;
@@ -7,21 +9,19 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
+using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections;
@@ -63,7 +63,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool isIndexing;
         private bool enableRating;
         private bool enableLove;
-        private bool enableAddRemoveTrackFromDisk;
 
         // IActiveAware
         private bool isActive;
@@ -81,7 +80,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Commands
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
-        public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
         public DelegateCommand<string> AddTracksToPlaylistCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
@@ -125,12 +123,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.enableLove; }
             set { SetProperty<bool>(ref this.enableLove, value); }
-        }
-
-        public bool EnableAddRemoveTrackFromDisk
-        {
-            get { return XmlSettingsClient.Instance.Get<bool>("Behaviour", "AddRemoveTrackFromDisk"); }
-            //set { SetProperty<bool>(ref this.enableAddRemoveTrackFromDisk, value); }
         }
 
         public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
@@ -234,11 +226,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            this.ShuffleAllCommand = new DelegateCommand(() =>
-            {
-                this.playbackService.SetShuffle(true);
-                this.playbackService.Enqueue();
-            });
+            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -267,9 +255,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // Initialize flags
-            this.EnableRating = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
-            this.EnableLove = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
-            //this.EnableAddRemoveTrackFromDisk = XmlSettingsClient.Instance.Get<bool>("Behaviour", "AddRemoveTrackFromDisk");
+            this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+            this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             // This makes sure the IsIndexing is correct even when this ViewModel is 
             // created after the Indexer is started, and thus after triggering the 
@@ -363,7 +350,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
                 {
                     this.indexingService.NeedsIndexing = true;
-                    this.indexingService.IndexCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+                    this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
                 }
             }
 
@@ -401,7 +388,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected void SetTrackOrder(string settingName)
         {
-            TrackOrder savedTrackOrder = (TrackOrder)XmlSettingsClient.Instance.Get<int>("Ordering", settingName);
+            TrackOrder savedTrackOrder = (TrackOrder)SettingsClient.Get<int>("Ordering", settingName);
 
             if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating) | (!this.CanOrderByAlbum & savedTrackOrder == TrackOrder.ByAlbum))
             {
@@ -436,7 +423,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             MergedTrackViewModel vm = e.Item as MergedTrackViewModel;
-            e.Accepted = Dopamine.Core.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
         /// <summary>
@@ -518,7 +505,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 ObservableCollection<MergedTrackViewModel> viewModels = new ObservableCollection<MergedTrackViewModel>();
 
                 // Order the incoming Tracks
-                List<MergedTrack> orderedTracks = await Core.Database.Utils.OrderTracksAsync(tracks, trackOrder);
+                List<MergedTrack> orderedTracks = await Database.Utils.OrderTracksAsync(tracks, trackOrder);
 
                 await Task.Run(() =>
                 {
@@ -544,7 +531,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
                 Application.Current.Dispatcher.Invoke(() =>
@@ -605,7 +592,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("An error occured while setting size information. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occured while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });
@@ -634,7 +621,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     break;
                 case TrackOrder.ByAlbum:
-                    if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating"))
+                    if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
                     {
                         this.TrackOrder = TrackOrder.ByRating;
                     }
@@ -705,31 +692,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (result == RemoveTracksResult.Error)
                 {
                     this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                }
-                else
-                {
-                    await this.playbackService.Dequeue(selectedTracks);
-                }
-            }
-        }
-
-        protected async Task RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
-        {
-            string title = ResourceUtils.GetStringResource("Language_Remove_From_Disk");
-            string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Disk");
-
-            if (selectedTracks != null && selectedTracks.Count > 1)
-            {
-                body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
-            }
-
-            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
-            {
-                RemoveTracksResult result = await this.collectionService.RemoveTracksFromDiskAsync(selectedTracks);
-
-                if (result == RemoveTracksResult.Error)
-                {
-                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                 }
                 else
                 {
@@ -873,7 +835,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected void ConditionalScrollToPlayingTrack()
         {
             // Trigger ScrollToPlayingTrack only if set in the settings
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "FollowTrack"))
+            if (SettingsClient.Get<bool>("Behaviour", "FollowTrack"))
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {

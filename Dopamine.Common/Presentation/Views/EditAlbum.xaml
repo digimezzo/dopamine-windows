@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:base="clr-namespace:Dopamine.Common.Base"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
@@ -52,13 +52,13 @@
                     </Style.Triggers>
                 </Style>
             </DockPanel.Style>
-            <StackPanel DockPanel.Dock="Left" Panel.ZIndex="0" VerticalAlignment="Top" Width="{x:Static corebase:Constants.CoverLargeSize}">
-                <Grid Width="{x:Static corebase:Constants.CoverLargeSize}" Height="{x:Static corebase:Constants.CoverLargeSize}">
+            <StackPanel DockPanel.Dock="Left" Panel.ZIndex="0" VerticalAlignment="Top" Width="{x:Static base:Constants.CoverLargeSize}">
+                <Grid Width="{x:Static base:Constants.CoverLargeSize}" Height="{x:Static base:Constants.CoverLargeSize}">
                     <controls:Tile 
-                            Width="{x:Static corebase:Constants.CoverLargeSize}" 
-                            Height="{x:Static corebase:Constants.CoverLargeSize}"
+                            Width="{x:Static base:Constants.CoverLargeSize}" 
+                            Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
-                            IconSizePercent="{x:Static corebase:Constants.HeadPhoneSmallSize}"
+                            IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
                         <controls:Tile.Content>
                             <Viewbox>
@@ -89,7 +89,7 @@
                     <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static corebase:Constants.CoverLargeSize}">
+            <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">
                 <Button 
                         Style="{StaticResource MetroButton}" 
                         Content="{Binding Source={StaticResource ChangeProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 

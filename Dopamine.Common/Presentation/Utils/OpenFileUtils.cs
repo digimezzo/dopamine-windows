@@ -1,7 +1,6 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Threading.Tasks;
 
@@ -31,11 +30,11 @@ namespace Dopamine.Common.Presentation.Utils
                 {
                     try
                     {
-                        byteArray = ImageOperations.Image2ByteArray(dlg.FileName);
+                        byteArray = ImageUtils.Image2ByteArray(dlg.FileName);
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("An error occured while converting the image to a Byte(). Exception: {0}", ex.Message);
+                        LogClient.Error("An error occured while converting the image to a Byte(). Exception: {0}", ex.Message);
                         isOpenSuccess = false;
                     }
                 });

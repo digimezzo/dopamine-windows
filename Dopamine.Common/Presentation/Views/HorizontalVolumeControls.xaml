@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:views="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -27,6 +27,6 @@
         </Grid>
 
         <dc:HorizontalUWPSlider Width="{Binding SliderLength,ElementName=ThisControl}" Value="{Binding VolumeValue,Mode=TwoWay}" VerticalAlignment="Center" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-        <Label Padding="0" Width="20" Content="{Binding VolumeValuePercent}" HorizontalContentAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Margin="20,0,0,0" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding ShowPercent,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+        <Label Padding="0" Width="20" Content="{Binding VolumeValuePercent}" HorizontalContentAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="{x:Static base:Constants.GlobalFontSize}" Margin="20,0,0,0" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding ShowPercent,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"/>
     </StackPanel>
 </views:CommonVolumeControl>

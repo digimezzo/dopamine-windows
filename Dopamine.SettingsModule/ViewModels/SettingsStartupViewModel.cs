@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Services.Update;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Update;
 using Prism.Mvvm;
 using System.Threading.Tasks;
 
@@ -12,6 +12,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxAlsoCheckForPreReleasesChecked;
         private bool checkBoxInstallUpdatesAutomaticallyChecked;
         private bool checkBoxStartupPageChecked;
+        private bool checkBoxRembemberLastPlayedTrackChecked;
         private IUpdateService updateService;
         private bool isportable;
         #endregion
@@ -22,7 +23,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxCheckForUpdatesChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Updates", "CheckForUpdates", value);
+                SettingsClient.Set<bool>("Updates", "CheckForUpdates", value);
                 SetProperty<bool>(ref this.checkBoxCheckForUpdatesChecked, value);
 
                 if (value)
@@ -41,7 +42,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxAlsoCheckForPreReleasesChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Updates", "AlsoCheckForPreReleases", value);
+                SettingsClient.Set<bool>("Updates", "AlsoCheckForPreReleases", value);
                 SetProperty<bool>(ref this.checkBoxAlsoCheckForPreReleasesChecked, value);
 
                 if (this.CheckBoxCheckForUpdatesChecked)
@@ -60,7 +61,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxInstallUpdatesAutomaticallyChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Updates", "AutomaticDownload", value);
+                SettingsClient.Set<bool>("Updates", "AutomaticDownload", value);
                 SetProperty<bool>(ref this.checkBoxInstallUpdatesAutomaticallyChecked, value);
 
                 if (this.CheckBoxCheckForUpdatesChecked)
@@ -79,8 +80,18 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxStartupPageChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Startup", "ShowLastSelectedPage", value);
+                SettingsClient.Set<bool>("Startup", "ShowLastSelectedPage", value);
                 SetProperty<bool>(ref this.checkBoxStartupPageChecked, value);
+            }
+        }
+
+        public bool CheckBoxRembemberLastPlayedTrackChecked
+        {
+            get { return this.checkBoxRembemberLastPlayedTrackChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Startup", "RememberLastPlayedTrack", value);
+                SetProperty<bool>(ref this.checkBoxRembemberLastPlayedTrackChecked, value);
             }
         }
 
@@ -96,7 +107,7 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             this.updateService = updateService;
 
-            this.IsPortable = XmlSettingsClient.Instance.BaseGet<bool>("Application", "IsPortable");
+            this.IsPortable = SettingsClient.Get<bool>("Configuration", "IsPortable");
 
             // CheckBoxes
             this.GetCheckBoxesAsync();
@@ -104,7 +115,7 @@ namespace Dopamine.SettingsModule.ViewModels
             // No automatic updates in the portable version
             if (!this.IsPortable)
             {
-                this.CheckBoxInstallUpdatesAutomaticallyChecked = XmlSettingsClient.Instance.Get<bool>("Updates", "AutomaticDownload");
+                this.CheckBoxInstallUpdatesAutomaticallyChecked = SettingsClient.Get<bool>("Updates", "AutomaticDownload");
             }
             else
             {
@@ -118,9 +129,10 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxCheckForUpdatesChecked = XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates");
-                this.CheckBoxAlsoCheckForPreReleasesChecked = XmlSettingsClient.Instance.Get<bool>("Updates", "AlsoCheckForPreReleases");
-                this.CheckBoxStartupPageChecked = XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage");
+                this.CheckBoxCheckForUpdatesChecked = SettingsClient.Get<bool>("Updates", "CheckForUpdates");
+                this.CheckBoxAlsoCheckForPreReleasesChecked = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
+                this.CheckBoxStartupPageChecked = SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage");
+                this.CheckBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
             });
         }
         #endregion

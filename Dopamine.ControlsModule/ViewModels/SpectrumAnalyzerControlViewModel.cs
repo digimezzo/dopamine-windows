@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Playback;
 using Prism.Mvvm;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -39,7 +39,7 @@ namespace Dopamine.ControlsModule.ViewModels
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
             this.playbackService.PlaybackSuccess += (_) => this.IsPlaying = true;
 
-            this.ShowSpectrumAnalyzer = XmlSettingsClient.Instance.Get<bool>("Playback", "ShowSpectrumAnalyzer");
+            this.ShowSpectrumAnalyzer = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
             // Initial value
             if (!this.playbackService.IsStopped & this.playbackService.IsPlaying)

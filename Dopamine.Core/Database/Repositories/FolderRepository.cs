@@ -1,15 +1,16 @@
-﻿using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Logging;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Collections.Concurrent;
-using Dopamine.Core.IO;
+﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.IO;
+using Digimezzo.Utilities.Log;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -42,24 +43,24 @@ namespace Dopamine.Core.Database.Repositories
                             if (!conn.Table<Folder>().Select((f) => f).ToList().Select((f) => f.SafePath).Contains(path.ToSafePath()))
                             {
                                 conn.Insert(new Folder { Path = path, SafePath = path.ToSafePath(), ShowInCollection = 1 });
-                                LogClient.Instance.Logger.Info("Added the Folder {0}", path);
+                                LogClient.Info("Added the Folder {0}", path);
                             }
                             else
                             {
-                                LogClient.Instance.Logger.Info("Didn't add the Folder {0} because it is already in the database", path);
+                                LogClient.Info("Didn't add the Folder {0} because it is already in the database", path);
                                 result = AddFolderResult.Duplicate;
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
                             result = AddFolderResult.Error;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -83,19 +84,19 @@ namespace Dopamine.Core.Database.Repositories
                             if (obsoleteFolder != null)
                             {
                                 conn.Delete(obsoleteFolder);
-                                LogClient.Instance.Logger.Info("Removed the Folder {0}", path);
+                                LogClient.Info("Removed the Folder {0}", path);
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not remove the Folder {0}. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not remove the Folder {0}. Exception: {1}", path, ex.Message);
                             result = RemoveFolderResult.Error;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -118,13 +119,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get all the Folders. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the Folders. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
 
             });
@@ -134,7 +135,7 @@ namespace Dopamine.Core.Database.Repositories
 
         public async Task<List<Tuple<long, string, long>>> GetPathsAsync()
         {
-            var diskPaths = new List<Tuple<long, string, long>>();
+            var diskPaths = new Dictionary<string, Tuple<long, string, long>>();
             List<Folder> folders = await this.GetFoldersAsync();
 
             await Task.Run(() =>
@@ -158,31 +159,35 @@ namespace Dopamine.Core.Database.Repositories
                             {
                                 foreach (Exception recurseException in recurseExceptions)
                                 {
-                                    LogClient.Instance.Logger.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
+                                    LogClient.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not iterate through the subdirectories of folder '{0}'. Exception: {1}", fol, ex.Message);
+                            LogClient.Error("Could not iterate through the subdirectories of folder '{0}'. Exception: {1}", fol.Path, ex.Message);
                         }
 
                         foreach (string path in paths)
                         {
                             try
                             {
-                                diskPaths.Add(new Tuple<long, string, long>(fol.FolderID, path, FileOperations.GetDateModified(path)));
+                                // Avoid adding duplicate paths
+                                if (!diskPaths.Keys.Contains(path))
+                                {
+                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileUtils.DateModifiedTicks(path)));
+                                }
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Instance.Logger.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol, ex.Message);
+                                LogClient.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol.Path, ex.Message);
                             }
                         }
                     }
                 }
             });
 
-            return diskPaths;
+            return diskPaths.Values.ToList();
         }
 
         public async Task UpdateFoldersAsync(IList<Folder> folders)
@@ -208,13 +213,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not update the Folders. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not update the Folders. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

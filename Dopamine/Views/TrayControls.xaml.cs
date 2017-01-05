@@ -1,9 +1,11 @@
-﻿using Dopamine.Common.Services.Notification;
-using Dopamine.Core.Base;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Notification;
+using Dopamine.Common.Base;
 using System;
 using System.Windows;
+using Dopamine.Common.Helpers;
+using System.Drawing;
 
 namespace Dopamine.Views
 {
@@ -51,7 +53,7 @@ namespace Dopamine.Views
 
         private void SetTransparency()
         {
-            if (EnvironmentUtils.IsWindows10() && XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableTransparency"))
+            if (EnvironmentUtils.IsWindows10() && SettingsClient.Get<bool>("Appearance", "EnableTransparency"))
             {
                 this.WindowBackground.Opacity = Constants.OpacityWhenBlurred;
                 WindowUtils.EnableBlur(this);
@@ -64,10 +66,33 @@ namespace Dopamine.Views
 
         private void SetGeometry()
         {
-            Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            TaskbarHelper taskbar = new TaskbarHelper();
+            Rectangle taskbarbounds = taskbar.Bounds;
+            //Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
 
-            this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
-            this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
+            //this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
+            //this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
+
+            if (taskbar.Position == TaskbarHelper.TaskbarPosition.Top)
+            {
+                this.Left = taskbarbounds.Right - Constants.TrayControlsWidth - 5;
+                this.Top = taskbarbounds.Bottom + 5;
+            }
+            else if (taskbar.Position == TaskbarHelper.TaskbarPosition.Left)
+            {
+                this.Left = taskbarbounds.Right + 5;
+                this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;
+            }
+            else if (taskbar.Position == TaskbarHelper.TaskbarPosition.Right)
+            {
+                this.Left = taskbarbounds.Left - Constants.TrayControlsWidth - 5;
+                this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;
+            }
+            else
+            {
+                this.Left = taskbarbounds.Right - Constants.TrayControlsWidth - 5;
+                this.Top = taskbarbounds.Top - Constants.TrayControlsHeight - 5;
+            }
         }
         #endregion
     }

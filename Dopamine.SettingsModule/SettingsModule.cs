@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Prism;
+﻿using Dopamine.Common.Prism;
 using Dopamine.SettingsModule.ViewModels;
 using Dopamine.SettingsModule.Views;
 using Prism.Modularity;

@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Events;
 using System;
@@ -42,7 +42,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get lyricsListBox from the DataTemplate. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get lyricsListBox from the DataTemplate. Exception: {0}", ex.Message);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get lyricsTextBox from the DataTemplate. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get lyricsTextBox from the DataTemplate. Exception: {0}", ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
+                LogClient.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
             }
         }
         #endregion
@@ -106,7 +106,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not set focus on lyricsTextBox. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not set focus on lyricsTextBox. Exception: {0}", ex.Message);
                 }
 
             }
@@ -163,7 +163,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not add timeStamp to selected lyrics line. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not add timeStamp to selected lyrics line. Exception: {0}", ex.Message);
                 }
             }
         }

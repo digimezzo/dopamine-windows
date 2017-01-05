@@ -1,6 +1,7 @@
-﻿using Dopamine.Common.Controls;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

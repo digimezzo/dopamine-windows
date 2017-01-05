@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +40,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Playlists. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Playlists. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -61,7 +61,7 @@ namespace Dopamine.Core.Database.Repositories
 
             if (string.IsNullOrEmpty(trimmedPlaylistName))
             {
-                LogClient.Instance.Logger.Info("Could not add the Playlist because no playlist name was provided");
+                LogClient.Info("Could not add the Playlist because no playlist name was provided");
                 return AddPlaylistResult.Blank;
             }
 
@@ -79,24 +79,24 @@ namespace Dopamine.Core.Database.Repositories
                             if (existingPlaylistCount == 0)
                             {
                                 conn.Insert(newPlaylist);
-                                LogClient.Instance.Logger.Info("Added the Playlist {0}", trimmedPlaylistName);
+                                LogClient.Info("Added the Playlist {0}", trimmedPlaylistName);
                             }
                             else
                             {
-                                LogClient.Instance.Logger.Info("Didn't add the Playlist {0} because it is already in the database", trimmedPlaylistName);
+                                LogClient.Info("Didn't add the Playlist {0} because it is already in the database", trimmedPlaylistName);
                                 result = AddPlaylistResult.Duplicate;
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not add the Playlist {0}. Exception: {1}", trimmedPlaylistName, ex.Message);
+                            LogClient.Error("Could not add the Playlist {0}. Exception: {1}", trimmedPlaylistName, ex.Message);
                             result = AddPlaylistResult.Error;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -118,7 +118,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -155,11 +155,11 @@ namespace Dopamine.Core.Database.Repositories
                                     conn.Delete(entry);
                                 }
 
-                                LogClient.Instance.Logger.Info("Deleted the Playlist {0}", trimmedPlaylistName);
+                                LogClient.Info("Deleted the Playlist {0}", trimmedPlaylistName);
                             }
                             else
                             {
-                                LogClient.Instance.Logger.Error("The playlist {0} could not be deleted because it was not found in the database.", trimmedPlaylistName);
+                                LogClient.Error("The playlist {0} could not be deleted because it was not found in the database.", trimmedPlaylistName);
                                 result = DeletePlaylistResult.Error;
                             }
                         }
@@ -167,7 +167,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -183,7 +183,7 @@ namespace Dopamine.Core.Database.Repositories
 
             if (string.IsNullOrEmpty(trimmedNewPlaylistName))
             {
-                LogClient.Instance.Logger.Info("Could not rename the Playlist {0} because no new playlist name was provided", trimmedOldPlaylistName);
+                LogClient.Info("Could not rename the Playlist {0} because no new playlist name was provided", trimmedOldPlaylistName);
                 return RenamePlaylistResult.Blank;
             }
 
@@ -209,7 +209,7 @@ namespace Dopamine.Core.Database.Repositories
                             }
                             else
                             {
-                                LogClient.Instance.Logger.Error("The playlist {0} could not be renamed because it was not found in the database.", trimmedOldPlaylistName);
+                                LogClient.Error("The playlist {0} could not be renamed because it was not found in the database.", trimmedOldPlaylistName);
                                 result = RenamePlaylistResult.Error;
                             }
                         }
@@ -221,7 +221,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -262,14 +262,14 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("A problem occured while adding Tracks to Playlist with name '{0}'. Exception: {1}", playlistName, ex.Message);
+                            LogClient.Error("A problem occured while adding Tracks to Playlist with name '{0}'. Exception: {1}", playlistName, ex.Message);
                             result.IsSuccess = false;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -303,7 +303,7 @@ namespace Dopamine.Core.Database.Repositories
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogClient.Instance.Logger.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", t.Path, ex.Message);
+                                    LogClient.Error("An error occured while deleting PlaylistEntry for Track '{0}'. Exception: {1}", t.Path, ex.Message);
                                     result = DeleteTracksFromPlaylistsResult.Error;
                                 }
                             }
@@ -312,7 +312,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -340,7 +340,7 @@ namespace Dopamine.Core.Database.Repositories
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

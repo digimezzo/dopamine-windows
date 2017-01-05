@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Api.Lastfm;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Digimezzo.Utilities.Log;
+using System;
 using System.Threading.Tasks;
-using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Services.Scrobbling
 {
@@ -74,9 +74,9 @@ namespace Dopamine.Common.Services.Scrobbling
             this.playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
             this.playbackService.PlaybackProgressChanged += PlaybackService_PlaybackProgressChanged;
 
-            this.username = XmlSettingsClient.Instance.Get<string>("Lastfm", "Username");
-            this.password = XmlSettingsClient.Instance.Get<string>("Lastfm", "Password");
-            this.sessionKey = XmlSettingsClient.Instance.Get<string>("Lastfm", "Key");
+            this.username = SettingsClient.Get<string>("Lastfm", "Username");
+            this.password = SettingsClient.Get<string>("Lastfm", "Password");
+            this.sessionKey = SettingsClient.Get<string>("Lastfm", "Key");
 
             if (!string.IsNullOrEmpty(this.username) && !string.IsNullOrEmpty(this.password) && !string.IsNullOrEmpty(this.sessionKey))
             {
@@ -109,16 +109,16 @@ namespace Dopamine.Common.Services.Scrobbling
 
                         if (isSuccess)
                         {
-                            LogClient.Instance.Logger.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
+                            LogClient.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
                         }
                         else
                         {
-                            LogClient.Instance.Logger.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
+                            LogClient.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
                         }
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
+                        LogClient.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                     }
                     
                 }
@@ -153,16 +153,16 @@ namespace Dopamine.Common.Services.Scrobbling
 
                                 if (isSuccess)
                                 {
-                                    LogClient.Instance.Logger.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
+                                    LogClient.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
                                 }
                                 else
                                 {
-                                    LogClient.Instance.Logger.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
+                                    LogClient.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
                                 }
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Instance.Logger.Error("Could not Scrobble track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
+                                LogClient.Error("Could not Scrobble track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                             }
                         }
                     }
@@ -180,21 +180,21 @@ namespace Dopamine.Common.Services.Scrobbling
 
                 if (!string.IsNullOrEmpty(this.sessionKey))
                 {
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Username", this.username);
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Password", this.password);
-                    XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", this.sessionKey);
-                    LogClient.Instance.Logger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
+                    SettingsClient.Set<string>("Lastfm", "Username", this.username);
+                    SettingsClient.Set<string>("Lastfm", "Password", this.password);
+                    SettingsClient.Set<string>("Lastfm", "Key", this.sessionKey);
+                    LogClient.Info("User '{0}' successfully signed in to Last.fm.", this.username);
                     this.SignInState = SignInState.SignedIn;
                 }
                 else
                 {
-                    LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm.", this.username);
+                    LogClient.Error("User '{0}' could not sign in to Last.fm.", this.username);
                     this.SignInState = SignInState.Error;
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("User '{0}' could not sign in to Last.fm. Exception: {1}", this.username, ex.Message);
+                LogClient.Error("User '{0}' could not sign in to Last.fm. Exception: {1}", this.username, ex.Message);
                 this.SignInState = SignInState.Error;
             }
 
@@ -204,9 +204,9 @@ namespace Dopamine.Common.Services.Scrobbling
         public void SignOut()
         {
             this.sessionKey = string.Empty;
-            XmlSettingsClient.Instance.Set<string>("Lastfm", "Key", string.Empty);
+            SettingsClient.Set<string>("Lastfm", "Key", string.Empty);
 
-            LogClient.Instance.Logger.Info("User '{0}' signed out of Last.fm.", this.username);
+            LogClient.Info("User '{0}' signed out of Last.fm.", this.username);
             this.SignInState = SignInState.SignedOut;
 
             this.SignInStateChanged(this.SignInState);
@@ -229,7 +229,7 @@ namespace Dopamine.Common.Services.Scrobbling
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
                     }
                     
                 }else
@@ -240,7 +240,7 @@ namespace Dopamine.Common.Services.Scrobbling
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
                     }
                 }
             }

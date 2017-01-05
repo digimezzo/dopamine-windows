@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings>
-  <Namespace Name="Settings">
+   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>71</Value>
+      <Value>74</Value>
     </Setting>
-  </Namespace>
-  <Namespace Name="Application">
     <Setting Name="IsPortable">
       <Value>False</Value>
     </Setting>
@@ -152,6 +150,9 @@
     <Setting Name="ShowLastSelectedPage">
       <Value>True</Value>
     </Setting>
+    <Setting Name="RememberLastPlayedTrack">
+      <Value>True</Value>
+    </Setting>
   </Namespace>
   <Namespace Name="Updates">
     <Setting Name="CheckForUpdates">
@@ -194,6 +195,12 @@
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">
+    <Setting Name="ArtistsArtistOrder">
+      <Value>1</Value>
+    </Setting>
+    <Setting Name="GenresGenreOrder">
+      <Value>1</Value>
+    </Setting>
     <Setting Name="ArtistsTrackOrder">
       <Value>2</Value>
     </Setting>

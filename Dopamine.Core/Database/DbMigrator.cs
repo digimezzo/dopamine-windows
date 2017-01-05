@@ -1,5 +1,5 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Core.Base;
 using System;
 using System.IO;
 using System.Reflection;
@@ -828,7 +828,7 @@ namespace Dopamine.Core.Database
             this.CreateConfiguration();
             this.CreateTablesAndIndexes();
 
-            LogClient.Instance.Logger.Info("New database created at {0}", this.factory.DatabaseFile);
+            LogClient.Info("New database created at {0}", this.factory.DatabaseFile);
         }
 
         public void UpgradeDatabase()
@@ -843,7 +843,7 @@ namespace Dopamine.Core.Database
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
+                LogClient.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
             }
 
             // Perform the upgrade
@@ -868,7 +868,7 @@ namespace Dopamine.Core.Database
                 conn.Execute(string.Format("UPDATE Configuration SET Value = {0} WHERE Key = 'DatabaseVersion'", CURRENT_VERSION));
             }
 
-            LogClient.Instance.Logger.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion, CURRENT_VERSION);
+            LogClient.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
         }
         #endregion
     }

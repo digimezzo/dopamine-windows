@@ -7,7 +7,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:views="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:mybase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              Width="0" 
              Height="0"
              WindowStyle="None" 
@@ -53,7 +53,7 @@
                                              Panel.ZIndex="0"
                                              Width="{Binding ActualHeight,ElementName=Me}"
                                              Height="{Binding ActualHeight,ElementName=Me}"
-                                             IconSizePercent="{x:Static myCoreBase:Constants.HeadPhoneSmallSize}"
+                                             IconSizePercent="{x:Static mybase:Constants.HeadPhoneSmallSize}"
                                              Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
                         <controls:Tile.Content>
                             <Viewbox>

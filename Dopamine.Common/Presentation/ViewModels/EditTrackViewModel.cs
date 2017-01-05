@@ -1,13 +1,12 @@
-﻿using Dopamine.Common.Presentation.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Metadata;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -217,7 +216,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public EditTrackViewModel(IList<MergedTrack> tracks, IMetadataService metadataService, IDialogService dialogService)
         {
-            this.multipleValuesText = ResourceUtils.GetStringResource("Language_Multiple_Values");
+            this.multipleValuesText = "<"+ ResourceUtils.GetStringResource("Language_Multiple_Values")+">";
 
             this.artists = new MetadataValue();
             this.title = new MetadataValue();
@@ -312,7 +311,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
+                LogClient.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
             }
 
             if (fileMetadatas.Count == 0) return;
@@ -378,7 +377,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occured while parsing the metadata. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occured while parsing the metadata. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -429,7 +428,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void VisualizeArtwork(byte[] imageData)
         {
-            this.ArtworkThumbnail = ImageOperations.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
+            this.ArtworkThumbnail = ImageUtils.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
 
             // Size of the artwork
             if (imageData != null)
@@ -508,7 +507,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occured while setting the metadata. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occured while setting the metadata. Exception: {0}", ex.Message);
                 }
 
             });

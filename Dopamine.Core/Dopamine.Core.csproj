@@ -56,6 +56,9 @@
     <Reference Include="CSCore">
       <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="Digimezzo.Utilities">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Digimezzo.WPFControls">
       <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
@@ -73,10 +76,6 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NVorbis">
@@ -139,33 +138,6 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Api\Lastfm\Album.cs" />
-    <Compile Include="Api\Lastfm\LastfmApi.cs" />
-    <Compile Include="Api\Lastfm\Artist.cs" />
-    <Compile Include="Api\Lastfm\Biography.cs" />
-    <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
-    <Compile Include="Api\Lyrics\ILyricsApi.cs" />
-    <Compile Include="Api\Lyrics\LololyricsApi.cs" />
-    <Compile Include="Api\Lyrics\Lyrics.cs" />
-    <Compile Include="Api\Lyrics\LyricsFactory.cs" />
-    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
-    <Compile Include="Audio\CSCorePlayer.cs" />
-    <Compile Include="Audio\EqualizerPreset.cs" />
-    <Compile Include="Audio\IPlayer.cs" />
-    <Compile Include="Audio\IPlayerFactory.cs" />
-    <Compile Include="Audio\NVorbisSource.cs" />
-    <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
-    <Compile Include="Audio\PlayerFactory.cs" />
-    <Compile Include="Base\Constants.cs" />
-    <Compile Include="Base\ContactInformation.cs" />
-    <Compile Include="Base\Defaults.cs" />
-    <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\PackagingInformation.cs" />
-    <Compile Include="Base\ProductInformation.cs" />
-    <Compile Include="Base\SensitiveInformation.cs" />
-    <Compile Include="Base\UpdateInformation.cs" />
-    <Compile Include="Base\VersionInfo.cs" />
     <Compile Include="Database\DbMigrator.cs" />
     <Compile Include="Database\Entities\Album.cs" />
     <Compile Include="Database\Entities\Artist.cs" />
@@ -204,18 +176,10 @@
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AddToPlaylistResult.cs" />
-    <Compile Include="Helpers\NameValue.cs" />
-    <Compile Include="Helpers\OperationResult.cs" />
-    <Compile Include="IO\Actions.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
-    <Compile Include="IO\FileInformation.cs" />
     <Compile Include="IO\FileOperations.cs" />
-    <Compile Include="IO\ImageOperations.cs" />
-    <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
     <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
-    <Compile Include="Logging\ILogClient.cs" />
-    <Compile Include="Logging\LogClient.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />
@@ -237,27 +201,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Settings\ISettingsClient.cs" />
-    <Compile Include="Settings\SettingEntry.cs" />
-    <Compile Include="Settings\XmlSettingsClient.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
-    <Compile Include="Utils\CryptographyUtils.cs" />
-    <Compile Include="Utils\DateTimeUtils.cs" />
-    <Compile Include="Utils\EnvironmentUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
-    <Compile Include="Utils\ResourceUtils.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
-    <Compile Include="Utils\VisualTreeUtils.cs" />
-    <Compile Include="Utils\WindowUtils.cs" />
-    <Compile Include="Win32\AccentPolicy.cs" />
-    <Compile Include="Win32\AccentState.cs" />
-    <Compile Include="Win32\GWL.cs" />
-    <Compile Include="Win32\NativeMethods.cs" />
-    <Compile Include="Win32\SHFILEOPSTRUCT.cs" />
-    <Compile Include="Win32\WindowCompositionAttribute.cs" />
-    <Compile Include="Win32\WindowCompositionAttributeData.cs" />
-    <Compile Include="Win32\WS.cs" />
-    <Compile Include="Win32\WSEX.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

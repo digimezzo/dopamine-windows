@@ -1,6 +1,6 @@
-﻿using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Logging;
+﻿using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Digimezzo.Utilities.Log;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
+                LogClient.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
             }
 
             if (similarArtistId != 0)
@@ -76,7 +76,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
+                LogClient.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
             }
 
             if (similarGenreId != 0)
@@ -107,7 +107,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                LogClient.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
             if (similarAlbumId != 0)

@@ -1,10 +1,10 @@
-﻿using Dopamine.Common.Services.Indexing;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Update;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -24,7 +24,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         // Indexing
         private bool isIndexing;
         private string indexingProgress;
-        private bool isIndexerScanningFiles;
         private bool isIndexerRemovingSongs;
         private bool isIndexerAddingSongs;
         private bool isIndexerUpdatingSongs;
@@ -36,7 +35,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
         private string destinationPath;
         private string updateToolTip;
         private bool isUpdateStatusHiddenByUser;
-        private bool showInstallUpdateButton;
         #endregion
 
         #region Properties
@@ -142,7 +140,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
             this.updateService.UpdateCheckDisabled += (_,__) => this.IsUpdateAvailable = false;
 
-            if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+            if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
             {
                 this.updateService.EnableUpdateCheck();
             }
@@ -179,18 +177,14 @@ namespace Dopamine.FullPlayerModule.ViewModels
                             this.IsIndexerAddingSongs = true;
                             this.IsIndexerUpdatingSongs = false;
                             this.IsIndexerUpdatingArtwork = false;
-                            this.IndexingProgress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
-                            this.IndexingProgress = this.IndexingProgress.Replace("%current%", indexingStatusEventArgs.ProgressCurrent.ToString());
-                            this.IndexingProgress = this.IndexingProgress.Replace("%total%", indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
                             break;
                         case IndexingAction.UpdateTracks:
                             this.IsIndexerRemovingSongs = false;
                             this.IsIndexerAddingSongs = false;
                             this.IsIndexerUpdatingSongs = true;
                             this.IsIndexerUpdatingArtwork = false;
-                            this.IndexingProgress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
-                            this.IndexingProgress = this.IndexingProgress.Replace("%current%", indexingStatusEventArgs.ProgressCurrent.ToString());
-                            this.IndexingProgress = this.IndexingProgress.Replace("%total%", indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
                             break;
                         case IndexingAction.UpdateArtwork:
                             this.IsIndexerRemovingSongs = false;
@@ -208,12 +202,23 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 {
                     this.IndexingProgress = string.Empty;
 
-                    if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+                    if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
                     {
                         this.updateService.EnableUpdateCheck();
                     }
                 }
             });
+        }
+
+        private string FillProgress(string currentProgres, string totalProgress)
+        {
+            string progress = string.Empty;
+
+            progress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
+            progress = progress.Replace("%current%", currentProgres);
+            progress = progress.Replace("%total%", totalProgress);
+
+            return progress;
         }
 
         private void IndexingService_IndexingStopped(object sender, EventArgs e)
@@ -223,7 +228,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.IsIndexing = false;
                 this.IndexingProgress = string.Empty;
 
-                if (XmlSettingsClient.Instance.Get<bool>("Updates", "CheckForUpdates"))
+                if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
                 {
                     this.updateService.EnableUpdateCheck();
                 }
@@ -275,7 +280,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
                     this.OpenDownloadLink();
                 }
             }
@@ -305,7 +310,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not open the download link. Exception: {0}", ex.Message);
+                LogClient.Error("Could not open the download link. Exception: {0}", ex.Message);
             }
         }
         #endregion

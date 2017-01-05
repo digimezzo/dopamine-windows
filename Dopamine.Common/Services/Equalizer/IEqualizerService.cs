@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Audio;
+﻿using Dopamine.Common.Audio;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

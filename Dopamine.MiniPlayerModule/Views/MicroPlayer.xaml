@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Dopamine.MiniPlayerModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
              xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
@@ -65,8 +65,8 @@
             <DockPanel>
                 <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" TitleFontSize="22" TitleFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Grid>
-                    <ContentControl Name="MicroPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerSpectrumAnalyzerRegion}"/>
-                    <ContentControl Name="MicroPlayerControlsRegion" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MicroPlayerControlsRegion}"/>
+                    <ContentControl Name="MicroPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MicroPlayerSpectrumAnalyzerRegion}"/>
+                    <ContentControl Name="MicroPlayerControlsRegion" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MicroPlayerControlsRegion}"/>
                 </Grid>
             </DockPanel>
         </DockPanel>

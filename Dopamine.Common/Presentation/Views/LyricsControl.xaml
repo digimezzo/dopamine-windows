@@ -9,8 +9,8 @@
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-             xmlns:prism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+             xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">

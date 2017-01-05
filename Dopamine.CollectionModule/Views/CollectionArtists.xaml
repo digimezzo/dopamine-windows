@@ -8,11 +8,11 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -44,14 +44,14 @@
         ContentResizeDelay="25" 
         LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}" 
         RightPaneWidthPercent="{Binding RightPaneWidthPercent, Mode=TwoWay}" 
-        LeftPaneMinimumWidth="200"
+        LeftPaneMinimumWidth="230"
         MiddlePaneMinimumWidth="250"
         RightPaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                    <Button x:Name="ShuffleAllButton" Margin="10,5,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="18"/>
+                    <Button x:Name="ShuffleAllButton" Margin="10,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
                     </Button>
                     <Button x:Name="ArtistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Artists}" Style="{StaticResource TransparentButton}" Click="ArtistsButton_Click">
                         <dc:LabelToLower Content="{DynamicResource Language_Artists}" 
@@ -61,6 +61,13 @@
                                                  Padding="0"/>
                     </Button>
                     <Label Content="{Binding ArtistsCount}" Style="{StaticResource CountLabel}"/>
+                    <Button Content="{Binding ArtistOrderText,Converter={StaticResource StringToLowerConverter}}" 
+                                Style="{StaticResource TransparentButton}"
+                                FontWeight="Light" 
+                                FontSize="20" 
+                                Margin="10,0,0,0"
+                                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+                                Command="{Binding ToggleArtistOrderCommand}"/>
                 </StackPanel>
                 <Grid>
                     <Border Panel.ZIndex="0" Visibility="{Binding IsArtistsZoomVisible,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">

@@ -1,13 +1,12 @@
-﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Database;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -145,7 +144,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 dropInfo.NotHandled = false;
-                LogClient.Instance.Logger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
             }
         }
 
@@ -168,7 +167,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
 
             isDroppingTracks = false;

@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Metadata;
+﻿using Dopamine.Common.Audio;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,6 +55,7 @@ namespace Dopamine.Common.Services.Playback
         Task Enqueue(Genre genre);
         Task Enqueue(Album album);
         Task Enqueue(Playlist playlist);
+        Task ShuffleAllAsync();
         Task<AddToQueueResult> AddToQueue(IList<MergedTrack> tracks);
         Task<AddToQueueResult> AddToQueue(IList<Artist> artists);
         Task<AddToQueueResult> AddToQueue(IList<Genre> genres);

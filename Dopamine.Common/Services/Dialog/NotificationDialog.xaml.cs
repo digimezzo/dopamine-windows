@@ -1,21 +1,10 @@
-﻿using Dopamine.Common.Controls;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Dopamine.Common.Services.Dialog
 {
@@ -59,11 +48,11 @@ namespace Dopamine.Common.Services.Dialog
         {
             try
             {
-                Actions.TryViewInExplorer(LogClient.Instance.LogFile);
+                Actions.TryViewInExplorer(LogClient.Logfile());
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Instance.LogFile, ex.Message);
+                LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
             }
         }
         #endregion
