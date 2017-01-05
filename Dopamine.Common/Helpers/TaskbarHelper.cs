@@ -80,7 +80,7 @@ namespace Dopamine.Common.Helpers
             public int bottom;
         }
 
-
+        #region Properties
         public Rectangle Bounds
         {
             get;
@@ -116,7 +116,9 @@ namespace Dopamine.Common.Helpers
             get;
             private set;
         }
+        #endregion
 
+        #region Constructor
         public TaskbarHelper()
         {
             IntPtr taskbarHandle = FindWindow(TaskbarHelper.ClassName, null);
@@ -137,5 +139,6 @@ namespace Dopamine.Common.Helpers
             this.AlwaysOnTop = (state & ABS.AlwaysOnTop) == ABS.AlwaysOnTop;
             this.AutoHide = (state & ABS.Autohide) == ABS.Autohide;
         }
+        #endregion
     }
 }
