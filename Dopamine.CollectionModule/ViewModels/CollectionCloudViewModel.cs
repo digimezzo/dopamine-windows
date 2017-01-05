@@ -3,12 +3,12 @@ using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
+using Dopamine.Common.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -160,7 +160,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
                 }
 
             });

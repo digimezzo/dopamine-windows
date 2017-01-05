@@ -3,25 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Dopamine.Views"
         mc:Ignorable="d"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-        xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+        xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-        xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-        xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
+        xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="{Binding TaskbarService.Description}" 
         Width="950" 
         Height="600" 
-        MinWidth="{x:Static myCoreBase:Constants.MinShellWidth}"
-        MinHeight="{x:Static myCoreBase:Constants.MinShellHeight}" 
+        MinWidth="{x:Static base:Constants.MinShellWidth}"
+        MinHeight="{x:Static base:Constants.MinShellHeight}" 
         ContentRendered="Shell_ContentRendered"
         StateChanged="Shell_StateChanged"
         SizeChanged="Shell_SizeChanged"
         LocationChanged="Shell_LocationChanged"
         KeyDown="Shell_KeyDown"
+        MouseDown="Shell_MouseDown"
         Closing="Shell_Closing"
         OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
         IsOverlayVisible="{Binding Path=IsOverlayVisible}"
@@ -62,8 +61,8 @@
             <Button 
                 x:Name="PART_LogfileButton" 
                 Style="{StaticResource WindowButton}" 
-                Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" 
-                Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" 
+                Width="{x:Static base:Constants.DefaultWindowButtonWidth}" 
+                Height="{x:Static base:Constants.DefaultWindowButtonHeight}" 
                 BorderBrush="{x:Null}" 
                 BorderThickness="0" 
                 Background="{x:Null}" 
@@ -83,13 +82,13 @@
             <Button 
                 x:Name="PART_MiniPlayerButton" 
                 Style="{StaticResource WindowButton}" 
-                Width="{x:Static myCoreBase:Constants.DefaultWindowButtonWidth}" 
-                Height="{x:Static myCoreBase:Constants.DefaultWindowButtonHeight}" 
+                Width="{x:Static base:Constants.DefaultWindowButtonWidth}" 
+                Height="{x:Static base:Constants.DefaultWindowButtonHeight}" 
                 BorderBrush="{x:Null}" 
                 BorderThickness="0" 
                 Background="{x:Null}" 
                 ToolTip="{DynamicResource Language_Mini_Player}" 
-                Command="{x:Static coreprism:ApplicationCommands.TogglePlayerCommand}">
+                Command="{x:Static commonprism:ApplicationCommands.TogglePlayerCommand}">
                 <Path x:Name="Icon" Data="{StaticResource MiniPlayer}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
@@ -116,7 +115,7 @@
                    ImageSource="/Icons/TaskbarItemInfo_Previous.ico" />
                     <ThumbButtonInfo
                    x:Name="ThumbButtonInfoPlayPause"
-                   Command="{x:Static coreprism:ApplicationCommands.TaskbarItemInfoPlayCommand}"
+                   Command="{x:Static commonprism:ApplicationCommands.TaskbarItemInfoPlayCommand}"
                    Description="{Binding PlayPauseText}"
                    ImageSource="{Binding PlayPauseIcon}"/>
                     <ThumbButtonInfo
@@ -154,7 +153,7 @@
                     <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="0:0:0.2" />
                 </Storyboard>
             </Border.Resources>
-            <controls:TransitioningContentControl Grid.Row="0" Grid.Column="0" FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.PlayerTypeRegion}"/>
+            <controls:TransitioningContentControl Grid.Row="0" Grid.Column="0" FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.PlayerTypeRegion}"/>
         </Border>
     </Grid>
     </controls:DopamineWindow>

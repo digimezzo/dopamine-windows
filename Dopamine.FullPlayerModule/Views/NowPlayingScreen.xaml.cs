@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Base;
+﻿using Dopamine.Common.Base;
 using System;
 using System.Threading.Tasks;
 using System.Timers;

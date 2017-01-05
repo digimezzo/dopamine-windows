@@ -1,5 +1,5 @@
 ﻿using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
+using Dopamine.Common.Prism;
 using Dopamine.MiniPlayerModule.ViewModels;
 using Dopamine.MiniPlayerModule.Views;
 using Prism.Modularity;

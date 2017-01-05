@@ -1,11 +1,11 @@
-﻿using Dopamine.Common.Services.Command;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.File;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
+using Digimezzo.Utilities.Log;
 using Dopamine.Views;
 using System;
 using System.Linq;
@@ -45,14 +45,14 @@ namespace Dopamine
             }
             else
             {
-                LogClient.Instance.Logger.Warn("{0} is already running. Shutting down.", ProductInformation.ApplicationDisplayName);
+                LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationDisplayName);
                 this.Shutdown();
             }
         }
 
         private void ExecuteStartup()
         {
-            LogClient.Instance.Logger.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, XmlSettingsClient.Instance.Get<bool>("Application", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
+            LogClient.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion, SettingsClient.BaseGet<bool>("Configuration", "IsPortable").ToString(), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -70,12 +70,12 @@ namespace Dopamine
 
             if (args.Length > 1)
             {
-                LogClient.Instance.Logger.Info("Found commandline arguments.");
+                LogClient.Info("Found commandline arguments.");
 
                 switch (args[1])
                 {
                     case "/donate":
-                        LogClient.Instance.Logger.Info("Detected DonateCommand from JumpList.");
+                        LogClient.Info("Detected DonateCommand from JumpList.");
 
                         try
                         {
@@ -83,13 +83,13 @@ namespace Dopamine
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", args[2], ex.Message);
+                            LogClient.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", args[2], ex.Message);
                         }
                         this.Shutdown();
                         break;
                     default:
 
-                        LogClient.Instance.Logger.Info("Processing Non-JumpList commandline arguments.");
+                        LogClient.Info("Processing Non-JumpList commandline arguments.");
 
 
                         if (!isNewInstance)
@@ -122,18 +122,18 @@ namespace Dopamine
             {
                 commandServiceProxy = commandServiceFactory.CreateChannel();
                 commandServiceProxy.ShowMainWindowCommand();
-                LogClient.Instance.Logger.Info("Trying to show the running instance");
+                LogClient.Info("Trying to show the running instance");
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("A problem occured while trying to show the running instance. Exception: {0}", ex.Message);
+                LogClient.Error("A problem occured while trying to show the running instance. Exception: {0}", ex.Message);
             }
         }
 
 
         private void TrySendCommandlineArguments(string[] args)
         {
-            LogClient.Instance.Logger.Info("Trying to send {0} commandline arguments to the running instance", args.Count());
+            LogClient.Info("Trying to send {0} commandline arguments to the running instance", args.Count().ToString());
 
             bool needsSending = true;
             DateTime startTime = DateTime.Now;
@@ -149,7 +149,7 @@ namespace Dopamine
                     // Try to send the commandline arguments to the running instance
                     fileServiceProxy = fileServiceFactory.CreateChannel();
                     fileServiceProxy.ProcessArguments(args);
-                    LogClient.Instance.Logger.Info("Sent {0} commandline arguments to the running instance", args.Count());
+                    LogClient.Info("Sent {0} commandline arguments to the running instance", args.Count().ToString());
 
                     needsSending = false;
                 }
@@ -168,7 +168,7 @@ namespace Dopamine
                     {
                         // Log any other Exception and stop trying to send the file to the running instance
                         needsSending = false;
-                        LogClient.Instance.Logger.Info("A problem occured while trying to send {0} commandline arguments to the running instance. Exception: {1}", args.Count(), ex.Message);
+                        LogClient.Info("A problem occured while trying to send {0} commandline arguments to the running instance. Exception: {1}", args.Count().ToString(), ex.Message);
                     }
                 }
 
@@ -208,17 +208,17 @@ namespace Dopamine
             // This might be fixed in .Net 4.5.2. See here: https://connect.microsoft.com/VisualStudio/feedback/details/789438/scrolling-in-virtualized-wpf-treeview-is-very-unstable
             if (ex.GetType().ToString().Equals("System.ArgumentNullException") & ex.Source.ToString().Equals("PresentationCore"))
             {
-                LogClient.Instance.Logger.Warn("Avoided Unhandled Exception: {0}", ex.ToString());
+                LogClient.Warning("Avoided Unhandled Exception: {0}", ex.ToString());
                 return;
             }
 
-            LogClient.Instance.Logger.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));
+            LogClient.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));
 
             // Close the application to prevent further problems
-            LogClient.Instance.Logger.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
+            LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProductInformation.FormattedAssemblyVersion);
 
             // Emergency save of the settings
-            XmlSettingsClient.Instance.Write();
+            SettingsClient.Write();
 
             Application.Current.Shutdown();
         }

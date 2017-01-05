@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Scrobbling;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Prism.Mvvm;
 using System;
 
@@ -16,6 +16,52 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool isPaused;
         private bool showTrackNumber;
         private string artworkPath;
+        #endregion
+
+        #region Sorting
+        // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
+        public long SortDuration
+        {
+            get
+            {
+                if (this.Track.Duration.HasValue)
+                {
+                    return this.Track.Duration.Value;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        // SortAlbumTitle is used to sort by AlbumTitle, then by TrackNumber.
+        public string SortAlbumTitle
+        {
+            get
+            {
+                return this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
+            }
+        }
+
+        // SortAlbumArtist is used to sort by AlbumArtist, then by AlbumTitle, then by TrackNumber.
+        public string SortAlbumArtist
+        {
+            get
+            {
+                return this.AlbumArtist + this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
+            }
+        }
+
+        // SortArtistName is used to sort by AlbumArtist, then by AlbumTitle, then by TrackNumber.
+        public string SortArtistName
+        {
+            get
+            {
+                return this.ArtistName + this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -121,31 +167,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        // SortDuration is used in the Songs DataGrid to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00
-        public long SortDuration
-        {
-            get
-            {
-                if (this.Track.Duration.HasValue)
-                {
-                    return this.Track.Duration.Value;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
-        // SortAlbumTitle is used to sort by Album, but preserving track nubmer order inside the album
-        public string SortAlbumTitle
-        {
-            get
-            {
-                return this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
-            }
-        }
-
         public string AlbumTitle
         {
             get { return this.Track.AlbumTitle; }
@@ -176,6 +197,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
+        
         public string Genre
         {
             get { return this.Track.GenreName; }

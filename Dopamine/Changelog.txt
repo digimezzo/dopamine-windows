@@ -1,180 +1,99 @@
-2016-12-11: Dopamine 1.2 Build 837 (Preview)
+2017-01-03: Dopamine 1.2.4 Build 862 (Release)
+----------------------------------------------
+
+- [Fixed] Artists are not sorted alphabetically
+- [Fixed] "Shuffle all" doesn't shuffle
+
+
+2017-01-01: Dopamine 1.2.3 Build 860 (Release)
+----------------------------------------------
+
+- [Fixed] Instability on 32-bit Windows versions
+- [Fixed] Fixed a bug in the Artists sorting
+
+
+2016-12-30: Dopamine 1.2.2 Build 857 (Release)
+----------------------------------------------
+
+Disclaimer: 
+
+This release requires unpinning and pinning Dopamine from and to the Windows Taskbar. 
+That is expected, and caused by changes to the installer, see (*). Please don't e-mail about this.
+
+- [Added] Added MetroLyrics as extra automatic lyrics provider (because Chartlyrics went dead)
+- [Added] Added an option to enable/disable automatic lyrics providers individually and an option to set a lyrics download timeout
+- [Added] Mouse XButton1 plays the previous song, XButton2 plays the next song.
+- [Fixed] Artists sorting (song, album, all) was restored after an unmanagable amount of complaints about its removal.
+- [Fixed] Lyrics search stops if querying 1 lyrics provider fails, even if there are still other providers to left to use.
+- [Fixed] Mute doesn't stick when the next song starts playing
+- [Fixed] (*) Hopefully fixed an issue with the installer, which caused missing files on some computers (I hate Windows installer).
+
+
+2016-12-24: Dopamine 1.2.1 Build 846 (Release)
+----------------------------------------------
+
+- [Fixed] A bug where the installer fails to upgrade from a previous version
+
+
+2016-12-24: Dopamine 1.2 Build 845 (Release)
 --------------------------------------------
 
-- [Changed] The list of artist now always shows all artists (song and album artists). The artist toggle wasn't reliable.
-- [Changed] Relocated the Shuffle all button again
-- [Fixed] Lyrics sometimes fail to show
-- [Fixed] Removed blurry background when semantic zoom is visible. It made semantic zoom harder to read.
-- [Fixed] Now Playing doesn't respect the song order of playlists when double clicking a playlist
-- [Fixed] Some possible crashes
-
-
-2016-12-09: Dopamine 1.2 Build 831 (Preview)
---------------------------------------------
-
-- [Added] Previews will, from now on, show a little "bug" icon on the main Window. It allows easy access to the log file.
-- [Added] The last played song and its progress is now remembered on next start
+- [Added] The last played song and its progress is now optionally remembered on next start
 - [Added] Added "Play next" feature
 - [Added] Songs screen has an optional column that shows if a song has lyrics
-- [Changed] Automatic lyrics providers are now queried randomly
-- [Changed] When enabling "Open the last selected page at startup", the last selected Now Playing page is now also remembered.
-- [Fixed] Main window is still visible in ALT-TAB menu when minimized or closed to tray
-
-
-2016-12-02: Dopamine 1.2 Build 820 (Preview)
---------------------------------------------
-
-- [Added] Option to search for lyrics again on the lyrics screen
-- [Added] The source of the lyrics is now displayed on the lyrics screen
-- [Changed] Upgraded to the latest version of CSCore Audio Library
-- [Changed] Dopamine now has 3 automatic lyrics providers: LyricWikia, Lololyrics and ChartLyrics.
-- [Fixed] Multiple when switching audio devices
-- [Fixed] Notifications cause closing of tray controls
-
-
-2016-11-30: Dopamine 1.2 Build 812 (Preview)
---------------------------------------------
-
-- [Changed] Changed the album selection box, as it wasn't visible enough.
-- [Fixed] Lyrics lines starting with text in square bracket are incorrectly interpreted as timestamped lyrics
-- [Fixed] A lot of bugs in processing of metadata changes
-- [Fixed] Non-square covers are not stretched anymore
-- [Fixed] Moved the "Shuffle all" button to a, hopefully, more logical place.
-- [Fixed] A possible infinite loop while searching for lyrics online
-
-
-2016-11-27: Dopamine 1.2 Build 806 (Preview)
---------------------------------------------
-
-- [Fixed] Opening a playlist causes a crash
-- [Fixed] Multiple metadata editing issues
-- [Fixed] Fixed "Username" and "Password" are not translatable
-- [Fixed] Songs ordered randomly when adding to playlists
-- [Fixed] Notification options unreliable
-- [Fixed] Improved online lyrics search. It will now provide results for more songs.
-
-
-2016-11-25: Dopamine 1.2 Build 804 (Preview)
---------------------------------------------
-
-- [Added] Possibility to re-order songs by drag and drop in playlists and Now Playing
+- [Added] Possibility to re-order songs by drag and drop in playlists and Now Playing screen
 - [Added] A more visible tray icon for systems which are not running Windows 10
-- [Fixed] It is now possible to edit tags in Now Playing screen and Mini Player
-- [Fixed] Scaling of Now Playing screen background is incorrect
-- [Fixed] Embedded lyrics only shown when "Download lyrics automatically" option is enabled
-- [Fixed] Unable to fetch album covers if artist name or album title contain "&"
-- [Fixed] Unrating a song is now easier
-
-
-2016-11-22: Dopamine 1.2 Build 793 (Preview)
---------------------------------------------
-
-- [Fixed] Refreshing of covers is more fluid
-- [Fixed] Lyrics editor causes crash when the lyrics end in an empty line
-- [Fixed] Lyrics timing now has an accuracy of milliseconds instead of seconds
-
-
-2016-11-21: Dopamine 1.2 Build 788 (Preview)
---------------------------------------------
-
-- [Added] Option to download lyrics automatically
-- [Changed] Removed song covers from playlists. They were in fact albums covers and were confusing for users. 
-- [Changed] Updated the Greek translation
-- [Fixed] Song covers are more accurate. Covers stored in or with the audio files have higher priority than album covers.
-- [Fixed] Loading of covers and artist info broken when playing songs from explorer
-
-
-2016-11-12: Dopamine 1.2 Build 779 (Preview)
---------------------------------------------
-
-- [Added] Added several buttons on the lyrics Now Playing screen to avoid confusion for users
-- [Fixed] Fixed a crash when reading lyrics during indexing
-- [Fixed] Fixed now playing information not updated when metadata changes
-
-
-2016-11-11: Dopamine 1.2 Build 772 (Preview)
---------------------------------------------
-
-- [Fixed] Fixed incorrect song sometimes displayed on now playing screen
-- [Fixed] Fixed notifications not displayed when not all options are enabled
-- [Fixed] MusicBee ratings are not read from MP3's
-
-
-2016-11-09: Dopamine 1.2 Build 769 (Preview)
---------------------------------------------
-
+- [Added] It is now possible to edit tags in Now Playing screen and Mini Player
 - [Added] Added options to show a notification when pausing and resuming a song
-- [Changed] The notification window now puts emphasis on the song title instead of the artist name
-- [Fixed] Fixed a crash when Last.fm requests fail
-
-
-2016-11-08: Dopamine 1.2 Build 763 (Preview)
---------------------------------------------
-
+- [Added] Added Last.fm scrobbling
 - [Added] Added a 'Love' button which can send 'Love' and 'Unlove' requests to Last.fm
-- [Changed] Sorting by album on the Songs screen now respects the track order inside an album
-- [Changed] Updated the Greek translation
-- [Fixed] Fixed "Follow the Windows color". It was broken since version 1.1.
-- [Fixed] Fixed a bug where lyrics from MiniLyrics didn't work because they're using 2 digits for milliseconds instead of 3
-
-
-2016-10-26: Dopamine 1.2 Build 753 (Preview)
---------------------------------------------
-
-- [Added] Added lyrics support (edit lyrics + screen to display lyrics while playing)
-- [Added] Added an option to modify how much volume changes when scrolling with the mouse on the volume bar
+- [Added] Added lyrics support (automatic lyrics download, edit lyrics, and screen to display lyrics while playing)
+- [Added] Added an option to modify how much the volume changes when scrolling with the mouse on the volume bar
 - [Added] Collection refresh on startup is now optional
-- [Changed] "See you later" screen when closing is only displayed when there are background tasks remaining
-- [Changed] Improved the "Follow song" description as it was confusing
-- [Changed] Improved the quality of the cloud screen covers
-- [Fixed] Dopamine now respects Windows case insensitivity for files and folder names
-
-
-2016-10-02: Dopamine 1.2 Build 739 (Preview)
---------------------------------------------
-
-- [Fixed] Fixed a big memory leak
-
-
-2016-10-01: Dopamine 1.2 Build 738 (Preview)
---------------------------------------------
-
 - [Added] Added an Artist information screen
 - [Added] Added download of album covers from the Internet
-- [Changed] Updated the Spanish translation
-- [Changed] Updated the Greek translation
-
-
-2016-09-21: Dopamine 1.2 Build 728 (Preview)
---------------------------------------------
-
-- [Added] Added Last.fm scrobbling
-- [Fixed] Search field not always visible when coming back from Settings or Information pages
-
-
-2016-09-16: Dopamine 1.2 Build 724 (Preview)
---------------------------------------------
-
-- [Added] Added "Play with Dopamine" to the Windows folder	 context menu
+- [Added] Added "Play with Dopamine" to the Windows folder context menu
 - [Added] Added "Add to playlist > New playlist..." on the context menu of all screens
-- [Changed] Tweaked switching of cover art on album change
-- [Changed] TWeaked switching of playback information on song change
-- [Fixed] Rating to MP3 files doesn't work if the file is not in the collection
-- [Fixed] Clicking a scrollbar plays the selected item
-
-
-2016-09-14: Dopamine 1.2 Build 716 (Preview)
---------------------------------------------
-
-- [Changed] "Columns..." button on Songs screen was moved to right-click menu
-- [Changed] Playback controls pane is narrower
+- [Added] Added download of cover art for albums
+- [Changed] When enabling "Open the last selected page at startup", the last selected Now Playing page is now also remembered.
+- [Changed] Upgraded to the latest version of the CSCore Audio Library
+- [Changed] Changed the album selection box, as it wasn't visible enough.
+- [Changed] The notification window now puts emphasis on the song title instead of the artist name
+- [Changed] Sorting by album on the Songs screen now respects the track order inside an album
+- [Changed] The "Columns..." button on Songs screen was moved to right-click menu
+- [Changed] The playback controls pane is now narrower
+- [Changed] Improved the quality of the cloud screen covers
+- [Changed] Improved the "Follow song" description as it was confusing
+- [Changed] "See you later" screen when closing is only displayed when there are background tasks remaining
+- [Changed] Removed song covers from playlists. They were in fact albums covers and were confusing for users. 
 - [Changed] Updated the Chinese Traditional translation
 - [Changed] Updated the Chinese Simplified translation
 - [Changed] Updated the Spanish translation
-- [Changed] Comment field is now multiline
-- [Fixed] Album art not displayed on background of Now playing screen when double-clicking files from explorer
-- [Fixed] Manual equalizer preset is not translated when selected
+- [Changed] Updated the Greek translation
+- [Changed] The comment field is now multiline
+- [Changed] Moved the "Shuffle all" button to a more logical place
+- [Fixed] Improved sorting on the Songs screen
+- [Fixed] The same audio files are added multiple times to the collection in some cases
+- [Fixed] Removed the blurry background when semantic zoom is visible. It made semantic zoom harder to read.
+- [Fixed] The main window is still visible in the ALT-TAB menu when minimized or closed to the tray
+- [Fixed] Multiple issues when switching audio devices
+- [Fixed] Notifications cause closing of tray controls
+- [Fixed] Opening a playlist causes a crash
+- [Fixed] A lot of bugs in processing of metadata
+- [Fixed] Unrating a song is now easier
+- [Fixed] Refreshing of covers is more fluid
+- [Fixed] Song covers are more accurate. Covers stored in or with the audio files have higher priority than album covers.
+- [Fixed] Fixed now playing information not updated when metadata changes
+- [Fixed] MusicBee ratings are not read from MP3's
+- [Fixed] "Follow the Windows color", which was broken since version 1.1.
+- [Fixed] A big memory leak
+- [Fixed] Search field not always visible when coming back from Settings or Information pages
+- [Fixed] Album art is not displayed on the background of the Now playing screen when double-clicking files from explorer
+- [Fixed] The Manual equalizer preset is not translated when selected
 - [Fixed] Chinese metadata is garbled
+- [Fixed] Clicking a scrollbar plays the selected item
+- [Fixed] Rating to MP3 files doesn't work if the file is not in the collection
+- [Fixed] Windows case insensitivity for files and folder names isn't respected
 
 
 2016-09-11: Dopamine 1.1.1 Build 711 (Release)

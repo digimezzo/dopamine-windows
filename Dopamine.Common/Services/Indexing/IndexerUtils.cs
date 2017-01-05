@@ -1,10 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database.Entities;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Metadata;
 using System;
 using System.IO;
 
@@ -14,7 +12,7 @@ namespace Dopamine.Common.Services.Indexing
     {
         public static bool IsTrackOutdated(Track track)
         {
-            if (track.FileSize == null || track.FileSize != FileOperations.GetFileSize(track.Path) || track.DateFileModified < FileOperations.GetDateModified(track.Path))
+            if (track.FileSize == null || track.FileSize != FileUtils.SizeInBytes(track.Path) || track.DateFileModified < FileUtils.DateModifiedTicks(track.Path))
             {
                 return true;
             }
@@ -53,7 +51,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", path, ex.Message);
+                LogClient.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", path, ex.Message);
             }
 
             return artworkData;
@@ -69,12 +67,12 @@ namespace Dopamine.Common.Services.Indexing
 
                 if (!string.IsNullOrEmpty(externalArtworkPath))
                 {
-                    artworkData = ImageOperations.Image2ByteArray(externalArtworkPath);
+                    artworkData = ImageUtils.Image2ByteArray(externalArtworkPath);
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("There was a problem while getting external artwork for Track with path='{0}'. Exception: {1}", path, ex.Message);
+                LogClient.Error("There was a problem while getting external artwork for Track with path='{0}'. Exception: {1}", path, ex.Message);
             }
 
             return artworkData;
@@ -101,7 +99,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                LogClient.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
             return artworkData;

@@ -1,13 +1,13 @@
-﻿using Dopamine.Common.Services.Equalizer;
-using Dopamine.Core.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Equalizer;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -166,7 +166,7 @@ namespace Dopamine.Common.Services.Playback
 
                 if (this.player != null && !this.mute) this.player.SetVolume(value);
 
-                XmlSettingsClient.Instance.Set<double>("Playback", "Volume", Math.Round(value, 2));
+                SettingsClient.Set<double>("Playback", "Volume", Math.Round(value, 2));
                 this.PlaybackVolumeChanged(this, new EventArgs());
             }
         }
@@ -349,7 +349,7 @@ namespace Dopamine.Common.Services.Playback
                     {
                         this.queuedTracks = new List<MergedTrack>(tracks);
 
-                        if (!XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"))
+                        if (!SettingsClient.Get<bool>("Playback", "Shuffle"))
                         {
                             this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
                         }
@@ -360,7 +360,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not move tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not move tracks. Exception: {0}", ex.Message);
             }
         }
         public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
@@ -471,7 +471,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Info("Could not get progress in seconds. Exception: {0}", ex.Message);
+                        LogClient.Info("Could not get progress in seconds. Exception: {0}", ex.Message);
                     }
 
                     await this.queuedTrackRepository.SaveQueuedTracksAsync(paths, this.playingTrack.Path, progressSeconds);
@@ -482,7 +482,7 @@ namespace Dopamine.Common.Services.Playback
                 }
             }
 
-            LogClient.Instance.Logger.Info("Saved queued tracks");
+            LogClient.Info("Saved queued tracks");
 
             this.isSavingQueuedTracks = false;
         }
@@ -510,7 +510,7 @@ namespace Dopamine.Common.Services.Playback
 
             this.TrackStatisticsChanged(this, new EventArgs());
 
-            LogClient.Instance.Logger.Info("Saved Track Statistics");
+            LogClient.Info("Saved Track Statistics");
 
             this.isSavingTrackStatistics = false;
 
@@ -558,7 +558,7 @@ namespace Dopamine.Common.Services.Playback
                 this.player.SetVolume(mute ? 0.0f : this.Volume);
             }
 
-            XmlSettingsClient.Instance.Set<bool>("Playback", "Mute", this.mute);
+            SettingsClient.Set<bool>("Playback", "Mute", this.mute);
             this.PlaybackMuteChanged(this, new EventArgs());
         }
 
@@ -611,7 +611,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingTrack.Path, ex.Message);
+                LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.playingTrack.Path, ex.Message);
             }
 
             // We don't want interruptions when trying to play the next Track.
@@ -662,9 +662,23 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
+        public async Task ShuffleAllAsync()
+        {
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+
+            lock (this.queueSyncObject)
+            {
+                this.queuedTracks = new List<MergedTrack>(tracks);
+            }
+
+            await this.SetPlaybackSettingsAsync();
+            if(!this.shuffle) await SetShuffle(true); // Make sure tracks get shuffled
+            await this.PlayFirstAsync();
+        }
+
         public async Task Enqueue()
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -690,7 +704,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (artist == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -700,7 +714,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (genre == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -710,7 +724,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (album == null) return;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -758,7 +772,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            LogClient.Instance.Logger.Error("Error while removing queued track with path='{0}'. Exception: {1}", t.Path, ex.Message);
+                            LogClient.Error("Error while removing queued track with path='{0}'. Exception: {1}", t.Path, ex.Message);
                         }
                     }
 
@@ -786,7 +800,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            LogClient.Instance.Logger.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", t.Path, ex.Message);
+                            LogClient.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", t.Path, ex.Message);
                         }
                     }
                 }
@@ -830,7 +844,7 @@ namespace Dopamine.Common.Services.Playback
                 catch (Exception ex)
                 {
                     result.IsSuccess = false;
-                    LogClient.Instance.Logger.Error("Error while adding tracks to queue. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while adding tracks to queue. Exception: {0}", ex.Message);
                 }
             });
 
@@ -873,7 +887,7 @@ namespace Dopamine.Common.Services.Playback
                 catch (Exception ex)
                 {
                     result.IsSuccess = false;
-                    LogClient.Instance.Logger.Error("Error while adding tracks next. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while adding tracks next. Exception: {0}", ex.Message);
                 }
             });
 
@@ -890,25 +904,25 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<AddToQueueResult> AddToQueue(IList<Artist> artists)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Genre> genres)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Album> albums)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
         #endregion
@@ -920,13 +934,13 @@ namespace Dopamine.Common.Services.Playback
             this.playerFactory = new PlayerFactory();
 
             // Set initial volume
-            this.Volume = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
+            this.Volume = SettingsClient.Get<float>("Playback", "Volume");
 
             // Set initial mute
-            this.SetMute(XmlSettingsClient.Instance.Get<bool>("Playback", "Mute"));
+            this.SetMute(SettingsClient.Get<bool>("Playback", "Mute"));
 
             // Equalizer
-            await this.SetIsEqualizerEnabledAsync(XmlSettingsClient.Instance.Get<bool>("Equalizer", "IsEnabled"));
+            await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
             this.GetSavedQueuedTracks();
@@ -965,7 +979,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not update the track metadata. Exception: {0}", ex.Message);
+                LogClient.Error("Could not update the track metadata. Exception: {0}", ex.Message);
             }
 
             return isPlaybackInfoUpdated;
@@ -998,7 +1012,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not update playback statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
+                        LogClient.Error("Could not update playback statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
                     }
                 }
             });
@@ -1008,29 +1022,42 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task PauseAsync()
         {
-
-            if (this.player != null)
+            try
             {
-                await Task.Run(() => this.player.Pause());
-                this.PlaybackPaused(this, new EventArgs());
+                if (this.player != null)
+                {
+                    await Task.Run(() => this.player.Pause());
+                    this.PlaybackPaused(this, new EventArgs());
+                }
             }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+            } 
         }
 
         private async Task ResumeAsync()
         {
-            if (this.player != null)
+            try
             {
-                bool isResumed = false;
-                await Task.Run(() => isResumed = this.player.Resume());
+                if (this.player != null)
+                {
+                    bool isResumed = false;
+                    await Task.Run(() => isResumed = this.player.Resume());
 
-                if (isResumed)
-                {
-                    this.PlaybackResumed(this, new EventArgs());
+                    if (isResumed)
+                    {
+                        this.PlaybackResumed(this, new EventArgs());
+                    }
+                    else
+                    {
+                        this.PlaybackStopped(this, new EventArgs());
+                    }
                 }
-                else
-                {
-                    this.PlaybackStopped(this, new EventArgs());
-                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
             }
         }
 
@@ -1107,7 +1134,7 @@ namespace Dopamine.Common.Services.Playback
                 this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
 
                 this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
-                this.player.SetVolume(silent ? 0.0f : this.Volume);
+                this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
 
                 // We need to set PlayingTrack before trying to play the Track.
                 // So if we go into the Catch when trying to play the Track,
@@ -1131,7 +1158,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Instance.Logger.Error("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle);
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1152,10 +1179,10 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception)
                 {
-                    LogClient.Instance.Logger.Error("Could not stop the Player");
+                    LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Instance.Logger.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.eventMode, this.exclusiveMode, this.LoopMode.ToString(), this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1308,6 +1335,9 @@ namespace Dopamine.Common.Services.Playback
             }
 
             await this.SetPlaybackSettingsAsync();
+
+            if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+
             QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
 
             if (queuedTrack != null)
@@ -1327,7 +1357,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not configure the playing track. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not configure the playing track. Exception: {0}", ex.Message);
                         this.Stop();
                     }
                 }
@@ -1409,16 +1439,16 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task SetPlaybackSettingsAsync()
         {
-            this.LoopMode = (LoopMode)XmlSettingsClient.Instance.Get<int>("Playback", "LoopMode");
-            this.Latency = XmlSettingsClient.Instance.Get<int>("Playback", "AudioLatency");
-            this.Volume = XmlSettingsClient.Instance.Get<float>("Playback", "Volume");
-            this.mute = XmlSettingsClient.Instance.Get<bool>("Playback", "Mute");
+            this.LoopMode = (LoopMode)SettingsClient.Get<int>("Playback", "LoopMode");
+            this.Latency = SettingsClient.Get<int>("Playback", "AudioLatency");
+            this.Volume = SettingsClient.Get<float>("Playback", "Volume");
+            this.mute = SettingsClient.Get<bool>("Playback", "Mute");
             this.EventMode = false;
-            //this.EventMode = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiEventMode");
+            //this.EventMode = SettingsClient.Get<bool>("Playback", "WasapiEventMode");
             //this.ExclusiveMode = false;
-            this.ExclusiveMode = XmlSettingsClient.Instance.Get<bool>("Playback", "WasapiExclusiveMode");
+            this.ExclusiveMode = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
 
-            await SetShuffle(XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle"));
+            await SetShuffle(SettingsClient.Get<bool>("Playback", "Shuffle"));
         }
         #endregion
     }

@@ -1,6 +1,6 @@
-﻿using Digimezzo.WPFControls;
-using Dopamine.Core.Base;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.WPFControls;
+using Dopamine.Common.Base;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -47,7 +47,7 @@ namespace Dopamine.Common.Controls
             base.OnApplyTemplate();
 
             this.TitleBarHeight = Convert.ToInt32(Constants.DefaultWindowButtonHeight);
-            this.SetWindowBorder(XmlSettingsClient.Instance.Get<bool>("Appearance", "ShowWindowBorder"));
+            this.SetWindowBorder(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"));
             this.InitializeWindow();
 
             base.MinimizeToolTipChanged += BorderlessWindowBase_MinimizeToolTipChanged;

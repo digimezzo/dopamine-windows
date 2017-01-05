@@ -1,14 +1,11 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.IO;
-using Dopamine.Core.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Dopamine.Common.Services.Notification
@@ -69,7 +66,7 @@ namespace Dopamine.Common.Services.Notification
                 try
                 {
                     // Width and Height are 300px. They need to be big enough, otherwise the picture is blurry
-                    this.CoverPicture.Source = ImageOperations.ByteToBitmapImage(artworkData, 300, 300,0);
+                    this.CoverPicture.Source = ImageUtils.ByteToBitmapImage(artworkData, 300, 300,0);
                     this.CloseBorder.Opacity = 1.0;
                 }
                 catch (Exception)
@@ -158,7 +155,16 @@ namespace Dopamine.Common.Services.Notification
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.ShowInTaskbar = false;
-            WindowUtils.HideWindowFromAltTab(this);
+
+            try
+            {
+                WindowUtils.HideWindowFromAltTab(this);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not hide notification window from ALT-TAB menu. Exception: {0}", ex.Message);
+            }
+            
             this.IsEnabled = true;
             this.hideTimer.Start(); // This activates fade-in
         }

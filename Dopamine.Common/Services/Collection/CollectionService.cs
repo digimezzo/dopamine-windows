@@ -1,12 +1,13 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
+using Dopamine.Common.IO;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,7 +54,7 @@ namespace Dopamine.Common.Services.Collection
         #region ICollectionService
         public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -66,7 +67,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -91,7 +92,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -217,7 +218,7 @@ namespace Dopamine.Common.Services.Collection
 
             if (!decodeResult.DecodeResult.Result)
             {
-                LogClient.Instance.Logger.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
                 return OpenPlaylistResult.Error;
             }
 
@@ -272,7 +273,7 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
+                            LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
                         }
                     }
                 });
@@ -295,13 +296,13 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
+                            LogClient.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error while setting album artwork. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while setting album artwork. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -313,17 +314,17 @@ namespace Dopamine.Common.Services.Collection
                                          System.IO.Path.GetFileNameWithoutExtension(fullPlaylistPath), generateUniqueName);
         }
 
-        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string iPlaylistName, bool generateUniqueName)
+        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string playlistName, bool generateUniqueName)
         {
             ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
-            List<MergedTrack> tracks = await Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
+            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
             await Task.Run(() => {
 
                 try
                 {
-                    string playlistFileNameWithoutPathAndExtension = FileOperations.SanitizeFilename(iPlaylistName);
+                    string playlistFileNameWithoutPathAndExtension = FileUtils.SanitizeFilename(playlistName);
                     string playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
 
                     if (generateUniqueName)
@@ -359,7 +360,7 @@ namespace Dopamine.Common.Services.Collection
                 catch (Exception ex)
                 {
                     result = ExportPlaylistsResult.Error;
-                    LogClient.Instance.Logger.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                    LogClient.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist.PlaylistName, ex.Message);
                 }
             });
 
@@ -404,7 +405,7 @@ namespace Dopamine.Common.Services.Collection
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
+                    LogClient.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
                 }
             });
         }
@@ -421,7 +422,7 @@ namespace Dopamine.Common.Services.Collection
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error updating folders. Exception: {0}", ex.Message);
+                LogClient.Error("Error updating folders. Exception: {0}", ex.Message);
             }
 
             if (isCollectionChanged) this.CollectionChanged(this, new EventArgs());

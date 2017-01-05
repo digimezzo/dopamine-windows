@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Utils;
 using Microsoft.Practices.ServiceLocation;
 using System;
 

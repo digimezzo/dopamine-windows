@@ -38,6 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Digimezzo.Utilities">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -157,10 +160,6 @@
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{F4A6AA5E-5167-48AE-AC87-BCC0414FBD3D}</Project>
-      <Name>Dopamine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

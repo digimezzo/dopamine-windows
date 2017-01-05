@@ -7,7 +7,7 @@
                          xmlns:local="clr-namespace:Dopamine.Views"
                          mc:Ignorable="d"
                          Title="Playlist" 
-                         xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+                         xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
                          xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                          xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -32,7 +32,7 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:SlidingContentControl x:Name="MiniPlayerPlaylistRegion" Panel.ZIndex="1" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="RightToLeft" FadeOutDuration="0" FadeInDuration="0" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.MiniPlayerPlaylistRegion}"/>
+        <dc:SlidingContentControl x:Name="MiniPlayerPlaylistRegion" Panel.ZIndex="1" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="RightToLeft" FadeOutDuration="0" FadeInDuration="0" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>
     </Grid>
 </controls:DopamineWindow>
 

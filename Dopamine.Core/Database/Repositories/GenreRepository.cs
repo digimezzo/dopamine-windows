@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 
 namespace Dopamine.Core.Database.Repositories
 {
@@ -44,13 +44,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Genres. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -73,13 +73,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
+                            LogClient.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
+                    LogClient.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
                 }
             });
 
@@ -103,13 +103,13 @@ namespace Dopamine.Core.Database.Repositories
                         catch (Exception ex)
                         {
                             genre = null;
-                            LogClient.Instance.Logger.Error("Could not create the Genre with GenreName='{0}'. Exception: {1}", genre.GenreName, ex.Message);
+                            LogClient.Error("Could not create the Genre with GenreName='{0}'. Exception: {1}", genre.GenreName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -130,13 +130,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
+                            LogClient.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

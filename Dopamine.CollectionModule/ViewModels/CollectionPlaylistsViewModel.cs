@@ -1,27 +1,26 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.CollectionModule.Views;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
+using GongSolutions.Wpf.DragDrop;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Dopamine.Core.Database;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Utils;
-using Dopamine.Core.Logging;
 using System.Windows;
-using Dopamine.Core.Base;
-using System.Collections;
 using WPFFolderBrowser;
-using Dopamine.Core.IO;
-using Dopamine.CollectionModule.Views;
-using Microsoft.Practices.Unity;
-using GongSolutions.Wpf.DragDrop;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -61,7 +60,7 @@ namespace Dopamine.CollectionModule.ViewModels
             set
             {
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
-                XmlSettingsClient.Instance.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
+                SettingsClient.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
             }
         }
 
@@ -155,7 +154,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Subscribe();
 
             // Set width of the panels
-            this.LeftPaneWidthPercent = XmlSettingsClient.Instance.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
+            this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
         #endregion
 
@@ -205,7 +204,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occured while getting Playlists. Exception: {0}", ex.Message);
+                LogClient.Error("An error occured while getting Playlists. Exception: {0}", ex.Message);
 
                 // If loading from the database failed, create and empty Collection.
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
@@ -550,7 +549,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                            LogClient.Error("Exception: {0}", ex.Message);
 
                             this.dialogService.ShowNotification(
                                 0xe711,
@@ -569,7 +568,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     // Save 1 playlist
                     // ---------------
                     var dlg = new Microsoft.Win32.SaveFileDialog();
-                    dlg.FileName = FileOperations.SanitizeFilename(this.SelectedPlaylists[0].PlaylistName);
+                    dlg.FileName = FileUtils.SanitizeFilename(this.SelectedPlaylists[0].PlaylistName);
                     dlg.DefaultExt = FileFormats.M3U;
                     dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Playlists"), " (", FileFormats.M3U, ")|*", FileFormats.M3U);
 
@@ -593,7 +592,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Exception: {0}", ex.Message);
+                            LogClient.Error("Exception: {0}", ex.Message);
 
                             this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                         }
@@ -646,7 +645,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 catch (Exception ex)
                 {
                     dropInfo.NotHandled = false;
-                    LogClient.Instance.Logger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
                 }
             }
         }
@@ -669,7 +668,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
         }
         #endregion

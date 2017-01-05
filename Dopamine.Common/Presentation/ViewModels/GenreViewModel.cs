@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Database.Entities;
+using Dopamine.Common.Database.Entities;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;

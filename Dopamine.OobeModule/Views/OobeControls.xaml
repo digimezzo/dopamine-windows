@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
             xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:myCoreBase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

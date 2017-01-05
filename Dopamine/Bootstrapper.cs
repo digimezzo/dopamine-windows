@@ -1,4 +1,6 @@
-﻿using Digimezzo.WPFControls;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Appearance;
@@ -20,13 +22,11 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database.Repositories;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database.Repositories;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.IO;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -103,9 +103,9 @@ namespace Dopamine
         private void InitializeServices()
         {
             // Making sure resources are set before we need them
-            Container.Resolve<II18nService>().ApplyLanguageAsync(XmlSettingsClient.Instance.Get<string>("Appearance", "Language"));
-            Container.Resolve<IAppearanceService>().ApplyTheme(XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme"));
-            Container.Resolve<IAppearanceService>().ApplyColorScheme(XmlSettingsClient.Instance.Get<bool>("Appearance", "FollowWindowsColor"), XmlSettingsClient.Instance.Get<string>("Appearance", "ColorScheme"));
+            Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
+            Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
+            Container.Resolve<IAppearanceService>().ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), SettingsClient.Get<string>("Appearance", "ColorScheme"));
         }
 
 
@@ -151,7 +151,7 @@ namespace Dopamine
 
             Application.Current.MainWindow = (Window)this.Shell;
 
-            if (XmlSettingsClient.Instance.Get<bool>("General", "ShowOobe"))
+            if (SettingsClient.Get<bool>("General", "ShowOobe"))
             {
                 Window oobeWin = Container.Resolve<Oobe>();
 
@@ -163,18 +163,18 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                LogClient.Instance.Logger.Info("Showing Oobe screen");
+                LogClient.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                LogClient.Instance.Logger.Info("Showing Main screen");
+                LogClient.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
-                if (XmlSettingsClient.Instance.Get<bool>("Indexing", "RefreshCollectionOnStartup"))
+                if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionOnStartup"))
                 {
-                    Container.Resolve<IIndexingService>().CheckCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+                    Container.Resolve<IIndexingService>().CheckCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
                 }
             }
         }
@@ -190,11 +190,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                LogClient.Instance.Logger.Info("CommandService was started successfully");
+                LogClient.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -205,11 +205,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                LogClient.Instance.Logger.Info("FileService was started successfully");
+                LogClient.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not start FileService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }

@@ -1,13 +1,13 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -106,11 +106,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         public bool IsLargeCoverSizeSelected
         {
             get { return this.selectedCoverSize == CoverSizeType.Large; }
-        }
-
-        public double UpscaledToolTipCoverSize
-        {
-            get { return Constants.AlbumToolTipCoverSize * Constants.CoverUpscaleFactor; }
         }
 
         public ObservableCollection<AlbumViewModel> Albums
@@ -219,7 +214,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            e.Accepted = Dopamine.Core.Database.Utils.FilterAlbums(avm.Album, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.searchService.SearchText);
         }
         #endregion
 
@@ -282,8 +277,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                         break;
                 }
 
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 4; // 4 = margin of 2px at top and bottom
-                this.AlbumWidth = this.CoverSize + 4; // 4 = margin of 2px at left and right
+                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
+                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
 
                 OnPropertyChanged(() => this.CoverSize);
                 OnPropertyChanged(() => this.AlbumWidth);
@@ -340,7 +335,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 var albumViewModels = new ObservableCollection<AlbumViewModel>();
 
                 // Order the incoming Albums
-                List<Album> orderedAlbums = await Core.Database.Utils.OrderAlbumsAsync(albums, albumOrder);
+                List<Album> orderedAlbums = await Database.Utils.OrderAlbumsAsync(albums, albumOrder);
 
                 await Task.Run(() =>
                 {
@@ -389,7 +384,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
 
                 // Failed getting Albums. Create empty ObservableCollection.
                 this.Albums = new ObservableCollection<AlbumViewModel>();

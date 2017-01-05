@@ -90,9 +90,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{f4a6aa5e-5167-48ae-ac87-bcc0414fbd3d}</Project>
-      <Name>Dopamine.Core</Name>
+    <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
+      <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
+      <Name>Dopamine.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Digimezzo.Utilities">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -104,10 +107,6 @@
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{f4a6aa5e-5167-48ae-ac87-bcc0414fbd3d}</Project>
-      <Name>Dopamine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

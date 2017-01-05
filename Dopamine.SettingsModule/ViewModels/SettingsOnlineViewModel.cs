@@ -1,18 +1,22 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Collections.Generic;
+using System;
+using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Helpers;
+using System.Linq;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -29,6 +33,12 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool isLastFmSignInInProgress;
         private bool checkBoxDownloadArtistInformationChecked;
         private bool checkBoxDownloadLyricsChecked;
+        private bool checkBoxChartLyricsChecked;
+        private bool checkBoxLoloLyricsChecked;
+        private bool checkBoxLyricWikiaChecked;
+        private bool checkBoxMetroLyricsChecked;
+        private ObservableCollection<NameValue> timeouts;
+        private NameValue selectedTimeout;
         #endregion
 
         #region Commands
@@ -41,6 +51,62 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Properties
+        public ObservableCollection<NameValue> Timeouts
+        {
+            get { return this.timeouts; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.timeouts, value); }
+        }
+
+        public NameValue SelectedTimeout
+        {
+            get { return this.selectedTimeout; }
+            set
+            {
+                SettingsClient.Set<int>("Lyrics", "TimeoutSeconds", value.Value);
+                SetProperty<NameValue>(ref this.selectedTimeout, value);
+            }
+        }
+
+        public bool CheckBoxChartLyricsChecked
+        {
+            get { return this.checkBoxChartLyricsChecked; }
+            set
+            {
+                this.AddRemoveLyricsDownloadProvider("chartlyrics", value);
+                SetProperty<bool>(ref this.checkBoxChartLyricsChecked, value);
+            }
+        }
+
+        public bool CheckBoxLoloLyricsChecked
+        {
+            get { return this.checkBoxLoloLyricsChecked; }
+            set
+            {
+                this.AddRemoveLyricsDownloadProvider("lololyrics", value);
+                SetProperty<bool>(ref this.checkBoxLoloLyricsChecked, value);
+            }
+        }
+
+        public bool CheckBoxLyricWikiaChecked
+        {
+            get { return this.checkBoxLyricWikiaChecked; }
+            set
+            {
+                this.AddRemoveLyricsDownloadProvider("lyricwikia", value);
+                SetProperty<bool>(ref this.checkBoxLyricWikiaChecked, value);
+            }
+        }
+
+        public bool CheckBoxMetroLyricsChecked
+        {
+            get { return this.checkBoxMetroLyricsChecked; }
+            set
+            {
+                this.AddRemoveLyricsDownloadProvider("metrolyrics", value);
+                SetProperty<bool>(ref this.checkBoxMetroLyricsChecked, value);
+            }
+        }
+
         public ObservableCollection<SearchProvider> SearchProviders
         {
             get { return this.searchProviders; }
@@ -67,7 +133,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxDownloadArtistInformationChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Lastfm", "DownloadArtistInformation", value);
+                SettingsClient.Set<bool>("Lastfm", "DownloadArtistInformation", value);
                 SetProperty<bool>(ref this.checkBoxDownloadArtistInformationChecked, value);
             }
         }
@@ -77,7 +143,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxDownloadLyricsChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Lyrics", "DownloadLyrics", value);
+                SettingsClient.Set<bool>("Lyrics", "DownloadLyrics", value);
                 SetProperty<bool>(ref this.checkBoxDownloadLyricsChecked, value);
                 this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Publish(value);
             }
@@ -146,6 +212,7 @@ namespace Dopamine.SettingsModule.ViewModels
             this.providerService.SearchProvidersChanged += (_, __) => this.GetSearchProvidersAsync();
 
             this.GetCheckBoxesAsync();
+            this.GetTimeoutsAsync();
         }
         #endregion
 
@@ -233,9 +300,72 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxDownloadArtistInformationChecked = XmlSettingsClient.Instance.Get<bool>("Lastfm", "DownloadArtistInformation");
-                this.CheckBoxDownloadLyricsChecked = XmlSettingsClient.Instance.Get<bool>("Lyrics", "DownloadLyrics");
+                this.CheckBoxDownloadArtistInformationChecked = SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.CheckBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
+
+                string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
+
+                // Set the backing field to avoid saving into the settings
+                this.checkBoxChartLyricsChecked = lyricsProviders.ToLower().Contains("chartlyrics");
+                this.checkBoxLoloLyricsChecked = lyricsProviders.ToLower().Contains("lololyrics");
+                this.checkBoxLyricWikiaChecked = lyricsProviders.ToLower().Contains("lyricwikia");
+                this.checkBoxMetroLyricsChecked = lyricsProviders.ToLower().Contains("metrolyrics");
+
+                OnPropertyChanged(() => this.CheckBoxChartLyricsChecked);
+                OnPropertyChanged(() => this.CheckBoxLoloLyricsChecked);
+                OnPropertyChanged(() => this.CheckBoxLyricWikiaChecked);
+                OnPropertyChanged(() => this.CheckBoxMetroLyricsChecked);
             });
+        }
+
+        private void AddRemoveLyricsDownloadProvider(string provider, bool add)
+        {
+            try
+            {
+                string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
+                var lyricsProvidersList = new List<string>(lyricsProviders.ToLower().Split(';'));
+
+                if (add)
+                {
+                    if (!lyricsProvidersList.Contains(provider)) lyricsProvidersList.Add(provider);
+                }
+                else
+                {
+                    if (lyricsProvidersList.Contains(provider)) lyricsProvidersList.Remove(provider);
+                }
+
+                string[] arr = lyricsProvidersList.ToArray();
+                SettingsClient.Set<string>("Lyrics", "Providers", string.Join(";", arr));
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
+            }
+        }
+
+        private async void GetTimeoutsAsync()
+        {
+            var localTimeouts = new ObservableCollection<NameValue>();
+
+            await Task.Run(() =>
+            {
+                localTimeouts.Add(new NameValue { Name = "None", Value = 0 });
+                localTimeouts.Add(new NameValue { Name = "1", Value = 1 });
+                localTimeouts.Add(new NameValue { Name = "2", Value = 2 });
+                localTimeouts.Add(new NameValue { Name = "5", Value = 5 });
+                localTimeouts.Add(new NameValue { Name = "10", Value = 10 });
+                localTimeouts.Add(new NameValue { Name = "20", Value = 20 });
+                localTimeouts.Add(new NameValue { Name = "30", Value = 30 });
+                localTimeouts.Add(new NameValue { Name = "40", Value = 40 });
+                localTimeouts.Add(new NameValue { Name = "50", Value = 50 });
+                localTimeouts.Add(new NameValue { Name = "60", Value = 60 });
+            });
+
+            this.Timeouts = localTimeouts;
+
+            NameValue localSelectedTimeout = null;
+            await Task.Run(() => localSelectedTimeout = this.Timeouts.Where((svp) => svp.Value == SettingsClient.Get<int>("Lyrics", "TimeoutSeconds")).Select((svp) => svp).First());
+            this.SelectedTimeout = localSelectedTimeout;
         }
         #endregion
     }

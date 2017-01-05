@@ -8,11 +8,11 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -53,7 +53,7 @@
                     <DataGridTextColumn.Header>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="18"/>
+                                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
                             </Button>
                             <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}"/>
                             <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
@@ -106,7 +106,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="2*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding ArtistName}" Visibility="{Binding (FrameworkElement.DataContext).ArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="2*" SortMemberPath="SortArtistName" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding ArtistName}" Visibility="{Binding (FrameworkElement.DataContext).ArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Artist}"/>
                     </DataGridTextColumn.Header>
@@ -125,10 +125,10 @@
                 <!-- SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00-->
                 <DataGridTextColumn Width="*" SortMemberPath="SortDuration" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding Duration}" Visibility="{Binding (FrameworkElement.DataContext).LengthVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Length}"/>
+                        <TextBlock Text="&#xE121;" Margin="0,5,0,0" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="2*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumArtist}" Visibility="{Binding (FrameworkElement.DataContext).AlbumArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="2*" SortMemberPath="SortAlbumArtist" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumArtist}" Visibility="{Binding (FrameworkElement.DataContext).AlbumArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Album_Artist}"/>
                     </DataGridTextColumn.Header>

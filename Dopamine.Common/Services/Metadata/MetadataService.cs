@@ -1,15 +1,15 @@
-﻿using Dopamine.Common.Services.Cache;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Metadata;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -120,7 +120,7 @@ namespace Dopamine.Common.Services.Metadata
             }
 
             // Update the rating in the file if the user selected this option
-            if (XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
+            if (SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
             {
                 // Only for MP3's
                 if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3))
@@ -265,7 +265,7 @@ namespace Dopamine.Common.Services.Metadata
                         if (album != null)
                         {
                             string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
-                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageOperations.Image2ByteArray(artworkPath);
+                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageUtils.Image2ByteArray(artworkPath);
                             if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
                         }
                     }
@@ -346,7 +346,7 @@ namespace Dopamine.Common.Services.Metadata
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                            LogClient.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                         }
                     }
 
@@ -456,7 +456,7 @@ namespace Dopamine.Common.Services.Metadata
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                    LogClient.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                 }
             }
 
@@ -468,7 +468,7 @@ namespace Dopamine.Common.Services.Metadata
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while deleting orphans. Exception: {0}", ex.Message);
+                LogClient.Error("Error while deleting orphans. Exception: {0}", ex.Message);
             }
 
             this.isUpdatingDatabaseMetadata = false;

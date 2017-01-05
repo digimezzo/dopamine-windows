@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Enums;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Enums;
 using Prism.Mvvm;
 
 namespace Dopamine.CollectionModule.ViewModels
@@ -63,9 +63,9 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private void SelectMenuItem()
         {
-            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedPage page = (SelectedPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedPage");
+                SelectedPage page = (SelectedPage)SettingsClient.Get<int>("FullPlayer", "SelectedPage");
 
                 switch (page)
                 {

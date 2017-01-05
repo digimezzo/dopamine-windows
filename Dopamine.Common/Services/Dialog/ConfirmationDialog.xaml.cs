@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Controls;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
+using Dopamine.Common.Base;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Dialog

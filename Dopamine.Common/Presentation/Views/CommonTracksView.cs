@@ -1,12 +1,12 @@
-﻿using Digimezzo.WPFControls;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Utils;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Utils;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Prism;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;
@@ -75,7 +75,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
                 }
             }
         }

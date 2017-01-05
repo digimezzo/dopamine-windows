@@ -1,5 +1,5 @@
-﻿using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
 
@@ -48,13 +48,13 @@ namespace Dopamine.MiniPlayerModule.ViewModels
             this.ToggleAlwaysShowPlaybackInfoCommand = new DelegateCommand(() =>
             {
                 this.AlwaysShowPlaybackInfo = !this.AlwaysShowPlaybackInfo;
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo", this.AlwaysShowPlaybackInfo);
+                SettingsClient.Set<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo", this.AlwaysShowPlaybackInfo);
             });
 
             this.ToggleAlignPlaylistVerticallyCommand = new DelegateCommand(() =>
             {
                 this.AlignPlaylistVertically = !this.AlignPlaylistVertically;
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically", this.AlignPlaylistVertically);
+                SettingsClient.Set<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically", this.AlignPlaylistVertically);
                 this.eventAggregator.GetEvent<ToggledCoverPlayerAlignPlaylistVertically>().Publish(this.AlignPlaylistVertically);
             });
 
@@ -62,8 +62,8 @@ namespace Dopamine.MiniPlayerModule.ViewModels
             ApplicationCommands.ToggleAlignPlaylistVerticallyCommand.RegisterCommand(this.ToggleAlignPlaylistVerticallyCommand);
             ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
 
-            this.AlwaysShowPlaybackInfo = XmlSettingsClient.Instance.Get<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo");
-            this.AlignPlaylistVertically = XmlSettingsClient.Instance.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
+            this.AlwaysShowPlaybackInfo = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo");
+            this.AlignPlaylistVertically = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
         }
         #endregion
     }

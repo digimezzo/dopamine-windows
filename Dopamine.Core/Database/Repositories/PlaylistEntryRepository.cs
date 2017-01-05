@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Threading.Tasks;
 
@@ -33,13 +33,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("There was a problem while deleting orphaned PlaylistEntries. Exception: {0}", ex.Message);
+                            LogClient.Error("There was a problem while deleting orphaned PlaylistEntries. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

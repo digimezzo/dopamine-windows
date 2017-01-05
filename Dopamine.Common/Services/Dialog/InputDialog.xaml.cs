@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Controls;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Controls;
+using Dopamine.Common.Base;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Dialog
@@ -32,7 +32,6 @@ namespace Dopamine.Common.Services.Dialog
             this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
             this.Icon.FontSize = iconSize;
             this.Title = title;
-            //Me.TextBlockTitle.Text = iTitle.ToUpper
             this.TextBlockTitle.Text = title.ToLower();
             this.TextBlockContent.Text = content;
             this.ButtonOK.Content = okText;

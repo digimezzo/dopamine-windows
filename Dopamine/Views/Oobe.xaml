@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Dopamine.Views"
         mc:Ignorable="d"
         Title="Dopamine"
         Height="550" 
@@ -12,11 +11,10 @@
         WindowStartupLocation="CenterScreen"
         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-        xmlns:myCoreBase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-        xmlns:coreprism="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+        xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-        xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+        xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
         Closing="MetroWindow_Closing"
         OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
         IsOverlayVisible="{Binding Path=IsOverlayVisible}"
@@ -52,10 +50,10 @@
             </Storyboard>
         </Border.Resources>
         <DockPanel>
-            <dc:SlidingContentControl x:Name="OobeAppNameRegion" DockPanel.Dock="Top" Margin="0,30,0,0" Height="56" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeAppNameRegion}"/>
+            <dc:SlidingContentControl x:Name="OobeAppNameRegion" DockPanel.Dock="Top" Margin="0,30,0,0" Height="56" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.OobeAppNameRegion}"/>
             <DockPanel>
-                <dc:SlidingContentControl x:Name="OobeControlsRegion" DockPanel.Dock="Bottom" HorizontalAlignment="Right" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" Width="90" Height="55" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeControlsRegion}"/>
-                <dc:SlidingContentControl x:Name="OobeContentRegion" Margin="0,50,0,0" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static coreprism:RegionNames.OobeContentRegion}"/>
+                <dc:SlidingContentControl x:Name="OobeControlsRegion" DockPanel.Dock="Bottom" HorizontalAlignment="Right" EasingAmplitude="0" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" Width="90" Height="55" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.OobeControlsRegion}"/>
+                <dc:SlidingContentControl x:Name="OobeContentRegion" Margin="0,50,0,0" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.OobeContentRegion}"/>
             </DockPanel>
         </DockPanel>
     </Border>

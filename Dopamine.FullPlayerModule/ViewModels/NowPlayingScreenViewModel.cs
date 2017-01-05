@@ -1,9 +1,9 @@
-﻿using Digimezzo.WPFControls.Enums;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Core.Prism;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -52,9 +52,9 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.regionManager = regionManager;
             this.playbackService = playbackService;
 
-            if (XmlSettingsClient.Instance.Get<bool>("Startup", "ShowLastSelectedPage"))
+            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
-                SelectedNowPlayingPage page = (SelectedNowPlayingPage)XmlSettingsClient.Instance.Get<int>("FullPlayer", "SelectedNowPlayingPage");
+                SelectedNowPlayingPage page = (SelectedNowPlayingPage)SettingsClient.Get<int>("FullPlayer", "SelectedNowPlayingPage");
 
                 switch (page)
                 {
@@ -98,7 +98,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             this.SlideDirection = SlideDirection.LeftToRight;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenShowcase).FullName);
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int) SelectedNowPlayingPage.ShowCase);
+            SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int) SelectedNowPlayingPage.ShowCase);
 
             isShowCaseVisible = true;
             isPlaylistVisible = false;
@@ -111,7 +111,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.SlideDirection = SlideDirection.LeftToRight;
             if (isShowCaseVisible) this.SlideDirection = SlideDirection.RightToLeft;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenPlaylist).FullName);
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Playlist);
+            SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Playlist);
 
             isShowCaseVisible = false;
             isPlaylistVisible = true;
@@ -124,7 +124,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             this.SlideDirection = SlideDirection.RightToLeft;
             if (isArtistInformationVisible) this.SlideDirection = SlideDirection.LeftToRight;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenLyrics).FullName);
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Lyrics);
+            SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.Lyrics);
 
             isShowCaseVisible = false;
             isPlaylistVisible = false;
@@ -136,7 +136,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             this.SlideDirection = SlideDirection.RightToLeft;
             this.regionManager.RequestNavigate(RegionNames.NowPlayingContentRegion, typeof(NowPlayingScreenArtistInformation).FullName);
-            XmlSettingsClient.Instance.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.ArtistInformation);
+            SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingPage", (int)SelectedNowPlayingPage.ArtistInformation);
 
             isShowCaseVisible = false;
             isPlaylistVisible = false;

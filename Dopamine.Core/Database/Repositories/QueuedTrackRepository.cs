@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,13 +50,13 @@ namespace Dopamine.Core.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Instance.Logger.Error("Could not get Queued Tracks. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not get Queued Tracks. Exception: {0}", ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
             }
 
             return tracks;
@@ -94,20 +94,20 @@ namespace Dopamine.Core.Database.Repositories
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Instance.Logger.Error("Could not update the playing queued track. Exception: {0}", ex.Message);
+                                LogClient.Error("Could not update the playing queued track. Exception: {0}", ex.Message);
                             }
 
                             conn.Execute("COMMIT;");
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not save queued tracks. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not save queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -128,13 +128,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Instance.Logger.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Instance.Logger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

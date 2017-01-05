@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Base;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Events;
+using Prism.Mvvm;
 using System.Timers;
 
 namespace Dopamine.Common.Presentation.ViewModels
@@ -111,8 +111,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // Initial Loop and Shuffle state
-            this.loopMode = (LoopMode)XmlSettingsClient.Instance.Get<int>("Playback", "LoopMode");
-            this.shuffle = XmlSettingsClient.Instance.Get<bool>("Playback", "Shuffle");
+            this.loopMode = (LoopMode)SettingsClient.Get<int>("Playback", "LoopMode");
+            this.shuffle = SettingsClient.Get<bool>("Playback", "Shuffle");
 
             // Initial status of the Play/Pause button
             if (this.playbackService.IsPlaying)
@@ -169,7 +169,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             OnPropertyChanged(() => this.ShowLoopAll);
 
             // Save the Loop status in the Settings
-            XmlSettingsClient.Instance.Set<int>("Playback", "LoopMode", (int)this.loopMode);
+            SettingsClient.Set<int>("Playback", "LoopMode", (int)this.loopMode);
         }
 
         public void GetPlayBackServiceShuffle()
@@ -181,7 +181,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             OnPropertyChanged(() => this.Shuffle);
 
             // Save the Shuffle status in the Settings
-            XmlSettingsClient.Instance.Set<bool>("Playback", "Shuffle", this.shuffle);
+            SettingsClient.Set<bool>("Playback", "Shuffle", this.shuffle);
         }
         #endregion
     }

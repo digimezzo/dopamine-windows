@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Api.Lastfm;
+﻿using Dopamine.Common.Api.Lastfm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;

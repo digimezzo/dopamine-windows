@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Services.Appearance;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Appearance;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -32,7 +32,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxThemeChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Appearance", "EnableLightTheme", value);
+                SettingsClient.Set<bool>("Appearance", "EnableLightTheme", value);
                 Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyTheme(value));
                 SetProperty<bool>(ref this.checkBoxThemeChecked, value);
             }
@@ -53,8 +53,8 @@ namespace Dopamine.SettingsModule.ViewModels
                 // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
-                    XmlSettingsClient.Instance.Set<string>("Appearance", "ColorScheme", value.Name);
-                    Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(XmlSettingsClient.Instance.Get<bool>("Appearance", "FollowWindowsColor"), value.Name));
+                    SettingsClient.Set<string>("Appearance", "ColorScheme", value.Name);
+                    Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), value.Name));
                 }
 
                 SetProperty<ColorScheme>(ref this.selectedColorScheme, value);
@@ -67,8 +67,8 @@ namespace Dopamine.SettingsModule.ViewModels
 
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Appearance", "FollowWindowsColor", value);
-                Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(value, XmlSettingsClient.Instance.Get<string>("Appearance", "ColorScheme")));
+                SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
+                Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(value, SettingsClient.Get<string>("Appearance", "ColorScheme")));
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
             }
@@ -101,7 +101,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.ColorSchemes = localColorSchemes;
 
-            string savedColorSchemeName = XmlSettingsClient.Instance.Get<string>("Appearance", "ColorScheme");
+            string savedColorSchemeName = SettingsClient.Get<string>("Appearance", "ColorScheme");
 
             if (!string.IsNullOrEmpty(savedColorSchemeName))
             {
@@ -116,8 +116,8 @@ namespace Dopamine.SettingsModule.ViewModels
         private async void GetCheckBoxesAsync()
         {
             await Task.Run(() => {
-                this.CheckBoxWindowsColorChecked = XmlSettingsClient.Instance.Get<bool>("Appearance", "FollowWindowsColor");
-                this.CheckBoxThemeChecked = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme");
+                this.CheckBoxWindowsColorChecked = SettingsClient.Get<bool>("Appearance", "FollowWindowsColor");
+                this.CheckBoxThemeChecked = SettingsClient.Get<bool>("Appearance", "EnableLightTheme");
             });
         }
         #endregion

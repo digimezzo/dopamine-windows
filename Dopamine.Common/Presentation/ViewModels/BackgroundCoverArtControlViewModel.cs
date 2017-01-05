@@ -1,8 +1,8 @@
-﻿using Dopamine.Common.Services.Appearance;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -31,9 +31,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.cacheService = cacheService;
             this.metadataService = metadataService;
 
-            this.appearanceService.ThemeChanged += (_, __) => this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
+            this.appearanceService.ThemeChanged += (_, __) => this.Opacity = SettingsClient.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
 
-            this.Opacity = XmlSettingsClient.Instance.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
+            this.Opacity = SettingsClient.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
         }
         #endregion
     }

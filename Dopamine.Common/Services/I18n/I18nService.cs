@@ -1,6 +1,6 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.IO;
-using Dopamine.Core.Settings;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
+using Dopamine.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ namespace Dopamine.Common.Services.I18n
     {
         #region Variables
         private string builtinLanguagesDirectory = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ApplicationPaths.BuiltinLanguagesFolder);
-        private string customLanguagesDirectory = System.IO.Path.Combine(XmlSettingsClient.Instance.ApplicationFolder, ApplicationPaths.CustomLanguagesFolder);
+        private string customLanguagesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CustomLanguagesFolder);
         private List<Language> languages;
         private Language defaultLanguage;
         private FileSystemWatcher languageWatcher;

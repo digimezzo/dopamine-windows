@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Services.Collection;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Core.Settings;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -36,7 +36,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxIgnoreRemovedFilesChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
+                SettingsClient.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
                 SetProperty<bool>(ref this.checkBoxIgnoreRemovedFilesChecked, value);
             }
         }
@@ -46,7 +46,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxRefreshCollectionOnStartupChecked; }
             set
             {
-                XmlSettingsClient.Instance.Set<bool>("Indexing", "RefreshCollectionOnStartup", value);
+                SettingsClient.Set<bool>("Indexing", "RefreshCollectionOnStartup", value);
                 SetProperty<bool>(ref this.checkBoxRefreshCollectionOnStartupChecked, value);
             }
         }
@@ -73,15 +73,15 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxIgnoreRemovedFilesChecked = XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles");
-                this.CheckBoxRefreshCollectionOnStartupChecked = XmlSettingsClient.Instance.Get<bool>("Indexing", "RefreshCollectionOnStartup");
+                this.CheckBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
+                this.CheckBoxRefreshCollectionOnStartupChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionOnStartup");
             });
         }
 
         private void RefreshNow()
         {
             this.indexingService.NeedsIndexing = true;
-            this.indexingService.IndexCollectionAsync(XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
         }
         #endregion
 
@@ -93,7 +93,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.DelayedIndexCollectionAsync(1000, XmlSettingsClient.Instance.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
             this.collectionService.SaveMarkedFoldersAsync();
         }
 
