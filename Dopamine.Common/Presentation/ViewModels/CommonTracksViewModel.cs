@@ -27,6 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -78,6 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Commands
+        public string TIsEnabled => "233";
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
@@ -703,7 +705,27 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async Task RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
         {
-            
+            string title = ResourceUtils.GetStringResource("Language_Remove_From_Disk");
+            string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Disk");
+
+            if (selectedTracks != null && selectedTracks.Count > 1)
+            {
+                body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
+            }
+
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            {
+                RemoveTracksResult result = await this.collectionService.RemoveTracksFromDiskAsync(selectedTracks);
+
+                if (result == RemoveTracksResult.Error)
+                {
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                }
+                else
+                {
+                    await this.playbackService.Dequeue(selectedTracks);
+                }
+            }
         }
 
         protected async Task AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)

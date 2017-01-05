@@ -307,8 +307,13 @@
                 </StackPanel>
             </MenuItem.Header>
         </MenuItem>
-        <MenuItem 
-            Command="{Binding DataContext.RemoveSelectedTracksFromDiskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+        <MenuItem>
+            <MenuItem.Command>
+                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+            </MenuItem.Command>
+            <MenuItem.Visibility>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+            </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
@@ -388,8 +393,13 @@
                 </StackPanel>
             </MenuItem.Header>
         </MenuItem>
-        <MenuItem 
-            Command="{Binding DataContext.RemoveSelectedTracksFromDiskCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+        <MenuItem>
+            <MenuItem.Command>
+                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+            </MenuItem.Command>
+            <MenuItem.Visibility>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+            </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
@@ -464,6 +474,20 @@
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource Language_Remove}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <MenuItem>
+            <MenuItem.Command>
+                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+            </MenuItem.Command>
+            <MenuItem.Visibility>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+            </MenuItem.Visibility>
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
                     <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </MenuItem.Header>
