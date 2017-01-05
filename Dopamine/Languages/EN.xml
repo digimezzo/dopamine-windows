@@ -372,6 +372,10 @@
   <Text Key="Search_Again">Search again</Text>
   <Text Key="Audio_File">Audio file</Text>
   <Text Key="Play_Next">Play next</Text>
+  <Text Key="Last_Played">Last played</Text>
+  <Text Key="Remember_Last_played_Song">Remember the last played song and its playback progress</Text>
+  <Text Key="Download_Lyrics_From">Download lyrics from</Text>
+  <Text Key="Lyrics_Download_Timeout">Lyrics download timeout</Text>
   <Text Key="Add_Remove_Track_From_Disk">Add remove track from disk to context menu</Text>
   <Text Key="Remove_From_Disk">Remove from the disk</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from recycle bin.</Text>
