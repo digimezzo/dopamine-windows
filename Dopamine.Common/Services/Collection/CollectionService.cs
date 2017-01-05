@@ -148,19 +148,8 @@ namespace Dopamine.Common.Services.Collection
                 result = await this.trackRepository.RemoveTracksAsync(singletrack);
                 if (result == RemoveTracksResult.Success)
                 {
-                    // Delete orphaned Albums
-                    await this.albumRepository.DeleteOrphanedAlbumsAsync();
-
-                    // Delete orphaned Artists
-                    await this.artistRepository.DeleteOrphanedArtistsAsync();
-
-                    // Delete orphaned Genres
-                    await this.genreRepository.DeleteOrphanedGenresAsync();
-
                     // Delete file from disk
                     FileUtils.MoveToRecycleBin(track.Path);
-
-                    this.CollectionChanged(this, new EventArgs());
                 }
                 else
                 {
