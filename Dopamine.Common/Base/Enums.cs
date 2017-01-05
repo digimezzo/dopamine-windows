@@ -21,10 +21,4 @@
         Medium = 2,
         Large = 3
     }
-
-    public enum Configuration
-    {
-        Debug = 1,
-        Release = 2
-    }
 }

@@ -5,6 +5,8 @@ using Digimezzo.Utilities.Log;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Digimezzo.Utilities.Packaging;
+using Digimezzo.Utilities.IO;
 
 namespace Dopamine.Views
 {
@@ -13,9 +15,18 @@ namespace Dopamine.Views
         #region Variables
         private int uiWaitMilliSeconds = 300;
         private string errorMessage;
+        private Package package;
         #endregion
 
         #region Properties
+        public Package Package
+        {
+            get
+            {
+                return this.package;
+            }
+        }
+
         public bool IsPreview
         {
             get
@@ -51,6 +62,15 @@ namespace Dopamine.Views
         #region Construction
         public Splash()
         {
+            Configuration config;
+#if DEBUG
+            config = Configuration.Debug;
+#else
+		    config = Configuration.Release;
+#endif
+
+            this.package = new Package(ProcessExecutable.Name(), ProcessExecutable.AssemblyVersion(), config);
+
             InitializeComponent();
         }
         #endregion

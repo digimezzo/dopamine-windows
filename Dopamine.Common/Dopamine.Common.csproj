@@ -168,11 +168,9 @@
     <Compile Include="Base\Defaults.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\PackagingInformation.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
-    <Compile Include="Base\VersionInfo.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />

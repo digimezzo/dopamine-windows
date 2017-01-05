@@ -11,6 +11,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Digimezzo.Utilities.Packaging;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
@@ -31,7 +32,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
         // Update status
         private bool isUpdateAvailable;
-        private VersionInfo versionInfo;
+        private Package package;
         private string destinationPath;
         private string updateToolTip;
         private bool isUpdateStatusHiddenByUser;
@@ -96,10 +97,10 @@ namespace Dopamine.FullPlayerModule.ViewModels
             }
         }
 
-        public VersionInfo VersionInfo
+        public Package Package
         {
-            get { return this.versionInfo; }
-            set { SetProperty<VersionInfo>(ref this.versionInfo, value); }
+            get { return this.package; }
+            set { SetProperty<Package>(ref this.package, value); }
         }
 
         public string UpdateToolTip
@@ -237,22 +238,22 @@ namespace Dopamine.FullPlayerModule.ViewModels
         #endregion
 
         #region Private
-        private void NewVersionAvailableHandler(VersionInfo versionInfo)
+        private void NewVersionAvailableHandler(Package package)
         {
-            this.NewVersionAvailableHandler(versionInfo, string.Empty);
+            this.NewVersionAvailableHandler(package, string.Empty);
         }
 
-        private void NewVersionAvailableHandler(VersionInfo iVersionInfo, string iDestinationPath)
+        private void NewVersionAvailableHandler(Package package, string destinationPath)
         {
             if (!this.isUpdateStatusHiddenByUser && !this.IsIndexing)
             {
-                this.VersionInfo = iVersionInfo;
+                this.Package = package;
                 this.IsUpdateAvailable = true;
 
-                this.destinationPath = iDestinationPath;
+                this.destinationPath = destinationPath;
                 OnPropertyChanged(() => this.ShowInstallUpdateButton);
 
-                if (!string.IsNullOrEmpty(iDestinationPath))
+                if (!string.IsNullOrEmpty(destinationPath))
                 {
                     this.UpdateToolTip = ResourceUtils.GetStringResource("Language_Click_Here_To_Install");
                 }
@@ -263,7 +264,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             }
         }
 
-        private void NoNewVersionAvailableHandler(VersionInfo iVersionInfo)
+        private void NoNewVersionAvailableHandler(Package package)
         {
             this.IsUpdateAvailable = false;
         }
@@ -275,7 +276,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 try
                 {
                     // A file was downloaded. Start the installer.
-                    System.IO.FileInfo msiFileInfo = new System.IO.DirectoryInfo(this.destinationPath).GetFiles("*" + PackagingInformation.GetInstallablePackageFileExtesion()).First();
+                    System.IO.FileInfo msiFileInfo = new System.IO.DirectoryInfo(this.destinationPath).GetFiles("*" + package.InstallableFileExtension).First();
                     Process.Start(msiFileInfo.FullName);
                 }
                 catch (Exception ex)
@@ -297,11 +298,11 @@ namespace Dopamine.FullPlayerModule.ViewModels
             {
                 string downloadLink = string.Empty;
 
-                if (this.VersionInfo.Configuration == Configuration.Debug)
+                if (this.Package.Configuration == Configuration.Debug)
                 {
                     downloadLink = UpdateInformation.PreReleaseDownloadLink;
                 }
-                else if (this.VersionInfo.Configuration == Configuration.Release)
+                else if (this.Package.Configuration == Configuration.Release)
                 {
                     downloadLink = UpdateInformation.ReleaseDownloadLink;
                 }

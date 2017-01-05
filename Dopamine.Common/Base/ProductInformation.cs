@@ -11,53 +11,6 @@ namespace Dopamine.Common.Base
         public static string ApplicationDisplayName = "Dopamine";
         public static string ApplicationAssemblyName = "Dopamine";
         public static string Copyright = "Copyright Digimezzo © 2014-" + DateTime.Now.Year;
-
-        public static string FormattedAssemblyVersion
-        {
-            get
-            {
-                Assembly asm = Assembly.GetEntryAssembly(); // Returns the assembly of the first executable that was executed
-                AssemblyName an = asm.GetName();
-
-                //  {0}: Major Version,
-                //  {1}: Minor Version,
-                //  {2}: Build Number,
-                //  {3}: Revision
-
-                if (an.Version.Revision != 0)
-                {
-                    return string.Format("{0}.{1}.{2} (Build {3})", an.Version.Major, an.Version.Minor, an.Version.Revision, an.Version.Build);
-                }
-                else
-                {
-                    return string.Format("{0}.{1} (Build {2})", an.Version.Major, an.Version.Minor, an.Version.Build);
-                }
-            }
-        }
-
-        public static Version AssemblyVersion
-        {
-            get
-            {
-                Assembly asm = Assembly.GetEntryAssembly(); // Returns the assembly of the first executable that was executed
-                AssemblyName an = asm.GetName();
-
-                return an.Version;
-            }
-        }
-
-        public static string VersionTag
-        {
-
-            get
-            {
-#if DEBUG
-                return "Preview";
-#else
-		        return "Release";
-#endif
-            }
-        }
         #endregion
 
         #region Components
