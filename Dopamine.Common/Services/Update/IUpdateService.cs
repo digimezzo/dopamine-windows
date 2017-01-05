@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Base;
+﻿using Digimezzo.Utilities.Packaging;
 using System;
 
 namespace Dopamine.Common.Services.Update
@@ -7,9 +7,9 @@ namespace Dopamine.Common.Services.Update
     {
         void EnableUpdateCheck();
         void DisableUpdateCheck();
-        event Action<VersionInfo, string> NewDownloadedVersionAvailable;
-        event Action<VersionInfo> NewOnlineVersionAvailable;
-        event Action<VersionInfo> NoNewVersionAvailable;
+        event Action<Package, string> NewDownloadedVersionAvailable;
+        event Action<Package> NewOnlineVersionAvailable;
+        event Action<Package> NoNewVersionAvailable;
         event EventHandler UpdateCheckDisabled;
     }
 }

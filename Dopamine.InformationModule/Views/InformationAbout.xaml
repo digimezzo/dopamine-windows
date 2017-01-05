@@ -17,10 +17,11 @@
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
             <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}"/>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Version}" Margin="0,0,5,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="{x:Static base:ProductInformation.FormattedAssemblyVersion}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{DynamicResource Language_Version}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text=":" Margin="0,0,5,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{Binding Package.FormattedVersion}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Border Background="{DynamicResource RG_AccentBrush}" Padding="4,2,4,2" CornerRadius="2">
-                    <TextBlock Text="{x:Static base:ProductInformation.VersionTag}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                    <TextBlock Text="{Binding Package.Label}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
                 </Border>
             </StackPanel>
             <TextBlock Text="{x:Static base:ProductInformation.Copyright}" Margin="0,5,0,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
