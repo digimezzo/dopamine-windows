@@ -114,6 +114,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
@@ -236,6 +237,7 @@
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AddToPlaylistResult.cs" />
+    <Compile Include="Helpers\TaskbarHelper.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
