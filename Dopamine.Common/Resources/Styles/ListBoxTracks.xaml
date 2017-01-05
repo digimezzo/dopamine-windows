@@ -312,7 +312,7 @@
                 <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
             </MenuItem.Command>
             <MenuItem.Visibility>
-                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
             </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -398,7 +398,7 @@
                 <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
             </MenuItem.Command>
             <MenuItem.Visibility>
-                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
             </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -483,7 +483,7 @@
                 <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
             </MenuItem.Command>
             <MenuItem.Visibility>
-                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" Mode="OneWay"/>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
             </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
