@@ -56,7 +56,7 @@
                     <DataTemplate>
                         <DockPanel Margin="0,2,0,2">
                             <DockPanel Width="190" DockPanel.Dock="Left" >
-                                <Button Content="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Link}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Link}"/>
+                                <Button Content="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Url}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Url}"/>
                                 <Label/>
                             </DockPanel>
                             <TextBlock Text="{Binding Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
