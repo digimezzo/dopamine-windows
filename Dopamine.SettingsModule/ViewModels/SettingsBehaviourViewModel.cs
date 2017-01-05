@@ -22,7 +22,6 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxEnableRatingChecked;
         private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
-        private bool checkBoxAddRemoveTrackFromDiskChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
         #endregion
@@ -116,16 +115,6 @@ namespace Dopamine.SettingsModule.ViewModels
                 SetProperty<NameValue>(ref this.selectedScrollVolumePercentage, value);
             }
         }
-
-        public bool CheckBoxAddRemoveTrackFromDiskChecked
-        {
-            get { return this.checkBoxAddRemoveTrackFromDiskChecked; }
-            set
-            {
-                XmlSettingsClient.Instance.Set<bool>("Behaviour", "AddRemoveTrackFromDisk", value);
-                SetProperty<bool>(ref this.checkBoxAddRemoveTrackFromDiskChecked, value);
-            }
-        }
         #endregion
 
         #region Construction
@@ -143,14 +132,13 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxShowTrayIconChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "ShowTrayIcon");
-                this.CheckBoxMinimizeToTrayChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "MinimizeToTray");
-                this.CheckBoxCloseToTrayChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "CloseToTray");
-                this.CheckBoxFollowTrackChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "FollowTrack");
-                this.CheckBoxEnableRatingChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableRating");
-                this.CheckBoxEnableLoveChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "EnableLove");
-                this.CheckBoxSaveRatingInAudioFilesChecked = XmlSettingsClient.Instance.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
-
+                this.CheckBoxShowTrayIconChecked = SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon");
+                this.CheckBoxMinimizeToTrayChecked = SettingsClient.Get<bool>("Behaviour", "MinimizeToTray");
+                this.CheckBoxCloseToTrayChecked = SettingsClient.Get<bool>("Behaviour", "CloseToTray");
+                this.CheckBoxFollowTrackChecked = SettingsClient.Get<bool>("Behaviour", "FollowTrack");
+                this.CheckBoxEnableRatingChecked = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+                this.CheckBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
+                this.CheckBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
             });
         }
 

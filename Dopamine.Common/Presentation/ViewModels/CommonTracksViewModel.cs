@@ -80,6 +80,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Commands
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
+        public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
         public DelegateCommand<string> AddTracksToPlaylistCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
@@ -698,6 +699,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                     await this.playbackService.Dequeue(selectedTracks);
                 }
             }
+        }
+
+        protected async Task RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        {
+            
         }
 
         protected async Task AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)
