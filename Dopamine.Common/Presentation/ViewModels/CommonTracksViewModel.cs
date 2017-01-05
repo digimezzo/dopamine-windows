@@ -78,7 +78,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Commands
-        public string TIsEnabled => "233";
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
