@@ -293,7 +293,7 @@
   <Text Key="Website">Веб-сайт</Text>
   <Text Key="Social_Networks">Соцсети</Text>
   <Text Key="Contact_Us">Связаться с нами</Text>
-  <Text Key="Mail">Почта</Text>
+  <Text Key="Email">Почта</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Извините, я не могу воспроизвести эту песню. Не удалось найти файл.</Text>
   <Text Key="Current_Of_Total">%current% из %total%</Text>
   <Text Key="Cover_Size">Размер обложки</Text>

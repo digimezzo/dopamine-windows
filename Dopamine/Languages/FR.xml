@@ -293,7 +293,7 @@
   <Text Key="Website">Site web</Text>
   <Text Key="Social_Networks">Réseaux sociaux</Text>
   <Text Key="Contact_Us">Nous contacter</Text>
-  <Text Key="Mail">E-mail</Text>
+  <Text Key="Email">Courrier électronique</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Désolé, la lecture de ce morceau a échouée. Le fichier est introuvable.</Text>
   <Text Key="Current_Of_Total">%current% de %total%</Text>
   <Text Key="Cover_Size">Taille des pochettes</Text>

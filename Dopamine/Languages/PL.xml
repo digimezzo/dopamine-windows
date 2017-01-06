@@ -293,7 +293,7 @@
   <Text Key="Website">Strona WWWW</Text>
   <Text Key="Social_Networks">Media społecznościowe</Text>
   <Text Key="Contact_Us">Skontaktuj się z nami</Text>
-  <Text Key="Mail">Mail</Text>
+  <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Niestety nie mogę odtworzyć tego utworu. Plik nie został znaleziony.</Text>
   <Text Key="Current_Of_Total">%current% z %total%</Text>
   <Text Key="Cover_Size">Rozmiar okładki</Text>

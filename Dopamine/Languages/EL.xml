@@ -293,7 +293,7 @@
   <Text Key="Website">Ιστοσελίδα</Text>
   <Text Key="Social_Networks">Κοινωνικά δίκτυα</Text>
   <Text Key="Contact_Us">Επικοινωνήστε μαζί μας</Text>
-  <Text Key="Mail">Ταχυδρομείο</Text>
+  <Text Key="Email">Ταχυδρομείο</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Συγγνώμη, δεν είναι δυνατή η αναπαραγωγή αυτού του τραγουδιού. Δε βρίσκεται το αρχείο.</Text>
   <Text Key="Current_Of_Total">%current% από %total%</Text>
   <Text Key="Cover_Size">Μέγεθος εξωφύλλου</Text>
