@@ -22,7 +22,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxEnableRatingChecked;
         private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
-        private bool checkBoxAddRemoveTrackFromDiskChecked;
+        private bool checkBoxShowRemoveFromDiskChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
         #endregion
@@ -101,13 +101,13 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public bool CheckBoxAddRemoveTrackFromDiskChecked
+        public bool CheckBoxShowRemoveFromDiskChecked
         {
-            get { return this.checkBoxAddRemoveTrackFromDiskChecked; }
+            get { return this.checkBoxShowRemoveFromDiskChecked; }
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "AddRemoveTrackFromDisk", value);
-                SetProperty<bool>(ref this.checkBoxAddRemoveTrackFromDiskChecked, value);
+                SettingsClient.Set<bool>("Behaviour", "ShowRemoveFromDisk", value);
+                SetProperty<bool>(ref this.checkBoxShowRemoveFromDiskChecked, value);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxFollowTrackChecked = SettingsClient.Get<bool>("Behaviour", "FollowTrack");
                 this.CheckBoxEnableRatingChecked = SettingsClient.Get<bool>("Behaviour", "EnableRating");
                 this.CheckBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
-                this.CheckBoxAddRemoveTrackFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "AddRemoveTrackFromDisk");
+                this.CheckBoxShowRemoveFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
                 this.CheckBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
             });
         }
