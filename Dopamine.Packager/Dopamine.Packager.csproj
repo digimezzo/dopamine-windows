@@ -48,6 +48,9 @@
     <AssemblyOriginatorKeyFile>..\Dopamine\Dopamine.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Digimezzo.Utilities">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\Dopamine\Libraries\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -77,7 +80,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Packager.cs" />
-    <Compile Include="PackagerWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
