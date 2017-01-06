@@ -92,6 +92,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+
         public abstract bool CanOrderByAlbum { get; }
 
         public bool HasContextMenuPlaylists
@@ -228,6 +230,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
+
+            // Initialize events
+            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();

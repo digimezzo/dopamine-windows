@@ -295,8 +295,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<bool>(ref this.isPaused, value); }
         }
 
-        public bool AddRemoveTrackFromDiskIsEnabled => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
-
         public bool ShowTrackNumber
         {
             get { return this.showTrackNumber; }

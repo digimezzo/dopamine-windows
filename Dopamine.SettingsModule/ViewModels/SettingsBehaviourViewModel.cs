@@ -108,6 +108,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SettingsClient.Set<bool>("Behaviour", "ShowRemoveFromDisk", value);
                 SetProperty<bool>(ref this.checkBoxShowRemoveFromDiskChecked, value);
+                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Publish(value));
             }
         }
 
