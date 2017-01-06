@@ -11,6 +11,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
@@ -84,7 +85,7 @@
                 <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
             </MenuItem.Command>
             <MenuItem.Visibility>
-                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToVisibilityConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                <Binding Path="DataContext.AddRemoveTrackFromDiskIsEnabled" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BooleanToCollapsedConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
             </MenuItem.Visibility>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal">
