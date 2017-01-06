@@ -7,6 +7,8 @@ using Dopamine.Common.Metadata;
 using Dopamine.Common.Utils;
 using Prism.Mvvm;
 using System;
+using System.Globalization;
+using System.Windows;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -172,7 +174,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.FileFolder = FileUtils.Folder(selectedTrack.Path);
                 this.FilePath = selectedTrack.Path;
                 this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(selectedTrack.Path));
-                this.FileLastModified = FileUtils.DateModified(selectedTrack.Path).ToString("D");
+                this.FileLastModified = FileUtils.DateModified(selectedTrack.Path).ToString("D", new CultureInfo(Application.Current.FindResource("Language_ISO639-1")?.ToString()));
             }
             catch (Exception ex)
             {
