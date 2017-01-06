@@ -293,7 +293,7 @@
   <Text Key="Website">Веб-сайт</Text>
   <Text Key="Social_Networks">Соціальні мережі</Text>
   <Text Key="Contact_Us">Зв’язатися</Text>
-  <Text Key="Mail">Пошта</Text>
+  <Text Key="Email">Пошта</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Вибачте, але у Dopamine не вдається запустити цей трек. Данний файл не знайдено.</Text>
   <Text Key="Current_Of_Total">%current% від %total%</Text>
   <Text Key="Cover_Size">Розмір обкладинки</Text>

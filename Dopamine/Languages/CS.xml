@@ -293,7 +293,7 @@
   <Text Key="Website">Web</Text>
   <Text Key="Social_Networks">Sociální sítě</Text>
   <Text Key="Contact_Us">Kontaktujte nás</Text>
-  <Text Key="Mail">E-mail</Text>
+  <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Tuto skladbu nemohu přehrát, soubor nebyl nalezen.</Text>
   <Text Key="Current_Of_Total">%current% z %total%</Text>
   <Text Key="Cover_Size">Velikosti obalu</Text>

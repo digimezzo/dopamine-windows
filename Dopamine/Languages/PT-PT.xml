@@ -293,7 +293,7 @@
   <Text Key="Website">Website</Text>
   <Text Key="Social_Networks">Redes sociais</Text>
   <Text Key="Contact_Us">Entre em contacto</Text>
-  <Text Key="Mail">Correio eletrónico</Text>
+  <Text Key="Email">Correio eletrónico</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe, é impossível reproduzir esta música. A música não pôde ser encontrada.</Text>
   <Text Key="Current_Of_Total">%current% do %total%</Text>
   <Text Key="Cover_Size">Tamanho</Text>
