@@ -68,24 +68,24 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Thanks}"/>
             <TextBlock Margin="0,5,0,4" TextWrapping="Wrap">
-                                                    <Run Text="To the people who donated." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Donated_People}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                                                    <Run Text="To the translators." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Translators}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,0" TextWrapping="Wrap">
-                                                    <Run Text="To the talented developers who created the components mentioned above." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Components_Developers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                                                <Run Text="To the" Foreground="{DynamicResource RG_ForegroundBrush}"/>                            
-                                                        <InlineUIContainer>
-                                                            <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
-                                                                 <Button.RenderTransform>
-                                                                    <TranslateTransform Y="4"/>
-                                                                    </Button.RenderTransform>
-                                                                </Button>
-                                                        </InlineUIContainer>
-                                                        <Run Text="community for its ideas, testing and bug reports." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Neowin_Head}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <InlineUIContainer>
+                        <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
+                            <Button.RenderTransform>
+                                <TranslateTransform Y="4"/>
+                            </Button.RenderTransform>
+                        </Button>
+                    </InlineUIContainer>
+                <Run Text="{DynamicResource Language_About_Neowin_End}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>
