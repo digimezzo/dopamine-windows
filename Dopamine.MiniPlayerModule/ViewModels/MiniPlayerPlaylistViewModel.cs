@@ -12,7 +12,7 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         #region Construction
         public MiniPlayerPlaylistViewModel(IUnityContainer container) : base(container)
         {
-            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
             {
                 if (screenName == typeof(MiniPlayerPlaylist).FullName) this.RemoveFromNowPlayingCommand.Execute();
             });

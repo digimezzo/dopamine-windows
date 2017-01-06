@@ -142,7 +142,7 @@ namespace Dopamine.CollectionModule.Views
             }
             else if (e.Key == Key.Delete)
             {
-                this.eventAggregator.GetEvent<RemoveSelectedTracks>().Publish(this.screenName);
+                this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
             }
         }
         #endregion
