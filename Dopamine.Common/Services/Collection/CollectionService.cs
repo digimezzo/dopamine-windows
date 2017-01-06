@@ -138,29 +138,21 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
         {
-            RemoveTracksResult result = RemoveTracksResult.Success;
-            IList<MergedTrack> singletrack = new List<MergedTrack>();
-            int removedTracks = 0;
+            RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
 
-            foreach (var track in selectedTracks)
+            if (result == RemoveTracksResult.Success)
             {
-                singletrack.Clear();
-                singletrack.Add(track);
-                result = await this.trackRepository.RemoveTracksAsync(singletrack);
-                if (result == RemoveTracksResult.Success)
+                // If result is Success: we can assume that all selected tracks were removed from the collection,
+                // as this happens in a transaction in trackRepository. If removing 1 or more tracks fails, the
+                // transaction is rolled back and no tracks are removed.
+                foreach (var track in selectedTracks)
                 {
                     // Delete file from disk
                     FileUtils.SendToRecycleBinSilent(track.Path);
-                    removedTracks++;
                 }
-                else
-                {
-                    result = RemoveTracksResult.Error;
-                    break;
-                }
-            }
 
-            if(removedTracks > 0) this.CollectionChanged(this, new EventArgs());
+                this.CollectionChanged(this, new EventArgs());
+            }
 
             return result;
         }
