@@ -51,6 +51,10 @@ namespace Dopamine.Common.Prism
     {
     }
 
+    public class SettingShowRemoveFromDiskChanged : PubSubEvent<bool>
+    {
+    }
+
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
     }
