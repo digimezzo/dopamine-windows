@@ -376,7 +376,7 @@
   <Text Key="Remember_Last_played_Song">记住最后播放的歌曲及进度</Text>
   <Text Key="Download_Lyrics_From">从以下来源下载歌词</Text>
   <Text Key="Lyrics_Download_Timeout">歌词下载超时</Text>
-  <Text Key="Add_Remove_From_Disk">Add 'Remove from disk' to the context menu</Text>
+  <Text Key="Show_Remove_From_Disk">Show 'Remove from disk' in the context menu</Text>
   <Text Key="Remove_From_Disk">Remove from disk</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
