@@ -56,7 +56,7 @@
     <Reference Include="CSCore">
       <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
     </Reference>
-    <Reference Include="Digimezzo.Utilities">
+	<Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Digimezzo.WPFControls">
