@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Fixed] Tray controls don't respect the position of the Windows Taskbar.
+- [Fixed] Added optional 'Remove from disk' option to the song context menu
 
 
 2017-01-03: Dopamine 1.2.4 Build 862 (Release)
