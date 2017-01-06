@@ -10,7 +10,7 @@ namespace Dopamine.Common.Presentation.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool vis = bool.Parse(value.ToString());
-            return vis ? Visibility.Visible : Visibility.Collapsed;
+            return vis ? Visibility.Visible : Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
