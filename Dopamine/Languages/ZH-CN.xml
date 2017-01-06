@@ -381,4 +381,9 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">你确定要从磁盘中删除这首歌曲？稍后你可以在回收站中恢复。</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">你确定要从磁盘中删除这些歌曲？稍后你可以在回收站中恢复。</Text>
   <Text Key="Error_Removing_Songs_From_Disk">从磁盘中删除歌曲时发生了一个错误，请查看日志文件获取更多信息。</Text>
+  <Text Key="About_Donated_People">感谢所有捐助过这个项目的朋友。</Text>
+  <Text Key="About_Translators">感谢所有提交翻译文本的朋友。</Text>
+  <Text Key="About_Components_Developers">感谢所有开发上述组件的杰出开发者。</Text>
+  <Text Key="About_Neowin_Head">感谢</Text>
+  <Text Key="About_Neowin_End">社区的构想、程序测试与错误报告。</Text>
 </Language>
