@@ -172,7 +172,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
 
             // Events
-            this.eventAggregator.GetEvent<RemoveSelectedTracks>().Subscribe((screenName) =>
+            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
             {
                 if (screenName == typeof(CollectionArtists).FullName) this.RemoveSelectedTracksCommand.Execute();
             });

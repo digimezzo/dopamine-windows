@@ -67,7 +67,7 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class RemoveSelectedTracks : PubSubEvent<string>
+    public class RemoveSelectedTracksWithKeyDelete : PubSubEvent<string>
     {
     }
 
