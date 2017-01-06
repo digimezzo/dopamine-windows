@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
@@ -141,9 +141,6 @@
     </Setting>
     <Setting Name="ScrollVolumePercentage">
       <Value>5</Value>
-    </Setting>
-    <Setting Name="AddRemoveTrackFromDisk">
-      <Value>False</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Startup">
