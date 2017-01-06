@@ -3,6 +3,7 @@ using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Database;
 using Prism.Mvvm;
 using System;
+using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -293,6 +294,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.isPaused; }
             set { SetProperty<bool>(ref this.isPaused, value); }
         }
+
+        public bool AddRemoveTrackFromDiskIsEnabled => SettingsClient.Get<bool>("Behaviour", "AddRemoveTrackFromDisk");
 
         public bool ShowTrackNumber
         {
