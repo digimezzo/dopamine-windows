@@ -1,8 +1,9 @@
-2017-01-06: Dopamine 1.3 Build 866 (Preview)
+2017-01-06: Dopamine 1.3 Build 867 (Preview)
 --------------------------------------------
 
 - [Fixed] Tray controls don't respect the position of the Windows Taskbar.
 - [Fixed] Added optional 'Remove from disk' option to the song context menu
+- [Fixed] Date in the Song Information window is not localized
 
 
 2017-01-03: Dopamine 1.2.4 Build 862 (Release)
