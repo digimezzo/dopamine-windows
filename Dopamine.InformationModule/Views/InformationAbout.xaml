@@ -38,16 +38,16 @@
                 <Button Content="{x:Static base:ContactInformation.WebsiteLink}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.WebsiteLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.WebsiteLink}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Mail}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="{x:Static base:ContactInformation.WebsiteContactLink}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.ContactEmail}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.WebsiteContactLink}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.FacebookLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.FacebookLink}"/>
                 <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.TwitterLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.TwitterLink}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Mail}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <Button Content="{x:Static base:ContactInformation.ContactEmail}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.ContactEmail}" Command="{x:Static commonprism:ApplicationCommands.OpenMailCommand}" CommandParameter="{x:Static base:ContactInformation.ContactEmail}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Components}" />

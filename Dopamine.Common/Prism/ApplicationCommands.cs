@@ -11,7 +11,6 @@ namespace Dopamine.Common.Prism
         public static CompositeCommand NavigateBetweenInformationCommand = new CompositeCommand();
         public static CompositeCommand NavigateBetweenMainCommand = new CompositeCommand();
         public static CompositeCommand OpenLinkCommand = new CompositeCommand();
-        public static CompositeCommand OpenMailCommand = new CompositeCommand();
         public static CompositeCommand OpenPathCommand = new CompositeCommand();
         public static CompositeCommand TaskbarItemInfoPlayCommand = new CompositeCommand();
         public static CompositeCommand RestoreWindowCommand = new CompositeCommand();
