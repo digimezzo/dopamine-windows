@@ -140,6 +140,7 @@ namespace Dopamine.Common.Services.Collection
         {
             RemoveTracksResult result = RemoveTracksResult.Success;
             IList<MergedTrack> singletrack = new List<MergedTrack>();
+            int removedTracks = 0;
 
             foreach (var track in selectedTracks)
             {
@@ -150,6 +151,7 @@ namespace Dopamine.Common.Services.Collection
                 {
                     // Delete file from disk
                     FileUtils.SendToRecycleBinSilent(track.Path);
+                    removedTracks++;
                 }
                 else
                 {
@@ -157,6 +159,9 @@ namespace Dopamine.Common.Services.Collection
                     break;
                 }
             }
+
+            if(removedTracks > 0) this.CollectionChanged(this, new EventArgs());
+
             return result;
         }
 
@@ -317,7 +322,8 @@ namespace Dopamine.Common.Services.Collection
 
             List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
 
                 try
                 {
@@ -373,7 +379,7 @@ namespace Dopamine.Common.Services.Collection
                 ExportPlaylistsResult tempResult = await this.ExportPlaylistAsync(pl, destinationDirectory, pl.PlaylistName, true);
 
                 // If at least 1 export failed, return an error
-                if( tempResult == ExportPlaylistsResult.Error)
+                if (tempResult == ExportPlaylistsResult.Error)
                 {
                     result = tempResult;
                 }
