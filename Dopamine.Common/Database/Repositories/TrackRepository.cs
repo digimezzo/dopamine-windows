@@ -336,16 +336,13 @@ namespace Dopamine.Common.Database.Repositories
                     using (var conn = this.factory.GetConnection())
                     {
                         List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
-                        List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
-                        List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
-
-
+                        
                         conn.Execute("BEGIN TRANSACTION");
 
-                        foreach (string path in pathsToRemoveNow)
+                        foreach (string path in pathsToRemove)
                         {
-                            // Add to table RemovedTrack
-                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path, SafePath) VALUES(?,?,?)", DateTime.Now.Ticks, path, path.ToSafePath());
+                            // Add to table RemovedTrack, only if not already present.
+                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path, SafePath) SELECT ?,?,? WHERE NOT EXISTS (SELECT 1 FROM RemovedTrack WHERE SafePath=?)", DateTime.Now.Ticks, path, path.ToSafePath(), path.ToSafePath());
 
                             // Remove from QueuedTrack
                             conn.Execute("DELETE FROM QueuedTrack WHERE SafePath=?", path.ToSafePath());
