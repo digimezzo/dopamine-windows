@@ -9,12 +9,13 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:viewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type viewmodels:PlaybackInfoViewModel}">
             <StackPanel>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                <controls:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
                 <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" Margin="0,-2,0,0"  FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
             </StackPanel>
         </DataTemplate>
