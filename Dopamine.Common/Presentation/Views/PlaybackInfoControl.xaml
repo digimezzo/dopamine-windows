@@ -8,13 +8,14 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:viewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
-             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+             xmlns:base="clr-namespace:Dopamine.Common.Base"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type viewmodels:PlaybackInfoViewModel}">
             <StackPanel>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <controls:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_AccentBrush}"/>
                 <StackPanel Visibility="{Binding ShowAlbumInfo,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}">
                     <TextBlock Text="{Binding Album}" TextTrimming="CharacterEllipsis" FontSize="{Binding AlbumFontSize,ElementName=ThisControl}" FontWeight="{Binding AlbumFontWeight,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
