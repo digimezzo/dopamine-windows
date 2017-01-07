@@ -46,7 +46,7 @@
             <Separator Height="20" Background="Transparent" />
             <!-- Output device -->
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Output_Device}" />
-            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{StaticResource Language_Dopamine_Uses_WASAPI}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Dopamine_Uses_WASAPI}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
