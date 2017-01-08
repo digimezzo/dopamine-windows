@@ -13,7 +13,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Dopamine.Common.Services.Playback;
 
 namespace Dopamine.Common.Services.Collection
 {
@@ -27,11 +29,12 @@ namespace Dopamine.Common.Services.Collection
         private IGenreRepository genreRepository;
         private IFolderRepository folderRepository;
         private ICacheService cacheService;
+        private IPlaybackService playbackService;
         private List<Folder> markedFolders;
         #endregion
 
         #region Construction
-        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService)
+        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
         {
             this.playlistRepository = playlistRepository;
             this.albumRepository = albumRepository;
@@ -40,6 +43,7 @@ namespace Dopamine.Common.Services.Collection
             this.genreRepository = genreRepository;
             this.folderRepository = folderRepository;
             this.cacheService = cacheService;
+            this.playbackService = playbackService;
             this.markedFolders = new List<Folder>();
         }
         #endregion
@@ -147,6 +151,15 @@ namespace Dopamine.Common.Services.Collection
                 // transaction is rolled back and no tracks are removed.
                 foreach (var track in selectedTracks)
                 {
+                    // When the track is playing, the corresponding file is handled by the CSCore.
+                    // To delete the file properly, PlaybackService must release this handle.
+                    if (track.Equals(this.playbackService.PlayingTrack))
+                    {
+                        if (this.playbackService.Queue.Count == 1)
+                            this.playbackService.Stop();
+                        else
+                            await this.playbackService.PlayNextAsync();
+                    }
                     // Delete file from disk
                     FileUtils.SendToRecycleBinSilent(track.Path);
                 }
