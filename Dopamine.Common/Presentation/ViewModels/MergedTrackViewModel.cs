@@ -63,6 +63,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
+        public int SortBitrate
+        {
+            get
+            {
+                return Convert.ToInt32(Track.BitRate ?? 0);
+            }
+        }
+
         #endregion
 
         #region Properties
