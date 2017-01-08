@@ -337,6 +337,17 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async Task StopIfPlayingAsync(MergedTrack track)
+        {
+            if (track.Equals(this.PlayingTrack))
+            {
+                if (this.shuffledTracks.Count == 1)
+                    this.Stop();
+                else
+                    await this.PlayNextAsync();
+            }
+        }
+
         public async Task UpdateQueueOrderAsync(List<MergedTrack> tracks)
         {
             if (tracks == null || tracks.Count == 0) return;
@@ -672,7 +683,7 @@ namespace Dopamine.Common.Services.Playback
             }
 
             await this.SetPlaybackSettingsAsync();
-            if(!this.shuffle) await SetShuffle(true); // Make sure tracks get shuffled
+            if (!this.shuffle) await SetShuffle(true); // Make sure tracks get shuffled
             await this.PlayFirstAsync();
         }
 
@@ -1033,7 +1044,7 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
-            } 
+            }
         }
 
         private async Task ResumeAsync()
@@ -1366,7 +1377,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartTrackPausedAsync(MergedTrack track, int progressSeconds)
         {
-            if(await this.TryPlayAsync(track, true))
+            if (await this.TryPlayAsync(track, true))
             {
                 await this.PauseAsync();
                 if (!this.mute) this.player.SetVolume(this.Volume);
