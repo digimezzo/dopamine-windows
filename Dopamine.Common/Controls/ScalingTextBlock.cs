@@ -76,13 +76,13 @@ namespace Dopamine.Common.Controls
 
             try
             {
-                double intermediateFontSize = (this.MaxFontSize + this.MinFontSize) / 2;
+                double increment = (this.MaxFontSize - this.MinFontSize) / 3;
 
                 this.FontSize = this.MaxFontSize;
 
                 while (this.FontSize > this.MinFontSize & this.TextIsTooLarge())
                 {
-                    this.FontSize -= 5;
+                    this.FontSize -= increment;
                 }
 
                 if (this.FontSize < this.MinFontSize) this.FontSize = this.MinFontSize;
