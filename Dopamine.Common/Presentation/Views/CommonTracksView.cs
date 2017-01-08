@@ -149,7 +149,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
             }
         }
 
