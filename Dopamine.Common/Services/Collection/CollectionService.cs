@@ -152,13 +152,8 @@ namespace Dopamine.Common.Services.Collection
                 {
                     // When the track is playing, the corresponding file is handled by the CSCore.
                     // To delete the file properly, PlaybackService must release this handle.
-                    if (track.Equals(this.playbackService.PlayingTrack))
-                    {
-                        if (this.playbackService.Queue.Count == 1)
-                            this.playbackService.Stop();
-                        else
-                            await this.playbackService.PlayNextAsync();
-                    }
+                    await this.playbackService.StopIfPlayingAsync(track);
+                    
                     // Delete file from disk
                     FileUtils.SendToRecycleBinSilent(track.Path);
                 }
