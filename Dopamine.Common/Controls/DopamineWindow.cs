@@ -101,6 +101,10 @@ namespace Dopamine.Common.Controls
         /// <remarks></remarks>
         public void ActivateNow()
         {
+            // Prevent calling Activate() before Show() was called. Otherwise Activate() fails 
+            // with an exception: "Cannot call DragMove or Activate before a Window is shown".
+            if (!this.IsLoaded) return;
+
             this.oldTopMost = this.Topmost;
 
             if (this.WindowState == WindowState.Minimized)

@@ -35,6 +35,7 @@
         MaximizeToolTip="{DynamicResource Language_Maximize}"
         RestoreToolTip="{DynamicResource Language_Restore}"
         SourceInitialized="Shell_SourceInitialized"
+        Loaded="Shell_Loaded"
         prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>

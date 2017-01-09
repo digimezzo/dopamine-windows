@@ -97,9 +97,6 @@ namespace Dopamine.Views
             // Window
             this.InitializeWindow();
 
-            // Tray icon
-            this.InitializeTrayIcon();
-
             // Services
             this.InitializeServicesAsync();
 
@@ -253,10 +250,7 @@ namespace Dopamine.Views
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
 
-            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon"))
-            {
-                this.trayIcon.Visible = true;
-            }
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon")) this.trayIcon.Visible = true;
         }
 
         private void InitializeWindow()
@@ -569,6 +563,14 @@ namespace Dopamine.Views
         private void Shell_Deactivated(object sender, EventArgs e)
         {
             this.trayIconContextMenu.IsOpen = false;
+        }
+
+        private void Shell_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This call is not in the constructor, because we want to show the tray icon only
+            // when the main window has been shown by explicitly calling Show(). This prevents 
+            // showing the tray icon when the OOBE window is displayed.
+            this.InitializeTrayIcon();
         }
         #endregion
 
