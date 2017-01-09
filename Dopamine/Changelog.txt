@@ -1,6 +1,7 @@
 2017-01-09: Dopamine 1.3 Build 872 (Preview)
 --------------------------------------------
 
+- [Changed] Updated the Russian translation
 - [Fixed] Fixed a random crash
 
 
