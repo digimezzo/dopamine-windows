@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -175,23 +177,27 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (line.Length > 0 && line.StartsWith("["))
                     {
-                        int index = line.IndexOf(']');
+                        int index = line.LastIndexOf(']');
 
                         var time = TimeSpan.Zero;
 
                         // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
                         if (index > 0)
                         {
-                            var subString = line.Substring(1, index - 1);
-                            if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
+                            MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
+                            foreach (Match m in ms)
                             {
-                                localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                            }
-                            else
-                            {
-                                // The string between square brackets could not be parsed to a timestamp.
-                                // In such case, just add the complete lyrics line.
-                                localLyricsLines.Add(new LyricsLineViewModel(line));
+                                var subString = m.Value.Trim('[', ']');
+                                if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
+                                {
+                                    localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
+                                }
+                                else
+                                {
+                                    // The string between square brackets could not be parsed to a timestamp.
+                                    // In such case, just add the complete lyrics line.
+                                    localLyricsLines.Add(new LyricsLineViewModel(line));
+                                }
                             }
                         }
                     }
@@ -205,6 +211,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                     break;
                 }
             }
+
+            localLyricsLines = new ObservableCollection<LyricsLineViewModel>(localLyricsLines.OrderBy(p => p.Time));
 
             Application.Current.Dispatcher.Invoke(() =>
             {
