@@ -1,8 +1,10 @@
 ﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -44,27 +46,28 @@ namespace Dopamine.Common.Services.Update
         #endregion
 
         #region Private
-        private VersionInfo XElement2VersionInfo(XElement element)
+        private Package CreateDummyPackage()
+        {
+            return new Package(ProductInformation.ApplicationDisplayName, new Version("0.0.0.0"), Configuration.Debug);
+        }
+
+        private Package CreateDummyPackage(Version version)
+        {
+            return new Package(ProductInformation.ApplicationDisplayName, version, Configuration.Debug);
+        }
+
+        private Package XElement2Package(XElement element)
         {
             try
             {
-                Configuration configuration = (Configuration)Convert.ToInt32(element.Attribute("Configuration").Value);
-
-                string[] pieces = element.Value.Split('.');
-
-                return new VersionInfo
-                {
-                    Version = new Version(Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]), Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[3])),
-                    Configuration = configuration
-                };
+                return new Package(
+                    ProductInformation.ApplicationDisplayName,
+                    new Version(element.Value),
+                    (Configuration)Convert.ToInt32(element.Attribute("Configuration").Value));
             }
             catch (Exception)
             {
-                return new VersionInfo
-                {
-                    Version = new Version(0, 0, 0, 0),
-                    Configuration = Configuration.Debug
-                };
+                return this.CreateDummyPackage();
             }
         }
 
@@ -80,10 +83,10 @@ namespace Dopamine.Common.Services.Update
             }
         }
 
-        private async Task<VersionInfo> GetLatestOnlineVersionAsync()
+        private async Task<Package> GetLatestOnlineVersionAsync()
         {
-            // Dummy version. If the version remains 0.0.0.0, there is no update available
-            var onlineVersion = new VersionInfo();
+            // Dummy package. If the version remains 0.0.0.0, there is no update available
+            var onlineVersion = this.CreateDummyPackage();
 
             await Task.Run(() =>
             {
@@ -107,33 +110,33 @@ namespace Dopamine.Common.Services.Update
                                             orderby v.Value
                                             select v).ToList();
 
-                    var foundPreReleases = new List<VersionInfo>();
-                    var foundReleases = new List<VersionInfo>();
+                    var foundPreReleases = new List<Package>();
+                    var foundReleases = new List<Package>();
 
                     // Make lists of all found PreReleases and Releases
                     foreach (XElement el in versionXElements)
                     {
-                        VersionInfo vi = this.XElement2VersionInfo(el);
+                        Package pa = this.XElement2Package(el);
 
-                        if (this.IsValidVersion(vi.Version))
+                        if (this.IsValidVersion(pa.Version))
                         {
-                            if (vi.Configuration == Configuration.Debug)
+                            if (pa.Configuration == Configuration.Debug)
                             {
-                                foundPreReleases.Add(vi);
+                                foundPreReleases.Add(pa);
                             }
-                            else if (vi.Configuration == Configuration.Release)
+                            else if (pa.Configuration == Configuration.Release)
                             {
-                                foundReleases.Add(vi);
+                                foundReleases.Add(pa);
                             }
                         }
                     }
 
                     // Create 2 dummy versions to compare during the first round
-                    var lastestPreRelease = new VersionInfo();
-                    var lastestRelease = new VersionInfo();
+                    var lastestPreRelease = this.CreateDummyPackage();
+                    var lastestRelease = this.CreateDummyPackage();
 
                     // Find the latest PreRelease
-                    foreach (VersionInfo foundPreRelease in foundPreReleases)
+                    foreach (Package foundPreRelease in foundPreReleases)
                     {
                         if (lastestPreRelease.IsOlder(foundPreRelease))
                         {
@@ -142,7 +145,7 @@ namespace Dopamine.Common.Services.Update
                     }
 
                     // Find the latest Release
-                    foreach (VersionInfo foundRelease in foundReleases)
+                    foreach (Package foundRelease in foundReleases)
                     {
                         if (lastestRelease.IsOlder(foundRelease))
                         {
@@ -226,7 +229,7 @@ namespace Dopamine.Common.Services.Update
             }
         }
 
-        private async Task<OperationResult> DownloadAsync(VersionInfo latestOnlineVersion, string packageToDownload)
+        private async Task<OperationResult> DownloadAsync(Package latestOnlineVersion, string packageToDownload)
         {
             var operationResult = new OperationResult();
 
@@ -343,13 +346,13 @@ namespace Dopamine.Common.Services.Update
 
             // Get the current version
             // -----------------------
-            var currentVersion = new VersionInfo { Version = ProductInformation.AssemblyVersion };
-            LogClient.Info("Update check: current version = {0}.{1}.{2}.{3}", currentVersion.Version.Major.ToString(), currentVersion.Version.Minor.ToString(), currentVersion.Version.Build.ToString(), currentVersion.Version.Revision.ToString());
+            var currentVersion = this.CreateDummyPackage(ProcessExecutable.AssemblyVersion());
+            LogClient.Info("Update check: current version = {0}", currentVersion.Version.ToString());
 
             // Get the latest version online
             // -----------------------------
             if (!this.canCheckForUpdates) return; // Stop here if the update check was disabled while we were running
-            VersionInfo latestOnlineVersion = await this.GetLatestOnlineVersionAsync();
+            Package latestOnlineVersion = await this.GetLatestOnlineVersionAsync();
             LogClient.Info("Update check: latest online version = {0}.{1}.{2}.{3}", latestOnlineVersion.Version.Major.ToString(), latestOnlineVersion.Version.Minor.ToString(), latestOnlineVersion.Version.Build.ToString(), latestOnlineVersion.Version.Revision.ToString());
 
             // Compare the versions
@@ -362,8 +365,8 @@ namespace Dopamine.Common.Services.Update
                     // -----------------------------
 
                     // Define the name of the file to which we will download the update
-                    string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, PackagingInformation.GetPackageFileName(latestOnlineVersion));
-                    string updatePackageDownloadedFileFullPath = Path.Combine(this.updatesSubDirectory, PackagingInformation.GetPackageFileName(latestOnlineVersion) + PackagingInformation.GetUpdatePackageFileExtension());
+                    string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, latestOnlineVersion.Filename);
+                    string updatePackageDownloadedFileFullPath = Path.Combine(this.updatesSubDirectory, latestOnlineVersion.Filename + latestOnlineVersion.UpdateFileExtension);
 
                     // Check if there is a directory with the name of the update package: 
                     // that means the file was already downloaded and extracted.
@@ -458,7 +461,7 @@ namespace Dopamine.Common.Services.Update
             this.canCheckForUpdates = true;
 
             // Set the timer interval based on update settings
-            this.checkNewVersionTimer.Interval = TimeSpan.FromSeconds(Constants.UpdateCheckIntervalSeconds).TotalMilliseconds;
+            this.checkNewVersionTimer.Interval = TimeSpan.FromSeconds(Base.Constants.UpdateCheckIntervalSeconds).TotalMilliseconds;
 
             // Set flags based on update settings
             this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Configuration", "IsPortable");
@@ -478,9 +481,9 @@ namespace Dopamine.Common.Services.Update
         #endregion
 
         #region Events
-        public event Action<VersionInfo, string> NewDownloadedVersionAvailable = delegate { };
-        public event Action<VersionInfo> NewOnlineVersionAvailable = delegate { };
-        public event Action<VersionInfo> NoNewVersionAvailable = delegate { };
+        public event Action<Package, string> NewDownloadedVersionAvailable = delegate { };
+        public event Action<Package> NewOnlineVersionAvailable = delegate { };
+        public event Action<Package> NoNewVersionAvailable = delegate { };
         public event EventHandler UpdateCheckDisabled = delegate { };
         #endregion
 

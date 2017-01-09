@@ -80,6 +80,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Commands
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
+        public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
         public DelegateCommand<string> AddTracksToPlaylistCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
@@ -91,6 +92,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
+        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+
         public abstract bool CanOrderByAlbum { get; }
 
         public bool HasContextMenuPlaylists
@@ -227,6 +230,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
+
+            // Initialize events
+            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
             // Initialize Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -692,6 +698,31 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (result == RemoveTracksResult.Error)
                 {
                     this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                }
+                else
+                {
+                    await this.playbackService.Dequeue(selectedTracks);
+                }
+            }
+        }
+
+        protected async Task RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        {
+            string title = ResourceUtils.GetStringResource("Language_Remove_From_Disk");
+            string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Disk");
+
+            if (selectedTracks != null && selectedTracks.Count > 1)
+            {
+                body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
+            }
+
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            {
+                RemoveTracksResult result = await this.collectionService.RemoveTracksFromDiskAsync(selectedTracks);
+
+                if (result == RemoveTracksResult.Error)
+                {
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                 }
                 else
                 {

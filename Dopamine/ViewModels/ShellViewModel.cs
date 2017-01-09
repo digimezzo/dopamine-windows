@@ -43,7 +43,6 @@ namespace Dopamine.ViewModels
 
         #region Commands
         public DelegateCommand<string> OpenLinkCommand { get; set; }
-        public DelegateCommand<string> OpenMailCommand { get; set; }
         public DelegateCommand<string> OpenPathCommand { get; set; }
         public DelegateCommand PreviousCommand { get; set; }
         public DelegateCommand NextCommand { get; set; }
@@ -148,19 +147,6 @@ namespace Dopamine.ViewModels
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);
-
-            this.OpenMailCommand = new DelegateCommand<string>((string emailAddress) =>
-            {
-                try
-                {
-                    Actions.TryOpenMail(emailAddress);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not execute mailto command for the e-mail {0}. Exception: {1}", emailAddress, ex.Message);
-                }
-            });
-            ApplicationCommands.OpenMailCommand.RegisterCommand(this.OpenMailCommand);
 
             this.PreviousCommand = new DelegateCommand(async () => await this.playbackService.PlayPreviousAsync());
             this.NextCommand = new DelegateCommand(async () => await this.playbackService.PlayNextAsync());

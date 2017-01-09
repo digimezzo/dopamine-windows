@@ -168,11 +168,9 @@
     <Compile Include="Base\Defaults.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\PackagingInformation.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
-    <Compile Include="Base\VersionInfo.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
@@ -189,6 +187,7 @@
     <Compile Include="Controls\MainMenuButton.cs" />
     <Compile Include="Controls\PopupEx.cs" />
     <Compile Include="Controls\RatingButton.cs" />
+    <Compile Include="Controls\ScalingTextBlock.cs" />
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
     <Compile Include="Controls\SubMenuButton.cs" />
@@ -237,7 +236,6 @@
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AddToPlaylistResult.cs" />
-    <Compile Include="Helpers\TaskbarHelper.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />

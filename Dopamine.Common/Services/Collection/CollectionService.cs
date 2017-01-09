@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Common.Services.Playback;
 
 namespace Dopamine.Common.Services.Collection
 {
@@ -27,11 +28,12 @@ namespace Dopamine.Common.Services.Collection
         private IGenreRepository genreRepository;
         private IFolderRepository folderRepository;
         private ICacheService cacheService;
+        private IPlaybackService playbackService;
         private List<Folder> markedFolders;
         #endregion
 
         #region Construction
-        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService)
+        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
         {
             this.playlistRepository = playlistRepository;
             this.albumRepository = albumRepository;
@@ -40,6 +42,7 @@ namespace Dopamine.Common.Services.Collection
             this.genreRepository = genreRepository;
             this.folderRepository = folderRepository;
             this.cacheService = cacheService;
+            this.playbackService = playbackService;
             this.markedFolders = new List<Folder>();
         }
         #endregion
@@ -129,6 +132,31 @@ namespace Dopamine.Common.Services.Collection
 
                 // Delete orphaned Genres
                 await this.genreRepository.DeleteOrphanedGenresAsync();
+
+                this.CollectionChanged(this, new EventArgs());
+            }
+
+            return result;
+        }
+
+        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        {
+            RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
+
+            if (result == RemoveTracksResult.Success)
+            {
+                // If result is Success: we can assume that all selected tracks were removed from the collection,
+                // as this happens in a transaction in trackRepository. If removing 1 or more tracks fails, the
+                // transaction is rolled back and no tracks are removed.
+                foreach (var track in selectedTracks)
+                {
+                    // When the track is playing, the corresponding file is handled by the CSCore.
+                    // To delete the file properly, PlaybackService must release this handle.
+                    await this.playbackService.StopIfPlayingAsync(track);
+                    
+                    // Delete file from disk
+                    FileUtils.SendToRecycleBinSilent(track.Path);
+                }
 
                 this.CollectionChanged(this, new EventArgs());
             }
@@ -293,7 +321,8 @@ namespace Dopamine.Common.Services.Collection
 
             List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
 
                 try
                 {
@@ -349,7 +378,7 @@ namespace Dopamine.Common.Services.Collection
                 ExportPlaylistsResult tempResult = await this.ExportPlaylistAsync(pl, destinationDirectory, pl.PlaylistName, true);
 
                 // If at least 1 export failed, return an error
-                if( tempResult == ExportPlaylistsResult.Error)
+                if (tempResult == ExportPlaylistsResult.Error)
                 {
                     result = tempResult;
                 }

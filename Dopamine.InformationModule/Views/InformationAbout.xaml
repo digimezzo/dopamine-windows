@@ -17,10 +17,11 @@
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
             <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}"/>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Version}" Margin="0,0,5,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Text="{x:Static base:ProductInformation.FormattedAssemblyVersion}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{DynamicResource Language_Version}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text=":" Margin="0,0,5,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{Binding Package.FormattedVersion}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Border Background="{DynamicResource RG_AccentBrush}" Padding="4,2,4,2" CornerRadius="2">
-                    <TextBlock Text="{x:Static base:ProductInformation.VersionTag}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                    <TextBlock Text="{Binding Package.Label}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
                 </Border>
             </StackPanel>
             <TextBlock Text="{x:Static base:ProductInformation.Copyright}" Margin="0,5,0,0" Foreground="{DynamicResource RG_ForegroundBrush}"/>
@@ -37,16 +38,16 @@
                 <Button Content="{x:Static base:ContactInformation.WebsiteLink}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.WebsiteLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.WebsiteLink}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Email}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="{x:Static base:ContactInformation.WebsiteContactLink}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.ContactEmail}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.WebsiteContactLink}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.FacebookLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.FacebookLink}"/>
                 <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.TwitterLink}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.TwitterLink}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Mail}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <Button Content="{x:Static base:ContactInformation.ContactEmail}" Style="{StaticResource LinkButton}" ToolTip="{x:Static base:ContactInformation.ContactEmail}" Command="{x:Static commonprism:ApplicationCommands.OpenMailCommand}" CommandParameter="{x:Static base:ContactInformation.ContactEmail}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Components}" />
@@ -56,7 +57,7 @@
                     <DataTemplate>
                         <DockPanel Margin="0,2,0,2">
                             <DockPanel Width="190" DockPanel.Dock="Left" >
-                                <Button Content="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Link}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Link}"/>
+                                <Button Content="{Binding Name}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Url}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Url}"/>
                                 <Label/>
                             </DockPanel>
                             <TextBlock Text="{Binding Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
@@ -67,24 +68,24 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Thanks}"/>
             <TextBlock Margin="0,5,0,4" TextWrapping="Wrap">
-                                                    <Run Text="To the people who donated." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Donated_People}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                                                    <Run Text="To the translators." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Translators}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,0" TextWrapping="Wrap">
-                                                    <Run Text="To the talented developers who created the components mentioned above." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Components_Developers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                                                <Run Text="To the" Foreground="{DynamicResource RG_ForegroundBrush}"/>                            
-                                                        <InlineUIContainer>
-                                                            <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
-                                                                 <Button.RenderTransform>
-                                                                    <TranslateTransform Y="4"/>
-                                                                    </Button.RenderTransform>
-                                                                </Button>
-                                                        </InlineUIContainer>
-                                                        <Run Text="community for its ideas, testing and bug reports." Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Neowin_Head}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <InlineUIContainer>
+                        <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
+                            <Button.RenderTransform>
+                                <TranslateTransform Y="4"/>
+                            </Button.RenderTransform>
+                        </Button>
+                    </InlineUIContainer>
+                <Run Text="{DynamicResource Language_About_Neowin_End}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>

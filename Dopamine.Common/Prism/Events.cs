@@ -51,6 +51,10 @@ namespace Dopamine.Common.Prism
     {
     }
 
+    public class SettingShowRemoveFromDiskChanged : PubSubEvent<bool>
+    {
+    }
+
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
     }
@@ -67,7 +71,7 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class RemoveSelectedTracks : PubSubEvent<string>
+    public class RemoveSelectedTracksWithKeyDelete : PubSubEvent<string>
     {
     }
 
