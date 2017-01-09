@@ -3,6 +3,7 @@ using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Database;
 using Prism.Mvvm;
 using System;
+using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -59,6 +60,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             get
             {
                 return this.ArtistName + this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
+            }
+        }
+
+        public int SortBitrate
+        {
+            get
+            {
+                return Convert.ToInt32(Track.BitRate ?? 0);
             }
         }
 

@@ -333,28 +333,33 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    try
                     {
-                        List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
-                        List<string> alreadyRemovedPaths = conn.Table<RemovedTrack>().Select((t) => t).ToList().Select((t) => t.Path).ToList();
-                        List<string> pathsToRemoveNow = pathsToRemove.Except(alreadyRemovedPaths).ToList();
-
-
-                        conn.Execute("BEGIN TRANSACTION");
-
-                        foreach (string path in pathsToRemoveNow)
+                        using (var conn = this.factory.GetConnection())
                         {
-                            // Add to table RemovedTrack
-                            conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path, SafePath) VALUES(?,?,?)", DateTime.Now.Ticks, path, path.ToSafePath());
+                            List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
 
-                            // Remove from QueuedTrack
-                            conn.Execute("DELETE FROM QueuedTrack WHERE SafePath=?", path.ToSafePath());
+                            conn.Execute("BEGIN TRANSACTION");
 
-                            // Remove from Track
-                            conn.Execute("DELETE FROM Track WHERE SafePath=?", path.ToSafePath());
+                            foreach (string path in pathsToRemove)
+                            {
+                                // Add to table RemovedTrack, only if not already present.
+                                conn.Execute("INSERT INTO RemovedTrack(DateRemoved, Path, SafePath) SELECT ?,?,? WHERE NOT EXISTS (SELECT 1 FROM RemovedTrack WHERE SafePath=?)", DateTime.Now.Ticks, path, path.ToSafePath(), path.ToSafePath());
+
+                                // Remove from QueuedTrack
+                                conn.Execute("DELETE FROM QueuedTrack WHERE SafePath=?", path.ToSafePath());
+
+                                // Remove from Track
+                                conn.Execute("DELETE FROM Track WHERE SafePath=?", path.ToSafePath());
+                            }
+
+                            conn.Execute("COMMIT");
                         }
-
-                        conn.Execute("COMMIT");
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could remove tracks from the database. Exception: {0}", ex.Message);
+                        result = RemoveTracksResult.Error;
                     }
                 }
                 catch (Exception ex)

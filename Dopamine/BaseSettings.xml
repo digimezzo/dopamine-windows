@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>79</Value>
+      <Value>82</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -141,6 +141,9 @@
     </Setting>
     <Setting Name="ScrollVolumePercentage">
       <Value>5</Value>
+    </Setting>
+    <Setting Name="ShowRemoveFromDisk">
+      <Value>False</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Startup">

@@ -1,11 +1,11 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Notification;
+using Digimezzo.Utilities.Win32;
 using Dopamine.Common.Base;
+using Dopamine.Common.Services.Notification;
 using System;
-using System.Windows;
-using Dopamine.Common.Helpers;
 using System.Drawing;
+using System.Windows;
 
 namespace Dopamine.Views
 {
@@ -66,24 +66,20 @@ namespace Dopamine.Views
 
         private void SetGeometry()
         {
-            TaskbarHelper taskbar = new TaskbarHelper();
+            var taskbar = new Taskbar();
             Rectangle taskbarbounds = taskbar.Bounds;
-            //Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
 
-            //this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
-            //this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
-
-            if (taskbar.Position == TaskbarHelper.TaskbarPosition.Top)
+            if (taskbar.Position == TaskbarPosition.Top)
             {
                 this.Left = taskbarbounds.Right - Constants.TrayControlsWidth - 5;
                 this.Top = taskbarbounds.Bottom + 5;
             }
-            else if (taskbar.Position == TaskbarHelper.TaskbarPosition.Left)
+            else if (taskbar.Position == TaskbarPosition.Left)
             {
                 this.Left = taskbarbounds.Right + 5;
                 this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;
             }
-            else if (taskbar.Position == TaskbarHelper.TaskbarPosition.Right)
+            else if (taskbar.Position == TaskbarPosition.Right)
             {
                 this.Left = taskbarbounds.Left - Constants.TrayControlsWidth - 5;
                 this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;

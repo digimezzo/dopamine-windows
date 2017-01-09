@@ -178,7 +178,7 @@
                             Padding="4,2,4,2" 
                             CornerRadius="2"
                             Visibility="{Binding IsPreview,ElementName=Me,Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="{x:Static base:ProductInformation.VersionTag}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource Local_WhiteBrush}"/>
+                            <TextBlock Text="{Binding Package.Label, ElementName=Me}" FontSize="10" FontWeight="Bold" Foreground="{StaticResource Local_WhiteBrush}"/>
                         </Border>
                     </StackPanel>
                     

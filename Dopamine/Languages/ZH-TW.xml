@@ -293,7 +293,7 @@
   <Text Key="Website">網站</Text>
   <Text Key="Social_Networks">社交網絡</Text>
   <Text Key="Contact_Us">聯繫我們</Text>
-  <Text Key="Mail">郵件</Text>
+  <Text Key="Email">郵件</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">對不起，未能播放播放此歌曲。找不到檔案。</Text>
   <Text Key="Current_Of_Total">%current% (共有%total%)</Text>
   <Text Key="Cover_Size">封面大小</Text>
@@ -376,4 +376,14 @@
   <Text Key="Remember_Last_played_Song">Remember the last played song and its playback progress</Text>
   <Text Key="Download_Lyrics_From">Download lyrics from</Text>
   <Text Key="Lyrics_Download_Timeout">Lyrics download timeout</Text>
+  <Text Key="Show_Remove_From_Disk">Show 'Remove from disk' in the context menu</Text>
+  <Text Key="Remove_From_Disk">Remove from disk</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">An error occured while removing songs from the disk. Please consult the log file for more information.</Text>
+  <Text Key="About_Donated_People">To the people who donated.</Text>
+  <Text Key="About_Translators">To the translators.</Text>
+  <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
+  <Text Key="About_Neowin_Head">To the</Text>
+  <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
 </Language>

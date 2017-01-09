@@ -1,3 +1,14 @@
+2017-01-08: Dopamine 1.3 Build 871 (Preview)
+--------------------------------------------
+
+- [Changed] Updated the Spanish translation
+- [Changed] Song title on playback info panes now scales to the available width
+- [Fixed] Tray controls don't respect the position of the Windows Taskbar.
+- [Fixed] Added optional 'Remove from disk' option to the song context menu
+- [Fixed] Date in the Song Information window is not localized
+- [Fixed] WASAPI Exclusive mode plays high pitched sound
+
+
 2017-01-03: Dopamine 1.2.4 Build 862 (Release)
 ----------------------------------------------
 

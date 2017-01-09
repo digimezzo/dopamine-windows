@@ -62,7 +62,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             else if (e.Key == Key.Delete)
             {
-                this.eventAggregator.GetEvent<RemoveSelectedTracks>().Publish(this.screenName);
+                this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
             }
         }
 
