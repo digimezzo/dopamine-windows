@@ -28,6 +28,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using Microsoft.Win32;
+using System.Security.Principal;
+using System.Management;
 
 namespace Dopamine.Views
 {
@@ -183,7 +186,11 @@ namespace Dopamine.Views
             this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) => this.SetPlayer(true, (MiniPlayerType)Convert.ToInt32(miniPlayerType)));
             Common.Prism.ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
 
-            this.TogglePlayerCommand = new DelegateCommand(() => this.TogglePlayer());
+            this.TogglePlayerCommand = new DelegateCommand(() =>
+            {
+                // If tablet mode is enabled, we should not be able to toggle the player.
+                if (!this.IsTabletModeEnabled()) this.TogglePlayer();
+            });
             Common.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
 
             // Mini Player
@@ -255,6 +262,10 @@ namespace Dopamine.Views
 
         private void InitializeWindow()
         {
+            // Monitor tablet mode changes in registry
+            this.MonitorRegistryTabletMode();
+
+            // Tray controls
             this.trayControls = this.container.Resolve<Views.TrayControls>();
 
             this.miniPlayerPlaylist = this.container.Resolve<Views.Playlist>(new DependencyOverride(typeof(DopamineWindow), this));
@@ -272,6 +283,64 @@ namespace Dopamine.Views
             // This makes sure the position and size of the window is correct and avoids jumping of 
             // the window to the correct position when SetPlayer() is called later while starting up
             this.SetPlayerType(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+
+            // Make sure the window geometry respects tablet mode at startup
+            this.UpdateTabletModeFromRegistry();
+        }
+
+        private void MonitorRegistryTabletMode()
+        {
+            try
+            {
+                var currentUser = WindowsIdentity.GetCurrent();
+                if (currentUser != null && currentUser.User != null)
+                {
+                    var wqlEventQuery = new EventQuery(string.Format(@"SELECT * FROM RegistryValueChangeEvent WHERE Hive='HKEY_USERS' AND KeyPath='{0}\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell' AND ValueName='TabletMode'", currentUser.User.Value));
+                    var managementEventWatcher = new ManagementEventWatcher(wqlEventQuery);
+                    managementEventWatcher.EventArrived += this.ManagementEventWatcher_EventArrived;
+                    managementEventWatcher.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not monitor tablet mode from registry. Exception: {0}", ex.Message);
+            }
+        }
+
+        private bool IsTabletModeEnabled()
+        {
+            int registryTabletMode = 0;
+
+            try
+            {
+                registryTabletMode = (int)Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell", "TabletMode", 0);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
+            }
+
+            return registryTabletMode == 1 ? true : false;
+        }
+
+        private void UpdateTabletModeFromRegistry()
+        {
+            try
+            {
+                if (this.IsTabletModeEnabled())
+                {
+                    this.SetPlayer(false, MiniPlayerType.CoverPlayer);
+                }
+                else
+                {
+                    this.TogglePlayer();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not update tablet mode from registry. Exception: {0}", ex.Message);
+                this.TogglePlayer();
+            }
         }
 
         private void TogglePlayer()
@@ -575,6 +644,11 @@ namespace Dopamine.Views
         #endregion
 
         #region Event Handlers
+        private void ManagementEventWatcher_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => { this.UpdateTabletModeFromRegistry(); });
+        }
+
         private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
