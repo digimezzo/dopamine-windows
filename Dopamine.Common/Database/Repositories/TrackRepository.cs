@@ -23,6 +23,22 @@ namespace Dopamine.Common.Database.Repositories
         }
         #endregion
 
+        #region Private
+        private string SelectQueryPart()
+        {
+            return "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
+                   "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
+                   "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
+                   "tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced, " +
+                   "tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle, " +
+                   "alb.AlbumArtist, alb.Year AS AlbumYear " +
+                   "FROM Track tra " +
+                   "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
+                   "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
+                   "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID ";
+        }
+        #endregion
+
         #region ITrackRepository
         public async Task<List<MergedTrack>> GetTracksAsync(IList<string> paths)
         {
@@ -38,17 +54,8 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                     " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                     " FROM Track tra" +
-                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
+                            string q = string.Format(this.SelectQueryPart() + 
+                                                     "WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
@@ -79,18 +86,9 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<MergedTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                           " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                           " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                           " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                           " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                           " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                           " FROM Track tra" +
-                                                           " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                           " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                           " WHERE fol.ShowInCollection=1;");
+                            tracks = conn.Query<MergedTrack>(this.SelectQueryPart() +
+                                                             "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                             "WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
@@ -122,18 +120,9 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                     " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                     " FROM Track tra" +
-                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                     " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
+                            string q = string.Format(this.SelectQueryPart() + 
+                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
@@ -166,18 +155,9 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                     " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                     " FROM Track tra" +
-                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
+                            string q = string.Format(this.SelectQueryPart() +
+                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
@@ -210,18 +190,9 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                     " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                     " FROM Track tra" +
-                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                     " WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
+                            string q = string.Format(this.SelectQueryPart() +
+                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
@@ -256,19 +227,10 @@ namespace Dopamine.Common.Database.Repositories
 
                             if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
 
-                            string q = string.Format("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                     " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                     " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                     " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                     " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                     " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                     " FROM Track tra" +
-                                                     " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                     " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                     " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                     " INNER JOIN PlaylistEntry ple ON tra.TrackID=ple.TrackID" +
-                                                     " WHERE ple.PlaylistID IN ({0})" +
-                                                     " ORDER BY ple.EntryID;", Utils.ToQueryList(playlistIDs));
+                            string q = string.Format(this.SelectQueryPart() +
+                                                     "INNER JOIN PlaylistEntry ple ON tra.TrackID=ple.TrackID " +
+                                                     "WHERE ple.PlaylistID IN ({0}) " +
+                                                     "ORDER BY ple.EntryID;", Utils.ToQueryList(playlistIDs));
 
                             tracks = conn.Query<MergedTrack>(q);
                         }
