@@ -62,6 +62,7 @@ namespace Dopamine.Views
         private Playlist miniPlayerPlaylist;
         private bool isShuttingDown;
         private bool mustPerformClosingTasks;
+        private ManagementEventWatcher managementEventWatcher;
         #endregion
 
         #region Commands
@@ -262,8 +263,8 @@ namespace Dopamine.Views
 
         private void InitializeWindow()
         {
-            // Monitor tablet mode changes in registry
-            this.MonitorRegistryTabletMode();
+            // Start monitoring tablet mode
+            this.StartMonitoringTabletMode();
 
             // Tray controls
             this.trayControls = this.container.Resolve<Views.TrayControls>();
@@ -288,7 +289,7 @@ namespace Dopamine.Views
             this.UpdateTabletModeFromRegistry();
         }
 
-        private void MonitorRegistryTabletMode()
+        private void StartMonitoringTabletMode()
         {
             try
             {
@@ -296,14 +297,30 @@ namespace Dopamine.Views
                 if (currentUser != null && currentUser.User != null)
                 {
                     var wqlEventQuery = new EventQuery(string.Format(@"SELECT * FROM RegistryValueChangeEvent WHERE Hive='HKEY_USERS' AND KeyPath='{0}\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell' AND ValueName='TabletMode'", currentUser.User.Value));
-                    var managementEventWatcher = new ManagementEventWatcher(wqlEventQuery);
-                    managementEventWatcher.EventArrived += this.ManagementEventWatcher_EventArrived;
-                    managementEventWatcher.Start();
+                    this.managementEventWatcher = new ManagementEventWatcher(wqlEventQuery);
+                    this.managementEventWatcher.EventArrived += this.ManagementEventWatcher_EventArrived;
+                    this.managementEventWatcher.Start();
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not monitor tablet mode from registry. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
+            }
+        }
+
+        private void StopMonitoringTabletMode()
+        {
+            try
+            {
+                if(this.managementEventWatcher != null)
+                {
+                    this.managementEventWatcher.Stop();
+                    this.managementEventWatcher.EventArrived -= this.ManagementEventWatcher_EventArrived;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
             }
         }
 
@@ -863,6 +880,9 @@ namespace Dopamine.Views
 
         private void Shell_Closed(object sender, EventArgs e)
         {
+            // Stop monitoring tablet mode
+            this.StopMonitoringTabletMode();
+
             // Make sure the Tray icon is removed from the tray
             this.trayIcon.Visible = false;
 
