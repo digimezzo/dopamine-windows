@@ -57,8 +57,6 @@ namespace Dopamine.Views
         private bool isMiniPlayerAlwaysOnTop;
         private IEventAggregator eventAggregator;
         private TrayControls trayControls;
-        private Storyboard enableWindowTransparencyStoryboard;
-        private Storyboard disableWindowTransparencyStoryboard;
         private Playlist miniPlayerPlaylist;
         private bool isShuttingDown;
         private bool mustPerformClosingTasks;
