@@ -1,8 +1,9 @@
-2017-01-09: Dopamine 1.3 Build 872 (Preview)
+2017-01-16: Dopamine 1.3 Build 873 (Preview)
 --------------------------------------------
 
 - [Changed] Updated the Russian translation
 - [Fixed] Fixed a random crash
+- [Fixed] Mini player windows are buggy in Windows 10 tablet mode
 
 
 2017-01-08: Dopamine 1.3 Build 871 (Preview)
