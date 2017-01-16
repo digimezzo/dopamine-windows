@@ -37,12 +37,15 @@ namespace Dopamine.Common.Services.Dialog
             else
             {
                 this.ResizeMode = ResizeMode.NoResize;
+
                 if (autoSize)
                 {
                     this.SizeToContent = SizeToContent.Height;
                 }
                 else
                 {
+                    this.Height = height;
+                    this.MinHeight = height;
                     this.SizeToContent = SizeToContent.Manual;
                 }
             }

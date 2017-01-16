@@ -890,7 +890,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     ResourceUtils.GetStringResource("Language_Edit_Song"),
                     view,
                     620,
-                    450,
+                    660,
                     false,
                     false,
                     false,
