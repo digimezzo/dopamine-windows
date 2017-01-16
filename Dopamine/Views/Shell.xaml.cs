@@ -327,19 +327,22 @@ namespace Dopamine.Views
         {
             try
             {
-                if (this.IsTabletModeEnabled())
+                if (!this.IsTabletModeEnabled() & this.isMiniPlayer)
                 {
+                    // Show the Mini Player, with the player type which is saved in the settings
+                    this.SetPlayer(true, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+                }else
+                {
+                    // Show the Full Player
                     this.SetPlayer(false, MiniPlayerType.CoverPlayer);
-                }
-                else
-                {
-                    this.TogglePlayer();
                 }
             }
             catch (Exception ex)
             {
                 LogClient.Error("Could not update tablet mode from registry. Exception: {0}", ex.Message);
-                this.TogglePlayer();
+
+                // Show the Full Player
+                this.SetPlayer(false, MiniPlayerType.CoverPlayer);
             }
         }
 
