@@ -374,7 +374,6 @@ namespace Dopamine.Views
             {
                 this.IsMovable = true;
             }
-
         }
 
         private void SetWindowAlwaysOnTop(bool isMiniPlayer)
