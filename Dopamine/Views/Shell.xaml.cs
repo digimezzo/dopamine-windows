@@ -284,7 +284,7 @@ namespace Dopamine.Views
             this.SetPlayerType(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
 
             // Make sure the window geometry respects tablet mode at startup
-            this.UpdateTabletModeFromRegistry();
+            this.CheckIfTabletMode();
         }
 
         private void StartMonitoringTabletMode()
@@ -310,7 +310,7 @@ namespace Dopamine.Views
         {
             try
             {
-                if(this.managementEventWatcher != null)
+                if (this.managementEventWatcher != null)
                 {
                     this.managementEventWatcher.Stop();
                     this.managementEventWatcher.EventArrived -= this.ManagementEventWatcher_EventArrived;
@@ -338,26 +338,14 @@ namespace Dopamine.Views
             return registryTabletMode == 1 ? true : false;
         }
 
-        private void UpdateTabletModeFromRegistry()
+        private async void CheckIfTabletMode()
         {
-            try
+            if (this.IsTabletModeEnabled())
             {
-                if (!this.IsTabletModeEnabled() & this.isMiniPlayer)
-                {
-                    // Show the Mini Player, with the player type which is saved in the settings
-                    this.SetPlayer(true, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
-                }else
-                {
-                    // Show the Full Player
-                    this.SetPlayer(false, MiniPlayerType.CoverPlayer);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not update tablet mode from registry. Exception: {0}", ex.Message);
-
                 // Show the Full Player
-                this.SetPlayer(false, MiniPlayerType.CoverPlayer);
+                this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+                await Task.Delay(50);
+                this.WindowState = WindowState.Maximized;
             }
         }
 
@@ -664,7 +652,7 @@ namespace Dopamine.Views
         #region Event Handlers
         private void ManagementEventWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() => { this.UpdateTabletModeFromRegistry(); });
+            Application.Current.Dispatcher.Invoke(() => { this.CheckIfTabletMode(); });
         }
 
         private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
