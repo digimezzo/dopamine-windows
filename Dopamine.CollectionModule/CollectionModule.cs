@@ -41,8 +41,8 @@ namespace Dopamine.CollectionModule
             this.container.RegisterType<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
             this.container.RegisterType<object, CollectionTracksViewModel>(typeof(CollectionTracksViewModel).FullName);
             this.container.RegisterType<object, CollectionTracks>(typeof(CollectionTracks).FullName);
-            this.container.RegisterType<object, CollectionCloudViewModel>(typeof(CollectionCloudViewModel).FullName);
-            this.container.RegisterType<object, CollectionCloud>(typeof(CollectionCloud).FullName);
+            this.container.RegisterType<object, CollectionFrequentViewModel>(typeof(CollectionFrequentViewModel).FullName);
+            this.container.RegisterType<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
             this.container.RegisterType<object, CollectionTracksColumnsViewModel>(typeof(CollectionTracksColumnsViewModel).FullName);
             this.container.RegisterType<object, CollectionTracksColumns>(typeof(CollectionTracksColumns).FullName);
 
@@ -74,7 +74,7 @@ namespace Dopamine.CollectionModule
                         this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionPlaylists));
                         break;
                     case SelectedPage.Recent:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionCloud));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionFrequent));
                         break;
                     default:
                         this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));

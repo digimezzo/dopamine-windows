@@ -75,7 +75,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     page = typeof(Views.CollectionPlaylists).FullName;
                     break;
                 case 6:
-                    page = typeof(Views.CollectionCloud).FullName;
+                    page = typeof(Views.CollectionFrequent).FullName;
                     break;
                 default:
                     page = typeof(Views.CollectionArtists).FullName;

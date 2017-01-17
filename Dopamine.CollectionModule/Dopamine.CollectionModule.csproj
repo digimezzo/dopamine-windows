@@ -115,7 +115,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\CollectionArtistsViewModel.cs" />
-    <Compile Include="ViewModels\CollectionCloudViewModel.cs" />
+    <Compile Include="ViewModels\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\CollectionPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\CollectionSubMenuViewModel.cs" />
@@ -131,8 +131,8 @@
     <Compile Include="Views\CollectionArtists.xaml.cs">
       <DependentUpon>CollectionArtists.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CollectionCloud.xaml.cs">
-      <DependentUpon>CollectionCloud.xaml</DependentUpon>
+    <Compile Include="Views\CollectionFrequent.xaml.cs">
+      <DependentUpon>CollectionFrequent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CollectionGenres.xaml.cs">
       <DependentUpon>CollectionGenres.xaml</DependentUpon>
@@ -186,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CollectionCloud.xaml">
+    <Page Include="Views\CollectionFrequent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

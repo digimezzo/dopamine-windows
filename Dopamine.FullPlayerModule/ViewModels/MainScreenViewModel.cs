@@ -90,7 +90,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
                 var view = this.regionManager.Regions[RegionNames.CollectionContentRegion].ActiveViews.FirstOrDefault();
 
-                if (view != null && view.GetType() != typeof(CollectionCloud))
+                if (view != null && view.GetType() != typeof(CollectionFrequent))
                 {
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
                 }

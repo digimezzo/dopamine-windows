@@ -5,10 +5,10 @@ using System.Windows.Controls;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionCloud : UserControl, INavigationAware
+    public partial class CollectionFrequent : UserControl, INavigationAware
     {
         #region Construction
-        public CollectionCloud()
+        public CollectionFrequent()
         {
             InitializeComponent();
         }
