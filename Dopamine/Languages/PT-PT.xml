@@ -300,9 +300,8 @@
   <Text Key="Small">Pequeno</Text>
   <Text Key="Medium">Médio</Text>
   <Text Key="Large">Grande</Text>
-  <Text Key="Cloud">Cloud</Text>
   <Text Key="Showcase">Mudar a vista</Text>
-  <Text Key="Cloud_Description">Os seus álbuns mais reproduzidos serão apresentados aqui</Text>
+  <Text Key="Frequent_Description">Os seus álbuns mais reproduzidos serão apresentados aqui</Text>
   <Text Key="Dark">Escuro</Text>
   <Text Key="Light">Claro</Text>
   <Text Key="Components">Componentes</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>

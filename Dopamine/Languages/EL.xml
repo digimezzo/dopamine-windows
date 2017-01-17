@@ -300,9 +300,8 @@
   <Text Key="Small">Μικρό</Text>
   <Text Key="Medium">Μέτριο</Text>
   <Text Key="Large">Μεγάλο</Text>
-  <Text Key="Cloud">Νέφος</Text>
   <Text Key="Showcase">Προσκήνιο</Text>
-  <Text Key="Cloud_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά</Text>
+  <Text Key="Frequent_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά</Text>
   <Text Key="Dark">Σκούρο</Text>
   <Text Key="Light">Ανοιχτό</Text>
   <Text Key="Components">Τμήματα</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>

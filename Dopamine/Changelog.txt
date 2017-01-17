@@ -1,6 +1,7 @@
-2017-01-17: Dopamine 1.3 Build 877 (Preview)
+2017-01-17: Dopamine 1.3 Build 878 (Preview)
 --------------------------------------------
 
+- [Changed] 'Cloud' screen was renamed to 'Frequent'
 - [Changed] Updated the Russian translation
 - [Fixed] Fixed a random crash
 - [Fixed] Mini player windows are buggy in Windows 10 tablet mode

@@ -129,7 +129,7 @@
                    VerticalAlignment="Center" 
                    FontSize="{x:Static base:Constants.MediumBackgroundFontSize}" 
                    Foreground="{DynamicResource RG_ForegroundBrush}" 
-                   Text="{DynamicResource Language_Cloud_Description}" 
+                   Text="{DynamicResource Language_Frequent_Description}" 
                    TextWrapping="Wrap"
                    Opacity="0">
             <TextBlock.Style>

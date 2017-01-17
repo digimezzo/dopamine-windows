@@ -300,9 +300,8 @@
   <Text Key="Small">Малий</Text>
   <Text Key="Medium">Середній</Text>
   <Text Key="Large">Великий</Text>
-  <Text Key="Cloud">Хмара</Text>
   <Text Key="Showcase">Вітрина</Text>
-  <Text Key="Cloud_Description">Ваші найпопулярніші альбоми будуть з'являтися тут</Text>
+  <Text Key="Frequent_Description">Ваші найпопулярніші альбоми будуть з'являтися тут</Text>
   <Text Key="Dark">Темний</Text>
   <Text Key="Light">Світлий</Text>
   <Text Key="Components">Компоненти</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>

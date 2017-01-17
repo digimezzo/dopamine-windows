@@ -300,9 +300,8 @@
   <Text Key="Small">Malý</Text>
   <Text Key="Medium">Střední</Text>
   <Text Key="Large">Velký</Text>
-  <Text Key="Cloud">Cloud</Text>
   <Text Key="Showcase">Přehlídka</Text>
-  <Text Key="Cloud_Description">Zde budou vaše nejčastěji přehrávaná alba</Text>
+  <Text Key="Frequent_Description">Zde budou vaše nejčastěji přehrávaná alba</Text>
   <Text Key="Dark">Dark</Text>
   <Text Key="Light">Light</Text>
   <Text Key="Components">Components</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>

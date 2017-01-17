@@ -300,9 +300,8 @@
   <Text Key="Small">Piccola</Text>
   <Text Key="Medium">Media</Text>
   <Text Key="Large">Grande</Text>
-  <Text Key="Cloud">Cloud</Text>
   <Text Key="Showcase">Bacheca</Text>
-  <Text Key="Cloud_Description">Gli album più riprodotti verranno mostrati qui</Text>
+  <Text Key="Frequent_Description">Gli album più riprodotti verranno mostrati qui</Text>
   <Text Key="Dark">Scuro</Text>
   <Text Key="Light">Chiaro</Text>
   <Text Key="Components">Componenti</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>
