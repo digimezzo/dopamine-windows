@@ -169,8 +169,7 @@ namespace Dopamine.Common.Database
                              "Love	                INTEGER," +
                              "PlayCount	            INTEGER," +
                              "SkipCount	            INTEGER," +
-                             "DateLastPlayed        INTEGER," +
-                             "PRIMARY KEY(TrackID));");
+                             "DateLastPlayed        INTEGER);");
 
                 conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON Track(SafePath);");
             }

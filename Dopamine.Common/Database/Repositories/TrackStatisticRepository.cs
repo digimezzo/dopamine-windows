@@ -112,8 +112,24 @@ namespace Dopamine.Common.Database.Repositories
 
                             if (existingTrackStatistic != null)
                             {
-                                existingTrackStatistic.PlayCount += playCount;
-                                existingTrackStatistic.SkipCount += skipCount;
+                                if (existingTrackStatistic.PlayCount.HasValue)
+                                {
+                                    existingTrackStatistic.PlayCount += playCount;
+                                }
+                                else
+                                {
+                                    existingTrackStatistic.PlayCount = playCount;
+                                }
+
+                                if (existingTrackStatistic.SkipCount.HasValue)
+                                {
+                                    existingTrackStatistic.SkipCount += skipCount;
+                                }
+                                else
+                                {
+                                    existingTrackStatistic.SkipCount = skipCount;
+                                }
+
                                 existingTrackStatistic.DateLastPlayed = dateLastPlayed;
                                 conn.Update(existingTrackStatistic);
                             }
@@ -122,8 +138,8 @@ namespace Dopamine.Common.Database.Repositories
                                 var newTrackStatistic = new TrackStatistic();
                                 newTrackStatistic.Path = path;
                                 newTrackStatistic.SafePath = path.ToSafePath();
-                                newTrackStatistic.PlayCount += playCount;
-                                newTrackStatistic.SkipCount += skipCount;
+                                newTrackStatistic.PlayCount = playCount;
+                                newTrackStatistic.SkipCount = skipCount;
                                 newTrackStatistic.DateLastPlayed = dateLastPlayed;
                                 conn.Insert(newTrackStatistic);
                             }
