@@ -196,11 +196,12 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, MAX(tra.DateLastPlayed) AS maxdatelastplayed, SUM(tra.PlayCount) AS playcountsum FROM Album alb" +
-                                                       " LEFT JOIN Track tra ON alb.AlbumID = tra.AlbumID" +
-                                                       " WHERE tra.PlayCount IS NOT NULL AND tra.PlayCount > 0" +
-                                                       " GROUP BY alb.AlbumID" +
-                                                       " ORDER BY playcountsum DESC, maxdatelastplayed DESC");
+                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, MAX(ts.DateLastPlayed) AS maxdatelastplayed, SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +
+                                                       "INNER JOIN Track tra ON ts.SafePath = tra.SafePath " +
+                                                       "INNER JOIN Album alb ON tra.AlbumID = alb.AlbumID " +
+                                                       "WHERE ts.PlayCount IS NOT NULL AND ts.PlayCount > 0 " +
+                                                       "GROUP BY alb.AlbumID " +
+                                                       "ORDER BY playcountsum DESC, maxdatelastplayed DESC");
                         }
                         catch (Exception ex)
                         {
