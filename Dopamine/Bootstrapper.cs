@@ -118,6 +118,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IArtistRepository, ArtistRepository>();
             Container.RegisterSingletonType<IGenreRepository, GenreRepository>();
             Container.RegisterSingletonType<ITrackRepository, TrackRepository>();
+            Container.RegisterSingletonType<ITrackStatisticRepository, TrackStatisticRepository>();
             Container.RegisterSingletonType<IQueuedTrackRepository, QueuedTrackRepository>();
         }
 

@@ -47,19 +47,20 @@ namespace Dopamine.Common.Services.Playback
         private List<MergedTrack> shuffledTracks = new List<MergedTrack>(); // The list of queued Tracks in original order or shuffled
 
         private ITrackRepository trackRepository;
+        private ITrackStatisticRepository trackStatisticRepository;
 
         private IQueuedTrackRepository queuedTrackRepository;
         private System.Timers.Timer saveQueuedTracksTimer = new System.Timers.Timer();
         private int saveQueuedTracksTimeoutSeconds = 5;
 
         private bool isSavingQueuedTracks = false;
-        private System.Timers.Timer saveTrackStatisticsTimer = new System.Timers.Timer();
-        private int saveTrackStatisticsTimeoutSeconds = 5;
+        private System.Timers.Timer savePlaybackCountersTimer = new System.Timers.Timer();
+        private int savePlaybackCountersTimeoutSeconds = 5;
 
-        private bool isSavingTrackStatistics = false;
-        private Dictionary<string, TrackStatistic> trackStatistics = new Dictionary<string, TrackStatistic>();
+        private bool isSavingPlaybackCounters = false;
+        private Dictionary<string, PlaybackCounter> playbackCounters = new Dictionary<string, PlaybackCounter>();
 
-        private object trackStatisticsSyncObject = new object();
+        private object playbackCountersSyncObject = new object();
 
         private SynchronizationContext context;
         private bool isLoadingTrack;
@@ -71,9 +72,9 @@ namespace Dopamine.Common.Services.Playback
             get { return this.isSavingQueuedTracks; }
         }
 
-        public bool IsSavingTrackStatistics
+        public bool IsSavingPlaybackCounters
         {
-            get { return this.isSavingTrackStatistics; }
+            get { return this.isSavingPlaybackCounters; }
         }
 
         public bool NeedsSavingQueuedTracks
@@ -81,9 +82,9 @@ namespace Dopamine.Common.Services.Playback
             get { return this.saveQueuedTracksTimer.Enabled; }
         }
 
-        public bool NeedsSavingTrackStatistics
+        public bool NeedsSavingPlaybackCounters
         {
-            get { return this.trackStatistics.Count > 0; }
+            get { return this.playbackCounters.Count > 0; }
         }
 
         public bool IsStopped
@@ -294,9 +295,10 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Construction
-        public PlaybackService(ITrackRepository trackRepository, IQueuedTrackRepository queuedTrackRepository, IEqualizerService equalizerService)
+        public PlaybackService(ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IQueuedTrackRepository queuedTrackRepository, IEqualizerService equalizerService)
         {
             this.trackRepository = trackRepository;
+            this.trackStatisticRepository = trackStatisticRepository;
             this.queuedTrackRepository = queuedTrackRepository;
             this.equalizerService = equalizerService;
 
@@ -309,8 +311,8 @@ namespace Dopamine.Common.Services.Playback
             this.saveQueuedTracksTimer.Interval = TimeSpan.FromSeconds(this.saveQueuedTracksTimeoutSeconds).TotalMilliseconds;
             this.saveQueuedTracksTimer.Elapsed += new ElapsedEventHandler(this.SaveQueuedTracksTimeoutHandler);
 
-            this.saveTrackStatisticsTimer.Interval = TimeSpan.FromSeconds(this.saveTrackStatisticsTimeoutSeconds).TotalMilliseconds;
-            this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SaveTrackStatisticsHandler);
+            this.savePlaybackCountersTimer.Interval = TimeSpan.FromSeconds(this.savePlaybackCountersTimeoutSeconds).TotalMilliseconds;
+            this.savePlaybackCountersTimer.Elapsed += new ElapsedEventHandler(this.SavePlaybackCountersHandler);
 
             this.Initialize();
         }
@@ -329,7 +331,7 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler PlaybackShuffleChanged = delegate { };
         public event Action<bool> SpectrumVisibilityChanged = delegate { };
         public event Action<int> AddedTracksToQueue = delegate { };
-        public event EventHandler TrackStatisticsChanged = delegate { };
+        public event EventHandler PlaybackCountersChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
         public event EventHandler PlayingTrackPlaybackInfoChanged = delegate { };
         public event EventHandler PlayingTrackArtworkChanged = delegate { };
@@ -498,37 +500,40 @@ namespace Dopamine.Common.Services.Playback
             this.isSavingQueuedTracks = false;
         }
 
-        public async Task SaveTrackStatisticsAsync()
+        public async Task SavePlaybackCountersAsync()
         {
-            if (this.trackStatistics.Count == 0 | this.isSavingTrackStatistics) return;
+            if (this.playbackCounters.Count == 0 | this.isSavingPlaybackCounters) return;
 
-            this.saveTrackStatisticsTimer.Stop();
+            this.savePlaybackCountersTimer.Stop();
 
-            this.isSavingTrackStatistics = true;
+            this.isSavingPlaybackCounters = true;
 
-            IList<TrackStatistic> stats = null;
+            IList<PlaybackCounter> counters = null;
 
             await Task.Run(() =>
             {
                 lock (this.queueSyncObject)
                 {
-                    stats = new List<TrackStatistic>(this.trackStatistics.Values);
-                    this.trackStatistics.Clear();
+                    counters = new List<PlaybackCounter>(this.playbackCounters.Values);
+                    this.playbackCounters.Clear();
                 }
             });
 
-            await this.trackRepository.SaveTrackStatisticsAsync(stats);
-
-            this.TrackStatisticsChanged(this, new EventArgs());
-
-            LogClient.Info("Saved Track Statistics");
-
-            this.isSavingTrackStatistics = false;
-
-            // If, in the meantime, new statistics are available, reset the timer.
-            if (this.trackStatistics.Count > 0)
+            foreach (PlaybackCounter counter in counters)
             {
-                this.ResetSaveTrackStatisticsTimer();
+                await this.trackStatisticRepository.UpdateCountersAsync(counter.Path, counter.PlayCount, counter.SkipCount, counter.DateLastPlayed);
+            }
+
+            this.PlaybackCountersChanged(this, new EventArgs());
+
+            LogClient.Info("Saved playback counters");
+
+            this.isSavingPlaybackCounters = false;
+
+            // If, in the meantime, new counters are available, reset the timer.
+            if (this.playbackCounters.Count > 0)
+            {
+                this.ResetSavePlaybackCountersTimer();
             }
         }
 
@@ -612,11 +617,11 @@ namespace Dopamine.Common.Services.Playback
 
                     if (currentTime <= 10)
                     {
-                        await this.UpdateTrackStatisticsAsync(this.playingTrack.Path, false, true); // Increase SkipCount
+                        await this.UpdatePlaybackCountersAsync(this.playingTrack.Path, false, true); // Increase SkipCount
                     }
                     else
                     {
-                        await this.UpdateTrackStatisticsAsync(this.playingTrack.Path, true, false); // Increase PlayCount
+                        await this.UpdatePlaybackCountersAsync(this.playingTrack.Path, true, false); // Increase PlayCount
                     }
                 }
             }
@@ -996,39 +1001,39 @@ namespace Dopamine.Common.Services.Playback
             return isPlaybackInfoUpdated;
         }
 
-        private async void SaveTrackStatisticsHandler(object sender, ElapsedEventArgs e)
+        private async void SavePlaybackCountersHandler(object sender, ElapsedEventArgs e)
         {
-            await this.SaveTrackStatisticsAsync();
+            await this.SavePlaybackCountersAsync();
         }
 
-        private async Task UpdateTrackStatisticsAsync(string path, bool incrementPlayCount, bool incrementSkipCount)
+        private async Task UpdatePlaybackCountersAsync(string path, bool incrementPlayCount, bool incrementSkipCount)
         {
             await Task.Run(() =>
             {
-                lock (this.trackStatisticsSyncObject)
+                lock (this.playbackCountersSyncObject)
                 {
                     try
                     {
-                        if (!this.trackStatistics.ContainsKey(path))
+                        if (!this.playbackCounters.ContainsKey(path))
                         {
-                            this.trackStatistics.Add(path, new TrackStatistic { Path = path });
+                            this.playbackCounters.Add(path, new PlaybackCounter { Path = path });
                         }
 
                         if (incrementPlayCount)
                         {
-                            this.trackStatistics[path].PlayCount += 1;
-                            this.trackStatistics[path].DateLastPlayed = DateTime.Now.Ticks;
+                            this.playbackCounters[path].PlayCount += 1;
+                            this.playbackCounters[path].DateLastPlayed = DateTime.Now.Ticks;
                         }
-                        if (incrementSkipCount) this.trackStatistics[path].SkipCount += 1;
+                        if (incrementSkipCount) this.playbackCounters[path].SkipCount += 1;
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Could not update playback statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
+                        LogClient.Error("Could not update playback counters for track with path='{0}'. Exception: {1}", path, ex.Message);
                     }
                 }
             });
 
-            this.ResetSaveTrackStatisticsTimer();
+            this.ResetSavePlaybackCountersTimer();
         }
 
         private async Task PauseAsync()
@@ -1319,7 +1324,7 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
-                await this.UpdateTrackStatisticsAsync(this.playingTrack.Path, true, false); // Increase PlayCount
+                await this.UpdatePlaybackCountersAsync(this.playingTrack.Path, true, false); // Increase PlayCount
                 await this.TryPlayNextAsync();
             }), null);
         }
@@ -1442,10 +1447,10 @@ namespace Dopamine.Common.Services.Playback
             this.saveQueuedTracksTimer.Start();
         }
 
-        private void ResetSaveTrackStatisticsTimer()
+        private void ResetSavePlaybackCountersTimer()
         {
-            this.saveTrackStatisticsTimer.Stop();
-            this.saveTrackStatisticsTimer.Start();
+            this.savePlaybackCountersTimer.Stop();
+            this.savePlaybackCountersTimer.Start();
         }
 
         private async Task SetPlaybackSettingsAsync()

@@ -537,7 +537,7 @@ namespace Dopamine.Common.Services.Indexing
 
                         // 2. Process remaining tracks
                         // ---------------------------
-                        if(remainingTracks.Count > 0)
+                        if (remainingTracks.Count > 0)
                         {
                             foreach (Track trk in remainingTracks)
                             {
@@ -557,7 +557,7 @@ namespace Dopamine.Common.Services.Indexing
                                 }
                             }
                         }
-                        
+
                         conn.Commit();
                     }
                 }
@@ -709,13 +709,14 @@ namespace Dopamine.Common.Services.Indexing
         {
             bool processingSuccessful = false;
 
+            var newTrackStatistic = new TrackStatistic();
             var newAlbum = new Album();
             var newArtist = new Artist();
             var newGenre = new Genre();
-
+            
             try
             {
-                MetadataUtils.SplitMetadata(track.Path, ref track, ref newAlbum, ref newArtist, ref newGenre);
+                MetadataUtils.SplitMetadata(track.Path, ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
                 processingSuccessful = true;
             }
             catch (Exception ex)
@@ -726,22 +727,29 @@ namespace Dopamine.Common.Services.Indexing
 
             if (processingSuccessful)
             {
+                // Check if such TrackStatistic already exists in the database
+                if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
+                {
+                    // If not, add it.
+                    conn.Insert(newTrackStatistic);
+                }
+
                 // Check if such Artist already exists in the database
-                if (!this.cache.GetCachedArtist(ref newArtist))
+                if (!this.cache.HasCachedArtist(ref newArtist))
                 {
                     // If not, add it.
                     conn.Insert(newArtist);
                 }
 
                 // Check if such Genre already exists in the database 
-                if (!this.cache.GetCachedGenre(ref newGenre))
+                if (!this.cache.HasCachedGenre(ref newGenre))
                 {
                     // If not, add it.
                     conn.Insert(newGenre);
                 }
 
                 // Check if such Album already exists in the database
-                if (!this.cache.GetCachedAlbum(ref newAlbum))
+                if (!this.cache.HasCachedAlbum(ref newAlbum))
                 {
                     // If Not, add it.
                     conn.Insert(newAlbum);

@@ -17,9 +17,9 @@ namespace Dopamine.Common.Services.Playback
         IPlayer Player { get; }
         MergedTrack PlayingTrack { get; }
         bool IsSavingQueuedTracks { get; }
-        bool IsSavingTrackStatistics { get; }
+        bool IsSavingPlaybackCounters { get; }
         bool NeedsSavingQueuedTracks { get; }
-        bool NeedsSavingTrackStatistics { get; }
+        bool NeedsSavingPlaybackCounters { get; }
         List<MergedTrack> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
@@ -65,7 +65,7 @@ namespace Dopamine.Common.Services.Playback
         Task<AddToQueueResult> AddToQueueNext(IList<MergedTrack> tracks);
         Task<DequeueResult> Dequeue(IList<MergedTrack> selectedTracks);
         Task SaveQueuedTracksAsync();
-        Task SaveTrackStatisticsAsync();
+        Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
         Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
@@ -85,7 +85,7 @@ namespace Dopamine.Common.Services.Playback
         event EventHandler PlaybackShuffleChanged;
         event Action<bool> SpectrumVisibilityChanged;
         event Action<int> AddedTracksToQueue;
-        event EventHandler TrackStatisticsChanged;
+        event EventHandler PlaybackCountersChanged;
         event Action<bool> LoadingTrack;
         event EventHandler PlayingTrackPlaybackInfoChanged;
         event EventHandler PlayingTrackArtworkChanged;

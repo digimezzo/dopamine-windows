@@ -25,13 +25,8 @@ namespace Dopamine.Common.Database.Entities
         public long? DiscCount { get; set; }
         public long? Duration { get; set; }
         public long? Year { get; set; }
-        public long? Rating { get; set; }
         public long? HasLyrics { get; set; }
-        public long? Love { get; set; }
-        public long? PlayCount { get; set; }
-        public long? SkipCount { get; set; }
         public long DateAdded { get; set; }
-        public long? DateLastPlayed { get; set; }
         public long DateLastSynced { get; set; }
         public long DateFileModified { get; set; }
         public string MetaDataHash { get; set; }

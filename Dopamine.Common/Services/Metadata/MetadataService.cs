@@ -23,6 +23,7 @@ namespace Dopamine.Common.Services.Metadata
     {
         #region Variables
         private ITrackRepository trackRepository;
+        private ITrackStatisticRepository trackStatisticRepository;
         private IAlbumRepository albumRepository;
         private IGenreRepository genreRepository;
         private IArtistRepository artistRepository;
@@ -53,11 +54,12 @@ namespace Dopamine.Common.Services.Metadata
         #endregion
 
         #region Construction
-        public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
+        public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
 
+            this.trackStatisticRepository = trackStatisticRepository;
             this.trackRepository = trackRepository;
             this.albumRepository = albumRepository;
             this.genreRepository = genreRepository;
@@ -110,14 +112,7 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackRatingAsync(string path, int rating)
         {
-            Track track = await this.trackRepository.GetTrackAsync(path);
-
-            // Update datebase track rating only if the track can be found
-            if (track != null)
-            {
-                track.Rating = rating;
-                await this.trackRepository.UpdateTrackAsync(track);
-            }
+            await this.trackStatisticRepository.UpdateRatingAsync(path, rating);
 
             // Update the rating in the file if the user selected this option
             if (SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
@@ -136,14 +131,7 @@ namespace Dopamine.Common.Services.Metadata
 
         public async Task UpdateTrackLoveAsync(string path, bool love)
         {
-            Track track = await this.trackRepository.GetTrackAsync(path);
-
-            // Update datebase track love only if the track can be found
-            if (track != null)
-            {
-                track.Love = love ? 1 : 0;
-                await this.trackRepository.UpdateTrackAsync(track);
-            }
+            await this.trackStatisticRepository.UpdateLoveAsync(path, love);
 
             this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
         }
@@ -203,7 +191,7 @@ namespace Dopamine.Common.Services.Metadata
             List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
 
             var fileMetadatas = new List<FileMetadata>();
-           
+
             foreach (MergedTrack track in albumTracks)
             {
                 var fmd = await this.GetFileMetadataAsync(track.Path);
@@ -305,9 +293,10 @@ namespace Dopamine.Common.Services.Metadata
                         if (this.fileMetadataDictionary.ContainsKey(fmd.SafePath))
                         {
                             this.fileMetadataDictionary[fmd.SafePath] = fmd;
-                        }else
+                        }
+                        else
                         {
-                            this.fileMetadataDictionary.Add(fmd.SafePath,fmd);
+                            this.fileMetadataDictionary.Add(fmd.SafePath, fmd);
                         }
                     }
                 }

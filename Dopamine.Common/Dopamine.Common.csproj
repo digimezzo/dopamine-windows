@@ -222,12 +222,14 @@
     <Compile Include="Database\Repositories\Interfaces\IPlaylistRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IQueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\ITrackRepository.cs" />
+    <Compile Include="Database\Repositories\Interfaces\ITrackStatisticRepository.cs" />
     <Compile Include="Database\Repositories\PlaylistEntryRepository.cs" />
     <Compile Include="Database\Repositories\PlaylistRepository.cs" />
     <Compile Include="Database\Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackRepository.cs" />
+    <Compile Include="Database\Repositories\TrackStatisticRepository.cs" />
     <Compile Include="Database\SQLiteConnectionFactory.cs" />
-    <Compile Include="Database\TrackStatistic.cs" />
+    <Compile Include="Database\Entities\TrackStatistic.cs" />
     <Compile Include="Database\Utils.cs" />
     <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
@@ -443,6 +445,7 @@
     <Compile Include="Services\Playback\AddToQueueResult.cs" />
     <Compile Include="Services\Playback\DequeueResult.cs" />
     <Compile Include="Services\Playback\IPlaybackService.cs" />
+    <Compile Include="Services\Playback\PlaybackCounter.cs" />
     <Compile Include="Services\Playback\PlaybackFailedEventArgs.cs" />
     <Compile Include="Services\Playback\PlaybackFailureReason.cs" />
     <Compile Include="Services\Playback\PlaybackService.cs" />

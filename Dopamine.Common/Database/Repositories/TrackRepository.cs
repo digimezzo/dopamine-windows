@@ -29,13 +29,15 @@ namespace Dopamine.Common.Database.Repositories
             return "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
                    "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
                    "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
-                   "tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced, " +
+                   "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
                    "tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle, " +
-                   "alb.AlbumArtist, alb.Year AS AlbumYear " +
+                   "alb.AlbumArtist, alb.Year AS AlbumYear, " +
+                   "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
                    "FROM Track tra " +
                    "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
                    "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
-                   "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID ";
+                   "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
+                   "INNER JOIN TrackStatistic ts ON tra.SafePath=ts.SafePath ";
         }
         #endregion
 
@@ -401,47 +403,6 @@ namespace Dopamine.Common.Database.Repositories
             });
 
             return updateSuccess;
-        }
-        public async Task SaveTrackStatisticsAsync(IList<TrackStatistic> trackStatistics)
-        {
-            if (trackStatistics == null) return;
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            foreach (TrackStatistic stat in trackStatistics)
-                            {
-                                Track dbTrack = conn.Query<Track>("SELECT * FROM Track WHERE SafePath=?", stat.Path.ToSafePath()).FirstOrDefault();
-
-                                if (dbTrack != null)
-                                {
-                                    if (dbTrack.PlayCount == null) dbTrack.PlayCount = 0;
-                                    dbTrack.PlayCount += stat.PlayCount;
-                                    dbTrack.DateLastPlayed = stat.DateLastPlayed;
-
-                                    if (dbTrack.SkipCount == null) dbTrack.SkipCount = 0;
-                                    dbTrack.SkipCount += stat.SkipCount;
-
-                                    conn.Update(dbTrack);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not save track statistics. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
         }
         #endregion
     }
