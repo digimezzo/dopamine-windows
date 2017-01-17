@@ -184,7 +184,7 @@ namespace Dopamine.Common.Database.Repositories
             return album;
         }
 
-        public async Task<List<Album>> GetAlbumHistoryAsync(int limit)
+        public async Task<List<Album>> GetFrequentAlbumsAsync(int limit)
         {
             var albums = new List<Album>();
 

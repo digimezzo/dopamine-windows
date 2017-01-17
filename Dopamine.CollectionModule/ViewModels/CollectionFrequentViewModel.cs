@@ -1,14 +1,13 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Playback;
-using Dopamine.ControlsModule.Views;
+﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
-using Dopamine.Common.Utils;
+using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Playback;
+using Dopamine.ControlsModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -18,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionCloudViewModel : BindableBase, INavigationAware
+    public class CollectionFrequentViewModel : BindableBase, INavigationAware
     {
         #region Variables
         private IAlbumRepository albumRepository;
@@ -140,7 +139,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionCloudViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IRegionManager regionManager)
+        public CollectionFrequentViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IRegionManager regionManager)
         {
             this.albumRepository = albumRepository;
             this.playbackService = playbackService;
@@ -203,7 +202,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task PopulateAlbumHistoryAsync()
         {
-            var albums = await this.albumRepository.GetAlbumHistoryAsync(14);
+            var albums = await this.albumRepository.GetFrequentAlbumsAsync(14);
 
             if (albums.Count == 0)
             {
