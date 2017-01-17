@@ -300,9 +300,8 @@
   <Text Key="Small">小</Text>
   <Text Key="Medium">中</Text>
   <Text Key="Large">大</Text>
-  <Text Key="Cloud">音樂雲</Text>
   <Text Key="Showcase">展示台</Text>
-  <Text Key="Cloud_Description">播放次數最多的專輯將會在這裡顯示出來</Text>
+  <Text Key="Frequent_Description">播放次數最多的專輯將會在這裡顯示出來</Text>
   <Text Key="Dark">深色</Text>
   <Text Key="Light">淺色</Text>
   <Text Key="Components">元件</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>

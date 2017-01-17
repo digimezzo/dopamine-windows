@@ -300,9 +300,8 @@
   <Text Key="Small">Klein</Text>
   <Text Key="Medium">Middelmatig</Text>
   <Text Key="Large">Groot</Text>
-  <Text Key="Cloud">Wolk</Text>
   <Text Key="Showcase">Showcase</Text>
-  <Text Key="Cloud_Description">Jouw meest afgespeelde albums zullen hier weergegeven worden</Text>
+  <Text Key="Frequent_Description">Jouw meest afgespeelde albums zullen hier weergegeven worden</Text>
   <Text Key="Dark">Donker</Text>
   <Text Key="Light">Licht</Text>
   <Text Key="Components">Componenten</Text>
@@ -386,4 +385,5 @@
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Frequent">Frequent</Text>
 </Language>
