@@ -38,16 +38,15 @@ namespace Dopamine.Common.Database.Repositories
                                                          "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
                                                          "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
                                                          "tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle, " +
-                                                         "alb.AlbumArtist, alb.Year AS AlbumYear " +
-                                                         "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed, " +
+                                                         "alb.AlbumArtist, alb.Year AS AlbumYear, " +
+                                                         "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
                                                          "FROM QueuedTrack qtra " +
                                                          "INNER JOIN Track tra ON qtra.SafePath=tra.SafePath " +
                                                          "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
                                                          "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
                                                          "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
+                                                         "INNER JOIN TrackStatistic ts ON tra.SafePath=ts.SafePath " +
                                                          "ORDER BY qtra.OrderID");
-
-
                     }
                     catch (Exception ex)
                     {
