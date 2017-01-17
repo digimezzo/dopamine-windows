@@ -11,6 +11,7 @@ namespace Dopamine.Common.Services.Indexing
     public class IndexerCache
     {
         #region Variables
+        private HashSet<string> trackStatisticHashSet;
         private Dictionary<long, string> albumsDictionary;
         private Dictionary<long, string> artistsDictionary;
         private Dictionary<long, string> genresDictionary;
@@ -31,7 +32,19 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Public
-        public bool GetCachedArtist(ref Artist artist)
+        public bool HasCachedTrackStatistic(TrackStatistic trackStatistic)
+        {
+            if (trackStatisticHashSet.Contains(trackStatistic.SafePath))
+            {
+                return true;
+            }
+
+            trackStatisticHashSet.Add(trackStatistic.SafePath);
+
+            return false;
+        }
+
+        public bool HasCachedArtist(ref Artist artist)
         {
 
             bool isCachedArtist = false;
@@ -63,7 +76,7 @@ namespace Dopamine.Common.Services.Indexing
             return isCachedArtist;
         }
 
-        public bool GetCachedGenre(ref Genre genre)
+        public bool HasCachedGenre(ref Genre genre)
         {
             bool isCachedGenre = false;
             long similarGenreId = 0;
@@ -94,7 +107,7 @@ namespace Dopamine.Common.Services.Indexing
             return isCachedGenre;
         }
 
-        public bool GetCachedAlbum(ref Album album)
+        public bool HasCachedAlbum(ref Album album)
         {
             bool isCachedAlbum = false;
             long similarAlbumId = 0;
@@ -133,6 +146,7 @@ namespace Dopamine.Common.Services.Indexing
             // For Albums, we're comparing a concatenated string consisting of AlbumTitle and AlbumArtist.
             using (SQLiteConnection conn = this.factory.GetConnection())
             {
+                this.trackStatisticHashSet = new HashSet<string>(conn.Table<TrackStatistic>().ToList().Select(ts => ts.SafePath).ToList());
                 this.albumsDictionary = conn.Table<Album>().ToDictionary(alb => alb.AlbumID, alb => this.GetAlbumCacheComparer(alb));
                 this.artistsDictionary = conn.Table<Artist>().ToDictionary(art => art.ArtistID, art => this.GetArtistCacheComparer(art));
                 this.genresDictionary = conn.Table<Genre>().ToDictionary(gen => gen.GenreID, gen => this.GetGenreCacheComparer(gen));
@@ -143,14 +157,14 @@ namespace Dopamine.Common.Services.Indexing
             this.maxGenreID = this.genresDictionary.Keys.OrderByDescending(key => key).Select(key => key).FirstOrDefault();
         }
 
-        private string GetArtistCacheComparer(Artist iArtist)
+        private string GetArtistCacheComparer(Artist artist)
         {
-            return iArtist.ArtistNameTrim;
+            return artist.ArtistNameTrim;
         }
 
-        private string GetGenreCacheComparer(Genre iGenre)
+        private string GetGenreCacheComparer(Genre genre)
         {
-            return iGenre.GenreNameTrim;
+            return genre.GenreNameTrim;
         }
 
         private string GetAlbumCacheComparer(Album album)

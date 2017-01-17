@@ -7,6 +7,14 @@ namespace Dopamine.Common.Database
 {
     public class MergedTrack : Track
     {
+        #region TrackStastistic
+        public long? Rating { get; set; }
+        public long? Love { get; set; }
+        public long? PlayCount { get; set; }
+        public long? SkipCount { get; set; }
+        public long? DateLastPlayed { get; set; }
+        #endregion
+
         #region Artist
         public string ArtistName { get; set; }
         #endregion

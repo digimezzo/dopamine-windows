@@ -197,7 +197,7 @@ namespace Dopamine.Common.Metadata
             }
         }
 
-        public static void SplitMetadata(string path, ref Track track, ref Album album, ref Artist artist, ref Genre genre)
+        public static void SplitMetadata(string path, ref Track track, ref TrackStatistic trackStatistic, ref Album album, ref Artist artist, ref Genre genre)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -217,9 +217,13 @@ namespace Dopamine.Common.Metadata
                 track.DiscNumber = MetadataUtils.SafeConvertToLong(fmd.DiscNumber.Value);
                 track.DiscCount = MetadataUtils.SafeConvertToLong(fmd.DiscCount.Value);
                 track.Year = MetadataUtils.SafeConvertToLong(fmd.Year.Value);
-                track.Rating = fmd.Rating.Value;
                 track.HasLyrics = string.IsNullOrWhiteSpace(fmd.Lyrics.Value) ? 0 : 1;
                 track.NeedsIndexing = 0;
+
+                // TrackStatistic information
+                trackStatistic.Path = path;
+                trackStatistic.SafePath = path.ToSafePath();
+                trackStatistic.Rating = fmd.Rating.Value;
 
                 // Before proceeding, get the available artists
                 string albumArtist = GetFirstAlbumArtist(fmd);

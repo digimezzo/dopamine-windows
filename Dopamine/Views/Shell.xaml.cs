@@ -831,16 +831,16 @@ namespace Dopamine.Views
 
             // Save track statistics
             // ---------------------
-            if (this.playbackService.IsSavingTrackStatistics)
+            if (this.playbackService.IsSavingPlaybackCounters)
             {
-                while (this.playbackService.IsSavingTrackStatistics)
+                while (this.playbackService.IsSavingPlaybackCounters)
                 {
                     await Task.Delay(50);
                 }
             }
             else
             {
-                await this.playbackService.SaveTrackStatisticsAsync();
+                await this.playbackService.SavePlaybackCountersAsync();
             }
 
             LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString());

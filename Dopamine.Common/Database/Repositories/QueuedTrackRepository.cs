@@ -33,18 +33,19 @@ namespace Dopamine.Common.Database.Repositories
                 {
                     try
                     {
-                        tracks = conn.Query<MergedTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath," +
-                                                       " tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle," +
-                                                       " tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year," +
-                                                       " tra.Rating, tra.HasLyrics, tra.Love, tra.PlayCount, tra.SkipCount, tra.DateAdded, tra.DateLastPlayed, tra.DateLastSynced," +
-                                                       " tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle," +
-                                                       " alb.AlbumArtist, alb.Year AS AlbumYear" +
-                                                       " FROM QueuedTrack qtra" +
-                                                       " INNER JOIN Track tra ON qtra.SafePath=tra.SafePath" +
-                                                       " INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID" +
-                                                       " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                       " INNER JOIN Genre gen ON tra.GenreID=gen.GenreID" +
-                                                       " ORDER BY qtra.OrderID");
+                        tracks = conn.Query<MergedTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
+                                                         "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
+                                                         "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
+                                                         "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
+                                                         "tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle, " +
+                                                         "alb.AlbumArtist, alb.Year AS AlbumYear " +
+                                                         "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed, " +
+                                                         "FROM QueuedTrack qtra " +
+                                                         "INNER JOIN Track tra ON qtra.SafePath=tra.SafePath " +
+                                                         "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
+                                                         "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
+                                                         "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
+                                                         "ORDER BY qtra.OrderID");
 
 
                     }

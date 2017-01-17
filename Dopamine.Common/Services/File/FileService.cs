@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using Dopamine.Common.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Services.File
 {
@@ -25,7 +26,7 @@ namespace Dopamine.Common.Services.File
         #region Variables
         private IPlaybackService playbackService;
         private ICacheService cacheService;
-        private IMetadataService metadataService;
+        private ITrackStatisticRepository trackStatisticRepository;
         private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
@@ -34,11 +35,11 @@ namespace Dopamine.Common.Services.File
         #endregion
 
         #region Construction
-        public FileService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
+        public FileService(IPlaybackService playbackService, ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository)
         {
             this.playbackService = playbackService;
             this.cacheService = cacheService;
-            this.metadataService = metadataService;
+            this.trackStatisticRepository = trackStatisticRepository;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -252,16 +253,17 @@ namespace Dopamine.Common.Services.File
         {
             var mergedTrack = new MergedTrack();
 
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 var track = new Track();
+                var trackStatistic = new TrackStatistic();
                 var album = new Album();
                 var artist = new Artist();
                 var genre = new Genre();
 
                 try
                 {
-                    MetadataUtils.SplitMetadata(path, ref track, ref album, ref artist, ref genre);
+                    MetadataUtils.SplitMetadata(path, ref track, ref trackStatistic, ref album, ref artist, ref genre);
 
                     mergedTrack.Path = track.Path;
                     mergedTrack.SafePath = track.Path.ToSafePath();
@@ -277,7 +279,6 @@ namespace Dopamine.Common.Services.File
                     mergedTrack.DiscCount = track.DiscCount;
                     mergedTrack.Duration = track.Duration;
                     mergedTrack.Year = track.Year;
-                    mergedTrack.Rating = track.Rating;
                     mergedTrack.HasLyrics = track.HasLyrics;
 
                     mergedTrack.ArtistName = artist.ArtistName;
@@ -287,6 +288,17 @@ namespace Dopamine.Common.Services.File
                     mergedTrack.AlbumTitle = album.AlbumTitle;
                     mergedTrack.AlbumArtist = album.AlbumArtist;
                     mergedTrack.AlbumYear = album.Year;
+
+                    // Try to find an TrackStatistic in the database. If not found, 
+                    // the TrackStatistic from the file is used. That one can only contain rating.
+                    var dbTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
+                    if (dbTrackStatistic != null) trackStatistic = dbTrackStatistic;
+
+                    mergedTrack.Rating = trackStatistic.Rating;
+                    mergedTrack.Love = trackStatistic.Love;
+                    mergedTrack.PlayCount = trackStatistic.PlayCount;
+                    mergedTrack.SkipCount = trackStatistic.SkipCount;
+                    mergedTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
                 }
                 catch (Exception ex)
                 {

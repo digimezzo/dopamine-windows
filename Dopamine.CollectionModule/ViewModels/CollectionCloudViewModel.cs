@@ -147,7 +147,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.cacheService = cacheService;
             this.regionManager = regionManager;
 
-            this.playbackService.TrackStatisticsChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.PlaybackCountersChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             this.ClickCommand = new DelegateCommand<object>((album) =>
             {

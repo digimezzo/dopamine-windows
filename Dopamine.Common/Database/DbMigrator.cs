@@ -29,7 +29,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 15;
+        protected const int CURRENT_VERSION = 16;
         private SQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -124,13 +124,8 @@ namespace Dopamine.Common.Database
                              "DiscCount	            INTEGER," +
                              "Duration	            INTEGER," +
                              "Year	                INTEGER," +
-                             "Rating	            INTEGER," +
                              "HasLyrics	            INTEGER," +
-                             "Love	                INTEGER," +
-                             "PlayCount	            INTEGER," +
-                             "SkipCount	            INTEGER," +
                              "DateAdded  	        INTEGER," +
-                             "DateLastPlayed        INTEGER," +
                              "DateLastSynced	    INTEGER," +
                              "DateFileModified	    INTEGER," +
                              "MetaDataHash	        TEXT," +
@@ -165,6 +160,19 @@ namespace Dopamine.Common.Database
                             "Key                    TEXT," +
                             "Value                  TEXT," +
                             "PRIMARY KEY(IndexingStatisticID));");
+
+                conn.Execute("CREATE TABLE TrackStatistic (" +
+                             "TrackStatisticID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT," +
+                             "Rating	            INTEGER," +
+                             "Love	                INTEGER," +
+                             "PlayCount	            INTEGER," +
+                             "SkipCount	            INTEGER," +
+                             "DateLastPlayed        INTEGER," +
+                             "PRIMARY KEY(TrackID));");
+
+                conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON Track(SafePath);");
             }
         }
         #endregion
@@ -760,7 +768,7 @@ namespace Dopamine.Common.Database
             }
         }
         #endregion
-        
+
         #region Version 14
         [DatabaseVersion(14)]
         private void Migrate14()
@@ -790,6 +798,149 @@ namespace Dopamine.Common.Database
                 conn.Execute("ALTER TABLE Track ADD NeedsIndexing INTEGER;");
                 conn.Execute("UPDATE Track SET HasLyrics=0;");
                 conn.Execute("UPDATE Track SET NeedsIndexing=1;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 16
+        [DatabaseVersion(16)]
+        private void Migrate16()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("CREATE TABLE TrackStatistic (" +
+                             "TrackStatisticID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT," +
+                             "Rating	            INTEGER," +
+                             "Love	                INTEGER," +
+                             "PlayCount	            INTEGER," +
+                             "SkipCount	            INTEGER," +
+                             "DateLastPlayed        INTEGER);");
+
+                conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON TrackStatistic(SafePath);");
+
+                conn.Execute("INSERT INTO TrackStatistic(Path,SafePath,Rating,Love,PlayCount,SkipCount,DateLastPlayed) " +
+                             "SELECT Path, Safepath, Rating, Love, PlayCount,SkipCount, DateLastPlayed FROM Track;");
+
+                conn.Execute("CREATE TEMPORARY TABLE Track_Backup (" +
+                             "TrackID	            INTEGER," +
+                             "ArtistID	            INTEGER," +
+                             "GenreID	            INTEGER," +
+                             "AlbumID	            INTEGER," +
+                             "FolderID	            INTEGER," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT," +
+                             "FileName	            TEXT," +
+                             "MimeType	            TEXT," +
+                             "FileSize	            INTEGER," +
+                             "BitRate	            INTEGER," +
+                             "SampleRate	        INTEGER," +
+                             "TrackTitle	        TEXT," +
+                             "TrackNumber	        INTEGER," +
+                             "TrackCount	        INTEGER," +
+                             "DiscNumber	        INTEGER," +
+                             "DiscCount	            INTEGER," +
+                             "Duration	            INTEGER," +
+                             "Year	                INTEGER," +
+                             "HasLyrics	            INTEGER," +
+                             "DateAdded  	        INTEGER," +
+                             "DateLastSynced	    INTEGER," +
+                             "DateFileModified	    INTEGER," +
+                             "MetaDataHash	        TEXT," +
+                             "NeedsIndexing 	    INTEGER," +
+                             "PRIMARY KEY(TrackID));");
+
+                conn.Execute("INSERT INTO Track_Backup SELECT TrackID," +
+                                     "ArtistID," +
+                                     "GenreID," +
+                                     "AlbumID," +
+                                     "FolderID," +
+                                     "Path," +
+                                     "SafePath," +
+                                     "FileName," +
+                                     "MimeType," +
+                                     "FileSize," +
+                                     "BitRate," +
+                                     "SampleRate," +
+                                     "TrackTitle," +
+                                     "TrackNumber," +
+                                     "TrackCount," +
+                                     "DiscNumber," +
+                                     "DiscCount," +
+                                     "Duration," +
+                                     "Year," +
+                                     "HasLyrics," +
+                                     "DateAdded," +
+                                     "DateLastSynced," +
+                                     "DateFileModified," +
+                                     "MetaDataHash," +
+                                     "NeedsIndexing " +
+                                     "FROM Track;");
+
+                conn.Execute("DROP TABLE Track;");
+
+                conn.Execute("CREATE TABLE Track (" +
+                             "TrackID	            INTEGER," +
+                             "ArtistID	            INTEGER," +
+                             "GenreID	            INTEGER," +
+                             "AlbumID	            INTEGER," +
+                             "FolderID	            INTEGER," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT," +
+                             "FileName	            TEXT," +
+                             "MimeType	            TEXT," +
+                             "FileSize	            INTEGER," +
+                             "BitRate	            INTEGER," +
+                             "SampleRate	        INTEGER," +
+                             "TrackTitle	        TEXT," +
+                             "TrackNumber	        INTEGER," +
+                             "TrackCount	        INTEGER," +
+                             "DiscNumber	        INTEGER," +
+                             "DiscCount	            INTEGER," +
+                             "Duration	            INTEGER," +
+                             "Year	                INTEGER," +
+                             "HasLyrics	            INTEGER," +
+                             "DateAdded  	        INTEGER," +
+                             "DateLastSynced	    INTEGER," +
+                             "DateFileModified	    INTEGER," +
+                             "MetaDataHash	        TEXT," +
+                             "NeedsIndexing 	    INTEGER," +
+                             "PRIMARY KEY(TrackID));");
+
+                conn.Execute("INSERT INTO Track SELECT TrackID," +
+                                     "ArtistID," +
+                                     "GenreID," +
+                                     "AlbumID," +
+                                     "FolderID," +
+                                     "Path," +
+                                     "SafePath," +
+                                     "FileName," +
+                                     "MimeType," +
+                                     "FileSize," +
+                                     "BitRate," +
+                                     "SampleRate," +
+                                     "TrackTitle," +
+                                     "TrackNumber," +
+                                     "TrackCount," +
+                                     "DiscNumber," +
+                                     "DiscCount," +
+                                     "Duration," +
+                                     "Year," +
+                                     "HasLyrics," +
+                                     "DateAdded," +
+                                     "DateLastSynced," +
+                                     "DateFileModified," +
+                                     "MetaDataHash," +
+                                     "NeedsIndexing " +
+                                     "FROM Track_Backup;");
+
+                conn.Execute("DROP TABLE Track_Backup;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
