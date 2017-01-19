@@ -116,7 +116,7 @@ namespace Dopamine.Common.Services.File
 
         private async Task ImportFilesAsync()
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(async () =>
             {
@@ -249,9 +249,9 @@ namespace Dopamine.Common.Services.File
             });
         }
 
-        public async Task<MergedTrack> Path2TrackAsync(string path, string artworkPrefix)
+        public async Task<PlayableTrack> Path2TrackAsync(string path, string artworkPrefix)
         {
-            var mergedTrack = new MergedTrack();
+            var returnTrack = new PlayableTrack();
 
             await Task.Run(async() =>
             {
@@ -265,50 +265,50 @@ namespace Dopamine.Common.Services.File
                 {
                     MetadataUtils.SplitMetadata(path, ref track, ref trackStatistic, ref album, ref artist, ref genre);
 
-                    mergedTrack.Path = track.Path;
-                    mergedTrack.SafePath = track.Path.ToSafePath();
-                    mergedTrack.FileName = track.FileName;
-                    mergedTrack.MimeType = track.MimeType;
-                    mergedTrack.FileSize = track.FileSize;
-                    mergedTrack.BitRate = track.BitRate;
-                    mergedTrack.SampleRate = track.SampleRate;
-                    mergedTrack.TrackTitle = track.TrackTitle;
-                    mergedTrack.TrackNumber = track.TrackNumber;
-                    mergedTrack.TrackCount = track.TrackCount;
-                    mergedTrack.DiscNumber = track.DiscNumber;
-                    mergedTrack.DiscCount = track.DiscCount;
-                    mergedTrack.Duration = track.Duration;
-                    mergedTrack.Year = track.Year;
-                    mergedTrack.HasLyrics = track.HasLyrics;
+                    returnTrack.Path = track.Path;
+                    returnTrack.SafePath = track.Path.ToSafePath();
+                    returnTrack.FileName = track.FileName;
+                    returnTrack.MimeType = track.MimeType;
+                    returnTrack.FileSize = track.FileSize;
+                    returnTrack.BitRate = track.BitRate;
+                    returnTrack.SampleRate = track.SampleRate;
+                    returnTrack.TrackTitle = track.TrackTitle;
+                    returnTrack.TrackNumber = track.TrackNumber;
+                    returnTrack.TrackCount = track.TrackCount;
+                    returnTrack.DiscNumber = track.DiscNumber;
+                    returnTrack.DiscCount = track.DiscCount;
+                    returnTrack.Duration = track.Duration;
+                    returnTrack.Year = track.Year;
+                    returnTrack.HasLyrics = track.HasLyrics;
 
-                    mergedTrack.ArtistName = artist.ArtistName;
+                    returnTrack.ArtistName = artist.ArtistName;
 
-                    mergedTrack.GenreName = genre.GenreName;
+                    returnTrack.GenreName = genre.GenreName;
 
-                    mergedTrack.AlbumTitle = album.AlbumTitle;
-                    mergedTrack.AlbumArtist = album.AlbumArtist;
-                    mergedTrack.AlbumYear = album.Year;
+                    returnTrack.AlbumTitle = album.AlbumTitle;
+                    returnTrack.AlbumArtist = album.AlbumArtist;
+                    returnTrack.AlbumYear = album.Year;
 
                     // Try to find an TrackStatistic in the database. If not found, 
                     // the TrackStatistic from the file is used. That one can only contain rating.
                     var dbTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
                     if (dbTrackStatistic != null) trackStatistic = dbTrackStatistic;
 
-                    mergedTrack.Rating = trackStatistic.Rating;
-                    mergedTrack.Love = trackStatistic.Love;
-                    mergedTrack.PlayCount = trackStatistic.PlayCount;
-                    mergedTrack.SkipCount = trackStatistic.SkipCount;
-                    mergedTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
+                    returnTrack.Rating = trackStatistic.Rating;
+                    returnTrack.Love = trackStatistic.Love;
+                    returnTrack.PlayCount = trackStatistic.PlayCount;
+                    returnTrack.SkipCount = trackStatistic.SkipCount;
+                    returnTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
                 }
                 catch (Exception ex)
                 {
                     // Make sure the file can be opened by creating a Track with some default values
-                    mergedTrack = MergedTrack.CreateDefault(path);
+                    returnTrack = PlayableTrack.CreateDefault(path);
                     LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
                 }
             });
 
-            return mergedTrack;
+            return returnTrack;
         }
         #endregion
     }

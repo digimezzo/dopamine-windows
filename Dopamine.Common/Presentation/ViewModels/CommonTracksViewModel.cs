@@ -54,9 +54,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         // Lists
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        private ObservableCollection<MergedTrackViewModel> tracks;
+        private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
-        private IList<MergedTrack> selectedTracks;
+        private IList<PlayableTrack> selectedTracks;
 
         // Flags
         protected bool isFirstLoad = true;
@@ -138,10 +138,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public ObservableCollection<MergedTrackViewModel> Tracks
+        public ObservableCollection<TrackViewModel> Tracks
         {
             get { return this.tracks; }
-            set { SetProperty<ObservableCollection<MergedTrackViewModel>>(ref this.tracks, value); }
+            set { SetProperty<ObservableCollection<TrackViewModel>>(ref this.tracks, value); }
         }
 
         public CollectionViewSource TracksCvs
@@ -150,10 +150,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
         }
 
-        public IList<MergedTrack> SelectedTracks
+        public IList<PlayableTrack> SelectedTracks
         {
             get { return this.selectedTracks; }
-            set { SetProperty<IList<MergedTrack>>(ref this.selectedTracks, value); }
+            set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
         }
 
         public long TracksCount
@@ -281,7 +281,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.CheckAllSelectedTracksExist())
             {
                 Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
-                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(MergedTrack), this.SelectedTracks.First()));
+                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(PlayableTrack), this.SelectedTracks.First()));
 
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,
@@ -339,7 +339,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             bool allSelectedTracksExist = true;
 
-            foreach (MergedTrack trk in this.SelectedTracks)
+            foreach (PlayableTrack trk in this.SelectedTracks)
             {
                 if (!System.IO.File.Exists(trk.Path))
                 {
@@ -428,7 +428,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
-            MergedTrackViewModel vm = e.Item as MergedTrackViewModel;
+            TrackViewModel vm = e.Item as TrackViewModel;
             e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
@@ -451,7 +451,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 if (this.TracksCvs != null)
                 {
                     this.TracksCvs.View.Refresh();
-                    this.TracksCount = this.TracksCvs.View.Cast<MergedTrackViewModel>().Count();
+                    this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
                 }
             });
 
@@ -500,7 +500,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async Task GetTracksCommonAsync(IList<MergedTrack> tracks, TrackOrder trackOrder)
+        protected async Task GetTracksCommonAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
         {
             try
             {
@@ -508,16 +508,16 @@ namespace Dopamine.Common.Presentation.ViewModels
                 bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
 
                 // Create new ObservableCollection
-                ObservableCollection<MergedTrackViewModel> viewModels = new ObservableCollection<MergedTrackViewModel>();
+                ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
 
                 // Order the incoming Tracks
-                List<MergedTrack> orderedTracks = await Database.Utils.OrderTracksAsync(tracks, trackOrder);
+                List<PlayableTrack> orderedTracks = await Database.Utils.OrderTracksAsync(tracks, trackOrder);
 
                 await Task.Run(() =>
                 {
-                    foreach (MergedTrack t in orderedTracks)
+                    foreach (PlayableTrack t in orderedTracks)
                     {
-                        MergedTrackViewModel vm = this.container.Resolve<MergedTrackViewModel>();
+                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
                         vm.Track = t;
                         vm.ShowTrackNumber = showTracknumber;
                         viewModels.Add(vm);
@@ -542,7 +542,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Failed getting Tracks. Create empty ObservableCollection.
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.Tracks = new ObservableCollection<MergedTrackViewModel>();
+                    this.Tracks = new ObservableCollection<TrackViewModel>();
                 });
             }
 
@@ -553,7 +553,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
                 // Update count
-                this.TracksCount = this.TracksCvs.View.Cast<MergedTrackViewModel>().Count();
+                this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
 
                 // Group by Album if needed
                 if (this.TrackOrder == TrackOrder.ByAlbum) this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
@@ -590,7 +590,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     try
                     {
-                        foreach (MergedTrackViewModel vm in viewCopy)
+                        foreach (TrackViewModel vm in viewCopy)
                         {
                             this.totalDuration += vm.Track.Duration.Value;
                             this.totalSize += vm.Track.FileSize.Value;
@@ -657,7 +657,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null)
                 {
-                    foreach (MergedTrackViewModel vm in this.Tracks)
+                    foreach (TrackViewModel vm in this.Tracks)
                     {
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
@@ -681,7 +681,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.ConditionalScrollToPlayingTrack();
         }
 
-        protected async Task RemoveTracksFromCollectionAsync(IList<MergedTrack> selectedTracks)
+        protected async Task RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
         {
             string title = ResourceUtils.GetStringResource("Language_Remove");
             string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song");
@@ -706,7 +706,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async Task RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        protected async Task RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
         {
             string title = ResourceUtils.GetStringResource("Language_Remove_From_Disk");
             string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Disk");
@@ -731,7 +731,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async Task AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)
+        protected async Task AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
@@ -796,7 +796,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async Task PlayNextAsync(IList<MergedTrack> tracks)
+        protected async Task PlayNextAsync(IList<PlayableTrack> tracks)
         {
             AddToQueueResult result = await this.playbackService.AddToQueueNext(tracks);
 
@@ -806,7 +806,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async Task AddTracksToNowPlayingAsync(IList<MergedTrack> tracks)
+        protected async Task AddTracksToNowPlayingAsync(IList<PlayableTrack> tracks)
         {
             AddToQueueResult result = await this.playbackService.AddToQueue(tracks);
 
@@ -822,7 +822,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                foreach (MergedTrackViewModel vm in this.Tracks)
+                foreach (TrackViewModel vm in this.Tracks)
                 {
                     if (vm.Track.Path.Equals(e.Path))
                     {
@@ -839,7 +839,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-                foreach (MergedTrackViewModel vm in this.Tracks)
+                foreach (TrackViewModel vm in this.Tracks)
                 {
                     if (vm.Track.Path.Equals(e.Path))
                     {
@@ -854,9 +854,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             if (parameter != null)
             {
-                this.SelectedTracks = new List<MergedTrack>();
+                this.SelectedTracks = new List<PlayableTrack>();
 
-                foreach (MergedTrackViewModel item in (IList)parameter)
+                foreach (TrackViewModel item in (IList)parameter)
                 {
                     this.SelectedTracks.Add(item.Track);
                 }
@@ -882,7 +882,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.CheckAllSelectedTracksExist())
             {
                 EditTrack view = this.container.Resolve<EditTrack>();
-                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<MergedTrack>), this.SelectedTracks));
+                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<PlayableTrack>), this.SelectedTracks));
 
                 this.dialogService.ShowCustomDialog(
                     0xe104,

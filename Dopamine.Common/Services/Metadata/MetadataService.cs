@@ -188,11 +188,11 @@ namespace Dopamine.Common.Services.Metadata
             // Update artwork in database
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
-            List<MergedTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
+            List<PlayableTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
 
             var fileMetadatas = new List<FileMetadata>();
 
-            foreach (MergedTrack track in albumTracks)
+            foreach (PlayableTrack track in albumTracks)
             {
                 var fmd = await this.GetFileMetadataAsync(track.Path);
                 fmd.ArtworkData = artwork;

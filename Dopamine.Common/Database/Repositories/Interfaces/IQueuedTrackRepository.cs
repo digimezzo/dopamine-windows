@@ -6,7 +6,7 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
 {
     public interface IQueuedTrackRepository
     {
-        List<MergedTrack> GetSavedQueuedTracks();
+        List<PlayableTrack> GetSavedQueuedTracks();
         Task SaveQueuedTracksAsync(IList<string> paths, string playingPath, double progressSeconds);
         Task<QueuedTrack> GetPlayingTrackAsync();
     }

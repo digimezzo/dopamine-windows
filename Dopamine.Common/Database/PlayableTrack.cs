@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Dopamine.Common.Database
 {
-    public class MergedTrack : Track
+    public class PlayableTrack : Track
     {
         #region TrackStastistic
         public long? Rating { get; set; }
@@ -30,9 +30,9 @@ namespace Dopamine.Common.Database
         #endregion
 
         #region Static
-        public static MergedTrack CreateDefault(string path)
+        public static PlayableTrack CreateDefault(string path)
         {
-            var track = new MergedTrack();
+            var track = new PlayableTrack();
 
             track.Path = path;
             track.SafePath = path.ToSafePath();
@@ -50,10 +50,9 @@ namespace Dopamine.Common.Database
         #endregion
 
         #region Public
-        public List<MergedTrack> ToList()
+        public List<PlayableTrack> ToList()
         {
-
-            List<MergedTrack> l = new List<MergedTrack>();
+            List<PlayableTrack> l = new List<PlayableTrack>();
             l.Add(this);
 
             return l;

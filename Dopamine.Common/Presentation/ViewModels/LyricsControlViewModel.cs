@@ -23,7 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
-        private MergedTrack previousTrack;
+        private PlayableTrack previousTrack;
         private int contentSlideInFrom;
         private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
@@ -147,7 +147,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.LyricsViewModel = new LyricsViewModel(container);
         }
 
-        private async void RefreshLyricsAsync(MergedTrack track)
+        private async void RefreshLyricsAsync(PlayableTrack track)
         {
             if (track == null) return;
 

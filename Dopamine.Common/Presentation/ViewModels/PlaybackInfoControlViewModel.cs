@@ -16,8 +16,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
         private SlideDirection slideDirection;
-        private MergedTrack previousTrack;
-        private MergedTrack track;
+        private PlayableTrack previousTrack;
+        private PlayableTrack track;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
         #endregion
@@ -82,7 +82,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.track = null;
         }
 
-        private async void RefreshPlaybackInfoAsync(MergedTrack track, bool allowRefreshingCurrentTrack)
+        private async void RefreshPlaybackInfoAsync(PlayableTrack track, bool allowRefreshingCurrentTrack)
         {
             await Task.Run(() =>
             {

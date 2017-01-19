@@ -57,7 +57,7 @@ namespace Dopamine.Common.Services.Collection
         #region ICollectionService
         public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -70,7 +70,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -81,7 +81,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)
+        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
@@ -95,7 +95,7 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
 
             if (result.IsSuccess)
@@ -106,7 +106,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> tracks, Playlist selectedPlaylist)
+        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, Playlist selectedPlaylist)
         {
             DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
 
@@ -118,7 +118,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<MergedTrack> selectedTracks)
+        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
         {
             RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
 
@@ -139,7 +139,7 @@ namespace Dopamine.Common.Services.Collection
             return result;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<MergedTrack> selectedTracks)
+        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
         {
             RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
 
@@ -239,7 +239,7 @@ namespace Dopamine.Common.Services.Collection
 
             // Add Tracks to the Playlist
             // --------------------------
-            List<MergedTrack> tracks = await this.trackRepository.GetTracksAsync(paths);
+            List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(paths);
             AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
             if (!result.IsSuccess) return OpenPlaylistResult.Error;
 
@@ -319,7 +319,7 @@ namespace Dopamine.Common.Services.Collection
         {
             ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
             await Task.Run(() =>
             {
@@ -342,7 +342,7 @@ namespace Dopamine.Common.Services.Collection
                     // Write all the paths to the file
                     using (StreamWriter file = new StreamWriter(playlistFileFullPath))
                     {
-                        foreach (MergedTrack t in tracks)
+                        foreach (PlayableTrack t in tracks)
                         {
                             string audioFileNameWithoutPath = Path.GetFileName(t.Path);
 

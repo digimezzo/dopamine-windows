@@ -42,9 +42,9 @@ namespace Dopamine.Common.Database.Repositories
         #endregion
 
         #region ITrackRepository
-        public async Task<List<MergedTrack>> GetTracksAsync(IList<string> paths)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths)
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -59,7 +59,7 @@ namespace Dopamine.Common.Database.Repositories
                             string q = string.Format(this.SelectQueryPart() + 
                                                      "WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
 
-                            tracks = conn.Query<MergedTrack>(q);
+                            tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -76,9 +76,9 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<MergedTrack>> GetTracksAsync()
+        public async Task<List<PlayableTrack>> GetTracksAsync()
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -88,7 +88,7 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<MergedTrack>(this.SelectQueryPart() +
+                            tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
                                                              "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
                                                              "WHERE fol.ShowInCollection=1;");
                         }
@@ -107,9 +107,9 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<MergedTrack>> GetTracksAsync(IList<Artist> artists)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Artist> artists)
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -126,7 +126,7 @@ namespace Dopamine.Common.Database.Repositories
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
                                                      "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
-                            tracks = conn.Query<MergedTrack>(q);
+                            tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -143,9 +143,9 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<MergedTrack>> GetTracksAsync(IList<Genre> genres)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Genre> genres)
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -161,7 +161,7 @@ namespace Dopamine.Common.Database.Repositories
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
                                                      "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
 
-                            tracks = conn.Query<MergedTrack>(q);
+                            tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -178,9 +178,9 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<MergedTrack>> GetTracksAsync(IList<Album> albums)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Album> albums)
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -196,7 +196,7 @@ namespace Dopamine.Common.Database.Repositories
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
                                                      "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(albumIDs));
 
-                            tracks = conn.Query<MergedTrack>(q);
+                            tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -213,9 +213,9 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<MergedTrack>> GetTracksAsync(IList<Playlist> playlists)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Playlist> playlists)
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {
@@ -234,7 +234,7 @@ namespace Dopamine.Common.Database.Repositories
                                                      "WHERE ple.PlaylistID IN ({0}) " +
                                                      "ORDER BY ple.EntryID;", Utils.ToQueryList(playlistIDs));
 
-                            tracks = conn.Query<MergedTrack>(q);
+                            tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -289,7 +289,7 @@ namespace Dopamine.Common.Database.Repositories
             return track;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<MergedTrack> tracks)
+        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks)
         {
             RemoveTracksResult result = RemoveTracksResult.Success;
 

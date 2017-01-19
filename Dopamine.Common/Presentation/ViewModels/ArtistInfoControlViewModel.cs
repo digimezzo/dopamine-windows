@@ -73,7 +73,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private async Task ShowArtistInfoAsync(MergedTrack track, bool forceReload)
+        private async Task ShowArtistInfoAsync(PlayableTrack track, bool forceReload)
         {
             this.previousArtist = this.artist;
 
