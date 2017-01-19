@@ -133,7 +133,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public FileInformationViewModel(IMetadataService metaDataService, MergedTrack selectedTrack)
+        public FileInformationViewModel(IMetadataService metaDataService, PlayableTrack selectedTrack)
         {
             this.metaDataService = metaDataService;
 
@@ -143,7 +143,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void GetFileMetadata(MergedTrack selectedTrack)
+        private void GetFileMetadata(PlayableTrack selectedTrack)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private void GetFileInformation(MergedTrack selectedTrack)
+        private void GetFileInformation(PlayableTrack selectedTrack)
         {
             try
             {

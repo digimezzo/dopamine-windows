@@ -23,9 +23,9 @@ namespace Dopamine.Common.Database.Repositories
         #endregion
 
         #region IQueuedTrackRepository
-        public List<MergedTrack> GetSavedQueuedTracks()
+        public List<PlayableTrack> GetSavedQueuedTracks()
         {
-            var tracks = new List<MergedTrack>();
+            var tracks = new List<PlayableTrack>();
 
             try
             {
@@ -33,7 +33,7 @@ namespace Dopamine.Common.Database.Repositories
                 {
                     try
                     {
-                        tracks = conn.Query<MergedTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
+                        tracks = conn.Query<PlayableTrack>("SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
                                                          "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
                                                          "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
                                                          "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +

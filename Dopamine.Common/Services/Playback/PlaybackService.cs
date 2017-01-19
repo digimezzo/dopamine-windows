@@ -21,7 +21,7 @@ namespace Dopamine.Common.Services.Playback
     public class PlaybackService : IPlaybackService
     {
         #region Variables
-        private MergedTrack playingTrack;
+        private PlayableTrack playingTrack;
         private System.Timers.Timer progressTimer = new System.Timers.Timer();
         private double progressTimeoutSeconds = 0.5;
         private double progress = 0.0;
@@ -43,8 +43,8 @@ namespace Dopamine.Common.Services.Playback
 
         private IPlayerFactory playerFactory;
         private object queueSyncObject = new object();
-        private List<MergedTrack> queuedTracks = new List<MergedTrack>(); // The list of queued Tracks in original order
-        private List<MergedTrack> shuffledTracks = new List<MergedTrack>(); // The list of queued Tracks in original order or shuffled
+        private List<PlayableTrack> queuedTracks = new List<PlayableTrack>(); // The list of queued Tracks in original order
+        private List<PlayableTrack> shuffledTracks = new List<PlayableTrack>(); // The list of queued Tracks in original order or shuffled
 
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
@@ -117,12 +117,12 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public List<MergedTrack> Queue
+        public List<PlayableTrack> Queue
         {
             get { return this.queuedTracks; }
         }
 
-        public MergedTrack PlayingTrack
+        public PlayableTrack PlayingTrack
         {
             get
             {
@@ -339,7 +339,7 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
-        public async Task StopIfPlayingAsync(MergedTrack track)
+        public async Task StopIfPlayingAsync(PlayableTrack track)
         {
             if (track.Equals(this.PlayingTrack))
             {
@@ -350,7 +350,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public async Task UpdateQueueOrderAsync(List<MergedTrack> tracks)
+        public async Task UpdateQueueOrderAsync(List<PlayableTrack> tracks)
         {
             if (tracks == null || tracks.Count == 0) return;
 
@@ -360,11 +360,11 @@ namespace Dopamine.Common.Services.Playback
                 {
                     lock (this.queueSyncObject)
                     {
-                        this.queuedTracks = new List<MergedTrack>(tracks);
+                        this.queuedTracks = new List<PlayableTrack>(tracks);
 
                         if (!SettingsClient.Get<bool>("Playback", "Shuffle"))
                         {
-                            this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
+                            this.shuffledTracks = new List<PlayableTrack>(this.queuedTracks);
                         }
 
                         this.QueueChanged(this, new EventArgs()); // Required to update other Now Playing screens
@@ -399,7 +399,7 @@ namespace Dopamine.Common.Services.Playback
                     {
                         bool isQueueChanged = false;
 
-                        foreach (MergedTrack track in this.queuedTracks)
+                        foreach (PlayableTrack track in this.queuedTracks)
                         {
                             FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
 
@@ -410,7 +410,7 @@ namespace Dopamine.Common.Services.Playback
                             }
                         }
 
-                        foreach (MergedTrack track in this.shuffledTracks)
+                        foreach (PlayableTrack track in this.shuffledTracks)
                         {
                             FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
 
@@ -680,11 +680,11 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task ShuffleAllAsync()
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
 
             lock (this.queueSyncObject)
             {
-                this.queuedTracks = new List<MergedTrack>(tracks);
+                this.queuedTracks = new List<PlayableTrack>(tracks);
             }
 
             await this.SetPlaybackSettingsAsync();
@@ -694,13 +694,13 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task Enqueue()
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
         }
 
-        public async Task Enqueue(List<MergedTrack> tracks)
+        public async Task Enqueue(List<PlayableTrack> tracks)
         {
             if (tracks == null) return;
 
@@ -708,7 +708,7 @@ namespace Dopamine.Common.Services.Playback
             await this.PlayFirstAsync();
         }
 
-        public async Task Enqueue(List<MergedTrack> tracks, MergedTrack selectedTrack)
+        public async Task Enqueue(List<PlayableTrack> tracks, PlayableTrack selectedTrack)
         {
             if (tracks == null || selectedTrack == null) return;
 
@@ -720,7 +720,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (artist == null) return;
 
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -730,7 +730,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (genre == null) return;
 
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -740,7 +740,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (album == null) return;
 
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
@@ -751,22 +751,22 @@ namespace Dopamine.Common.Services.Playback
             if (playlist == null) return;
 
             // No ordering needed for playlists. Just enqueue tracks in the order that they are in the playlist.
-            List<MergedTrack> tracks = await this.trackRepository.GetTracksAsync(playlist.ToList());
+            List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(playlist.ToList());
 
             await this.EnqueueIfRequired(tracks);
             await this.PlayFirstAsync();
         }
 
-        public async Task PlaySelectedAsync(MergedTrack selectedTrack)
+        public async Task PlaySelectedAsync(PlayableTrack selectedTrack)
         {
             await this.TryPlayAsync(selectedTrack);
         }
 
-        public async Task<DequeueResult> Dequeue(IList<MergedTrack> selectedTracks)
+        public async Task<DequeueResult> Dequeue(IList<PlayableTrack> selectedTracks)
         {
             bool isSuccess = true;
-            var removedQueuedTracks = new List<MergedTrack>();
-            var removedShuffledTracks = new List<MergedTrack>();
+            var removedQueuedTracks = new List<PlayableTrack>();
+            var removedShuffledTracks = new List<PlayableTrack>();
             int smallestIndex = 0;
             bool playNext = false;
 
@@ -774,7 +774,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueSyncObject)
                 {
-                    foreach (MergedTrack t in selectedTracks)
+                    foreach (PlayableTrack t in selectedTracks)
                     {
                         try
                         {
@@ -792,7 +792,7 @@ namespace Dopamine.Common.Services.Playback
                         }
                     }
 
-                    foreach (MergedTrack t in removedQueuedTracks)
+                    foreach (PlayableTrack t in removedQueuedTracks)
                     {
                         // Remove from this.shuffledTracks. The index does matter,
                         // as we might have to play the next remaining Track.
@@ -807,7 +807,7 @@ namespace Dopamine.Common.Services.Playback
                                     playNext = true;
                                 }
 
-                                MergedTrack removedShuffledTrack = this.shuffledTracks[index];
+                                PlayableTrack removedShuffledTrack = this.shuffledTracks[index];
                                 this.shuffledTracks.RemoveAt(index);
                                 removedShuffledTracks.Add(removedShuffledTrack);
                                 if (smallestIndex == 0 || (index < smallestIndex)) smallestIndex = index;
@@ -843,7 +843,7 @@ namespace Dopamine.Common.Services.Playback
             return dequeueResult;
         }
 
-        public async Task<AddToQueueResult> AddToQueue(IList<MergedTrack> tracks)
+        public async Task<AddToQueueResult> AddToQueue(IList<PlayableTrack> tracks)
         {
             var result = new AddToQueueResult { IsSuccess = true };
 
@@ -875,7 +875,7 @@ namespace Dopamine.Common.Services.Playback
             return result;
         }
 
-        public async Task<AddToQueueResult> AddToQueueNext(IList<MergedTrack> tracks)
+        public async Task<AddToQueueResult> AddToQueueNext(IList<PlayableTrack> tracks)
         {
             var result = new AddToQueueResult { IsSuccess = true };
 
@@ -920,25 +920,25 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<AddToQueueResult> AddToQueue(IList<Artist> artists)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Genre> genres)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Album> albums)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
 
         public async Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists)
         {
-            List<MergedTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
         #endregion
@@ -962,7 +962,7 @@ namespace Dopamine.Common.Services.Playback
             this.GetSavedQueuedTracks();
         }
 
-        private bool UpdateTrackPlaybackInfo(MergedTrack track, FileMetadata fileMetadata)
+        private bool UpdateTrackPlaybackInfo(PlayableTrack track, FileMetadata fileMetadata)
         {
             bool isPlaybackInfoUpdated = false;
 
@@ -1094,7 +1094,7 @@ namespace Dopamine.Common.Services.Playback
                     if (this.queuedTracks.Count > 0)
                     {
                         // Make sure the lists are deep copies
-                        this.shuffledTracks = new List<MergedTrack>(this.queuedTracks).Randomize();
+                        this.shuffledTracks = new List<PlayableTrack>(this.queuedTracks).Randomize();
                     }
                 }
             });
@@ -1109,14 +1109,14 @@ namespace Dopamine.Common.Services.Playback
                 lock (this.queueSyncObject)
                 {
                     // Make sure the lists are deep copies
-                    this.shuffledTracks = new List<MergedTrack>(this.queuedTracks);
+                    this.shuffledTracks = new List<PlayableTrack>(this.queuedTracks);
                 }
             });
 
             this.QueueChanged(this, new EventArgs());
         }
 
-        private async Task<bool> TryPlayAsync(MergedTrack track, bool silent = false)
+        private async Task<bool> TryPlayAsync(PlayableTrack track, bool silent = false)
         {
             bool isPlaybackSuccess = true;
             PlaybackFailedEventArgs playbackFailedEventArgs = null;
@@ -1213,7 +1213,7 @@ namespace Dopamine.Common.Services.Playback
         {
             this.isPlayingPreviousTrack = false;
 
-            MergedTrack trackToPlay = null;
+            PlayableTrack trackToPlay = null;
 
             lock (this.queueSyncObject)
             {
@@ -1256,7 +1256,7 @@ namespace Dopamine.Common.Services.Playback
         {
             this.isPlayingPreviousTrack = true;
 
-            MergedTrack trackToPlay = null;
+            PlayableTrack trackToPlay = null;
 
             lock (this.queueSyncObject)
             {
@@ -1336,7 +1336,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async void GetSavedQueuedTracks()
         {
-            List<MergedTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
+            List<PlayableTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
 
             lock (this.queueSyncObject)
             {
@@ -1346,7 +1346,7 @@ namespace Dopamine.Common.Services.Playback
                 // empty first, and fill it up with saved queued tracks only if it is empty.
                 if (this.queuedTracks == null || this.queuedTracks.Count == 0)
                 {
-                    this.queuedTracks = new List<MergedTrack>(savedQueuedTracks);
+                    this.queuedTracks = new List<PlayableTrack>(savedQueuedTracks);
                 }
             }
 
@@ -1358,7 +1358,7 @@ namespace Dopamine.Common.Services.Playback
 
             if (queuedTrack != null)
             {
-                MergedTrack track = null;
+                PlayableTrack track = null;
 
                 lock (this.queueSyncObject)
                 {
@@ -1380,7 +1380,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        private async Task StartTrackPausedAsync(MergedTrack track, int progressSeconds)
+        private async Task StartTrackPausedAsync(PlayableTrack track, int progressSeconds)
         {
             if (await this.TryPlayAsync(track, true))
             {
@@ -1408,7 +1408,7 @@ namespace Dopamine.Common.Services.Playback
             PlaybackProgressChanged(this, new EventArgs());
         }
 
-        private async Task EnqueueIfRequired(List<MergedTrack> tracks)
+        private async Task EnqueueIfRequired(List<PlayableTrack> tracks)
         {
             bool needsEnqueue = false;
 
@@ -1432,7 +1432,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueSyncObject)
                 {
-                    this.queuedTracks = new List<MergedTrack>(tracks);
+                    this.queuedTracks = new List<PlayableTrack>(tracks);
                 }
 
                 await this.SetPlaybackSettingsAsync();

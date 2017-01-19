@@ -12,8 +12,8 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
         Task<Playlist> GetPlaylistAsync(string playlistName);
         Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> playlists);
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
-        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName);
-        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> tracks, Playlist selectedPlaylist);
+        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName);
+        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, Playlist selectedPlaylist);
         Task<string> GetUniquePlaylistNameAsync(string name);
     }
 }

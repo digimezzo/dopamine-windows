@@ -79,7 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Virtual
-        protected async virtual void RefreshCoverArtAsync(MergedTrack track)
+        protected async virtual void RefreshCoverArtAsync(PlayableTrack track)
         {
             await Task.Run(async () =>
             {

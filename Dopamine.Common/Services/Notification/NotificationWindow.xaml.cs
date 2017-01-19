@@ -25,7 +25,7 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Construction
-        public NotificationWindow(MergedTrack track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
+        public NotificationWindow(PlayableTrack track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
         {
             this.InitializeComponent();
 

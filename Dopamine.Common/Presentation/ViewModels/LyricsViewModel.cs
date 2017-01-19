@@ -19,7 +19,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class LyricsViewModel : CommonViewModel
     {
         #region Variables
-        private MergedTrack track;
+        private PlayableTrack track;
         private Lyrics lyrics;
         private Lyrics uneditedLyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
@@ -109,7 +109,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsViewModel(IUnityContainer container, MergedTrack track, IMetadataService metadataService) : base(container)
+        public LyricsViewModel(IUnityContainer container, PlayableTrack track, IMetadataService metadataService) : base(container)
         {
             this.track = track;
             this.metadataService = metadataService;

@@ -22,7 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool isBusy;
-        private IList<MergedTrack> tracks;
+        private IList<PlayableTrack> tracks;
         private IMetadataService metadataService;
         private IDialogService dialogService;
 
@@ -214,7 +214,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditTrackViewModel(IList<MergedTrack> tracks, IMetadataService metadataService, IDialogService dialogService)
+        public EditTrackViewModel(IList<PlayableTrack> tracks, IMetadataService metadataService, IDialogService dialogService)
         {
             this.multipleValuesText = "<"+ ResourceUtils.GetStringResource("Language_Multiple_Values")+">";
 
@@ -304,7 +304,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                foreach (MergedTrack t in this.tracks)
+                foreach (PlayableTrack t in this.tracks)
                 {
                     fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(t.Path));
                 }
@@ -483,7 +483,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    foreach (MergedTrack t in this.tracks)
+                    foreach (PlayableTrack t in this.tracks)
                     {
                         var fmd = this.metadataService.GetFileMetadata(t.Path);
 

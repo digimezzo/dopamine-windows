@@ -656,11 +656,11 @@ namespace Dopamine.CollectionModule.ViewModels
 
             try
             {
-                var tracks = new List<MergedTrack>();
+                var tracks = new List<PlayableTrack>();
 
                 foreach (var item in dropInfo.TargetCollection)
                 {
-                    tracks.Add(((MergedTrackViewModel)item).Track);
+                    tracks.Add(((TrackViewModel)item).Track);
                 }
 
                 await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylists[0]);

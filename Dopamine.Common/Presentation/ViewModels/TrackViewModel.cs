@@ -7,12 +7,12 @@ using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class MergedTrackViewModel : BindableBase
+    public class TrackViewModel : BindableBase
     {
         #region Variables
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
-        private MergedTrack track;
+        private PlayableTrack track;
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
@@ -90,10 +90,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public MergedTrack Track
+        public PlayableTrack Track
         {
             get { return this.track; }
-            set { SetProperty<MergedTrack>(ref this.track, value); }
+            set { SetProperty<PlayableTrack>(ref this.track, value); }
         }
 
         public string TrackTitle
@@ -323,7 +323,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public MergedTrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
+        public TrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
         {
             this.metadataService = metadataService;
             this.scrobblingService = scrobblingService;
@@ -343,7 +343,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return false;
             }
 
-            return this.Track.Equals(((MergedTrackViewModel)obj).Track);
+            return this.Track.Equals(((TrackViewModel)obj).Track);
         }
 
         public override int GetHashCode()

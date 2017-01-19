@@ -15,12 +15,12 @@ namespace Dopamine.Common.Services.Playback
     {
         #region ReadOnly Properties
         IPlayer Player { get; }
-        MergedTrack PlayingTrack { get; }
+        PlayableTrack PlayingTrack { get; }
         bool IsSavingQueuedTracks { get; }
         bool IsSavingPlaybackCounters { get; }
         bool NeedsSavingQueuedTracks { get; }
         bool NeedsSavingPlaybackCounters { get; }
-        List<MergedTrack> Queue { get; }
+        List<PlayableTrack> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
         bool IsStopped { get; }
@@ -47,29 +47,29 @@ namespace Dopamine.Common.Services.Playback
         Task PlayNextAsync();
         Task PlayPreviousAsync();
         Task PlayOrPauseAsync();
-        Task PlaySelectedAsync(MergedTrack selectedTrack);
+        Task PlaySelectedAsync(PlayableTrack selectedTrack);
         Task Enqueue();
-        Task Enqueue(List<MergedTrack> tracks, MergedTrack selectedTrack);
-        Task Enqueue(List<MergedTrack> tracks);
+        Task Enqueue(List<PlayableTrack> tracks, PlayableTrack selectedTrack);
+        Task Enqueue(List<PlayableTrack> tracks);
         Task Enqueue(Artist artist);
         Task Enqueue(Genre genre);
         Task Enqueue(Album album);
         Task Enqueue(Playlist playlist);
         Task ShuffleAllAsync();
-        Task StopIfPlayingAsync(MergedTrack track);
-        Task<AddToQueueResult> AddToQueue(IList<MergedTrack> tracks);
+        Task StopIfPlayingAsync(PlayableTrack track);
+        Task<AddToQueueResult> AddToQueue(IList<PlayableTrack> tracks);
         Task<AddToQueueResult> AddToQueue(IList<Artist> artists);
         Task<AddToQueueResult> AddToQueue(IList<Genre> genres);
         Task<AddToQueueResult> AddToQueue(IList<Album> albums);
         Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists);
-        Task<AddToQueueResult> AddToQueueNext(IList<MergedTrack> tracks);
-        Task<DequeueResult> Dequeue(IList<MergedTrack> selectedTracks);
+        Task<AddToQueueResult> AddToQueueNext(IList<PlayableTrack> tracks);
+        Task<DequeueResult> Dequeue(IList<PlayableTrack> selectedTracks);
         Task SaveQueuedTracksAsync();
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
         Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
-        Task UpdateQueueOrderAsync(List<MergedTrack> tracks);
+        Task UpdateQueueOrderAsync(List<PlayableTrack> tracks);
         #endregion
 
         #region Events

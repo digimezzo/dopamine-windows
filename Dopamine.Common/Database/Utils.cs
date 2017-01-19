@@ -45,7 +45,7 @@ namespace Dopamine.Common.Database
             return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterTracks(MergedTrack track, string filter)
+        public static bool FilterTracks(PlayableTrack track, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
@@ -135,9 +135,9 @@ namespace Dopamine.Common.Database
             return orderedAlbums;
         }
 
-        public static async Task<List<MergedTrack>> OrderTracksAsync(IList<MergedTrack> tracks, TrackOrder trackOrder)
+        public static async Task<List<PlayableTrack>> OrderTracksAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
         {
-            var orderedTracks = new List<MergedTrack>();
+            var orderedTracks = new List<PlayableTrack>();
 
             await Task.Run(() =>
             {

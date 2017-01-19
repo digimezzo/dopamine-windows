@@ -6,15 +6,15 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
 {
     public interface ITrackRepository
     {
-        Task<List<MergedTrack>> GetTracksAsync(IList<string> paths);
-        Task<List<MergedTrack>> GetTracksAsync();
-        Task<List<MergedTrack>> GetTracksAsync(IList<Artist> artists);
-        Task<List<MergedTrack>> GetTracksAsync(IList<Genre> genres);
-        Task<List<MergedTrack>> GetTracksAsync(IList<Album> albums);
-        Task<List<MergedTrack>> GetTracksAsync(IList<Playlist> playlists);
+        Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths);
+        Task<List<PlayableTrack>> GetTracksAsync();
+        Task<List<PlayableTrack>> GetTracksAsync(IList<Artist> artists);
+        Task<List<PlayableTrack>> GetTracksAsync(IList<Genre> genres);
+        Task<List<PlayableTrack>> GetTracksAsync(IList<Album> albums);
+        Task<List<PlayableTrack>> GetTracksAsync(IList<Playlist> playlists);
         Track GetTrack(string path);
         Task<Track> GetTrackAsync(string path);
-        Task<RemoveTracksResult> RemoveTracksAsync(IList<MergedTrack> tracks);
+        Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks);
         Task<bool> UpdateTrackAsync(Track track);
         Task<bool> UpdateTrackFileInformationAsync(string path);
     }

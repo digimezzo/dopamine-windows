@@ -228,7 +228,7 @@ namespace Dopamine.Common.Database.Repositories
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<MergedTrack> tracks, string playlistName)
+        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             var result = new AddToPlaylistResult { IsSuccess = true };
             int numberTracksAdded = 0;
@@ -245,7 +245,7 @@ namespace Dopamine.Common.Database.Repositories
                             var playlistID = conn.Table<Playlist>().Select((p) => p).Where((p) => p.PlaylistName.Equals(playlistName)).ToList().Select((p) => p.PlaylistID).FirstOrDefault();
 
                             // Loop over the Tracks in iTracks and add an entry to PlaylistEntries for each of the Tracks
-                            foreach (MergedTrack t in tracks)
+                            foreach (PlayableTrack t in tracks)
                             {
                                 var possiblePlaylistEntry = new PlaylistEntry
                                 {
@@ -282,7 +282,7 @@ namespace Dopamine.Common.Database.Repositories
 
         
 
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<MergedTrack> tracks, Playlist selectedPlaylist)
+        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, Playlist selectedPlaylist)
         {
             DeleteTracksFromPlaylistsResult result = DeleteTracksFromPlaylistsResult.Success;
 
@@ -294,7 +294,7 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         if (tracks != null)
                         {
-                            foreach (MergedTrack t in tracks)
+                            foreach (PlayableTrack t in tracks)
                             {
                                 try
                                 {

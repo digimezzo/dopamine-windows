@@ -209,7 +209,7 @@
     <Compile Include="Database\Entities\RemovedTrack.cs" />
     <Compile Include="Database\Entities\Track.cs" />
     <Compile Include="Database\Enums.cs" />
-    <Compile Include="Database\MergedTrack.cs" />
+    <Compile Include="Database\PlayableTrack.cs" />
     <Compile Include="Database\Repositories\AlbumRepository.cs" />
     <Compile Include="Database\Repositories\ArtistRepository.cs" />
     <Compile Include="Database\Repositories\FolderRepository.cs" />
@@ -304,7 +304,7 @@
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\MergedTrackViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
