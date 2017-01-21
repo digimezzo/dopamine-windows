@@ -1,13 +1,13 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Equalizer;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Services.Equalizer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,8 +43,8 @@ namespace Dopamine.Common.Services.Playback
 
         private IPlayerFactory playerFactory;
         private object queueSyncObject = new object();
-        private List<PlayableTrack> queuedTracks = new List<PlayableTrack>(); // The list of queued Tracks in original order
-        private List<PlayableTrack> shuffledTracks = new List<PlayableTrack>(); // The list of queued Tracks in original order or shuffled
+        private List<PlayableTrack> queuedTracks = new List<PlayableTrack>(); // Queued Tracks in original order
+        private List<PlayableTrack> shuffledTracks = new List<PlayableTrack>(); // Queued Tracks in original order or shuffled
 
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
