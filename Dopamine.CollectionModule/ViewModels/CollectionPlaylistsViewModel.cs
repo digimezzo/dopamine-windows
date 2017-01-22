@@ -166,7 +166,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected async Task AddPLaylistsToNowPlayingAsync(IList<Playlist> playlists)
         {
-            AddToQueueResult result = await this.playbackService.AddToQueue(playlists);
+            EnqueueResult result = await this.playbackService.AddToQueue(playlists);
 
             if (!result.IsSuccess)
             {

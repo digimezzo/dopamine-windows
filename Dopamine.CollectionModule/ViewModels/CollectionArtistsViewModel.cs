@@ -457,7 +457,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
         {
-            AddToQueueResult result = await this.playbackService.AddToQueue(artists);
+            EnqueueResult result = await this.playbackService.AddToQueue(artists);
 
             if (!result.IsSuccess)
             {
