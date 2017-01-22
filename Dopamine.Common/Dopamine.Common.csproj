@@ -442,13 +442,15 @@
     <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\Playback\AddToQueueResult.cs" />
+    <Compile Include="Services\Playback\EnqueueResult.cs" />
     <Compile Include="Services\Playback\DequeueResult.cs" />
     <Compile Include="Services\Playback\IPlaybackService.cs" />
     <Compile Include="Services\Playback\PlaybackCounter.cs" />
     <Compile Include="Services\Playback\PlaybackFailedEventArgs.cs" />
     <Compile Include="Services\Playback\PlaybackFailureReason.cs" />
     <Compile Include="Services\Playback\PlaybackService.cs" />
+    <Compile Include="Services\Playback\QueueManager.cs" />
+    <Compile Include="Services\Playback\UpdateQueueMetadataResult.cs" />
     <Compile Include="Services\Provider\Enums.cs" />
     <Compile Include="Services\Provider\IProviderService.cs" />
     <Compile Include="Services\Provider\ProviderService.cs" />

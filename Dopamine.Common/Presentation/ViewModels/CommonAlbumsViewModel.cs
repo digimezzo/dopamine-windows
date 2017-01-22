@@ -493,7 +493,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async Task AddAlbumsToNowPlayingAsync(IList<Album> albums)
         {
-            AddToQueueResult result = await this.playbackService.AddToQueue(albums);
+            EnqueueResult result = await this.playbackService.AddToQueue(albums);
 
             if (!result.IsSuccess)
             {

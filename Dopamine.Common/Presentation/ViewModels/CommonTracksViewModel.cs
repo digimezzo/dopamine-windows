@@ -798,7 +798,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async Task PlayNextAsync(IList<PlayableTrack> tracks)
         {
-            AddToQueueResult result = await this.playbackService.AddToQueueNext(tracks);
+            EnqueueResult result = await this.playbackService.AddToQueueNext(tracks);
 
             if (!result.IsSuccess)
             {
@@ -808,7 +808,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async Task AddTracksToNowPlayingAsync(IList<PlayableTrack> tracks)
         {
-            AddToQueueResult result = await this.playbackService.AddToQueue(tracks);
+            EnqueueResult result = await this.playbackService.AddToQueue(tracks);
 
             if (!result.IsSuccess)
             {

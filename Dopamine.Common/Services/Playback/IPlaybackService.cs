@@ -16,9 +16,7 @@ namespace Dopamine.Common.Services.Playback
         #region ReadOnly Properties
         IPlayer Player { get; }
         PlayableTrack PlayingTrack { get; }
-        bool IsSavingQueuedTracks { get; }
         bool IsSavingPlaybackCounters { get; }
-        bool NeedsSavingQueuedTracks { get; }
         bool NeedsSavingPlaybackCounters { get; }
         List<PlayableTrack> Queue { get; }
         bool Shuffle { get; }
@@ -47,9 +45,9 @@ namespace Dopamine.Common.Services.Playback
         Task PlayNextAsync();
         Task PlayPreviousAsync();
         Task PlayOrPauseAsync();
-        Task PlaySelectedAsync(PlayableTrack selectedTrack);
+        Task PlaySelectedAsync(PlayableTrack track);
         Task Enqueue();
-        Task Enqueue(List<PlayableTrack> tracks, PlayableTrack selectedTrack);
+        Task Enqueue(List<PlayableTrack> tracks, PlayableTrack track);
         Task Enqueue(List<PlayableTrack> tracks);
         Task Enqueue(Artist artist);
         Task Enqueue(Genre genre);
@@ -57,14 +55,13 @@ namespace Dopamine.Common.Services.Playback
         Task Enqueue(Playlist playlist);
         Task ShuffleAllAsync();
         Task StopIfPlayingAsync(PlayableTrack track);
-        Task<AddToQueueResult> AddToQueue(IList<PlayableTrack> tracks);
-        Task<AddToQueueResult> AddToQueue(IList<Artist> artists);
-        Task<AddToQueueResult> AddToQueue(IList<Genre> genres);
-        Task<AddToQueueResult> AddToQueue(IList<Album> albums);
-        Task<AddToQueueResult> AddToQueue(IList<Playlist> playlists);
-        Task<AddToQueueResult> AddToQueueNext(IList<PlayableTrack> tracks);
-        Task<DequeueResult> Dequeue(IList<PlayableTrack> selectedTracks);
-        Task SaveQueuedTracksAsync();
+        Task<EnqueueResult> AddToQueue(IList<PlayableTrack> tracks);
+        Task<EnqueueResult> AddToQueue(IList<Artist> artists);
+        Task<EnqueueResult> AddToQueue(IList<Genre> genres);
+        Task<EnqueueResult> AddToQueue(IList<Album> albums);
+        Task<EnqueueResult> AddToQueue(IList<Playlist> playlists);
+        Task<EnqueueResult> AddToQueueNext(IList<PlayableTrack> tracks);
+        Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks);
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);

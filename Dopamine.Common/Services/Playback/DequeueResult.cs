@@ -7,5 +7,7 @@ namespace Dopamine.Common.Services.Playback
     {
         public bool IsSuccess { get; set; }
         public IList<PlayableTrack> DequeuedTracks { get; set; }
+        public bool IsPlayingTrackDequeued;
+        public PlayableTrack NextAvailableTrack;
     }
 }
