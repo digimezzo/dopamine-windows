@@ -123,6 +123,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // Handlers
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
 
+            this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
+
             // Initialize the search providers in the ContextMenu
             this.GetSearchProvidersAsync();
         }
@@ -196,6 +202,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         }
 
         protected abstract Task LoadedCommandAsync();
+        protected abstract Task ShowPlayingTrackAsync();
         #endregion
     }
 }
