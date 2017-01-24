@@ -47,18 +47,18 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         // Repositories
         protected ITrackRepository trackRepository;
 
-        // Lists
-        private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        private ObservableCollection<TrackViewModel> tracks;
-        private CollectionViewSource tracksCvs;
-        private IList<PlayableTrack> selectedTracks;
-
         // Flags
         private bool isIndexing;
 
         // IActiveAware
         private bool isActive;
         public event EventHandler IsActiveChanged;
+
+        // Collections
+        private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
+        private ObservableCollection<TrackViewModel> tracks;
+        private CollectionViewSource tracksCvs;
+        private IList<PlayableTrack> selectedTracks;
 
         // Other
         private TrackOrder trackOrder;
@@ -172,7 +172,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Private
         private void Initialize()
         {
-            // Initialize commands
+            // Commands
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(this.SelectedTracks, playlistName));
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
@@ -190,10 +190,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
 
-            // Initialize events
+            // PubSub Events
             this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
-            // Initialize Handlers
+            // Handlers
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
