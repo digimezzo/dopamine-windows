@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Presentation.Views;
+﻿using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Dopamine.MiniPlayerModule.Views
 {
-    public partial class MiniPlayerPlaylist : CommonTracksView, INavigationAware
+    public partial class MiniPlayerPlaylist : TracksViewBase, INavigationAware
     {
         #region Variable
         private SubscriptionToken scrollToPlayingTrackToken;

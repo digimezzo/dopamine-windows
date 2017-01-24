@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionPlaylists : CommonTracksView, INavigationAware
+    public partial class CollectionPlaylists : TracksViewBase, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;

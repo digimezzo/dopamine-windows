@@ -1,12 +1,13 @@
-﻿using Dopamine.Common.Services.Playback;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Views.Base;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class VerticalVolumeControls : CommonVolumeControl
+    public partial class VerticalVolumeControls : VolumeControlViewBase
     {
         #region Variables
         private IPlaybackService playBackService;

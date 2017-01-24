@@ -2,9 +2,9 @@
 using System;
 using System.Windows.Controls;
 
-namespace Dopamine.Common.Presentation.Views
+namespace Dopamine.Common.Presentation.Views.Base
 {
-    public class CommonVolumeControl : UserControl
+    public class VolumeControlViewBase : UserControl
     {
         #region Protected
         protected double CalculateVolumeDelta(double scrollDelta)

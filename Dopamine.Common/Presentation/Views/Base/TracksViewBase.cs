@@ -18,9 +18,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Dopamine.Common.Presentation.Views
+namespace Dopamine.Common.Presentation.Views.Base
 {
-    public class CommonTracksView : UserControl
+    public class TracksViewBase : UserControl
     {
         #region Variables
         protected IEventAggregator eventAggregator;
@@ -34,7 +34,7 @@ namespace Dopamine.Common.Presentation.Views
         #endregion
 
         #region Construction
-        public CommonTracksView()
+        public TracksViewBase()
         {
             // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.

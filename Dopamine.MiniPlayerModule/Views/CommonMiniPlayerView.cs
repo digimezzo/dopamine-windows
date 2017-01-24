@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Presentation.Views.Base;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Dopamine.MiniPlayerModule.Views
 {
-    public class CommonMiniPlayerView : CommonTracksView
+    public class CommonMiniPlayerView : TracksViewBase
     {
         #region Variables
         private bool isMiniPlayerPositionLocked;
