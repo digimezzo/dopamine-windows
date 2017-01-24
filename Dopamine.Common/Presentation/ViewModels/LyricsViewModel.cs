@@ -220,6 +220,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                 OnPropertyChanged(() => this.LyricsLines);
             });
         }
+
+        protected async override Task LoadedCommandAsync()
+        {
+           // Not required here
+        }
         #endregion
     }
 }

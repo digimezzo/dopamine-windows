@@ -1,23 +1,33 @@
-﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Search;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class NowPlayingViewModel : CommonTracksViewModel, IDropTarget
+    public class NowPlayingViewModel : CommonViewModel, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;
         private bool isDroppingTracks;
+        private ObservableCollection<TrackViewModel> tracks;
+        private CollectionViewSource tracksCvs;
+        private IList<PlayableTrack> selectedTracks;
         #endregion
 
         #region Commands
@@ -25,9 +35,22 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
-        public override bool CanOrderByAlbum
+        public ObservableCollection<TrackViewModel> Tracks
         {
-            get { return false; } // Doesn't need to return a useful value in this class
+            get { return this.tracks; }
+            set { SetProperty<ObservableCollection<TrackViewModel>>(ref this.tracks, value); }
+        }
+
+        public CollectionViewSource TracksCvs
+        {
+            get { return this.tracksCvs; }
+            set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
+        }
+
+        public IList<PlayableTrack> SelectedTracks
+        {
+            get { return this.selectedTracks; }
+            set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
         }
         #endregion
 
@@ -46,24 +69,130 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
 
-        #region Protected
+        #region Private
         protected async Task GetTracksAsync()
         {
-            await this.GetTracksCommonAsync(this.playbackService.Queue, TrackOrder.None);
-        }
-
-        protected override void ShowPlayingTrackAsync()
-        {
-            if (this.playbackService.PlayingTrack == null)
+            try
             {
-                return;
+                // Create new ObservableCollection
+                ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
+
+                // Order the incoming Tracks
+                List<PlayableTrack> orderedTracks = this.playbackService.Queue;
+
+                await Task.Run(() =>
+                {
+                    foreach (PlayableTrack t in orderedTracks)
+                    {
+                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
+                        vm.Track = t;
+                        viewModels.Add(vm);
+                    }
+                });
+
+                // Unbind to improve UI performance
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    this.TracksCvs = null;
+                    this.Tracks = null;
+                });
+
+                // Populate ObservableCollection
+                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+
+                // Failed getting Tracks. Create empty ObservableCollection.
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.Tracks = new ObservableCollection<TrackViewModel>();
+                });
             }
 
-            base.ShowPlayingTrackAsync();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+                this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
+
+                // Update count
+                this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
+            });
+
+            // Update duration and size
+            this.SetSizeInformationAsync(this.TracksCvs);
+
+
+            // Show playing Track
+            this.ShowPlayingTrackAsync();
+        }
+
+        private void TracksCvs_Filter(object sender, FilterEventArgs e)
+        {
+            TrackViewModel vm = e.Item as TrackViewModel;
+            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
+        }
+
+        private async void ShowPlayingTrackAsync()
+        {
+            if (this.playbackService.PlayingTrack == null)
+                return;
+
+            string path = this.playbackService.PlayingTrack.Path;
+
+            await Task.Run(() =>
+            {
+                if (this.Tracks != null)
+                {
+                    foreach (TrackViewModel vm in this.Tracks)
+                    {
+                        vm.IsPlaying = false;
+                        vm.IsPaused = true;
+
+                        if (vm.Track.Path == path)
+                        {
+                            if (!this.playbackService.IsStopped)
+                            {
+                                vm.IsPlaying = true;
+
+                                if (this.playbackService.IsPlaying)
+                                {
+                                    vm.IsPaused = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            this.ConditionalScrollToPlayingTrack();
+        }
+
+        private void ConditionalScrollToPlayingTrack()
+        {
+            // Trigger ScrollToPlayingTrack only if set in the settings
+            if (SettingsClient.Get<bool>("Behaviour", "FollowTrack"))
+            {
+                if (this.Tracks != null && this.Tracks.Count > 0)
+                {
+                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
+                }
+            }
         }
         #endregion
 
-        #region Private
+        #region Protected
+        protected async Task FillListsAsync()
+        {
+            if (!this.allowFillAllLists) return;
+            await this.GetTracksAsync();
+        }
+        #endregion
+
+        #region public
         public async Task RemoveSelectedTracksFromNowPlayingAsync()
         {
             this.allowFillAllLists = false;
@@ -109,29 +238,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
 
-        #region Overrides
-        protected override async Task FillListsAsync()
-        {
-            if (!this.allowFillAllLists) return;
-            await this.GetTracksAsync();
-        }
-
-        protected override void Subscribe()
-        {
-            // Do Nothing
-        }
-
-        protected override void Unsubscribe()
-        {
-            // Do Nothing
-        }
-
-        protected override void RefreshLanguage()
-        {
-            // Do Nothing
-        }
-        #endregion
-
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
@@ -171,6 +277,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             isDroppingTracks = false;
+        }
+
+        protected async override Task LoadedCommandAsync()
+        {
+            // Not required here
         }
         #endregion
     }
