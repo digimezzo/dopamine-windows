@@ -25,10 +25,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionGenresViewModel : CommonAlbumsViewModel, ISemanticZoomViewModel
+    public class CollectionGenresViewModel : AlbumsViewModelBase, ISemanticZoomViewModel
     {
         #region Variables
         // Repositories

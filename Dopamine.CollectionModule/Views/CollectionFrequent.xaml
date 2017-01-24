@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
-             xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels;assembly=Dopamine.Common"
+             xmlns:entityvm="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities;assembly=Dopamine.Common"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
@@ -57,7 +57,7 @@
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.15" />
             </Storyboard>
         </Storyboard>
-        <DataTemplate DataType="{x:Type commonviewmodels:AlbumViewModel}">
+        <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
             <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Cursor="Hand" Command="{Binding DataContext.ClickCommand,ElementName=Me}" CommandParameter="{Binding Album}">
                 <Grid>
                     <controls:Tile Panel.ZIndex="0"

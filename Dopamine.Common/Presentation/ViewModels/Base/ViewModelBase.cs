@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
@@ -18,7 +19,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class CommonViewModel : BindableBase
+    public abstract class ViewModelBase : BindableBase
     {
         #region Variables
         protected IEventAggregator eventAggregator;
@@ -87,7 +88,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Construction
-        public CommonViewModel(IUnityContainer container)
+        public ViewModelBase(IUnityContainer container)
         {
             this.container = container;
             this.providerService = container.Resolve<IProviderService>();

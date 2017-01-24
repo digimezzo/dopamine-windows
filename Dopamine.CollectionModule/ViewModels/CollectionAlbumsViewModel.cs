@@ -11,10 +11,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionAlbumsViewModel : CommonAlbumsViewModel
+    public class CollectionAlbumsViewModel : AlbumsViewModelBase
     {
         #region Variables
         private double leftPaneWidthPercent;

@@ -11,7 +11,7 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionTracksViewModel : CommonTracksViewModel
+    public class CollectionTracksViewModel : TracksViewModelBase
     {
         #region Variables
         // Flags

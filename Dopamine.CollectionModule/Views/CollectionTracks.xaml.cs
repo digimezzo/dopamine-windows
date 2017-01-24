@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
