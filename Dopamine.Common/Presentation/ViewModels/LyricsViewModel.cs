@@ -17,7 +17,7 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class LyricsViewModel : CommonViewModel
+    public class LyricsViewModel : ViewModelBase
     {
         #region Variables
         private PlayableTrack track;

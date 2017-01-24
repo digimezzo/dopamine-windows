@@ -19,10 +19,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class CommonAlbumsViewModel : CommonTracksViewModel
+    public abstract class AlbumsViewModelBase : TracksViewModelBase
     {
         #region Variables
         // Repositories
@@ -154,7 +155,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Construction
-        public CommonAlbumsViewModel(IUnityContainer container) : base(container)
+        public AlbumsViewModelBase(IUnityContainer container) : base(container)
         {
             this.albumRepository = ServiceLocator.Current.GetInstance<IAlbumRepository>();
             this.Initialize();

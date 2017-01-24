@@ -1,20 +1,20 @@
-﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Cache;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Playback;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Services.Playback;
 
 namespace Dopamine.Common.Services.Collection
 {

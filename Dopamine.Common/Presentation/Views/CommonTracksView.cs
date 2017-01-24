@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;

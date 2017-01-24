@@ -8,6 +8,7 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
@@ -34,7 +35,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class CommonTracksViewModel : CommonViewModel, INavigationAware, IActiveAware
+    public abstract class TracksViewModelBase : ViewModelBase, INavigationAware, IActiveAware
     {
         #region Variables
         // Services
@@ -145,7 +146,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Construction
-        public CommonTracksViewModel(IUnityContainer container) : base(container)
+        public TracksViewModelBase(IUnityContainer container) : base(container)
         {
             // EventAggregator
             this.eventAggregator = container.Resolve<IEventAggregator>();

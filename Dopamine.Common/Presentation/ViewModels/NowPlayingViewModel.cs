@@ -3,14 +3,12 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Search;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +19,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class NowPlayingViewModel : CommonViewModel, IDropTarget
+    public class NowPlayingViewModel : ViewModelBase, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;

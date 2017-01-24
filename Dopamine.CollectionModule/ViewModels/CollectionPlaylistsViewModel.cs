@@ -1,15 +1,16 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -21,11 +22,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using WPFFolderBrowser;
-using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionPlaylistsViewModel : CommonTracksViewModel, IDropTarget
+    public class CollectionPlaylistsViewModel : TracksViewModelBase, IDropTarget
     {
         #region Variables
         // Lists
