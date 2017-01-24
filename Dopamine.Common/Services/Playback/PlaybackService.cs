@@ -45,7 +45,7 @@ namespace Dopamine.Common.Services.Playback
 
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
-        
+
         private System.Timers.Timer savePlaybackCountersTimer = new System.Timers.Timer();
         private int savePlaybackCountersTimeoutSeconds = 5;
 
@@ -171,7 +171,7 @@ namespace Dopamine.Common.Services.Playback
             else
             {
                 await this.queueManager.UnShuffleAsync();
-                
+
             }
 
             this.PlaybackShuffleChanged(this, new EventArgs());
@@ -331,7 +331,7 @@ namespace Dopamine.Common.Services.Playback
             UpdateQueueMetadataResult result = await this.queueManager.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Raise events
-            if(result.IsPlayingTrackPlaybackInfoChanged) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+            if (result.IsPlayingTrackPlaybackInfoChanged) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
             if (result.IsPlayingTrackArtworkChanged) this.PlayingTrackArtworkChanged(this, new EventArgs());
             if (result.IsQueueChanged) this.QueueChanged(this, new EventArgs());
         }
@@ -792,35 +792,60 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task PlayFirstAsync()
         {
-            if (this.Queue.Count > 0)
+            if (this.Queue.Count > 0) await this.TryPlayAsync(this.Queue.First());
+        }
+
+        private void StopPlayback()
+        {
+            if (this.player != null)
             {
-                await this.TryPlayAsync(this.Queue.First());
+                // Remove the previous Stopped handler (not sure this is needed)
+                this.player.PlaybackInterrupted -= this.PlaybackInterruptedHandler;
+                this.player.PlaybackFinished -= this.PlaybackFinishedHandler;
+
+                this.player.Stop();
+                this.player.Dispose();
+                this.player = null;
             }
+        }
+
+        private async Task StartPlaybackAsync(PlayableTrack track, bool silent = false)
+        {
+            // Play the Track from its runtime path (current or temporary)
+            this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
+
+            this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
+            this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
+
+            // We need to set PlayingTrack before trying to play the Track.
+            // So if we go into the Catch when trying to play the Track,
+            // at least, the next time TryPlayNext is called, it will know that 
+            // we already tried to play this track and it can find the next Track.
+            this.queueManager.SetCurrentTrack(track);
+
+            // Play the Track
+            await Task.Run(() => this.player.Play(track.Path));
+
+            // Start reporting progress
+            this.progressTimer.Start();
+
+            // Hook up the Stopped event
+            this.player.PlaybackInterrupted += this.PlaybackInterruptedHandler;
+            this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
         private async Task<bool> TryPlayAsync(PlayableTrack track, bool silent = false)
         {
+            if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
+            this.OnLoadingTrack(true);
+
             bool isPlaybackSuccess = true;
             PlaybackFailedEventArgs playbackFailedEventArgs = null;
 
-            if (this.isLoadingTrack) return isPlaybackSuccess;
-
-            this.isLoadingTrack = true;
-            this.LoadingTrack(this.isLoadingTrack);
-
             try
             {
-                // If a Track was playing, make sure it is now stopped
-                if (this.player != null)
-                {
-                    // Remove the previous Stopped handler (not sure this is needed)
-                    this.player.PlaybackInterrupted -= this.PlaybackInterruptedHandler;
-                    this.player.PlaybackFinished -= this.PlaybackFinishedHandler;
-
-                    this.player.Stop();
-                    this.player.Dispose();
-                    this.player = null;
-                }
+                // If a Track was playing, make sure it is now stopped.
+                this.StopPlayback();
 
                 // Check that the file exists
                 if (!System.IO.File.Exists(track.Path))
@@ -828,27 +853,8 @@ namespace Dopamine.Common.Services.Playback
                     throw new FileNotFoundException(string.Format("File '{0}' was not found", track.Path));
                 }
 
-                // Play the Track from its runtime path (current or temporary)
-                this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
-
-                this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
-                this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
-
-                // We need to set PlayingTrack before trying to play the Track.
-                // So if we go into the Catch when trying to play the Track,
-                // at least, the next time TryPlayNext is called, it will know that 
-                // we already tried to play this track and it can find the next Track.
-                this.queueManager.SetCurrentTrack(track);
-
-                // Play the Track
-                await Task.Run(() => this.player.Play(track.Path));
-
-                // Start reporting progress
-                this.progressTimer.Start();
-
-                // Hook up the Stopped event
-                this.player.PlaybackInterrupted += this.PlaybackInterruptedHandler;
-                this.player.PlaybackFinished += this.PlaybackFinishedHandler;
+                // Start playing
+                await this.StartPlaybackAsync(track, silent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this.isPlayingPreviousTrack);
@@ -885,10 +891,15 @@ namespace Dopamine.Common.Services.Playback
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
 
-            this.isLoadingTrack = false;
-            this.LoadingTrack(this.isLoadingTrack);
+            this.OnLoadingTrack(false);
 
             return isPlaybackSuccess;
+        }
+
+        private void OnLoadingTrack(bool isLoadingTrack)
+        {
+            this.isLoadingTrack = isLoadingTrack;
+            this.LoadingTrack(isLoadingTrack);
         }
 
         private async Task<bool> TryPlayNextAsync()
@@ -920,7 +931,7 @@ namespace Dopamine.Common.Services.Playback
 
             PlayableTrack previousTrack = await this.queueManager.PreviousTrackAsync(this.LoopMode);
 
-            if(previousTrack == null)
+            if (previousTrack == null)
             {
                 this.Stop();
                 return true;
@@ -984,11 +995,11 @@ namespace Dopamine.Common.Services.Playback
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {
-                if(await this.queueManager.ClearQueueAsync())
+                if (await this.queueManager.ClearQueueAsync())
                 {
                     await this.queueManager.EnqueueAsync(tracks);
                     await this.SetPlaybackSettingsAsync();
-                } 
+                }
             }
         }
 
