@@ -135,7 +135,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
-        private async void ShowPlayingTrackAsync()
+        protected async override Task ShowPlayingTrackAsync()
         {
             if (this.playbackService.PlayingTrack == null)
                 return;

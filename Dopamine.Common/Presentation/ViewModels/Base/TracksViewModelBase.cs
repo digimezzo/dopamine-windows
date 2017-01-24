@@ -193,13 +193,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // PubSub Events
             this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
-            // Handlers
-            this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
-
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
             this.collectionService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
 
@@ -559,7 +552,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async virtual void ShowPlayingTrackAsync()
+        protected async override Task ShowPlayingTrackAsync()
         {
             if (this.playbackService.PlayingTrack == null)
                 return;

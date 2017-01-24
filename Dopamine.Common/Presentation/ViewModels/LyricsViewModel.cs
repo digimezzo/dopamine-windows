@@ -1,19 +1,19 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Api.Lyrics;
 using Dopamine.Common.Database;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Services.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Text.RegularExpressions;
-using System.Linq;
-using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -225,6 +225,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected async override Task LoadedCommandAsync()
         {
            // Not required here
+        }
+
+        protected async override Task ShowPlayingTrackAsync()
+        {
+            // Not required here
         }
         #endregion
     }

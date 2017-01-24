@@ -225,38 +225,47 @@ namespace Dopamine.Common.Services.Playback
             return nextTrack;
         }
 
-        public async Task<EnqueueResult> EnqueueAsync(IList<PlayableTrack> tracks)
+        public async Task<EnqueueResult> EnqueueAsync(IList<PlayableTrack> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
-            await Task.Run(() =>
+
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     lock (this.queueLock)
                     {
                         // Only enqueue tracks which are not queued yet
                         result.EnqueuedTracks = tracks.Except(this.queuedTracks).ToList();
                         this.queuedTracks.AddRange(result.EnqueuedTracks);
+
                     }
-                }
-                catch (Exception ex)
-                {
-                    result.IsSuccess = false;
-                    LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
-                }
-            });
+                });
+
+                if (shuffle)
+                    await this.ShuffleAsync();
+                else
+                    await this.UnShuffleAsync();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
+            }
+
 
             return result;
         }
 
-        public async Task<EnqueueResult> EnqueueNextAsync(IList<PlayableTrack> tracks)
+        public async Task<EnqueueResult> EnqueueNextAsync(IList<PlayableTrack> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
-            await Task.Run(() =>
+
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     lock (this.queueLock)
                     {
@@ -274,13 +283,20 @@ namespace Dopamine.Common.Services.Playback
                         this.queuedTracks.InsertRange(queuedIndex + 1, tracks);
                         this.shuffledTracks.InsertRange(shuffledIndex + 1, tracks);
                     }
-                }
-                catch (Exception ex)
-                {
-                    result.IsSuccess = false;
-                    LogClient.Error("Error while enqueuing tracks next. Exception: {0}", ex.Message);
-                }
-            });
+
+                });
+
+                if (shuffle)
+                    await this.ShuffleAsync();
+                else
+                    await this.UnShuffleAsync();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                LogClient.Error("Error while enqueuing tracks next. Exception: {0}", ex.Message);
+            }
+
 
             return result;
         }
