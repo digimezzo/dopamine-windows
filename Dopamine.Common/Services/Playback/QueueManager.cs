@@ -116,6 +116,23 @@ namespace Dopamine.Common.Services.Playback
             return null;
         }
 
+        public PlayableTrack FirstTrack()
+        {
+            try
+            {
+                if (this.shuffledTracks != null && this.shuffledTracks.Count > 0)
+                {
+                    return this.shuffledTracks.First();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get first track. Exception: {0}", ex.Message);
+            }
+
+            return null;
+        }
+
         public async Task<PlayableTrack> PreviousTrackAsync(LoopMode loopMode)
         {
             PlayableTrack previousTrack = null;

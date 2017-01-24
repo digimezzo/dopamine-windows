@@ -792,7 +792,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task PlayFirstAsync()
         {
-            if (this.Queue.Count > 0) await this.TryPlayAsync(this.Queue.First());
+            if (this.Queue.Count > 0) await this.TryPlayAsync(this.queueManager.FirstTrack());
         }
 
         private void StopPlayback()
