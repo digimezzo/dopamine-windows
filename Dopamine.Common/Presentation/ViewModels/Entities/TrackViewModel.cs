@@ -1,11 +1,10 @@
-﻿using Dopamine.Common.Services.Metadata;
+﻿using Dopamine.Common.Database;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Scrobbling;
-using Dopamine.Common.Database;
 using Prism.Mvvm;
 using System;
-using Digimezzo.Utilities.Settings;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class TrackViewModel : BindableBase
     {

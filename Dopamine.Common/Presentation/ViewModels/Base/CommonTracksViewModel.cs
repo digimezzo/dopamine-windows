@@ -7,6 +7,7 @@ using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
@@ -31,7 +32,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public abstract class CommonTracksViewModel : CommonViewModel, INavigationAware, IActiveAware
     {

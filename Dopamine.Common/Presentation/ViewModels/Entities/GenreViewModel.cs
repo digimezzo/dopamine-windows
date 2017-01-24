@@ -1,14 +1,9 @@
-﻿using Dopamine.Common.Presentation.Interfaces;
+﻿using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Database.Entities;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class GenreViewModel : BindableBase, ISemanticZoomable
     {

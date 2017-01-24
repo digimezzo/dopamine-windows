@@ -3,7 +3,7 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Database.Entities;
 using Prism.Mvvm;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class ArtistViewModel : BindableBase, ISemanticZoomable
     {

@@ -7,6 +7,7 @@ using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Threading.Tasks;
+using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
