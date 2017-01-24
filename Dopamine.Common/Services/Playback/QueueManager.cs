@@ -313,7 +313,7 @@ namespace Dopamine.Common.Services.Playback
             return isQueueDifferent;
         }
 
-        public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
+        public async Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks)
         {
             bool isSuccess = true;
             var removedQueuedTracks = new List<PlayableTrack>();

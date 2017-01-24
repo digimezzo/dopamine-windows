@@ -626,7 +626,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
         {
-            DequeueResult dequeueResult = await this.queueManager.Dequeue(tracks);
+            DequeueResult dequeueResult = await this.queueManager.DequeueAsync(tracks);
 
             if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
             {
