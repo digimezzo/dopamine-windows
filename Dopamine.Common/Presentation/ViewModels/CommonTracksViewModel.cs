@@ -1,6 +1,14 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.I18n;
@@ -9,15 +17,6 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
-using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
@@ -39,15 +38,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         // Services
         protected IIndexingService indexingService;
-        protected IPlaybackService playbackService;
-        protected ISearchService searchService;
-        protected IDialogService dialogService;
         protected ICollectionService collectionService;
         protected IMetadataService metadataService;
         protected II18nService i18nService;
-
-        // Event aggregator
-        protected IEventAggregator eventAggregator;
 
         // Repositories
         protected ITrackRepository trackRepository;
@@ -59,21 +52,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IList<PlayableTrack> selectedTracks;
 
         // Flags
-        protected bool isFirstLoad = true;
         private bool isIndexing;
-        private bool enableRating;
-        private bool enableLove;
 
         // IActiveAware
         private bool isActive;
         public event EventHandler IsActiveChanged;
 
         // Other
-        private long tracksCount;
         private TrackOrder trackOrder;
         private string trackOrderText;
-        protected long totalDuration;
-        protected long totalSize;
         private string searchTextBeforeInactivate = string.Empty;
         #endregion
 
@@ -82,7 +69,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
         public DelegateCommand<string> AddTracksToPlaylistCommand { get; set; }
-        public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
@@ -104,28 +90,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         public string TrackOrderText
         {
             get { return this.trackOrderText; }
-        }
-
-        public string TotalSizeInformation
-        {
-            get { return this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty; }
-        }
-
-        public string TotalDurationInformation
-        {
-            get { return this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty; }
-        }
-
-        public bool EnableRating
-        {
-            get { return this.enableRating; }
-            set { SetProperty<bool>(ref this.enableRating, value); }
-        }
-
-        public bool EnableLove
-        {
-            get { return this.enableLove; }
-            set { SetProperty<bool>(ref this.enableLove, value); }
         }
 
         public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
@@ -154,12 +118,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.selectedTracks; }
             set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
-        }
-
-        public long TracksCount
-        {
-            get { return this.tracksCount; }
-            set { SetProperty<long>(ref this.tracksCount, value); }
         }
 
         public bool IsIndexing
@@ -214,7 +172,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             // Initialize commands
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(this.SelectedTracks, playlistName));
-            this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
@@ -259,10 +216,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 OnPropertyChanged(() => this.TotalSizeInformation);
                 this.RefreshLanguage();
             };
-
-            // Initialize flags
-            this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
-            this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             // This makes sure the IsIndexing is correct even when this ViewModel is 
             // created after the Indexer is started, and thus after triggering the 
@@ -415,7 +368,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.RemoveSelectedTracksCommand != null) this.RemoveSelectedTracksCommand.RaiseCanExecuteChanged();
         }
 
-        protected async virtual Task LoadedCommandAsync()
+        protected async override Task LoadedCommandAsync()
         {
             if (this.isFirstLoad)
             {
@@ -455,7 +408,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            this.SetSizeInformationAsync();
+            this.SetSizeInformationAsync(this.TracksCvs);
             this.ShowPlayingTrackAsync();
         }
 
@@ -560,52 +513,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             // Update duration and size
-            this.SetSizeInformationAsync();
-
+            this.SetSizeInformationAsync(this.TracksCvs);
 
             // Show playing Track
             this.ShowPlayingTrackAsync();
-        }
-
-        private async void SetSizeInformationAsync()
-        {
-            // Reset duration and size
-            this.totalDuration = 0;
-            this.totalSize = 0;
-
-            CollectionView viewCopy = null;
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (this.TracksCvs != null)
-                {
-                    // Create copy of CollectionViewSource because only STA can access it
-                    viewCopy = new CollectionView(this.TracksCvs.View);
-                }
-            });
-
-            if (viewCopy != null)
-            {
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        foreach (TrackViewModel vm in viewCopy)
-                        {
-                            this.totalDuration += vm.Track.Duration.Value;
-                            this.totalSize += vm.Track.FileSize.Value;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("An error occured while setting size information. Exception: {0}", ex.Message);
-                    }
-
-                });
-            }
-
-            OnPropertyChanged(() => this.TotalDurationInformation);
-            OnPropertyChanged(() => this.TotalSizeInformation);
         }
 
         protected void ToggleTrackOrder()
