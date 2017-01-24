@@ -22,19 +22,30 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class ViewModelBase : BindableBase
     {
         #region Variables
+        // UnityContainer
+        protected IUnityContainer container;
+
+        // EventAggregator
         protected IEventAggregator eventAggregator;
+
+        // Services
         protected IProviderService providerService;
         protected IPlaybackService playbackService;
         protected IDialogService dialogService;
         protected ISearchService searchService;
-        protected IUnityContainer container;
+
+        // Flags
         private bool enableRating;
         private bool enableLove;
-        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
+        protected bool isFirstLoad = true;
+
+        // Counts
         private long tracksCount;
         protected long totalDuration;
         protected long totalSize;
-        protected bool isFirstLoad = true;
+
+        // Collections
+        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         #endregion
 
         #region Commands
@@ -90,21 +101,26 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public ViewModelBase(IUnityContainer container)
         {
+            // UnityContainer
             this.container = container;
+
+            // EventAggregator
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+
+            // Services
             this.providerService = container.Resolve<IProviderService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.dialogService = container.Resolve<IDialogService>();
             this.searchService = container.Resolve<ISearchService>();
-            this.eventAggregator = container.Resolve<IEventAggregator>();
-
-            // Initialize flags
+            
+            // Flags
             this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
             this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
 
-            // Event handlers
+            // Handlers
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
 
             // Initialize the search providers in the ContextMenu

@@ -29,10 +29,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         // Repositories
         private IAlbumRepository albumRepository;
 
-        // Lists
+        // Collections
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
         private IList<Album> selectedAlbums;
+
+        // Flags
+        private bool delaySelectedAlbums;
 
         // Other
         private long albumsCount;
@@ -42,9 +45,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private double albumWidth;
         private double albumHeight;
         private CoverSizeType selectedCoverSize;
-
-        // Flags
-        private bool delaySelectedAlbums;
         #endregion
 
         #region Commands
