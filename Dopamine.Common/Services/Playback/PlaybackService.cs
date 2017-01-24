@@ -101,7 +101,7 @@ namespace Dopamine.Common.Services.Playback
 
         public List<PlayableTrack> Queue
         {
-            get { return this.queueManager.Queue; }
+            get { return this.queueManager.Queue.Values.ToList(); }
         }
 
         public PlayableTrack PlayingTrack
@@ -645,7 +645,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<EnqueueResult> AddToQueue(IList<PlayableTrack> tracks)
         {
-            EnqueueResult result = await this.queueManager.EnqueueAsync(tracks,this.shuffle);
+            EnqueueResult result = await this.queueManager.EnqueueAsync(tracks, this.shuffle);
 
             this.QueueChanged(this, new EventArgs());
 

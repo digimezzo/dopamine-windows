@@ -192,6 +192,21 @@ namespace Dopamine.Common.Helpers
         }
 
         /// <summary>
+        /// Insert multiple elements at the given index.
+        /// </summary>
+        public void InsertRange(int index, IEnumerable<KeyValuePair<TKey, TValue>> pairs)
+        {
+            int insertIndex = index;
+
+            foreach (KeyValuePair<TKey, TValue> pair in pairs)
+            {
+                fDictionary.Add(pair.Key, pair.Value);
+                fKeys.Insert(insertIndex, pair.Key);
+                insertIndex++;
+            }
+        }
+
+        /// <summary>
         /// Add an element to the dictionary.
         /// </summary>
         public void Add(TKey key, TValue value)
