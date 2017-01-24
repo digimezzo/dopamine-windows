@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

@@ -271,14 +271,14 @@
     <Compile Include="Presentation\Utils\ScrollUtils.cs" />
     <Compile Include="Presentation\Utils\SemanticZoomUtils.cs" />
     <Compile Include="Presentation\Utils\SlidingContentControlRegionAdapter.cs" />
-    <Compile Include="Presentation\ViewModels\AlbumViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\AlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ArtistViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\ArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\BackgroundCoverArtControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\CommonAlbumsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\CommonTracksViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\CommonViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Base\CommonAlbumsViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Base\CommonTracksViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Base\CommonViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CompactPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtViewModel.cs" />
@@ -286,7 +286,7 @@
     <Compile Include="Presentation\ViewModels\EditAlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\EditTrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\FileInformationViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\GenreViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\GenreViewModel.cs" />
     <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
@@ -296,7 +296,7 @@
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlaylistViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\PlaylistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PopupVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsThinViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
@@ -304,7 +304,7 @@
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\TrackViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">

@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;

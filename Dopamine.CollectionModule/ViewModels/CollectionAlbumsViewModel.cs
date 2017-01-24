@@ -10,6 +10,7 @@ using Prism.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {

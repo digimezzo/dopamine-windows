@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using WPFFolderBrowser;
+using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
