@@ -1,5 +1,6 @@
-﻿using Dopamine.Common.Services.Playback;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Views.Base;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Timers;
@@ -11,7 +12,7 @@ namespace Dopamine.Common.Presentation.Views
     /// <summary>
     /// Interaction logic for PopupVolumeControls.xaml
     /// </summary>
-    public partial class PopupVolumeControls : CommonVolumeControl
+    public partial class PopupVolumeControls : VolumeControlViewBase
     {
         #region Variables
         private IPlaybackService playBackService;

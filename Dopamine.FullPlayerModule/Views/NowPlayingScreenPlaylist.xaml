@@ -1,4 +1,4 @@
-﻿<commonviews:CommonTracksView x:Class="Dopamine.FullPlayerModule.Views.NowPlayingScreenPlaylist"
+﻿<baseviews:TracksViewBase x:Class="Dopamine.FullPlayerModule.Views.NowPlayingScreenPlaylist"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,6 +10,7 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controlsviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
@@ -83,4 +84,4 @@
             </DockPanel>
         </DockPanel>
     </DockPanel>
-</commonviews:CommonTracksView>
+</baseviews:TracksViewBase>

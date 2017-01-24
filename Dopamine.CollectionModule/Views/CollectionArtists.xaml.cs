@@ -10,10 +10,11 @@ using Prism.Regions;
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Dopamine.Common.Presentation.Views.Base;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionArtists : CommonTracksView, INavigationAware
+    public partial class CollectionArtists : TracksViewBase, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;

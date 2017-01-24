@@ -4,10 +4,11 @@ using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Dopamine.Common.Presentation.Views.Base;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class HorizontalVolumeControls : CommonVolumeControl
+    public partial class HorizontalVolumeControls : VolumeControlViewBase
     {
         #region Variables
         private IPlaybackService playBackService;

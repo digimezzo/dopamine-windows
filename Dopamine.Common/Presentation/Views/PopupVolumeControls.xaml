@@ -1,4 +1,4 @@
-﻿<views:CommonVolumeControl x:Class="Dopamine.Common.Presentation.Views.PopupVolumeControls"
+﻿<baseviews:VolumeControlViewBase x:Class="Dopamine.Common.Presentation.Views.PopupVolumeControls"
              x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:views="clr-namespace:Dopamine.Common.Presentation.Views"
+             xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -55,4 +55,4 @@
             </Grid>
         </controls:PopupEx>
     </Grid>
-</views:CommonVolumeControl>
+</baseviews:VolumeControlViewBase>
