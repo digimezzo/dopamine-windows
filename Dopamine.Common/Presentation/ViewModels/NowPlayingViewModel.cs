@@ -20,7 +20,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class NowPlayingViewModel : ViewModelBase, IDropTarget
+    public class NowPlayingViewModel : TracksViewModelBase, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;
@@ -52,6 +52,14 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.selectedTracks; }
             set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
         }
+
+        public override bool CanOrderByAlbum
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
         #endregion
 
         #region Construction
@@ -80,7 +88,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(() =>
                 {
-                    foreach (KeyValuePair<string,PlayableTrack> trackKvp in queuedTracks)
+                    foreach (KeyValuePair<string, PlayableTrack> trackKvp in queuedTracks)
                     {
                         TrackViewModel vm = this.container.Resolve<TrackViewModel>();
                         vm.Track = trackKvp.Value;
@@ -184,7 +192,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Protected
-        protected async Task FillListsAsync()
+        protected async override Task FillListsAsync()
         {
             if (!this.allowFillAllLists) return;
             await this.GetTracksAsync();
@@ -278,7 +286,17 @@ namespace Dopamine.Common.Presentation.ViewModels
             isDroppingTracks = false;
         }
 
-        protected async override Task LoadedCommandAsync()
+        protected override void RefreshLanguage()
+        {
+            // Not required here
+        }
+
+        protected override void Subscribe()
+        {
+            // Not required here
+        }
+
+        protected override void Unsubscribe()
         {
             // Not required here
         }
