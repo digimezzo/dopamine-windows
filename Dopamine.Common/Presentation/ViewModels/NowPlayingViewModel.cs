@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
@@ -75,16 +76,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 // Create new ObservableCollection
                 ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
-
-                // Order the incoming Tracks
-                List<PlayableTrack> orderedTracks = this.playbackService.Queue;
+                OrderedDictionary<string, PlayableTrack> queuedTracks = this.playbackService.Queue;
 
                 await Task.Run(() =>
                 {
-                    foreach (PlayableTrack t in orderedTracks)
+                    foreach (KeyValuePair<string,PlayableTrack> trackKvp in queuedTracks)
                     {
                         TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                        vm.Track = t;
+                        vm.Track = trackKvp.Value;
+                        vm.TrackGuid = trackKvp.Key;
                         viewModels.Add(vm);
                     }
                 });
@@ -140,7 +140,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.playbackService.PlayingTrack == null)
                 return;
 
-            string path = this.playbackService.PlayingTrack.Path;
+            string playingTrackGuid = this.playbackService.PlayingTrackGuid;
 
             await Task.Run(() =>
             {
@@ -151,7 +151,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
 
-                        if (vm.Track.Path == path)
+                        if (vm.TrackGuid.Equals(playingTrackGuid))
                         {
                             if (!this.playbackService.IsStopped)
                             {
