@@ -917,15 +917,15 @@ namespace Dopamine.Common.Services.Playback
         {
             this.isPlayingPreviousTrack = false;
 
-            PlayableTrack nextTrack = await this.queueManager.NextTrackAsync(this.LoopMode);
+            string nextTrackGuid = await this.queueManager.NextTrackAsync(this.LoopMode);
 
-            if (nextTrack == null)
+            if (string.IsNullOrEmpty(nextTrackGuid))
             {
                 this.Stop();
                 return true;
             }
 
-            return await this.TryPlayAsync(nextTrack);
+            return await this.TryPlayAsync(this.queueManager.GetTrack(nextTrackGuid), nextTrackGuid);
         }
 
         private async Task<bool> TryPlayPreviousAsync()
@@ -940,15 +940,15 @@ namespace Dopamine.Common.Services.Playback
                 return true;
             }
 
-            PlayableTrack previousTrack = await this.queueManager.PreviousTrackAsync(this.LoopMode);
+            string previousTrackGuid = await this.queueManager.PreviousTrackAsync(this.LoopMode);
 
-            if (previousTrack == null)
+            if (string.IsNullOrEmpty(previousTrackGuid))
             {
                 this.Stop();
                 return true;
             }
 
-            return await this.TryPlayAsync(previousTrack);
+            return await this.TryPlayAsync(this.queueManager.GetTrack(previousTrackGuid), previousTrackGuid);
         }
 
         private void ProgressTimeoutHandler(object sender, ElapsedEventArgs e)

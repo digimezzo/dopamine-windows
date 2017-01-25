@@ -221,16 +221,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 OnPropertyChanged(() => this.LyricsLines);
             });
         }
-
-        protected async override Task LoadedCommandAsync()
-        {
-           // Not required here
-        }
-
-        protected async override Task ShowPlayingTrackAsync()
-        {
-            // Not required here
-        }
         #endregion
     }
 }

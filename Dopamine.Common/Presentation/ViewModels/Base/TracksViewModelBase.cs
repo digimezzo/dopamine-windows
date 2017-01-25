@@ -7,7 +7,6 @@ using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
-using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
@@ -19,6 +18,7 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
+using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
@@ -43,11 +43,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected ICollectionService collectionService;
         protected IMetadataService metadataService;
         protected II18nService i18nService;
+        protected IPlaybackService playbackService;
+        protected IDialogService dialogService;
+        protected ISearchService searchService;
+
+        // EventAggregator
+        protected IEventAggregator eventAggregator;
 
         // Repositories
         protected ITrackRepository trackRepository;
 
         // Flags
+        private bool enableRating;
+        private bool enableLove;
+        protected bool isFirstLoad = true;
         private bool isIndexing;
 
         // IActiveAware
@@ -59,6 +68,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<PlayableTrack> selectedTracks;
+
+        // Counts
+        private long tracksCount;
+        protected long totalDuration;
+        protected long totalSize;
 
         // Other
         private TrackOrder trackOrder;
@@ -77,12 +91,41 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         public DelegateCommand PlayNextCommand { get; set; }
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
         public DelegateCommand ShuffleAllCommand { get; set; }
+        public DelegateCommand LoadedCommand { get; set; }
         #endregion
 
         #region Properties
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
 
         public abstract bool CanOrderByAlbum { get; }
+
+        public long TracksCount
+        {
+            get { return this.tracksCount; }
+            set { SetProperty<long>(ref this.tracksCount, value); }
+        }
+
+        public string TotalSizeInformation
+        {
+            get { return this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty; }
+        }
+
+        public string TotalDurationInformation
+        {
+            get { return this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty; }
+        }
+
+        public bool EnableRating
+        {
+            get { return this.enableRating; }
+            set { SetProperty<bool>(ref this.enableRating, value); }
+        }
+
+        public bool EnableLove
+        {
+            get { return this.enableLove; }
+            set { SetProperty<bool>(ref this.enableLove, value); }
+        }
 
         public bool HasContextMenuPlaylists
         {
@@ -179,6 +222,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync(this.SelectedTracks));
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync(this.SelectedTracks));
+            this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
             {
@@ -192,6 +236,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             // PubSub Events
             this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
+
+            // Events
+            this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
 
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
             this.collectionService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
@@ -211,6 +262,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 OnPropertyChanged(() => this.TotalSizeInformation);
                 this.RefreshLanguage();
             };
+
+            // Flags
+            this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+            this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
 
             // This makes sure the IsIndexing is correct even when this ViewModel is 
             // created after the Indexer is started, and thus after triggering the 
@@ -310,6 +365,53 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             return allSelectedTracksExist;
         }
+
+        private async void MetadataService_RatingChangedAsync(RatingChangedEventArgs e)
+        {
+            if (this.Tracks == null) return;
+
+            await Task.Run(() =>
+            {
+                foreach (TrackViewModel vm in this.Tracks)
+                {
+                    if (vm.Track.Path.Equals(e.Path))
+                    {
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleRating(e.Rating));
+                    }
+                }
+            });
+        }
+
+        private async void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
+        {
+            if (this.Tracks == null) return;
+
+            await Task.Run(() =>
+            {
+                foreach (TrackViewModel vm in this.Tracks)
+                {
+                    if (vm.Track.Path.Equals(e.Path))
+                    {
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleLove(e.Love));
+                    }
+                }
+            });
+        }
+
+        private void SelectedTracksHandler(object parameter)
+        {
+            if (parameter != null)
+            {
+                this.SelectedTracks = new List<PlayableTrack>();
+
+                foreach (TrackViewModel item in (IList)parameter)
+                {
+                    this.SelectedTracks.Add(item.Track);
+                }
+            }
+        }
         #endregion
 
         #region Protected
@@ -363,7 +465,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             if (this.RemoveSelectedTracksCommand != null) this.RemoveSelectedTracksCommand.RaiseCanExecuteChanged();
         }
 
-        protected async override Task LoadedCommandAsync()
+        protected async virtual Task LoadedCommandAsync()
         {
             if (this.isFirstLoad)
             {
@@ -552,7 +654,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async override Task ShowPlayingTrackAsync()
+        protected async virtual Task ShowPlayingTrackAsync()
         {
             if (this.playbackService.PlayingTrack == null)
                 return;
@@ -722,51 +824,45 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        private async void MetadataService_RatingChangedAsync(RatingChangedEventArgs e)
+        protected async void SetSizeInformationAsync(CollectionViewSource source)
         {
-            if (this.Tracks == null) return;
+            // Reset duration and size
+            this.totalDuration = 0;
+            this.totalSize = 0;
 
-            await Task.Run(() =>
+            CollectionView viewCopy = null;
+
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (TrackViewModel vm in this.Tracks)
+                if (source != null)
                 {
-                    if (vm.Track.Path.Equals(e.Path))
-                    {
-                        // The UI is only updated if PropertyChanged is fired on the UI thread
-                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleRating(e.Rating));
-                    }
+                    // Create copy of CollectionViewSource because only STA can access it
+                    viewCopy = new CollectionView(source.View);
                 }
             });
-        }
 
-        private async void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
-        {
-            if (this.Tracks == null) return;
-
-            await Task.Run(() =>
+            if (viewCopy != null)
             {
-                foreach (TrackViewModel vm in this.Tracks)
+                await Task.Run(() =>
                 {
-                    if (vm.Track.Path.Equals(e.Path))
+                    try
                     {
-                        // The UI is only updated if PropertyChanged is fired on the UI thread
-                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleLove(e.Love));
+                        foreach (TrackViewModel vm in viewCopy)
+                        {
+                            this.totalDuration += vm.Track.Duration.Value;
+                            this.totalSize += vm.Track.FileSize.Value;
+                        }
                     }
-                }
-            });
-        }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("An error occured while setting size information. Exception: {0}", ex.Message);
+                    }
 
-        private void SelectedTracksHandler(object parameter)
-        {
-            if (parameter != null)
-            {
-                this.SelectedTracks = new List<PlayableTrack>();
-
-                foreach (TrackViewModel item in (IList)parameter)
-                {
-                    this.SelectedTracks.Add(item.Track);
-                }
+                });
             }
+
+            OnPropertyChanged(() => this.TotalDurationInformation);
+            OnPropertyChanged(() => this.TotalSizeInformation);
         }
 
         protected void ConditionalScrollToPlayingTrack()

@@ -163,9 +163,9 @@ namespace Dopamine.Common.Services.Playback
             return null;
         }
 
-        public async Task<PlayableTrack> PreviousTrackAsync(LoopMode loopMode)
+        public async Task<string> PreviousTrackAsync(LoopMode loopMode)
         {
-            PlayableTrack previousTrack = null;
+            string previousTrackGuid = null;
 
             await Task.Run(() =>
             {
@@ -180,19 +180,19 @@ namespace Dopamine.Common.Services.Playback
                             if (loopMode == LoopMode.One)
                             {
                                 // Return the current track
-                                previousTrack = this.queue[this.playbackOrder[currentTrackIndex]];
+                                previousTrackGuid = this.playbackOrder[currentTrackIndex];
                             }
                             else
                             {
                                 if (currentTrackIndex > 0)
                                 {
                                     // If we didn't reach the start of the queue, return the previous track.
-                                    previousTrack = this.queue[this.playbackOrder[currentTrackIndex - 1]];
+                                    previousTrackGuid = this.playbackOrder[currentTrackIndex - 1];
                                 }
                                 else if (loopMode == LoopMode.All)
                                 {
                                     // When LoopMode.All is enabled, when we reach the start of the queue, return the last track.
-                                    previousTrack = this.queue[this.playbackOrder.Last()];
+                                    previousTrackGuid = this.playbackOrder.Last();
                                 }
                             }
                         }
@@ -204,12 +204,12 @@ namespace Dopamine.Common.Services.Playback
                 }
             });
 
-            return previousTrack;
+            return previousTrackGuid;
         }
 
-        public async Task<PlayableTrack> NextTrackAsync(LoopMode loopMode)
+        public async Task<string> NextTrackAsync(LoopMode loopMode)
         {
-            PlayableTrack nextTrack = null;
+            string nextTrackGuid = null;
 
             await Task.Run(() =>
             {
@@ -224,19 +224,19 @@ namespace Dopamine.Common.Services.Playback
                             if (loopMode == LoopMode.One)
                             {
                                 // Return the current track
-                                nextTrack = this.queue[this.playbackOrder[currentTrackIndex]];
+                                nextTrackGuid = this.playbackOrder[currentTrackIndex];
                             }
                             else
                             {
                                 if (currentTrackIndex < this.playbackOrder.Count - 1)
                                 {
                                     // If we didn't reach the end of the queue, return the next track.
-                                    nextTrack = this.queue[this.playbackOrder[currentTrackIndex + 1]];
+                                    nextTrackGuid = this.playbackOrder[currentTrackIndex + 1];
                                 }
                                 else if (loopMode == LoopMode.All)
                                 {
                                     // When LoopMode.All is enabled, when we reach the end of the queue, return the first track.
-                                    nextTrack = this.queue[this.playbackOrder.First()];
+                                    nextTrackGuid = this.playbackOrder.First();
                                 }
                             }
                         }
@@ -248,7 +248,7 @@ namespace Dopamine.Common.Services.Playback
                 }
             });
 
-            return nextTrack;
+            return nextTrackGuid;
         }
 
         public async Task<EnqueueResult> EnqueueAsync(IList<PlayableTrack> tracks, bool shuffle)
