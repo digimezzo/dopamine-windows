@@ -14,14 +14,14 @@ namespace Dopamine.Common.Services.Playback
     public class QueueManager
     {
         #region Variables
-        private Guid currentTrackGuid;
+        private string currentTrackGuid;
         private object queueLock = new object();
-        private OrderedDictionary<Guid, PlayableTrack> queue = new OrderedDictionary<Guid, PlayableTrack>(); // Queued tracks in original order
-        private List<Guid> playbackOrder = new List<Guid>(); // Playback order of queued tracks
+        private OrderedDictionary<string, PlayableTrack> queue = new OrderedDictionary<string, PlayableTrack>(); // Queued tracks in original order
+        private List<string> playbackOrder = new List<string>(); // Playback order of queued tracks
         #endregion
 
         #region Properties
-        public OrderedDictionary<Guid, PlayableTrack> Queue
+        public OrderedDictionary<string, PlayableTrack> Queue
         {
             get { return this.queue; }
         }
@@ -77,7 +77,7 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queue.Count > 0)
                     {
-                        this.playbackOrder = new List<Guid>(this.queue.Keys).Randomize();
+                        this.playbackOrder = new List<string>(this.queue.Keys).Randomize();
                     }
                 }
             });
@@ -91,10 +91,24 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queue.Count > 0)
                     {
-                        this.playbackOrder = new List<Guid>(this.queue.Keys);
+                        this.playbackOrder = new List<string>(this.queue.Keys);
                     }
                 }
             });
+        }
+
+        public PlayableTrack GetTrack(string trackGuid)
+        {
+            try
+            {
+                return this.queue[trackGuid];
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get track. Exception: {0}", ex.Message);
+            }
+
+            return null;
         }
 
         public PlayableTrack CurrentTrack()
@@ -113,6 +127,20 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 LogClient.Error("Could not get current track. Exception: {0}", ex.Message);
+            }
+
+            return null;
+        }
+
+        public string CurrentTrackGuid()
+        {
+            try
+            {
+                return this.currentTrackGuid;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get current trackGuid. Exception: {0}", ex.Message);
             }
 
             return null;
@@ -239,7 +267,7 @@ namespace Dopamine.Common.Services.Playback
 
                         foreach (PlayableTrack track in tracksToEnqueue)
                         {
-                            this.queue.Add(Guid.NewGuid(), track);
+                            this.queue.Add(Guid.NewGuid().ToString(), track);
                         }
 
                         result.EnqueuedTracks = tracksToEnqueue;
@@ -281,11 +309,11 @@ namespace Dopamine.Common.Services.Playback
                             playbackOrderIndex = this.playbackOrder.IndexOf(this.currentTrackGuid);
                         }
 
-                        var trackPairs = new List<KeyValuePair<Guid, PlayableTrack>>();
+                        var trackPairs = new List<KeyValuePair<string, PlayableTrack>>();
 
                         foreach (PlayableTrack track in tracks)
                         {
-                            trackPairs.Add(new KeyValuePair<Guid, PlayableTrack>(Guid.NewGuid(), track));
+                            trackPairs.Add(new KeyValuePair<string, PlayableTrack>(Guid.NewGuid().ToString(), track));
                         }
 
                         this.queue.InsertRange(queueIndex + 1, trackPairs);
@@ -427,10 +455,17 @@ namespace Dopamine.Common.Services.Playback
             return dequeueResult;
         }
 
-        public void SetCurrentTrack(PlayableTrack track)
+        public void SetCurrentTrack(PlayableTrack track, string trackGuid)
         {
-            // TODO: this always returns the first matching track and should be improved
-            this.currentTrackGuid = this.queue.Select(t => t).Where(t => t.Value.Equals(track)).Select(t => t.Key).FirstOrDefault();
+            if (!string.IsNullOrEmpty(trackGuid))
+            {
+                this.currentTrackGuid = trackGuid;
+            }
+            else
+            {
+                // The first matching track
+                this.currentTrackGuid = this.queue.Select(t => t).Where(t => t.Value.Equals(track)).Select(t => t.Key).FirstOrDefault();
+            }
         }
 
         public async Task<bool> UpdateQueueOrderAsync(List<PlayableTrack> tracks, bool isShuffled)

@@ -5,13 +5,12 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Equalizer;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -99,14 +98,19 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public List<PlayableTrack> Queue
+        public OrderedDictionary<string, PlayableTrack> Queue
         {
-            get { return this.queueManager.Queue.Values.ToList(); }
+            get { return this.queueManager.Queue; }
         }
 
         public PlayableTrack PlayingTrack
         {
             get { return this.queueManager.CurrentTrack(); }
+        }
+
+        public string PlayingTrackGuid
+        {
+            get { return this.queueManager.CurrentTrackGuid(); }
         }
 
         public double Progress
@@ -619,7 +623,12 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlaySelectedAsync(PlayableTrack track)
         {
-            await this.TryPlayAsync(track);
+            await this.TryPlayAsync(track, null);
+        }
+
+        public async Task PlaySelectedAsync(string trackGuid)
+        {
+            await this.TryPlayAsync(this.queueManager.GetTrack(trackGuid), trackGuid);
         }
 
         public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
@@ -807,7 +816,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        private async Task StartPlaybackAsync(PlayableTrack track, bool silent = false)
+        private async Task StartPlaybackAsync(string trackGuid, PlayableTrack track, bool silent = false)
         {
             // Settings
             this.SetPlaybackSettings();
@@ -822,7 +831,7 @@ namespace Dopamine.Common.Services.Playback
             // So if we go into the Catch when trying to play the Track,
             // at least, the next time TryPlayNext is called, it will know that 
             // we already tried to play this track and it can find the next Track.
-            this.queueManager.SetCurrentTrack(track);
+            this.queueManager.SetCurrentTrack(track, trackGuid);
 
             // Play the Track
             await Task.Run(() => this.player.Play(track.Path));
@@ -835,8 +844,9 @@ namespace Dopamine.Common.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(PlayableTrack track, bool silent = false)
+        private async Task<bool> TryPlayAsync(PlayableTrack track, string trackGuid = null, bool silent = false)
         {
+            if (track == null) return false;
             if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
             this.OnLoadingTrack(true);
 
@@ -855,7 +865,7 @@ namespace Dopamine.Common.Services.Playback
                 }
 
                 // Start playing
-                await this.StartPlaybackAsync(track, silent);
+                await this.StartPlaybackAsync(trackGuid, track, silent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this.isPlayingPreviousTrack);
@@ -966,7 +976,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartTrackPausedAsync(PlayableTrack track, int progressSeconds)
         {
-            if (await this.TryPlayAsync(track, true))
+            if (await this.TryPlayAsync(track, null, true))
             {
                 await this.PauseAsync();
                 if (!this.mute) this.player.SetVolume(this.Volume);
@@ -1000,6 +1010,8 @@ namespace Dopamine.Common.Services.Playback
                 {
                     await this.queueManager.EnqueueAsync(tracks, this.shuffle);
                 }
+
+                this.QueueChanged(this, new EventArgs());
             }
         }
 

@@ -2,6 +2,7 @@
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,10 @@ namespace Dopamine.Common.Services.Playback
         #region ReadOnly Properties
         IPlayer Player { get; }
         PlayableTrack PlayingTrack { get; }
+        string PlayingTrackGuid { get; }
         bool IsSavingPlaybackCounters { get; }
         bool NeedsSavingPlaybackCounters { get; }
-        List<PlayableTrack> Queue { get; }
+        OrderedDictionary<string, PlayableTrack> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
         bool IsStopped { get; }
@@ -46,6 +48,7 @@ namespace Dopamine.Common.Services.Playback
         Task PlayPreviousAsync();
         Task PlayOrPauseAsync();
         Task PlaySelectedAsync(PlayableTrack track);
+        Task PlaySelectedAsync(string trackGuid);
         Task Enqueue();
         Task Enqueue(List<PlayableTrack> tracks, PlayableTrack track);
         Task Enqueue(List<PlayableTrack> tracks);
