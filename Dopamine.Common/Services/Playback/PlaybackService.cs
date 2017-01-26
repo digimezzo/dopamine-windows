@@ -108,9 +108,9 @@ namespace Dopamine.Common.Services.Playback
             get { return this.queueManager.CurrentTrack().Value; }
         }
 
-        public string PlayingTrackGuid
+        public KeyValuePair<string, PlayableTrack> PlayingTrackPair
         {
-            get { return this.queueManager.CurrentTrack().Key; }
+            get { return this.queueManager.CurrentTrack(); }
         }
 
         public double Progress
