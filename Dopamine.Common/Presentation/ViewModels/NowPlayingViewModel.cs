@@ -25,9 +25,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private bool allowFillAllLists = true;
         private bool isDroppingTracks;
-        private ObservableCollection<TrackViewModel> tracks;
-        private CollectionViewSource tracksCvs;
-        private IList<PlayableTrack> selectedTracks;
         #endregion
 
         #region Commands
@@ -35,24 +32,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Properties
-        public ObservableCollection<TrackViewModel> Tracks
-        {
-            get { return this.tracks; }
-            set { SetProperty<ObservableCollection<TrackViewModel>>(ref this.tracks, value); }
-        }
-
-        public CollectionViewSource TracksCvs
-        {
-            get { return this.tracksCvs; }
-            set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
-        }
-
-        public IList<PlayableTrack> SelectedTracks
-        {
-            get { return this.selectedTracks; }
-            set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
-        }
-
         public override bool CanOrderByAlbum
         {
             get
@@ -214,7 +193,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Collect the ViewModels to remove
                 foreach (TrackViewModel vm in this.Tracks)
                 {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Path).ToList().Contains(vm.Track.Path))
+                    if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.TrackGuid))
                     {
                         viewModelsToRemove.Add(vm);
                     }

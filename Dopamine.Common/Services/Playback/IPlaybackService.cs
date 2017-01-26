@@ -17,7 +17,7 @@ namespace Dopamine.Common.Services.Playback
         #region ReadOnly Properties
         IPlayer Player { get; }
         PlayableTrack PlayingTrack { get; }
-        KeyValuePair<string,PlayableTrack> PlayingTrackPair { get; }
+        KeyValuePair<string, PlayableTrack> PlayingTrackPair { get; }
         bool IsSavingPlaybackCounters { get; }
         bool NeedsSavingPlaybackCounters { get; }
         OrderedDictionary<string, PlayableTrack> Queue { get; }
@@ -65,6 +65,7 @@ namespace Dopamine.Common.Services.Playback
         Task<EnqueueResult> AddToQueue(IList<Playlist> playlists);
         Task<EnqueueResult> AddToQueueNext(IList<PlayableTrack> tracks);
         Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks);
+        Task<DequeueResult> Dequeue(IList<KeyValuePair<string, PlayableTrack>> tracks);
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
