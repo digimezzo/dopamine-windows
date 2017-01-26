@@ -148,7 +148,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.playbackService.PlayingTrack == null)
                 return;
 
-            string playingTrackGuid = this.playbackService.PlayingTrackGuid;
+            KeyValuePair<string, PlayableTrack> playingTrackPair = this.playbackService.PlayingTrackPair;
 
             await Task.Run(() =>
             {
@@ -159,7 +159,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
 
-                        if (vm.TrackGuid.Equals(playingTrackGuid))
+                        if (vm.TrackGuid.Equals(playingTrackPair.Key))
                         {
                             if (!this.playbackService.IsStopped)
                             {

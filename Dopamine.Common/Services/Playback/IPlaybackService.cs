@@ -17,7 +17,7 @@ namespace Dopamine.Common.Services.Playback
         #region ReadOnly Properties
         IPlayer Player { get; }
         PlayableTrack PlayingTrack { get; }
-        string PlayingTrackGuid { get; }
+        KeyValuePair<string,PlayableTrack> PlayingTrackPair { get; }
         bool IsSavingPlaybackCounters { get; }
         bool NeedsSavingPlaybackCounters { get; }
         OrderedDictionary<string, PlayableTrack> Queue { get; }
