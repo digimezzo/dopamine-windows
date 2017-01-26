@@ -157,7 +157,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public AlbumsViewModelBase(IUnityContainer container) : base(container)
         {
+            // Repositories
             this.albumRepository = ServiceLocator.Current.GetInstance<IAlbumRepository>();
+
+            // Commands
+            this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
+
+            // Initialize
             this.Initialize();
         }
         #endregion
@@ -243,67 +249,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
 
             OnPropertyChanged(() => this.AlbumOrderText);
-        }
-
-        protected override void SetEditCommands()
-        {
-            base.SetEditCommands();
-
-            if (this.EditAlbumCommand != null)
-            {
-                this.EditAlbumCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        protected virtual async Task SetCoversizeAsync(CoverSizeType coverSize)
-        {
-            await Task.Run(() =>
-            {
-                this.selectedCoverSize = coverSize;
-
-                switch (coverSize)
-                {
-                    case CoverSizeType.Small:
-                        this.CoverSize = Constants.CoverSmallSize;
-                        break;
-                    case CoverSizeType.Medium:
-                        this.CoverSize = Constants.CoverMediumSize;
-                        break;
-                    case CoverSizeType.Large:
-                        this.CoverSize = Constants.CoverLargeSize;
-                        break;
-                    default:
-                        this.CoverSize = Constants.CoverMediumSize;
-                        this.selectedCoverSize = CoverSizeType.Medium;
-                        break;
-                }
-
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
-                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
-
-                OnPropertyChanged(() => this.CoverSize);
-                OnPropertyChanged(() => this.AlbumWidth);
-                OnPropertyChanged(() => this.AlbumHeight);
-                OnPropertyChanged(() => this.UpscaledCoverSize);
-                OnPropertyChanged(() => this.IsSmallCoverSizeSelected);
-                OnPropertyChanged(() => this.IsMediumCoverSizeSelected);
-                OnPropertyChanged(() => this.IsLargeCoverSizeSelected);
-            });
-        }
-
-        protected override void FilterLists()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // Albums
-                if (this.AlbumsCvs != null)
-                {
-                    this.AlbumsCvs.View.Refresh();
-                    this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
-                }
-            });
-
-            base.FilterLists();
         }
 
         protected async Task GetAlbumsAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, AlbumOrder albumOrder)
@@ -402,31 +347,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.collectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
         }
 
-        protected void ToggleAlbumOrder()
-        {
-            switch (this.AlbumOrder)
-            {
-                case AlbumOrder.Alphabetical:
-                    this.AlbumOrder = AlbumOrder.ByDateAdded;
-                    break;
-                case AlbumOrder.ByDateAdded:
-                    this.AlbumOrder = AlbumOrder.ByAlbumArtist;
-                    break;
-                case AlbumOrder.ByAlbumArtist:
-                    this.AlbumOrder = AlbumOrder.ByYear;
-                    break;
-                case AlbumOrder.ByYear:
-                    this.AlbumOrder = AlbumOrder.Alphabetical;
-                    break;
-                default:
-                    // Cannot happen, but just in case.
-                    this.AlbumOrder = AlbumOrder.Alphabetical;
-                    break;
-            }
-
-            OnPropertyChanged(() => this.OrderedByYear);
-        }
-
         protected async Task AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
@@ -504,6 +424,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async virtual Task SelectedAlbumsHandlerAsync(object parameter)
         {
+            // This method needs to be awaitable for use in child classes
+
             if (parameter != null)
             {
                 this.SelectedAlbums = new List<Album>();
@@ -515,6 +437,96 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
                 OnPropertyChanged(() => this.IsMultipleAlbumsSelected);
             }
+        }
+        #endregion
+
+        #region Overrides
+        protected override void SetEditCommands()
+        {
+            base.SetEditCommands();
+
+            if (this.EditAlbumCommand != null)
+            {
+                this.EditAlbumCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        protected override void FilterLists()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Albums
+                if (this.AlbumsCvs != null)
+                {
+                    this.AlbumsCvs.View.Refresh();
+                    this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
+                }
+            });
+
+            base.FilterLists();
+        }
+        #endregion
+
+        #region Virtual
+        protected virtual async Task SetCoversizeAsync(CoverSizeType coverSize)
+        {
+            await Task.Run(() =>
+            {
+                this.selectedCoverSize = coverSize;
+
+                switch (coverSize)
+                {
+                    case CoverSizeType.Small:
+                        this.CoverSize = Constants.CoverSmallSize;
+                        break;
+                    case CoverSizeType.Medium:
+                        this.CoverSize = Constants.CoverMediumSize;
+                        break;
+                    case CoverSizeType.Large:
+                        this.CoverSize = Constants.CoverLargeSize;
+                        break;
+                    default:
+                        this.CoverSize = Constants.CoverMediumSize;
+                        this.selectedCoverSize = CoverSizeType.Medium;
+                        break;
+                }
+
+                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
+                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
+
+                OnPropertyChanged(() => this.CoverSize);
+                OnPropertyChanged(() => this.AlbumWidth);
+                OnPropertyChanged(() => this.AlbumHeight);
+                OnPropertyChanged(() => this.UpscaledCoverSize);
+                OnPropertyChanged(() => this.IsSmallCoverSizeSelected);
+                OnPropertyChanged(() => this.IsMediumCoverSizeSelected);
+                OnPropertyChanged(() => this.IsLargeCoverSizeSelected);
+            });
+        }
+
+        protected virtual void ToggleAlbumOrder()
+        {
+            switch (this.AlbumOrder)
+            {
+                case AlbumOrder.Alphabetical:
+                    this.AlbumOrder = AlbumOrder.ByDateAdded;
+                    break;
+                case AlbumOrder.ByDateAdded:
+                    this.AlbumOrder = AlbumOrder.ByAlbumArtist;
+                    break;
+                case AlbumOrder.ByAlbumArtist:
+                    this.AlbumOrder = AlbumOrder.ByYear;
+                    break;
+                case AlbumOrder.ByYear:
+                    this.AlbumOrder = AlbumOrder.Alphabetical;
+                    break;
+                default:
+                    // Cannot happen, but just in case.
+                    this.AlbumOrder = AlbumOrder.Alphabetical;
+                    break;
+            }
+
+            OnPropertyChanged(() => this.OrderedByYear);
         }
         #endregion
     }

@@ -130,10 +130,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.SaveCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync());
             this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
-            this.SearchOnlineCommand = new DelegateCommand<string>((id) =>
-            {
-                this.PerformSearchOnline(id, this.track.ArtistName, this.track.TrackTitle);
-            });
+            this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
         }
 
         private async Task SaveLyricsInAudioFileAsync()
@@ -220,6 +217,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.lyricsLines = localLyricsLines;
                 OnPropertyChanged(() => this.LyricsLines);
             });
+        }
+        #endregion
+
+        #region Overrides
+        protected override void SearchOnline(string id)
+        {
+            this.providerService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
         }
         #endregion
     }

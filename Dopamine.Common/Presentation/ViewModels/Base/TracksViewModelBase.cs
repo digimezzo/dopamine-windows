@@ -13,6 +13,7 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.Unity;
 using Prism;
+using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections;
@@ -35,6 +36,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
+        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+
         public ObservableCollection<TrackViewModel> Tracks
         {
             get { return this.tracks; }
@@ -57,48 +60,15 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public TracksViewModelBase(IUnityContainer container) : base(container)
         {
+            // Commands
+            this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
+
+            // PubSub Events
+            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
         }
         #endregion
 
         #region Private
-        protected void ToggleTrackOrder()
-        {
-            switch (this.TrackOrder)
-            {
-                case TrackOrder.Alphabetical:
-                    this.TrackOrder = TrackOrder.ReverseAlphabetical;
-                    break;
-                case TrackOrder.ReverseAlphabetical:
-
-                    if (this.CanOrderByAlbum)
-                    {
-                        this.TrackOrder = TrackOrder.ByAlbum;
-                    }
-                    else
-                    {
-                        this.TrackOrder = TrackOrder.ByRating;
-                    }
-                    break;
-                case TrackOrder.ByAlbum:
-                    if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
-                    {
-                        this.TrackOrder = TrackOrder.ByRating;
-                    }
-                    else
-                    {
-                        this.TrackOrder = TrackOrder.Alphabetical;
-                    }
-                    break;
-                case TrackOrder.ByRating:
-                    this.TrackOrder = TrackOrder.Alphabetical;
-                    break;
-                default:
-                    // Cannot happen, but just in case.
-                    this.TrackOrder = TrackOrder.ByAlbum;
-                    break;
-            }
-        }
-
         private bool CheckAllSelectedTracksExist()
         {
             bool allSelectedTracksExist = true;
@@ -148,26 +118,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             TrackViewModel vm = e.Item as TrackViewModel;
             e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
-        }
-
-        /// <summary>
-        /// Virtual because each child ViewModel has its own set of Lists
-        /// </summary>
-        /// <remarks></remarks>
-        protected override void FilterLists()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // Tracks
-                if (this.TracksCvs != null)
-                {
-                    this.TracksCvs.View.Refresh();
-                    this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
-                }
-            });
-
-            this.SetSizeInformationAsync(this.TracksCvs);
-            this.ShowPlayingTrackAsync();
         }
 
         protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<Album> selectedAlbums, TrackOrder trackOrder)
@@ -357,7 +307,23 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         }
         #endregion
 
-        #region Override
+        #region Overrides
+        protected override void FilterLists()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Tracks
+                if (this.TracksCvs != null)
+                {
+                    this.TracksCvs.View.Refresh();
+                    this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
+                }
+            });
+
+            this.SetSizeInformationAsync(this.TracksCvs);
+            this.ShowPlayingTrackAsync();
+        }
+
         protected override void ConditionalScrollToPlayingTrack()
         {
             // Trigger ScrollToPlayingTrack only if set in the settings
@@ -611,7 +577,47 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.SelectedTracks != null && this.SelectedTracks.Count > 0)
             {
-                this.PerformSearchOnline(id, this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle);
+                this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
+            }
+        }
+        #endregion
+
+        #region Virtual
+        protected virtual void ToggleTrackOrder()
+        {
+            switch (this.TrackOrder)
+            {
+                case TrackOrder.Alphabetical:
+                    this.TrackOrder = TrackOrder.ReverseAlphabetical;
+                    break;
+                case TrackOrder.ReverseAlphabetical:
+
+                    if (this.CanOrderByAlbum)
+                    {
+                        this.TrackOrder = TrackOrder.ByAlbum;
+                    }
+                    else
+                    {
+                        this.TrackOrder = TrackOrder.ByRating;
+                    }
+                    break;
+                case TrackOrder.ByAlbum:
+                    if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
+                    {
+                        this.TrackOrder = TrackOrder.ByRating;
+                    }
+                    else
+                    {
+                        this.TrackOrder = TrackOrder.Alphabetical;
+                    }
+                    break;
+                case TrackOrder.ByRating:
+                    this.TrackOrder = TrackOrder.Alphabetical;
+                    break;
+                default:
+                    // Cannot happen, but just in case.
+                    this.TrackOrder = TrackOrder.ByAlbum;
+                    break;
             }
         }
         #endregion

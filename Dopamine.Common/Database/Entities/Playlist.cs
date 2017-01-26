@@ -19,7 +19,7 @@ namespace Dopamine.Common.Database.Entities
         }
         #endregion
 
-        #region Override
+        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
