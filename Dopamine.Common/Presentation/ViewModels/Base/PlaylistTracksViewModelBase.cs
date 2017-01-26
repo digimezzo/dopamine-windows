@@ -20,7 +20,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class NowPlayingViewModel : TracksViewModelBase, IDropTarget
+    public class PlaylistTracksViewModelBase : TracksViewModelBase, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;
@@ -42,7 +42,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public NowPlayingViewModel(IUnityContainer container) : base(container)
+        public PlaylistTracksViewModelBase(IUnityContainer container) : base(container)
         {
             // Commands
             this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());

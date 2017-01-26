@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
-    public class NowPlayingScreenPlaylistViewModel : NowPlayingViewModel
+    public class NowPlayingScreenPlaylistViewModel : PlaylistTracksViewModelBase
     {
         #region Construction
         public NowPlayingScreenPlaylistViewModel(IUnityContainer container) : base(container)
