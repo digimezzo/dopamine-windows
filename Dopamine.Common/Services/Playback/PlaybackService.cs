@@ -105,12 +105,12 @@ namespace Dopamine.Common.Services.Playback
 
         public PlayableTrack PlayingTrack
         {
-            get { return this.queueManager.CurrentTrack(); }
+            get { return this.queueManager.CurrentTrack().Value; }
         }
 
         public string PlayingTrackGuid
         {
-            get { return this.queueManager.CurrentTrackGuid(); }
+            get { return this.queueManager.CurrentTrack().Key; }
         }
 
         public double Progress
@@ -623,12 +623,12 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlaySelectedAsync(PlayableTrack track)
         {
-            await this.TryPlayAsync(track, null);
+            await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>( null, track));
         }
 
-        public async Task PlaySelectedAsync(string trackGuid)
+        public async Task PlaySelectedAsync(KeyValuePair<string, PlayableTrack> track)
         {
-            await this.TryPlayAsync(this.queueManager.GetTrack(trackGuid), trackGuid);
+            await this.TryPlayAsync(track);
         }
 
         public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
@@ -637,7 +637,7 @@ namespace Dopamine.Common.Services.Playback
 
             if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
             {
-                if (dequeueResult.NextAvailableTrack != null)
+                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string,PlayableTrack>)))
                 {
                     await this.TryPlayAsync(dequeueResult.NextAvailableTrack);
                 }
@@ -708,14 +708,11 @@ namespace Dopamine.Common.Services.Playback
         #region Private
         private async void Initialize()
         {
-            // Initialize the PlayerFactory
+            // PlayerFactory
             this.playerFactory = new PlayerFactory();
 
-            // Set initial volume
-            this.Volume = SettingsClient.Get<float>("Playback", "Volume");
-
-            // Set initial mute
-            this.SetMute(SettingsClient.Get<bool>("Playback", "Mute"));
+            // Settings
+            this.SetPlaybackSettings();
 
             // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
@@ -816,13 +813,13 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        private async Task StartPlaybackAsync(string trackGuid, PlayableTrack track, bool silent = false)
+        private async Task StartPlaybackAsync(KeyValuePair<string, PlayableTrack> track, bool silent = false)
         {
             // Settings
             this.SetPlaybackSettings();
 
             // Play the Track from its runtime path (current or temporary)
-            this.player = this.playerFactory.Create(Path.GetExtension(track.Path));
+            this.player = this.playerFactory.Create(Path.GetExtension(track.Value.Path));
 
             this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
@@ -831,10 +828,10 @@ namespace Dopamine.Common.Services.Playback
             // So if we go into the Catch when trying to play the Track,
             // at least, the next time TryPlayNext is called, it will know that 
             // we already tried to play this track and it can find the next Track.
-            this.queueManager.SetCurrentTrack(track, trackGuid);
+            this.queueManager.SetCurrentTrack(track);
 
             // Play the Track
-            await Task.Run(() => this.player.Play(track.Path));
+            await Task.Run(() => this.player.Play(track.Value.Path));
 
             // Start reporting progress
             this.progressTimer.Start();
@@ -844,9 +841,9 @@ namespace Dopamine.Common.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(PlayableTrack track, string trackGuid = null, bool silent = false)
+        private async Task<bool> TryPlayAsync(KeyValuePair<string,PlayableTrack> track, bool silent = false)
         {
-            if (track == null) return false;
+            if (track.Value == null) return false;
             if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
             this.OnLoadingTrack(true);
 
@@ -859,13 +856,13 @@ namespace Dopamine.Common.Services.Playback
                 this.StopPlayback();
 
                 // Check that the file exists
-                if (!System.IO.File.Exists(track.Path))
+                if (!System.IO.File.Exists(track.Value.Path))
                 {
-                    throw new FileNotFoundException(string.Format("File '{0}' was not found", track.Path));
+                    throw new FileNotFoundException(string.Format("File '{0}' was not found", track.Value.Path));
                 }
 
                 // Start playing
-                await this.StartPlaybackAsync(trackGuid, track, silent);
+                await this.StartPlaybackAsync(track, silent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this.isPlayingPreviousTrack);
@@ -873,7 +870,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
             }
             catch (FileNotFoundException fnfex)
             {
@@ -897,7 +894,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -913,21 +910,6 @@ namespace Dopamine.Common.Services.Playback
             this.LoadingTrack(isLoadingTrack);
         }
 
-        private async Task<bool> TryPlayNextAsync()
-        {
-            this.isPlayingPreviousTrack = false;
-
-            string nextTrackGuid = await this.queueManager.NextTrackAsync(this.LoopMode);
-
-            if (string.IsNullOrEmpty(nextTrackGuid))
-            {
-                this.Stop();
-                return true;
-            }
-
-            return await this.TryPlayAsync(this.queueManager.GetTrack(nextTrackGuid), nextTrackGuid);
-        }
-
         private async Task<bool> TryPlayPreviousAsync()
         {
             this.isPlayingPreviousTrack = true;
@@ -940,15 +922,30 @@ namespace Dopamine.Common.Services.Playback
                 return true;
             }
 
-            string previousTrackGuid = await this.queueManager.PreviousTrackAsync(this.LoopMode);
+            KeyValuePair<string, PlayableTrack> previousTrack = await this.queueManager.PreviousTrackAsync(this.LoopMode);
 
-            if (string.IsNullOrEmpty(previousTrackGuid))
+            if (previousTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
             {
                 this.Stop();
                 return true;
             }
 
-            return await this.TryPlayAsync(this.queueManager.GetTrack(previousTrackGuid), previousTrackGuid);
+            return await this.TryPlayAsync(previousTrack);
+        }
+
+        private async Task<bool> TryPlayNextAsync()
+        {
+            this.isPlayingPreviousTrack = false;
+
+            KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(this.LoopMode);
+
+            if (nextTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
+            {
+                this.Stop();
+                return true;
+            }
+
+            return await this.TryPlayAsync(nextTrack);
         }
 
         private void ProgressTimeoutHandler(object sender, ElapsedEventArgs e)
@@ -976,7 +973,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartTrackPausedAsync(PlayableTrack track, int progressSeconds)
         {
-            if (await this.TryPlayAsync(track, null, true))
+            if (await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>(null, track), true))
             {
                 await this.PauseAsync();
                 if (!this.mute) this.player.SetVolume(this.Volume);
@@ -1027,6 +1024,7 @@ namespace Dopamine.Common.Services.Playback
             this.Latency = SettingsClient.Get<int>("Playback", "AudioLatency");
             this.Volume = SettingsClient.Get<float>("Playback", "Volume");
             this.mute = SettingsClient.Get<bool>("Playback", "Mute");
+            this.shuffle = SettingsClient.Get<bool>("Playback", "Shuffle");
             this.EventMode = false;
             //this.EventMode = SettingsClient.Get<bool>("Playback", "WasapiEventMode");
             //this.ExclusiveMode = false;

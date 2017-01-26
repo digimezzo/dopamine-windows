@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
@@ -6,6 +7,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -44,7 +46,9 @@ namespace Dopamine.FullPlayerModule.Views
                 if (lb.SelectedItem == null)
                     return;
 
-                await this.playBackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).TrackGuid);
+                var selectedViewModel = (TrackViewModel)lb.SelectedItem;
+
+                await this.playBackService.PlaySelectedAsync(new KeyValuePair<string,PlayableTrack>(selectedViewModel.TrackGuid, selectedViewModel.Track));
             }
             catch (Exception ex)
             {
