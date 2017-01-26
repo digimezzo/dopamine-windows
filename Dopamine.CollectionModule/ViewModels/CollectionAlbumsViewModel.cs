@@ -1,17 +1,15 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -45,8 +43,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
 
             //  Commands
-            this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
-            this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async ()=>await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
@@ -133,9 +129,9 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.GetTracksAsync(null, null, null, this.TrackOrder);
         }
 
-        protected async override Task SelectedAlbumsHandlerAsync(object iParameter)
+        protected async override Task SelectedAlbumsHandlerAsync(object parameter)
         {
-            await base.SelectedAlbumsHandlerAsync(iParameter);
+            await base.SelectedAlbumsHandlerAsync(parameter);
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
             if (this.metadataService.IsUpdatingDatabaseMetadata) return;

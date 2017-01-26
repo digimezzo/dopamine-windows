@@ -85,23 +85,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
-        public bool HasContextMenuSearchProviders
-        {
-            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
-        }
-
-        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
-        {
-            get { return this.contextMenuSearchProviders; }
-            set
-            {
-                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
-                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
-            }
-        }
-
-        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
-
         public abstract bool CanOrderByAlbum { get; }
 
         public long TracksCount
@@ -219,11 +202,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
-            this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
-
-            // PubSub Events
-            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
             // Events
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -319,14 +298,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Protected
-        protected virtual void SetEditCommands()
-        {
-            this.IsIndexing = this.indexingService.IsIndexing;
-
-            if (this.EditTracksCommand != null) this.EditTracksCommand.RaiseCanExecuteChanged();
-            if (this.RemoveSelectedTracksCommand != null) this.RemoveSelectedTracksCommand.RaiseCanExecuteChanged();
-        }
-
         protected void UpdateTrackOrderText(TrackOrder trackOrder)
         {
             switch (trackOrder)
@@ -380,7 +351,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         }
         #endregion
 
-        #region Protected abstract
+        #region Virtual
+        protected virtual void SetEditCommands()
+        {
+            this.IsIndexing = this.indexingService.IsIndexing;
+
+            if (this.EditTracksCommand != null) this.EditTracksCommand.RaiseCanExecuteChanged();
+            if (this.RemoveSelectedTracksCommand != null) this.RemoveSelectedTracksCommand.RaiseCanExecuteChanged();
+        }
+        #endregion
+
+        #region Abstract
         protected abstract Task ShowPlayingTrackAsync();
         protected abstract void RefreshLanguage();
         protected abstract Task AddTracksToPlaylistAsync(string playlistName);
@@ -397,7 +378,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected abstract Task PlayNextAsync();
         protected abstract void EditSelectedTracks();
         protected abstract void SelectedTracksHandler(object parameter);
-        protected abstract void SearchOnline(string id);
         #endregion
     }
 }
