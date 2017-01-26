@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {
-    public class MiniPlayerPlaylistViewModel : NowPlayingViewModel
+    public class MiniPlayerPlaylistViewModel : PlaylistTracksViewModelBase
     {
         #region Construction
         public MiniPlayerPlaylistViewModel(IUnityContainer container) : base(container)
