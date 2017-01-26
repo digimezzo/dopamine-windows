@@ -14,7 +14,7 @@ namespace Dopamine.Common.Services.Playback
     public class QueueManager
     {
         #region Variables
-        private KeyValuePair<string,PlayableTrack> currentTrack;
+        private KeyValuePair<string, PlayableTrack> currentTrack;
         private object queueLock = new object();
         private OrderedDictionary<string, PlayableTrack> queue = new OrderedDictionary<string, PlayableTrack>(); // Queued tracks in original order
         private List<string> playbackOrder = new List<string>(); // Playback order of queued tracks
@@ -137,7 +137,7 @@ namespace Dopamine.Common.Services.Playback
             return firstTrack;
         }
 
-        public async Task<KeyValuePair<string,PlayableTrack>> PreviousTrackAsync(LoopMode loopMode)
+        public async Task<KeyValuePair<string, PlayableTrack>> PreviousTrackAsync(LoopMode loopMode)
         {
             KeyValuePair<string, PlayableTrack> previousTrack = default(KeyValuePair<string, PlayableTrack>);
 
@@ -161,7 +161,7 @@ namespace Dopamine.Common.Services.Playback
                                 if (currentTrackIndex > 0)
                                 {
                                     // If we didn't reach the start of the queue, return the previous track.
-                                    previousTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex-1], this.queue[this.playbackOrder[currentTrackIndex-1]]);
+                                    previousTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex - 1], this.queue[this.playbackOrder[currentTrackIndex - 1]]);
                                 }
                                 else if (loopMode == LoopMode.All)
                                 {
@@ -277,7 +277,7 @@ namespace Dopamine.Common.Services.Playback
                         int queueIndex = 0;
                         int playbackOrderIndex = 0;
 
-                        if (!this.currentTrack.Equals(default(KeyValuePair<string,PlayableTrack>)))
+                        if (!this.currentTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
                         {
                             queueIndex = this.queue.IndexOf(this.currentTrack.Key);
                             playbackOrderIndex = this.playbackOrder.IndexOf(this.currentTrack.Key);
@@ -358,73 +358,71 @@ namespace Dopamine.Common.Services.Playback
             return isQueueDifferent;
         }
 
-        public async Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks)
+        public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
         {
-            // TODO
             bool isSuccess = true;
-            var removedQueuedTracks = new List<PlayableTrack>();
-            var removedShuffledTracks = new List<PlayableTrack>();
-            int indexOfLastRemovedQueuedTrack = 0;
+            var dequeuedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+            int indexOfLastDeueuedTrack = 0;
             bool isPlayingTrackDequeued = false;
 
-            //await Task.Run(() =>
-            //{
-            //    lock (this.queueLock)
-            //    {
-            //        foreach (PlayableTrack t in tracks)
-            //        {
-            //            try
-            //            {
-            //                // Remove from this.queuedTracks. The index doesn't matter.
-            //                if (this.queuedTracks.Contains(t))
-            //                {
-            //                    this.queuedTracks.Remove(t);
-            //                    removedQueuedTracks.Add(t);
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                isSuccess = false;
-            //                LogClient.Error("Error while removing queued track with path='{0}'. Exception: {1}", t.Path, ex.Message);
-            //            }
-            //        }
+            await Task.Run(() =>
+            {
+                lock (this.queueLock)
+                {
+                    foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                    {
+                        try
+                        {
+                            if (this.queue.ContainsKey(track.Key))
+                            {
+                                // If the key is known, remove by key.
+                                this.queue.Remove(track.Key);
+                                dequeuedTracks.Add(track);
+                            }
+                            else
+                            {
+                                // If the key is not known, get all queued tracks which have the same path.
+                                List<KeyValuePair<string, PlayableTrack>> queuedTracksWithSamePath = this.queue.Select(t => t).Where(t => t.Value.SafePath.Equals(track.Value.SafePath)).ToList();
 
-            //        foreach (PlayableTrack removedQueuedTrack in removedQueuedTracks)
-            //        {
-            //            // Remove from this.shuffledTracks. The index does matter,
-            //            // as we might have to play the next available Track.
-            //            try
-            //            {
-            //                int indexOfCurrentRemovedQueuedTrack = this.shuffledTracks.IndexOf(removedQueuedTrack);
+                                // Remove all queued track which have the same path
+                                foreach (KeyValuePair<string, PlayableTrack> queuedTrackWithSamePath in queuedTracksWithSamePath)
+                                {
+                                    this.queue.Remove(queuedTrackWithSamePath.Key);
+                                    dequeuedTracks.Add(queuedTrackWithSamePath);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            isSuccess = false;
+                            LogClient.Error("Error while removing queued track with path='{0}'. Exception: {1}", track.Value.Path, ex.Message);
+                        }
+                    }
 
-            //                if (indexOfCurrentRemovedQueuedTrack >= 0)
-            //                {
-            //                    if (this.shuffledTracks[indexOfCurrentRemovedQueuedTrack].Equals(this.currentTrack))
-            //                    {
-            //                        isPlayingTrackDequeued = true;
-            //                    }
+                    foreach (KeyValuePair<string, PlayableTrack> dequeuedTrack in dequeuedTracks)
+                    {
+                        try
+                        {
+                            isPlayingTrackDequeued = dequeuedTrack.Value.Equals(this.currentTrack.Value);
+                            int indexOfCurrentDequeuedTrack = this.playbackOrder.IndexOf(dequeuedTrack.Key);
+                            if (indexOfCurrentDequeuedTrack < indexOfLastDeueuedTrack) indexOfLastDeueuedTrack = indexOfCurrentDequeuedTrack;
+                            this.playbackOrder.Remove(dequeuedTrack.Key);
+                        }
+                        catch (Exception ex)
+                        {
+                            isSuccess = false;
+                            LogClient.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", dequeuedTrack.Value.Path, ex.Message);
+                        }
+                    }
+                }
+            });
 
-            //                    PlayableTrack removedShuffledTrack = this.shuffledTracks[indexOfCurrentRemovedQueuedTrack];
-            //                    this.shuffledTracks.RemoveAt(indexOfCurrentRemovedQueuedTrack);
-            //                    removedShuffledTracks.Add(removedShuffledTrack);
-            //                    if (indexOfCurrentRemovedQueuedTrack < indexOfLastRemovedQueuedTrack) indexOfLastRemovedQueuedTrack = indexOfCurrentRemovedQueuedTrack;
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                isSuccess = false;
-            //                LogClient.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", removedQueuedTrack.Path, ex.Message);
-            //            }
-            //        }
-            //    }
-            //});
+            var dequeueResult = new DequeueResult { IsSuccess = isSuccess, DequeuedTracks = dequeuedTracks, IsPlayingTrackDequeued = isPlayingTrackDequeued };
 
-            var dequeueResult = new DequeueResult { IsSuccess = isSuccess, DequeuedTracks = removedShuffledTracks, IsPlayingTrackDequeued = isPlayingTrackDequeued };
-
-            //if (isSuccess & isPlayingTrackDequeued & this.shuffledTracks.Count > indexOfLastRemovedQueuedTrack)
-            //{
-            //    dequeueResult.NextAvailableTrack = this.shuffledTracks[indexOfLastRemovedQueuedTrack];
-            //}
+            if (isSuccess & isPlayingTrackDequeued & this.playbackOrder.Count > indexOfLastDeueuedTrack)
+            {
+                dequeueResult.NextAvailableTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[indexOfLastDeueuedTrack], this.queue[this.playbackOrder[indexOfLastDeueuedTrack]]);
+            }
 
             return dequeueResult;
         }

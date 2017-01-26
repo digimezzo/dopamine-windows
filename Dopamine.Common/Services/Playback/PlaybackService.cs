@@ -623,7 +623,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlaySelectedAsync(PlayableTrack track)
         {
-            await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>( null, track));
+            await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>(null, track));
         }
 
         public async Task PlaySelectedAsync(KeyValuePair<string, PlayableTrack> track)
@@ -633,11 +633,44 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
         {
+            IList<KeyValuePair<string, PlayableTrack>> trackPairs = new List<KeyValuePair<string, PlayableTrack>>();
+
+            await Task.Run(() =>
+            {
+                foreach (PlayableTrack track in tracks)
+                {
+                    // New Guids are created here, they will never be found in the queue.
+                    // QueueManager will dequeue all tracks which have a matching SafePath.
+                    trackPairs.Add(new KeyValuePair<string, PlayableTrack>(Guid.NewGuid().ToString(), track));
+                }
+            });
+
+            DequeueResult dequeueResult = await this.queueManager.DequeueAsync(trackPairs);
+
+            if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
+            {
+                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
+                {
+                    await this.TryPlayAsync(dequeueResult.NextAvailableTrack);
+                }
+                else
+                {
+                    this.Stop();
+                }
+            }
+
+            this.QueueChanged(this, new EventArgs());
+
+            return dequeueResult;
+        }
+
+        public async Task<DequeueResult> Dequeue(IList<KeyValuePair<string, PlayableTrack>> tracks)
+        {
             DequeueResult dequeueResult = await this.queueManager.DequeueAsync(tracks);
 
             if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
             {
-                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string,PlayableTrack>)))
+                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
                 {
                     await this.TryPlayAsync(dequeueResult.NextAvailableTrack);
                 }
@@ -841,7 +874,7 @@ namespace Dopamine.Common.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(KeyValuePair<string,PlayableTrack> track, bool silent = false)
+        private async Task<bool> TryPlayAsync(KeyValuePair<string, PlayableTrack> track, bool silent = false)
         {
             if (track.Value == null) return false;
             if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
