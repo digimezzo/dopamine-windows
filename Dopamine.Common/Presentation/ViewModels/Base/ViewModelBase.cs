@@ -80,8 +80,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Protected
-        
-
         protected void PerformSearchOnline(string id, string artist, string title)
         {
             this.providerService.SearchOnline(id, new string[] { artist, title });
