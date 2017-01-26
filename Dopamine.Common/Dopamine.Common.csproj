@@ -291,7 +291,7 @@
     <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\NowPlayingViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Base\PlaylistTracksViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
