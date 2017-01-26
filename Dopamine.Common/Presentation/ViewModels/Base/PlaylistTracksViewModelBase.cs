@@ -1,26 +1,19 @@
 ﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database;
-using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Metadata;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class PlaylistTracksViewModelBase : TracksViewModelBase, IDropTarget
+    public class PlaylistTracksViewModelBase : CommonViewModelBase, IDropTarget
     {
         #region Variables
         private bool allowFillAllLists = true;
@@ -44,129 +37,82 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public PlaylistTracksViewModelBase(IUnityContainer container) : base(container)
         {
-            // Commands
-            this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
+            //// Commands
+            //this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
-            // Events
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
+            //// Events
+            //this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
+            //this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
 
-            // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
+            //// PlaybackService
+            //this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
         }
         #endregion
 
         #region Private
         protected async Task GetTracksAsync()
         {
-            try
-            {
-                // Create new ObservableCollection
-                ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
-                OrderedDictionary<string, PlayableTrack> queuedTracks = this.playbackService.Queue;
+            //try
+            //{
+            //    // Create new ObservableCollection
+            //    ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
+            //    OrderedDictionary<string, PlayableTrack> queuedTracks = this.playbackService.Queue;
 
-                await Task.Run(() =>
-                {
-                    foreach (KeyValuePair<string, PlayableTrack> trackKvp in queuedTracks)
-                    {
-                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                        vm.Track = trackKvp.Value;
-                        vm.TrackGuid = trackKvp.Key;
-                        viewModels.Add(vm);
-                    }
-                });
+            //    await Task.Run(() =>
+            //    {
+            //        foreach (KeyValuePair<string, PlayableTrack> trackKvp in queuedTracks)
+            //        {
+            //            TrackViewModel vm = this.container.Resolve<TrackViewModel>();
+            //            vm.Track = trackKvp.Value;
+            //            vm.TrackGuid = trackKvp.Key;
+            //            viewModels.Add(vm);
+            //        }
+            //    });
 
-                // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
-                    this.TracksCvs = null;
-                    this.Tracks = null;
-                });
+            //    // Unbind to improve UI performance
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+            //        this.TracksCvs = null;
+            //        this.Tracks = null;
+            //    });
 
-                // Populate ObservableCollection
-                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+            //    // Populate ObservableCollection
+            //    Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
-                // Failed getting Tracks. Create empty ObservableCollection.
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.Tracks = new ObservableCollection<TrackViewModel>();
-                });
-            }
+            //    // Failed getting Tracks. Create empty ObservableCollection.
+            //    Application.Current.Dispatcher.Invoke(() =>
+            //    {
+            //        this.Tracks = new ObservableCollection<TrackViewModel>();
+            //    });
+            //}
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // Populate CollectionViewSource
-                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
-                this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    // Populate CollectionViewSource
+            //    this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+            //    this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
-                // Update count
-                this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
-            });
+            //    // Update count
+            //    this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
+            //});
 
-            // Update duration and size
-            this.SetSizeInformationAsync(this.TracksCvs);
+            //// Update duration and size
+            //this.SetSizeInformationAsync(this.TracksCvs);
 
 
-            // Show playing Track
-            this.ShowPlayingTrackAsync();
+            //// Show playing Track
+            //this.ShowPlayingTrackAsync();
         }
 
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             TrackViewModel vm = e.Item as TrackViewModel;
             e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
-        }
-
-        protected async override Task ShowPlayingTrackAsync()
-        {
-            if (this.playbackService.PlayingTrack == null)
-                return;
-
-            KeyValuePair<string, PlayableTrack> playingTrackPair = this.playbackService.PlayingTrackPair;
-
-            await Task.Run(() =>
-            {
-                if (this.Tracks != null)
-                {
-                    foreach (TrackViewModel vm in this.Tracks)
-                    {
-                        vm.IsPlaying = false;
-                        vm.IsPaused = true;
-
-                        if (vm.TrackGuid.Equals(playingTrackPair.Key))
-                        {
-                            if (!this.playbackService.IsStopped)
-                            {
-                                vm.IsPlaying = true;
-
-                                if (this.playbackService.IsPlaying)
-                                {
-                                    vm.IsPaused = false;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            this.ConditionalScrollToPlayingTrack();
-        }
-
-        private void ConditionalScrollToPlayingTrack()
-        {
-            // Trigger ScrollToPlayingTrack only if set in the settings
-            if (SettingsClient.Get<bool>("Behaviour", "FollowTrack"))
-            {
-                if (this.Tracks != null && this.Tracks.Count > 0)
-                {
-                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
-                }
-            }
         }
         #endregion
 
@@ -181,46 +127,46 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region public
         public async Task RemoveSelectedTracksFromNowPlayingAsync()
         {
-            this.allowFillAllLists = false;
+            //this.allowFillAllLists = false;
 
-            // Remove Tracks from PlaybackService (this dequeues the Tracks)
-            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
+            //// Remove Tracks from PlaybackService (this dequeues the Tracks)
+            //DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
 
-            var viewModelsToRemove = new List<TrackViewModel>();
+            //var viewModelsToRemove = new List<TrackViewModel>();
 
-            await Task.Run(() =>
-            {
-                // Collect the ViewModels to remove
-                foreach (TrackViewModel vm in this.Tracks)
-                {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.TrackGuid))
-                    {
-                        viewModelsToRemove.Add(vm);
-                    }
-                }
-            });
+            //await Task.Run(() =>
+            //{
+            //    // Collect the ViewModels to remove
+            //    foreach (TrackViewModel vm in this.Tracks)
+            //    {
+            //        if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.TrackGuid))
+            //        {
+            //            viewModelsToRemove.Add(vm);
+            //        }
+            //    }
+            //});
 
-            // Remove the ViewModels from Tracks (this updates the UI)
-            foreach (TrackViewModel vm in viewModelsToRemove)
-            {
-                this.Tracks.Remove(vm);
-            }
+            //// Remove the ViewModels from Tracks (this updates the UI)
+            //foreach (TrackViewModel vm in viewModelsToRemove)
+            //{
+            //    this.Tracks.Remove(vm);
+            //}
 
-            this.TracksCount = this.Tracks.Count;
+            //this.TracksCount = this.Tracks.Count;
 
-            if (!dequeueResult.IsSuccess)
-            {
-                this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    true,
-                    ResourceUtils.GetStringResource("Language_Log_File"));
-            }
+            //if (!dequeueResult.IsSuccess)
+            //{
+            //    this.dialogService.ShowNotification(
+            //        0xe711,
+            //        16,
+            //        ResourceUtils.GetStringResource("Language_Error"),
+            //        ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
+            //        ResourceUtils.GetStringResource("Language_Ok"),
+            //        true,
+            //        ResourceUtils.GetStringResource("Language_Log_File"));
+            //}
 
-            this.allowFillAllLists = true;
+            //this.allowFillAllLists = true;
         }
         #endregion
 
@@ -264,20 +210,87 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             isDroppingTracks = false;
         }
+        #endregion
+
+        #region Overrides
+        protected override void ConditionalScrollToPlayingTrack()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void RefreshLanguage()
         {
-            // Not required here
+            throw new NotImplementedException();
         }
 
         protected override void Subscribe()
         {
-            // Not required here
+            throw new NotImplementedException();
         }
 
         protected override void Unsubscribe()
         {
-            // Not required here
+            throw new NotImplementedException();
+        }
+
+        protected override Task AddTracksToPlaylistAsync(string playlistName)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void FilterLists()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MetadataService_RatingChangedAsync(RatingChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ShowSelectedTrackInformation()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task LoadedCommandAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task AddTracksToNowPlayingAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task PlayNextAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void EditSelectedTracks()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SelectedTracksHandler(object parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SearchOnline(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task ShowPlayingTrackAsync()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

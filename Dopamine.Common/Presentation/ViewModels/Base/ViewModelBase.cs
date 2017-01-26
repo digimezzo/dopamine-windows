@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class ViewModelBase : BindableBase
+    public class ViewModelBase : BindableBase
     {
         #region Variables
         // UnityContainer
         protected IUnityContainer container;
-
+        
         // Services
         protected IProviderService providerService;
 
@@ -23,23 +23,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         #region Commands
         public DelegateCommand<string> SearchOnlineCommand { get; set; }
-        #endregion
-
-        #region Properties
-        public bool HasContextMenuSearchProviders
-        {
-            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
-        }
-
-        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
-        {
-            get { return this.contextMenuSearchProviders; }
-            set
-            {
-                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
-                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
-            }
-        }
         #endregion
 
         #region Construction
@@ -60,6 +43,26 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Private
+        protected void PerformSearchOnline(string id, string artist, string title)
+        {
+            this.providerService.SearchOnline(id, new string[] { artist, title });
+        }
+
+        public bool HasContextMenuSearchProviders
+        {
+            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
+        }
+
+        public ObservableCollection<SearchProvider> ContextMenuSearchProviders
+        {
+            get { return this.contextMenuSearchProviders; }
+            set
+            {
+                SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
+                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
+            }
+        }
+
         private async void GetSearchProvidersAsync()
         {
             this.ContextMenuSearchProviders = null;
@@ -76,13 +79,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             });
 
             this.ContextMenuSearchProviders = localProviders;
-        }
-        #endregion
-
-        #region Protected
-        protected void PerformSearchOnline(string id, string artist, string title)
-        {
-            this.providerService.SearchOnline(id, new string[] { artist, title });
         }
         #endregion
     }

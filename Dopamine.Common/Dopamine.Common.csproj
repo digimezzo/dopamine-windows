@@ -272,6 +272,8 @@
     <Compile Include="Presentation\Utils\ScrollUtils.cs" />
     <Compile Include="Presentation\Utils\SemanticZoomUtils.cs" />
     <Compile Include="Presentation\Utils\SlidingContentControlRegionAdapter.cs" />
+    <Compile Include="Presentation\ViewModels\Base\ViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\Base\CommonViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Entities\AlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoViewModel.cs" />
@@ -279,7 +281,6 @@
     <Compile Include="Presentation\ViewModels\BackgroundCoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Base\AlbumsViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\TracksViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\CompactPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\CoverArtViewModel.cs" />
