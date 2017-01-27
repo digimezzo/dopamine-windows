@@ -145,8 +145,6 @@ namespace Dopamine.Common.Controls
             {
                 this.Rating = 5;
             }
-
-            // TODO: rating changed event?
         }
 
         private void AdjustmentStar0_MouseEnter(object sender, MouseEventArgs e)
