@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Dopamine.MiniPlayerModule.Views
 {
-    public partial class MiniPlayerPlaylist : TracksViewBase, INavigationAware
+    public partial class MiniPlayerPlaylist : PlaylistViewBase, INavigationAware
     {
         #region Variable
         private SubscriptionToken scrollToPlayingTrackToken;

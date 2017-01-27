@@ -2,6 +2,7 @@
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,7 +83,7 @@ namespace Dopamine.Common.Presentation.Utils
             grid.ScrollIntoView(itemObject);
         }
 
-        public static async Task ScrollToPlayingTrackAsync(ListBox box)
+        public static async Task ScrollToPlayingTrackAsync(ListBox box, Type itemType)
         {
             if (box == null) return;
 
@@ -94,10 +95,21 @@ namespace Dopamine.Common.Presentation.Utils
                 {
                     for (int i = 0; i <= box.Items.Count - 1; i++)
                     {
-                        if (((TrackViewModel)box.Items[i]).IsPlaying)
+                        if (itemType == typeof(TrackViewModel))
                         {
-                            itemObject = box.Items[i];
-                            break;
+                            if (((TrackViewModel)box.Items[i]).IsPlaying)
+                            {
+                                itemObject = box.Items[i];
+                                break;
+                            }
+                        }
+                        else if (itemType == typeof(KeyValuePair<string,TrackViewModel>))
+                        {
+                            if (((KeyValuePair<string, TrackViewModel>)box.Items[i]).Value.IsPlaying)
+                            {
+                                itemObject = box.Items[i];
+                                break;
+                            }
                         }
                     }
                 }

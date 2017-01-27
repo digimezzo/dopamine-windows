@@ -20,7 +20,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public abstract class PlaylistTracksViewModelBase : CommonViewModelBase, IDropTarget
+    public abstract class NowPlayingTracksViewModelBase : CommonViewModelBase, IDropTarget
     {
         #region Variables
         // Collections
@@ -58,7 +58,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public PlaylistTracksViewModelBase(IUnityContainer container) : base(container)
+        public NowPlayingTracksViewModelBase(IUnityContainer container) : base(container)
         {
             //// Commands
             this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
@@ -378,9 +378,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 this.SelectedTracks = new List<KeyValuePair<string,PlayableTrack>>();
 
-                foreach (KeyValuePair<string, PlayableTrack> item in (List<KeyValuePair<string, PlayableTrack>>)parameter)
+                System.Collections.IList items = (System.Collections.IList)parameter;
+                var collection = items.Cast<KeyValuePair<string, TrackViewModel>>();
+
+                foreach (KeyValuePair<string, TrackViewModel> item in collection)
                 {
-                    this.SelectedTracks.Add(item);
+                    this.SelectedTracks.Add(new KeyValuePair<string, PlayableTrack>(item.Key, item.Value.Track));
                 }
             }
         }
