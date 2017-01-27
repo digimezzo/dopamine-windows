@@ -23,6 +23,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
@@ -344,7 +345,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             if (this.CheckAllSelectedFilesExist(paths))
             {
                 Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
-                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(PlayableTrack), paths));
+                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
 
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,

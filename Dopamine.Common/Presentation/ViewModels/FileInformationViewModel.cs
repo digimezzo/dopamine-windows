@@ -133,21 +133,21 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public FileInformationViewModel(IMetadataService metaDataService, PlayableTrack selectedTrack)
+        public FileInformationViewModel(IMetadataService metaDataService, string path)
         {
             this.metaDataService = metaDataService;
 
-            this.GetFileMetadata(selectedTrack);
-            this.GetFileInformation(selectedTrack);
+            this.GetFileMetadata(path);
+            this.GetFileInformation(path);
         }
         #endregion
 
         #region Private
-        private void GetFileMetadata(PlayableTrack selectedTrack)
+        private void GetFileMetadata(string path)
         {
             try
             {
-                var fm = new FileMetadata(selectedTrack.Path);
+                var fm = new FileMetadata(path);
 
                 this.SongTitle = fm.Title.Value;
                 this.SongAlbum = fm.Album.Value;
@@ -166,15 +166,15 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private void GetFileInformation(PlayableTrack selectedTrack)
+        private void GetFileInformation(string path)
         {
             try
             {
-                this.FileName = FileUtils.Name(selectedTrack.Path);
-                this.FileFolder = FileUtils.Folder(selectedTrack.Path);
-                this.FilePath = selectedTrack.Path;
-                this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(selectedTrack.Path));
-                this.FileLastModified = FileUtils.DateModified(selectedTrack.Path).ToString("D", new CultureInfo(Application.Current.FindResource("Language_ISO639-1")?.ToString()));
+                this.FileName = FileUtils.Name(path);
+                this.FileFolder = FileUtils.Folder(path);
+                this.FilePath = path;
+                this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(path));
+                this.FileLastModified = FileUtils.DateModified(path).ToString("D", new CultureInfo(Application.Current.FindResource("Language_ISO639-1")?.ToString()));
             }
             catch (Exception ex)
             {
