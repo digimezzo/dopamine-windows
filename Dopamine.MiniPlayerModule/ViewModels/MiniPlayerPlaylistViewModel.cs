@@ -4,6 +4,7 @@ using Dopamine.Common.Prism;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+using System;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {
@@ -29,6 +30,16 @@ namespace Dopamine.MiniPlayerModule.ViewModels
                 await Task.Delay(Constants.MiniPlayerListLoadDelay); // Wait for the UI to slide in
                 await this.FillListsAsync(); // Fill all the lists
             }
+        }
+
+        protected override void Subscribe()
+        {
+            // Not required here
+        }
+
+        protected override void Unsubscribe()
+        {
+            // Not required here
         }
         #endregion
     }

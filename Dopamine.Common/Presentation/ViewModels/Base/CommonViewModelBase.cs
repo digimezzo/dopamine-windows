@@ -5,7 +5,7 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Prism;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.I18n;
@@ -85,8 +85,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
-        public abstract bool CanOrderByAlbum { get; }
-
         public long TracksCount
         {
             get { return this.tracksCount; }
@@ -195,12 +193,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private void Initialize()
         {
             // Commands
-            this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName));
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
-            this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
-            this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
 
@@ -222,13 +217,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
             this.metadataService.LoveChanged += MetadataService_LoveChangedAsync;
-
-            this.i18nService.LanguageChanged += (_, __) =>
-            {
-                OnPropertyChanged(() => this.TotalDurationInformation);
-                OnPropertyChanged(() => this.TotalSizeInformation);
-                this.RefreshLanguage();
-            };
 
             // Flags
             this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
@@ -322,6 +310,82 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             OnPropertyChanged(() => this.TrackOrderText);
         }
+
+        protected bool CheckAllSelectedFilesExist(List<string> paths)
+        {
+            bool allSelectedTracksExist = true;
+
+            foreach (string path in paths)
+            {
+                if (!System.IO.File.Exists(path))
+                {
+                    allSelectedTracksExist = false;
+                    break;
+                }
+            }
+
+            if (!allSelectedTracksExist)
+            {
+                string message = ResourceUtils.GetStringResource("Language_Song_Cannot_Be_Found_Refresh_Collection");
+                if (paths.Count > 1) message = ResourceUtils.GetStringResource("Language_Songs_Cannot_Be_Found_Refresh_Collection");
+
+                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+                {
+                    this.indexingService.NeedsIndexing = true;
+                    this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+                }
+            }
+
+            return allSelectedTracksExist;
+        }
+
+        protected void ShowFileInformation(List<string> paths)
+        {
+            if (this.CheckAllSelectedFilesExist(paths))
+            {
+                Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
+                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(PlayableTrack), paths));
+
+                this.dialogService.ShowCustomDialog(
+                    0xe8d6,
+                    16,
+                    ResourceUtils.GetStringResource("Language_Information"),
+                    view,
+                    400,
+                    620,
+                    true,
+                    true,
+                    true,
+                    false,
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    string.Empty,
+                    null);
+            }
+        }
+
+        protected void EditFiles(List<string> paths)
+        {
+            if (this.CheckAllSelectedFilesExist(paths))
+            {
+                EditTrack view = this.container.Resolve<EditTrack>();
+                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
+
+                this.dialogService.ShowCustomDialog(
+                    0xe104,
+                    14,
+                    ResourceUtils.GetStringResource("Language_Edit_Song"),
+                    view,
+                    620,
+                    660,
+                    false,
+                    false,
+                    false,
+                    true,
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
+            }
+        }
         #endregion
 
         #region INavigationAware
@@ -362,11 +426,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Abstract
-        protected abstract Task ShowPlayingTrackAsync();
-        protected abstract void RefreshLanguage();
-        protected abstract Task AddTracksToPlaylistAsync(string playlistName);
         protected abstract void Subscribe();
         protected abstract void Unsubscribe();
+        protected abstract Task ShowPlayingTrackAsync();
         protected abstract Task FillListsAsync();
         protected abstract void FilterLists();
         protected abstract void ConditionalScrollToPlayingTrack();
@@ -374,8 +436,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected abstract void MetadataService_LoveChangedAsync(LoveChangedEventArgs e);
         protected abstract void ShowSelectedTrackInformation();
         protected abstract Task LoadedCommandAsync();
-        protected abstract Task AddTracksToNowPlayingAsync();
-        protected abstract Task PlayNextAsync();
         protected abstract void EditSelectedTracks();
         protected abstract void SelectedTracksHandler(object parameter);
         #endregion

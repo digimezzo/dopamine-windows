@@ -7,7 +7,6 @@ using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
@@ -36,6 +35,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
+        public abstract bool CanOrderByAlbum { get; }
+
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
 
         public ObservableCollection<TrackViewModel> Tracks
@@ -62,39 +63,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
+            this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName));
+            this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
+            this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
             // PubSub Events
             this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
-        }
-        #endregion
 
-        #region Private
-        private bool CheckAllSelectedTracksExist()
-        {
-            bool allSelectedTracksExist = true;
-
-            foreach (PlayableTrack trk in this.SelectedTracks)
+            // Events
+            this.i18nService.LanguageChanged += (_, __) =>
             {
-                if (!System.IO.File.Exists(trk.Path))
-                {
-                    allSelectedTracksExist = false;
-                    break;
-                }
-            }
-
-            if (!allSelectedTracksExist)
-            {
-                string message = ResourceUtils.GetStringResource("Language_Song_Cannot_Be_Found_Refresh_Collection");
-                if (this.SelectedTracks.Count > 1) message = ResourceUtils.GetStringResource("Language_Songs_Cannot_Be_Found_Refresh_Collection");
-
-                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
-                {
-                    this.indexingService.NeedsIndexing = true;
-                    this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
-                }
-            }
-
-            return allSelectedTracksExist;
+                OnPropertyChanged(() => this.TotalDurationInformation);
+                OnPropertyChanged(() => this.TotalSizeInformation);
+                this.RefreshLanguage();
+            };
         }
         #endregion
 
@@ -305,6 +287,30 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             OnPropertyChanged(() => this.TotalDurationInformation);
             OnPropertyChanged(() => this.TotalSizeInformation);
         }
+
+        protected async Task PlayNextAsync()
+        {
+            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+
+            EnqueueResult result = await this.playbackService.AddToQueueNext(selectedTracks);
+
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+        }
+
+        protected async Task AddTracksToNowPlayingAsync()
+        {
+            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+
+            EnqueueResult result = await this.playbackService.AddToQueue(selectedTracks);
+
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+        }
         #endregion
 
         #region Overrides
@@ -338,8 +344,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingTrack == null)
-                return;
+            if (this.playbackService.PlayingTrack == null) return;
 
             string path = this.playbackService.PlayingTrack.Path;
 
@@ -371,7 +376,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.ConditionalScrollToPlayingTrack();
         }
 
-        protected async override Task AddTracksToPlaylistAsync(string playlistName)
+        protected async Task AddTracksToPlaylistAsync(string playlistName)
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks;
 
@@ -477,26 +482,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // Don't try to show the file information when nothing is selected
             if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
 
-            if (this.CheckAllSelectedTracksExist())
-            {
-                Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
-                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(PlayableTrack), this.SelectedTracks.First()));
-
-                this.dialogService.ShowCustomDialog(
-                    0xe8d6,
-                    16,
-                    ResourceUtils.GetStringResource("Language_Information"),
-                    view,
-                    400,
-                    620,
-                    true,
-                    true,
-                    true,
-                    false,
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    string.Empty,
-                    null);
-            }
+            this.ShowFileInformation(this.SelectedTracks.Select(t => t.Path).ToList());
         }
 
         protected async override Task LoadedCommandAsync()
@@ -510,54 +496,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async override Task AddTracksToNowPlayingAsync()
-        {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
-
-            EnqueueResult result = await this.playbackService.AddToQueue(selectedTracks);
-
-            if (!result.IsSuccess)
-            {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-            }
-        }
-
-        protected async override Task PlayNextAsync()
-        {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
-
-            EnqueueResult result = await this.playbackService.AddToQueueNext(selectedTracks);
-
-            if (!result.IsSuccess)
-            {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-            }
-        }
-
         protected override void EditSelectedTracks()
         {
             if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
 
-            if (this.CheckAllSelectedTracksExist())
-            {
-                EditTrack view = this.container.Resolve<EditTrack>();
-                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<PlayableTrack>), this.SelectedTracks));
-
-                this.dialogService.ShowCustomDialog(
-                    0xe104,
-                    14,
-                    ResourceUtils.GetStringResource("Language_Edit_Song"),
-                    view,
-                    620,
-                    660,
-                    false,
-                    false,
-                    false,
-                    true,
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    ResourceUtils.GetStringResource("Language_Cancel"),
-                ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
-            }
+            this.EditFiles(this.SelectedTracks.Select(t => t.Path).ToList());
         }
 
         protected override void SelectedTracksHandler(object parameter)
@@ -620,6 +563,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
         }
+        #endregion
+
+        #region Abstract
+        protected abstract void RefreshLanguage();
         #endregion
     }
 }

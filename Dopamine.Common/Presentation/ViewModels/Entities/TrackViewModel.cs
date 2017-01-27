@@ -12,7 +12,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
         private PlayableTrack track;
-        private string trackGuid;
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
@@ -74,12 +73,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         #endregion
 
         #region Properties
-        public string TrackGuid
-        {
-            get { return this.trackGuid; }
-            set { SetProperty<string>(ref this.trackGuid, value); }
-        }
-
         public bool HasLyrics
         {
             get

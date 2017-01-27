@@ -292,7 +292,7 @@
     <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Base\PlaylistTracksViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
@@ -315,6 +315,8 @@
     <Compile Include="Presentation\Views\BackgroundCoverArtControl.xaml.cs">
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\Base\CommonViewBase.cs" />
+    <Compile Include="Presentation\Views\Base\NowPlayingViewBase.cs" />
     <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
     <Compile Include="Presentation\Views\Base\VolumeControlViewBase.cs" />
     <Compile Include="Presentation\Views\CompactPlaybackControls.xaml.cs">

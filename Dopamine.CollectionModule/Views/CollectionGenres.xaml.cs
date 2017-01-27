@@ -80,45 +80,45 @@ namespace Dopamine.CollectionModule.Views
 
         private async void ListBoxGenres_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
         }
 
         private async void ListBoxGenres_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+                await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
             }
         }
 
         private async void ListBoxAlbums_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
         }
 
         private async void ListBoxAlbums_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+                await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
             }
         }
 
         private async void ListBoxTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
         }
 
         private async void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
         {
-            await this.TracksKeyUpHandlerAsync(sender, e);
+            await this.KeyUpHandlerAsync(sender, e);
         }
 
         private async void ListBoxTracks_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, true);
+                await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
             }
         }
 

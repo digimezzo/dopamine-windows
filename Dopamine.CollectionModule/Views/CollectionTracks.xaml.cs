@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionTracks : TracksViewBase, INavigationAware
+    public partial class CollectionTracks : CommonViewBase, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;
@@ -45,47 +45,12 @@ namespace Dopamine.CollectionModule.Views
         #region Private
         private async void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            await this.DataGridActionHandler(sender);
-        }
-
-        private async Task ScrollToPlayingTrackAsync(DataGrid dataGrid)
-        {
-            // This should provide a smoother experience because after this wait,
-            // other animations on the UI should have finished executing.
-            await Task.Delay(Convert.ToInt32(Constants.ScrollToPlayingTrackTimeoutSeconds * 1000));
-
-            try
-            {
-                await Application.Current.Dispatcher.Invoke(async () =>
-                {
-                    await ScrollUtils.ScrollToPlayingTrackAsync(dataGrid);
-                });
-
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
-            }
-        }
-
-        private void ViewInExplorer(DataGrid iDataGrid)
-        {
-            if (iDataGrid.SelectedItem != null)
-            {
-                try
-                {
-                    Actions.TryViewInExplorer(((TrackViewModel)iDataGrid.SelectedItem).Track.Path);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not view Track in Windows Explorer. Exception: {0}", ex.Message);
-                }
-            }
+            await this.ActionHandler(sender, null, false);
         }
 
         private async void DataGridTracks_KeyUp(object sender, KeyEventArgs e)
         {
-            await this.TracksKeyUpHandlerAsync(sender, e);
+            await this.KeyUpHandlerAsync(sender, e);
         }
 
         private async void DataGridTracks_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -123,8 +88,39 @@ namespace Dopamine.CollectionModule.Views
         }
         #endregion
 
-        #region Protected
-        protected async Task TracksKeyUpHandlerAsync(object sender, KeyEventArgs e)
+        #region INavigationAware
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.Unsubscribe();
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.Subscribe();
+            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Tracks);
+        }
+        #endregion
+
+        #region Overrides
+        protected async override Task ActionHandler(Object sender, DependencyObject source, bool enqueue)
+        {
+            try
+            {
+                var dg = VisualTreeUtils.FindAncestor<DataGrid>((DataGridRow)sender);
+                await this.playBackService.Enqueue(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
+            }
+        }
+
+        protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
 
@@ -145,23 +141,45 @@ namespace Dopamine.CollectionModule.Views
                 this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
             }
         }
-        #endregion
 
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
+        protected override async Task ScrollToPlayingTrackAsync(object sender)
         {
-            return true;
+            try
+            {
+                // Cast sender to ListBox
+                DataGrid dg = (DataGrid)sender;
+
+                // This should provide a smoother experience because after this wait,
+                // other animations on the UI should have finished executing.
+                await Task.Delay(Convert.ToInt32(Constants.ScrollToPlayingTrackTimeoutSeconds * 1000));
+
+                await Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    await ScrollUtils.ScrollToPlayingTrackAsync(dg);
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+            }
         }
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
+        protected override void ViewInExplorer(object sender)
         {
-            this.Unsubscribe();
-        }
+            try
+            {
+                // Cast sender to DataGrid
+                DataGrid dg = (DataGrid)sender;
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.Subscribe();
-            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Tracks);
+                if (dg.SelectedItem != null)
+                {
+                    Actions.TryViewInExplorer(((TrackViewModel)dg.SelectedItem).Track.Path);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+            }
         }
         #endregion
     }

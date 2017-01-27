@@ -22,7 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool isBusy;
-        private IList<PlayableTrack> tracks;
+        private IList<string> paths;
         private IMetadataService metadataService;
         private IDialogService dialogService;
 
@@ -64,19 +64,19 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                string dialogTitle = this.tracks.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
+                string dialogTitle = this.paths.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
                 return dialogTitle.ToLower();
             }
         }
 
         public string MultipleTracksWarningText
         {
-            get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.tracks.Count.ToString()); }
+            get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.paths.Count.ToString()); }
         }
 
         public bool ShowMultipleTracksWarning
         {
-            get { return this.tracks.Count > 1; }
+            get { return this.paths.Count > 1; }
         }
 
         public bool HasArtwork
@@ -214,7 +214,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditTrackViewModel(IList<PlayableTrack> tracks, IMetadataService metadataService, IDialogService dialogService)
+        public EditTrackViewModel(IList<string> paths, IMetadataService metadataService, IDialogService dialogService)
         {
             this.multipleValuesText = "<"+ ResourceUtils.GetStringResource("Language_Multiple_Values")+">";
 
@@ -233,7 +233,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.lyrics = new MetadataValue();
             this.artwork = new MetadataArtworkValue();
 
-            this.tracks = tracks;
+            this.paths = paths;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
 
@@ -304,9 +304,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                foreach (PlayableTrack t in this.tracks)
+                foreach (string path in this.paths)
                 {
-                    fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(t.Path));
+                    fileMetadatas.Add(await this.metadataService.GetFileMetadataAsync(path));
                 }
             }
             catch (Exception ex)
@@ -483,9 +483,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 try
                 {
-                    foreach (PlayableTrack t in this.tracks)
+                    foreach (string path in this.paths)
                     {
-                        var fmd = this.metadataService.GetFileMetadata(t.Path);
+                        var fmd = this.metadataService.GetFileMetadata(path);
 
                         if (this.artists.IsValueChanged) fmd.Artists = this.artists;
                         if (this.title.IsValueChanged) fmd.Title = this.title;
