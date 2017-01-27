@@ -9,17 +9,88 @@
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter" />
-    <converters:AddValueConverter x:Key="AddValueConverter" />
-    <converters:PathToImageConverter x:Key="PathToImageConverter" />
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
-    <!-- 
-    It is necessary to split up the ContextMenu Styles per ListBox. As each DataContext.*Command only ever gets
-    fired only in the ViewModel which fired the command the first time. I have no idea why this happens.
-    -->
+    <!-- ContextMenu -->
+    <ContextMenu x:Key="ListBoxTracksContextMenu">
+        <ContextMenu.Resources>
+            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        </ContextMenu.Resources>
 
-    <!-- Shared -->
+        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
+        <MenuItem
+            InputGestureText="" 
+            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Edit}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddTracksToPlaylistCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+            <MenuItem.ItemsSource>
+                <CompositeCollection>
+                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
+                    <Separator/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
+                </CompositeCollection>
+            </MenuItem.ItemsSource>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <Separator/>
 
+        <MenuItem 
+            InputGestureText="{DynamicResource Language_Key_Del}" 
+            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Remove}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <MenuItem>
+            <MenuItem.Command>
+                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+            </MenuItem.Command>
+            <MenuItem.Visibility>
+                <Binding Path="DataContext.ShowRemoveFromDisk" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Converter="{StaticResource BooleanToCollapsedConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+            </MenuItem.Visibility>
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+    </ContextMenu>
+
+    <!-- GroupItem -->
     <Style x:Key="TracksHeader" TargetType="{x:Type GroupItem}">
         <Setter Property="Template">
             <Setter.Value>
@@ -61,7 +132,9 @@
         </Setter>
     </Style>
 
+    <!-- ListBoxItem -->
     <Style x:Key="ListBoxTracksItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="ContextMenu" Value="{StaticResource ListBoxTracksContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -94,40 +167,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="NowPlayingListBoxTracksItem" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Margin" Value="0,0,0,2" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource RG_InactiveForegroundBrush}"  Visibility="Collapsed"/>
-                        <ContentPresenter/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
-                        </Trigger>
-                        <DataTrigger Binding="{Binding Value.IsPlaying}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}" />
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
-                        </DataTrigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    <!-- ListBox -->
     <Style x:Key="ListBoxTracks" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxTracksItem}" />
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -189,7 +231,6 @@
                                                TextTrimming="CharacterEllipsis"
                                                Margin="2,0,0,0"
                                                FontSize="13"/>
-
                                 </DockPanel>
                             </DockPanel>
                         </Border>
@@ -197,540 +238,5 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="ListBoxTracksPlaylist" TargetType="{x:Type ListBox}">
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
-                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                        <Border.ToolTip>
-                            <ToolTip>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding ArtistName}"/>
-                                </StackPanel>
-                            </ToolTip>
-                        </Border.ToolTip>
-                        <DockPanel>
-                            <Border MinWidth="20" Height="38">
-                                <TextBlock 
-                                        Text="{Binding FormattedTrackNumber}" 
-                                        Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"
-                                        FontSize="13"/>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center" Height="38">
-                                <DockPanel Height="19">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        <Label Style="{DynamicResource SpectrumAnimation}"
-                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                                   Margin="0,0,10,0" 
-                                                   VerticalAlignment="Center"/>
-                                        <TextBlock
-                                                Text="{Binding Duration}" 
-                                                TextAlignment="Right"
-                                                FontSize="13" 
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,2,0"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding TrackTitle}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="13"/>
-                                </DockPanel>
-                                <DockPanel Height="19">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                        <controls:RatingButton 
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        <controls:LoveButton 
-                                            Margin="10,0,0,0"
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding ArtistName}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="11"
-                                               Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ListBoxTracksNowPlaying" TargetType="{x:Type ListBox}">
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
-                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                        <Border.ToolTip>
-                            <ToolTip>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Value.TrackTitle}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Value.ArtistName}"/>
-                                </StackPanel>
-                            </ToolTip>
-                        </Border.ToolTip>
-                        <DockPanel>
-                            <Border MinWidth="20" Height="38">
-                                <TextBlock 
-                                        Text="{Binding Value.FormattedTrackNumber}" 
-                                        Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"
-                                        FontSize="13"/>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center" Height="38">
-                                <DockPanel Height="19">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        <Label Style="{DynamicResource SpectrumAnimation}"
-                                                   Visibility="{Binding Value.IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   IsHitTestVisible="{Binding Value.IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                                   Margin="0,0,10,0" 
-                                                   VerticalAlignment="Center"/>
-                                        <TextBlock
-                                                Text="{Binding Value.Duration}" 
-                                                TextAlignment="Right"
-                                                FontSize="13" 
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,2,0"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Value.TrackTitle}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="13"/>
-                                </DockPanel>
-                                <DockPanel Height="19">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                        <controls:RatingButton 
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        <controls:LoveButton 
-                                            Margin="10,0,0,0"
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Value.ArtistName}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="11"
-                                               Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Artists screen -->
-    <ContextMenu x:Key="Artists_ListBoxTracksContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddTracksToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-
-        <MenuItem 
-            InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <MenuItem>
-            <MenuItem.Command>
-                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-            </MenuItem.Command>
-            <MenuItem.Visibility>
-                <Binding Path="DataContext.ShowRemoveFromDisk" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Converter="{StaticResource BooleanToCollapsedConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
-            </MenuItem.Visibility>
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="Artists_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Artists_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Artists_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracks}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Artists_ListBoxTracksItem}" />
-    </Style>
-
-    <!-- Albums screen  -->
-    <ContextMenu x:Key="Albums_ListBoxTracksContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddTracksToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem 
-            InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <MenuItem>
-            <MenuItem.Command>
-                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-            </MenuItem.Command>
-            <MenuItem.Visibility>
-                <Binding Path="DataContext.ShowRemoveFromDisk" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Converter="{StaticResource BooleanToCollapsedConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
-            </MenuItem.Visibility>
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="Albums_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Albums_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Albums_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracks}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Albums_ListBoxTracksItem}" />
-    </Style>
-
-    <!-- Genres screen  -->
-    <ContextMenu x:Key="Genres_ListBoxTracksContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddTracksToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem 
-            InputGestureText="{DynamicResource Language_Key_Del}" 
-            Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <MenuItem>
-            <MenuItem.Command>
-                <Binding Path="DataContext.RemoveSelectedTracksFromDiskCommand" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-            </MenuItem.Command>
-            <MenuItem.Visibility>
-                <Binding Path="DataContext.ShowRemoveFromDisk" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Converter="{StaticResource BooleanToCollapsedConverter}" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
-            </MenuItem.Visibility>
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Remove_From_Disk}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="Genres_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Genres_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Genres_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracks}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Genres_ListBoxTracksItem}" />
-    </Style>
-
-    <!-- Mini Player playlist screen -->
-    <ContextMenu x:Key="MiniPlayer_ListBoxTracksContextMenu">
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="MiniPlayer_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource MiniPlayer_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="MiniPlayer_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource MiniPlayer_ListBoxTracksItem}" />
-    </Style>
-
-    <!-- Now playing screen playlist screen -->
-    <ContextMenu x:Key="NowPlaying_ListBoxTracksContextMenu">
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Now_Playing}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveFromNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="NowPlaying_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NowPlayingListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource NowPlaying_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="NowPlaying_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksNowPlaying}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource NowPlaying_ListBoxTracksItem}" />
-    </Style>
-
-    <!-- Playlists screen -->
-    <ContextMenu x:Key="Playlists_ListBoxTracksContextMenu">
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                    <Setter Property="CommandParameter" Value="{Binding Id}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Playlist}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-    </ContextMenu>
-
-    <Style x:Key="Playlists_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Playlists_ListBoxTracksContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Playlists_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Playlists_ListBoxTracksItem}" />
     </Style>
 </ResourceDictionary>

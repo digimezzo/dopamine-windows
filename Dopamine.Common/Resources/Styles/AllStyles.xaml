@@ -16,7 +16,9 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxArtists.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxFolders.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxGenres.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxNowPlayingTracks.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxPlaylists.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxPlaylistTracks.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxSemanticZoom.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxSimilarArtists.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxTracks.xaml" />
