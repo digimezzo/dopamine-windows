@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Helpers;
@@ -193,43 +194,42 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.isRemovingTracks = true;
 
-            // TODO
-            //// Remove Tracks from PlaybackService (this dequeues the Tracks)
-            //DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
+            // Remove Tracks from PlaybackService (this dequeues the Tracks)
+            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
 
-            //var viewModelsToRemove = new List<TrackViewModel>();
+            var viewModelsToRemove = new List<KeyValuePair<string, TrackViewModel>>();
 
-            //await Task.Run(() =>
-            //{
-            //    // Collect the ViewModels to remove
-            //    foreach (TrackViewModel vm in this.Tracks)
-            //    {
-            //        if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.TrackGuid))
-            //        {
-            //            viewModelsToRemove.Add(vm);
-            //        }
-            //    }
-            //});
+            await Task.Run(() =>
+            {
+                // Collect the ViewModels to remove
+                foreach (KeyValuePair<string,TrackViewModel> vm in this.Tracks)
+                {
+                    if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.Key))
+                    {
+                        viewModelsToRemove.Add(vm);
+                    }
+                }
+            });
 
-            //// Remove the ViewModels from Tracks (this updates the UI)
-            //foreach (TrackViewModel vm in viewModelsToRemove)
-            //{
-            //    this.Tracks.Remove(vm);
-            //}
+            // Remove the ViewModels from Tracks (this updates the UI)
+            foreach (KeyValuePair<string, TrackViewModel> vm in viewModelsToRemove)
+            {
+                this.Tracks.Remove(vm);
+            }
 
-            //this.TracksCount = this.Tracks.Count;
+            this.TracksCount = this.Tracks.Count;
 
-            //if (!dequeueResult.IsSuccess)
-            //{
-            //    this.dialogService.ShowNotification(
-            //        0xe711,
-            //        16,
-            //        ResourceUtils.GetStringResource("Language_Error"),
-            //        ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
-            //        ResourceUtils.GetStringResource("Language_Ok"),
-            //        true,
-            //        ResourceUtils.GetStringResource("Language_Log_File"));
-            //}
+            if (!dequeueResult.IsSuccess)
+            {
+                this.dialogService.ShowNotification(
+                    0xe711,
+                    16,
+                    ResourceUtils.GetStringResource("Language_Error"),
+                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    true,
+                    ResourceUtils.GetStringResource("Language_Log_File"));
+            }
 
             this.isRemovingTracks = false;
         }
