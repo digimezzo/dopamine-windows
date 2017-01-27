@@ -64,17 +64,17 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.refreshTimer.Start();
             };
 
-            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
+            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.CurrentTrack.Value);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
+            this.RefreshCoverArtAsync(this.playbackService.CurrentTrack.Value);
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshCoverArtAsync(this.playbackService.PlayingTrack);
+            this.RefreshCoverArtAsync(this.playbackService.CurrentTrack.Value);
         }
         #endregion
 

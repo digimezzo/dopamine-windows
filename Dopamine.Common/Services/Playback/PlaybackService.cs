@@ -103,14 +103,14 @@ namespace Dopamine.Common.Services.Playback
             get { return this.queueManager.Queue; }
         }
 
-        public PlayableTrack PlayingTrack
-        {
-            get { return this.queueManager.CurrentTrack().Value; }
-        }
-
-        public KeyValuePair<string, PlayableTrack> PlayingTrackPair
+        public KeyValuePair<string, PlayableTrack> CurrentTrack
         {
             get { return this.queueManager.CurrentTrack(); }
+        }
+
+        public bool HasCurrentTrack
+        {
+            get { return !this.queueManager.CurrentTrack().Equals(default(KeyValuePair<string, PlayableTrack>)) && this.queueManager.CurrentTrack().Value != null; }
         }
 
         public double Progress
@@ -240,13 +240,13 @@ namespace Dopamine.Common.Services.Playback
             {
                 // Check if there is a Track playing
 
-                if (this.player != null && this.player.CanStop && this.PlayingTrack != null && this.PlayingTrack.Duration != null)
+                if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Value.Duration != null)
                 {
                     // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by CSCore.
-                    if (this.PlayingTrack.Duration > this.player.GetTotalTime().TotalMilliseconds)
+                    if (this.CurrentTrack.Value.Duration > this.player.GetTotalTime().TotalMilliseconds)
                     {
                         // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
-                        return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.PlayingTrack.Duration));
+                        return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Duration));
                     }
                     else
                     {
@@ -313,7 +313,7 @@ namespace Dopamine.Common.Services.Playback
         #region IPlaybackService
         public async Task StopIfPlayingAsync(PlayableTrack track)
         {
-            if (track.Equals(this.PlayingTrack))
+            if (track.Equals(this.CurrentTrack))
             {
                 if (this.Queue.Count == 1)
                     this.Stop();
@@ -477,26 +477,27 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayNextAsync()
         {
-            try
+            if (this.HasCurrentTrack)
             {
-                if (this.PlayingTrack != null)
+                try
                 {
                     int currentTime = this.GetCurrentTime.Seconds;
                     int totalTime = this.GetTotalTime.Seconds;
 
                     if (currentTime <= 10)
                     {
-                        await this.UpdatePlaybackCountersAsync(this.PlayingTrack.Path, false, true); // Increase SkipCount
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, false, true); // Increase SkipCount
                     }
                     else
                     {
-                        await this.UpdatePlaybackCountersAsync(this.PlayingTrack.Path, true, false); // Increase PlayCount
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
                     }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                }
             }
 
             // We don't want interruptions when trying to play the next Track.
@@ -798,7 +799,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
             }
         }
 
@@ -823,7 +824,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.PlayingTrack.Path, ex.Message);
+                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
             }
         }
 
@@ -999,7 +1000,7 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
-                await this.UpdatePlaybackCountersAsync(this.PlayingTrack.Path, true, false); // Increase PlayCount
+                await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
                 await this.TryPlayNextAsync();
             }), null);
         }

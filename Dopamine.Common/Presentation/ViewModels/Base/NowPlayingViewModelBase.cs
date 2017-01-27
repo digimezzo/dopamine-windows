@@ -7,6 +7,7 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -192,6 +193,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.isRemovingTracks = true;
 
+            // TODO
             //// Remove Tracks from PlaybackService (this dequeues the Tracks)
             //DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
 
@@ -390,9 +392,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingTrack == null) return;
+            if (!this.playbackService.HasCurrentTrack) return;
 
-            string trackGuid = this.playbackService.PlayingTrackPair.Key;
+            string trackGuid = this.playbackService.CurrentTrack.Key;
 
             await Task.Run(() =>
             {
