@@ -322,7 +322,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public async Task UpdateQueueOrderAsync(List<PlayableTrack> tracks)
+        public async Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks)
         {
             if (await this.queueManager.UpdateQueueOrderAsync(tracks, this.shuffle))
             {
