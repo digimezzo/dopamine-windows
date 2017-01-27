@@ -88,14 +88,10 @@ namespace Dopamine.CollectionModule.Views
             }
         }
 
-        private void TracksButton_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: what to do here?
-        }
-
         private void PlaylistsButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: what to do here?
+            // TODO: this should deselect all playlists an select all tracks.
+            // Implement this when rebuilding playlist support from scratch.
         }
 
         private void Unsubscribe()

@@ -758,7 +758,6 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     // Make sure the Year of the existing album is updated
                     // TODO: can we prevent a database query here?
-
                     Album dbAlbum = conn.Table<Album>().Where((a) => a.AlbumID.Equals(newAlbum.AlbumID)).FirstOrDefault();
 
                     if (dbAlbum != null)
