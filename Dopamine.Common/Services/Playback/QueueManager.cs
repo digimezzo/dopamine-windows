@@ -378,6 +378,9 @@ namespace Dopamine.Common.Services.Playback
                                 // If the key is known, remove by key.
                                 this.queue.Remove(track.Key);
                                 dequeuedTracks.Add(track);
+
+                                // If the key is known, indicate if the current track was dequeued by comparing the keys.
+                                isPlayingTrackDequeued = track.Key.Equals(this.currentTrack.Key);
                             }
                             else
                             {
@@ -389,6 +392,9 @@ namespace Dopamine.Common.Services.Playback
                                 {
                                     this.queue.Remove(queuedTrackWithSamePath.Key);
                                     dequeuedTracks.Add(queuedTrackWithSamePath);
+
+                                    // If the key is not known, indicate if the current track was dequeued by comparing the paths.
+                                    isPlayingTrackDequeued = queuedTrackWithSamePath.Value.Equals(this.currentTrack.Value);
                                 }
                             }
                         }
@@ -403,7 +409,6 @@ namespace Dopamine.Common.Services.Playback
                     {
                         try
                         {
-                            isPlayingTrackDequeued = dequeuedTrack.Value.Equals(this.currentTrack.Value);
                             int indexOfCurrentDequeuedTrack = this.playbackOrder.IndexOf(dequeuedTrack.Key);
                             if (indexOfCurrentDequeuedTrack < indexOfLastDeueuedTrack) indexOfLastDeueuedTrack = indexOfCurrentDequeuedTrack;
                             this.playbackOrder.Remove(dequeuedTrack.Key);
