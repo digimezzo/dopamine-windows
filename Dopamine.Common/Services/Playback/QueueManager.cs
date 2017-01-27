@@ -445,33 +445,37 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public async Task<bool> UpdateQueueOrderAsync(List<PlayableTrack> tracks, bool isShuffled)
+        public async Task<bool> UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks, bool isShuffled)
         {
-            // TODO
-            //if (tracks == null || tracks.Count == 0) return false;
+            if (tracks == null || tracks.Count == 0) return false;
 
             bool isSuccess = true;
 
-            //try
-            //{
-            //    await Task.Run(() =>
-            //    {
-            //        lock (this.queueLock)
-            //        {
-            //            this.queuedTracks = new List<PlayableTrack>(tracks);
+            try
+            {
+                await Task.Run(() =>
+                {
+                    lock (this.queueLock)
+                    {
+                        this.queue.Clear();
 
-            //            if (!isShuffled)
-            //            {
-            //                this.shuffledTracks = new List<PlayableTrack>(this.queuedTracks);
-            //            }
-            //        }
-            //    });
-            //}
-            //catch (Exception ex)
-            //{
-            //    isSuccess = false;
-            //    LogClient.Error("Could update queue order. Exception: {0}", ex.Message);
-            //}
+                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        {
+                            this.queue.Add(track.Key, track.Value);
+                        }
+
+                        if (!isShuffled)
+                        {
+                            this.playbackOrder = new List<string>(this.queue.Keys);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+                LogClient.Error("Could update queue order. Exception: {0}", ex.Message);
+            }
 
             return isSuccess;
         }

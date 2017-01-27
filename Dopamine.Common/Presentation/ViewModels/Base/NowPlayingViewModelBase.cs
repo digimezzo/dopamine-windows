@@ -259,14 +259,15 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                var tracks = new List<PlayableTrack>();
+                var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
 
                 foreach (var item in dropInfo.TargetCollection)
                 {
-                    tracks.Add(((TrackViewModel)item).Track);
+                    KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
+                    droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
                 }
 
-                await this.playbackService.UpdateQueueOrderAsync(tracks);
+                await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
             }
             catch (Exception ex)
             {
