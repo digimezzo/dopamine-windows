@@ -344,9 +344,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (this.playbackService.PlayingTrack == null) return;
+            if (!this.playbackService.HasCurrentTrack) return;
 
-            string path = this.playbackService.PlayingTrack.Path;
+            string path = this.playbackService.CurrentTrack.Value.Path;
 
             await Task.Run(() =>
             {

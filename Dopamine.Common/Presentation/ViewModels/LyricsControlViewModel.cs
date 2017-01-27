@@ -85,40 +85,40 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
-            this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+            this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
 
-            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.PlayingTrack); });
+            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value); });
 
-            this.RefreshLyricsCommand = new DelegateCommand(() => this.RefreshLyricsAsync(this.playbackService.PlayingTrack), () => !this.IsDownloadingLyrics);
+            this.RefreshLyricsCommand = new DelegateCommand(() => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
-                if (this.previousTrack == null || !this.playbackService.PlayingTrack.Equals(this.previousTrack))
+                if (this.previousTrack == null || !this.playbackService.CurrentTrack.Equals(this.previousTrack))
                 {
                     this.refreshTimer.Stop();
                     this.refreshTimer.Start();
-                    this.previousTrack = this.playbackService.PlayingTrack;
+                    this.previousTrack = this.playbackService.CurrentTrack.Value;
                 }
             };
 
             this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
-            this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
-            if (this.playbackService.PlayingTrack != null) this.previousTrack = this.playbackService.PlayingTrack;
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            if (this.playbackService.HasCurrentTrack) this.previousTrack = this.playbackService.CurrentTrack.Value;
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.updateLyricsAfterEditingTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.PlayingTrack);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
         }
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)

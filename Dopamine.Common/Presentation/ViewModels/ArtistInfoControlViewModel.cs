@@ -58,17 +58,17 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackSuccess += async (isPlayingPreviousTrack) =>
             {
                 this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.RightToLeft : SlideDirection.LeftToRight;
-                await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, false);
+                await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, false);
             };
 
             this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.PlayingTrack != null) await this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
+                if (this.playbackService.HasCurrentTrack) await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
             };
 
             // Defaults
             this.SlideDirection = SlideDirection.LeftToRight; 
-            this.ShowArtistInfoAsync(this.playbackService.PlayingTrack, true);
+            this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
         }
         #endregion
 

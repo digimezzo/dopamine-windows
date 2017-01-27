@@ -191,13 +191,13 @@ namespace Dopamine.ViewModels
 
             this.playbackService.PlaybackSuccess += (_) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.PlayingTrack.TrackTitle))
+                if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.TrackTitle))
                 {
-                    this.TaskbarService.Description = this.playbackService.PlayingTrack.ArtistName + " - " + this.playbackService.PlayingTrack.TrackTitle;
+                    this.TaskbarService.Description = this.playbackService.CurrentTrack.Value.ArtistName + " - " + this.playbackService.CurrentTrack.Value.TrackTitle;
                 }
                 else
                 {
-                    this.TaskbarService.Description = this.playbackService.PlayingTrack.FileName;
+                    this.TaskbarService.Description = this.playbackService.CurrentTrack.Value.FileName;
                 }
 
                 this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
