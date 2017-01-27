@@ -32,12 +32,12 @@ namespace Dopamine.MiniPlayerModule.Views
         #region Private
         private async void ListBoxTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            await this.ListActionHandler(sender, e.OriginalSource as DependencyObject, false);
+            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, false);
         }
 
         private void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
         {
-            this.TracksKeyUpHandlerAsync(sender, e);
+            this.KeyUpHandlerAsync(sender, e);
         }
 
         private void Subscribe()
@@ -56,7 +56,7 @@ namespace Dopamine.MiniPlayerModule.Views
         {
             if (e.Key == Key.Enter)
             {
-                this.ListActionHandler(sender, e.OriginalSource as DependencyObject, false);
+                this.ActionHandler(sender, e.OriginalSource as DependencyObject, false);
             }
         }
         #endregion

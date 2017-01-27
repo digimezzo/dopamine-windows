@@ -2,10 +2,12 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +17,7 @@ using System.Windows.Media;
 
 namespace Dopamine.Common.Presentation.Views.Base
 {
-    public abstract class TracksViewBase : CommonViewBase
+    public abstract class NowPlayingViewBase : CommonViewBase
     {
         #region Overrides
         protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
@@ -31,7 +33,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             {
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackViewModel)lb.SelectedItem).Track.Path);
+                    Actions.TryViewInExplorer(((KeyValuePair<string, TrackViewModel>)lb.SelectedItem).Value.Track.Path);
                 }
             }
             else if (e.Key == Key.Delete)
@@ -59,36 +61,9 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem)) return;
 
-                // The user double clicked a valid item
-                if (!enqueue)
-                {
-
-                    // The user just wants to play the selected item. Don't enqueue.
-                    await this.playBackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
-                    return;
-                };
-
-                // The user wants to enqueue tracks for the selected item
-                if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), ((TrackViewModel)lb.SelectedItem).Track);
-                }
-                else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(((ArtistViewModel)lb.SelectedItem).Artist);
-                }
-                else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(((GenreViewModel)lb.SelectedItem).Genre);
-                }
-                else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(((AlbumViewModel)lb.SelectedItem).Album);
-                }
-                else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(((PlaylistViewModel)lb.SelectedItem).Playlist);
-                }
+                var selectedTrack = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
+                await this.playBackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                return;
             }
             catch (Exception ex)
             {
@@ -127,7 +102,7 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackViewModel)lb.SelectedItem).Track.Path);
+                    Actions.TryViewInExplorer(((KeyValuePair<string,TrackViewModel>)lb.SelectedItem).Value.Track.Path);
                 }
             }
             catch (Exception ex)

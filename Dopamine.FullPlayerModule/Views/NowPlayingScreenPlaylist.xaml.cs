@@ -39,26 +39,12 @@ namespace Dopamine.FullPlayerModule.Views
         #region Private
         private async void ListBoxTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                ListBox lb = (ListBox)sender;
-
-                if (lb.SelectedItem == null)
-                    return;
-
-                var selectedViewModel = (TrackViewModel)lb.SelectedItem;
-
-                await this.playBackService.PlaySelectedAsync(new KeyValuePair<string,PlayableTrack>(selectedViewModel.TrackGuid, selectedViewModel.Track));
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Error while handling ListBox action. Exception: {0}", ex.Message);
-            }
+            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, false);
         }
 
         private void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
         {
-            this.TracksKeyUpHandlerAsync(sender, e);
+            this.KeyUpHandlerAsync(sender, e);
         }
 
         private void Subscribe()
@@ -77,7 +63,7 @@ namespace Dopamine.FullPlayerModule.Views
         {
             if (e.Key == Key.Enter)
             {
-                this.ListActionHandler(sender, e.OriginalSource as DependencyObject,false);
+                this.ActionHandler(sender, e.OriginalSource as DependencyObject,false);
             }
         }
         #endregion
