@@ -17,7 +17,7 @@ using System.Windows.Media;
 
 namespace Dopamine.Common.Presentation.Views.Base
 {
-    public abstract class NowPlayingViewBase : CommonViewBase
+    public abstract class PlaylistViewBase : CommonViewBase
     {
         #region Overrides
         protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
@@ -84,7 +84,7 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 await Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await ScrollUtils.ScrollToPlayingTrackAsync(lb);
+                    await ScrollUtils.ScrollToPlayingTrackAsync(lb, typeof(KeyValuePair<string,TrackViewModel>));
                 });
             }
             catch (Exception ex)

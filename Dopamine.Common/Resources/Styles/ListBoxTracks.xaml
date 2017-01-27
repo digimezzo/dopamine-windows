@@ -94,6 +94,39 @@
         </Setter>
     </Style>
 
+    <Style x:Key="NowPlayingListBoxTracksItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="0,0,0,2" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid>
+                        <Label x:Name="DummyLabel" Foreground="{DynamicResource RG_InactiveForegroundBrush}"  Visibility="Collapsed"/>
+                        <ContentPresenter/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Value.IsPlaying}" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}" />
+                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ListBoxTracks" TargetType="{x:Type ListBox}">
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
@@ -231,6 +264,86 @@
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                     </StackPanel>
                                     <TextBlock Text="{Binding ArtistName}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch" 
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="10,0,10,0"
+                                               FontSize="11"
+                                               Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
+                                </DockPanel>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxTracksNowPlaying" TargetType="{x:Type ListBox}">
+        <Setter Property="Padding" Value="10,0,10,0" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
+                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
+                        <Border.ToolTip>
+                            <ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Value.TrackTitle}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Value.ArtistName}"/>
+                                </StackPanel>
+                            </ToolTip>
+                        </Border.ToolTip>
+                        <DockPanel>
+                            <Border MinWidth="20" Height="38">
+                                <TextBlock 
+                                        Text="{Binding Value.FormattedTrackNumber}" 
+                                        Foreground="{Binding Foreground,ElementName=DummyLabel}" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        FontSize="13"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center" Height="38">
+                                <DockPanel Height="19">
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                        <Label Style="{DynamicResource SpectrumAnimation}"
+                                                   Visibility="{Binding Value.IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   IsHitTestVisible="{Binding Value.IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   Foreground="{Binding Foreground,ElementName=DummyLabel}" 
+                                                   Margin="0,0,10,0" 
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock
+                                                Text="{Binding Value.Duration}" 
+                                                TextAlignment="Right"
+                                                FontSize="13" 
+                                                VerticalAlignment="Center"
+                                                Margin="0,0,2,0"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Value.TrackTitle}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch" 
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="10,0,10,0"
+                                               FontSize="13"/>
+                                </DockPanel>
+                                <DockPanel Height="19">
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
+                                        <controls:RatingButton 
+                                            VerticalAlignment="Center" 
+                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
+                                            Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        <controls:LoveButton 
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" 
+                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
+                                            Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Value.ArtistName}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
                                                TextTrimming="CharacterEllipsis"
@@ -574,11 +687,11 @@
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
 
-    <Style x:Key="NowPlaying_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxTracksItem}">
+    <Style x:Key="NowPlaying_ListBoxTracksItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NowPlayingListBoxTracksItem}">
         <Setter Property="ContextMenu" Value="{StaticResource NowPlaying_ListBoxTracksContextMenu}"/>
     </Style>
 
-    <Style x:Key="NowPlaying_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksPlaylist}">
+    <Style x:Key="NowPlaying_ListBoxTracks" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxTracksNowPlaying}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource NowPlaying_ListBoxTracksItem}" />
     </Style>
 

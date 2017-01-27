@@ -1,20 +1,14 @@
-﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Database;
-using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Presentation.Views.Base;
+﻿using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dopamine.FullPlayerModule.Views
 {
-    public partial class NowPlayingScreenPlaylist : TracksViewBase, INavigationAware
+    public partial class NowPlayingScreenPlaylist : PlaylistViewBase, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;

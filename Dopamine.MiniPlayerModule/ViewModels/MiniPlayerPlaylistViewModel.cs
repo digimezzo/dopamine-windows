@@ -1,14 +1,13 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Base;
+﻿using Dopamine.Common.Base;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Prism;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
-using System;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {
-    public class MiniPlayerPlaylistViewModel : PlaylistTracksViewModelBase
+    public class MiniPlayerPlaylistViewModel : NowPlayingTracksViewModelBase
     {
         #region Construction
         public MiniPlayerPlaylistViewModel(IUnityContainer container) : base(container)
@@ -43,5 +42,4 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         }
         #endregion
     }
-
 }
