@@ -18,6 +18,7 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource RG_WhiteColor}"/>
 
+    <!-- ContextMenu -->
     <ContextMenu x:Key="DataGridTracksContextMenu">
         <ContextMenu.Resources>
             <presentationutils:BindingProxy x:Key="ColumnsProxy" Data="{DynamicResource Language_Columns}"/>
@@ -98,6 +99,7 @@
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
 
+    <!-- DataGrid -->
     <Style TargetType="{x:Type controls:DataGridEx}">
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
@@ -127,6 +129,7 @@
         </Setter>
     </Style>
 
+    <!-- DataGridRow -->
     <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="ContextMenu" Value="{StaticResource DataGridTracksContextMenu}"/>
         <Setter Property="Height" Value="24" />
@@ -147,6 +150,7 @@
         </Style.Triggers>
     </Style>
 
+    <!-- DataGridCell -->
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
@@ -182,6 +186,7 @@
         </Setter>
     </Style>
 
+    <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}"/>

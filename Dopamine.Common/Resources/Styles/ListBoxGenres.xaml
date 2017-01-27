@@ -9,14 +9,35 @@
     <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter" />
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
-    <!-- 
-    It is necessary to split up the ContextMenu Styles per ListBox. As each DataContext.*Command only ever gets
-    fired only in the ViewModel which fired the command the firts time. I have no idea why this happens.
-    -->
+    <!-- ContextMenu -->
+    <ContextMenu x:Key="ListBoxGenresContextMenu">
+        <ContextMenu.Resources>
+            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        </ContextMenu.Resources>
 
-    <!-- Shared -->
-
+        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddGenresToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddGenresToPlaylistCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+            <MenuItem.ItemsSource>
+                <CompositeCollection>
+                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
+                    <Separator/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
+                </CompositeCollection>
+            </MenuItem.ItemsSource>
+        </MenuItem>
+    </ContextMenu>
+    
+    <!-- ListBoxItem -->
     <Style x:Key="ListBoxGenresItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="ContextMenu" Value="{StaticResource ListBoxGenresContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -83,47 +104,14 @@
         </Setter>
     </Style>
 
+    <!-- ListBox -->
     <Style x:Key="ListBoxGenres" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxGenresItem}" />
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-    </Style>
-
-    <!-- Genres screen -->
-
-    <ContextMenu x:Key="Genres_ListBoxGenresContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-        
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddGenresToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddGenresToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-    </ContextMenu>
-
-    <Style x:Key="Genres_ListBoxGenresItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxGenresItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Genres_ListBoxGenresContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Genres_ListBoxGenres" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxGenres}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Genres_ListBoxGenresItem}" />
     </Style>
 </ResourceDictionary>

@@ -59,7 +59,7 @@
                          MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                          KeyUp="ListBoxTracks_KeyUp"
                          PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                         Style="{StaticResource MiniPlayer_ListBoxTracks}"
+                         Style="{StaticResource ListBoxNowPlayingTracks}"
                          ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
                          BorderThickness="0"
                          SelectionMode="Extended">

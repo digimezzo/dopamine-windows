@@ -10,13 +10,18 @@
 
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
-    <!-- 
-    It is necessary to split up the ContextMenu Styles per ListBox. As each DataContext.*Command only ever gets
-    fired only in the ViewModel which fired the command the firts time. I have no idea why this happens.
-    -->
+    <!-- ContextMenu -->
+    <ContextMenu x:Key="ListBoxPlaylistsContextMenu">
+        <ContextMenu.Resources>
+            <utils:BindingProxy x:Key="SaveProxy" Data="{DynamicResource Language_Save}"/>
+        </ContextMenu.Resources>
+        <MenuItem Header="{DynamicResource Language_Rename}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AllowRename}"/>
+        <MenuItem Header="{DynamicResource Language_Delete}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeleteSelectedPlaylistsCommand}"/>
+        <Separator/>
+        <MenuItem Header="{Binding Source={StaticResource SaveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" InputGestureText="" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.SaveSelectedPlaylistsCommand}"/>
+    </ContextMenu>
 
-    <!-- Shared -->
-
+    <!-- ListBoxItem -->
     <Style x:Key="ListBoxPlaylistsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
@@ -47,7 +52,9 @@
         </Setter>
     </Style>
 
+    <!-- ListBox -->
     <Style x:Key="ListBoxPlaylists" TargetType="{x:Type ListBox}">
+        <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistsContextMenu}"/>
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -93,21 +100,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!-- Playlists screen -->
-
-    <ContextMenu x:Key="Playlists_ListBoxPlaylistsContextMenu">
-        <ContextMenu.Resources>
-            <utils:BindingProxy x:Key="SaveProxy" Data="{DynamicResource Language_Save}"/>
-        </ContextMenu.Resources>
-        <MenuItem Header="{DynamicResource Language_Rename}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AllowRename}"/>
-        <MenuItem Header="{DynamicResource Language_Delete}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeleteSelectedPlaylistsCommand}"/>
-        <Separator/>
-        <MenuItem Header="{Binding Source={StaticResource SaveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" InputGestureText="" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.SaveSelectedPlaylistsCommand}"/>
-    </ContextMenu>
-
-    <Style x:Key="Playlists_ListBoxPlaylists" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxPlaylists}">
-        <Setter Property="ContextMenu" Value="{StaticResource Playlists_ListBoxPlaylistsContextMenu}"/>
-    </Style>
- 
 </ResourceDictionary>

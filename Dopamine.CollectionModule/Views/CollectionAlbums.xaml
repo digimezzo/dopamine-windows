@@ -102,7 +102,7 @@
                                                              VirtualizingStackPanel.IsVirtualizing="True"
                                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                                              VirtualizingStackPanel.VirtualizationMode="Recycling"                       
-                                                             Style="{StaticResource Albums_ListBoxTracks}"
+                                                             Style="{StaticResource ListBoxTracks}"
                                                              ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
                                                              MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                                                              PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
