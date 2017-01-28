@@ -1,12 +1,14 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Metadata
 {
@@ -202,7 +204,7 @@ namespace Dopamine.Common.Metadata
             if (!string.IsNullOrEmpty(path))
             {
                 var fmd = new FileMetadata(path);
-                
+
                 // Track information
                 track.Path = path;
                 track.SafePath = path.ToSafePath();
@@ -260,6 +262,57 @@ namespace Dopamine.Common.Metadata
             }
         }
 
+        public static async Task<PlayableTrack> Path2TrackAsync(string path, TrackStatistic savedTrackStatistic)
+        {
+            var returnTrack = new PlayableTrack();
+
+            await Task.Run(() =>
+            {
+                var track = new Track();
+                var trackStatistic = new TrackStatistic();
+                var album = new Album();
+                var artist = new Artist();
+                var genre = new Genre();
+
+                MetadataUtils.SplitMetadata(path, ref track, ref trackStatistic, ref album, ref artist, ref genre);
+
+                returnTrack.Path = track.Path;
+                returnTrack.SafePath = track.Path.ToSafePath();
+                returnTrack.FileName = track.FileName;
+                returnTrack.MimeType = track.MimeType;
+                returnTrack.FileSize = track.FileSize;
+                returnTrack.BitRate = track.BitRate;
+                returnTrack.SampleRate = track.SampleRate;
+                returnTrack.TrackTitle = track.TrackTitle;
+                returnTrack.TrackNumber = track.TrackNumber;
+                returnTrack.TrackCount = track.TrackCount;
+                returnTrack.DiscNumber = track.DiscNumber;
+                returnTrack.DiscCount = track.DiscCount;
+                returnTrack.Duration = track.Duration;
+                returnTrack.Year = track.Year;
+                returnTrack.HasLyrics = track.HasLyrics;
+
+                returnTrack.ArtistName = artist.ArtistName;
+
+                returnTrack.GenreName = genre.GenreName;
+
+                returnTrack.AlbumTitle = album.AlbumTitle;
+                returnTrack.AlbumArtist = album.AlbumArtist;
+                returnTrack.AlbumYear = album.Year;
+
+                // If there is a saved TrackStatistic, used that one. Otherwise the
+                // TrackStatistic from the file is used. That only contains rating.
+                if (savedTrackStatistic != null) trackStatistic = savedTrackStatistic;
+
+                returnTrack.Rating = trackStatistic.Rating;
+                returnTrack.Love = trackStatistic.Love;
+                returnTrack.PlayCount = trackStatistic.PlayCount;
+                returnTrack.SkipCount = trackStatistic.SkipCount;
+                returnTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
+            });
+
+            return returnTrack;
+        }
         public static string GetFirstGenre(FileMetadata fmd)
         {
             return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);

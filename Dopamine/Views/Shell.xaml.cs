@@ -107,6 +107,9 @@ namespace Dopamine.Views
 
             // Commands
             this.InitializeCommands();
+
+            // Tray icon
+            this.InitializeTrayIcon();
         }
         #endregion
 
@@ -242,6 +245,7 @@ namespace Dopamine.Views
         private void InitializeTrayIcon()
         {
             this.trayIcon = new System.Windows.Forms.NotifyIcon();
+            this.trayIcon.Visible = false;
             this.trayIcon.Text = ProductInformation.ApplicationAssemblyName;
 
             // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
@@ -255,8 +259,6 @@ namespace Dopamine.Views
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(TrayIcon_MouseDoubleClick);
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
-
-            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon")) this.trayIcon.Visible = true;
         }
 
         private void InitializeWindow()
@@ -644,7 +646,7 @@ namespace Dopamine.Views
             // This call is not in the constructor, because we want to show the tray icon only
             // when the main window has been shown by explicitly calling Show(). This prevents 
             // showing the tray icon when the OOBE window is displayed.
-            this.InitializeTrayIcon();
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon")) this.trayIcon.Visible = true;
         }
         #endregion
 

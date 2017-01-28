@@ -23,28 +23,31 @@ namespace Dopamine.Common.Database.Repositories
         #endregion
 
         #region IQueuedTrackRepository
-        public List<QueuedTrack> GetSavedQueuedTracks()
+        public async Task<List<QueuedTrack>> GetSavedQueuedTracksAsync()
         {
             var tracks = new List<QueuedTrack>();
 
-            try
+            await Task.Run(() =>
             {
-                using (var conn = this.factory.GetConnection())
+                try
                 {
-                    try
+                    using (var conn = this.factory.GetConnection())
                     {
-                        tracks = conn.Query<QueuedTrack>("SELECT * FROM QueuedTrack;");
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
+                        try
+                        {
+                            tracks = conn.Query<QueuedTrack>("SELECT * FROM QueuedTrack ORDER BY OrderID;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
 
             return tracks;
         }

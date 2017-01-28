@@ -229,22 +229,18 @@ namespace Dopamine.Common.Services.Playback
         {
             var result = new EnqueueResult { IsSuccess = true };
 
-
             try
             {
                 await Task.Run(() =>
                 {
                     lock (this.queueLock)
                     {
-                        // Only enqueue tracks which are not queued yet
-                        List<PlayableTrack> tracksToEnqueue = tracks.Except(this.queue.Values).ToList();
-
-                        foreach (PlayableTrack track in tracksToEnqueue)
+                        foreach (PlayableTrack track in tracks)
                         {
                             this.queue.Add(Guid.NewGuid().ToString(), track);
                         }
 
-                        result.EnqueuedTracks = tracksToEnqueue;
+                        result.EnqueuedTracks = tracks;
                     }
                 });
 
@@ -259,6 +255,39 @@ namespace Dopamine.Common.Services.Playback
                 LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
             }
 
+
+            return result;
+        }
+
+        public async Task<EnqueueResult> EnqueueAsync(IList<KeyValuePair<string,PlayableTrack>> tracks, bool shuffle)
+        {
+            var result = new EnqueueResult { IsSuccess = true };
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    lock (this.queueLock)
+                    {
+                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        {
+                            this.queue.Add(track.Key, track.Value);
+                        }
+
+                        result.EnqueuedTracks = tracks.Select(t=>t.Value).ToList();
+                    }
+                });
+
+                if (shuffle)
+                    await this.ShuffleAsync();
+                else
+                    await this.UnShuffleAsync();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
+            }
 
             return result;
         }

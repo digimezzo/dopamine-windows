@@ -8,9 +8,11 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Equalizer;
+using Dopamine.Common.Services.File;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -69,19 +71,9 @@ namespace Dopamine.Common.Services.Playback
             get { return this.isSavingQueuedTracks; }
         }
 
-        public bool NeedsSavingQueuedTracks
-        {
-            get { return this.saveQueuedTracksTimer.Enabled; }
-        }
-
         public bool IsSavingPlaybackCounters
         {
             get { return this.isSavingPlaybackCounters; }
-        }
-
-        public bool NeedsSavingPlaybackCounters
-        {
-            get { return this.playbackCounters.Count > 0; }
         }
 
         public bool IsStopped
@@ -399,13 +391,14 @@ namespace Dopamine.Common.Services.Playback
                 var queuedTracks = new List<QueuedTrack>();
                 OrderedDictionary<string, PlayableTrack> tracks = this.Queue;
                 KeyValuePair<string, PlayableTrack> currentTrack = this.CurrentTrack;
-                long progressSeconds = Convert.ToInt64(this.player.GetCurrentTime().TotalSeconds);
+                long progressSeconds = Convert.ToInt64(this.GetCurrentTime.TotalSeconds);
 
                 int orderID = 0;
 
                 foreach (KeyValuePair<string, PlayableTrack> track in tracks)
                 {
                     var queuedTrack = new QueuedTrack();
+                    queuedTrack.QueueID = track.Key;
                     queuedTrack.Path = track.Value.Path;
                     queuedTrack.SafePath = track.Value.SafePath;
                     queuedTrack.OrderID = orderID;
@@ -864,6 +857,25 @@ namespace Dopamine.Common.Services.Playback
             this.ResetSavePlaybackCountersTimer();
         }
 
+        private async Task<PlayableTrack> CreateTrackAsync(string path)
+        {
+            var returnTrack = new PlayableTrack();
+
+            try
+            {
+                var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
+                returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
+            }
+            catch (Exception ex)
+            {
+                // Make sure the file can be opened by creating a Track with some default values
+                returnTrack = PlayableTrack.CreateDefault(path);
+                LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
+            }
+
+            return returnTrack;
+        }
+
         private async Task PauseAsync()
         {
             try
@@ -1089,24 +1101,54 @@ namespace Dopamine.Common.Services.Playback
 
         private async void GetSavedQueuedTracks()
         {
-            // TODO
-            //List<PlayableTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
+            try
+            {
+                List<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
+                List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
+                var tracksDictionary = new Dictionary<string, PlayableTrack>();
+                var tracksToEnqueue = new List<KeyValuePair<string, PlayableTrack>>();
+                string playingQueueID = null;
 
-            //lock (this.queueSyncObject)
-            //{
-            //    // It could be that, while getting saved queued tracks from the database above, 
-            //    // tracks were enqueued from the command line. To prevent overwriting the existing 
-            //    // queue (which was built based on command line files), we check if the queue is
-            //    // empty first, and fill it up with saved queued tracks only if it is empty.
-            //    if (this.queuedTracks == null || this.queuedTracks.Count == 0)
-            //    {
-            //        this.queuedTracks = new List<PlayableTrack>(savedQueuedTracks);
-            //    }
-            //}
+                await Task.Run(async() =>
+                {
+                    // Makes lookup faster
+                    foreach (var track in tracks)
+                    {
+                        tracksDictionary.Add(track.SafePath, track);
+                    }
 
-            //await this.SetPlaybackSettingsAsync();
+                    foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
+                    {
+                        // Check if the track was playing
+                        if (savedQueuedTrack.IsPlaying == 1) playingQueueID = savedQueuedTrack.QueueID;
 
-            //if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+                        if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath))
+                        {
+                            // If the track exists in the database, add the database track.
+                            tracksToEnqueue.Add(new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]));
+                        }
+                        else
+                        {
+                            // If the track doesn't exist in the database, create a new track from the file.
+                            PlayableTrack newTrack = await this.CreateTrackAsync(savedQueuedTrack.Path);
+                            if (newTrack != null) tracksToEnqueue.Add(new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, newTrack));
+                        }
+                    }
+                });
+
+                if(tracksToEnqueue.Count > 0) await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
+
+                if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+
+                // TODO: start playing track
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
+            }
+
+
+            
 
             //QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
 

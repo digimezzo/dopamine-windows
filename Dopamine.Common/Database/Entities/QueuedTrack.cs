@@ -7,6 +7,7 @@ namespace Dopamine.Common.Database.Entities
         #region Properties
         [PrimaryKey(), AutoIncrement()]
         public long QueuedTrackID { get; set; }
+        public string QueueID { get; set; }
         public string Path { get; set; }
         public string SafePath { get; set; }
         public long IsPlaying { get; set; }

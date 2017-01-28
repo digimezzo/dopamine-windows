@@ -19,9 +19,7 @@ namespace Dopamine.Common.Services.Playback
         KeyValuePair<string, PlayableTrack> CurrentTrack { get; }
         bool HasCurrentTrack { get; }
         bool IsSavingQueuedTracks { get; }
-        bool NeedsSavingQueuedTracks { get; }
         bool IsSavingPlaybackCounters { get; }
-        bool NeedsSavingPlaybackCounters { get; }
         OrderedDictionary<string, PlayableTrack> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
