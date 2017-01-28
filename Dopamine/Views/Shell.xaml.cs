@@ -807,6 +807,20 @@ namespace Dopamine.Views
             // ------------------
             SettingsClient.Write();
 
+            // Save queued tracks
+            // ------------------
+            if (this.playbackService.IsSavingQueuedTracks)
+            {
+                while (this.playbackService.IsSavingQueuedTracks)
+                {
+                    await Task.Delay(50);
+                }
+            }
+            else
+            {
+                await this.playbackService.SaveQueuedTracksAsync();
+            }
+
             // Stop playing
             // ------------
             this.playbackService.Stop();

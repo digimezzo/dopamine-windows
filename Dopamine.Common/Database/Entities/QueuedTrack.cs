@@ -22,12 +22,12 @@ namespace Dopamine.Common.Database.Entities
                 return false;
             }
 
-            return this.SafePath.Equals(((QueuedTrack)obj).SafePath);
+            return this.QueuedTrackID.Equals(((QueuedTrack)obj).QueuedTrackID);
         }
 
         public override int GetHashCode()
         {
-            return new { this.SafePath }.GetHashCode();
+            return new { this.QueuedTrackID }.GetHashCode();
         }
         #endregion
     }

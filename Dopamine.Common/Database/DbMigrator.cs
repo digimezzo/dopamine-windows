@@ -29,7 +29,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 17;
+        protected const int CURRENT_VERSION = 16;
         private SQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -940,23 +940,6 @@ namespace Dopamine.Common.Database
                                      "FROM Track_Backup;");
 
                 conn.Execute("DROP TABLE Track_Backup;");
-
-                conn.Execute("COMMIT;");
-                conn.Execute("VACUUM;");
-            }
-        }
-        #endregion
-
-        #region Version 17
-        [DatabaseVersion(17)]
-        private void Migrate17()
-        {
-            using (var conn = this.factory.GetConnection())
-            {
-                conn.Execute("BEGIN TRANSACTION;");
-
-                conn.Execute("DELETE FROM QueuedTrack;");
-                conn.Execute("ALTER TABLE QueuedTrack ADD QueuedID TEXT;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
