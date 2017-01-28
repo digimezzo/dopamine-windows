@@ -4,6 +4,7 @@
 - [Changed] 'Cloud' screen was renamed to 'Frequent'
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Russian translation
+- [Changed] Updated the French translation
 - [Fixed] Fixed an occasional crash which happened when automatically scrolling to the playing song
 - [Fixed] Mini player windows are buggy in Windows 10 tablet mode
 
