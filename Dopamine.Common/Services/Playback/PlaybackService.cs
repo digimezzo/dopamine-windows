@@ -863,7 +863,7 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task<PlayableTrack> CreateTrackAsync(string path)
         {
-            var returnTrack = new PlayableTrack();
+            PlayableTrack returnTrack = null;
 
             try
             {
@@ -1115,9 +1115,10 @@ namespace Dopamine.Common.Services.Playback
                 List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
                 var tracksDictionary = new Dictionary<string, PlayableTrack>();
                 var tracksToEnqueue = new List<KeyValuePair<string, PlayableTrack>>();
-                string playingQueueID = null;
+                KeyValuePair<string, PlayableTrack> playingTrack = default(KeyValuePair<string, PlayableTrack>);
+                int progressSeconds = 0;
 
-                await Task.Run(async() =>
+                await Task.Run(async () =>
                 {
                     // Makes lookup faster
                     foreach (var track in tracks)
@@ -1127,66 +1128,69 @@ namespace Dopamine.Common.Services.Playback
 
                     foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
                     {
-                        // Check if the track was playing
-                        if (savedQueuedTrack.IsPlaying == 1) playingQueueID = savedQueuedTrack.QueueID;
+                        // Only process tracks which exist on disk
+                        if (System.IO.File.Exists(savedQueuedTrack.Path))
+                        {
+                            KeyValuePair<string, PlayableTrack> trackToEnqueue = default(KeyValuePair<string, PlayableTrack>);
 
-                        if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath))
-                        {
-                            // If the track exists in the database, add the database track.
-                            tracksToEnqueue.Add(new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]));
-                        }
-                        else
-                        {
-                            // If the track doesn't exist in the database, create a new track from the file.
-                            PlayableTrack newTrack = await this.CreateTrackAsync(savedQueuedTrack.Path);
-                            if (newTrack != null) tracksToEnqueue.Add(new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, newTrack));
+                            if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath))
+                            {
+                                // If the track exists in the database, use the database track.
+                                trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
+                            }
+                            else
+                            {
+                                // If the track doesn't exist in the database, create a new track from the file.
+                                PlayableTrack fileTrack = await this.CreateTrackAsync(savedQueuedTrack.Path);
+
+                                if(fileTrack != null)
+                                {
+                                    trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, fileTrack);
+                                }
+                            }
+
+                            if (!trackToEnqueue.Equals(default(KeyValuePair<string, PlayableTrack>)))
+                            {
+                                // Check if the track was playing
+                                if (savedQueuedTrack.IsPlaying == 1)
+                                {
+                                    playingTrack = trackToEnqueue;
+                                    progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
+                                }
+
+                                // Add to tracksToEnqueue
+                                tracksToEnqueue.Add(trackToEnqueue);
+                            }
                         }
                     }
                 });
 
-                if(tracksToEnqueue.Count > 0) await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
+                if (tracksToEnqueue.Count > 0) await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
 
                 if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
 
-                // TODO: start playing track
+                if (!playingTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
+                {
+                    try
+                    {
+                        await this.StartTrackPausedAsync(playingTrack, progressSeconds);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not set the playing track. Exception: {0}", ex.Message);
+                        this.Stop(); // Should not be required, but just in case.
+                    }
+                }
             }
             catch (Exception ex)
             {
                 LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
             }
-
-
-            
-
-            //QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
-
-            //if (queuedTrack != null)
-            //{
-            //    PlayableTrack track = null;
-
-            //    lock (this.queueSyncObject)
-            //    {
-            //        track = this.shuffledTracks.Select(t => t).Where(t => t.SafePath == queuedTrack.SafePath).FirstOrDefault();
-            //    }
-
-            //    if (track != null)
-            //    {
-            //        try
-            //        {
-            //            await this.StartTrackPausedAsync(track, Convert.ToInt32(queuedTrack.ProgressSeconds));
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            LogClient.Error("Could not configure the playing track. Exception: {0}", ex.Message);
-            //            this.Stop();
-            //        }
-            //    }
-            //}
         }
 
-        private async Task StartTrackPausedAsync(PlayableTrack track, int progressSeconds)
+        private async Task StartTrackPausedAsync(KeyValuePair<string, PlayableTrack> track, int progressSeconds)
         {
-            if (await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>(null, track), true))
+            if (await this.TryPlayAsync(track, true))
             {
                 await this.PauseAsync();
                 if (!this.mute) this.player.SetVolume(this.Volume);
