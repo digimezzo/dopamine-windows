@@ -1,14 +1,13 @@
-﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Playback;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using Dopamine.Common.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Services.File
 {
@@ -138,7 +136,7 @@ namespace Dopamine.Common.Services.File
                     if (FileFormats.IsSupportedAudioFile(path))
                     {
                         // The file is a supported audio format: add it directly.
-                        tracks.Add(await this.Path2TrackAsync(path, "file-" + this.instanceGuid));
+                        tracks.Add(await this.CreateTrackAsync(path));
 
                     }
                     else if (FileFormats.IsSupportedPlaylistFile(path))
@@ -148,7 +146,7 @@ namespace Dopamine.Common.Services.File
 
                         foreach (string audioFilePath in audioFilePaths)
                         {
-                            tracks.Add(await this.Path2TrackAsync(audioFilePath, "file-" + this.instanceGuid));
+                            tracks.Add(await this.CreateTrackAsync(audioFilePath));
                         }
                     }
                     else if (Directory.Exists(path))
@@ -158,7 +156,7 @@ namespace Dopamine.Common.Services.File
 
                         foreach (string audioFilePath in audioFilePaths)
                         {
-                            tracks.Add(await this.Path2TrackAsync(audioFilePath, "file-" + this.instanceGuid));
+                            tracks.Add(await this.CreateTrackAsync(audioFilePath));
                         }
                     }
                     else
@@ -175,6 +173,25 @@ namespace Dopamine.Common.Services.File
                 LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
                 await this.playbackService.Enqueue(tracks);
             }
+        }
+
+        private async Task<PlayableTrack> CreateTrackAsync(string path)
+        {
+            var returnTrack = new PlayableTrack();
+
+            try
+            {
+                var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
+                returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
+            }
+            catch (Exception ex)
+            {
+                // Make sure the file can be opened by creating a Track with some default values
+                returnTrack = PlayableTrack.CreateDefault(path);
+                LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
+            }
+
+            return returnTrack;
         }
 
         private List<string> ProcessPlaylistFile(string playlistPath)
@@ -247,68 +264,6 @@ namespace Dopamine.Common.Services.File
                     }
                 }
             });
-        }
-
-        public async Task<PlayableTrack> Path2TrackAsync(string path, string artworkPrefix)
-        {
-            var returnTrack = new PlayableTrack();
-
-            await Task.Run(async() =>
-            {
-                var track = new Track();
-                var trackStatistic = new TrackStatistic();
-                var album = new Album();
-                var artist = new Artist();
-                var genre = new Genre();
-
-                try
-                {
-                    MetadataUtils.SplitMetadata(path, ref track, ref trackStatistic, ref album, ref artist, ref genre);
-
-                    returnTrack.Path = track.Path;
-                    returnTrack.SafePath = track.Path.ToSafePath();
-                    returnTrack.FileName = track.FileName;
-                    returnTrack.MimeType = track.MimeType;
-                    returnTrack.FileSize = track.FileSize;
-                    returnTrack.BitRate = track.BitRate;
-                    returnTrack.SampleRate = track.SampleRate;
-                    returnTrack.TrackTitle = track.TrackTitle;
-                    returnTrack.TrackNumber = track.TrackNumber;
-                    returnTrack.TrackCount = track.TrackCount;
-                    returnTrack.DiscNumber = track.DiscNumber;
-                    returnTrack.DiscCount = track.DiscCount;
-                    returnTrack.Duration = track.Duration;
-                    returnTrack.Year = track.Year;
-                    returnTrack.HasLyrics = track.HasLyrics;
-
-                    returnTrack.ArtistName = artist.ArtistName;
-
-                    returnTrack.GenreName = genre.GenreName;
-
-                    returnTrack.AlbumTitle = album.AlbumTitle;
-                    returnTrack.AlbumArtist = album.AlbumArtist;
-                    returnTrack.AlbumYear = album.Year;
-
-                    // Try to find an TrackStatistic in the database. If not found, 
-                    // the TrackStatistic from the file is used. That one can only contain rating.
-                    var dbTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
-                    if (dbTrackStatistic != null) trackStatistic = dbTrackStatistic;
-
-                    returnTrack.Rating = trackStatistic.Rating;
-                    returnTrack.Love = trackStatistic.Love;
-                    returnTrack.PlayCount = trackStatistic.PlayCount;
-                    returnTrack.SkipCount = trackStatistic.SkipCount;
-                    returnTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
-                }
-                catch (Exception ex)
-                {
-                    // Make sure the file can be opened by creating a Track with some default values
-                    returnTrack = PlayableTrack.CreateDefault(path);
-                    LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
-                }
-            });
-
-            return returnTrack;
         }
         #endregion
     }

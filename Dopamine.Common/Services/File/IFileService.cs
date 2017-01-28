@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using Dopamine.Common.Database;
+using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.File
 {
