@@ -40,6 +40,12 @@ namespace Dopamine.Common.Services.Playback
         private EqualizerPreset activePreset;
         private bool isEqualizerEnabled;
 
+        private IQueuedTrackRepository queuedTrackRepository;
+        private System.Timers.Timer saveQueuedTracksTimer = new System.Timers.Timer();
+        private int saveQueuedTracksTimeoutSeconds = 5;
+
+        private bool isSavingQueuedTracks = false;
+
         private IPlayerFactory playerFactory;
 
         private ITrackRepository trackRepository;
@@ -58,6 +64,16 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Properties
+        public bool IsSavingQueuedTracks
+        {
+            get { return this.isSavingQueuedTracks; }
+        }
+
+        public bool NeedsSavingQueuedTracks
+        {
+            get { return this.saveQueuedTracksTimer.Enabled; }
+        }
+
         public bool IsSavingPlaybackCounters
         {
             get { return this.isSavingPlaybackCounters; }
@@ -269,10 +285,11 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Construction
-        public PlaybackService(ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService)
+        public PlaybackService(ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository)
         {
             this.trackRepository = trackRepository;
             this.trackStatisticRepository = trackStatisticRepository;
+            this.queuedTrackRepository = queuedTrackRepository;
             this.equalizerService = equalizerService;
 
             this.context = SynchronizationContext.Current;
@@ -282,6 +299,9 @@ namespace Dopamine.Common.Services.Playback
             // Set up timers
             this.progressTimer.Interval = TimeSpan.FromSeconds(this.progressTimeoutSeconds).TotalMilliseconds;
             this.progressTimer.Elapsed += new ElapsedEventHandler(this.ProgressTimeoutHandler);
+
+            this.saveQueuedTracksTimer.Interval = TimeSpan.FromSeconds(this.saveQueuedTracksTimeoutSeconds).TotalMilliseconds;
+            this.saveQueuedTracksTimer.Elapsed += new ElapsedEventHandler(this.SaveQueuedTracksTimeoutHandler);
 
             this.savePlaybackCountersTimer.Interval = TimeSpan.FromSeconds(this.savePlaybackCountersTimeoutSeconds).TotalMilliseconds;
             this.savePlaybackCountersTimer.Elapsed += new ElapsedEventHandler(this.SavePlaybackCountersHandler);
@@ -367,6 +387,52 @@ namespace Dopamine.Common.Services.Playback
                 this.activePreset = desiredPreset;
                 if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
             }
+        }
+
+        public async Task SaveQueuedTracksAsync()
+        {
+            this.saveQueuedTracksTimer.Stop();
+            this.isSavingQueuedTracks = true;
+
+            try
+            {
+                var queuedTracks = new List<QueuedTrack>();
+                OrderedDictionary<string, PlayableTrack> tracks = this.Queue;
+                KeyValuePair<string, PlayableTrack> currentTrack = this.CurrentTrack;
+                long progressSeconds = Convert.ToInt64(this.player.GetCurrentTime().TotalSeconds);
+
+                int orderID = 0;
+
+                foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                {
+                    var queuedTrack = new QueuedTrack();
+                    queuedTrack.Path = track.Value.Path;
+                    queuedTrack.SafePath = track.Value.SafePath;
+                    queuedTrack.OrderID = orderID;
+                    queuedTrack.IsPlaying = 0;
+                    queuedTrack.ProgressSeconds = 0;
+
+                    if (track.Key.Equals(currentTrack.Key))
+                    {
+                        queuedTrack.IsPlaying = 1;
+                        queuedTrack.ProgressSeconds = progressSeconds;
+                    }
+
+                    queuedTracks.Add(queuedTrack);
+
+                    orderID++;
+                }
+
+                await this.queuedTrackRepository.SaveQueuedTracksAsync(queuedTracks);
+
+                LogClient.Info("Saved {0} queued tracks", queuedTracks.Count.ToString());
+            }
+            catch (Exception ex)
+            {
+                LogClient.Info("Could not save queued tracks. Exception: {0}", ex.Message);
+            }
+
+            this.isSavingQueuedTracks = false;
         }
 
         public async Task SavePlaybackCountersAsync()
@@ -662,6 +728,8 @@ namespace Dopamine.Common.Services.Playback
 
             this.QueueChanged(this, new EventArgs());
 
+            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+
             return dequeueResult;
         }
 
@@ -683,6 +751,8 @@ namespace Dopamine.Common.Services.Playback
 
             this.QueueChanged(this, new EventArgs());
 
+            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+
             return dequeueResult;
         }
 
@@ -697,6 +767,8 @@ namespace Dopamine.Common.Services.Playback
                 this.AddedTracksToQueue(result.EnqueuedTracks.Count);
             }
 
+            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+
             return result;
         }
 
@@ -710,6 +782,8 @@ namespace Dopamine.Common.Services.Playback
             {
                 this.AddedTracksToQueue(result.EnqueuedTracks.Count);
             }
+
+            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
 
             return result;
         }
@@ -750,6 +824,9 @@ namespace Dopamine.Common.Services.Playback
 
             // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
+
+            // Queued tracks
+            this.GetSavedQueuedTracks();
         }
 
         private async void SavePlaybackCountersHandler(object sender, ElapsedEventArgs e)
@@ -1005,6 +1082,58 @@ namespace Dopamine.Common.Services.Playback
             }), null);
         }
 
+        private async void SaveQueuedTracksTimeoutHandler(object sender, ElapsedEventArgs e)
+        {
+            await this.SaveQueuedTracksAsync();
+        }
+
+        private async void GetSavedQueuedTracks()
+        {
+            // TODO
+            //List<PlayableTrack> savedQueuedTracks = this.queuedTrackRepository.GetSavedQueuedTracks();
+
+            //lock (this.queueSyncObject)
+            //{
+            //    // It could be that, while getting saved queued tracks from the database above, 
+            //    // tracks were enqueued from the command line. To prevent overwriting the existing 
+            //    // queue (which was built based on command line files), we check if the queue is
+            //    // empty first, and fill it up with saved queued tracks only if it is empty.
+            //    if (this.queuedTracks == null || this.queuedTracks.Count == 0)
+            //    {
+            //        this.queuedTracks = new List<PlayableTrack>(savedQueuedTracks);
+            //    }
+            //}
+
+            //await this.SetPlaybackSettingsAsync();
+
+            //if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+
+            //QueuedTrack queuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
+
+            //if (queuedTrack != null)
+            //{
+            //    PlayableTrack track = null;
+
+            //    lock (this.queueSyncObject)
+            //    {
+            //        track = this.shuffledTracks.Select(t => t).Where(t => t.SafePath == queuedTrack.SafePath).FirstOrDefault();
+            //    }
+
+            //    if (track != null)
+            //    {
+            //        try
+            //        {
+            //            await this.StartTrackPausedAsync(track, Convert.ToInt32(queuedTrack.ProgressSeconds));
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            LogClient.Error("Could not configure the playing track. Exception: {0}", ex.Message);
+            //            this.Stop();
+            //        }
+            //    }
+            //}
+        }
+
         private async Task StartTrackPausedAsync(PlayableTrack track, int progressSeconds)
         {
             if (await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>(null, track), true))
@@ -1043,7 +1172,15 @@ namespace Dopamine.Common.Services.Playback
                 }
 
                 this.QueueChanged(this, new EventArgs());
+
+                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
             }
+        }
+
+        private void ResetSaveQueuedTracksTimer()
+        {
+            this.saveQueuedTracksTimer.Stop();
+            this.saveQueuedTracksTimer.Start();
         }
 
         private void ResetSavePlaybackCountersTimer()
