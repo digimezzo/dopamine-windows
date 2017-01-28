@@ -37,6 +37,8 @@ namespace Dopamine.Common.Services.Playback
         private bool isSpectrumVisible;
         private IPlayer player;
 
+        private bool isQueueChanged;
+
         private IEqualizerService equalizerService;
         private EqualizerPreset desiredPreset;
         private EqualizerPreset activePreset;
@@ -383,6 +385,8 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task SaveQueuedTracksAsync()
         {
+            if (!this.isQueueChanged) return;
+
             this.saveQueuedTracksTimer.Stop();
             this.isSavingQueuedTracks = true;
 
@@ -938,6 +942,10 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task StartPlaybackAsync(KeyValuePair<string, PlayableTrack> track, bool silent = false)
         {
+            // If we start playing a track, we need to make sure that
+            // queued tracks are saved when the application is closed.
+            this.isQueueChanged = true;
+
             // Settings
             this.SetPlaybackSettings();
 
@@ -1222,6 +1230,7 @@ namespace Dopamine.Common.Services.Playback
         private void ResetSaveQueuedTracksTimer()
         {
             this.saveQueuedTracksTimer.Stop();
+            this.isQueueChanged = true;
             this.saveQueuedTracksTimer.Start();
         }
 
