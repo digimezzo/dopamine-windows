@@ -313,6 +313,7 @@ namespace Dopamine.Common.Metadata
 
             return returnTrack;
         }
+
         public static string GetFirstGenre(FileMetadata fmd)
         {
             return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);
