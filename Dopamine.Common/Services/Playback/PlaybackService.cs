@@ -1118,7 +1118,7 @@ namespace Dopamine.Common.Services.Playback
                 KeyValuePair<string, PlayableTrack> playingTrack = default(KeyValuePair<string, PlayableTrack>);
                 int progressSeconds = 0;
 
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
                     // Makes lookup faster
                     foreach (var track in tracks)
@@ -1128,39 +1128,23 @@ namespace Dopamine.Common.Services.Playback
 
                     foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
                     {
-                        // Only process tracks which exist on disk
-                        if (System.IO.File.Exists(savedQueuedTrack.Path))
+                        KeyValuePair<string, PlayableTrack> trackToEnqueue = default(KeyValuePair<string, PlayableTrack>);
+
+                        // Enqueue only tracks which are found in the database and exist on disk.
+                        if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
                         {
-                            KeyValuePair<string, PlayableTrack> trackToEnqueue = default(KeyValuePair<string, PlayableTrack>);
+                            // Create the track
+                            trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
 
-                            if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath))
+                            // Check if the track was playing
+                            if (savedQueuedTrack.IsPlaying == 1)
                             {
-                                // If the track exists in the database, use the database track.
-                                trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
-                            }
-                            else
-                            {
-                                // If the track doesn't exist in the database, create a new track from the file.
-                                PlayableTrack fileTrack = await this.CreateTrackAsync(savedQueuedTrack.Path);
-
-                                if(fileTrack != null)
-                                {
-                                    trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, fileTrack);
-                                }
+                                playingTrack = trackToEnqueue;
+                                progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
                             }
 
-                            if (!trackToEnqueue.Equals(default(KeyValuePair<string, PlayableTrack>)))
-                            {
-                                // Check if the track was playing
-                                if (savedQueuedTrack.IsPlaying == 1)
-                                {
-                                    playingTrack = trackToEnqueue;
-                                    progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
-                                }
-
-                                // Add to tracksToEnqueue
-                                tracksToEnqueue.Add(trackToEnqueue);
-                            }
+                            // Add to tracksToEnqueue
+                            tracksToEnqueue.Add(trackToEnqueue);
                         }
                     }
                 });
