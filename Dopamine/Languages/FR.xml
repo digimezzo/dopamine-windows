@@ -301,7 +301,7 @@
   <Text Key="Medium">Moyenne</Text>
   <Text Key="Large">Grande</Text>
   <Text Key="Showcase">Exposé</Text>
-  <Text Key="Cloud_Description">Vos albums les plus écoutés seront affichés ici</Text>
+  <Text Key="Frequent_Description">Vos albums les plus écoutés seront affichés ici</Text>
   <Text Key="Dark">Foncé</Text>
   <Text Key="Light">Clair</Text>
   <Text Key="Components">Composants</Text>
@@ -375,15 +375,15 @@
   <Text Key="Remember_Last_played_Song">Retenir le dernier morceau joué et la progression de lecture</Text>
   <Text Key="Download_Lyrics_From">Télécharger les paroles de</Text>
   <Text Key="Lyrics_Download_Timeout">Délai de téléchargement des paroles</Text>
-  <Text Key="Show_Remove_From_Disk">Afficher 'Supprimer du disque' dans le menu contextuel</Text>
-  <Text Key="Remove_From_Disk">Supprimer du disque</Text>
-  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Voulez-vous vraiment supprimer ce numéro de votre disque? Vous pouvez le restaurer depuis la Corbeille.</Text>
-  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Voulez-vous vraiment supprimer ces numéros de votre disque? Vous pouvez les restaurer depuis la Corbeille.</Text>
-  <Text Key="Error_Removing_Songs_From_Disk">Une erreur s'est produite lors de la suppression des morceaux du disque. Consultez le fichier log pour plus de détails.</Text>
-  <Text Key="About_Donated_People">A ceux qui ont fait un don.</Text>
+  <Text Key="Show_Remove_From_Disk">Afficher 'Supprimer du disque dur' dans le menu contextuel</Text>
+  <Text Key="Remove_From_Disk">Supprimer du disque dur</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Voulez-vous vraiment supprimer ce morceau de votre disque dur? Vous pouvez le restaurer depuis la Corbeille.</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Voulez-vous vraiment supprimer ces morceaux de votre disque dur? Vous pouvez les restaurer depuis la Corbeille.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">Une erreur s'est produite lors de la suppression des morceaux du disque dur. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="About_Donated_People">À ceux qui ont fait un don.</Text>
   <Text Key="About_Translators">Aux traducteurs.</Text>
   <Text Key="About_Components_Developers">Aux développeurs talentueux qui ont créé les composants mentionnés ci-dessus.</Text>
-  <Text Key="About_Neowin_Head">A la communauté</Text>
+  <Text Key="About_Neowin_Head">À la communauté.</Text>
   <Text Key="About_Neowin_End">pour ses idées, ses tests et son repérage des bugs.</Text>
   <Text Key="Frequent">Fréquent</Text>
 </Language>
