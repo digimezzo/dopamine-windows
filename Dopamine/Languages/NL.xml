@@ -246,7 +246,7 @@
   <Text Key="Remove_The_Image">Verwijder de afbeelding</Text>
   <Text Key="Images">Afbeeldingen</Text>
   <Text Key="Select_Image">Kies een afbeelding</Text>
-  <Text Key="Error_Changing_Image">De afbeelding kon niet worden veranderd. Please consult the log file for more information.</Text>
+  <Text Key="Error_Changing_Image">De afbeelding kon niet worden veranderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Add_To_Now_Playing">Toevoegen aan speelt nu</Text>
   <Text Key="By_Year">Per jaar</Text>
   <Text Key="Removing_Songs">Verwijderen van nummers</Text>
@@ -375,15 +375,15 @@
   <Text Key="Remember_Last_played_Song">Het laatste afgespeelde nummer en de afspeel voortgang onthouden</Text>
   <Text Key="Download_Lyrics_From">Songteksten downloaden van</Text>
   <Text Key="Lyrics_Download_Timeout">Songtekst download timeout</Text>
-  <Text Key="Show_Remove_From_Disk">Show 'Remove from disk' in the context menu</Text>
-  <Text Key="Remove_From_Disk">Remove from disk</Text>
-  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
-  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
-  <Text Key="Error_Removing_Songs_From_Disk">An error occured while removing songs from the disk. Please consult the log file for more information.</Text>
-  <Text Key="About_Donated_People">To the people who donated.</Text>
-  <Text Key="About_Translators">To the translators.</Text>
-  <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
-  <Text Key="About_Neowin_Head">To the</Text>
-  <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
+  <Text Key="Show_Remove_From_Disk">Geef 'Verwijderen van schijf' weer in het contextmenu</Text>
+  <Text Key="Remove_From_Disk">Verwijderen van schijf</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Ben je zeker dat je dit nummer van jouw schijf wilt verwijderen? Je kan het herstellen vanuit de prullenbak.</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Ben je zeker dat je deze nummers van jouw schijf wilt verwijderen? Je kan ze herstellen vanuit de prullenbak.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">Er is een fout opgetreden bij het verwijderen van nummers van de schijf. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="About_Donated_People">Aan de mensen die gedoneerd hebben.</Text>
+  <Text Key="About_Translators">Aan de vertalers.</Text>
+  <Text Key="About_Components_Developers">Aan de getalenteerde ontwikkelaars die de hierboven genoemde componenten hebben gemaakt.</Text>
+  <Text Key="About_Neowin_Head">Aan de</Text>
+  <Text Key="About_Neowin_End">community voor zijn ideeën, testing en bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
 </Language>
