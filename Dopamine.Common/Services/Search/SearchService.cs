@@ -7,7 +7,7 @@ namespace Dopamine.Common.Services.Search
     public class SearchService : ISearchService
     {
         #region Variables
-        private string searchText;
+        private string searchText = string.Empty;
         private Timer searchTimer;
         private double searchTimeoutSeconds = Constants.SearchTimeoutSeconds;
         #endregion
@@ -19,8 +19,11 @@ namespace Dopamine.Common.Services.Search
             get { return this.searchText != null ? this.searchText : string.Empty; }
             set
             {
+                bool isTextChanged = !this.searchText.Trim().Equals(value.Trim());
                 this.searchText = value;
-                this.StartSearchTimer();
+
+                // Only trigger a search if the text has changed
+                if (isTextChanged) this.StartSearchTimer();
             }
         }
         #endregion

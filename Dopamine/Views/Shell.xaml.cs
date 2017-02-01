@@ -31,6 +31,7 @@ using System.Windows.Media.Animation;
 using Microsoft.Win32;
 using System.Security.Principal;
 using System.Management;
+using Dopamine.Common.Services.Search;
 
 namespace Dopamine.Views
 {
@@ -45,7 +46,8 @@ namespace Dopamine.Views
         private IPlaybackService playbackService;
         private IWin32InputService win32InputService;
         private INotificationService notificationService;
-        private MetadataService metadataService;
+        private IMetadataService metadataService;
+        private ISearchService searchService;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private bool isMiniPlayer;
@@ -79,7 +81,7 @@ namespace Dopamine.Views
         #endregion
 
         #region Construction
-        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, INotificationService notificationService, MetadataService metadataService)
+        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, INotificationService notificationService, IMetadataService metadataService, ISearchService searchService)
         {
             InitializeComponent();
 
@@ -92,6 +94,7 @@ namespace Dopamine.Views
             this.eventAggregator = eventAggregator;
             this.notificationService = notificationService;
             this.metadataService = metadataService;
+            this.searchService = searchService;
 
             // Flags
             this.mustPerformClosingTasks = true;
@@ -902,10 +905,25 @@ namespace Dopamine.Views
             closingAnimation.Begin();
         }
 
+        private void Shell_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                // Only allow space to trigger play or pause when the user is not searching.
+                if (string.IsNullOrWhiteSpace(this.searchService.SearchText))
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.PlayOrPauseAsync();
+                }
+            }
+        }
+
         private void Shell_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.OemPlus | e.Key == Key.Add)
             {
+                e.Handled = true;
+
                 // [Ctrl] allows fine-tuning of the volume
                 if (Keyboard.Modifiers == ModifierKeys.Control)
                 {
@@ -918,6 +936,8 @@ namespace Dopamine.Views
             }
             else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
             {
+                e.Handled = true; // Prevents typing in the search box
+
                 // [Ctrl] allows fine-tuning of the volume
                 if (Keyboard.Modifiers == ModifierKeys.Control)
                 {
@@ -931,6 +951,8 @@ namespace Dopamine.Views
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control & e.Key == Key.L)
             {
+                e.Handled = true; // Prevents typing in the search box
+
                 // View the log file
                 try
                 {
