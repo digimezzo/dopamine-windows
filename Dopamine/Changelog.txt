@@ -1,6 +1,7 @@
-2017-01-29: Dopamine 1.3 Build 882 (Preview)
+2017-02-01: Dopamine 1.3 Build 883 (Preview)
 --------------------------------------------
 
+- [Added] The keyboard space bar now toggles play and pause when there is no search being performed
 - [Changed] 'Cloud' screen was renamed to 'Frequent'
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Russian translation
