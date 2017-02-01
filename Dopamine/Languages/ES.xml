@@ -369,7 +369,7 @@
   <Text Key="Username">Nombre de usuario</Text>
   <Text Key="Password">Contraseña</Text>
   <Text Key="Search_Again">Buscar de nuevo</Text>
-  <Text Key="Audio_File">Arvhico de audio</Text>
+  <Text Key="Audio_File">Archivo de audio</Text>
   <Text Key="Play_Next">Reproducir siguiente</Text>
   <Text Key="Last_Played">Última reproducida</Text>
   <Text Key="Remember_Last_played_Song">Recordar la última canción reproducida y su posición</Text>
@@ -385,5 +385,5 @@
   <Text Key="About_Components_Developers">A los desarrolladores de gran talento que crearon los componentes previamente mencionados.</Text>
   <Text Key="About_Neowin_Head">A la comunidad de</Text>
   <Text Key="About_Neowin_End">por sus ideas, pruebas e informes de errores.</Text>
-  <Text Key="Frequent">Frequent</Text>
+  <Text Key="Frequent">Frecuente</Text>
 </Language>
