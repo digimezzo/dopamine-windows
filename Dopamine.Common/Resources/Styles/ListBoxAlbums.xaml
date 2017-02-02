@@ -24,7 +24,7 @@
     -->
 
     <!-- Shared -->
-    <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" x:Shared="False">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
         <Setter Property="Margin" Value="2"/>

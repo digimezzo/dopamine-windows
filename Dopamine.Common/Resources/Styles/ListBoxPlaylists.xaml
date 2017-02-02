@@ -11,7 +11,7 @@
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
     <!-- ContextMenu -->
-    <ContextMenu x:Key="ListBoxPlaylistsContextMenu">
+    <ContextMenu x:Key="ListBoxPlaylistsContextMenu" x:Shared="False">
         <ContextMenu.Resources>
             <utils:BindingProxy x:Key="SaveProxy" Data="{DynamicResource Language_Save}"/>
         </ContextMenu.Resources>

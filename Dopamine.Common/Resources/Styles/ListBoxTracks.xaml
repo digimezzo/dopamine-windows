@@ -12,7 +12,7 @@
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
     <!-- ContextMenu -->
-    <ContextMenu x:Key="ListBoxTracksContextMenu">
+    <ContextMenu x:Key="ListBoxTracksContextMenu" x:Shared="False">
         <ContextMenu.Resources>
             <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
