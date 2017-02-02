@@ -27,25 +27,27 @@
                 </DockPanel>
                 <!-- Update status -->
                 <DockPanel x:Name="UpdateStatus" VerticalAlignment="Center" Visibility="{Binding IsUpdateAvailable,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Button DockPanel.Dock="Left" Width="18" Height="18" Margin="15,0,10,0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{StaticResource TransparentButton}" Cursor="Hand" ToolTip="{Binding UpdateToolTip}" Command="{Binding DownloadOrInstallUpdateCommand}">
-                        <Grid>
-                            <!-- Download -->
-                            <TextBlock Text="&#xE118;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_WhiteBrush}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                            <!-- Install -->
-                            <TextBlock Text="&#xE78C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_WhiteBrush}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
+                    <Button DockPanel.Dock="Left" Style="{StaticResource TransparentButton}" Height="18" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Cursor="Hand" ToolTip="{Binding UpdateToolTip}" Command="{Binding DownloadOrInstallUpdateCommand}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Grid Margin="15,0,10,0">
+                                <!-- Download -->
+                                <TextBlock Text="&#xE118;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_WhiteBrush}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                                <!-- Install -->
+                                <TextBlock Text="&#xE78C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_WhiteBrush}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </Grid>
+                            <TextBlock Text="{DynamicResource Language_New_Version_available}" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                            <TextBlock Text=": " Foreground="{DynamicResource RG_WhiteBrush}"/>
+                            <TextBlock Text="{Binding Package.FormattedVersion}" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                            <Border Background="{DynamicResource RG_WhiteBrush}" Margin="5,0,5,0" Padding="4,2,4,2" CornerRadius="2">
+                                <TextBlock Text="{Binding Package.Label}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_AccentBrush}"/>
+                            </Border>
+                        </StackPanel>
                     </Button>
+                    <!-- Hide -->
                     <Button DockPanel.Dock="Right" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Hide}" Style="{StaticResource TransparentButton}" Command="{Binding HideUpdateStatusCommand}">
                         <TextBlock Text="&#xE711;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_WhiteBrush}" FontSize="16"/>
                     </Button>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{DynamicResource Language_New_Version_available}" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <TextBlock Text=": " Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <TextBlock Text="{Binding Package.FormattedVersion}" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <Border Background="{DynamicResource RG_WhiteBrush}" Margin="5,0,5,0" Padding="4,2,4,2" CornerRadius="2">
-                            <TextBlock Text="{Binding Package.Label}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_AccentBrush}"/>
-                        </Border>
-                    </StackPanel>
+                    <ContentControl x:Name="Spacer"/>
                 </DockPanel>
             </Grid>
         </Border>
