@@ -88,7 +88,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(CollectionModule.Views.Collection).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(CollectionModule.Views.CollectionSubMenu).FullName);
 
-                var view = this.regionManager.Regions[RegionNames.CollectionContentRegion].ActiveViews.FirstOrDefault();
+                var view = this.regionManager.Regions[RegionNames.CollectionRegion].ActiveViews.FirstOrDefault();
 
                 if (view != null && view.GetType() != typeof(CollectionFrequent))
                 {
