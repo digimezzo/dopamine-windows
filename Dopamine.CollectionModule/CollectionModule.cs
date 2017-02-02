@@ -25,9 +25,10 @@ namespace Dopamine.CollectionModule
         }
         #endregion
 
-        #region Functions
+        #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, CollectionViewModel>(typeof(CollectionViewModel).FullName);
             this.container.RegisterType<object, Collection>(typeof(Collection).FullName);
             this.container.RegisterType<object, CollectionSubMenu>(typeof(CollectionSubMenu).FullName);
@@ -46,6 +47,7 @@ namespace Dopamine.CollectionModule
             this.container.RegisterType<object, CollectionTracksColumnsViewModel>(typeof(CollectionTracksColumnsViewModel).FullName);
             this.container.RegisterType<object, CollectionTracksColumns>(typeof(CollectionTracksColumns).FullName);
 
+            // Default View for dynamic Regions
             this.regionManager.RegisterViewWithRegion(RegionNames.SubMenuRegion, typeof(CollectionSubMenu));
             this.regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Collection));
 

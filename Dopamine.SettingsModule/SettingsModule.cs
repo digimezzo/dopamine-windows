@@ -9,7 +9,6 @@ namespace Dopamine.SettingsModule
 {
     public class SettingsModule : IModule
     {
-
         #region Variables
         private readonly IRegionManager regionManager;
         private IUnityContainer container;
@@ -26,10 +25,10 @@ namespace Dopamine.SettingsModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, SettingsViewModel>(typeof(SettingsViewModel).FullName);
             this.container.RegisterType<object, Settings>(typeof(Settings).FullName);
             this.container.RegisterType<object, SettingsSubMenu>(typeof(SettingsSubMenu).FullName);
-
             this.container.RegisterType<object, SettingsCollectionFoldersViewModel>(typeof(SettingsCollectionFoldersViewModel).FullName);
             this.container.RegisterType<object, SettingsCollectionFolders>(typeof(SettingsCollectionFolders).FullName);
             this.container.RegisterType<object, SettingsCollectionViewModel>(typeof(SettingsCollectionViewModel).FullName);
@@ -51,7 +50,8 @@ namespace Dopamine.SettingsModule
             this.container.RegisterType<object, SettingsOnline>(typeof(SettingsOnline).FullName);
             this.container.RegisterType<object, SettingsOnlineAddEditSearchProvider>(typeof(SettingsOnlineAddEditSearchProvider).FullName);
             this.container.RegisterType<object, SettingsOnlineAddEditSearchProviderViewModel>(typeof(SettingsOnlineAddEditSearchProviderViewModel).FullName);
-            
+
+            // Default View for dynamic Regions
             this.regionManager.RegisterViewWithRegion(RegionNames.SettingsRegion, typeof(Views.SettingsCollection));
         }
         #endregion
