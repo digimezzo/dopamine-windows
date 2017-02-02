@@ -492,8 +492,8 @@ namespace Dopamine.CollectionModule.ViewModels
         protected async override Task FillListsAsync()
         {
             await this.GetGenresAsync(this.GenreOrder);
-            await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            await this.GetTracksAsync(null, null, null, this.TrackOrder);
+            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
+            await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
         }
 
         protected override void FilterLists()
