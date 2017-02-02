@@ -24,6 +24,7 @@ namespace Dopamine.ControlsModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, CollectionPlaybackControls>(typeof(CollectionPlaybackControls).FullName);
             this.container.RegisterType<object, CollectionPlaybackControlsViewModel>(typeof(CollectionPlaybackControlsViewModel).FullName);
             this.container.RegisterType<object, NowPlayingPlaybackControls>(typeof(NowPlayingPlaybackControls).FullName);

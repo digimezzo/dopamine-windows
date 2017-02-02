@@ -26,6 +26,7 @@ namespace Dopamine.MiniPlayerModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, CoverPlayer>(typeof(CoverPlayer).FullName);
             this.container.RegisterType<object, CoverPlayerViewModel>(typeof(CoverPlayerViewModel).FullName);
             this.container.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);

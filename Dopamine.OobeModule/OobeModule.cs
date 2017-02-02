@@ -24,6 +24,7 @@ namespace Dopamine.OobeModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, OobeAppName>(typeof(OobeAppName).FullName);
             this.container.RegisterType<object, OobeAppNameViewModel>(typeof(OobeAppNameViewModel).FullName);
             this.container.RegisterType<object, OobeControls>(typeof(OobeControls).FullName);

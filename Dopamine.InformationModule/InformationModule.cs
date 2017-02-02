@@ -25,6 +25,7 @@ namespace Dopamine.InformationModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, InformationViewModel>(typeof(InformationViewModel).FullName);
             this.container.RegisterType<object, Information>(typeof(Information).FullName);
             this.container.RegisterType<object, InformationAboutViewModel>(typeof(InformationAboutViewModel).FullName);
@@ -34,6 +35,7 @@ namespace Dopamine.InformationModule
             this.container.RegisterType<object, InformationSubMenu>(typeof(InformationSubMenu).FullName);
             this.container.RegisterType<object, InformationAboutLicense>(typeof(InformationAboutLicense).FullName);
 
+            // Default View for dynamic Regions
             this.regionManager.RegisterViewWithRegion(RegionNames.InformationRegion, typeof(InformationHelp));
         }
         #endregion

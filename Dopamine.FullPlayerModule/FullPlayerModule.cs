@@ -27,6 +27,7 @@ namespace Dopamine.FullPlayerModule
         #region IModule
         public void Initialize()
         {
+            // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, FullPlayer>(typeof(FullPlayer).FullName);
             this.container.RegisterType<object, FullPlayerViewModel>(typeof(FullPlayerViewModel).FullName);
             this.container.RegisterType<object, MainMenu>(typeof(MainMenu).FullName);
@@ -46,6 +47,7 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenLyrics>(typeof(NowPlayingScreenLyrics).FullName);
             this.container.RegisterType<object, NowPlayingScreenLyricsViewModel>(typeof(NowPlayingScreenLyricsViewModel).FullName);
 
+            // Default View for dynamic Regions
             this.regionManager.RegisterViewWithRegion(RegionNames.StatusRegion, typeof(Views.Status));
             this.regionManager.RegisterViewWithRegion(RegionNames.MainMenuRegion, typeof(Views.MainMenu));
             this.regionManager.RegisterViewWithRegion(RegionNames.NowPlayingPlaybackControlsRegion, typeof(NowPlayingPlaybackControls));
