@@ -49,9 +49,6 @@ namespace Dopamine.CollectionModule
             this.regionManager.RegisterViewWithRegion(RegionNames.SubMenuRegion, typeof(CollectionSubMenu));
             this.regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Collection));
 
-            this.regionManager.RegisterViewWithRegion(RegionNames.CollectionPlaybackControlsRegion, typeof(CollectionPlaybackControls));
-            this.regionManager.RegisterViewWithRegion(RegionNames.CollectionSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
-
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
                 SelectedPage page = (SelectedPage)SettingsClient.Get<int>("FullPlayer", "SelectedPage");
@@ -85,7 +82,6 @@ namespace Dopamine.CollectionModule
             {
                 this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));
             }
-
         }
         #endregion
     }

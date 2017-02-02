@@ -98,8 +98,8 @@
             <Grid>
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
-                    <ContentControl Name="NowPlayingSpectrumAnalyzerRegion" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingSpectrumAnalyzerRegion}">
-                        <ContentControl.Style>
+                    <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20">
+                        <controlsModuleViews:SpectrumAnalyzerControl.Style>
                             <Style>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlayingScreenName}" Value="True">
@@ -112,8 +112,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
+                        </controlsModuleViews:SpectrumAnalyzerControl.Style>
+                    </controlsModuleViews:SpectrumAnalyzerControl>
                     <ContentControl Name="NowPlayingPlaybackControlsRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingPlaybackControlsRegion}">
                         <ContentControl.Style>
                             <Style>

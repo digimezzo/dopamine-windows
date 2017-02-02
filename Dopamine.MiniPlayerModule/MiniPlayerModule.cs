@@ -34,12 +34,6 @@ namespace Dopamine.MiniPlayerModule
             this.container.RegisterType<object, MiniPlayerPlaylistViewModel>(typeof(MiniPlayerPlaylistViewModel).FullName);
             this.container.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
             this.container.RegisterType<object, NanoPlayerViewModel>(typeof(NanoPlayerViewModel).FullName);
-
-            this.regionManager.RegisterViewWithRegion(RegionNames.CoverPlayerControlsRegion, typeof(CoverPlayerControls));
-            this.regionManager.RegisterViewWithRegion(RegionNames.CoverPlayerSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
-            this.regionManager.RegisterViewWithRegion(RegionNames.MicroPlayerControlsRegion, typeof(MicroPlayerControls));
-            this.regionManager.RegisterViewWithRegion(RegionNames.MicroPlayerSpectrumAnalyzerRegion, typeof(SpectrumAnalyzerControl));
-            this.regionManager.RegisterViewWithRegion(RegionNames.NanoPlayerControlsRegion, typeof(NanoPlayerControls));
         }
         #endregion
     }
