@@ -26,11 +26,7 @@
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <!-- Time -->
-            <StackPanel Grid.Column="0" DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,0">
-                <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
-                <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
-            </StackPanel>
-
+            <local:SizingTimeControl Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25,0,0,0" TimeHorizontalAlignment="Left"/>
             <StackPanel 
                 Grid.Column="1" 
                 Orientation="Horizontal"

@@ -1,6 +1,4 @@
-﻿using Prism.Mvvm;
-using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows.Controls;
 
 namespace Dopamine.ControlsModule.Views
 {
@@ -12,22 +10,5 @@ namespace Dopamine.ControlsModule.Views
             InitializeComponent();
         }
         #endregion
-
-        private void SetTotalTimeVisibility()
-        {
-            if (this.TimeBorder.ActualWidth >= 90)
-            {
-                this.TotalTime.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.TotalTime.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void TimeBorder_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.SetTotalTimeVisibility();
-        }
     }
 }
