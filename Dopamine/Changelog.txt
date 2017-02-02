@@ -3,6 +3,7 @@
 
 - [Changed] Updated the French translation
 - [Changed] Updated the Spanish translation
+- [Fixed] Automatic install or download button for updates is confusing for some users
 
 
 2017-02-01: Dopamine 1.3 Build 884 (Preview)
