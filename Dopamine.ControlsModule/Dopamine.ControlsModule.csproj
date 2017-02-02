@@ -157,6 +157,9 @@
     <Compile Include="Views\ShuffleAllControl.xaml.cs">
       <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SizingTimeControl.xaml.cs">
+      <DependentUpon>SizingTimeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SpectrumAnalyzerControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShuffleAllControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SizingTimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

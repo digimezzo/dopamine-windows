@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:local="clr-namespace:Dopamine.ControlsModule.Views"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -33,12 +34,7 @@
                 <commonviews:PlaybackInfoControl Height="50" Margin="0,0,0,0" TitleFontSize="22" TitleFontWeight="Light" VerticalAlignment="Bottom"/>
             </DockPanel>
             <!-- Time -->
-            <Border x:Name="TimeBorder" Grid.Column="1" HorizontalAlignment="Stretch" SizeChanged="TimeBorder_SizeChanged">
-                <StackPanel x:Name="TimePanel" DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
-                    <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
-                </StackPanel>
-            </Border>
+            <local:SizingTimeControl Grid.Column="1" HorizontalAlignment="Stretch" TimeHorizontalAlignment="Right"/>
             <!-- Playback controls -->
             <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
