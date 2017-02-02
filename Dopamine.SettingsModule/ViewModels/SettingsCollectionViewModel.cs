@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
 using Prism;
@@ -18,6 +19,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxRefreshCollectionOnStartupChecked;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
+        private ITrackRepository trackRepository;
         #endregion
 
         #region Commands
@@ -38,6 +40,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SettingsClient.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
                 SetProperty<bool>(ref this.checkBoxIgnoreRemovedFilesChecked, value);
+                if (!value) this.trackRepository.ClearRemovedTrackAsync(); // Fire and forget.
             }
         }
 
@@ -53,10 +56,11 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Construction
-        public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService)
+        public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService, ITrackRepository trackRepository)
         {
             this.indexingService = indexingService;
             this.collectionService = collectionService;
+            this.trackRepository = trackRepository;
 
             this.RefreshNowCommand = new DelegateCommand(() => this.RefreshNow());
 
@@ -73,8 +77,12 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
                 this.CheckBoxRefreshCollectionOnStartupChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionOnStartup");
+
+                // Set the backing field of the property. This avoids executing a clear
+                // of removed tracks when loading the screen when the setting is false.
+                this.checkBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
+                OnPropertyChanged(() => this.CheckBoxIgnoreRemovedFilesChecked);
             });
         }
 
