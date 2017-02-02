@@ -56,7 +56,7 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            string q = string.Format(this.SelectQueryPart() + 
+                            string q = string.Format(this.SelectQueryPart() +
                                                      "WHERE tra.SafePath IN ({0});", Utils.ToQueryList(safePaths));
 
                             tracks = conn.Query<PlayableTrack>(q);
@@ -122,7 +122,7 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = string.Format(this.SelectQueryPart() + 
+                            string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
                                                      "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
 
@@ -335,6 +335,32 @@ namespace Dopamine.Common.Database.Repositories
 
             return result;
         }
+
+        public async Task ClearRemovedTrackAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    try
+                    {
+                        using (var conn = this.factory.GetConnection())
+                        {
+                            conn.Execute("DELETE FROM RemovedTrack;");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not clear removed tracks. Exception: {0}", ex.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
         public async Task<bool> UpdateTrackAsync(Track track)
         {
             bool isUpdateSuccess = false;
