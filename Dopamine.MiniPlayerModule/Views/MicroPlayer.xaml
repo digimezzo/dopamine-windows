@@ -9,7 +9,7 @@
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
-             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -58,15 +58,15 @@
                 <DockPanel x:Name="CoverControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
                         <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_CoverMicroPlayerWindowControlsGradientBrush}"/>
-                        <controlsModuleViews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
+                        <controlsmoduleviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
                     </Grid>
                 </DockPanel>
             </Grid>
             <DockPanel>
                 <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" TitleFontSize="22" TitleFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Grid>
-                    <ContentControl Name="MicroPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MicroPlayerSpectrumAnalyzerRegion}"/>
-                    <ContentControl Name="MicroPlayerControlsRegion" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MicroPlayerControlsRegion}"/>
+                    <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20"/>
+                    <controlsmoduleviews:MicroPlayerControls Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
             </DockPanel>
         </DockPanel>

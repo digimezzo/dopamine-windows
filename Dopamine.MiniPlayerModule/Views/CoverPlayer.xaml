@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
-             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels;assembly=Dopamine.Common"
@@ -57,7 +57,7 @@
             <DockPanel x:Name="CoverControls" Panel.ZIndex="2" Opacity="0" VerticalAlignment="Top">
                 <Grid>
                     <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_CoverMicroPlayerWindowControlsGradientBrush}"/>
-                    <controlsModuleViews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
+                    <controlsmoduleviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
                 </Grid>
             </DockPanel>
             <!-- Playback info -->
@@ -88,8 +88,8 @@
         <commonviews:ProgressControls Height="14" Margin="0,-6,0,0"/>
         <!-- Controls -->
         <Grid>
-            <ContentControl Name="CoverPlayerSpectrumAnalyzerRegion" Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Width="350" Height="20" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CoverPlayerSpectrumAnalyzerRegion}"/>
-            <ContentControl Name="CoverPlayerControlsRegion" Panel.ZIndex="1" Margin="0,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CoverPlayerControlsRegion}"/>
+            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Width="350" Height="20"/>
+            <controlsmoduleviews:CoverPlayerControls Panel.ZIndex="1" Margin="0,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </StackPanel>
 </myViews:CommonMiniPlayerView>

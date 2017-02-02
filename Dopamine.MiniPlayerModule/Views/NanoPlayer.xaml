@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
-             xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+             xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
@@ -42,13 +42,13 @@
 
     <Grid x:Name="PlayerPanel" Width="{x:Static corebase:Constants.NanoPlayerWidth}" Height="{x:Static corebase:Constants.NanoPlayerHeight}">
         <StackPanel Orientation="Horizontal" Panel.ZIndex="0" Height="44" VerticalAlignment="Top">
-            <ContentControl Name="NanoPlayerControlsRegion" Margin="10,1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NanoPlayerControlsRegion}"/>
+            <controlsmoduleviews:NanoPlayerControls Margin="10,1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <Grid>
                 <!-- PlaybackInfo controls -->
                 <DockPanel x:Name="PlaybackInfoControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
                         <Border Panel.ZIndex="0" Height="44" Width="66" HorizontalAlignment="Right" Background="{DynamicResource RG_NanoPlayerWindowControlsGradientBrush}"/>
-                        <controlsModuleViews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        <controlsmoduleviews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     </Grid>
                 </DockPanel>
                 <commonviews:PlaybackInfoControlNano Panel.ZIndex="0" Width="220" Margin="15,0,15,0" HorizontalAlignment="Left"/>
