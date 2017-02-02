@@ -114,8 +114,8 @@
                             </Style>
                         </controlsModuleViews:SpectrumAnalyzerControl.Style>
                     </controlsModuleViews:SpectrumAnalyzerControl>
-                    <ContentControl Name="NowPlayingPlaybackControlsRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingPlaybackControlsRegion}">
-                        <ContentControl.Style>
+                    <controlsModuleViews:NowPlayingPlaybackControls>
+                        <controlsModuleViews:NowPlayingPlaybackControls.Style>
                             <Style>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlayingScreenName}" Value="True">
@@ -140,8 +140,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
+                        </controlsModuleViews:NowPlayingPlaybackControls.Style>
+                    </controlsModuleViews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
                 <dc:SlidingContentControl x:Name="NowPlayingContentRegion" Margin="120,90,120,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>

@@ -27,13 +27,13 @@
                     </Viewbox>
                 </Grid>
                 <DockPanel x:Name="Menu" Height="56">
-                    <ContentControl DockPanel.Dock="Top" Margin="15,5,0,0" Name="MainMenuRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MainMenuRegion}"/>
+                    <local:MainMenu DockPanel.Dock="Top" Margin="15,5,0,0" />
                     <controls:TransitioningContentControl x:Name="SubMenuRegion" Margin="0,0,0,3"  FadeIn="True" FadeInTimeout="1" SlideIn="True" SlideInTimeout="0.5" SlideInFrom="{Binding SubMenuSlideInFrom}" SlideInTo="15" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.SubMenuRegion}"/>
                 </DockPanel>
             </DockPanel>
             <controls:TransitioningContentControl DockPanel.Dock="Top" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" FadeIn="True" FadeInTimeout="1" SlideIn="False" Name="FullPlayerSearchRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.FullPlayerSearchRegion}"/>
         </Grid>
-        <ContentControl DockPanel.Dock="Top" Name="StatusRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.StatusRegion}"/>
+        <local:Status DockPanel.Dock="Top"/>
         <controls:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0" Name="ContentRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.ContentRegion}"/>
     </DockPanel>
 </UserControl>

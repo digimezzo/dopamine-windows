@@ -50,7 +50,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             this.previousIndex = index;
 
-            this.regionManager.RequestNavigate(RegionNames.CollectionContentRegion, this.GetPageForIndex(index));
+            this.regionManager.RequestNavigate(RegionNames.CollectionRegion, this.GetPageForIndex(index));
         }
 
         private string GetPageForIndex(int iIndex)

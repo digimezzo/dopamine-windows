@@ -58,31 +58,31 @@ namespace Dopamine.CollectionModule
                 switch (page)
                 {
                     case SelectedPage.Artists:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionArtists));
                         break;
                     case SelectedPage.Genres:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionGenres));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionGenres));
                         break;
                     case SelectedPage.Albums:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionAlbums));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionAlbums));
                         break;
                     case SelectedPage.Tracks:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionTracks));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionTracks));
                         break;
                     case SelectedPage.Playlists:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionPlaylists));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionPlaylists));
                         break;
                     case SelectedPage.Recent:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionFrequent));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionFrequent));
                         break;
                     default:
-                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));
+                        this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionArtists));
                         break;
                 }
             }
             else
             {
-                this.regionManager.RegisterViewWithRegion(RegionNames.CollectionContentRegion, typeof(CollectionArtists));
+                this.regionManager.RegisterViewWithRegion(RegionNames.CollectionRegion, typeof(CollectionArtists));
             }
         }
         #endregion

@@ -48,9 +48,6 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenLyricsViewModel>(typeof(NowPlayingScreenLyricsViewModel).FullName);
 
             // Default View for dynamic Regions
-            this.regionManager.RegisterViewWithRegion(RegionNames.StatusRegion, typeof(Views.Status));
-            this.regionManager.RegisterViewWithRegion(RegionNames.MainMenuRegion, typeof(Views.MainMenu));
-            this.regionManager.RegisterViewWithRegion(RegionNames.NowPlayingPlaybackControlsRegion, typeof(NowPlayingPlaybackControls));
             this.regionManager.RegisterViewWithRegion(RegionNames.FullPlayerSearchRegion, typeof(SearchControl));
 
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
