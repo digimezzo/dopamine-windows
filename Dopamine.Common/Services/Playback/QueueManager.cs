@@ -439,7 +439,7 @@ namespace Dopamine.Common.Services.Playback
                         try
                         {
                             int indexOfCurrentDequeuedTrack = this.playbackOrder.IndexOf(dequeuedTrack.Key);
-                            if (indexOfCurrentDequeuedTrack < indexOfLastDeueuedTrack) indexOfLastDeueuedTrack = indexOfCurrentDequeuedTrack;
+                            if (indexOfLastDeueuedTrack == 0 | indexOfCurrentDequeuedTrack < indexOfLastDeueuedTrack) indexOfLastDeueuedTrack = indexOfCurrentDequeuedTrack;
                             this.playbackOrder.Remove(dequeuedTrack.Key);
                         }
                         catch (Exception ex)
