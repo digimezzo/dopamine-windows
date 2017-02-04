@@ -29,7 +29,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 17;
+        protected const int CURRENT_VERSION = 18;
         private SQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -86,17 +86,6 @@ namespace Dopamine.Common.Database
 
                 conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
                 conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
-
-                conn.Execute("CREATE TABLE Playlist (" +
-                             "PlaylistID	    INTEGER," +
-                             "PlaylistName	    TEXT," +
-                             "PRIMARY KEY(PlaylistID));");
-
-                conn.Execute("CREATE TABLE PlaylistEntry (" +
-                             "EntryID	        INTEGER," +
-                             "PlaylistID	    INTEGER," +
-                             "TrackID	        INTEGER," +
-                             "PRIMARY KEY(EntryID));");
 
                 conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -958,6 +947,23 @@ namespace Dopamine.Common.Database
 
                 conn.Execute("DELETE FROM QueuedTrack;");
                 conn.Execute("ALTER TABLE QueuedTrack ADD QueueID TEXT;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 18
+        [DatabaseVersion(18)]
+        private void Migrate18()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("DROP TABLE Playlist;");
+                conn.Execute("DROP TABLE PlaylistEntry;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

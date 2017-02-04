@@ -674,17 +674,6 @@ namespace Dopamine.Common.Services.Playback
             await this.PlayFirstAsync();
         }
 
-        public async Task Enqueue(Playlist playlist)
-        {
-            if (playlist == null) return;
-
-            // No ordering needed for playlists. Just enqueue tracks in the order that they are in the playlist.
-            List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(playlist.ToList());
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
-        }
-
         public async Task PlaySelectedAsync(PlayableTrack track)
         {
             await this.TryPlayAsync(new KeyValuePair<string, PlayableTrack>(null, track));
@@ -800,12 +789,6 @@ namespace Dopamine.Common.Services.Playback
         public async Task<EnqueueResult> AddToQueue(IList<Album> albums)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
-            return await this.AddToQueue(tracks);
-        }
-
-        public async Task<EnqueueResult> AddToQueue(IList<Playlist> playlists)
-        {
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlists), TrackOrder.ByAlbum);
             return await this.AddToQueue(tracks);
         }
         #endregion

@@ -10,6 +10,7 @@ using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
@@ -397,7 +398,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -410,7 +411,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddToPlaylistResult result = await this.collectionService.AddTracksToPlaylistAsync(selectedTracks, playlistName);
+                    AddToPlaylistResult result = await this.playlistService.AddTracksToPlaylistAsync(selectedTracks, playlistName);
 
                     if (!result.IsSuccess)
                     {

@@ -1,13 +1,15 @@
-﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -19,7 +21,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
@@ -366,7 +367,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -379,7 +380,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddToPlaylistResult result = await this.collectionService.AddAlbumsToPlaylistAsync(albums, playlistName);
+                    AddToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
 
                     if (!result.IsSuccess)
                     {

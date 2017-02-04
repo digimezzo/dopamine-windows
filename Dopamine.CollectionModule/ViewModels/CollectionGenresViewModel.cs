@@ -1,18 +1,20 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.Interfaces;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Interfaces;
+using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -24,8 +26,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -400,7 +400,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -413,7 +413,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddToPlaylistResult result = await this.collectionService.AddGenresToPlaylistAsync(genres, playlistName);
+                    AddToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genres, playlistName);
 
                     if (!result.IsSuccess)
                     {

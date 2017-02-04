@@ -1,6 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database.Repositories;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Appearance;
@@ -16,17 +21,13 @@ using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database.Repositories;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
-using Dopamine.Common.IO;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -98,6 +99,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
             Container.RegisterSingletonType<IProviderService, ProviderService>();
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
+            Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
         }
 
         private void InitializeServices()
@@ -108,12 +110,9 @@ namespace Dopamine
             Container.Resolve<IAppearanceService>().ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), SettingsClient.Get<string>("Appearance", "ColorScheme"));
         }
 
-
         protected void RegisterRepositories()
         {
             Container.RegisterSingletonType<IFolderRepository, FolderRepository>();
-            Container.RegisterSingletonType<IPlaylistRepository, PlaylistRepository>();
-            Container.RegisterSingletonType<IPlaylistEntryRepository, PlaylistEntryRepository>();
             Container.RegisterSingletonType<IAlbumRepository, AlbumRepository>();
             Container.RegisterSingletonType<IArtistRepository, ArtistRepository>();
             Container.RegisterSingletonType<IGenreRepository, GenreRepository>();
@@ -121,7 +120,6 @@ namespace Dopamine
             Container.RegisterSingletonType<ITrackStatisticRepository, TrackStatisticRepository>();
             Container.RegisterSingletonType<IQueuedTrackRepository, QueuedTrackRepository>();
         }
-
 
         protected void RegisterViews()
         {
@@ -179,7 +177,6 @@ namespace Dopamine
                 }
             }
         }
-
 
         protected void InitializeWCFServices()
         {

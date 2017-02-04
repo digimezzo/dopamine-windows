@@ -12,6 +12,7 @@ using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
 using Dopamine.Common.Utils;
@@ -32,7 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     {
         #region Variables
         // Collections
-        private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
+        private ObservableCollection<string> contextMenuPlaylists;
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
 
         // Services
@@ -43,6 +44,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected IPlaybackService playbackService;
         protected IDialogService dialogService;
         protected ISearchService searchService;
+        protected IPlaylistService playlistService;
 
         // EventAggregator
         protected IEventAggregator eventAggregator;
@@ -124,12 +126,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             get { return this.trackOrderText; }
         }
 
-        public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
+        public ObservableCollection<string> ContextMenuPlaylists
         {
             get { return this.contextMenuPlaylists; }
             set
             {
-                SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
+                SetProperty<ObservableCollection<string>>(ref this.contextMenuPlaylists, value);
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
             }
         }
@@ -175,6 +177,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.collectionService = container.Resolve<ICollectionService>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.i18nService = container.Resolve<II18nService>();
+            this.playlistService = container.Resolve<IPlaylistService>();
 
             // Handlers
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
@@ -208,7 +211,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
 
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
-            this.collectionService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
+            this.playlistService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
 
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
@@ -234,37 +237,38 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         private async void GetContextMenuPlaylistsAsync()
         {
-            try
-            {
-                // Unbind to improve UI performance
-                this.ContextMenuPlaylists = null;
+            // TODO
+            //try
+            //{
+            //    // Unbind to improve UI performance
+            //    this.ContextMenuPlaylists = null;
 
-                List<Playlist> playlists = await this.collectionService.GetPlaylistsAsync();
+            //    List<Playlist> playlists = await this.playlistService.GetPlaylistsAsync();
 
-                // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
+            //    // Populate an ObservableCollection
+            //    var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
 
-                await Task.Run(() =>
-                {
-                    foreach (Playlist pl in playlists)
-                    {
-                        playlistViewModels.Add(new PlaylistViewModel
-                        {
-                            Playlist = pl
-                        });
-                    }
+            //    await Task.Run(() =>
+            //    {
+            //        foreach (Playlist pl in playlists)
+            //        {
+            //            playlistViewModels.Add(new PlaylistViewModel
+            //            {
+            //                Playlist = pl
+            //            });
+            //        }
 
-                });
+            //    });
 
-                // Re-bind to update the UI
-                this.ContextMenuPlaylists = playlistViewModels;
+            //    // Re-bind to update the UI
+            //    this.ContextMenuPlaylists = playlistViewModels;
 
-            }
-            catch (Exception)
-            {
-                // If loading from the database failed, create and empty Collection.
-                this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    // If loading from the database failed, create and empty Collection.
+            //    this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
+            //}
         }
 
         private async void GetSearchProvidersAsync()
