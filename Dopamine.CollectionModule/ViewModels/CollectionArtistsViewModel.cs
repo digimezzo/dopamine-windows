@@ -26,6 +26,7 @@ using System.Windows;
 using System.Windows.Data;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Services.Playlist;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -355,7 +356,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.collectionService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -368,7 +369,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddToPlaylistResult result = await this.collectionService.AddArtistsToPlaylistAsync(artists, playlistName);
+                    AddToPlaylistResult result = await this.playlistService.AddArtistsToPlaylistAsync(artists, playlistName);
 
                     if (!result.IsSuccess)
                     {

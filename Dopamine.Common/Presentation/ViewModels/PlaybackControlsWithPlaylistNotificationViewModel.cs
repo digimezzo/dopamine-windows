@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -13,6 +14,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private ICollectionService collectionService;
         private IPlaybackService playbackService;
+        private IPlaylistService playlistService;
         private string addedTracksToPlaylistText;
         private bool showAddedTracksToPlaylistText;
         private Timer showAddedTracksToPlaylistTextTimer;
@@ -47,14 +49,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public PlaybackControlsWithPlaylistNotificationViewModel(ICollectionService collectionService, IPlaybackService playbackService)
+        public PlaybackControlsWithPlaylistNotificationViewModel(ICollectionService collectionService, IPlaybackService playbackService,IPlaylistService playlistService)
         {
             this.collectionService = collectionService;
             this.playbackService = playbackService;
+            this.playlistService = playlistService;
 
             this.PlaylistNotificationMouseEnterCommand = new DelegateCommand(() => this.HideText());
 
-            this.collectionService.AddedTracksToPlaylist += (iNumberOfTracks, iPlaylistName) =>
+            this.playlistService.AddedTracksToPlaylist += (iNumberOfTracks, iPlaylistName) =>
             {
                 string text = ResourceUtils.GetStringResource("Language_Added_Track_To_Playlist");
 

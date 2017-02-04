@@ -85,10 +85,6 @@ namespace Dopamine.Common.Presentation.Views.Base
                 {
                     await this.playBackService.Enqueue(((AlbumViewModel)lb.SelectedItem).Album);
                 }
-                else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
-                {
-                    await this.playBackService.Enqueue(((PlaylistViewModel)lb.SelectedItem).Playlist);
-                }
             }
             catch (Exception ex)
             {

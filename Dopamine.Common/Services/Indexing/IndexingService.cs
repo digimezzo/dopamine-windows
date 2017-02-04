@@ -25,7 +25,6 @@ namespace Dopamine.Common.Services.Indexing
         private IAlbumRepository albumRepository;
         private IArtistRepository artistRepository;
         private IGenreRepository genreRepository;
-        private IPlaylistEntryRepository playlistEntryRepository;
 
         // Paths
         private List<Tuple<long, string, long>> allDiskPaths;
@@ -59,7 +58,7 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Construction
-        public IndexingService(ICacheService cacheService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository, IFolderRepository folderRepository, IPlaylistEntryRepository playlistEntryRepository)
+        public IndexingService(ICacheService cacheService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository, IFolderRepository folderRepository)
         {
             // Initialize services
             // -------------------
@@ -72,7 +71,6 @@ namespace Dopamine.Common.Services.Indexing
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
-            this.playlistEntryRepository = playlistEntryRepository;
 
             // Initialize values
             // -----------------
@@ -445,7 +443,6 @@ namespace Dopamine.Common.Services.Indexing
                 await this.albumRepository.DeleteOrphanedAlbumsAsync(); // Delete orphaned Albums
                 await this.artistRepository.DeleteOrphanedArtistsAsync(); // Delete orphaned Artists
                 await this.genreRepository.DeleteOrphanedGenresAsync(); // Delete orphaned Genres
-                await this.playlistEntryRepository.DeleteOrphanedPlaylistEntriesAsync(); // Delete orphaned PlaylistEntries
             }
             catch (Exception ex)
             {

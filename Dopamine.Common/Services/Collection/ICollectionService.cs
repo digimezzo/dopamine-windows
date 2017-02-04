@@ -11,29 +11,12 @@ namespace Dopamine.Common.Services.Collection
 {
     public interface ICollectionService
     {
-        Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
-        Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName);
-        Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName);
-        Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName);
-        Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, Playlist selectedPlaylist);
-        Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
-        Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> playlists);
-        Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
-        Task<List<Playlist>> GetPlaylistsAsync();
         Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks);
         Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks);
-        Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
         Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds);
         Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels);
-        Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<Playlist> playlists, string destinationDirectory);
-        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string fullPlaylistPath, bool generateUniqueName);
-        Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string playlistName, bool generateUniqueName);
         Task MarkFolderAsync(Folder folder);
         Task SaveMarkedFoldersAsync();
-
         event EventHandler CollectionChanged;
-        event EventHandler PlaylistsChanged;
-        event Action<int,string> AddedTracksToPlaylist;
-        event EventHandler DeletedTracksFromPlaylists;
     }
 }

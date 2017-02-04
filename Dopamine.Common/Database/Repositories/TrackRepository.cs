@@ -213,44 +213,6 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Playlist> playlists)
-        {
-            var tracks = new List<PlayableTrack>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            var playlistIDs = new List<long>();
-
-                            if (playlists != null) playlistIDs = playlists.Select((p) => p.PlaylistID).ToList();
-
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN PlaylistEntry ple ON tra.TrackID=ple.TrackID " +
-                                                     "WHERE ple.PlaylistID IN ({0}) " +
-                                                     "ORDER BY ple.EntryID;", Utils.ToQueryList(playlistIDs));
-
-                            tracks = conn.Query<PlayableTrack>(q);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get the Tracks for Playlists. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
-
-            return tracks;
-        }
-
         public Track GetTrack(string path)
         {
             Track track = null;

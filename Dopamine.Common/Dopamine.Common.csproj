@@ -203,8 +203,6 @@
     <Compile Include="Database\Entities\Folder.cs" />
     <Compile Include="Database\Entities\Genre.cs" />
     <Compile Include="Database\Entities\IndexingStatistic.cs" />
-    <Compile Include="Database\Entities\Playlist.cs" />
-    <Compile Include="Database\Entities\PlaylistEntry.cs" />
     <Compile Include="Database\Entities\QueuedTrack.cs" />
     <Compile Include="Database\Entities\RemovedTrack.cs" />
     <Compile Include="Database\Entities\Track.cs" />
@@ -218,13 +216,9 @@
     <Compile Include="Database\Repositories\Interfaces\IArtistRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IFolderRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IGenreRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IPlaylistEntryRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IPlaylistRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IQueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\ITrackRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\ITrackStatisticRepository.cs" />
-    <Compile Include="Database\Repositories\PlaylistEntryRepository.cs" />
-    <Compile Include="Database\Repositories\PlaylistRepository.cs" />
     <Compile Include="Database\Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackStatisticRepository.cs" />
@@ -298,7 +292,6 @@
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Entities\PlaylistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PopupVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsThinViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
@@ -455,6 +448,9 @@
     <Compile Include="Services\Playback\PlaybackService.cs" />
     <Compile Include="Services\Playback\QueueManager.cs" />
     <Compile Include="Services\Playback\UpdateQueueMetadataResult.cs" />
+    <Compile Include="Services\Playlist\Enums.cs" />
+    <Compile Include="Services\Playlist\IPlaylistService.cs" />
+    <Compile Include="Services\Playlist\PlaylistService.cs" />
     <Compile Include="Services\Provider\Enums.cs" />
     <Compile Include="Services\Provider\IProviderService.cs" />
     <Compile Include="Services\Provider\ProviderService.cs" />

@@ -21,7 +21,6 @@ namespace Dopamine.Common.Services.Collection
     public class CollectionService : ICollectionService
     {
         #region Variables
-        private IPlaylistRepository playlistRepository;
         private IAlbumRepository albumRepository;
         private IArtistRepository artistRepository;
         private ITrackRepository trackRepository;
@@ -33,9 +32,8 @@ namespace Dopamine.Common.Services.Collection
         #endregion
 
         #region Construction
-        public CollectionService(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
+        public CollectionService(IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
         {
-            this.playlistRepository = playlistRepository;
             this.albumRepository = albumRepository;
             this.artistRepository = artistRepository;
             this.trackRepository = trackRepository;
@@ -49,75 +47,9 @@ namespace Dopamine.Common.Services.Collection
 
         #region Events
         public event EventHandler CollectionChanged = delegate { };
-        public event EventHandler PlaylistsChanged = delegate { };
-        public event Action<int, string> AddedTracksToPlaylist = delegate { };
-        public event EventHandler DeletedTracksFromPlaylists = delegate { };
         #endregion
 
         #region ICollectionService
-        public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
-        {
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
-            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
-
-            if (result.IsSuccess)
-            {
-                this.AddedTracksToPlaylist(result.NumberTracksAdded, playlistName);
-            }
-
-            return result;
-        }
-
-        public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
-        {
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
-            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
-
-            if (result.IsSuccess)
-            {
-                this.AddedTracksToPlaylist(result.NumberTracksAdded, playlistName);
-            }
-
-            return result;
-        }
-
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
-        {
-            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
-
-            if (result.IsSuccess)
-            {
-                this.AddedTracksToPlaylist(result.NumberTracksAdded, playlistName);
-            }
-
-            return result;
-        }
-
-        public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
-        {
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
-            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
-
-            if (result.IsSuccess)
-            {
-                this.AddedTracksToPlaylist(result.NumberTracksAdded, playlistName);
-            }
-
-            return result;
-        }
-
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, Playlist selectedPlaylist)
-        {
-            DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
-
-            if (result == DeleteTracksFromPlaylistsResult.Success)
-            {
-                this.DeletedTracksFromPlaylists(this, new EventArgs());
-            }
-
-            return result;
-        }
-
         public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
         {
             RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
@@ -162,92 +94,6 @@ namespace Dopamine.Common.Services.Collection
             }
 
             return result;
-        }
-
-        public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
-        {
-            RenamePlaylistResult result = await this.playlistRepository.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);
-
-            if (result == RenamePlaylistResult.Success)
-            {
-                this.PlaylistsChanged(this, new EventArgs());
-            }
-
-            return result;
-        }
-
-        public async Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<Playlist> playlists)
-        {
-            DeletePlaylistResult result = await this.playlistRepository.DeletePlaylistsAsync(playlists);
-
-            if (result == DeletePlaylistResult.Success)
-            {
-                this.PlaylistsChanged(this, new EventArgs());
-            }
-
-            return result;
-        }
-
-        public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
-        {
-            AddPlaylistResult result = await this.playlistRepository.AddPlaylistAsync(playlistName);
-
-            if (result == AddPlaylistResult.Success)
-            {
-                this.PlaylistsChanged(this, new EventArgs());
-            }
-
-            return result;
-        }
-
-        public async Task<List<Playlist>> GetPlaylistsAsync()
-        {
-            return await this.playlistRepository.GetPlaylistsAsync();
-        }
-
-        public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
-        {
-            string playlistName = String.Empty;
-            var paths = new List<String>();
-
-            // Decode the playlist file
-            // ------------------------
-            var decoder = new PlaylistDecoder();
-            DecodePlaylistResult decodeResult = null;
-
-            await Task.Run(() => decodeResult = decoder.DecodePlaylist(fileName));
-
-            if (!decodeResult.DecodeResult.Result)
-            {
-                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
-                return OpenPlaylistResult.Error;
-            }
-
-            // Set the paths
-            // -------------
-            paths = decodeResult.Paths;
-
-
-            // Get a unique name for the playlist
-            // ----------------------------------
-            playlistName = await this.playlistRepository.GetUniquePlaylistNameAsync(decodeResult.PlaylistName);
-
-            // Add the Playlist to the database
-            // --------------------------------
-            AddPlaylistResult addPlaylistResult = await this.playlistRepository.AddPlaylistAsync(playlistName);
-            if (addPlaylistResult != AddPlaylistResult.Success) return OpenPlaylistResult.Error;
-
-            // Add Tracks to the Playlist
-            // --------------------------
-            List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(paths);
-            AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlistName);
-            if (!result.IsSuccess) return OpenPlaylistResult.Error;
-
-            // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success,
-            // so we can always raise the PlaylistsChanged Event.
-            this.PlaylistsChanged(this, new EventArgs());
-
-            return OpenPlaylistResult.Success;
         }
 
         public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels)
@@ -306,85 +152,6 @@ namespace Dopamine.Common.Services.Collection
                     LogClient.Error("Error while setting album artwork. Exception: {0}", ex.Message);
                 }
             });
-        }
-
-        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string fullPlaylistPath, bool generateUniqueName)
-        {
-            return await this.ExportPlaylistAsync(playlist,
-                                         System.IO.Path.GetDirectoryName(fullPlaylistPath),
-                                         System.IO.Path.GetFileNameWithoutExtension(fullPlaylistPath), generateUniqueName);
-        }
-
-        public async Task<ExportPlaylistsResult> ExportPlaylistAsync(Playlist playlist, string destinationDirectory, string playlistName, bool generateUniqueName)
-        {
-            ExportPlaylistsResult result = ExportPlaylistsResult.Success;
-
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
-
-            await Task.Run(() =>
-            {
-
-                try
-                {
-                    string playlistFileNameWithoutPathAndExtension = FileUtils.SanitizeFilename(playlistName);
-                    string playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
-
-                    if (generateUniqueName)
-                    {
-                        // Make sure the file we try to create doesn't exist yet
-                        while (System.IO.File.Exists(playlistFileFullPath))
-                        {
-                            playlistFileNameWithoutPathAndExtension = playlistFileNameWithoutPathAndExtension + " (1)";
-                            playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
-                        }
-                    }
-
-                    // Write all the paths to the file
-                    using (StreamWriter file = new StreamWriter(playlistFileFullPath))
-                    {
-                        foreach (PlayableTrack t in tracks)
-                        {
-                            string audioFileNameWithoutPath = Path.GetFileName(t.Path);
-
-                            // If the audio file is in the same directory as the playlist file, 
-                            // don't save the full path in the playlist file.
-                            if (System.IO.File.Exists(Path.Combine(destinationDirectory, audioFileNameWithoutPath)))
-                            {
-                                file.WriteLine(audioFileNameWithoutPath);
-                            }
-                            else
-                            {
-                                file.WriteLine(t.Path);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result = ExportPlaylistsResult.Error;
-                    LogClient.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist.PlaylistName, ex.Message);
-                }
-            });
-
-            return result;
-        }
-
-        public async Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<Playlist> playlists, string destinationDirectory)
-        {
-            ExportPlaylistsResult result = ExportPlaylistsResult.Success;
-
-            foreach (Playlist pl in playlists)
-            {
-                ExportPlaylistsResult tempResult = await this.ExportPlaylistAsync(pl, destinationDirectory, pl.PlaylistName, true);
-
-                // If at least 1 export failed, return an error
-                if (tempResult == ExportPlaylistsResult.Error)
-                {
-                    result = tempResult;
-                }
-            }
-
-            return result;
         }
 
         public async Task MarkFolderAsync(Folder fol)
