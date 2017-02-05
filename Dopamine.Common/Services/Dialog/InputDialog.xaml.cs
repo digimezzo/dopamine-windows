@@ -53,6 +53,13 @@ namespace Dopamine.Common.Services.Dialog
         {
             this.DialogResult = false;
         }
+
+        private void DopamineWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Set focus to the TextBox and highlight the text. This makes user input easier.
+            this.TextBoxResponse.Focus();
+            if (!string.IsNullOrEmpty(this.TextBoxResponse.Text)) this.TextBoxResponse.Select(0, this.TextBoxResponse.Text.Length);
+        }
         #endregion
     }
 }

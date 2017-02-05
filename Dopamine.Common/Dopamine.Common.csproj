@@ -231,7 +231,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
-    <Compile Include="Helpers\AddToPlaylistResult.cs" />
+    <Compile Include="Services\Playlist\AddToPlaylistResult.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
     <Compile Include="IO\FileOperations.cs" />
@@ -292,6 +292,7 @@
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\PlaylistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PopupVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsThinViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
@@ -448,6 +449,7 @@
     <Compile Include="Services\Playback\PlaybackService.cs" />
     <Compile Include="Services\Playback\QueueManager.cs" />
     <Compile Include="Services\Playback\UpdateQueueMetadataResult.cs" />
+    <Compile Include="Services\Playlist\DeletePlaylistsResult.cs" />
     <Compile Include="Services\Playlist\Enums.cs" />
     <Compile Include="Services\Playlist\IPlaylistService.cs" />
     <Compile Include="Services\Playlist\PlaylistService.cs" />

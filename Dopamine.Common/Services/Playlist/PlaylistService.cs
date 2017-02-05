@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
@@ -26,7 +27,7 @@ namespace Dopamine.Common.Services.Playlist
 
             // Initialize Playlists folder
             string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            string playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationDisplayName, "Playlists");
+            this.playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationDisplayName, "Playlists");
 
             if (!Directory.Exists(playlistFolder))
             {
@@ -109,7 +110,7 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
         {
-            DeleteTracksFromPlaylistsResult result = DeleteTracksFromPlaylistsResult.Success; 
+            DeleteTracksFromPlaylistsResult result = DeleteTracksFromPlaylistsResult.Success;
 
             //DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
 
@@ -135,16 +136,38 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<DeletePlaylistResult> DeletePlaylistsAsync(IList<string> playlists)
+        public async Task<DeletePlaylistsResult> DeletePlaylistsAsync(IList<string> playlists)
         {
-            DeletePlaylistResult result = DeletePlaylistResult.Success;
+            DeletePlaylistsResult result = new DeletePlaylistsResult() { IsSuccess = true };
+            List<string> deletedPlaylists = new List<string>();
 
-            //DeletePlaylistResult result = await this.playlistRepository.DeletePlaylistsAsync(playlists);
+            await Task.Run(() =>
+            {
+                foreach (string playlist in playlists)
+                {
+                    try
+                    {
+                        string playlistPath = Path.Combine(this.playlistFolder, playlist + FileFormats.M3U);
 
-            //if (result == DeletePlaylistResult.Success)
-            //{
-            //    this.PlaylistsChanged(this, new EventArgs());
-            //}
+                        if (System.IO.File.Exists(playlistPath))
+                        {
+                            System.IO.File.Delete(playlistPath);
+                            deletedPlaylists.Add(playlist);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                    }
+                }
+            });
+
+            result.DeletedPlaylists = deletedPlaylists;
+
+            if (deletedPlaylists.Count > 0)
+            {
+                this.PlaylistsChanged(this, new EventArgs());
+            }
 
             return result;
         }
@@ -153,20 +176,49 @@ namespace Dopamine.Common.Services.Playlist
         {
             AddPlaylistResult result = AddPlaylistResult.Success;
 
-            //AddPlaylistResult result = await this.playlistRepository.AddPlaylistAsync(playlist);
+            await Task.Run(() =>
+            {
+                string filename = Path.Combine(this.playlistFolder, FileUtils.SanitizeFilename(playlist) + FileFormats.M3U);
 
-            //if (result == AddPlaylistResult.Success)
-            //{
-            //    this.PlaylistsChanged(this, new EventArgs());
-            //}
+                if (!System.IO.File.Exists(filename))
+                {
+                    try
+                    {
+                        System.IO.File.Create(filename);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                        result = AddPlaylistResult.Error;
+                    }
+                }
+                else
+                {
+                    result = AddPlaylistResult.Duplicate;
+                }
+            });
+
+            if (result == AddPlaylistResult.Success) this.PlaylistsChanged(this, new EventArgs());
 
             return result;
         }
 
         public async Task<List<string>> GetPlaylistsAsync()
         {
-            //return await this.playlistRepository.GetPlaylistsAsync();
-            return new List<string>();
+            var playlists = new List<string>();
+
+            await Task.Run(() =>
+            {
+                var di = new DirectoryInfo(this.playlistFolder);
+                var fi = di.GetFiles("*" + FileFormats.M3U, SearchOption.TopDirectoryOnly);
+
+                foreach (FileInfo f in fi)
+                {
+                    playlists.Add(Path.GetFileNameWithoutExtension(f.FullName));
+                }
+            });
+
+            return playlists;
         }
 
         public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
@@ -227,52 +279,52 @@ namespace Dopamine.Common.Services.Playlist
         //{
         //    ExportPlaylistsResult result = ExportPlaylistsResult.Success;
 
-            //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
+        //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(playlist.ToList()), TrackOrder.ByFileName);
 
-            //await Task.Run(() =>
-            //{
+        //await Task.Run(() =>
+        //{
 
-            //    try
-            //    {
-            //        string playlistFileNameWithoutPathAndExtension = FileUtils.SanitizeFilename(playlist);
-            //        string playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
+        //    try
+        //    {
+        //        string playlistFileNameWithoutPathAndExtension = FileUtils.SanitizeFilename(playlist);
+        //        string playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
 
-            //        if (generateUniqueName)
-            //        {
-            //            // Make sure the file we try to create doesn't exist yet
-            //            while (System.IO.File.Exists(playlistFileFullPath))
-            //            {
-            //                playlistFileNameWithoutPathAndExtension = playlistFileNameWithoutPathAndExtension + " (1)";
-            //                playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
-            //            }
-            //        }
+        //        if (generateUniqueName)
+        //        {
+        //            // Make sure the file we try to create doesn't exist yet
+        //            while (System.IO.File.Exists(playlistFileFullPath))
+        //            {
+        //                playlistFileNameWithoutPathAndExtension = playlistFileNameWithoutPathAndExtension + " (1)";
+        //                playlistFileFullPath = Path.Combine(destinationDirectory, string.Concat(playlistFileNameWithoutPathAndExtension, FileFormats.M3U));
+        //            }
+        //        }
 
-            //        // Write all the paths to the file
-            //        using (StreamWriter file = new StreamWriter(playlistFileFullPath))
-            //        {
-            //            foreach (PlayableTrack t in tracks)
-            //            {
-            //                string audioFileNameWithoutPath = Path.GetFileName(t.Path);
+        //        // Write all the paths to the file
+        //        using (StreamWriter file = new StreamWriter(playlistFileFullPath))
+        //        {
+        //            foreach (PlayableTrack t in tracks)
+        //            {
+        //                string audioFileNameWithoutPath = Path.GetFileName(t.Path);
 
-            //                // If the audio file is in the same directory as the playlist file, 
-            //                // don't save the full path in the playlist file.
-            //                if (System.IO.File.Exists(Path.Combine(destinationDirectory, audioFileNameWithoutPath)))
-            //                {
-            //                    file.WriteLine(audioFileNameWithoutPath);
-            //                }
-            //                else
-            //                {
-            //                    file.WriteLine(t.Path);
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        result = ExportPlaylistsResult.Error;
-            //        LogClient.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist.playlist, ex.Message);
-            //    }
-            //});
+        //                // If the audio file is in the same directory as the playlist file, 
+        //                // don't save the full path in the playlist file.
+        //                if (System.IO.File.Exists(Path.Combine(destinationDirectory, audioFileNameWithoutPath)))
+        //                {
+        //                    file.WriteLine(audioFileNameWithoutPath);
+        //                }
+        //                else
+        //                {
+        //                    file.WriteLine(t.Path);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result = ExportPlaylistsResult.Error;
+        //        LogClient.Error("Error while exporting Playlist '{0}'. Exception: {1}", playlist.playlist, ex.Message);
+        //    }
+        //});
 
         //    return result;
         //}
