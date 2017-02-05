@@ -9,6 +9,7 @@
     Accent="{DynamicResource RG_AccentBrush}"
     OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
     Background="Transparent"
+    Loaded="DopamineWindow_Loaded"
     ShowWindowControls="False">
 
     <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">

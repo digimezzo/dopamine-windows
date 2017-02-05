@@ -8,12 +8,6 @@
         Blank = 3
     }
 
-    public enum DeletePlaylistResult
-    {
-        Error = 0,
-        Success = 1
-    }
-
     public enum RenamePlaylistResult
     {
         Error = 0,
