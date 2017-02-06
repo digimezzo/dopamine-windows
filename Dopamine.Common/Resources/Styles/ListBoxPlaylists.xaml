@@ -12,13 +12,8 @@
 
     <!-- ContextMenu -->
     <ContextMenu x:Key="ListBoxPlaylistsContextMenu" x:Shared="False">
-        <ContextMenu.Resources>
-            <utils:BindingProxy x:Key="SaveProxy" Data="{DynamicResource Language_Save}"/>
-        </ContextMenu.Resources>
         <MenuItem Header="{DynamicResource Language_Rename}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AllowRename}"/>
         <MenuItem Header="{DynamicResource Language_Delete}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeleteSelectedPlaylistsCommand}"/>
-        <Separator/>
-        <MenuItem Header="{Binding Source={StaticResource SaveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" InputGestureText="" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.SaveSelectedPlaylistsCommand}"/>
     </ContextMenu>
 
     <!-- ListBoxItem -->
