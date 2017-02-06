@@ -60,7 +60,6 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand<string> DeletePlaylistByNameCommand { get; set; }
         public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
         public DelegateCommand DeleteSelectedPlaylistsCommand { get; set; }
-        public DelegateCommand SaveSelectedPlaylistsCommand { get; set; }
         public DelegateCommand<object> SelectedPlaylistsCommand { get; set; }
         public DelegateCommand AddPlaylistsToNowPlayingCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
@@ -146,7 +145,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.DeleteSelectedPlaylistsCommand = new DelegateCommand(async () => await this.DeleteSelectedPlaylistsAsync());
             //this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             //this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
-            //this.SaveSelectedPlaylistsCommand = new DelegateCommand(async () => await this.SaveSelectedPlaylistsAsync());
             this.SelectedPlaylistsCommand = new DelegateCommand<object>(async (parameter) => await SelectedPlaylistsHandlerAsync(parameter));
             //this.AddPlaylistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddPLaylistsToNowPlayingAsync(this.SelectedPlaylists));
 
@@ -525,94 +523,6 @@ namespace Dopamine.CollectionModule.ViewModels
         //    if (this.SelectedPlaylists != null && this.SelectedPlaylists.Count > 0)
         //    {
         //        await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
-        //    }
-        //}
-
-
-
-        //private async Task SaveSelectedPlaylistsAsync()
-        //{
-        //    if (this.SelectedPlaylists != null && this.SelectedPlaylists.Count > 0)
-        //    {
-        //        if (this.SelectedPlaylists.Count > 1)
-        //        {
-        //            // Save all the selected playlists
-        //            // -------------------------------
-        //            var dlg = new WPFFolderBrowserDialog();
-
-        //            if ((bool)dlg.ShowDialog())
-        //            {
-        //                try
-        //                {
-        //                    ExportPlaylistsResult result = await this.playlistService.ExportPlaylistsAsync(this.SelectedPlaylists, dlg.FileName);
-
-        //                    if (result == ExportPlaylistsResult.Error)
-        //                    {
-        //                        this.dialogService.ShowNotification(
-        //                                0xe711,
-        //                                16,
-        //                                ResourceUtils.GetStringResource("Language_Error"),
-        //                                ResourceUtils.GetStringResource("Language_Error_Saving_Playlists"),
-        //                                ResourceUtils.GetStringResource("Language_Ok"),
-        //                                true,
-        //                                ResourceUtils.GetStringResource("Language_Log_File"));
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    LogClient.Error("Exception: {0}", ex.Message);
-
-        //                    this.dialogService.ShowNotification(
-        //                        0xe711,
-        //                        16,
-        //                        ResourceUtils.GetStringResource("Language_Error"),
-        //                        ResourceUtils.GetStringResource("Language_Error_Saving_Playlists"),
-        //                        ResourceUtils.GetStringResource("Language_Ok"),
-        //                        true,
-        //                        ResourceUtils.GetStringResource("Language_Log_File"));
-        //                }
-        //            }
-
-        //        }
-        //        else if (this.SelectedPlaylists.Count == 1)
-        //        {
-        //            // Save 1 playlist
-        //            // ---------------
-        //            var dlg = new Microsoft.Win32.SaveFileDialog();
-        //            dlg.FileName = FileUtils.SanitizeFilename(this.SelectedPlaylists[0].PlaylistName);
-        //            dlg.DefaultExt = FileFormats.M3U;
-        //            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Playlists"), " (", FileFormats.M3U, ")|*", FileFormats.M3U);
-
-        //            if ((bool)dlg.ShowDialog())
-        //            {
-        //                try
-        //                {
-        //                    ExportPlaylistsResult result = await this.playlistService.ExportPlaylistAsync(this.SelectedPlaylists[0], dlg.FileName, false);
-
-        //                    if (result == ExportPlaylistsResult.Error)
-        //                    {
-        //                        this.dialogService.ShowNotification(
-        //                                0xe711,
-        //                                16,
-        //                                ResourceUtils.GetStringResource("Language_Error"),
-        //                                ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"),
-        //                                ResourceUtils.GetStringResource("Language_Ok"),
-        //                                true,
-        //                                ResourceUtils.GetStringResource("Language_Log_File"));
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    LogClient.Error("Exception: {0}", ex.Message);
-
-        //                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Saving_Playlist"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // Should not happen
-        //        }
         //    }
         //}
         #endregion

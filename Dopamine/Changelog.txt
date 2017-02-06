@@ -3,6 +3,7 @@
 
 - [Changed] Updated the French translation
 - [Changed] Updated the Spanish translation
+- [Changed] Updated the German translation
 - [Fixed] Automatic install or download button for updates is confusing for some users
 - [Fixed] Improved sizing of time indicator on the main window
 
