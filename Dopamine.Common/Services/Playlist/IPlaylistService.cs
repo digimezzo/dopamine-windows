@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Playlist
 {
+    public delegate void PlaylistAddedHandler(string addedPlaylist);
+    public delegate void PlaylistDeletedHandler(List<string> deletedPlaylists);
+
     public interface IPlaylistService
     {
         Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist);
@@ -21,8 +24,11 @@ namespace Dopamine.Common.Services.Playlist
         Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
         Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<string> playlists, string destinationDirectory);
         Task<ExportPlaylistsResult> ExportPlaylistAsync(string playlist, string destinationDirectory, bool generateUniqueName);
-        event EventHandler PlaylistsChanged;
+        
         event Action<int, string> AddedTracksToPlaylist;
         event EventHandler DeletedTracksFromPlaylists;
+
+        event PlaylistAddedHandler PlaylistAdded;
+        event PlaylistDeletedHandler PlaylistsDeleted;
     }
 }

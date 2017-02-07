@@ -160,7 +160,8 @@ namespace Dopamine.CollectionModule.ViewModels
             // CollectionService
             //this.playlistService.AddedTracksToPlaylist += async (_, __) => await this.ReloadPlaylistsAsync();
             //this.playlistService.DeletedTracksFromPlaylists += async (_, __) => await this.ReloadPlaylistsAsync();
-            this.playlistService.PlaylistsChanged += async (_, __) => await this.GetPlaylistsAsync(); // Refreshes the lists when the playlists have changed
+            this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdatePlaylists(addedPlaylist);
+            this.playlistService.PlaylistsDeleted += (deletedPlaylists) => this.UpdatePlaylists(deletedPlaylists);
 
             // Events
             //this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());
@@ -170,6 +171,19 @@ namespace Dopamine.CollectionModule.ViewModels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
         #endregion
+
+        private void UpdatePlaylists(string addedPlaylist)
+        {
+            this.Playlists.Add(new PlaylistViewModel() { Playlist = addedPlaylist });
+        }
+
+        private void UpdatePlaylists(List<string> deletedPlaylists)
+        {
+            foreach (string deletedPlaylist in deletedPlaylists)
+            {
+                this.Playlists.Remove(this.Playlists.Where(p => p.Playlist.Equals(deletedPlaylist)).Single());
+            }
+        }
 
         #region Private
         private async Task ConfirmAddPlaylistAsync()
@@ -254,7 +268,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     foreach (string playlist in playlists)
                     {
-                        playlistViewModels.Add(new PlaylistViewModel { Name = playlist });
+                        playlistViewModels.Add(new PlaylistViewModel { Playlist = playlist });
                     }
                 });
 
@@ -350,7 +364,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
                 foreach (PlaylistViewModel item in (IList)parameter)
                 {
-                    this.SelectedPlaylists.Add(item.Name);
+                    this.SelectedPlaylists.Add(item.Playlist);
                 }
                 OnPropertyChanged(() => this.AllowRename);
             }

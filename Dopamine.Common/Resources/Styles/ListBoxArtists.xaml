@@ -17,12 +17,12 @@
         </ContextMenu.Resources>
 
         <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddArtistsToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
+        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Playlist">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
                     <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddArtistsToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Playlist}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
             <MenuItem.ItemsSource>

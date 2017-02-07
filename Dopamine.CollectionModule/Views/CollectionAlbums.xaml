@@ -53,7 +53,7 @@
                                 Command="{Binding ToggleAlbumOrderCommand}"/>
                 </StackPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
-                                                             Style="{StaticResource Albums_ListBoxAlbums}"
+                                                             Style="{StaticResource ListBoxAlbums}"
                                                              ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
                                                              BorderThickness="0"
                                                              MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
