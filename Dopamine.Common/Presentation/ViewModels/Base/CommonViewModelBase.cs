@@ -2,9 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
@@ -33,7 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     {
         #region Variables
         // Collections
-        private ObservableCollection<string> contextMenuPlaylists;
+        private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
 
         // Services
@@ -126,12 +124,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             get { return this.trackOrderText; }
         }
 
-        public ObservableCollection<string> ContextMenuPlaylists
+        public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
         {
             get { return this.contextMenuPlaylists; }
             set
             {
-                SetProperty<ObservableCollection<string>>(ref this.contextMenuPlaylists, value);
+                SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
             }
         }
@@ -211,7 +209,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
 
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
-            this.playlistService.PlaylistsChanged += (_, __) => this.GetContextMenuPlaylistsAsync();
+            this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
+            this.playlistService.PlaylistsDeleted += (_) => this.GetContextMenuPlaylistsAsync();
 
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
@@ -237,38 +236,34 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         private async void GetContextMenuPlaylistsAsync()
         {
-            // TODO
-            //try
-            //{
-            //    // Unbind to improve UI performance
-            //    this.ContextMenuPlaylists = null;
+            try
+            {
+                // Unbind to improve UI performance
+                this.ContextMenuPlaylists = null;
 
-            //    List<Playlist> playlists = await this.playlistService.GetPlaylistsAsync();
+                List<string> playlists = await this.playlistService.GetPlaylistsAsync();
 
-            //    // Populate an ObservableCollection
-            //    var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
+                // Populate an ObservableCollection
+                var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
 
-            //    await Task.Run(() =>
-            //    {
-            //        foreach (Playlist pl in playlists)
-            //        {
-            //            playlistViewModels.Add(new PlaylistViewModel
-            //            {
-            //                Playlist = pl
-            //            });
-            //        }
+                await Task.Run(() =>
+                {
+                    foreach (string playlist in playlists)
+                    {
+                        playlistViewModels.Add(new PlaylistViewModel { Playlist = playlist });
+                    }
 
-            //    });
+                });
 
-            //    // Re-bind to update the UI
-            //    this.ContextMenuPlaylists = playlistViewModels;
+                // Re-bind to update the UI
+                this.ContextMenuPlaylists = playlistViewModels;
 
-            //}
-            //catch (Exception)
-            //{
-            //    // If loading from the database failed, create and empty Collection.
-            //    this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
-            //}
+            }
+            catch (Exception)
+            {
+                // If loading from the database failed, create and empty Collection.
+                this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
+            }
         }
 
         private async void GetSearchProvidersAsync()

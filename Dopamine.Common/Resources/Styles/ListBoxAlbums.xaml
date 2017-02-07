@@ -18,13 +18,52 @@
     <converters:PathToImageConverter x:Key="PathToImageConverter" />
     <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
-    <!-- 
-    It is necessary to split up the ContextMenu Styles per ListBox. As each DataContext.*Command only ever gets
-    fired only in the ViewModel which fired the command the first time. I have no idea why this happens.
-    -->
+    <!-- ContextMenu -->
+    <ContextMenu x:Key="ListBoxAlbumsContextMenu" x:Shared="False">
+        <ContextMenu.Resources>
+            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        </ContextMenu.Resources>
 
-    <!-- Shared -->
-    <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" x:Shared="False">
+        <MenuItem
+            InputGestureText="" 
+            Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Edit}"/>
+                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+            </MenuItem.Header>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Cover_Size}" InputGestureText="">
+            <MenuItem Header="{DynamicResource Language_Small}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding DataContext.IsSmallCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+            <MenuItem Header="{DynamicResource Language_Medium}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding DataContext.IsMediumCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+            <MenuItem Header="{DynamicResource Language_Large}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding DataContext.IsLargeCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddAlbumsToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Playlist">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddAlbumsToPlaylistCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding Playlist}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+            <MenuItem.ItemsSource>
+                <CompositeCollection>
+                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
+                    <Separator/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
+                </CompositeCollection>
+            </MenuItem.ItemsSource>
+        </MenuItem>
+    </ContextMenu>
+
+    <!-- ListBoxItem -->
+    <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="ContextMenu" Value="{StaticResource ListBoxAlbumsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
         <Setter Property="Margin" Value="2"/>
@@ -48,7 +87,9 @@
         </Setter>
     </Style>
 
+    <!-- ListBox -->
     <Style x:Key="ListBoxAlbums" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxAlbumsItem}" />
         <Setter Property="Padding" Value="10,0,10,0" />
         <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="Background" Value="Transparent" />
@@ -89,11 +130,11 @@
                                          HorizontalAlignment="Right"
                                          VerticalAlignment="Top"
                                          Margin="0,-1,-1,0">
-                                         <Polygon.Points>
+                                        <Polygon.Points>
                                             <Point X="-30" Y="0"/>
                                             <Point X="0" Y="0"/>
                                             <Point X="0" Y="30"/>
-                                         </Polygon.Points>
+                                        </Polygon.Points>
                                     </Polygon>
                                     <TextBlock x:Name="AlbumSelector"
                                        Text="&#xE8FB;"
@@ -155,154 +196,5 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <!-- Artists screen -->
-    <ContextMenu x:Key="Artists_ListBoxAlbumsContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-
-        <MenuItem
-            InputGestureText="" 
-            Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Cover_Size}" InputGestureText="">
-            <MenuItem Header="{DynamicResource Language_Small}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding DataContext.IsSmallCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Medium}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding DataContext.IsMediumCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Large}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding DataContext.IsLargeCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddAlbumsToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddAlbumsToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-    </ContextMenu>
-
-    <Style x:Key="Artists_ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxAlbumsItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Artists_ListBoxAlbumsContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Artists_ListBoxAlbums" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxAlbums}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Artists_ListBoxAlbumsItem}" />
-    </Style>
-
-    <!-- Genres screen -->
-    <ContextMenu x:Key="Genres_ListBoxAlbumsContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-
-        <MenuItem InputGestureText="" Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Cover_Size}" InputGestureText="">
-            <MenuItem Header="{DynamicResource Language_Small}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding DataContext.IsSmallCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Medium}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding DataContext.IsMediumCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Large}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding DataContext.IsLargeCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddAlbumsToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddAlbumsToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-    </ContextMenu>
-
-    <Style x:Key="Genres_ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxAlbumsItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Genres_ListBoxAlbumsContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Genres_ListBoxAlbums" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxAlbums}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Genres_ListBoxAlbumsItem}" />
-    </Style>
-
-    <!-- Albums screen -->
-    <ContextMenu x:Key="Albums_ListBoxAlbumsContextMenu">
-        <ContextMenu.Resources>
-            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
-            <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </ContextMenu.Resources>
-
-        <MenuItem InputGestureText="" Command="{Binding DataContext.EditAlbumCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Edit}"/>
-                    <controls:SyncRing Width="11" Margin="15,0,0,0" VerticalAlignment="Center" Visibility="{Binding DataContext.IsIndexing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-            </MenuItem.Header>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Cover_Size}" InputGestureText="">
-            <MenuItem Header="{DynamicResource Language_Small}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding DataContext.IsSmallCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Medium}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding DataContext.IsMediumCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-            <MenuItem Header="{DynamicResource Language_Large}" InputGestureText="" Command="{Binding DataContext.SetCoverSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding DataContext.IsLargeCoverSizeSelected,Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddAlbumsToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="PlaylistName">
-            <MenuItem.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddAlbumsToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding PlaylistName}"/>
-                </Style>
-            </MenuItem.ItemContainerStyle>
-            <MenuItem.ItemsSource>
-                <CompositeCollection>
-                    <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
-                    <Separator/>
-                    <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
-                </CompositeCollection>
-            </MenuItem.ItemsSource>
-        </MenuItem>
-    </ContextMenu>
-
-    <Style x:Key="Albums_ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxAlbumsItem}">
-        <Setter Property="ContextMenu" Value="{StaticResource Albums_ListBoxAlbumsContextMenu}"/>
-    </Style>
-
-    <Style x:Key="Albums_ListBoxAlbums" TargetType="{x:Type ListBox}" BasedOn="{StaticResource ListBoxAlbums}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource Albums_ListBoxAlbumsItem}" />
     </Style>
 </ResourceDictionary>

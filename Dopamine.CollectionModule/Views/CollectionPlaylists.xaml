@@ -16,6 +16,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -67,6 +68,13 @@
                                                MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
                                                PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
                                                SelectionMode="Extended">
+                            <dc:MultiSelectListBox.Resources>
+                                <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
+                                    <CollectionViewSource.SortDescriptions>
+                                        <scm:SortDescription PropertyName="Playlist" />
+                                    </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource>
+                            </dc:MultiSelectListBox.Resources>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SelectedPlaylistsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxPlaylists}"/>
@@ -122,4 +130,4 @@
             </dc:MultiPanePanel.MiddlePaneContent>
         </dc:MultiPanePanel>
     </DockPanel>
-    </baseviews:TracksViewBase>
+</baseviews:TracksViewBase>

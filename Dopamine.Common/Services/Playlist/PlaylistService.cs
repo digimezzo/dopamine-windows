@@ -44,7 +44,8 @@ namespace Dopamine.Common.Services.Playlist
         #endregion
 
         #region Events
-        public event EventHandler PlaylistsChanged = delegate { };
+        public event PlaylistAddedHandler PlaylistAdded = delegate { };
+        public event PlaylistDeletedHandler PlaylistsDeleted = delegate { };
         public event Action<int, string> AddedTracksToPlaylist = delegate { };
         public event EventHandler DeletedTracksFromPlaylists = delegate { };
         #endregion
@@ -166,7 +167,7 @@ namespace Dopamine.Common.Services.Playlist
 
             if (deletedPlaylists.Count > 0)
             {
-                this.PlaylistsChanged(this, new EventArgs());
+                this.PlaylistsDeleted(deletedPlaylists);
             }
 
             return result;
@@ -198,7 +199,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
             });
 
-            if (result == AddPlaylistResult.Success) this.PlaylistsChanged(this, new EventArgs());
+            if (result == AddPlaylistResult.Success) this.PlaylistAdded(playlist);
 
             return result;
         }
