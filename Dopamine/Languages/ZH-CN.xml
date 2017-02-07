@@ -126,7 +126,7 @@
   <Text Key="Columns">列</Text>
   <Text Key="Length">长度</Text>
   <Text Key="Album_Artist">专辑艺术家</Text>
-  <Text Key="Track_Number">轨道序号</Text>
+  <Text Key="Track_Number">音轨序号</Text>
   <Text Key="Year">日期</Text>
   <Text Key="All_Artists">所有艺术家</Text>
   <Text Key="All_Albums">所有专辑</Text>
@@ -177,7 +177,7 @@
   <Text Key="Micro_Player">简洁模式</Text>
   <Text Key="Nano_Player">极简模式</Text>
   <Text Key="Lock_Position">锁定位置</Text>
-  <Text Key="Always_On_Top">总是显示在前排</Text>
+  <Text Key="Always_On_Top">总是置顶</Text>
   <Text Key="Always_Show_Playback_Info">总是显示标题与艺术家</Text>
   <Text Key="Maximize">最大化</Text>
   <Text Key="Hide_Taskbar_When_Maximized">窗口最大化时隐藏任务栏</Text>
@@ -234,7 +234,7 @@
   <Text Key="Size">大小</Text>
   <Text Key="Click_To_View_Full_Size">点击查看全屏</Text>
   <Text Key="Album_Artists">专辑艺术家</Text>
-  <Text Key="Track_Count">轨道数量</Text>
+  <Text Key="Track_Count">音轨数量</Text>
   <Text Key="Disc_Number">光盘序号</Text>
   <Text Key="Disc_Count">光盘数量</Text>
   <Text Key="Grouping">分组</Text>
