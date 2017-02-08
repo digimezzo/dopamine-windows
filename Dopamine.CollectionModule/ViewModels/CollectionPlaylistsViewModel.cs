@@ -96,10 +96,6 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                return this.SelectedPlaylists.Count == 1;
             }
-            else
-            {
-               return false;
-            }
 
             return false;
          }
@@ -455,7 +451,6 @@ namespace Dopamine.CollectionModule.ViewModels
          bool? dialogResult = dlg.ShowDialog();
 
          // Process the file dialog box result
-
          if ((bool)dialogResult)
          {
             this.IsLoadingPlaylists = true;
@@ -497,10 +492,6 @@ namespace Dopamine.CollectionModule.ViewModels
       //{
       //    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedPlaylists), trackOrder);
       //}
-
-
-
-
 
       //private async Task DeleteTracksFromPlaylistsAsync()
       //{

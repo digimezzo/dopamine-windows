@@ -23,33 +23,14 @@ namespace Dopamine.Common.Services.Playlist
       event PlaylistDeletedHandler PlaylistsDeleted;
       event PlaylistRenamedHandler PlaylistRenamed;
 
-
-
-
-
-
-
-
-
-
-
       // Old
-
-
-
       Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist);
       Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist);
       Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
       Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist);
       Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
       
-      
-      Task<ExportPlaylistsResult> ExportPlaylistsAsync(IList<string> playlists, string destinationDirectory);
-      Task<ExportPlaylistsResult> ExportPlaylistAsync(string playlist, string destinationDirectory, bool generateUniqueName);
-
       event Action<int, string> AddedTracksToPlaylist;
       event EventHandler DeletedTracksFromPlaylists;
-
-      
    }
 }
