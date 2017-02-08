@@ -33,10 +33,4 @@
       Error = 0,
       Success = 1
    }
-
-   public enum ExportPlaylistsResult
-   {
-      Error = 0,
-      Success = 1
-   }
 }
