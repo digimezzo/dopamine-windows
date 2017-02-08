@@ -18,6 +18,7 @@ namespace Dopamine.Common.Services.Playlist
       Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylist, string newPlaylist);
       Task<List<string>> GetPlaylistsAsync();
       Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
+      Task<List<PlayableTrack>> GetTracks(List<string> playlists);
 
       event PlaylistAddedHandler PlaylistAdded;
       event PlaylistDeletedHandler PlaylistsDeleted;

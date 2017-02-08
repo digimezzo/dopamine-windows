@@ -21,7 +21,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.ShuffleAllCommand = new DelegateCommand(() =>
             {
-                if (!this.playbackService.Shuffle) this.playbackService.SetShuffle(true);
+                if (!this.playbackService.Shuffle) this.playbackService.SetShuffleAsync(true);
                 this.playbackService.Enqueue();
             });
         }

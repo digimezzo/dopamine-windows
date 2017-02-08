@@ -11,19 +11,24 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Dopamine.Common.Services.File;
 
 namespace Dopamine.Common.Services.Playlist
 {
    public class PlaylistService : IPlaylistService
    {
       #region Variables
+      private IFileService fileService;
       private ITrackRepository trackRepository;
       private string playlistFolder;
       #endregion
 
       #region Construction
-      public PlaylistService(ITrackRepository trackRepository)
+      public PlaylistService(IFileService fileService, ITrackRepository trackRepository)
       {
+         // Services
+         this.fileService = fileService;
+
          // Repositories
          this.trackRepository = trackRepository;
 
@@ -284,18 +289,38 @@ namespace Dopamine.Common.Services.Playlist
          return OpenPlaylistResult.Success;
       }
 
+      public async Task<List<PlayableTrack>> GetTracks(List<string> playlists)
+      {
+         var tracks = new List<PlayableTrack>();
+         var decoder = new PlaylistDecoder();
 
+         await Task.Run(async() =>
+         {
+            foreach (string playlist in playlists)
+            {
+               string filename = this.CreatePlaylistFilename(playlist);
+               DecodePlaylistResult decodeResult = null;
+               decodeResult = decoder.DecodePlaylist(filename);
 
+               if (decodeResult.DecodeResult.Result)
+               {
+                  foreach (string path in decodeResult.Paths)
+                  {
+                     try
+                     {
+                        tracks.Add(await this.fileService.CreateTrackAsync(path));
+                     }
+                     catch (Exception ex)
+                     {
+                        LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
+                     }
+                  }
+               }
+            }
+         });
 
-
-
-
-
-
-
-
-
-
+         return tracks;
+      }
 
       // Old
 

@@ -43,7 +43,7 @@ namespace Dopamine.Common.Services.Playback
         void Stop();
         void Skip(double progress);
         void SetMute(bool mute);
-        Task SetShuffle(bool shuffle);
+        Task SetShuffleAsync(bool shuffle);
         Task PlayNextAsync();
         Task PlayPreviousAsync();
         Task PlayOrPauseAsync();
