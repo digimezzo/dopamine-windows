@@ -67,7 +67,7 @@ namespace Dopamine.CollectionModule.Views
                 if (dataGridCell == null) return;
 
                 DataGrid dg = (DataGrid)sender;
-                await this.playBackService.Enqueue(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
+                await this.playBackService.EnqueueAsync(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Dopamine.CollectionModule.Views
             try
             {
                 var dg = VisualTreeUtils.FindAncestor<DataGrid>((DataGridRow)sender);
-                await this.playBackService.Enqueue(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
+                await this.playBackService.EnqueueAsync(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
             }
             catch (Exception ex)
             {

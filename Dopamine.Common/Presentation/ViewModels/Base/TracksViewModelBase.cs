@@ -221,7 +221,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 }
                 else
                 {
-                    await this.playbackService.Dequeue(selectedTracks);
+                    await this.playbackService.DequeueAsync(selectedTracks);
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 }
                 else
                 {
-                    await this.playbackService.Dequeue(selectedTracks);
+                    await this.playbackService.DequeueAsync(selectedTracks);
                 }
             }
         }
@@ -296,7 +296,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks;
 
-            EnqueueResult result = await this.playbackService.AddToQueueNext(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
@@ -308,7 +308,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks;
 
-            EnqueueResult result = await this.playbackService.AddToQueue(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {

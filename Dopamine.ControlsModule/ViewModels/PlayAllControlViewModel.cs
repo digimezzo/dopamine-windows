@@ -22,7 +22,7 @@ namespace Dopamine.ControlsModule.ViewModels
             this.PlayAllCommand = new DelegateCommand(() =>
             {
                 if (this.playbackService.Shuffle) this.playbackService.SetShuffleAsync(false);
-                this.playbackService.Enqueue();
+                this.playbackService.EnqueueAsync();
             });
         }
         #endregion

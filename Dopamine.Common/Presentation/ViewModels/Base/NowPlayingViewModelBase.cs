@@ -195,7 +195,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.isRemovingTracks = true;
 
             // Remove Tracks from PlaybackService (this dequeues the Tracks)
-            DequeueResult dequeueResult = await this.playbackService.Dequeue(this.SelectedTracks);
+            DequeueResult dequeueResult = await this.playbackService.DequeueAsync(this.SelectedTracks);
 
             var viewModelsToRemove = new List<KeyValuePair<string, TrackViewModel>>();
 
