@@ -327,7 +327,7 @@ namespace Dopamine.Common.Services.Playback
         #region IPlaybackService
         public async Task StopIfPlayingAsync(PlayableTrack track)
         {
-            if (track.Equals(this.CurrentTrack))
+            if (track.Equals(this.CurrentTrack.Value))
             {
                 if (this.Queue.Count == 1)
                     this.Stop();
