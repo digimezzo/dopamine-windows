@@ -140,7 +140,7 @@ namespace Dopamine.CollectionModule.ViewModels
          // Commands
          this.LoadedCommand = new DelegateCommand(async () => await this.GetPlaylistsAsync());
          this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
-         //this.OpenPlaylistCommand = new DelegateCommand(async () => await this.OpenPlaylistAsync());
+         this.OpenPlaylistCommand = new DelegateCommand(async () => await this.OpenPlaylistAsync());
          this.DeletePlaylistByNameCommand = new DelegateCommand<string>(async (iPlaylistName) => await this.DeletePlaylistByNameAsync(iPlaylistName));
          this.DeleteSelectedPlaylistsCommand = new DelegateCommand(async () => await this.DeleteSelectedPlaylistsAsync());
          this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
@@ -441,6 +441,46 @@ namespace Dopamine.CollectionModule.ViewModels
          }
       }
 
+      private async Task OpenPlaylistAsync()
+      {
+         // Set up the file dialog box
+         Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+         dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
+         dlg.DefaultExt = FileFormats.M3U; // Default file extension
+
+         // Filter files by extension
+         dlg.Filter = ResourceUtils.GetStringResource("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
+
+         // Show the file dialog box
+         bool? dialogResult = dlg.ShowDialog();
+
+         // Process the file dialog box result
+
+         if ((bool)dialogResult)
+         {
+            this.IsLoadingPlaylists = true;
+
+            OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(dlg.FileName);
+
+            if (openResult == OpenPlaylistResult.Error)
+            {
+               this.IsLoadingPlaylists = false;
+
+               this.dialogService.ShowNotification(
+                   0xe711,
+                   16,
+                   ResourceUtils.GetStringResource("Language_Error"),
+                   ResourceUtils.GetStringResource("Language_Error_Opening_Playlist"),
+                   ResourceUtils.GetStringResource("Language_Ok"),
+                   true,
+                   ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+         }
+      }
+
+
+
+
       //protected async Task AddPLaylistsToNowPlayingAsync(IList<Playlist> playlists)
       //{
       //    EnqueueResult result = await this.playbackService.AddToQueue(playlists);
@@ -460,42 +500,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
 
 
-      //private async Task OpenPlaylistAsync()
-      //{
-      //    // Set up the file dialog box
-      //    Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-      //    dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
-      //    dlg.DefaultExt = FileFormats.M3U; // Default file extension
 
-      //    // Filter files by extension
-      //    dlg.Filter = ResourceUtils.GetStringResource("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
-
-      //    // Show the file dialog box
-      //    bool? dialogResult = dlg.ShowDialog();
-
-      //    // Process the file dialog box result
-
-      //    if ((bool)dialogResult)
-      //    {
-      //        this.IsLoadingPlaylists = true;
-
-      //        OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(dlg.FileName);
-
-      //        if (openResult == OpenPlaylistResult.Error)
-      //        {
-      //            this.IsLoadingPlaylists = false;
-
-      //            this.dialogService.ShowNotification(
-      //                0xe711,
-      //                16,
-      //                ResourceUtils.GetStringResource("Language_Error"),
-      //                ResourceUtils.GetStringResource("Language_Error_Opening_Playlist"),
-      //                ResourceUtils.GetStringResource("Language_Ok"),
-      //                true,
-      //                ResourceUtils.GetStringResource("Language_Log_File"));
-      //        }
-      //    }
-      //}
 
       //private async Task DeleteTracksFromPlaylistsAsync()
       //{

@@ -5,7 +5,9 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Helpers;
+using Dopamine.Common.IO;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -55,6 +57,35 @@ namespace Dopamine.Common.Services.Playlist
       private string CreatePlaylistFilename(string playlist)
       {
          return Path.Combine(this.playlistFolder, playlist + FileFormats.M3U);
+      }
+
+      private async Task<string> GetUniquePlaylistAsync(string playlist)
+      {
+         string uniquePlaylist = playlist;
+
+         try
+         {
+            string[] filenames = Directory.GetFiles(this.playlistFolder);
+
+            List<string> existingPlaylists = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
+
+            await Task.Run(() =>
+            {
+               int number = 1;
+
+               while (existingPlaylists.Contains(uniquePlaylist))
+               {
+                  number++;
+                  uniquePlaylist = playlist + " (" + number + ")";
+               }
+            });
+         }
+         catch (Exception ex)
+         {
+            LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", playlist, ex.Message);
+         }
+
+         return uniquePlaylist;
       }
       #endregion
 
@@ -181,14 +212,77 @@ namespace Dopamine.Common.Services.Playlist
          return playlists;
       }
 
+      public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
+      {
+         string playlist = String.Empty;
+         var paths = new List<String>();
 
+         // Decode the playlist file
+         // ------------------------
+         var decoder = new PlaylistDecoder();
+         DecodePlaylistResult decodeResult = null;
 
+         await Task.Run(() => decodeResult = decoder.DecodePlaylist(fileName));
 
+         if (!decodeResult.DecodeResult.Result)
+         {
+            LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+            return OpenPlaylistResult.Error;
+         }
 
+         // Set the paths
+         // -------------
+         paths = decodeResult.Paths;
 
+         // Get a unique name for the playlist
+         // ----------------------------------
+         try
+         {
+            playlist = await this.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
+         }
+         catch (Exception ex)
+         {
+            LogClient.Error("Error while getting unique playlist filename. Exception: {0}", ex.Message);
+            return OpenPlaylistResult.Error;
+         }
 
+         // Create the Playlist in the playlists folder
+         // -------------------------------------------
+         string sanitizedPlaylist = FileUtils.SanitizeFilename(playlist);
+         string filename = this.CreatePlaylistFilename(sanitizedPlaylist);
 
+         try
+         {
+            using (FileStream fs = System.IO.File.Create(filename))
+            {
+               using (var writer = new StreamWriter(fs))
+               {
+                  foreach (string path in paths)
+                  {
+                     try
+                     {
 
+                        writer.WriteLine(path);
+                     }
+                     catch (Exception ex)
+                     {
+                        LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", path, playlist, filename, ex.Message);
+                     }
+                  }
+               }
+            }
+         }
+         catch (Exception ex)
+         {
+            LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+            return OpenPlaylistResult.Error;
+         }
+
+         // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
+         this.PlaylistAdded(playlist);
+
+         return OpenPlaylistResult.Success;
+      }
 
 
 
@@ -285,50 +379,7 @@ namespace Dopamine.Common.Services.Playlist
 
 
 
-      public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
-      {
-         //string playlist = String.Empty;
-         //var paths = new List<String>();
 
-         //// Decode the playlist file
-         //// ------------------------
-         //var decoder = new PlaylistDecoder();
-         //DecodePlaylistResult decodeResult = null;
-
-         //await Task.Run(() => decodeResult = decoder.DecodePlaylist(fileName));
-
-         //if (!decodeResult.DecodeResult.Result)
-         //{
-         //    LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
-         //    return OpenPlaylistResult.Error;
-         //}
-
-         //// Set the paths
-         //// -------------
-         //paths = decodeResult.Paths;
-
-
-         //// Get a unique name for the playlist
-         //// ----------------------------------
-         //playlist = await this.playlistRepository.GetUniqueplaylistAsync(decodeResult.playlist);
-
-         //// Add the Playlist to the database
-         //// --------------------------------
-         //AddPlaylistResult addPlaylistResult = await this.playlistRepository.AddPlaylistAsync(playlist);
-         //if (addPlaylistResult != AddPlaylistResult.Success) return OpenPlaylistResult.Error;
-
-         //// Add Tracks to the Playlist
-         //// --------------------------
-         //List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(paths);
-         //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
-         //if (!result.IsSuccess) return OpenPlaylistResult.Error;
-
-         //// If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success,
-         //// so we can always raise the PlaylistsChanged Event.
-         //this.PlaylistsChanged(this, new EventArgs());
-
-         return OpenPlaylistResult.Success;
-      }
 
       public async Task<ExportPlaylistsResult> ExportPlaylistAsync(string playlist, string destinationDirectory, bool generateUniqueName)
       {
