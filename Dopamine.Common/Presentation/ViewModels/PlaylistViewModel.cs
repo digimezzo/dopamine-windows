@@ -14,6 +14,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return playlist; }
             set { playlist = value; }
         }
+
+        public string SortPlaylist
+        {
+           get { return playlist.ToLowerInvariant(); }
+        }
         #endregion
 
         #region Public
