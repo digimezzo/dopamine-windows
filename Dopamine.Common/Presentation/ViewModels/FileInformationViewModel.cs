@@ -174,7 +174,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.FileFolder = FileUtils.Folder(path);
                 this.FilePath = path;
                 this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(path));
-                this.FileLastModified = FileUtils.DateModified(path).ToString("D", new CultureInfo(Application.Current.FindResource("Language_ISO639-1")?.ToString()));
+                this.FileLastModified = FileUtils.DateModified(path).ToString("D", new CultureInfo(ResourceUtils.GetStringResource("Language_ISO639-1")));
             }
             catch (Exception ex)
             {

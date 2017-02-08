@@ -38,7 +38,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Properties
         public abstract bool CanOrderByAlbum { get; }
 
-        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+        public bool ShowRemoveFromDisk
+        {
+           get { return SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk"); }
+        }
 
         public ObservableCollection<TrackViewModel> Tracks
         {
