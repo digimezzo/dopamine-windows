@@ -71,19 +71,19 @@ namespace Dopamine.Common.Presentation.Views.Base
                 // The user wants to enqueue tracks for the selected item
                 if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                 {
-                    await this.playBackService.Enqueue(lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), ((TrackViewModel)lb.SelectedItem).Track);
+                    await this.playBackService.EnqueueAsync(lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), ((TrackViewModel)lb.SelectedItem).Track);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
-                    await this.playBackService.Enqueue(((ArtistViewModel)lb.SelectedItem).Artist);
+                    await this.playBackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
                 {
-                    await this.playBackService.Enqueue(((GenreViewModel)lb.SelectedItem).Genre);
+                    await this.playBackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playBackService.Enqueue(((AlbumViewModel)lb.SelectedItem).Album);
+                    await this.playBackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album);
                 }
             }
             catch (Exception ex)

@@ -154,7 +154,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     if (album != null)
                     {
-                        this.playbackService.Enqueue((Album)album);
+                        this.playbackService.EnqueueAsync((Album)album);
                     }
                 }
                 catch (Exception ex)

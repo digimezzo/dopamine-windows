@@ -293,7 +293,7 @@ namespace Dopamine.Common.Services.Playback
          this.queueManager = new QueueManager();
 
          // Event handlers
-         this.fileService.TracksImported += async(tracks) => await this.Enqueue(tracks);
+         this.fileService.TracksImported += async(tracks) => await this.EnqueueAsync(tracks);
 
          // Set up timers
          this.progressTimer.Interval = TimeSpan.FromSeconds(this.progressTimeoutSeconds).TotalMilliseconds;
@@ -497,7 +497,7 @@ namespace Dopamine.Common.Services.Playback
             else
             {
                // Enqueue all tracks before playing
-               await this.Enqueue();
+               await this.EnqueueAsync();
             }
          }
       }
@@ -625,7 +625,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlayFirstAsync();
       }
 
-      public async Task Enqueue()
+      public async Task EnqueueAsync()
       {
          List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
 
@@ -633,7 +633,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlayFirstAsync();
       }
 
-      public async Task Enqueue(List<PlayableTrack> tracks)
+      public async Task EnqueueAsync(List<PlayableTrack> tracks)
       {
          if (tracks == null) return;
 
@@ -641,7 +641,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlayFirstAsync();
       }
 
-      public async Task Enqueue(List<PlayableTrack> tracks, PlayableTrack track)
+      public async Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack track)
       {
          if (tracks == null || track == null) return;
 
@@ -649,7 +649,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlaySelectedAsync(track);
       }
 
-      public async Task Enqueue(Artist artist)
+      public async Task EnqueueAsync(Artist artist)
       {
          if (artist == null) return;
 
@@ -659,7 +659,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlayFirstAsync();
       }
 
-      public async Task Enqueue(Genre genre)
+      public async Task EnqueueAsync(Genre genre)
       {
          if (genre == null) return;
 
@@ -669,7 +669,7 @@ namespace Dopamine.Common.Services.Playback
          await this.PlayFirstAsync();
       }
 
-      public async Task Enqueue(Album album)
+      public async Task EnqueueAsync(Album album)
       {
          if (album == null) return;
 
@@ -689,7 +689,7 @@ namespace Dopamine.Common.Services.Playback
          await this.TryPlayAsync(track);
       }
 
-      public async Task<DequeueResult> Dequeue(IList<PlayableTrack> tracks)
+      public async Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks)
       {
          IList<KeyValuePair<string, PlayableTrack>> trackPairs = new List<KeyValuePair<string, PlayableTrack>>();
 
@@ -724,7 +724,7 @@ namespace Dopamine.Common.Services.Playback
          return dequeueResult;
       }
 
-      public async Task<DequeueResult> Dequeue(IList<KeyValuePair<string, PlayableTrack>> tracks)
+      public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
       {
          DequeueResult dequeueResult = await this.queueManager.DequeueAsync(tracks);
 
@@ -747,7 +747,7 @@ namespace Dopamine.Common.Services.Playback
          return dequeueResult;
       }
 
-      public async Task<EnqueueResult> AddToQueue(IList<PlayableTrack> tracks)
+      public async Task<EnqueueResult> AddToQueueAsync(IList<PlayableTrack> tracks)
       {
          EnqueueResult result = await this.queueManager.EnqueueAsync(tracks, this.shuffle);
 
@@ -763,7 +763,7 @@ namespace Dopamine.Common.Services.Playback
          return result;
       }
 
-      public async Task<EnqueueResult> AddToQueueNext(IList<PlayableTrack> tracks)
+      public async Task<EnqueueResult> AddToQueueNextAsync(IList<PlayableTrack> tracks)
       {
          EnqueueResult result = await this.queueManager.EnqueueNextAsync(tracks, this.shuffle);
 
@@ -779,22 +779,22 @@ namespace Dopamine.Common.Services.Playback
          return result;
       }
 
-      public async Task<EnqueueResult> AddToQueue(IList<Artist> artists)
+      public async Task<EnqueueResult> AddToQueueAsync(IList<Artist> artists)
       {
          List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
-         return await this.AddToQueue(tracks);
+         return await this.AddToQueueAsync(tracks);
       }
 
-      public async Task<EnqueueResult> AddToQueue(IList<Genre> genres)
+      public async Task<EnqueueResult> AddToQueueAsync(IList<Genre> genres)
       {
          List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
-         return await this.AddToQueue(tracks);
+         return await this.AddToQueueAsync(tracks);
       }
 
-      public async Task<EnqueueResult> AddToQueue(IList<Album> albums)
+      public async Task<EnqueueResult> AddToQueueAsync(IList<Album> albums)
       {
          List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
-         return await this.AddToQueue(tracks);
+         return await this.AddToQueueAsync(tracks);
       }
       #endregion
 

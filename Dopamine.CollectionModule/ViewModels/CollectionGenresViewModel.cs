@@ -448,7 +448,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddGenresToNowPlayingAsync(IList<Genre> genres)
         {
-            EnqueueResult result = await this.playbackService.AddToQueue(genres);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(genres);
 
             if (!result.IsSuccess)
             {
