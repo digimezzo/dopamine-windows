@@ -8,7 +8,7 @@ using System;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
-    public class NowPlayingScreenPlaylistViewModel : NowPlayingTracksViewModelBase
+    public class NowPlayingScreenPlaylistViewModel : PlaylistViewModelBase
     {
         #region Construction
         public NowPlayingScreenPlaylistViewModel(IUnityContainer container) : base(container)
