@@ -173,7 +173,10 @@ namespace Dopamine.CollectionModule.Views
 
                 if (dg.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackViewModel)dg.SelectedItem).Track.Path);
+                    foreach (TrackViewModel item in dg.SelectedItems)
+                    {
+                        Actions.TryViewInExplorer(item.Track.Path);
+                    }
                 }
             }
             catch (Exception ex)

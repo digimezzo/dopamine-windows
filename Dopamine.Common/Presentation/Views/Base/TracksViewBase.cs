@@ -123,7 +123,10 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((TrackViewModel)lb.SelectedItem).Track.Path);
+                    foreach (TrackViewModel item in lb.SelectedItems)
+                    {
+                        Actions.TryViewInExplorer(item.Track.Path);
+                    }
                 }
             }
             catch (Exception ex)
