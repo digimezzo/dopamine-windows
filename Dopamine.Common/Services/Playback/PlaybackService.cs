@@ -651,12 +651,17 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs)
         {
-            // TODO: implement
+            if (trackPairs == null || trackPairs == null) return;
+
+            await this.EnqueueIfRequired(trackPairs);
         }
 
         public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> track)
         {
-            // TODO: implement
+            if (trackPairs == null || trackPairs == null) return;
+
+            await this.EnqueueIfRequired(trackPairs);
+            await this.PlaySelectedAsync(track);
         }
 
         public async Task EnqueueAsync(Artist artist)
@@ -1180,6 +1185,21 @@ namespace Dopamine.Common.Services.Playback
         }
 
         private async Task EnqueueIfRequired(List<PlayableTrack> tracks)
+        {
+            if (await this.queueManager.IsQueueDifferentAsync(tracks))
+            {
+                if (await this.queueManager.ClearQueueAsync())
+                {
+                    await this.queueManager.EnqueueAsync(tracks, this.shuffle);
+                }
+
+                this.QueueChanged(this, new EventArgs());
+
+                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+            }
+        }
+
+        private async Task EnqueueIfRequired(List<KeyValuePair<string,PlayableTrack>> tracks)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {

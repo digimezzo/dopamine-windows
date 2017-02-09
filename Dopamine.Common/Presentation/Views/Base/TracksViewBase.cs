@@ -60,7 +60,6 @@ namespace Dopamine.Common.Presentation.Views.Base
                 // The user double clicked a valid item
                 if (!enqueue)
                 {
-
                     // The user just wants to play the selected item. Don't enqueue.
                     await this.playBackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
                     return;

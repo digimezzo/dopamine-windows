@@ -311,7 +311,7 @@
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\Base\CommonViewBase.cs" />
-    <Compile Include="Presentation\Views\Base\NowPlayingViewBase.cs" />
+    <Compile Include="Presentation\Views\Base\PlaylistViewBase.cs" />
     <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
     <Compile Include="Presentation\Views\Base\VolumeControlViewBase.cs" />
     <Compile Include="Presentation\Views\CompactPlaybackControls.xaml.cs">
