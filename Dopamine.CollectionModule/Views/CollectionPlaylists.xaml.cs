@@ -11,14 +11,14 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionPlaylists : TracksViewBase, INavigationAware
+    public partial class CollectionPlaylists : PlaylistViewBase, INavigationAware
     {
         #region Variables
         private SubscriptionToken scrollToPlayingTrackToken;
         #endregion
 
         #region Construction
-        public CollectionPlaylists()
+        public CollectionPlaylists() : base()
         {
             InitializeComponent();
 

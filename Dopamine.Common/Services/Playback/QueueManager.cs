@@ -387,6 +387,35 @@ namespace Dopamine.Common.Services.Playback
             return isQueueDifferent;
         }
 
+        public async Task<bool> IsQueueDifferentAsync(IList<KeyValuePair<string,PlayableTrack>> tracks)
+        {
+            bool isQueueDifferent = false;
+
+            await Task.Run(() =>
+            {
+                lock (this.queueLock)
+                {
+                    if (this.queue == null || this.queue.Count == 0 || tracks.Count != this.queue.Count)
+                    {
+                        isQueueDifferent = true;
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        {
+                            if (!this.queue.ContainsKey(track.Key))
+                            {
+                                isQueueDifferent = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+
+            return isQueueDifferent;
+        }
+
         public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
         {
             bool isSuccess = true;
