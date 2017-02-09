@@ -2,10 +2,12 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -67,7 +69,17 @@ namespace Dopamine.Common.Presentation.Views.Base
                 // The user wants to enqueue tracks for the selected item
                 if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                 {
-                    await this.playBackService.EnqueueAsync(lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), ((TrackViewModel)lb.SelectedItem).Track);
+                    await this.playBackService.EnqueueAsync(
+                        lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), 
+                        ((TrackViewModel)lb.SelectedItem).Track
+                        );
+                }
+                else if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string,PlayableTrack>).Name)
+                {
+                    await this.playBackService.EnqueueAsync(
+                        lb.Items.OfType<KeyValuePair<string, PlayableTrack>>().ToList(),
+                        (KeyValuePair<string, PlayableTrack>)lb.SelectedItem
+                        );
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
