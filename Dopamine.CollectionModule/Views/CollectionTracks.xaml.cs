@@ -31,8 +31,6 @@ namespace Dopamine.CollectionModule.Views
         {
             InitializeComponent();
 
-            this.screenName = typeof(CollectionTracks).FullName;
-
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.DataGridTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(async () => await this.ScrollToPlayingTrackAsync(this.DataGridTracks));
@@ -135,10 +133,6 @@ namespace Dopamine.CollectionModule.Views
                 {
                     Actions.TryViewInExplorer(((TrackViewModel)dg.SelectedItem).Track.Path);
                 }
-            }
-            else if (e.Key == Key.Delete)
-            {
-                this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
             }
         }
 

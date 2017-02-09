@@ -36,10 +36,6 @@ namespace Dopamine.Common.Presentation.Views.Base
                     Actions.TryViewInExplorer(((KeyValuePair<string, TrackViewModel>)lb.SelectedItem).Value.Track.Path);
                 }
             }
-            else if (e.Key == Key.Delete)
-            {
-                this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
-            }
         }
 
         protected override async Task ActionHandler(Object sender, DependencyObject source, bool enqueue)

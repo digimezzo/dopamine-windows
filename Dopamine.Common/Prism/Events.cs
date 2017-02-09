@@ -23,14 +23,6 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class RenameSelectedPlaylistWithKeyF2 : PubSubEvent<object>
-    {
-    }
-
-    public class DeleteSelectedPlaylistsWithKeyDelete : PubSubEvent<object>
-    {
-    }
-
     public class CoverPlayerPlaylistButtonClicked : PubSubEvent<bool>
     {
     }
@@ -68,10 +60,6 @@ namespace Dopamine.Common.Prism
     }
 
     public class SettingEnableLoveChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class RemoveSelectedTracksWithKeyDelete : PubSubEvent<string>
     {
     }
 

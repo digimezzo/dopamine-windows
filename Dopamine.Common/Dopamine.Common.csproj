@@ -231,6 +231,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="Services\Playlist\AddToPlaylistResult.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
