@@ -19,8 +19,6 @@ namespace Dopamine.MiniPlayerModule.Views
         {
             InitializeComponent();
 
-            this.screenName = typeof(MiniPlayerPlaylist).FullName;
-
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(() => this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
 

@@ -1,18 +1,19 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.Interfaces;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Interfaces;
+using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -24,9 +25,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Services.Playlist;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -175,11 +173,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
 
             // Events
-            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
-            {
-                if (screenName == typeof(CollectionArtists).FullName) this.RemoveSelectedTracksCommand.Execute();
-            });
-
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;

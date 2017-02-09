@@ -47,11 +47,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async ()=>await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             // Events
-            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
-            {
-                if (screenName == typeof(CollectionAlbums).FullName) this.RemoveSelectedTracksCommand.Execute();
-            });
-
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;

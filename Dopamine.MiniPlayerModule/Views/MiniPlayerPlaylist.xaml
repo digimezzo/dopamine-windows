@@ -15,39 +15,39 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+   <i:Interaction.Triggers>
+      <i:EventTrigger EventName="Loaded">
+         <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+      </i:EventTrigger>
+   </i:Interaction.Triggers>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="0.01*" />
-                <ColumnDefinition MaxWidth="200" Width="*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5,15,0,0" Panel.ZIndex="1">
-                <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
+   <DockPanel>
+      <Grid DockPanel.Dock="Top">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="0.01*" />
+            <ColumnDefinition MaxWidth="200" Width="*" />
+         </Grid.ColumnDefinitions>
+         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5,15,0,0" Panel.ZIndex="1">
+            <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"
                                                  Margin="10,0,0,0"/>
-                <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-            </StackPanel>
-            <controlsviews:SearchControl Grid.Column="2" Margin="15,15,15,0"/>
-        </Grid>
-        <DockPanel Margin="0,15,0,15">
-            <controls:TotalsInformation
+            <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
+         </StackPanel>
+         <controlsviews:SearchControl Grid.Column="2" Margin="15,15,15,0"/>
+      </Grid>
+      <DockPanel Margin="0,15,0,15">
+         <controls:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
                                 Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
-            <dc:MultiSelectListBox x:Name="ListBoxTracks"
+         <dc:MultiSelectListBox x:Name="ListBoxTracks"
                          dd:DragDrop.IsDragSource="True" 
                          dd:DragDrop.IsDropTarget="True" 
                          dd:DragDrop.DropHandler="{Binding}"
@@ -63,12 +63,15 @@
                          ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
                          BorderThickness="0"
                          SelectionMode="Extended">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </dc:MultiSelectListBox>
-        </DockPanel>
-    </DockPanel>
+            <dc:MultiSelectListBox.InputBindings>
+               <KeyBinding Key="Delete" Command="{Binding RemoveFromNowPlayingCommand}" />
+            </dc:MultiSelectListBox.InputBindings>
+            <i:Interaction.Triggers>
+               <i:EventTrigger EventName="SelectionChanged">
+                  <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
+               </i:EventTrigger>
+            </i:Interaction.Triggers>
+         </dc:MultiSelectListBox>
+      </DockPanel>
+   </DockPanel>
 </baseviews:PlaylistViewBase>

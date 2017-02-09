@@ -22,8 +22,6 @@ namespace Dopamine.CollectionModule.Views
         {
             InitializeComponent();
 
-            this.screenName = typeof(CollectionPlaylists).FullName;
-
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(() => this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
@@ -34,24 +32,6 @@ namespace Dopamine.CollectionModule.Views
         #endregion
 
         #region Private
-        private void PlaylistsKeyUpHandlerAsync(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.F2)
-            {
-                if (this.ListBoxPlaylists.SelectedItem != null)
-                {
-                    this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Publish(null);
-                }
-            }
-            else if (e.Key == Key.Delete)
-            {
-                if (this.ListBoxPlaylists.SelectedItem != null)
-                {
-                    this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Publish(null);
-                }
-            }
-        }
-
         private async void ListBoxPlaylists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
@@ -63,11 +43,6 @@ namespace Dopamine.CollectionModule.Views
             {
                 await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
             }
-        }
-
-        private void ListBoxPlaylists_KeyUp(object sender, KeyEventArgs e)
-        {
-            this.PlaylistsKeyUpHandlerAsync(sender, e);
         }
 
         private async void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
