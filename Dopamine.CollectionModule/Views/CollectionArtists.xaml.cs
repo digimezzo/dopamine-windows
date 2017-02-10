@@ -29,8 +29,6 @@ namespace Dopamine.CollectionModule.Views
         {
             InitializeComponent();
 
-            this.screenName = typeof(CollectionArtists).FullName;
-
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(async () => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));

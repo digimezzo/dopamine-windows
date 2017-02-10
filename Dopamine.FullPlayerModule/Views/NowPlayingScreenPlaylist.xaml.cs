@@ -19,8 +19,6 @@ namespace Dopamine.FullPlayerModule.Views
         {
             InitializeComponent();
 
-            this.screenName = typeof(NowPlayingScreenPlaylist).FullName;
-
             // Add any initialization after the InitializeComponent() call.
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(() => this.ScrollToPlayingTrackAsync(this.ListBoxTracks));

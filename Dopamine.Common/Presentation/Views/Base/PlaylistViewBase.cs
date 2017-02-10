@@ -5,7 +5,6 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Prism;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,10 +35,6 @@ namespace Dopamine.Common.Presentation.Views.Base
                     Actions.TryViewInExplorer(((KeyValuePair<string, TrackViewModel>)lb.SelectedItem).Value.Track.Path);
                 }
             }
-            else if (e.Key == Key.Delete)
-            {
-                this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Publish(this.screenName);
-            }
         }
 
         protected override async Task ActionHandler(Object sender, DependencyObject source, bool enqueue)
@@ -62,8 +57,30 @@ namespace Dopamine.Common.Presentation.Views.Base
                 if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem)) return;
 
                 var selectedTrack = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
-                await this.playBackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
-                return;
+
+                if (!enqueue)
+                {
+                    // The user just wants to play the selected item. Don't enqueue.
+                    await this.playBackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                    return;
+                }else
+                {
+                    // The user wants to enqueue tracks for the selected item
+                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, PlayableTrack>).Name)
+                    {
+                        List<KeyValuePair<string, TrackViewModel>> items = lb.Items.OfType<KeyValuePair<string, TrackViewModel>>().ToList();
+                        KeyValuePair<string, TrackViewModel> selectedItem = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
+
+                        var tracks = new List<KeyValuePair<string, PlayableTrack>>();
+
+                        foreach (KeyValuePair<string, TrackViewModel> item in items)
+                        {
+                            tracks.Add(new KeyValuePair<string, PlayableTrack>(item.Key, item.Value.Track));
+                        }
+
+                        await this.playBackService.EnqueueAsync(tracks, new KeyValuePair<string, PlayableTrack>(selectedItem.Key, selectedItem.Value.Track));
+                    }
+                }
             }
             catch (Exception ex)
             {

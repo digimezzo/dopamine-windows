@@ -1,53 +1,35 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using WPFFolderBrowser;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionPlaylistsViewModel : BindableBase, IDropTarget
+    public class CollectionPlaylistsViewModel : PlaylistViewModelBase, IDropTarget
     {
         #region Variables
-        // EventAggregator
-        private IEventAggregator eventAggregator;
-
-        // Services
-        private IDialogService dialogService;
-        private IPlaylistService playlistService;
-
         // Lists
         private ObservableCollection<PlaylistViewModel> playlists;
         private IList<string> selectedPlaylists;
 
         // Flags
         private bool isLoadingPlaylists;
-        private bool enableRating;
-        private bool enableLove;
 
         // Other
         private long playlistsCount;
@@ -74,18 +56,6 @@ namespace Dopamine.CollectionModule.ViewModels
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
                 SettingsClient.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
             }
-        }
-
-        public bool EnableRating
-        {
-            get { return this.enableRating; }
-            set { SetProperty<bool>(ref this.enableRating, value); }
-        }
-
-        public bool EnableLove
-        {
-            get { return this.enableLove; }
-            set { SetProperty<bool>(ref this.enableLove, value); }
         }
 
         public bool AllowRename
@@ -127,14 +97,15 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionPlaylistsViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IPlaylistService playlistService)
+        public CollectionPlaylistsViewModel(IUnityContainer container, IEventAggregator eventAggregator, IDialogService dialogService, IPlaylistService playlistService)
+           : base(container)
         {
             this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
             this.playlistService = playlistService;
 
             // Commands
-            this.LoadedCommand = new DelegateCommand(async () => await this.GetPlaylistsAsync());
+            this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
             this.OpenPlaylistCommand = new DelegateCommand(async () => await this.OpenPlaylistAsync());
             this.DeletePlaylistByNameCommand = new DelegateCommand<string>(async (iPlaylistName) => await this.DeletePlaylistByNameAsync(iPlaylistName));
@@ -145,11 +116,6 @@ namespace Dopamine.CollectionModule.ViewModels
             //this.AddPlaylistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddPLaylistsToNowPlayingAsync(this.SelectedPlaylists));
 
             // Events
-            //this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
-            //{
-            //    //if (screenName == typeof(CollectionPlaylists).FullName) this.RemoveSelectedTracksCommand.Execute();
-            //});
-
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(enableRating => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
@@ -159,10 +125,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdatePlaylists(addedPlaylist);
             this.playlistService.PlaylistsDeleted += (deletedPlaylists) => this.UpdatePlaylists(deletedPlaylists);
             this.playlistService.PlaylistRenamed += (oldPlaylist, newPlaylist) => this.UpdatePlaylists(oldPlaylist, newPlaylist);
-
-            // Events
-            this.eventAggregator.GetEvent<RenameSelectedPlaylistWithKeyF2>().Subscribe(async (_) => await this.RenameSelectedPlaylistAsync());
-            this.eventAggregator.GetEvent<DeleteSelectedPlaylistsWithKeyDelete>().Subscribe(async (_) => await this.DeleteSelectedPlaylistsAsync());
 
             // Set width of the panels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
@@ -371,12 +333,12 @@ namespace Dopamine.CollectionModule.ViewModels
                 OnPropertyChanged(() => this.AllowRename);
             }
 
-            await this.GetTracksAsync(this.SelectedPlaylists);
+            await this.GetTracksAsync();
         }
 
         private async Task RenameSelectedPlaylistAsync()
         {
-            if (this.SelectedPlaylists != null && this.SelectedPlaylists.Count > 0)
+            if (this.SelectedPlaylists != null && this.SelectedPlaylists.Count == 1)
             {
                 string oldPlaylist = this.SelectedPlaylists[0];
                 string responseText = oldPlaylist;
@@ -473,9 +435,20 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        public async Task GetTracksAsync(IList<string> selectedPlaylists)
+        public async Task GetTracksAsync()
         {
-            //await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedPlaylists), trackOrder);
+            List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylists);
+            var orderedTracks = new OrderedDictionary<string, PlayableTrack>();
+
+            await Task.Run(() =>
+            {
+                foreach (PlayableTrack track in tracks)
+                {
+                    orderedTracks.Add(Guid.NewGuid().ToString(), track);
+                }
+            });
+
+            await this.GetTracksCommonAsync(orderedTracks);
         }
 
         //private async Task DeleteTracksFromPlaylistsAsync()
@@ -567,6 +540,35 @@ namespace Dopamine.CollectionModule.ViewModels
             //{
             //    LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
             //}
+        }
+        #endregion
+
+        #region Overrides
+        protected override async Task FillListsAsync()
+        {
+            await this.GetPlaylistsAsync();
+            await this.GetTracksAsync();
+        }
+
+        protected override async Task LoadedCommandAsync()
+        {
+            if (this.isFirstLoad)
+            {
+                this.isFirstLoad = false;
+
+                await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
+                await this.FillListsAsync(); // Fill all the lists
+            }
+        }
+
+        protected override void Subscribe()
+        {
+            // Not required here
+        }
+
+        protected override void Unsubscribe()
+        {
+            // Not required here
         }
         #endregion
     }

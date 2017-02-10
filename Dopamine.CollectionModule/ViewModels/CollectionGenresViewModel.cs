@@ -173,11 +173,6 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenres));
 
             // Events
-            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
-            {
-                if (screenName == typeof(CollectionGenres).FullName) this.RemoveSelectedTracksCommand.Execute();
-            });
-
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;

@@ -16,50 +16,50 @@
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+   <i:Interaction.Triggers>
+      <i:EventTrigger EventName="Loaded">
+         <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+      </i:EventTrigger>
+   </i:Interaction.Triggers>
 
-    <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <!-- Cover -->
-        <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
-            <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
-                <commonviews:CoverArtControl/>
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
-                </Border.Effect>
-            </Border>
-            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
-        </StackPanel>
-        <!-- List -->
-        <DockPanel Margin="10,20,0,0">
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="0.01*" />
-                    <ColumnDefinition MaxWidth="200" Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="15,0,0,0" Panel.ZIndex="1">
-                    <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
+   <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <!-- Cover -->
+      <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
+         <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
+            <commonviews:CoverArtControl/>
+            <Border.Effect>
+               <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+            </Border.Effect>
+         </Border>
+         <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
+      </StackPanel>
+      <!-- List -->
+      <DockPanel Margin="10,20,0,0">
+         <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="Auto" />
+               <ColumnDefinition Width="0.01*" />
+               <ColumnDefinition MaxWidth="200" Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="15,0,0,0" Panel.ZIndex="1">
+               <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"/>
-                    <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-                </StackPanel>
-                <controlsviews:SearchControl Grid.Column="2" Margin="15,0,15,0"/>
-            </Grid>
-            <DockPanel Margin="0,15,0,15">
-                <controls:TotalsInformation
+               <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
+            </StackPanel>
+            <controlsviews:SearchControl Grid.Column="2" Margin="15,0,15,0"/>
+         </Grid>
+         <DockPanel Margin="0,15,0,15">
+            <controls:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
                                 Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
-                <dc:MultiSelectListBox x:Name="ListBoxTracks"
+            <dc:MultiSelectListBox x:Name="ListBoxTracks"
                          dd:DragDrop.IsDragSource="True" 
                          dd:DragDrop.IsDropTarget="True" 
                          dd:DragDrop.DropHandler="{Binding}"
@@ -75,13 +75,16 @@
                          ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
                          BorderThickness="0"
                          SelectionMode="Extended">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </dc:MultiSelectListBox>
-            </DockPanel>
-        </DockPanel>
-    </DockPanel>
+               <dc:MultiSelectListBox.InputBindings>
+                  <KeyBinding Key="Delete" Command="{Binding RemoveFromNowPlayingCommand}" />
+               </dc:MultiSelectListBox.InputBindings>
+               <i:Interaction.Triggers>
+                  <i:EventTrigger EventName="SelectionChanged">
+                     <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
+                  </i:EventTrigger>
+               </i:Interaction.Triggers>
+            </dc:MultiSelectListBox>
+         </DockPanel>
+      </DockPanel>
+   </DockPanel>
 </baseviews:PlaylistViewBase>

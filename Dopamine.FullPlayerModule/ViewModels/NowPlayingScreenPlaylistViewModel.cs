@@ -5,18 +5,15 @@ using Dopamine.FullPlayerModule.Views;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using System;
+using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
-    public class NowPlayingScreenPlaylistViewModel : PlaylistViewModelBase
+   public class NowPlayingScreenPlaylistViewModel : NowPlayingViewModelBase
     {
         #region Construction
         public NowPlayingScreenPlaylistViewModel(IUnityContainer container) : base(container)
         {
-            this.eventAggregator.GetEvent<RemoveSelectedTracksWithKeyDelete>().Subscribe((screenName) =>
-            {
-                if (screenName == typeof(NowPlayingScreenPlaylist).FullName) this.RemoveFromNowPlayingCommand.Execute();
-            });
         }
         #endregion
 

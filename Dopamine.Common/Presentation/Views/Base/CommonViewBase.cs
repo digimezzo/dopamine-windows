@@ -15,7 +15,6 @@ namespace Dopamine.Common.Presentation.Views.Base
         #region Variables
         protected IEventAggregator eventAggregator;
         protected IPlaybackService playBackService;
-        protected string screenName;
         #endregion
 
         #region Commands

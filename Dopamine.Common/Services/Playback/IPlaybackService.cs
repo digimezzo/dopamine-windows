@@ -50,6 +50,8 @@ namespace Dopamine.Common.Services.Playback
         Task PlaySelectedAsync(PlayableTrack track);
         Task PlaySelectedAsync(KeyValuePair<string, PlayableTrack> trackPair);
         Task EnqueueAsync();
+        Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> track);
+        Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs);
         Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack track);
         Task EnqueueAsync(List<PlayableTrack> tracks);
         Task EnqueueAsync(Artist artist);
