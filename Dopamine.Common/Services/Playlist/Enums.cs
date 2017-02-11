@@ -8,7 +8,13 @@
       Blank = 3
    }
 
-   public enum DeletePlaylistsResult
+    public enum AddTracksToPlaylistResult
+    {
+        Error = 0,
+        Success = 1
+    }
+
+    public enum DeletePlaylistsResult
    {
       Error = 0,
       Success = 1
@@ -22,8 +28,8 @@
       Blank = 3
    }
 
-   public enum DeleteTracksFromPlaylistsResult
-   {
+   public enum DeleteTracksFromPlaylistResult
+    {
       Error = 0,
       Success = 1
    }

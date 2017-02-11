@@ -56,6 +56,7 @@ namespace Dopamine.Common.Services.Playlist
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event Action<int, string> AddedTracksToPlaylist = delegate { };
         public event EventHandler DeletedTracksFromPlaylists = delegate { };
+        public event TracksAddedHandler TracksAdded = delegate { };
         #endregion
 
         #region Private
@@ -327,11 +328,58 @@ namespace Dopamine.Common.Services.Playlist
             return tracks;
         }
 
+        public async Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlist)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    string filename = this.CreatePlaylistFilename(playlist);
+
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        using (StreamWriter sw = new StreamWriter(fs))
+                        {
+                            foreach (PlayableTrack track in tracks)
+                            {
+                                sw.WriteLine(track.Path);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not set the playlist order. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
+        {
+            AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
+
+            return result;
+        }
+
+        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
+        {
+            DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
+
+            //DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
+
+            //if (result == DeleteTracksFromPlaylistsResult.Success)
+            //{
+            //    this.DeletedTracksFromPlaylists(this, new EventArgs());
+            //}
+
+            return result;
+        }
+
         // Old
 
-        public async Task<AddToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist)
         {
-            AddToPlaylistResult result = new AddToPlaylistResult();
+            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
             //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
 
@@ -343,9 +391,9 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist)
         {
-            AddToPlaylistResult result = new AddToPlaylistResult();
+            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
 
             //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
@@ -358,23 +406,11 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<AddToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
+
+
+        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist)
         {
-            AddToPlaylistResult result = new AddToPlaylistResult();
-
-            //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
-
-            //if (result.IsSuccess)
-            //{
-            //    this.AddedTracksToPlaylist(result.NumberTracksAdded, playlist);
-            //}
-
-            return result;
-        }
-
-        public async Task<AddToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist)
-        {
-            AddToPlaylistResult result = new AddToPlaylistResult();
+            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
 
             //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
@@ -387,19 +423,7 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistsResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
-        {
-            DeleteTracksFromPlaylistsResult result = DeleteTracksFromPlaylistsResult.Success;
 
-            //DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
-
-            //if (result == DeleteTracksFromPlaylistsResult.Success)
-            //{
-            //    this.DeletedTracksFromPlaylists(this, new EventArgs());
-            //}
-
-            return result;
-        }
         #endregion
     }
 }

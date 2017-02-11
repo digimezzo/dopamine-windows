@@ -5,6 +5,7 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playlist;
@@ -503,43 +504,42 @@ namespace Dopamine.CollectionModule.ViewModels
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
-            //// We don't allow drag and drop when more as 1 playlist is selected
-            //if (this.selectedPlaylists != null && this.selectedPlaylists.Count == 1)
-            //{
-            //    GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+            // We don't allow drag and drop when more as 1 playlist is selected
+            if (this.selectedPlaylists != null && this.selectedPlaylists.Count == 1)
+            {
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
-            //    try
-            //    {
-            //        dropInfo.NotHandled = true;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        dropInfo.NotHandled = false;
-            //        LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
-            //    }
-            //}
+                try
+                {
+                    dropInfo.NotHandled = true;
+                }
+                catch (Exception ex)
+                {
+                    dropInfo.NotHandled = false;
+                    LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                }
+            }
         }
 
         public async void Drop(IDropInfo dropInfo)
         {
-            //GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
 
-            //try
-            //{
-            //    var tracks = new List<PlayableTrack>();
+            try
+            {
+                var tracks = new List<PlayableTrack>();
 
-            //    foreach (var item in dropInfo.TargetCollection)
-            //    {
-            //        tracks.Add(((TrackViewModel)item).Track);
-            //    }
+                foreach (var item in dropInfo.TargetCollection)
+                {
+                    tracks.Add(((KeyValuePair<string,TrackViewModel>)item).Value.Track);
+                }
 
-            //    await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylists[0]);
-            //    await this.playlistRepository.AddTracksToPlaylistAsync(tracks, selectedPlaylists[0].PlaylistName);
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
-            //}
+                await this.playlistService.SetPlaylistOrderAsync(tracks, selectedPlaylists[0]);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
+            }
         }
         #endregion
 

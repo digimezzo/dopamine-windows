@@ -380,9 +380,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
 
-                    if (!result.IsSuccess)
+                    if (result == AddTracksToPlaylistResult.Error)
                     {
                         this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                     }
