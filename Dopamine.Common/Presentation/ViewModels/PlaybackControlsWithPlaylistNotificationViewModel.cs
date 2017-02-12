@@ -57,16 +57,16 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.PlaylistNotificationMouseEnterCommand = new DelegateCommand(() => this.HideText());
 
-            this.playlistService.AddedTracksToPlaylist += (iNumberOfTracks, iPlaylistName) =>
+            this.playlistService.TracksAdded += (numberTracksAdded, playlist) =>
             {
                 string text = ResourceUtils.GetStringResource("Language_Added_Track_To_Playlist");
 
-                if (iNumberOfTracks > 1)
+                if (numberTracksAdded > 1)
                 {
                     text = ResourceUtils.GetStringResource("Language_Added_Tracks_To_Playlist");
                 }
 
-                this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", iNumberOfTracks.ToString()).Replace("%playlistname%", iPlaylistName);
+                this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", numberTracksAdded.ToString()).Replace("%playlistname%", playlist);
 
                 this.ShowAddedTracksToPlaylistText = true;
             };

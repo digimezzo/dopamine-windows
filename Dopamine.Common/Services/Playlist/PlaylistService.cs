@@ -54,9 +54,8 @@ namespace Dopamine.Common.Services.Playlist
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
         public event PlaylistDeletedHandler PlaylistsDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
-        public event Action<int, string> AddedTracksToPlaylist = delegate { };
-        public event EventHandler DeletedTracksFromPlaylists = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
+        public event EventHandler DeletedTracksFromPlaylists = delegate { };
         #endregion
 
         #region Private
@@ -358,6 +357,65 @@ namespace Dopamine.Common.Services.Playlist
         {
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
+            int numberTracksAdded = 0;
+            string filename = this.CreatePlaylistFilename(playlist);
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        using (var writer = new StreamWriter(fs))
+                        {
+                            foreach (PlayableTrack track in tracks)
+                            {
+                                try
+                                {
+                                    writer.WriteLine(track.Path);
+                                    numberTracksAdded++;
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlist, filename, ex.Message);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    result = AddTracksToPlaylistResult.Error;
+                }
+            });
+
+            if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlist);
+
+            return result;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist)
+        {
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+
+            return result;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist)
+        {
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+
+            return result;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist)
+        {
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+
             return result;
         }
 
@@ -374,56 +432,6 @@ namespace Dopamine.Common.Services.Playlist
 
             return result;
         }
-
-        // Old
-
-        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist)
-        {
-            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
-            //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
-            //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
-
-            //if (result.IsSuccess)
-            //{
-            //    this.AddedTracksToPlaylist(result.NumberTracksAdded, playlist);
-            //}
-
-            return result;
-        }
-
-        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist)
-        {
-            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
-
-            //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
-            //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
-
-            //if (result.IsSuccess)
-            //{
-            //    this.AddedTracksToPlaylist(result.NumberTracksAdded, playlist);
-            //}
-
-            return result;
-        }
-
-
-
-        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist)
-        {
-            AddTracksToPlaylistResult result = new AddTracksToPlaylistResult();
-
-            //List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
-            //AddToPlaylistResult result = await this.playlistRepository.AddTracksToPlaylistAsync(tracks, playlist);
-
-            //if (result.IsSuccess)
-            //{
-            //    this.AddedTracksToPlaylist(result.NumberTracksAdded, playlist);
-            //}
-
-            return result;
-        }
-
-
         #endregion
     }
 }
