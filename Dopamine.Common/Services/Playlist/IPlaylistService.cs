@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dopamine.Common.Services.Playlist
 {
     public delegate void PlaylistAddedHandler(string addedPlaylist);
-    public delegate void TracksAddedHandler(int numberTracksAdded);
+    public delegate void TracksAddedHandler(int numberTracksAdded, string playlist);
     public delegate void PlaylistDeletedHandler(List<string> deletedPlaylists);
     public delegate void PlaylistRenamedHandler(string oldPLaylist, string newPlaylist);
 
@@ -22,6 +22,10 @@ namespace Dopamine.Common.Services.Playlist
         Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
         Task<List<PlayableTrack>> GetTracks(IList<string> playlists);
         Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlist);
+        Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
+        Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist);
+        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist);
+        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist);
 
         event PlaylistAddedHandler PlaylistAdded;
         event PlaylistDeletedHandler PlaylistsDeleted;
@@ -29,13 +33,8 @@ namespace Dopamine.Common.Services.Playlist
         event TracksAddedHandler TracksAdded;
 
         // Old
-        Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist);
-        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist);
-        Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
-        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist);
         Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
 
-        event Action<int, string> AddedTracksToPlaylist;
         event EventHandler DeletedTracksFromPlaylists;
     }
 }
