@@ -45,7 +45,6 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand DeleteSelectedPlaylistsCommand { get; set; }
         public DelegateCommand<object> SelectedPlaylistsCommand { get; set; }
         public DelegateCommand AddPlaylistsToNowPlayingCommand { get; set; }
-        public DelegateCommand LoadedCommand { get; set; }
         #endregion
 
         #region Properties
@@ -121,7 +120,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
             // CollectionService
-            //this.playlistService.AddedTracksToPlaylist += async (_, __) => await this.ReloadPlaylistsAsync();
+            this.playlistService.TracksAdded += async (_, __) => await this.FillListsAsync();
             //this.playlistService.DeletedTracksFromPlaylists += async (_, __) => await this.ReloadPlaylistsAsync();
             this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdatePlaylists(addedPlaylist);
             this.playlistService.PlaylistsDeleted += (deletedPlaylists) => this.UpdatePlaylists(deletedPlaylists);
@@ -485,18 +484,6 @@ namespace Dopamine.CollectionModule.ViewModels
         //    if (!result.IsSuccess)
         //    {
         //        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-        //    }
-        //}
-
-
-
-
-
-        //private async Task ReloadPlaylistsAsync()
-        //{
-        //    if (this.SelectedPlaylists != null && this.SelectedPlaylists.Count > 0)
-        //    {
-        //        await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
         //    }
         //}
         #endregion
