@@ -1,9 +1,10 @@
-2017-02-02: Dopamine 1.3 Build 888 (Preview)
+2017-02-13: Dopamine 1.3 Build 889 (Preview)
 --------------------------------------------
 
 - [Changed] Updated the French translation
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the German translation
+- [Changed] Playlists support has been rewritten
 - [Fixed] Automatic install or download button for updates is confusing for some users
 - [Fixed] Improved sizing of time indicator on the main window
 
