@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Dopamine.Common.Services.File;
+using System.Text;
 
 namespace Dopamine.Common.Services.Playlist
 {
@@ -56,6 +57,7 @@ namespace Dopamine.Common.Services.Playlist
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event EventHandler DeletedTracksFromPlaylists = delegate { };
+        public event EventHandler TracksDeleted = delegate { };
         #endregion
 
         #region Private
@@ -423,12 +425,49 @@ namespace Dopamine.Common.Services.Playlist
         {
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
-            //DeleteTracksFromPlaylistsResult result = await this.playlistRepository.DeleteTracksFromPlaylistAsync(tracks, selectedPlaylist);
+            string filename = this.CreatePlaylistFilename(playlist);
+            List<string> paths = tracks.Select(t => t.Path).ToList();
 
-            //if (result == DeleteTracksFromPlaylistsResult.Success)
-            //{
-            //    this.DeletedTracksFromPlaylists(this, new EventArgs());
-            //}
+            var builder = new StringBuilder();
+
+            string line = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            if (paths.Contains(line, StringComparer.OrdinalIgnoreCase)) continue;
+
+                            builder.AppendLine(line);
+                        }
+                    }
+
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        using (var writer = new StreamWriter(fs))
+                        {
+                            foreach (PlayableTrack track in tracks)
+                            {
+                                writer.Write(builder.ToString());
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    result = DeleteTracksFromPlaylistResult.Error;
+                }
+            });
+
+            if (result == DeleteTracksFromPlaylistResult.Success)
+            {
+                this.TracksDeleted(this, new EventArgs());
+            }
 
             return result;
         }
