@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Všechny seznamy</Text>
   <Text Key="Enter_Name_For_New_Playlist">Zvolte jméno pro svůj seznam.</Text>
   <Text Key="Already_Exists">Už existuje</Text>
-  <Text Key="Already_Playlist_With_That_Name">Seznam s názvem %playlistname% již existuje.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Seznam s názvem '%playlistname%' již existuje.</Text>
   <Text Key="Error_Adding_Playlist">Seznam nemohl být přidán. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Provide_Playlist_Name">Musíte vložit název seznamu.</Text>
   <Text Key="Delete_This_Playlist">Smazat tento seznam</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Smazat</Text>
   <Text Key="Rename">Přejmenovat</Text>
   <Text Key="Rename_Playlist">Přejmenovat seznam</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Opravdu chcete smazat seznam %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Opravdu chcete smazat seznam '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Opravdu chcete smazat tento seznam?</Text>
-  <Text Key="Error_Deleting_Playlist">Seznam %playlistname% nelze smazat. Prosím konzultujte chybový výpis pro více informací.</Text>
+  <Text Key="Error_Deleting_Playlist">Seznam '%playlistname%' nelze smazat. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Error_Deleting_Playlists">Nastala chyba během odstraňování seznamu. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

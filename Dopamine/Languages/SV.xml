@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">All playlists</Text>
   <Text Key="Enter_Name_For_New_Playlist">Enter a name for your new playlist</Text>
   <Text Key="Already_Exists">Already exists</Text>
-  <Text Key="Already_Playlist_With_That_Name">You already have a playlist with the name %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">You already have a playlist with the name '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">The playlist could not be added. Please consult the log file for more information.</Text>
   <Text Key="Provide_Playlist_Name">You have to provide a name for your playlist.</Text>
   <Text Key="Delete_This_Playlist">Delete this playlist</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Delete</Text>
   <Text Key="Rename">Rename</Text>
   <Text Key="Rename_Playlist">Rename playlist</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Are you sure you want to delete the playlist %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Are you sure you want to delete the playlist '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Are you sure you want to delete these playlists?</Text>
-  <Text Key="Error_Deleting_Playlist">The playlist %playlistname% could not be deleted. Please consult the log file for more information.</Text>
+  <Text Key="Error_Deleting_Playlist">The playlist '%playlistname%' could not be deleted. Please consult the log file for more information.</Text>
   <Text Key="Error_Deleting_Playlists">An error occured while deleting playlists. Please consult the log file for more information.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

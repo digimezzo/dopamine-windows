@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Wszystkie listy odtwarzania</Text>
   <Text Key="Enter_Name_For_New_Playlist">Wpisz nazwę nowej listy odtwarzania</Text>
   <Text Key="Already_Exists">Już istnieje</Text>
-  <Text Key="Already_Playlist_With_That_Name">Masz już listę utworów z nazwą %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Masz już listę utworów z nazwą '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Nie można dodać listy odtwarzania. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Provide_Playlist_Name">Musisz podać nazwę swojej playlisty.</Text>
   <Text Key="Delete_This_Playlist">Usuń bierzącą listę odtwarzania</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Usuń</Text>
   <Text Key="Rename">Zmień nazwę</Text>
   <Text Key="Rename_Playlist">Zmień nazwę listy odtwarzania</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Na pewno chcesz usunąc listę odtwarzania %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Na pewno chcesz usunąc listę odtwarzania '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Czy na pewno chcesz usunąć te listy ?</Text>
-  <Text Key="Error_Deleting_Playlist">Playlista %playlistname% nie mogła być usunięta. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
+  <Text Key="Error_Deleting_Playlist">Playlista '%playlistname%' nie mogła być usunięta. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Error_Deleting_Playlists">Wystąpił błąd podczas usuwania listy odtwarzania. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

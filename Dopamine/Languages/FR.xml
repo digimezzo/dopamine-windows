@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Toutes les playlists</Text>
   <Text Key="Enter_Name_For_New_Playlist">Nommez votre nouvelle playlist</Text>
   <Text Key="Already_Exists">Existe déjà</Text>
-  <Text Key="Already_Playlist_With_That_Name">Vous avez déjà une playlist nommée %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Vous avez déjà une playlist nommée '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">La playlist n'a pas pu être ajoutée. Consultez the fichier log pour plus de détails.</Text>
   <Text Key="Provide_Playlist_Name">Vous devez obligatoirement nommer votre playlist.</Text>
   <Text Key="Delete_This_Playlist">Supprimer cette playlist</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Supprimer</Text>
   <Text Key="Rename">Renommer</Text>
   <Text Key="Rename_Playlist">Renommer playlist</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Êtes-vous sûr de vouloir supprimer la playlist %playlistname% ?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Êtes-vous sûr de vouloir supprimer la playlist '%playlistname%' ?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Êtes-vous sûr de vouloir supprimer ces playlists ?</Text>
-  <Text Key="Error_Deleting_Playlist">La playlist %playlistname% n'a pas pu être supprimée. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="Error_Deleting_Playlist">La playlist '%playlistname%' n'a pas pu être supprimée. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Error_Deleting_Playlists">Une erreur s'est produite durant la suppression des playlists. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Suppr.</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">À la communauté.</Text>
   <Text Key="About_Neowin_End">pour ses idées, ses tests et son repérage des bugs.</Text>
   <Text Key="Frequent">Fréquent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Voulez-vous vraiment supprimer ce morceau de la playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Voulez-vous vraiment supprimer ces morceaux de la playlist '%playlistname%'?</Text>
 </Language>

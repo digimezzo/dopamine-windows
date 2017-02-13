@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Todas as listas de reprodução</Text>
   <Text Key="Enter_Name_For_New_Playlist">Digite um nome para a sua nova lista de reprodução</Text>
   <Text Key="Already_Exists">Já existe</Text>
-  <Text Key="Already_Playlist_With_That_Name">Você já tem uma lista de reprodução com o nome %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Você já tem uma lista de reprodução com o nome '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">A lista de reprodução não pode ser adicionada. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
   <Text Key="Provide_Playlist_Name">Você tem que fornecer um nome para a sua lista de reprodução.</Text>
   <Text Key="Delete_This_Playlist">Apagar esta lista de reprodução</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Excluir</Text>
   <Text Key="Rename">Renomear</Text>
   <Text Key="Rename_Playlist">Renomear lista de reprodução</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Tem certeza de que deseja apagar a lista de reprodução %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Tem certeza de que deseja apagar a lista de reprodução '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Tem certeza de que deseja excluir estas listas de reprodução?</Text>
-  <Text Key="Error_Deleting_Playlist">A lista de reprodução %playlistname% não pôde ser excluída. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
+  <Text Key="Error_Deleting_Playlist">A lista de reprodução '%playlistname%' não pôde ser excluída. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
   <Text Key="Error_Deleting_Playlists">Um erro ocorreu durante a exclusão das listas de reprodução. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Delete</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

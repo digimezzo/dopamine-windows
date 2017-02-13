@@ -69,11 +69,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             await Task.Run(() =>
             {
-               foreach (KeyValuePair<string, PlayableTrack> queuedTrack in tracks)
+               foreach (KeyValuePair<string, PlayableTrack> track in tracks)
                {
                   TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                  vm.Track = queuedTrack.Value;
-                  viewModels.Add(new KeyValuePair<string, TrackViewModel>(queuedTrack.Key, vm));
+                  vm.Track = track.Value;
+                  viewModels.Add(new KeyValuePair<string, TrackViewModel>(track.Key, vm));
                }
             });
 

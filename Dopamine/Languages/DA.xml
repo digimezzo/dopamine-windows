@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Alle spillelister</Text>
   <Text Key="Enter_Name_For_New_Playlist">Indtast et navn til din spilleliste</Text>
   <Text Key="Already_Exists">Eksisterer allerede</Text>
-  <Text Key="Already_Playlist_With_That_Name">Du har allerede en spilleliste med navnet %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Du har allerede en spilleliste med navnet '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Spillelisten kan ikke oprettes. Konsulter venligst logfilen for yderligere information.</Text>
   <Text Key="Provide_Playlist_Name">Du skal indtaste et navn til din spilleliste.</Text>
   <Text Key="Delete_This_Playlist">Slet denne spilleliste</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Slet</Text>
   <Text Key="Rename">Omdøb</Text>
   <Text Key="Rename_Playlist">Omdøb spilleliste</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Er du sikker på at du vil slette spillelisten %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Er du sikker på at du vil slette spillelisten '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Er du sikker på at du vil slette disse spillelister?</Text>
-  <Text Key="Error_Deleting_Playlist">Spillelisten %playlistname% kunne ikke slettes. Konsulter venligst logfilen for yderligere information.</Text>
+  <Text Key="Error_Deleting_Playlist">Spillelisten '%playlistname%' kunne ikke slettes. Konsulter venligst logfilen for yderligere information.</Text>
   <Text Key="Error_Deleting_Playlists">Der er opstået en fejl ved sletning af spillelister. Konsulter venligst logfilen for yderligere information.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>
