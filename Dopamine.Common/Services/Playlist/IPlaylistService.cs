@@ -1,7 +1,5 @@
 ﻿using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Helpers;
-using Dopamine.Common.Services.Playlist;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,15 +24,12 @@ namespace Dopamine.Common.Services.Playlist
         Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist);
         Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist);
         Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist);
+        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
 
         event PlaylistAddedHandler PlaylistAdded;
         event PlaylistDeletedHandler PlaylistsDeleted;
         event PlaylistRenamedHandler PlaylistRenamed;
         event TracksAddedHandler TracksAdded;
-
-        // Old
-        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist);
-
-        event EventHandler DeletedTracksFromPlaylists;
+        event EventHandler TracksDeleted;
     }
 }

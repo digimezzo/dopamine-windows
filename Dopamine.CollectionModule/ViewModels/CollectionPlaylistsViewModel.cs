@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -119,9 +120,9 @@ namespace Dopamine.CollectionModule.ViewModels
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(enableRating => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
-            // CollectionService
+            // PlaylistService
             this.playlistService.TracksAdded += async (_, __) => await this.FillListsAsync();
-            //this.playlistService.DeletedTracksFromPlaylists += async (_, __) => await this.ReloadPlaylistsAsync();
+            this.playlistService.TracksDeleted += async (_, __) => await this.FillListsAsync();
             this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdatePlaylists(addedPlaylist);
             this.playlistService.PlaylistsDeleted += (deletedPlaylists) => this.UpdatePlaylists(deletedPlaylists);
             this.playlistService.PlaylistRenamed += (oldPlaylist, newPlaylist) => this.UpdatePlaylists(oldPlaylist, newPlaylist);
@@ -451,31 +452,30 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.GetTracksCommonAsync(orderedTracks);
         }
 
-        //private async Task DeleteTracksFromPlaylistsAsync()
-        //{
-        //    DeleteTracksFromPlaylistsResult result = await this.playlistService.DeleteTracksFromPlaylistAsync(this.SelectedTracks, this.SelectedPlaylists.FirstOrDefault());
+        private async Task DeleteTracksFromPlaylistsAsync()
+        {
+            DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromPlaylistAsync(this.SelectedTracks.Select(t=>t.Value).ToList(), this.SelectedPlaylists.FirstOrDefault());
 
-        //    switch (result)
-        //    {
-        //        case DeleteTracksFromPlaylistsResult.Success:
-        //            await this.GetTracksAsync(this.SelectedPlaylists, this.TrackOrder);
-        //            break;
-        //        case DeleteTracksFromPlaylistsResult.Error:
-        //            this.dialogService.ShowNotification(
-        //                0xe711,
-        //                16,
-        //                ResourceUtils.GetStringResource("Language_Error"),
-        //                ResourceUtils.GetStringResource("Language_Error_Removing_From_Playlist"),
-        //                ResourceUtils.GetStringResource("Language_Ok"),
-        //                true,
-        //                ResourceUtils.GetStringResource("Language_Log_File"));
-        //            break;
-        //        default:
-        //            break;
-        //            // Never happens
-        //    }
-        //}
-
+            switch (result)
+            {
+                case DeleteTracksFromPlaylistResult.Success:
+                    await this.GetTracksAsync();
+                    break;
+                case DeleteTracksFromPlaylistResult.Error:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Removing_From_Playlist"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+                    break;
+                default:
+                    break;
+                    // Never happens
+            }
+        }
 
         //protected async Task AddPLaylistsToNowPlayingAsync(IList<Playlist> playlists)
         //{
