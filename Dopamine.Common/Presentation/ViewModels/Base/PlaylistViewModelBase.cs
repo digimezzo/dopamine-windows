@@ -337,7 +337,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         }
                     }
 
-                    // 2nd pass: if Guid is not found, try to find a matching path
+                    // 2nd pass: if Guid is not found, try to find a matching path.
                     if (!isGuidFound)
                     {
                         foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
