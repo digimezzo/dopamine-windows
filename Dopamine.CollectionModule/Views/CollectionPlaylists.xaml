@@ -19,20 +19,20 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-   <i:Interaction.Triggers>
-      <i:EventTrigger EventName="Loaded">
-         <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-      </i:EventTrigger>
-   </i:Interaction.Triggers>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
-   <DockPanel>
-      <Border DockPanel.Dock="Right" Width="280" Margin="0,45,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource RG_BorderBrush}">
-         <StackPanel VerticalAlignment="Top" Width="250" Margin="15,0,15,0">
-            <commonviews:CoverArtControl x:Name="CoverArt" Width="250" Height="250"/>
-            <commonviews:PlaybackInfoControl Height="85" Margin="0,15,0,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
-         </StackPanel>
-      </Border>
-      <dc:MultiPanePanel 
+    <DockPanel>
+        <Border DockPanel.Dock="Right" Width="280" Margin="0,45,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource RG_BorderBrush}">
+            <StackPanel VerticalAlignment="Top" Width="250" Margin="15,0,15,0">
+                <commonviews:CoverArtControl x:Name="CoverArt" Width="250" Height="250"/>
+                <commonviews:PlaybackInfoControl Height="85" Margin="0,15,0,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
+            </StackPanel>
+        </Border>
+        <dc:MultiPanePanel 
             BorderBrush="{DynamicResource RG_BorderBrush}" 
             SeparatorMarginTop="45" 
             ContentResizeDelay="25" 
@@ -40,31 +40,31 @@
             LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}" 
             LeftPaneMinimumWidth="150"
             MiddlePaneMinimumWidth="250">
-         <dc:MultiPanePanel.LeftPaneContent>
-            <DockPanel>
-               <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                  <Button x:Name="PlaylistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Playlists}" Style="{StaticResource TransparentButton}" Click="PlaylistsButton_Click">
-                     <dc:LabelToLower Content="{DynamicResource Language_Playlists}" 
+            <dc:MultiPanePanel.LeftPaneContent>
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
+                        <Button x:Name="PlaylistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Playlists}" Style="{StaticResource TransparentButton}" Click="PlaylistsButton_Click">
+                            <dc:LabelToLower Content="{DynamicResource Language_Playlists}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"/>
-                  </Button>
-                  <Label Content="{Binding PlaylistsCount}" Style="{StaticResource CountLabel}"/>
-               </StackPanel>
-               <DockPanel>
-                  <DockPanel.Resources>
-                     <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
-                        <CollectionViewSource.SortDescriptions>
-                           <scm:SortDescription PropertyName="SortPlaylist" />
-                        </CollectionViewSource.SortDescriptions>
-                     </CollectionViewSource>
-                  </DockPanel.Resources>
-                  <StackPanel DockPanel.Dock="Top" Margin="5,0,0,10">
-                     <controls:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="10,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=NewPlaylistCommand}"/>
-                     <controls:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="10,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
-                  </StackPanel>
-                  <dc:MultiSelectListBox x:Name="ListBoxPlaylists"
+                        </Button>
+                        <Label Content="{Binding PlaylistsCount}" Style="{StaticResource CountLabel}"/>
+                    </StackPanel>
+                    <DockPanel>
+                        <DockPanel.Resources>
+                            <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <scm:SortDescription PropertyName="SortPlaylist" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </DockPanel.Resources>
+                        <StackPanel DockPanel.Dock="Top" Margin="5,0,0,10">
+                            <controls:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="10,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=NewPlaylistCommand}"/>
+                            <controls:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="10,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
+                        </StackPanel>
+                        <dc:MultiSelectListBox x:Name="ListBoxPlaylists"
                                                VirtualizingStackPanel.IsVirtualizing="True"
                                                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                                VirtualizingStackPanel.VirtualizationMode="Recycling"    
@@ -74,39 +74,39 @@
                                                MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
                                                PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
                                                SelectionMode="Extended">
-                     <dc:MultiSelectListBox.InputBindings>
-                        <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
-                        <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistsCommand}" />
-                     </dc:MultiSelectListBox.InputBindings>
-                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                           <i:InvokeCommandAction Command="{Binding SelectedPlaylistsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxPlaylists}"/>
-                        </i:EventTrigger>
-                     </i:Interaction.Triggers>
-                  </dc:MultiSelectListBox>
-               </DockPanel>
-            </DockPanel>
-         </dc:MultiPanePanel.LeftPaneContent>
-         <dc:MultiPanePanel.MiddlePaneContent>
-            <DockPanel>
-               <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                  <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
+                            <dc:MultiSelectListBox.InputBindings>
+                                <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
+                                <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistsCommand}" />
+                            </dc:MultiSelectListBox.InputBindings>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedPlaylistsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxPlaylists}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </dc:MultiSelectListBox>
+                    </DockPanel>
+                </DockPanel>
+            </dc:MultiPanePanel.LeftPaneContent>
+            <dc:MultiPanePanel.MiddlePaneContent>
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
+                        <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
                                                  Foreground="{DynamicResource RG_ForegroundBrush}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"
                                                  Margin="10,0,0,0"/>
-                  <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-               </StackPanel>
-               <DockPanel>
-                  <controls:TotalsInformation
+                        <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
+                    </StackPanel>
+                    <DockPanel>
+                        <controls:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
                                 Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
-                  <dc:MultiSelectListBox x:Name="ListBoxTracks"
+                        <dc:MultiSelectListBox x:Name="ListBoxTracks"
                          dd:DragDrop.IsDragSource="True" 
                          dd:DragDrop.IsDropTarget="True" 
                          dd:DragDrop.DropHandler="{Binding}"
@@ -118,19 +118,22 @@
                          MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                          KeyUp="ListBoxTracks_KeyUp"
                          PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                         Style="{StaticResource ListBoxNowPlayingTracks}"
+                         Style="{StaticResource ListBoxPlaylistTracks}"
                          ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
                          BorderThickness="0"
                          SelectionMode="Extended">
-                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                           <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
-                        </i:EventTrigger>
-                     </i:Interaction.Triggers>
-                  </dc:MultiSelectListBox>
-               </DockPanel>
-            </DockPanel>
-         </dc:MultiPanePanel.MiddlePaneContent>
-      </dc:MultiPanePanel>
-   </DockPanel>
+                            <dc:MultiSelectListBox.InputBindings>
+                                <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
+                            </dc:MultiSelectListBox.InputBindings>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </dc:MultiSelectListBox>
+                    </DockPanel>
+                </DockPanel>
+            </dc:MultiPanePanel.MiddlePaneContent>
+        </dc:MultiPanePanel>
+    </DockPanel>
 </baseviews:PlaylistViewBase>

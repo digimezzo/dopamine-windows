@@ -10,7 +10,7 @@
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <!-- ContextMenu -->
-    <ContextMenu x:Key="ListBoxNowPlayingTracksContextMenu">
+    <ContextMenu x:Key="ListBoxNowPlayingTracksContextMenu" x:Shared="False">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Jump_To_Playing_Song}" InputGestureText="{DynamicResource Language_Ctrl_J}" Command="{Binding JumpToPlayingTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>

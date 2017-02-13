@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Όλες οι λίστες</Text>
   <Text Key="Enter_Name_For_New_Playlist">Ονομάστε τη νέα σας λίστα</Text>
   <Text Key="Already_Exists">Υπάρχει ήδη</Text>
-  <Text Key="Already_Playlist_With_That_Name">Υπάρχει ήδη λίστα με όνομα %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Υπάρχει ήδη λίστα με όνομα '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Δεν είναι δυνατή η προσθήκη της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Provide_Playlist_Name">Πρέπει να ονομάσετε τη λίστα.</Text>
   <Text Key="Delete_This_Playlist">Διαγραφή αυτής της λίστας</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Διαγραφή</Text>
   <Text Key="Rename">Μετονομασία</Text>
   <Text Key="Rename_Playlist">Μετονομασία λίστας</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Να διαγραφεί η λίστα %playlistname%;</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Να διαγραφεί η λίστα '%playlistname%';</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Να διαγραφούν αυτές οι λίστες;</Text>
-  <Text Key="Error_Deleting_Playlist">Δεν ήταν δυνατή η διαγραφή της λίστας %playlistname%. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Error_Deleting_Playlist">Δεν ήταν δυνατή η διαγραφή της λίστας '%playlistname%'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Deleting_Playlists">Προέκυψε σφάλμα κατά τη διαγραφή των λιστών. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

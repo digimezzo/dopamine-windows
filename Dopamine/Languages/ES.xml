@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Todas las listas de reproducción</Text>
   <Text Key="Enter_Name_For_New_Playlist">Introduce un nombre para tu nueva lista de reproducción</Text>
   <Text Key="Already_Exists">Ya existe</Text>
-  <Text Key="Already_Playlist_With_That_Name">Ya tienes una lista de reproducción con el nombre %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Ya tienes una lista de reproducción con el nombre '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">No se ha podido añadir la lista de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Provide_Playlist_Name">Debes asignar un nombre a tu lista de reproducción.</Text>
   <Text Key="Delete_This_Playlist">Eliminar esta lista de reproducción</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Eliminar</Text>
   <Text Key="Rename">Renombrar</Text>
   <Text Key="Rename_Playlist">Renombrar lista de reproducción</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">¿Estás seguro de querer eliminar la lista de reproducción %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">¿Estás seguro de querer eliminar la lista de reproducción '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">¿Estás seguro de querer eliminar estas listas de reproducción?</Text>
-  <Text Key="Error_Deleting_Playlist">No se ha podido eliminar la lista de reproducción %playlistname%. Consulta el archivo 'log' para más información por favor.</Text>
+  <Text Key="Error_Deleting_Playlist">No se ha podido eliminar la lista de reproducción '%playlistname%'. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Error_Deleting_Playlists">Se ha producido un error mientras se borraban las listas de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Supr</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">A la comunidad de</Text>
   <Text Key="About_Neowin_End">por sus ideas, pruebas e informes de errores.</Text>
   <Text Key="Frequent">Frecuente</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

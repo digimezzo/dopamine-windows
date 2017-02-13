@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Все плейлисты</Text>
   <Text Key="Enter_Name_For_New_Playlist">Введите название Вашего нового плейлиста</Text>
   <Text Key="Already_Exists">Уже существует</Text>
-  <Text Key="Already_Playlist_With_That_Name">У Вас уже есть плейлист с именем %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">У Вас уже есть плейлист с именем '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Не удалось добавить плейлист. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Provide_Playlist_Name">Вам нужно дать название Вашему плейлисту.</Text>
   <Text Key="Delete_This_Playlist">Удалить этот плейлист</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Удалить</Text>
   <Text Key="Rename">Переименовать</Text>
   <Text Key="Rename_Playlist">Переименовать плейлист</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Вы уверены, что хотите удалить плейлист %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Вы уверены, что хотите удалить плейлист '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Вы уверены, что хотите удалить эти плейлисты?</Text>
-  <Text Key="Error_Deleting_Playlist">Не удалось удалить плейлист %playlistname%. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
+  <Text Key="Error_Deleting_Playlist">Не удалось удалить плейлист '%playlistname%'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Error_Deleting_Playlists">Возникла ошибка при удалении плейлистов. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">Сообществу</Text>
   <Text Key="About_Neowin_End">за его идеи, тестирование и сообщения об ошибках.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

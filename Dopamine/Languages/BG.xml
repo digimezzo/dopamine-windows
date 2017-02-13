@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Всички плейлисти</Text>
   <Text Key="Enter_Name_For_New_Playlist">Въведете име на плейлиста</Text>
   <Text Key="Already_Exists">Вече съществува</Text>
-  <Text Key="Already_Playlist_With_That_Name">Вече съществуват песни с името %playlistname%.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Вече съществуват песни с името '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Не може да се добави плейлиста.</Text>
   <Text Key="Provide_Playlist_Name">Трябва да въведете име за плейлиста.</Text>
   <Text Key="Delete_This_Playlist">Изтрий този плейлист</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Изтриване</Text>
   <Text Key="Rename">Преименуване</Text>
   <Text Key="Rename_Playlist">Преименувай плейлиста</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста %playlistname%?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Сигурни ли сте, че искате да изтриете тези плейлисти?</Text>
-  <Text Key="Error_Deleting_Playlist">Плейлистът %playlistname% не може да бъде изтрит.</Text>
+  <Text Key="Error_Deleting_Playlist">Плейлистът '%playlistname%' не може да бъде изтрит.</Text>
   <Text Key="Error_Deleting_Playlists">Възникна грешка при изтриване на плейлисти.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

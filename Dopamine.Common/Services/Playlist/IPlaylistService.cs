@@ -8,6 +8,7 @@ namespace Dopamine.Common.Services.Playlist
 {
     public delegate void PlaylistAddedHandler(string addedPlaylist);
     public delegate void TracksAddedHandler(int numberTracksAdded, string playlist);
+    public delegate void TracksDeletedHandler(List<string> deletedPaths, string playlist);
     public delegate void PlaylistDeletedHandler(List<string> deletedPlaylists);
     public delegate void PlaylistRenamedHandler(string oldPLaylist, string newPlaylist);
 
@@ -30,6 +31,6 @@ namespace Dopamine.Common.Services.Playlist
         event PlaylistDeletedHandler PlaylistsDeleted;
         event PlaylistRenamedHandler PlaylistRenamed;
         event TracksAddedHandler TracksAdded;
-        event EventHandler TracksDeleted;
+        event TracksDeletedHandler TracksDeleted;
     }
 }

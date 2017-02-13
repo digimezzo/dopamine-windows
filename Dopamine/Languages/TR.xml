@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Tüm oynatma listeleri</Text>
   <Text Key="Enter_Name_For_New_Playlist">Oynatma listesine bir isim verin</Text>
   <Text Key="Already_Exists">Zaten mevcut</Text>
-  <Text Key="Already_Playlist_With_That_Name">%playlistname% adında zaten bir oynatma listesi mevcut.</Text>
+  <Text Key="Already_Playlist_With_That_Name">'%playlistname%' adında zaten bir oynatma listesi mevcut.</Text>
   <Text Key="Error_Adding_Playlist">Oynatma listesi eklenemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Provide_Playlist_Name">Oynatma listesine isim vermek zorundasınız.</Text>
   <Text Key="Delete_This_Playlist">Oynatma listesini sil</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Sil</Text>
   <Text Key="Rename">Yeniden adlandır</Text>
   <Text Key="Rename_Playlist">Oynatma listesini yeniden adlandır</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">%playlistname%? listesini silmek istediğinize emin misiniz?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">'%playlistname%'? listesini silmek istediğinize emin misiniz?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Bu oynatma listelerini silmek istediğinize emin misiniz?</Text>
-  <Text Key="Error_Deleting_Playlist">%playlistname% listesi silinemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
+  <Text Key="Error_Deleting_Playlist">'%playlistname%' listesi silinemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Error_Deleting_Playlists">Oynatma listeleri silinirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

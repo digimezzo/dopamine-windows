@@ -4,15 +4,14 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
+using Dopamine.Common.Services.File;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
-using Dopamine.Common.Services.File;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Playlist
 {
@@ -56,8 +55,7 @@ namespace Dopamine.Common.Services.Playlist
         public event PlaylistDeletedHandler PlaylistsDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
-        public event EventHandler DeletedTracksFromPlaylists = delegate { };
-        public event EventHandler TracksDeleted = delegate { };
+        public event TracksDeletedHandler TracksDeleted = delegate { };
         #endregion
 
         #region Private
@@ -459,14 +457,14 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
                     result = DeleteTracksFromPlaylistResult.Error;
                 }
             });
 
             if (result == DeleteTracksFromPlaylistResult.Success)
             {
-                this.TracksDeleted(this, new EventArgs());
+                this.TracksDeleted(paths, playlist);
             }
 
             return result;

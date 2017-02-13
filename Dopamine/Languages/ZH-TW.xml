@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">所有播放清單</Text>
   <Text Key="Enter_Name_For_New_Playlist">為您的新播放清單輸入一個名稱</Text>
   <Text Key="Already_Exists">已存在</Text>
-  <Text Key="Already_Playlist_With_That_Name">您已經有一個名為%playlistname%的播放清單。</Text>
+  <Text Key="Already_Playlist_With_That_Name">您已經有一個名為'%playlistname%'的播放清單。</Text>
   <Text Key="Error_Adding_Playlist">無法新增播放清單。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Provide_Playlist_Name">您必須為您的播放清單提供一個名稱。</Text>
   <Text Key="Delete_This_Playlist">刪除此播放清單</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">刪除</Text>
   <Text Key="Rename">重新命名</Text>
   <Text Key="Rename_Playlist">重新命名播放清單</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">您確定要刪除播放清單%playlistname%？</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">您確定要刪除播放清單'%playlistname%'？</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">您確定要刪除這些播放清單？</Text>
-  <Text Key="Error_Deleting_Playlist">無法刪除播放清單%playlistname%。請參閱記錄檔以獲取更多信息。</Text>
+  <Text Key="Error_Deleting_Playlist">無法刪除播放清單'%playlistname%'。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Error_Deleting_Playlists">刪除播放清單時發生錯誤。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>

@@ -141,7 +141,7 @@
   <Text Key="All_Playlists">Összes lejátszási lista</Text>
   <Text Key="Enter_Name_For_New_Playlist">Lejátszási lista elnevezése</Text>
   <Text Key="Already_Exists">Már létezik</Text>
-  <Text Key="Already_Playlist_With_That_Name">Már létezik %playlistname% nevű lejátszási lista.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Már létezik '%playlistname%' nevű lejátszási lista.</Text>
   <Text Key="Error_Adding_Playlist">Nem lehet hozzáadni a lejátszási listát. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Provide_Playlist_Name">Nevet kell adni a lejátszási listának.</Text>
   <Text Key="Delete_This_Playlist">Töröld ezt a lejátszási listát</Text>
@@ -150,9 +150,9 @@
   <Text Key="Delete">Törlés</Text>
   <Text Key="Rename">Átnevezés</Text>
   <Text Key="Rename_Playlist">Lejátszási lista átnevezése</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Biztos, hogy törlöd a %playlistname% lejátszási listát?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Biztos, hogy törlöd a '%playlistname%' lejátszási listát?</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlists">Biztos, hogy törölni akarod ezeket a lejátszási listákat?</Text>
-  <Text Key="Error_Deleting_Playlist">A %playlistname% lejátszási listát nem lehetett törölni. További információért nézd meg a Naplózó fájlt.</Text>
+  <Text Key="Error_Deleting_Playlist">A '%playlistname%' lejátszási listát nem lehetett törölni. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Error_Deleting_Playlists">Hiba történt a lejátszási listák törlésekor. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
@@ -386,4 +386,6 @@
   <Text Key="About_Neowin_Head">To the</Text>
   <Text Key="About_Neowin_End">community for its ideas, testing and bug reports.</Text>
   <Text Key="Frequent">Frequent</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
 </Language>
