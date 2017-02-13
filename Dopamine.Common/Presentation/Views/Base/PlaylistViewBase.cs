@@ -4,9 +4,14 @@ using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Services.Playlist;
+using Microsoft.Practices.ServiceLocation;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +23,23 @@ namespace Dopamine.Common.Presentation.Views.Base
 {
     public abstract class PlaylistViewBase : CommonViewBase
     {
+        #region Variables
+        protected IPlaylistService playlistService;
+        #endregion
+
+        #region Commands
+        public DelegateCommand ViewPlaylistInExplorerCommand { get; set; }
+        #endregion
+
+        #region Construction
+        public PlaylistViewBase()
+        {
+            // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
+            // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
+            this.playlistService = ServiceLocator.Current.GetInstance<IPlaylistService>();
+        }
+        #endregion
+
         #region Overrides
         protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
         {
@@ -61,7 +83,7 @@ namespace Dopamine.Common.Presentation.Views.Base
                 if (!enqueue)
                 {
                     // The user just wants to play the selected item. Don't enqueue.
-                    await this.playBackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                    await this.playbackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
                     return;
                 }else
                 {
@@ -78,7 +100,7 @@ namespace Dopamine.Common.Presentation.Views.Base
                             tracks.Add(new KeyValuePair<string, PlayableTrack>(item.Key, item.Value.Track));
                         }
 
-                        await this.playBackService.EnqueueAsync(tracks, new KeyValuePair<string, PlayableTrack>(selectedItem.Key, selectedItem.Value.Track));
+                        await this.playbackService.EnqueueAsync(tracks, new KeyValuePair<string, PlayableTrack>(selectedItem.Key, selectedItem.Value.Track));
                     }
                 }
             }
@@ -107,6 +129,26 @@ namespace Dopamine.Common.Presentation.Views.Base
             catch (Exception ex)
             {
                 LogClient.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
+            }
+        }
+
+        protected void ViewPlaylistInExplorer(Object sender)
+        {
+            try
+            {
+                // Cast sender to ListBox
+                ListBox lb = (ListBox)sender;
+
+                if (lb.SelectedItem != null)
+                {
+                    string playlist = ((PlaylistViewModel)lb.SelectedItem).Playlist;
+
+                    Actions.TryViewInExplorer(Path.Combine(this.playlistService.PlaylistFolder, playlist + FileFormats.M3U));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
 

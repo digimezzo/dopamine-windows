@@ -14,7 +14,7 @@ namespace Dopamine.Common.Presentation.Views.Base
     {
         #region Variables
         protected IEventAggregator eventAggregator;
-        protected IPlaybackService playBackService;
+        protected IPlaybackService playbackService;
         #endregion
 
         #region Commands
@@ -28,7 +28,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
             this.eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
-            this.playBackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
+            this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
         }
         #endregion
 

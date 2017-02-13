@@ -70,6 +70,7 @@
                                                VirtualizingStackPanel.VirtualizationMode="Recycling"    
                                                Style="{StaticResource ListBoxPlaylists}"
                                                ItemsSource="{Binding Source={StaticResource ListBoxPlaylistsViewSource}}"
+                                               KeyUp="ListBoxPlaylists_KeyUp"
                                                BorderThickness="0"
                                                MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
                                                PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
