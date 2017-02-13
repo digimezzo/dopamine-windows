@@ -61,36 +61,36 @@ namespace Dopamine.Common.Presentation.Views.Base
                 if (!enqueue)
                 {
                     // The user just wants to play the selected item. Don't enqueue.
-                    await this.playBackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
+                    await this.playbackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
                     return;
                 };
 
                 // The user wants to enqueue tracks for the selected item
                 if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                 {
-                    await this.playBackService.EnqueueAsync(
+                    await this.playbackService.EnqueueAsync(
                         lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), 
                         ((TrackViewModel)lb.SelectedItem).Track
                         );
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string,PlayableTrack>).Name)
                 {
-                    await this.playBackService.EnqueueAsync(
+                    await this.playbackService.EnqueueAsync(
                         lb.Items.OfType<KeyValuePair<string, PlayableTrack>>().ToList(),
                         (KeyValuePair<string, PlayableTrack>)lb.SelectedItem
                         );
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
-                    await this.playBackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist);
+                    await this.playbackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
                 {
-                    await this.playBackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre);
+                    await this.playbackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playBackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album);
+                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album);
                 }
             }
             catch (Exception ex)

@@ -23,6 +23,13 @@ namespace Dopamine.Common.Services.Playlist
         private string playlistFolder;
         #endregion
 
+        #region Properties
+        public string PlaylistFolder
+        {
+            get { return this.playlistFolder; }
+        }
+        #endregion
+
         #region Construction
         public PlaylistService(IFileService fileService, ITrackRepository trackRepository)
         {

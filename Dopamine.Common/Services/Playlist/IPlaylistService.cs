@@ -14,6 +14,8 @@ namespace Dopamine.Common.Services.Playlist
 
     public interface IPlaylistService
     {
+        string PlaylistFolder { get; }
+
         Task<AddPlaylistResult> AddPlaylistAsync(string playlist);
         Task<DeletePlaylistsResult> DeletePlaylistsAsync(IList<string> playlists);
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylist, string newPlaylist);
