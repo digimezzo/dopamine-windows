@@ -58,6 +58,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             // Commands
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
+            this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
@@ -179,6 +180,18 @@ namespace Dopamine.Common.Presentation.ViewModels
             IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
             EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
+
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+        }
+
+        protected async Task AddTracksToNowPlayingAsync()
+        {
+            IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
+
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
