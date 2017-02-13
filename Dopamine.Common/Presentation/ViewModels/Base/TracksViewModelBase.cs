@@ -350,7 +350,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (!this.playbackService.HasCurrentTrack) return;
 
-            string path = this.playbackService.CurrentTrack.Value.Path;
+            string safePath = this.playbackService.CurrentTrack.Value.SafePath;
 
             await Task.Run(() =>
             {
@@ -361,7 +361,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
 
-                        if (vm.Track.Path == path)
+                        if (string.Equals(vm.Track.SafePath,safePath))
                         {
                             if (!this.playbackService.IsStopped)
                             {

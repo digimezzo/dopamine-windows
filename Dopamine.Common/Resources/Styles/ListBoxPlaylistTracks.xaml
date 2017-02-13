@@ -25,6 +25,9 @@
             </MenuItem.Header>
         </MenuItem>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">

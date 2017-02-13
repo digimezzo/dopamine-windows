@@ -8,6 +8,7 @@ using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
@@ -127,7 +128,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.SelectedPlaylistsCommand = new DelegateCommand<object>(async (parameter) => await SelectedPlaylistsHandlerAsync(parameter));
-            //this.AddPlaylistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddPLaylistsToNowPlayingAsync(this.SelectedPlaylists));
+            this.AddPlaylistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistsToNowPlayingAsync());
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(enableRating => this.EnableRating = enableRating);
@@ -504,15 +505,17 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        //protected async Task AddPLaylistsToNowPlayingAsync(IList<Playlist> playlists)
-        //{
-        //    EnqueueResult result = await this.playbackService.AddToQueue(playlists);
+        protected async Task AddPlaylistsToNowPlayingAsync()
+        {
+            List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylists);
+           
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
 
-        //    if (!result.IsSuccess)
-        //    {
-        //        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-        //    }
-        //}
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+        }
         #endregion
 
         #region IDropTarget
