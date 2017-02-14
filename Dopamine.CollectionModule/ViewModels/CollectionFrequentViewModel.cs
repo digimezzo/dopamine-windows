@@ -25,21 +25,14 @@ namespace Dopamine.CollectionModule.ViewModels
         private ICacheService cacheService;
         private IRegionManager regionManager;
 
-        private bool hasCloud;
+        private bool isFirstLoad = true;
+
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
         private AlbumViewModel albumViewModel4;
         private AlbumViewModel albumViewModel5;
         private AlbumViewModel albumViewModel6;
-        private AlbumViewModel albumViewModel7;
-        private AlbumViewModel albumViewModel8;
-        private AlbumViewModel albumViewModel9;
-        private AlbumViewModel albumViewModel10;
-        private AlbumViewModel albumViewModel11;
-        private AlbumViewModel albumViewModel12;
-        private AlbumViewModel albumViewModel13;
-        private AlbumViewModel albumViewModel14;
         #endregion
 
         #region Commands
@@ -48,11 +41,6 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Properties
-        public bool HasCloud
-        {
-            get { return this.hasCloud; }
-            set { SetProperty<bool>(ref this.hasCloud, value); }
-        }
         public AlbumViewModel AlbumViewModel1
         {
             get { return this.albumViewModel1; }
@@ -88,54 +76,6 @@ namespace Dopamine.CollectionModule.ViewModels
             get { return this.albumViewModel6; }
             set { SetProperty<AlbumViewModel>(ref this.albumViewModel6, value); }
         }
-
-        public AlbumViewModel AlbumViewModel7
-        {
-            get { return this.albumViewModel7; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel7, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel8
-        {
-            get { return this.albumViewModel8; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel8, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel9
-        {
-            get { return this.albumViewModel9; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel9, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel10
-        {
-            get { return this.albumViewModel10; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel10, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel11
-        {
-            get { return this.albumViewModel11; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel11, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel12
-        {
-            get { return this.albumViewModel12; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel12, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel13
-        {
-            get { return this.albumViewModel13; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel13, value); }
-        }
-
-        public AlbumViewModel AlbumViewModel14
-        {
-            get { return this.albumViewModel14; }
-            set { SetProperty<AlbumViewModel>(ref this.albumViewModel14, value); }
-        }
         #endregion
 
         #region Construction
@@ -166,25 +106,23 @@ namespace Dopamine.CollectionModule.ViewModels
 
             this.LoadedCommand = new DelegateCommand(async () =>
             {
+                if (!isFirstLoad) return;
+
+                isFirstLoad = false;
+
                 await Task.Delay(Constants.CommonListLoadDelay);
                 await this.PopulateAlbumHistoryAsync();
             });
-
-            // Default is True. This prevents the description text of briefly being displayed, even when there is a cloud available. 
-            this.HasCloud = true;
         }
         #endregion
 
         #region Private
         private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
         {
-            if (albums.Count < number)
-            {
-                albumViewModel = null;
-            }
-            else
+            if (albums.Count >= number)
             {
                 Album alb = albums[number - 1];
+
                 if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
                 {
                     albumViewModel = new AlbumViewModel
@@ -194,60 +132,51 @@ namespace Dopamine.CollectionModule.ViewModels
                     };
                 }
             }
+            else
+            {
+                // Shows an empty tile
+                albumViewModel = new AlbumViewModel
+                {
+                    Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
+                    ArtworkPath = string.Empty
+                };
+            }
 
             OnPropertyChanged("AlbumViewModel" + number.ToString());
-
             System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
         }
 
-        private async Task PopulateAlbumHistoryAsync()
+    private async Task PopulateAlbumHistoryAsync()
+    {
+        var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
+
+        await Task.Run(() =>
         {
-            var albums = await this.albumRepository.GetFrequentAlbumsAsync(14);
-
-            if (albums.Count == 0)
-            {
-                this.HasCloud = false;
-            }
-            else
-            {
-                this.HasCloud = true;
-
-                await Task.Run(() =>
-                {
-                    this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-                    this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-                    this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-                    this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-                    this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-                    this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
-                    this.UpdateAlbumViewModel(7, albums, ref this.albumViewModel7);
-                    this.UpdateAlbumViewModel(8, albums, ref this.albumViewModel8);
-                    this.UpdateAlbumViewModel(9, albums, ref this.albumViewModel9);
-                    this.UpdateAlbumViewModel(10, albums, ref this.albumViewModel10);
-                    this.UpdateAlbumViewModel(11, albums, ref this.albumViewModel11);
-                    this.UpdateAlbumViewModel(12, albums, ref this.albumViewModel12);
-                    this.UpdateAlbumViewModel(13, albums, ref this.albumViewModel13);
-                    this.UpdateAlbumViewModel(14, albums, ref this.albumViewModel14);
-                });
-            }
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
-        }
-        #endregion
+            this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
+            this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
+            this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
+            this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
+            this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
+            this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
+        });
     }
+    #endregion
+
+    #region INavigationAware
+    public bool IsNavigationTarget(NavigationContext navigationContext)
+    {
+        return true;
+    }
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
+    }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+        this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+    }
+    #endregion
+}
 }

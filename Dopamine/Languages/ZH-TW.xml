@@ -301,7 +301,6 @@
   <Text Key="Medium">中</Text>
   <Text Key="Large">大</Text>
   <Text Key="Showcase">展示台</Text>
-  <Text Key="Frequent_Description">播放次數最多的專輯將會在這裡顯示出來</Text>
   <Text Key="Dark">深色</Text>
   <Text Key="Light">淺色</Text>
   <Text Key="Components">元件</Text>
