@@ -65,8 +65,7 @@ namespace Dopamine.CollectionModule.Views
 
         private void PlaylistsButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: this should deselect all playlists an select all tracks.
-            // Implement this when rebuilding playlist support from scratch.
+            this.ListBoxPlaylists.SelectedItem = null;
         }
 
         private void Unsubscribe()
@@ -82,6 +81,17 @@ namespace Dopamine.CollectionModule.Views
 
             // Events
             this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (s) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
+        }
+
+        private void ListBoxPlaylists_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                if (this.ListBoxPlaylists.SelectedItem != null)
+                {
+                    this.ViewPlaylistInExplorer(this.ListBoxPlaylists);
+                }
+            }
         }
         #endregion
 
@@ -102,16 +112,5 @@ namespace Dopamine.CollectionModule.Views
             SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Playlists);
         }
         #endregion
-
-        private void ListBoxPlaylists_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                if (this.ListBoxPlaylists.SelectedItem != null)
-                {
-                    this.ViewPlaylistInExplorer(this.ListBoxPlaylists);
-                }
-            }
-        }
     }
 }
