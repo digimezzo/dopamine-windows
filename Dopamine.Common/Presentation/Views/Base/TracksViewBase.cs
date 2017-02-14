@@ -61,7 +61,11 @@ namespace Dopamine.Common.Presentation.Views.Base
                 if (!enqueue)
                 {
                     // The user just wants to play the selected item. Don't enqueue.
-                    await this.playbackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
+                    if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
+                    {
+                        await this.playbackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
+                    }
+
                     return;
                 };
 
@@ -71,13 +75,6 @@ namespace Dopamine.Common.Presentation.Views.Base
                     await this.playbackService.EnqueueAsync(
                         lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), 
                         ((TrackViewModel)lb.SelectedItem).Track
-                        );
-                }
-                else if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string,PlayableTrack>).Name)
-                {
-                    await this.playbackService.EnqueueAsync(
-                        lb.Items.OfType<KeyValuePair<string, PlayableTrack>>().ToList(),
-                        (KeyValuePair<string, PlayableTrack>)lb.SelectedItem
                         );
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)

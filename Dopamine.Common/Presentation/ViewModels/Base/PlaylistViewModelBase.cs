@@ -311,14 +311,18 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null)
                 {
+                    bool isTrackFound = false;
+
                     // 1st pass: try to find a matching Guid. This is the most exact.
                     foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                     {
                         vm.Value.IsPlaying = false;
                         vm.Value.IsPaused = true;
 
-                        if (vm.Key == trackGuid)
+                        if (!isTrackFound && vm.Key == trackGuid)
                         {
+                            isTrackFound = true;
+
                             if (!this.playbackService.IsStopped)
                             {
                                 vm.Value.IsPlaying = true;
@@ -328,8 +332,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                                     vm.Value.IsPaused = false;
                                 }
                             }
-
-                            break;
                         }
                     }
 
@@ -337,24 +339,27 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
                     // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
                     // to rely on the path of the tracks. TODO: can this be improved?
-                    foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
+                    if (!isTrackFound)
                     {
-                        vm.Value.IsPlaying = false;
-                        vm.Value.IsPaused = true;
-
-                        if (string.Equals(vm.Value.Track.SafePath, trackSafePath))
+                        foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                         {
-                            if (!this.playbackService.IsStopped)
-                            {
-                                vm.Value.IsPlaying = true;
+                            vm.Value.IsPlaying = false;
+                            vm.Value.IsPaused = true;
 
-                                if (this.playbackService.IsPlaying)
+                            if (!isTrackFound && string.Equals(vm.Value.Track.SafePath, trackSafePath))
+                            {
+                                isTrackFound = true;
+
+                                if (!this.playbackService.IsStopped)
                                 {
-                                    vm.Value.IsPaused = false;
+                                    vm.Value.IsPlaying = true;
+
+                                    if (this.playbackService.IsPlaying)
+                                    {
+                                        vm.Value.IsPaused = false;
+                                    }
                                 }
                             }
-
-                            break;
                         }
                     }
                 }
