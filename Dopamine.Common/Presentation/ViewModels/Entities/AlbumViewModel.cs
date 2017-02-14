@@ -12,7 +12,19 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private string subHeader;
         #endregion
 
-        #region ReadOnly Properties
+        #region Properties
+        public double Opacity { get; set; }
+
+        public bool HasCover
+        {
+            get { return !string.IsNullOrEmpty(this.artworkPath); }
+        }
+
+        public bool HasTitle
+        {
+            get { return !string.IsNullOrEmpty(this.Album.AlbumTitle); }
+        }
+
         public string Year
         {
             get { return this.Album.Year.HasValue && this.Album.Year.Value > 0 ? this.Album.Year.ToString() : string.Empty; }
@@ -21,13 +33,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         public string ToolTipYear
         {
             get { return !string.IsNullOrEmpty(this.Year) ? "(" + this.Year + ")" : string.Empty; }
-        }
-        #endregion
-
-        #region Properties
-        public bool HasCover
-        {
-            get { return !string.IsNullOrEmpty(this.artworkPath); }
         }
 
         public Album Album

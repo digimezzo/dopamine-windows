@@ -6,6 +6,7 @@ using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
 using Prism.Commands;
@@ -22,6 +23,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Variables
         private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
+        private IIndexingService indexingService;
         private ICacheService cacheService;
         private IRegionManager regionManager;
 
@@ -79,14 +81,16 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionFrequentViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IRegionManager regionManager)
+        public CollectionFrequentViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IIndexingService indexingService, IRegionManager regionManager)
         {
             this.albumRepository = albumRepository;
             this.playbackService = playbackService;
             this.cacheService = cacheService;
+            this.indexingService = indexingService;
             this.regionManager = regionManager;
 
             this.playbackService.PlaybackCountersChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
+            this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             this.ClickCommand = new DelegateCommand<object>((album) =>
             {
@@ -138,7 +142,8 @@ namespace Dopamine.CollectionModule.ViewModels
                 albumViewModel = new AlbumViewModel
                 {
                     Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
-                    ArtworkPath = string.Empty
+                    ArtworkPath = string.Empty,
+                    Opacity = 1.0 - (number / 10.0)
                 };
             }
 
@@ -146,37 +151,37 @@ namespace Dopamine.CollectionModule.ViewModels
             System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
         }
 
-    private async Task PopulateAlbumHistoryAsync()
-    {
-        var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
-
-        await Task.Run(() =>
+        private async Task PopulateAlbumHistoryAsync()
         {
-            this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-            this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-            this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-            this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-            this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-            this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
-        });
-    }
-    #endregion
+            var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
 
-    #region INavigationAware
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        return true;
-    }
+            await Task.Run(() =>
+            {
+                this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
+                this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
+                this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
+                this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
+                this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
+                this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
+            });
+        }
+        #endregion
 
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
-        this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
-    }
+        #region INavigationAware
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
 
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-        this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+        }
+        #endregion
     }
-    #endregion
-}
 }
