@@ -108,12 +108,12 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-             // Populate CollectionViewSource
-             this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+                // Populate CollectionViewSource
+                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
                 this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
-             // Update count
-             this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
+                // Update count
+                this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
             });
 
             // Update duration and size
@@ -144,8 +144,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (source != null)
                 {
-                 // Create copy of CollectionViewSource because only STA can access it
-                 viewCopy = new CollectionView(source.View);
+                    // Create copy of CollectionViewSource because only STA can access it
+                    viewCopy = new CollectionView(source.View);
                 }
             });
 
@@ -215,8 +215,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-             // Tracks
-             if (this.TracksCvs != null)
+                // Tracks
+                if (this.TracksCvs != null)
                 {
                     this.TracksCvs.View.Refresh();
                     this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
@@ -237,8 +237,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                     // The UI is only updated if PropertyChanged is fired on the UI thread
-                     Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
                     }
                 }
             });
@@ -254,8 +254,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                     // The UI is only updated if PropertyChanged is fired on the UI thread
-                     Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
                     }
                 }
             });
@@ -311,9 +311,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null)
                 {
-                    bool isGuidFound = false;
-
-                    // 1st pass: try to find a matching Guid
+                    // 1st pass: try to find a matching Guid. This is the most exact.
                     foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                     {
                         vm.Value.IsPlaying = false;
@@ -321,8 +319,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                         if (vm.Key == trackGuid)
                         {
-                            isGuidFound = true;
-
                             if (!this.playbackService.IsStopped)
                             {
                                 vm.Value.IsPlaying = true;
@@ -337,30 +333,29 @@ namespace Dopamine.Common.Presentation.ViewModels
                         }
                     }
 
-                    // 2nd pass: if Guid is not found, try to find a matching path.
-                    if (!isGuidFound)
+                    // 2nd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                    // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
+                    // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
+                    // to rely on the path of the tracks. TODO: can this be improved?
+                    foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                     {
-                        foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
+                        vm.Value.IsPlaying = false;
+                        vm.Value.IsPaused = true;
+
+                        if (string.Equals(vm.Value.Track.SafePath, trackSafePath))
                         {
-                            vm.Value.IsPlaying = false;
-                            vm.Value.IsPaused = true;
-
-                            if (string.Equals(vm.Value.Track.SafePath,trackSafePath))
+                            if (!this.playbackService.IsStopped)
                             {
-                                if (!this.playbackService.IsStopped)
+                                vm.Value.IsPlaying = true;
+
+                                if (this.playbackService.IsPlaying)
                                 {
-                                    vm.Value.IsPlaying = true;
-
-                                    if (this.playbackService.IsPlaying)
-                                    {
-                                        vm.Value.IsPaused = false;
-                                    }
+                                    vm.Value.IsPaused = false;
                                 }
-
-                                break;
                             }
-                        }
 
+                            break;
+                        }
                     }
                 }
             });
