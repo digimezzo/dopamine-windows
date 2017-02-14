@@ -301,7 +301,6 @@
   <Text Key="Medium">中</Text>
   <Text Key="Large">大</Text>
   <Text Key="Showcase">展示</Text>
-  <Text Key="Frequent_Description">您经常播放的歌曲会在这里展示</Text>
   <Text Key="Dark">暗色</Text>
   <Text Key="Light">亮色</Text>
   <Text Key="Components">组件</Text>

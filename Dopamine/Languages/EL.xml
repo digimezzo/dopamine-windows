@@ -301,7 +301,6 @@
   <Text Key="Medium">Μέτριο</Text>
   <Text Key="Large">Μεγάλο</Text>
   <Text Key="Showcase">Προσκήνιο</Text>
-  <Text Key="Frequent_Description">Εδώ εμφανίζονται τα άλμπουμ που αναπαράγονται πιο συχνά</Text>
   <Text Key="Dark">Σκούρο</Text>
   <Text Key="Light">Ανοιχτό</Text>
   <Text Key="Components">Τμήματα</Text>
