@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="Dopamine.CollectionModule.Views.CollectionFrequent"
-             x:Name="Me"
+             x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -23,12 +23,12 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
-        <sys:Int32 x:Key="Album1SizePercent">50</sys:Int32>
-        <sys:Int32 x:Key="Album2SizePercent">40</sys:Int32>
-        <sys:Int32 x:Key="Album3SizePercent">30</sys:Int32>
-        <sys:Int32 x:Key="Album4SizePercent">25</sys:Int32>
-        <sys:Int32 x:Key="Album5SizePercent">22</sys:Int32>
-        <sys:Int32 x:Key="Album6SizePercent">19</sys:Int32>
+        <sys:Int32 x:Key="Album1SizePercent">55</sys:Int32>
+        <sys:Int32 x:Key="Album2SizePercent">45</sys:Int32>
+        <sys:Int32 x:Key="Album3SizePercent">35</sys:Int32>
+        <sys:Int32 x:Key="Album4SizePercent">30</sys:Int32>
+        <sys:Int32 x:Key="Album5SizePercent">27</sys:Int32>
+        <sys:Int32 x:Key="Album6SizePercent">24</sys:Int32>
         <Storyboard x:Key="ShowOverlay">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.15" />
@@ -40,13 +40,14 @@
             </Storyboard>
         </Storyboard>
         <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
-            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Cursor="Hand" Command="{Binding DataContext.ClickCommand,ElementName=Me}" CommandParameter="{Binding Album}">
+            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=ThisControl}" CommandParameter="{Binding Album}">
                 <Grid>
                     <Border 
                         Panel.ZIndex="0"
                         Width="{Binding ActualWidth,ElementName=TheButton}"
                         Height="{Binding ActualHeight,ElementName=TheButton}"
-                        Background="{DynamicResource RG_AccentBrush}">
+                        Background="{DynamicResource RG_AccentBrush}"
+                        Opacity="{Binding Opacity}">
                     </Border>
                     <TextBlock 
                         Panel.ZIndex="2" 
@@ -63,7 +64,7 @@
                         VerticalAlignment="Stretch" 
                         Stretch="Fill"
                         RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <Grid Panel.ZIndex="99" Opacity="0">
+                    <Grid Panel.ZIndex="99" Opacity="0" Cursor="Hand" Visibility="{Binding HasTitle,Converter={StaticResource BooleanToCollapsedConverter}}">
                         <Border x:Name="SelectionBorder"
                             Margin="0" 
                             Background="{DynamicResource RG_AccentBrush}" 
