@@ -356,13 +356,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 if (this.Tracks != null)
                 {
+                    bool isTrackFound = false;
+
                     foreach (TrackViewModel vm in this.Tracks)
                     {
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
 
-                        if (string.Equals(vm.Track.SafePath,safePath))
+                        if (!isTrackFound && string.Equals(vm.Track.SafePath,safePath))
                         {
+                            isTrackFound = true;
+
                             if (!this.playbackService.IsStopped)
                             {
                                 vm.IsPlaying = true;

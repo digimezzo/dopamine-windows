@@ -78,17 +78,21 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem)) return;
 
-                var selectedTrack = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
-
                 if (!enqueue)
                 {
                     // The user just wants to play the selected item. Don't enqueue.
-                    await this.playbackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, PlayableTrack>).Name)
+                    {
+                        var selectedTrack = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
+                        await this.playbackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                    }
+
                     return;
-                }else
+                }
+                else
                 {
                     // The user wants to enqueue tracks for the selected item
-                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, PlayableTrack>).Name)
+                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, TrackViewModel>).Name)
                     {
                         List<KeyValuePair<string, TrackViewModel>> items = lb.Items.OfType<KeyValuePair<string, TrackViewModel>>().ToList();
                         KeyValuePair<string, TrackViewModel> selectedItem = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
@@ -101,6 +105,13 @@ namespace Dopamine.Common.Presentation.Views.Base
                         }
 
                         await this.playbackService.EnqueueAsync(tracks, new KeyValuePair<string, PlayableTrack>(selectedItem.Key, selectedItem.Value.Track));
+                    }
+                    else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
+                    {
+                        var selectedPlaylists = new List<string>();
+                        selectedPlaylists.Add(((PlaylistViewModel)lb.SelectedItem).Playlist);
+                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(selectedPlaylists);
+                        await this.playbackService.EnqueueAsync(tracks);
                     }
                 }
             }
@@ -123,7 +134,7 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 await Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await ScrollUtils.ScrollToPlayingTrackAsync(lb, typeof(KeyValuePair<string,TrackViewModel>));
+                    await ScrollUtils.ScrollToPlayingTrackAsync(lb, typeof(KeyValuePair<string, TrackViewModel>));
                 });
             }
             catch (Exception ex)
@@ -161,7 +172,7 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (lb.SelectedItem != null)
                 {
-                    Actions.TryViewInExplorer(((KeyValuePair<string,TrackViewModel>)lb.SelectedItem).Value.Track.Path);
+                    Actions.TryViewInExplorer(((KeyValuePair<string, TrackViewModel>)lb.SelectedItem).Value.Track.Path);
                 }
             }
             catch (Exception ex)
