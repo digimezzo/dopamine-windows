@@ -29,94 +29,133 @@
         <sys:Int32 x:Key="Album4SizePercent">30</sys:Int32>
         <sys:Int32 x:Key="Album5SizePercent">27</sys:Int32>
         <sys:Int32 x:Key="Album6SizePercent">24</sys:Int32>
-        <Storyboard x:Key="ShowOverlay">
+        <Storyboard x:Key="ShowOverlayBackground">
             <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.15" />
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="0.6" Duration="0:0:0.15" />
             </Storyboard>
         </Storyboard>
-        <Storyboard x:Key="HideOverlay">
+        <Storyboard x:Key="HideOverlayBackground">
             <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.15" />
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.6" To="0" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="ShowOverlayElements">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1.0" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="HideOverlayElements">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1.0" To="0" Duration="0:0:0.15" />
             </Storyboard>
         </Storyboard>
         <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
             <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=ThisControl}" CommandParameter="{Binding Album}">
-                <Grid
+                <Grid 
                     Width="{Binding ActualWidth,ElementName=TheButton}"
                     Height="{Binding ActualHeight,ElementName=TheButton}">
-                    <Grid Panel.ZIndex="0" Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                        <Border 
-                            Panel.ZIndex="0"
-                            Width="{Binding ActualWidth,ElementName=TheButton}"
-                            Height="{Binding ActualHeight,ElementName=TheButton}"
-                            Background="{DynamicResource RG_AccentBrush}"
-                            Opacity="{Binding Opacity}"
-                            Visibility="{Binding HasTitle,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                        <Border 
-                            Panel.ZIndex="1"
-                            Width="{Binding ActualWidth,ElementName=TheButton}"
-                            Height="{Binding ActualHeight,ElementName=TheButton}"
-                            Background="{DynamicResource RG_AccentBrush}"
-                            Visibility="{Binding HasTitle,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                    </Grid>
-                    <TextBlock 
+                    <!-- BACKGROUND -->
+                    <Border 
+                        Panel.ZIndex="0"
+                        Margin="0.5"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource RG_AccentBrush}"
+                        Opacity="{Binding Opacity}"/>
+                    <!-- ALBUM -->
+                    <Grid 
                         Panel.ZIndex="1" 
-                        Text="{Binding AlbumTitle}"
-                        FontWeight="Light"
-                        TextWrapping="Wrap"
-                        TextTrimming="CharacterEllipsis" 
-                        VerticalAlignment="Bottom" 
-                        Margin="7" 
-                        FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"
-                        Foreground="{DynamicResource RG_WhiteBrush}"
-                        Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                    <Image 
-                        Panel.ZIndex="2" 
-                        Source="{Binding ArtworkPath}" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch" 
-                        Stretch="Fill"
-                        RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <Grid Panel.ZIndex="99" Opacity="0" Cursor="Hand" Visibility="{Binding HasTitle,Converter={StaticResource BooleanToCollapsedConverter}}">
-                        <Border x:Name="SelectionBorder"
-                            Margin="0" 
-                            Background="{DynamicResource RG_AccentBrush}" 
-                            BorderThickness="0" 
-                            Panel.ZIndex="0"
-                            Opacity="0.6">
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Cursor="Hand"
+                        Visibility="{Binding HasTitle,Converter={StaticResource BooleanToCollapsedConverter}}">
+                        <!-- Solid cover -->
+                        <Border 
+                                Panel.ZIndex="0" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch" 
+                                Background="{DynamicResource RG_AccentBrush}"
+                                Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                        <!-- Image cover -->
+                        <Image 
+                            Panel.ZIndex="1" 
+                            Source="{Binding ArtworkPath}" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Stretch="Fill"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <!-- Overlay -->
+                        <Border 
+                                Panel.ZIndex="2"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch" 
+                                Background="{DynamicResource RG_AccentBrush}"
+                                Opacity="0">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=TheButton, Path=IsMouseOver}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource ShowOverlayBackground}"/>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource HideOverlayBackground}"/>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                         </Border>
-                        <TextBlock 
-                            Panel.ZIndex="1"
-                            Text="{Binding AlbumTitle}"
-                            FontWeight="Light"
-                            TextWrapping="Wrap"
-                            TextTrimming="CharacterEllipsis" 
-                            VerticalAlignment="Bottom" 
-                            Margin="7" 
-                            FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"
-                            Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <TextBlock Text="&#xE768;"
+                        <!-- Album title & Play button -->
+                        <DockPanel Panel.ZIndex="99">
+                            <Border Opacity="0" DockPanel.Dock="Top">
+                                <TextBlock Text="&#xE768;"
                                    Style="{StaticResource SegoeAssets}"
-                                   Panel.ZIndex="2"
-                                   Margin="0,9,7,0"
+                                   Margin="0,7,7,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
                                    Foreground="{DynamicResource RG_WhiteBrush}" 
-                                   FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"/>
-                        <Grid.Style>
-                            <Style TargetType="{x:Type Grid}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=TheButton, Path=IsMouseOver}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource ShowOverlay}"/>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard Storyboard="{StaticResource HideOverlay}"/>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
+                                   FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"/>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=TheButton, Path=IsMouseOver}" Value="True">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource ShowOverlayElements}"/>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource HideOverlayElements}"/>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TextBlock
+                                Text="{Binding AlbumTitle}"
+                                x:Name="AlbumTitle"
+                                FontWeight="Light"
+                                TextWrapping="Wrap"
+                                TextTrimming="CharacterEllipsis" 
+                                VerticalAlignment="Bottom" 
+                                Margin="7" 
+                                FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"
+                                Foreground="{DynamicResource RG_WhiteBrush}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=TheButton, Path=IsMouseOver}" Value="False"/>                                
+                                                    <Condition Binding="{Binding HasCover}" Value="True"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
                     </Grid>
                 </Grid>
             </Button>
