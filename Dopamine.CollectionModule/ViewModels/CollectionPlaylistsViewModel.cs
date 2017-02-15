@@ -508,7 +508,7 @@ namespace Dopamine.CollectionModule.ViewModels
         protected async Task AddPlaylistsToNowPlayingAsync()
         {
             List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylists);
-           
+
             EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
 
             if (!result.IsSuccess)
@@ -521,8 +521,40 @@ namespace Dopamine.CollectionModule.ViewModels
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
-            // We don't allow drag and drop when more as 1 playlist is selected
-            if (this.selectedPlaylists != null && this.selectedPlaylists.Count == 1)
+            var dataObject = dropInfo.Data as IDataObject;
+
+            bool isSinglePlaylistSelected = this.selectedPlaylists != null && this.selectedPlaylists.Count == 1;
+            bool isDraggingFiles = dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+            bool isDraggingValidFiles = false;
+
+            if (isDraggingFiles)
+            {
+                var basicDataObject = dropInfo.Data as DataObject;
+
+                try
+                {
+                    var filenames = basicDataObject.GetFileDropList();
+                    var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
+
+                    foreach (string filename in filenames)
+                    {
+                        if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                        {
+                            isDraggingValidFiles = true;
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+                }
+            }
+
+            // Dragging is only possible when 1 playlist is selected, otherwise we 
+            // don't know in which playlist the tracks or fiels should be dropped.
+            // When dragging files, allow only valid files.
+            if (isSinglePlaylistSelected & (!isDraggingFiles | isDraggingValidFiles))
             {
                 GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
