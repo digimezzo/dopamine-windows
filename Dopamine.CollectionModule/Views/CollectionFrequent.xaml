@@ -111,7 +111,7 @@
                             <Border Opacity="0" DockPanel.Dock="Top">
                                 <TextBlock Text="&#xE768;"
                                    Style="{StaticResource SegoeAssets}"
-                                   Margin="0,7,7,0"
+                                   Margin="0,11,7,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
                                    Foreground="{DynamicResource RG_WhiteBrush}" 
