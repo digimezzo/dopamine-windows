@@ -50,7 +50,7 @@
                             Width="{Binding ActualWidth,ElementName=TheButton}"
                             Height="{Binding ActualHeight,ElementName=TheButton}"
                             Background="{DynamicResource RG_AccentBrush}"
-                            Opacity="0.4"
+                            Opacity="{Binding Opacity}"
                             Visibility="{Binding HasTitle,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                         <Border 
                             Panel.ZIndex="1"

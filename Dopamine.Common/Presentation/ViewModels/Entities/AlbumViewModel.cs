@@ -13,6 +13,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         #endregion
 
         #region Properties
+        public double Opacity { get; set; }
+
         public bool HasCover
         {
             get { return !string.IsNullOrEmpty(this.artworkPath); }

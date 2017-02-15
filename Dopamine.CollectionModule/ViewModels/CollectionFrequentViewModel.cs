@@ -142,7 +142,8 @@ namespace Dopamine.CollectionModule.ViewModels
                 albumViewModel = new AlbumViewModel
                 {
                     Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
-                    ArtworkPath = string.Empty
+                    ArtworkPath = string.Empty,
+                    Opacity = 0.8 - (number / 10.0)
                 };
             }
 
