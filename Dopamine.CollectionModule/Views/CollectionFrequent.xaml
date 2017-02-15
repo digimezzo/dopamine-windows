@@ -41,24 +41,37 @@
         </Storyboard>
         <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
             <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=ThisControl}" CommandParameter="{Binding Album}">
-                <Grid>
-                    <Border 
-                        Panel.ZIndex="0"
-                        Width="{Binding ActualWidth,ElementName=TheButton}"
-                        Height="{Binding ActualHeight,ElementName=TheButton}"
-                        Background="{DynamicResource RG_AccentBrush}"
-                        Opacity="{Binding Opacity}">
-                    </Border>
+                <Grid
+                    Width="{Binding ActualWidth,ElementName=TheButton}"
+                    Height="{Binding ActualHeight,ElementName=TheButton}">
+                    <Grid Panel.ZIndex="0" Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                        <Border 
+                            Panel.ZIndex="0"
+                            Width="{Binding ActualWidth,ElementName=TheButton}"
+                            Height="{Binding ActualHeight,ElementName=TheButton}"
+                            Background="{DynamicResource RG_AccentBrush}"
+                            Opacity="0.4"
+                            Visibility="{Binding HasTitle,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                        <Border 
+                            Panel.ZIndex="1"
+                            Width="{Binding ActualWidth,ElementName=TheButton}"
+                            Height="{Binding ActualHeight,ElementName=TheButton}"
+                            Background="{DynamicResource RG_AccentBrush}"
+                            Visibility="{Binding HasTitle,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                    </Grid>
                     <TextBlock 
-                        Panel.ZIndex="2" 
-                        Text="{Binding AlbumTitle}" 
+                        Panel.ZIndex="1" 
+                        Text="{Binding AlbumTitle, Converter={StaticResource StringToUpperConverter}}"
+                        FontWeight="Light"
+                        TextWrapping="Wrap"
                         TextTrimming="CharacterEllipsis" 
                         VerticalAlignment="Bottom" 
-                        Margin="5,0,5,5" 
+                        Margin="7" 
+                        FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"
                         Foreground="{DynamicResource RG_WhiteBrush}"
                         Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                     <Image 
-                        Panel.ZIndex="3" 
+                        Panel.ZIndex="2" 
                         Source="{Binding ArtworkPath}" 
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch" 
@@ -72,13 +85,24 @@
                             Panel.ZIndex="0"
                             Opacity="0.6">
                         </Border>
+                        <TextBlock 
+                            Panel.ZIndex="1"
+                            Text="{Binding AlbumTitle, Converter={StaticResource StringToUpperConverter}}"
+                            FontWeight="Light"
+                            TextWrapping="Wrap"
+                            TextTrimming="CharacterEllipsis" 
+                            VerticalAlignment="Bottom" 
+                            Margin="7" 
+                            FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"
+                            Foreground="{DynamicResource RG_WhiteBrush}"/>
                         <TextBlock Text="&#xE768;"
                                    Style="{StaticResource SegoeAssets}"
-                                   Panel.ZIndex="1"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
+                                   Panel.ZIndex="2"
+                                   Margin="0,8,7,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
                                    Foreground="{DynamicResource RG_WhiteBrush}" 
-                                   FontSize="25"/>
+                                   FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=12}"/>
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
                                 <Style.Triggers>
