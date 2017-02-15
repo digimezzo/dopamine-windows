@@ -61,7 +61,7 @@
                     </Grid>
                     <TextBlock 
                         Panel.ZIndex="1" 
-                        Text="{Binding AlbumTitle, Converter={StaticResource StringToUpperConverter}}"
+                        Text="{Binding AlbumTitle}"
                         FontWeight="Light"
                         TextWrapping="Wrap"
                         TextTrimming="CharacterEllipsis" 
@@ -87,7 +87,7 @@
                         </Border>
                         <TextBlock 
                             Panel.ZIndex="1"
-                            Text="{Binding AlbumTitle, Converter={StaticResource StringToUpperConverter}}"
+                            Text="{Binding AlbumTitle}"
                             FontWeight="Light"
                             TextWrapping="Wrap"
                             TextTrimming="CharacterEllipsis" 
@@ -98,7 +98,7 @@
                         <TextBlock Text="&#xE768;"
                                    Style="{StaticResource SegoeAssets}"
                                    Panel.ZIndex="2"
-                                   Margin="0,8,7,0"
+                                   Margin="0,9,7,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
                                    Foreground="{DynamicResource RG_WhiteBrush}" 
