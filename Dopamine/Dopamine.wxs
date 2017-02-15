@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.3.0.891" ?>
+<?define Version="1.3.0.894" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -17,7 +17,6 @@
     <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="$(var.DowngradeMessage)" />
     <InstallExecuteSequence>
       <Custom Action="KillApplication" After="LaunchConditions"/>
-      <RemoveShortcuts>0</RemoveShortcuts>
     </InstallExecuteSequence>
     <!--<WixVariable Id="WixUILicenseRtf" Value="$(var.License)" />-->
     <WixVariable Id="WixUIBannerBmp" Value="$(var.BannerBmp)" />
@@ -52,11 +51,7 @@
     <!-- ============== -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <!-- Start Menu -->
-      <Directory Id="ProgramMenuFolder">
-        <Component Id="STARTMENUCMP" Guid="2DC1D8A2-73D0-47DB-BE6D-D3A0FFDC7A9A">
-          <RemoveFile Id="RemoveShortcut" Name="$(var.Product).lnk" On="uninstall" />
-        </Component>
-      </Directory>
+      <Directory Id="ProgramMenuFolder"/>
       <!-- Program Files -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLFOLDER" Name="$(var.Product)">
@@ -264,7 +259,6 @@
     <!-- Components to add -->
     <!-- ================= -->
     <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
-      <ComponentRef Id="STARTMENUCMP" />
       <ComponentRef Id="ICONSCMP" />
       <ComponentRef Id="LANGUAGESCMP" />
       <ComponentRef Id="LICENSESCMP" />

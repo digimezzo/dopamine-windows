@@ -1,4 +1,4 @@
-2017-02-13: Dopamine 1.3 Build 891 (Preview)
+2017-02-13: Dopamine 1.3 Build 894 (Preview)
 --------------------------------------------
 
 IMPORTANT:  Playlist support was rewritten from scratch. Your existing playlists will not be migrated. 
