@@ -14,6 +14,7 @@
             <converters:StringEmptyToInvisibleConverter x:Key="StringEmptyToInvisibleConverter"/>
             <converters:StringEmptyToVisibleConverter x:Key="StringEmptyToVisibleConverter"/>
             <converters:StringToLowerConverter x:Key="StringToLowerConverter"/>
+            <converters:StringToUpperConverter x:Key="StringToUpperConverter"/>
             <converters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
             <converters:PercentSizeConverter x:Key="PercentSizeConverter"/>
             <converters:AddEllipsisConverter x:Key="AddEllipsisConverter"/>
