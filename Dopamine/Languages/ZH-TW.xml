@@ -151,9 +151,7 @@
   <Text Key="Rename">重新命名</Text>
   <Text Key="Rename_Playlist">重新命名播放清單</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">您確定要刪除播放清單'%playlistname%'？</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">您確定要刪除這些播放清單？</Text>
   <Text Key="Error_Deleting_Playlist">無法刪除播放清單'%playlistname%'。請參閱記錄檔以獲取更多信息。</Text>
-  <Text Key="Error_Deleting_Playlists">刪除播放清單時發生錯誤。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">無法重新命名播放清單。請參閱記錄檔以獲取更多信息。</Text>

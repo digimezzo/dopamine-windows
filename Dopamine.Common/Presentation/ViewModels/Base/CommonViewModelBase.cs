@@ -210,7 +210,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
             this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
-            this.playlistService.PlaylistsDeleted += (_) => this.GetContextMenuPlaylistsAsync();
+            this.playlistService.PlaylistDeleted += (_) => this.GetContextMenuPlaylistsAsync();
 
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();

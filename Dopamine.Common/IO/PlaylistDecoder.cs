@@ -84,26 +84,27 @@ namespace Dopamine.Common.IO
             {
                 playlistName = System.IO.Path.GetFileNameWithoutExtension(playlistPath);
 
-                System.IO.StreamReader sr = System.IO.File.OpenText("" + playlistPath + "");
-
-                string line = sr.ReadLine();
-
-                while (!(line == null))
+                using (System.IO.StreamReader sr = System.IO.File.OpenText("" + playlistPath + ""))
                 {
-                    // We don't process empty lines and lines containing comments
-                    if (!string.IsNullOrEmpty(line) && !line.StartsWith("#"))
+                    string line = sr.ReadLine();
+
+                    while (!(line == null))
                     {
-                        string fullTrackPath = this.GenerateFullTrackPath(playlistPath, line);
-
-                        if (!string.IsNullOrEmpty(fullTrackPath))
+                        // We don't process empty lines and lines containing comments
+                        if (!string.IsNullOrEmpty(line) && !line.StartsWith("#"))
                         {
-                            filePaths.Add(fullTrackPath);
+                            string fullTrackPath = this.GenerateFullTrackPath(playlistPath, line);
+
+                            if (!string.IsNullOrEmpty(fullTrackPath))
+                            {
+                                filePaths.Add(fullTrackPath);
+                            }
                         }
+
+                        line = sr.ReadLine();
                     }
-
-                    line = sr.ReadLine();
                 }
-
+               
                 op.Result = true;
             }
             catch (Exception ex)

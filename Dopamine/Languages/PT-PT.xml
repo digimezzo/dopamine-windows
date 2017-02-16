@@ -151,9 +151,7 @@
   <Text Key="Rename">Mudar o nome</Text>
   <Text Key="Rename_Playlist">Mudar o nome da lista de reprodução</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Vamos excluir a lista de reprodução '%playlistname%'. Tem certeza?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Vamos excluir as listas de reprodução. Tem certeza?</Text>
   <Text Key="Error_Deleting_Playlist">A lista de reprodução '%playlistname%' não pode ser excluída. Clique em "Mais informações" para saber mais.</Text>
-  <Text Key="Error_Deleting_Playlists">Um erro ocorreu durante a exclusão das listas de reprodução. Clique em "Mais informações" para saber mais.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Delete</Text>
   <Text Key="Error_Renaming_Playlist">Não é possível mudar o nome da lista de reprodução. Clique em "Mais informações" para saber mais.</Text>

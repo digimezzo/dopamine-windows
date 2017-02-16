@@ -151,9 +151,7 @@
   <Text Key="Rename">Zmień nazwę</Text>
   <Text Key="Rename_Playlist">Zmień nazwę listy odtwarzania</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Na pewno chcesz usunąc listę odtwarzania '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Czy na pewno chcesz usunąć te listy ?</Text>
   <Text Key="Error_Deleting_Playlist">Playlista '%playlistname%' nie mogła być usunięta. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
-  <Text Key="Error_Deleting_Playlists">Wystąpił błąd podczas usuwania listy odtwarzania. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Nie można zmienić nazwy listy odtwarzania. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>

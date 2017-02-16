@@ -151,9 +151,7 @@
   <Text Key="Rename">Renombrar</Text>
   <Text Key="Rename_Playlist">Renombrar lista de reproducción</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">¿Estás seguro de querer eliminar la lista de reproducción '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">¿Estás seguro de querer eliminar estas listas de reproducción?</Text>
   <Text Key="Error_Deleting_Playlist">No se ha podido eliminar la lista de reproducción '%playlistname%'. Consulta el archivo 'log' para más información por favor.</Text>
-  <Text Key="Error_Deleting_Playlists">Se ha producido un error mientras se borraban las listas de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Supr</Text>
   <Text Key="Error_Renaming_Playlist">No se ha podido renombrar la lista de reproducción. Consulta el archivo 'log' para más información por favor.</Text>

@@ -151,9 +151,7 @@
   <Text Key="Rename">Μετονομασία</Text>
   <Text Key="Rename_Playlist">Μετονομασία λίστας</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Να διαγραφεί η λίστα '%playlistname%';</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Να διαγραφούν αυτές οι λίστες;</Text>
   <Text Key="Error_Deleting_Playlist">Δεν ήταν δυνατή η διαγραφή της λίστας '%playlistname%'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
-  <Text Key="Error_Deleting_Playlists">Προέκυψε σφάλμα κατά τη διαγραφή των λιστών. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Δεν ήταν δυνατή η μετονομασία της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>

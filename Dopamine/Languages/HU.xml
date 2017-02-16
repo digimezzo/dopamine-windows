@@ -151,9 +151,7 @@
   <Text Key="Rename">Átnevezés</Text>
   <Text Key="Rename_Playlist">Lejátszási lista átnevezése</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Biztos, hogy törlöd a '%playlistname%' lejátszási listát?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Biztos, hogy törölni akarod ezeket a lejátszási listákat?</Text>
   <Text Key="Error_Deleting_Playlist">A '%playlistname%' lejátszási listát nem lehetett törölni. További információért nézd meg a Naplózó fájlt.</Text>
-  <Text Key="Error_Deleting_Playlists">Hiba történt a lejátszási listák törlésekor. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Lejátszási listát nem lehet átnevezni. További információért nézd meg a Naplózó fájlt.</Text>

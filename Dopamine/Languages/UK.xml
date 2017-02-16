@@ -151,9 +151,7 @@
   <Text Key="Rename">Перейменувати</Text>
   <Text Key="Rename_Playlist">Перейменувати список відтворення</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Ви впевнені, що хочете видалити список виконання '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Ви впевнені, що хочете видалити ці списки виконання?</Text>
   <Text Key="Error_Deleting_Playlist">Список виконання '%playlistname%' не може бути видалений. Зверніться до логу программи за подробицями.</Text>
-  <Text Key="Error_Deleting_Playlists">Виникла помилка при видаленні списків відтворення. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Список відтворення не може бути перейменований. Зверніться до логу программи за подробицями.</Text>

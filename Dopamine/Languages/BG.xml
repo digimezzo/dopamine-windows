@@ -151,9 +151,7 @@
   <Text Key="Rename">Преименуване</Text>
   <Text Key="Rename_Playlist">Преименувай плейлиста</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Сигурни ли сте, че искате да изтриете тези плейлисти?</Text>
   <Text Key="Error_Deleting_Playlist">Плейлистът '%playlistname%' не може да бъде изтрит.</Text>
-  <Text Key="Error_Deleting_Playlists">Възникна грешка при изтриване на плейлисти.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Списъкът за изпълнение не може да бъде преименуван.</Text>
