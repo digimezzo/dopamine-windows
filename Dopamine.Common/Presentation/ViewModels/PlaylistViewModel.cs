@@ -5,26 +5,26 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class PlaylistViewModel : BindableBase
     {
         #region Variables
-        private string playlist;
+        private string name;
         #endregion
 
         #region Properties
-        public string Playlist
+        public string Name
         {
-            get { return playlist; }
-            set { playlist = value; }
+            get { return name; }
+            set { name = value; }
         }
 
-        public string SortPlaylist
+        public string SortName
         {
-           get { return playlist.ToLowerInvariant(); }
+           get { return name.ToLowerInvariant(); }
         }
         #endregion
 
         #region Public
         public override string ToString()
         {
-            return this.Playlist;
+            return this.Name;
         }
 
         public override bool Equals(object obj)
@@ -34,12 +34,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return false;
             }
 
-            return this.Playlist.Equals(((PlaylistViewModel)obj).Playlist);
+            return this.Name.Equals(((PlaylistViewModel)obj).Name);
         }
 
         public override int GetHashCode()
         {
-            return this.Playlist.GetHashCode();
+            return this.Name.GetHashCode();
         }
         #endregion
     }

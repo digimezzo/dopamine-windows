@@ -108,7 +108,7 @@ namespace Dopamine.Common.Presentation.Views.Base
                     }
                     else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
                     {
-                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(((PlaylistViewModel)lb.SelectedItem).Playlist);
+                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(((PlaylistViewModel)lb.SelectedItem).Name);
                         await this.playbackService.EnqueueAsync(tracks);
                     }
                 }
@@ -150,7 +150,7 @@ namespace Dopamine.Common.Presentation.Views.Base
 
                 if (lb.SelectedItem != null)
                 {
-                    string playlist = ((PlaylistViewModel)lb.SelectedItem).Playlist;
+                    string playlist = ((PlaylistViewModel)lb.SelectedItem).Name;
 
                     Actions.TryViewInExplorer(Path.Combine(this.playlistService.PlaylistFolder, playlist + FileFormats.M3U));
                 }
