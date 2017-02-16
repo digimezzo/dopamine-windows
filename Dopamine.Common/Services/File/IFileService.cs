@@ -13,6 +13,7 @@ namespace Dopamine.Common.Services.File
         [OperationContract()]
         void ProcessArguments(string[] iArgs);
 
+        Task<List<PlayableTrack>> ProcessFilesAsync(List<string> filenames);
         Task<PlayableTrack> CreateTrackAsync(string path);
 
         event TracksImportedHandler TracksImported;

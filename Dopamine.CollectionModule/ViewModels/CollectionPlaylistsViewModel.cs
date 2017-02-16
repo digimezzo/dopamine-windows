@@ -8,6 +8,7 @@ using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using GongSolutions.Wpf.DragDrop;
@@ -26,6 +27,9 @@ namespace Dopamine.CollectionModule.ViewModels
     public class CollectionPlaylistsViewModel : PlaylistViewModelBase, IDropTarget
     {
         #region Variables
+        // Services
+        private IFileService fileService;
+
         // Lists
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;
@@ -106,12 +110,10 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionPlaylistsViewModel(IUnityContainer container, IEventAggregator eventAggregator, IDialogService dialogService, IPlaylistService playlistService)
+        public CollectionPlaylistsViewModel(IUnityContainer container, IFileService fileService)
            : base(container)
         {
-            this.eventAggregator = eventAggregator;
-            this.dialogService = dialogService;
-            this.playlistService = playlistService;
+            this.fileService = fileService;
 
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
@@ -472,7 +474,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        protected async Task AddPlaylistToNowPlayingAsync()
+        private async Task AddPlaylistToNowPlayingAsync()
         {
             List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
 
@@ -483,39 +485,95 @@ namespace Dopamine.CollectionModule.ViewModels
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
+
+        private bool IsDraggingFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as IDataObject;
+                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        private bool IsDraggingValidFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as DataObject;
+
+                var filenames = dataObject.GetFileDropList();
+                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
+
+                foreach (string filename in filenames)
+                {
+                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        private async Task ProcessDroppedTracksAsync(IDropInfo dropInfo)
+        {
+            var tracks = new List<PlayableTrack>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    foreach (var item in dropInfo.TargetCollection)
+                    {
+                        tracks.Add(((KeyValuePair<string, TrackViewModel>)item).Value.Track);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not get the dropped tracks. Exception: {0}", ex.Message);
+                }
+            });
+
+            await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
+        }
+
+        private async Task ProcessDroppedFilesAsync(IDropInfo dropInfo)
+        {
+            var tracks = new List<PlayableTrack>();
+
+            var dataObject = dropInfo.Data as DataObject;
+
+            try
+            {
+                var filenames = dataObject.GetFileDropList().Cast<string>().ToList();
+                tracks = await this.fileService.ProcessFilesAsync(filenames);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not process dropped files. Exception: {0}", ex.Message);
+            }
+
+            await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
+        }
         #endregion
 
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
-            var dataObject = dropInfo.Data as IDataObject;
-
-            bool isDraggingFiles = dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+            bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
             bool isDraggingValidFiles = false;
-
-            if (isDraggingFiles)
-            {
-                var basicDataObject = dropInfo.Data as DataObject;
-
-                try
-                {
-                    var filenames = basicDataObject.GetFileDropList();
-                    var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
-
-                    foreach (string filename in filenames)
-                    {
-                        if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
-                        {
-                            isDraggingValidFiles = true;
-                            break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
-                }
-            }
+            if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
 
             // Dragging is only possible when 1 playlist is selected, otherwise we 
             // don't know in which playlist the tracks or fiels should be dropped.
@@ -540,48 +598,13 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
 
-            var dataObject = dropInfo.Data as IDataObject;
-
-            bool isDroppingFiles = dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
-
-            if (isDroppingFiles)
+            if (this.IsDraggingFiles(dropInfo))
             {
-                var basicDataObject = dropInfo.Data as DataObject;
-
-                try
-                {
-                    var filenames = basicDataObject.GetFileDropList();
-                    var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
-
-                    foreach (string filename in filenames)
-                    {
-                        if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
-                        {
-                            // TODO: process filename
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not process dropped files. Exception: {0}", ex.Message);
-                }
+                await this.ProcessDroppedFilesAsync(dropInfo);
             }
-            else{
-                try
-                {
-                    var tracks = new List<PlayableTrack>();
-
-                    foreach (var item in dropInfo.TargetCollection)
-                    {
-                        tracks.Add(((KeyValuePair<string, TrackViewModel>)item).Value.Track);
-                    }
-
-                    await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
-                }
+            else
+            {
+                await this.ProcessDroppedTracksAsync(dropInfo);
             }
         }
         #endregion
