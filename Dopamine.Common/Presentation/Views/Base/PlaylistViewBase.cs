@@ -108,9 +108,7 @@ namespace Dopamine.Common.Presentation.Views.Base
                     }
                     else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
                     {
-                        var selectedPlaylists = new List<string>();
-                        selectedPlaylists.Add(((PlaylistViewModel)lb.SelectedItem).Playlist);
-                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(selectedPlaylists);
+                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(((PlaylistViewModel)lb.SelectedItem).Playlist);
                         await this.playbackService.EnqueueAsync(tracks);
                     }
                 }

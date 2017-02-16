@@ -151,9 +151,7 @@
   <Text Key="Rename">Hernoemen</Text>
   <Text Key="Rename_Playlist">Afspeellijst hernoemen</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Ben je zeker dat je de afspeellijst '%playlistname%' wilt verwijderen?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Ben je zeker dat je deze afspeellijsten wilt verwijderen?</Text>
   <Text Key="Error_Deleting_Playlist">De afspeellijst '%playlistname%' kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
-  <Text Key="Error_Deleting_Playlists">Er is een fout opgetreden bij het verwijderen van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">De afspeellijst kon niet worden hernoemd. Raadpleeg het log bestand voor meer informatie.</Text>

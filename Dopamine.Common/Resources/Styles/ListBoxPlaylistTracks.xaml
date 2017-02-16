@@ -38,7 +38,7 @@
             </MenuItem.ItemContainerStyle>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Remove_From_Playlist}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"  IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AllowRename}"/>
+        <MenuItem Header="{DynamicResource Language_Remove_From_Playlist}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding DataContext.RemoveSelectedTracksCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>

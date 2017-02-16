@@ -151,9 +151,7 @@
   <Text Key="Rename">Renommer</Text>
   <Text Key="Rename_Playlist">Renommer playlist</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Êtes-vous sûr de vouloir supprimer la playlist '%playlistname%' ?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Êtes-vous sûr de vouloir supprimer ces playlists ?</Text>
   <Text Key="Error_Deleting_Playlist">La playlist '%playlistname%' n'a pas pu être supprimée. Consultez le fichier log pour plus de détails.</Text>
-  <Text Key="Error_Deleting_Playlists">Une erreur s'est produite durant la suppression des playlists. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Suppr.</Text>
   <Text Key="Error_Renaming_Playlist">La playlist n'a pas pu être renomée. Consultez le fichier log pour plus de détails.</Text>

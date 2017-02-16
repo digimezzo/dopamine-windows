@@ -151,9 +151,7 @@
   <Text Key="Rename">Yeniden adlandır</Text>
   <Text Key="Rename_Playlist">Oynatma listesini yeniden adlandır</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">'%playlistname%'? listesini silmek istediğinize emin misiniz?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Bu oynatma listelerini silmek istediğinize emin misiniz?</Text>
   <Text Key="Error_Deleting_Playlist">'%playlistname%' listesi silinemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
-  <Text Key="Error_Deleting_Playlists">Oynatma listeleri silinirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Oynatma listesi yeniden adlandırılamadı. Detaylı bilgi için günlük dosyasını inceleyin.</Text>

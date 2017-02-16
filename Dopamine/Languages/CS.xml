@@ -151,9 +151,7 @@
   <Text Key="Rename">Přejmenovat</Text>
   <Text Key="Rename_Playlist">Přejmenovat seznam</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Opravdu chcete smazat seznam '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Opravdu chcete smazat tento seznam?</Text>
   <Text Key="Error_Deleting_Playlist">Seznam '%playlistname%' nelze smazat. Prosím konzultujte chybový výpis pro více informací.</Text>
-  <Text Key="Error_Deleting_Playlists">Nastala chyba během odstraňování seznamu. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Seznam nemohl být přejmenován. Prosím konzultujte chybový výpis pro více informací.</Text>

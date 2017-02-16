@@ -59,7 +59,7 @@ namespace Dopamine.Common.Services.Playlist
 
         #region Events
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
-        public event PlaylistDeletedHandler PlaylistsDeleted = delegate { };
+        public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
@@ -130,38 +130,33 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<DeletePlaylistsResult> DeletePlaylistsAsync(IList<string> playlists)
+        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlist)
         {
             DeletePlaylistsResult result = DeletePlaylistsResult.Success;
-            List<string> deletedPlaylists = new List<string>();
 
             await Task.Run(() =>
             {
-                foreach (string playlist in playlists)
+                try
                 {
-                    try
-                    {
-                        string filename = this.CreatePlaylistFilename(playlist);
+                    string filename = this.CreatePlaylistFilename(playlist);
 
-                        if (System.IO.File.Exists(filename))
-                        {
-                            System.IO.File.Delete(filename);
-                            deletedPlaylists.Add(playlist);
-                        }
-                        else
-                        {
-                            result = DeletePlaylistsResult.Error;
-                        }
-                    }
-                    catch (Exception ex)
+                    if (System.IO.File.Exists(filename))
                     {
-                        LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                        System.IO.File.Delete(filename);
+                    }
+                    else
+                    {
                         result = DeletePlaylistsResult.Error;
                     }
                 }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                    result = DeletePlaylistsResult.Error;
+                }
             });
 
-            if (deletedPlaylists.Count > 0) this.PlaylistsDeleted(deletedPlaylists);
+            if (result == DeletePlaylistsResult.Success) this.PlaylistDeleted(playlist);
 
             return result;
         }
@@ -296,36 +291,31 @@ namespace Dopamine.Common.Services.Playlist
             return OpenPlaylistResult.Success;
         }
 
-        public async Task<List<PlayableTrack>> GetTracks(IList<string> playlists)
+        public async Task<List<PlayableTrack>> GetTracks(string playlist)
         {
+            // If no playlist was selected, return no tracks.
+            if (string.IsNullOrEmpty(playlist)) return new List<PlayableTrack>();
+
             var tracks = new List<PlayableTrack>();
             var decoder = new PlaylistDecoder();
 
-            var allPlaylists = playlists;
-
-            // If no playlists were selected, get all playlists.
-            if (playlists == null || playlists.Count == 0) allPlaylists = await this.GetPlaylistsAsync();
-
             await Task.Run(async () =>
             {
-                foreach (string playlist in allPlaylists)
-                {
-                    string filename = this.CreatePlaylistFilename(playlist);
-                    DecodePlaylistResult decodeResult = null;
-                    decodeResult = decoder.DecodePlaylist(filename);
+                string filename = this.CreatePlaylistFilename(playlist);
+                DecodePlaylistResult decodeResult = null;
+                decodeResult = decoder.DecodePlaylist(filename);
 
-                    if (decodeResult.DecodeResult.Result)
+                if (decodeResult.DecodeResult.Result)
+                {
+                    foreach (string path in decodeResult.Paths)
                     {
-                        foreach (string path in decodeResult.Paths)
+                        try
                         {
-                            try
-                            {
-                                tracks.Add(await this.fileService.CreateTrackAsync(path));
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
-                            }
+                            tracks.Add(await this.fileService.CreateTrackAsync(path));
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
                         }
                     }
                 }

@@ -77,11 +77,11 @@
                                  SelectionMode="Single">
                             <ListBox.InputBindings>
                                 <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
-                                <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistsCommand}" />
+                                <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistCommand}" />
                             </ListBox.InputBindings>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding SelectedPlaylistsCommand}" CommandParameter="{Binding Path=SelectedItem,ElementName=ListBoxPlaylists}"/>
+                                    <i:InvokeCommandAction Command="{Binding SelectedPlaylistCommand}" CommandParameter="{Binding Path=SelectedItem,ElementName=ListBoxPlaylists}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ListBox>

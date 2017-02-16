@@ -151,9 +151,7 @@
   <Text Key="Rename">Omdøb</Text>
   <Text Key="Rename_Playlist">Omdøb spilleliste</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Er du sikker på at du vil slette spillelisten '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Er du sikker på at du vil slette disse spillelister?</Text>
   <Text Key="Error_Deleting_Playlist">Spillelisten '%playlistname%' kunne ikke slettes. Konsulter venligst logfilen for yderligere information.</Text>
-  <Text Key="Error_Deleting_Playlists">Der er opstået en fejl ved sletning af spillelister. Konsulter venligst logfilen for yderligere information.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Spillelisten kunne ikke omdøbes. Konsulter venligst logfilen for yderligere information.</Text>

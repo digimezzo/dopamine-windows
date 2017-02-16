@@ -151,9 +151,7 @@
   <Text Key="Rename">Переименовать</Text>
   <Text Key="Rename_Playlist">Переименовать плейлист</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Вы уверены, что хотите удалить плейлист '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlists">Вы уверены, что хотите удалить эти плейлисты?</Text>
   <Text Key="Error_Deleting_Playlist">Не удалось удалить плейлист '%playlistname%'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
-  <Text Key="Error_Deleting_Playlists">Возникла ошибка при удалении плейлистов. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Не удалось переименовать плейлист. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
