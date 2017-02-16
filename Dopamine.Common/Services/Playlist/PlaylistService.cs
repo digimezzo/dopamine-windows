@@ -361,7 +361,7 @@ namespace Dopamine.Common.Services.Playlist
             {
                 try
                 {
-                    using (FileStream fs = System.IO.File.Create(filename))
+                    using (FileStream fs = System.IO.File.Open(filename, FileMode.Append))
                     {
                         using (var writer = new StreamWriter(fs))
                         {
