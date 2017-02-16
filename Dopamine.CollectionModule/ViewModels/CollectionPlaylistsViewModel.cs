@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -598,14 +599,31 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
 
-            if (this.IsDraggingFiles(dropInfo))
+            try
             {
-                await this.ProcessDroppedFilesAsync(dropInfo);
+                ListBox target = dropInfo.VisualTarget as ListBox;
+
+                if (target.Name.Equals("ListBoxPlaylists"))
+                {
+
+                }
+                else if (target.Name.Equals("ListBoxTracks"))
+                {
+                    if (this.IsDraggingFiles(dropInfo))
+                    {
+                        await this.ProcessDroppedFilesAsync(dropInfo);
+                    }
+                    else
+                    {
+                        await this.ProcessDroppedTracksAsync(dropInfo);
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await this.ProcessDroppedTracksAsync(dropInfo);
+                LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
+            
         }
         #endregion
 
