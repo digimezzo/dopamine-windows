@@ -56,7 +56,7 @@
                         <DockPanel.Resources>
                             <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
                                 <CollectionViewSource.SortDescriptions>
-                                    <scm:SortDescription PropertyName="SortPlaylist" />
+                                    <scm:SortDescription PropertyName="SortName" />
                                 </CollectionViewSource.SortDescriptions>
                             </CollectionViewSource>
                         </DockPanel.Resources>
@@ -74,16 +74,12 @@
                                  BorderThickness="0"
                                  MouseDoubleClick="ListBoxPlaylists_MouseDoubleClick" 
                                  PreviewKeyDown="ListBoxPlaylists_PreviewKeyDown" 
+                                 SelectedItem="{Binding SelectedPlaylist}"
                                  SelectionMode="Single">
                             <ListBox.InputBindings>
                                 <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
                                 <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistCommand}" />
                             </ListBox.InputBindings>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding SelectedPlaylistCommand}" CommandParameter="{Binding Path=SelectedItem,ElementName=ListBoxPlaylists}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
                         </ListBox>
                     </DockPanel>
                 </DockPanel>

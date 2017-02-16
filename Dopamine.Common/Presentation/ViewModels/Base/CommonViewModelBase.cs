@@ -250,7 +250,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 {
                     foreach (string playlist in playlists)
                     {
-                        playlistViewModels.Add(new PlaylistViewModel { Playlist = playlist });
+                        playlistViewModels.Add(new PlaylistViewModel { Name = playlist });
                     }
 
                 });

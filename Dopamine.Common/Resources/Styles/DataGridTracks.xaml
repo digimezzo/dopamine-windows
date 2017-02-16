@@ -44,12 +44,12 @@
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Play_Next}" InputGestureText="" Command="{Binding DataContext.PlayNextCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" InputGestureText="" Command="{Binding DataContext.AddTracksToNowPlayingCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Playlist">
+        <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
                     <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddTracksToPlaylistCommand}" />
-                    <Setter Property="CommandParameter" Value="{Binding Playlist}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>
             <MenuItem.ItemsSource>
