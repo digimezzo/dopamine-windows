@@ -132,7 +132,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
             // PlaylistService
-            this.playlistService.TracksAdded += async (_, __) => await this.FillListsAsync();
+            this.playlistService.TracksAdded += async (numberTracksAdded, playlist) => await this.UpdateAddedTracksAsync(playlist);
             this.playlistService.TracksDeleted += async (deletedPaths, playlist) => await this.UpdateDeletedTracksAsync(deletedPaths, playlist);
             this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdateAddedPlaylist(addedPlaylist);
             this.playlistService.PlaylistDeleted += (deletedPlaylist) => this.UpdateDeletedPlaylist(deletedPlaylist);
@@ -144,13 +144,6 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Private
-        private void UpdateAddedPlaylist(string addedPlaylist)
-        {
-            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylist });
-
-            this.TrySelectFirstPlaylist();
-        }
-
         private void TrySelectFirstPlaylist()
         {
             try
@@ -167,6 +160,13 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
+        private void UpdateAddedPlaylist(string addedPlaylist)
+        {
+            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylist });
+
+            this.TrySelectFirstPlaylist();
+        }
+
         private void UpdateDeletedPlaylist(string deletedPlaylist)
         {
             this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylist });
@@ -180,6 +180,15 @@ namespace Dopamine.CollectionModule.ViewModels
 
             // Add the new playlist
             this.Playlists.Add(new PlaylistViewModel() { Name = newPlaylist });
+        }
+
+        private async Task UpdateAddedTracksAsync(string playlist)
+        {
+            // Only update the tracks, if the selected playlist was modified.
+            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlist, StringComparison.InvariantCultureIgnoreCase))
+            {
+                await this.GetTracksAsync();
+            }
         }
 
         private async Task UpdateDeletedTracksAsync(List<string> deletedPaths, string playlist)
@@ -531,20 +540,48 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
 
-            try
-            {
-                var tracks = new List<PlayableTrack>();
+            var dataObject = dropInfo.Data as IDataObject;
 
-                foreach (var item in dropInfo.TargetCollection)
+            bool isDroppingFiles = dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+
+            if (isDroppingFiles)
+            {
+                var basicDataObject = dropInfo.Data as DataObject;
+
+                try
                 {
-                    tracks.Add(((KeyValuePair<string, TrackViewModel>)item).Value.Track);
-                }
+                    var filenames = basicDataObject.GetFileDropList();
+                    var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
 
-                await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
+                    foreach (string filename in filenames)
+                    {
+                        if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                        {
+                            // TODO: process filename
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not process dropped files. Exception: {0}", ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
+            else{
+                try
+                {
+                    var tracks = new List<PlayableTrack>();
+
+                    foreach (var item in dropInfo.TargetCollection)
+                    {
+                        tracks.Add(((KeyValuePair<string, TrackViewModel>)item).Value.Track);
+                    }
+
+                    await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                }
             }
         }
         #endregion
