@@ -527,7 +527,23 @@ namespace Dopamine.CollectionModule.ViewModels
             return false;
         }
 
-        private async Task ProcessDroppedTracksAsync(IDropInfo dropInfo)
+        private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
+        {
+            // TODO: implement
+        }
+
+        private async Task AddDroppedFilesToPlaylists(IDropInfo dropInfo)
+        {
+            // TODO: implement
+
+            // 3 possibilities
+
+            // 1. Drop playlist files anywhere in the list: add the playlist with a unique name
+            // 2. Drop audio files on a playlist name: add these files to that playlist
+            // 3. Drop audio files in empty part of list: add these files to a new unique playlist
+        }
+
+        private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)
         {
             var tracks = new List<PlayableTrack>();
 
@@ -549,7 +565,7 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
         }
 
-        private async Task ProcessDroppedFilesAsync(IDropInfo dropInfo)
+        private async Task AddDroppedFilesToSelectedPlaylist(IDropInfo dropInfo)
         {
             var tracks = new List<PlayableTrack>();
 
@@ -605,17 +621,26 @@ namespace Dopamine.CollectionModule.ViewModels
 
                 if (target.Name.Equals("ListBoxPlaylists"))
                 {
-
-                }
-                else if (target.Name.Equals("ListBoxTracks"))
-                {
+                    // Dragging stuff in Playlists listbox
                     if (this.IsDraggingFiles(dropInfo))
                     {
-                        await this.ProcessDroppedFilesAsync(dropInfo);
+                        await this.AddDroppedFilesToPlaylists(dropInfo);
                     }
                     else
                     {
-                        await this.ProcessDroppedTracksAsync(dropInfo);
+                        await this.AddDroppedTracksToHoveredPlaylist(dropInfo);
+                    }
+                }
+                else if (target.Name.Equals("ListBoxTracks"))
+                {
+                    // Dragging stuff in Tracks listbox
+                    if (this.IsDraggingFiles(dropInfo))
+                    {
+                        await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
+                    }
+                    else
+                    {
+                        await this.ReorderSelectedPlaylistTracksAsync(dropInfo);
                     }
                 }
             }
