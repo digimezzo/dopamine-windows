@@ -7,18 +7,15 @@ using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -136,11 +133,11 @@ namespace Dopamine.CollectionModule.ViewModels
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(enableLove => this.EnableLove = enableLove);
 
             // PlaylistService
-            this.playlistService.TracksAdded += async (numberTracksAdded, playlist) => await this.UpdateAddedTracksAsync(playlist);
-            this.playlistService.TracksDeleted += async (deletedPaths, playlist) => await this.UpdateDeletedTracksAsync(deletedPaths, playlist);
-            this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdateAddedPlaylist(addedPlaylist);
-            this.playlistService.PlaylistDeleted += (deletedPlaylist) => this.UpdateDeletedPlaylist(deletedPlaylist);
-            this.playlistService.PlaylistRenamed += (oldPlaylist, newPlaylist) => this.UpdateRenamedPlaylist(oldPlaylist, newPlaylist);
+            this.playlistService.TracksAdded += async (numberTracksAdded, playlistName) => await this.UpdateAddedTracksAsync(playlistName);
+            this.playlistService.TracksDeleted += async (deletedPaths, playlistName) => await this.UpdateDeletedTracksAsync(deletedPaths, playlistName);
+            this.playlistService.PlaylistAdded += (addedPlaylistName) => this.UpdateAddedPlaylist(addedPlaylistName);
+            this.playlistService.PlaylistDeleted += (deletedPlaylistName) => this.UpdateDeletedPlaylist(deletedPlaylistName);
+            this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
 
             // Set width of the panels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
@@ -164,41 +161,41 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        private void UpdateAddedPlaylist(string addedPlaylist)
+        private void UpdateAddedPlaylist(string addedPlaylistName)
         {
-            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylist });
+            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylistName });
 
             this.TrySelectFirstPlaylist();
         }
 
-        private void UpdateDeletedPlaylist(string deletedPlaylist)
+        private void UpdateDeletedPlaylist(string deletedPlaylistName)
         {
-            this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylist });
+            this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
         }
 
-        private void UpdateRenamedPlaylist(string oldPlaylist, string newPlaylist)
+        private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
         {
             // Remove the old playlist
-            var oldVm = new PlaylistViewModel() { Name = oldPlaylist };
+            var oldVm = new PlaylistViewModel() { Name = oldPlaylistName };
             if (this.Playlists.Contains(oldVm)) this.Playlists.Remove(oldVm);
 
             // Add the new playlist
-            this.Playlists.Add(new PlaylistViewModel() { Name = newPlaylist });
+            this.Playlists.Add(new PlaylistViewModel() { Name = newPlaylistName });
         }
 
-        private async Task UpdateAddedTracksAsync(string playlist)
+        private async Task UpdateAddedTracksAsync(string playlistName)
         {
             // Only update the tracks, if the selected playlist was modified.
-            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlist, StringComparison.InvariantCultureIgnoreCase))
+            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
             {
                 await this.GetTracksAsync();
             }
         }
 
-        private async Task UpdateDeletedTracksAsync(List<string> deletedPaths, string playlist)
+        private async Task UpdateDeletedTracksAsync(List<string> deletedPaths, string playlistName)
         {
             // Only update the tracks, if the selected playlist was modified.
-            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlist, StringComparison.InvariantCultureIgnoreCase))
+            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
             {
                 await this.GetTracksAsync();
             }
@@ -305,9 +302,9 @@ namespace Dopamine.CollectionModule.ViewModels
             this.TrySelectFirstPlaylist();
         }
 
-        private async Task DeletePlaylistAsync(string playlist)
+        private async Task DeletePlaylistAsync(string playlistName)
         {
-            DeletePlaylistsResult result = await this.playlistService.DeletePlaylistAsync(playlist);
+            DeletePlaylistsResult result = await this.playlistService.DeletePlaylistAsync(playlistName);
 
             if (result == DeletePlaylistsResult.Error)
             {
@@ -315,24 +312,24 @@ namespace Dopamine.CollectionModule.ViewModels
                     0xe711,
                     16,
                     ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Deleting_Playlist").Replace("%playlistname%", playlist),
+                    ResourceUtils.GetStringResource("Language_Error_Deleting_Playlist").Replace("%playlistname%", playlistName),
                     ResourceUtils.GetStringResource("Language_Ok"),
                     true,
                     ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
-        private async Task ConfirmDeletePlaylistAsync(string playlist)
+        private async Task ConfirmDeletePlaylistAsync(string playlistName)
         {
             if (this.dialogService.ShowConfirmation(
                 0xe11b,
                 16,
                 ResourceUtils.GetStringResource("Language_Delete"),
-                ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Delete_Playlist").Replace("%playlistname%", playlist),
+                ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Delete_Playlist").Replace("%playlistname%", playlistName),
                 ResourceUtils.GetStringResource("Language_Yes"),
                 ResourceUtils.GetStringResource("Language_No")))
             {
-                await this.DeletePlaylistAsync(playlist);
+                await this.DeletePlaylistAsync(playlistName);
             }
         }
 
@@ -340,19 +337,19 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             if (!this.IsPlaylistSelected) return;
 
-            string oldPlaylist = this.SelectedPlaylistName;
-            string newPlaylist = oldPlaylist;
+            string oldPlaylistName = this.SelectedPlaylistName;
+            string newPlaylistName = oldPlaylistName;
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
                 16,
                 ResourceUtils.GetStringResource("Language_Rename_Playlist"),
-                ResourceUtils.GetStringResource("Language_Enter_New_Name_For_Playlist").Replace("%playlistname%", oldPlaylist),
+                ResourceUtils.GetStringResource("Language_Enter_New_Name_For_Playlist").Replace("%playlistname%", oldPlaylistName),
                 ResourceUtils.GetStringResource("Language_Ok"),
                 ResourceUtils.GetStringResource("Language_Cancel"),
-                ref newPlaylist))
+                ref newPlaylistName))
             {
-                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(oldPlaylist, newPlaylist);
+                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);
 
                 switch (result)
                 {
@@ -361,7 +358,7 @@ namespace Dopamine.CollectionModule.ViewModels
                             0xe711,
                             16,
                             ResourceUtils.GetStringResource("Language_Already_Exists"),
-                            ResourceUtils.GetStringResource("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", newPlaylist),
+                            ResourceUtils.GetStringResource("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", newPlaylistName),
                             ResourceUtils.GetStringResource("Language_Ok"),
                             false,
                             string.Empty);
@@ -530,9 +527,38 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
         {
-            if (dropInfo.Data is KeyValuePair<string, TrackViewModel> && dropInfo.TargetItem is PlaylistViewModel){
+            if ((dropInfo.Data is KeyValuePair<string, TrackViewModel> | dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+                && dropInfo.TargetItem is PlaylistViewModel)
+            {
+                try
+                {
+                    string playlistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
 
-                Debug.WriteLine("Yep, we can drop");
+                    if (playlistName.Equals(this.SelectedPlaylistName)) return; // Don't add tracks to the same playlist
+
+                    var tracks = new List<PlayableTrack>();
+
+                    await Task.Run(() =>
+                    {
+                        if (dropInfo.Data is KeyValuePair<string, TrackViewModel>)
+                        {
+                            tracks.Add(((KeyValuePair<string, TrackViewModel>)dropInfo.Data).Value.Track);
+                        }
+                        else if (dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+                        {
+                            foreach (KeyValuePair<string, TrackViewModel> pair in (List<KeyValuePair<string, TrackViewModel>>)dropInfo.Data)
+                            {
+                                tracks.Add(pair.Value.Track);
+                            }
+                        }
+                    });
+
+                    await this.playlistService.AddTracksToPlaylistAsync(tracks, playlistName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
+                }
             }
         }
 
@@ -593,7 +619,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public void DragOver(IDropInfo dropInfo)
         {
             // We don't allow dragging playlists
-            if(!(dropInfo.Data is PlaylistViewModel))
+            if (!(dropInfo.Data is PlaylistViewModel))
             {
                 bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
                 bool isDraggingValidFiles = false;
@@ -655,7 +681,7 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
-            
+
         }
         #endregion
 

@@ -102,12 +102,12 @@ namespace Dopamine.Common.Services.Playlist
         #endregion
 
         #region IPlaylistService
-        public async Task<AddPlaylistResult> AddPlaylistAsync(string playlist)
+        public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
-            if (string.IsNullOrWhiteSpace(playlist)) return AddPlaylistResult.Blank;
+            if (string.IsNullOrWhiteSpace(playlistName)) return AddPlaylistResult.Blank;
 
-            string sanitizedPlaylist = FileUtils.SanitizeFilename(playlist);
-            string filename = this.CreatePlaylistFilename(sanitizedPlaylist);
+            string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
+            string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
             if (System.IO.File.Exists(filename)) return AddPlaylistResult.Duplicate;
 
             AddPlaylistResult result = AddPlaylistResult.Success;
@@ -120,17 +120,17 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = AddPlaylistResult.Error;
                 }
             });
 
-            if (result == AddPlaylistResult.Success) this.PlaylistAdded(sanitizedPlaylist);
+            if (result == AddPlaylistResult.Success) this.PlaylistAdded(sanitizedPlaylistName);
 
             return result;
         }
 
-        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlist)
+        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName)
         {
             DeletePlaylistsResult result = DeletePlaylistsResult.Success;
 
@@ -138,7 +138,7 @@ namespace Dopamine.Common.Services.Playlist
             {
                 try
                 {
-                    string filename = this.CreatePlaylistFilename(playlist);
+                    string filename = this.CreatePlaylistFilename(playlistName);
 
                     if (System.IO.File.Exists(filename))
                     {
@@ -151,26 +151,26 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlistName, ex.Message);
                     result = DeletePlaylistsResult.Error;
                 }
             });
 
-            if (result == DeletePlaylistsResult.Success) this.PlaylistDeleted(playlist);
+            if (result == DeletePlaylistsResult.Success) this.PlaylistDeleted(playlistName);
 
             return result;
         }
 
-        public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylist, string newPlaylist)
+        public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
         {
-            string oldFilename = this.CreatePlaylistFilename(oldPlaylist);
+            string oldFilename = this.CreatePlaylistFilename(oldPlaylistName);
             if (!System.IO.File.Exists(oldFilename))
             {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylist);
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylistName);
                 return RenamePlaylistResult.Error;
             }
 
-            string sanitizedNewPlaylist = FileUtils.SanitizeFilename(newPlaylist);
+            string sanitizedNewPlaylist = FileUtils.SanitizeFilename(newPlaylistName);
             string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylist);
             if (System.IO.File.Exists(newFilename)) return RenamePlaylistResult.Duplicate;
 
@@ -184,12 +184,12 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylist, newPlaylist, ex.Message);
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylistName, newPlaylistName, ex.Message);
                     result = RenamePlaylistResult.Error;
                 }
             });
 
-            if (result == RenamePlaylistResult.Success) this.PlaylistRenamed(oldPlaylist, sanitizedNewPlaylist);
+            if (result == RenamePlaylistResult.Success) this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
 
             return result;
         }
@@ -221,7 +221,7 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
         {
-            string playlist = String.Empty;
+            string playlistName = String.Empty;
             var paths = new List<String>();
 
             // Decode the playlist file
@@ -245,7 +245,7 @@ namespace Dopamine.Common.Services.Playlist
             // ----------------------------------
             try
             {
-                playlist = await this.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
+                playlistName = await this.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
             }
             catch (Exception ex)
             {
@@ -255,7 +255,7 @@ namespace Dopamine.Common.Services.Playlist
 
             // Create the Playlist in the playlists folder
             // -------------------------------------------
-            string sanitizedPlaylist = FileUtils.SanitizeFilename(playlist);
+            string sanitizedPlaylist = FileUtils.SanitizeFilename(playlistName);
             string filename = this.CreatePlaylistFilename(sanitizedPlaylist);
 
             try
@@ -273,7 +273,7 @@ namespace Dopamine.Common.Services.Playlist
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", path, playlist, filename, ex.Message);
+                                LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", path, playlistName, filename, ex.Message);
                             }
                         }
                     }
@@ -281,27 +281,27 @@ namespace Dopamine.Common.Services.Playlist
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                 return OpenPlaylistResult.Error;
             }
 
             // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
-            this.PlaylistAdded(playlist);
+            this.PlaylistAdded(playlistName);
 
             return OpenPlaylistResult.Success;
         }
 
-        public async Task<List<PlayableTrack>> GetTracks(string playlist)
+        public async Task<List<PlayableTrack>> GetTracks(string playlistName)
         {
             // If no playlist was selected, return no tracks.
-            if (string.IsNullOrEmpty(playlist)) return new List<PlayableTrack>();
+            if (string.IsNullOrEmpty(playlistName)) return new List<PlayableTrack>();
 
             var tracks = new List<PlayableTrack>();
             var decoder = new PlaylistDecoder();
 
             await Task.Run(async () =>
             {
-                string filename = this.CreatePlaylistFilename(playlist);
+                string filename = this.CreatePlaylistFilename(playlistName);
                 DecodePlaylistResult decodeResult = null;
                 decodeResult = decoder.DecodePlaylist(filename);
 
@@ -324,13 +324,13 @@ namespace Dopamine.Common.Services.Playlist
             return tracks;
         }
 
-        public async Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlist)
+        public async Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    string filename = this.CreatePlaylistFilename(playlist);
+                    string filename = this.CreatePlaylistFilename(playlistName);
 
                     using (FileStream fs = System.IO.File.Create(filename))
                     {
@@ -350,12 +350,12 @@ namespace Dopamine.Common.Services.Playlist
             });
         }
 
-        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
             int numberTracksAdded = 0;
-            string filename = this.CreatePlaylistFilename(playlist);
+            string filename = this.CreatePlaylistFilename(playlistName);
 
             await Task.Run(() =>
             {
@@ -374,7 +374,7 @@ namespace Dopamine.Common.Services.Playlist
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlist, filename, ex.Message);
+                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlistName, filename, ex.Message);
                                 }
                             }
                         }
@@ -382,48 +382,48 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = AddTracksToPlaylistResult.Error;
                 }
             });
 
-            if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlist);
+            if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlist)
+        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlist);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
+        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
             // TODO: all identical lines are deleted. Maybe the user doesn't want that.
             // Maybe we should work with line indexes?
 
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
-            string filename = this.CreatePlaylistFilename(playlist);
+            string filename = this.CreatePlaylistFilename(playlistName);
             List<string> paths = tracks.Select(t => t.Path).ToList();
 
             var builder = new StringBuilder();
@@ -444,6 +444,7 @@ namespace Dopamine.Common.Services.Playlist
                         }
                     }
 
+                    
                     using (FileStream fs = System.IO.File.Create(filename))
                     {
                         using (var writer = new StreamWriter(fs))
@@ -454,14 +455,14 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlist, filename, ex.Message);
+                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = DeleteTracksFromPlaylistResult.Error;
                 }
             });
 
             if (result == DeleteTracksFromPlaylistResult.Success)
             {
-                this.TracksDeleted(paths, playlist);
+                this.TracksDeleted(paths, playlistName);
             }
 
             return result;
