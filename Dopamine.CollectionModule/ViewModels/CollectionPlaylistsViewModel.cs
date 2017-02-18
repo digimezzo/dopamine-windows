@@ -530,7 +530,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
         {
-            if (dropInfo.Data is TrackViewModel && dropInfo.TargetItem is PlaylistViewModel){
+            if (dropInfo.Data is KeyValuePair<string, TrackViewModel> && dropInfo.TargetItem is PlaylistViewModel){
 
                 Debug.WriteLine("Yep, we can drop");
             }
@@ -592,25 +592,29 @@ namespace Dopamine.CollectionModule.ViewModels
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
-            bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
-            bool isDraggingValidFiles = false;
-            if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
-
-            // Dragging is only possible when 1 playlist is selected, otherwise we 
-            // don't know in which playlist the tracks or fiels should be dropped.
-            // When dragging files, allow only valid files.
-            if (this.IsPlaylistSelected & (!isDraggingFiles | isDraggingValidFiles))
+            // We don't allow dragging playlists
+            if(!(dropInfo.Data is PlaylistViewModel))
             {
-                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+                bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
+                bool isDraggingValidFiles = false;
+                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
 
-                try
+                // Dragging is only possible when 1 playlist is selected, otherwise we 
+                // don't know in which playlist the tracks or files should be dropped.
+                // When dragging files, allow only valid files.
+                if (this.IsPlaylistSelected & (!isDraggingFiles | isDraggingValidFiles))
                 {
-                    dropInfo.NotHandled = true;
-                }
-                catch (Exception ex)
-                {
-                    dropInfo.NotHandled = false;
-                    LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                    GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+
+                    try
+                    {
+                        dropInfo.NotHandled = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        dropInfo.NotHandled = false;
+                        LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                    }
                 }
             }
         }
