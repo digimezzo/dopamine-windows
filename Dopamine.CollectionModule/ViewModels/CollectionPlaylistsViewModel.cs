@@ -542,10 +542,12 @@ namespace Dopamine.CollectionModule.ViewModels
                     {
                         if (dropInfo.Data is KeyValuePair<string, TrackViewModel>)
                         {
+                            // We dropped a single track
                             tracks.Add(((KeyValuePair<string, TrackViewModel>)dropInfo.Data).Value.Track);
                         }
                         else if (dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
                         {
+                            // We dropped multiple tracks
                             foreach (KeyValuePair<string, TrackViewModel> pair in (List<KeyValuePair<string, TrackViewModel>>)dropInfo.Data)
                             {
                                 tracks.Add(pair.Value.Track);
