@@ -18,6 +18,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -529,7 +530,10 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
         {
-            // TODO: implement
+            if (dropInfo.Data is TrackViewModel && dropInfo.TargetItem is PlaylistViewModel){
+
+                Debug.WriteLine("Yep, we can drop");
+            }
         }
 
         private async Task AddDroppedFilesToPlaylists(IDropInfo dropInfo)
@@ -613,8 +617,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
         public async void Drop(IDropInfo dropInfo)
         {
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-
             try
             {
                 ListBox target = dropInfo.VisualTarget as ListBox;
@@ -640,6 +642,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     }
                     else
                     {
+                        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs builtin reorder
                         await this.ReorderSelectedPlaylistTracksAsync(dropInfo);
                     }
                 }

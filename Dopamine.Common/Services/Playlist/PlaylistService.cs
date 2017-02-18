@@ -418,6 +418,9 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlist)
         {
+            // TODO: all identical lines are deleted. Maybe the user doesn't want that.
+            // Maybe we should work with line indexes?
+
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
             string filename = this.CreatePlaylistFilename(playlist);
@@ -445,10 +448,7 @@ namespace Dopamine.Common.Services.Playlist
                     {
                         using (var writer = new StreamWriter(fs))
                         {
-                            foreach (PlayableTrack track in tracks)
-                            {
-                                writer.Write(builder.ToString());
-                            }
+                            writer.Write(builder.ToString());
                         }
                     }
                 }
