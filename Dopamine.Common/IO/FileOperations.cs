@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Dopamine.Common.IO
 {
@@ -56,7 +55,7 @@ namespace Dopamine.Common.IO
                     exceptions.Enqueue(ex);
                 }
 
-                if (subdirectoryEntries != null && subdirectoryEntries.Count() > 0)
+                if (subdirectoryEntries != null && subdirectoryEntries.Any())
                 {
 
                     foreach (string subdirectory in subdirectoryEntries)
