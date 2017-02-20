@@ -149,11 +149,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             try
             {
-                // If there is only 1 playlist, automatically select it.
-                if (this.Playlists != null && this.Playlists.Count == 1)
-                {
-                    this.SelectedPlaylist = this.Playlists[0];
-                }
+                if(this.Playlists.Count > 0) this.SelectedPlaylist = this.Playlists[0];
             }
             catch (Exception ex)
             {
@@ -164,13 +160,23 @@ namespace Dopamine.CollectionModule.ViewModels
         private void UpdateAddedPlaylist(string addedPlaylistName)
         {
             this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylistName });
-            this.TrySelectFirstPlaylist();
+
+            // If there is only 1 playlist, automatically select it.
+            if (this.Playlists != null && this.Playlists.Count == 1)
+            {
+                this.TrySelectFirstPlaylist();
+            }   
         }
 
         private void UpdateDeletedPlaylist(string deletedPlaylistName)
         {
             this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
-            this.TrySelectFirstPlaylist();
+
+            // If the selected playlist was deleted, select the first playlist.
+            if(this.SelectedPlaylist == null)
+            {
+                this.TrySelectFirstPlaylist();
+            }
         }
 
         private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
@@ -667,7 +673,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 // 2. Drop audio files in empty part of list: add these files to a new unique playlist
                 List<PlayableTrack> audiofileTracks = await this.fileService.ProcessFilesAsync(audioFileNames);
 
-                if(audiofileTracks != null && audiofileTracks.Count > 0)
+                if (audiofileTracks != null && audiofileTracks.Count > 0)
                 {
                     await this.playlistService.AddPlaylistAsync(uniquePlaylistName);
                     await this.playlistService.AddTracksToPlaylistAsync(audiofileTracks, uniquePlaylistName);
@@ -732,7 +738,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 else if (target.Name.Equals("ListBoxTracks"))
                 {
                     // Dragging to the Tracks listbox
-                    if (this.IsDraggingFiles(dropInfo))
+                    if (this.IsDraggingFiles(dropInfo) && this.SelectedPlaylist != null)
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
                     }
