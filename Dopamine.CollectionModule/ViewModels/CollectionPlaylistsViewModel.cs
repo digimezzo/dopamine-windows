@@ -525,56 +525,6 @@ namespace Dopamine.CollectionModule.ViewModels
             return false;
         }
 
-        private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
-        {
-            if ((dropInfo.Data is KeyValuePair<string, TrackViewModel> | dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
-                && dropInfo.TargetItem is PlaylistViewModel)
-            {
-                try
-                {
-                    string playlistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
-
-                    if (playlistName.Equals(this.SelectedPlaylistName)) return; // Don't add tracks to the same playlist
-
-                    var tracks = new List<PlayableTrack>();
-
-                    await Task.Run(() =>
-                    {
-                        if (dropInfo.Data is KeyValuePair<string, TrackViewModel>)
-                        {
-                            // We dropped a single track
-                            tracks.Add(((KeyValuePair<string, TrackViewModel>)dropInfo.Data).Value.Track);
-                        }
-                        else if (dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
-                        {
-                            // We dropped multiple tracks
-                            foreach (KeyValuePair<string, TrackViewModel> pair in (List<KeyValuePair<string, TrackViewModel>>)dropInfo.Data)
-                            {
-                                tracks.Add(pair.Value.Track);
-                            }
-                        }
-                    });
-
-                    await this.playlistService.AddTracksToPlaylistAsync(tracks, playlistName);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
-                }
-            }
-        }
-
-        private async Task AddDroppedFilesToPlaylists(IDropInfo dropInfo)
-        {
-            // TODO: implement
-
-            // 3 possibilities
-
-            // 1. Drop playlist files anywhere in the list: add the playlist with a unique name
-            // 2. Drop audio files on a playlist name: add these files to that playlist
-            // 3. Drop audio files in empty part of list: add these files to a new unique playlist
-        }
-
         private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)
         {
             var tracks = new List<PlayableTrack>();
@@ -597,23 +547,141 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.playlistService.SetPlaylistOrderAsync(tracks, this.SelectedPlaylistName);
         }
 
-        private async Task AddDroppedFilesToSelectedPlaylist(IDropInfo dropInfo)
+        private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
         {
-            var tracks = new List<PlayableTrack>();
+            if ((dropInfo.Data is KeyValuePair<string, TrackViewModel> | dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+                && dropInfo.TargetItem is PlaylistViewModel)
+            {
+                try
+                {
+                    string hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
 
+                    if (hoveredPlaylistName.Equals(this.SelectedPlaylistName)) return; // Don't add tracks to the same playlist
+
+                    var tracks = new List<PlayableTrack>();
+
+                    await Task.Run(() =>
+                    {
+                        if (dropInfo.Data is KeyValuePair<string, TrackViewModel>)
+                        {
+                            // We dropped a single track
+                            tracks.Add(((KeyValuePair<string, TrackViewModel>)dropInfo.Data).Value.Track);
+                        }
+                        else if (dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+                        {
+                            // We dropped multiple tracks
+                            foreach (KeyValuePair<string, TrackViewModel> pair in (List<KeyValuePair<string, TrackViewModel>>)dropInfo.Data)
+                            {
+                                tracks.Add(pair.Value.Track);
+                            }
+                        }
+                    });
+
+                    await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylistName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
+                }
+            }
+        }
+
+        private List<string> GetDroppedFilenames(IDropInfo dropInfo)
+        {
             var dataObject = dropInfo.Data as DataObject;
+
+            List<string> filenames = new List<string>();
 
             try
             {
-                var filenames = dataObject.GetFileDropList().Cast<string>().ToList();
-                tracks = await this.fileService.ProcessFilesAsync(filenames);
+                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not process dropped files. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
             }
 
-            await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
+            return filenames;
+        }
+
+        private async Task AddDroppedFilesToSelectedPlaylist(IDropInfo dropInfo)
+        {
+            try
+            {
+                var filenames = this.GetDroppedFilenames(dropInfo);
+                List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not add dropped files to selected playlist. Exception: {0}", ex.Message);
+            }
+        }
+
+        private async Task AddDroppedFilesToHoveredPlaylist(IDropInfo dropInfo)
+        {
+            PlaylistViewModel hoveredPlaylist = null;
+            List<PlayableTrack> tracks = null;
+
+            try
+            {
+                hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
+                var filenames = this.GetDroppedFilenames(dropInfo);
+                tracks = await this.fileService.ProcessFilesAsync(filenames);
+
+                if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+            }
+        }
+
+        private async Task AddDroppedFilesToPlaylists(IDropInfo dropInfo)
+        {
+            // 3 possibilities
+            if (dropInfo.TargetItem is PlaylistViewModel)
+            {
+                // 1. Drop audio and playlist files on a playlist name: add all files 
+                // (including those in the dropped playlist files) to that playlist.
+                try
+                {
+                    PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
+                    var filenames = this.GetDroppedFilenames(dropInfo);
+                    List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+
+                    if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+                }
+            }
+            else if (dropInfo.TargetItem == null)
+            {
+                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetStringResource("Language_New_Playlist"));
+                List<string> allFilenames = this.GetDroppedFilenames(dropInfo);
+                List<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
+                List<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();
+
+                // 2. Drop audio files in empty part of list: add these files to a new unique playlist
+                List<PlayableTrack> audiofileTracks = await this.fileService.ProcessFilesAsync(audioFileNames);
+
+                if(audiofileTracks != null && audiofileTracks.Count > 0)
+                {
+                    await this.playlistService.AddPlaylistAsync(uniquePlaylistName);
+                    await this.playlistService.AddTracksToPlaylistAsync(audiofileTracks, uniquePlaylistName);
+                }
+
+                // 3. Drop playlist files in empty part of list: add the playlist with a unique name
+                foreach (string playlistFileName in playlistFileNames)
+                {
+                    uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(playlistFileName));
+                    var playlistFileTracks = await this.fileService.ProcessFilesAsync(new string[] { playlistFileName }.ToList());
+                    await this.playlistService.AddPlaylistAsync(uniquePlaylistName);
+                    await this.playlistService.AddTracksToPlaylistAsync(playlistFileTracks, uniquePlaylistName);
+                }
+            }
         }
         #endregion
 
@@ -621,29 +689,25 @@ namespace Dopamine.CollectionModule.ViewModels
         public void DragOver(IDropInfo dropInfo)
         {
             // We don't allow dragging playlists
-            if (!(dropInfo.Data is PlaylistViewModel))
+            if (dropInfo.Data is PlaylistViewModel) return;
+
+            bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
+            bool isDraggingValidFiles = false;
+            if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
+
+            // If we're dragging files, we need to be dragging valid files.
+            if (isDraggingFiles & !isDraggingValidFiles) return;
+
+            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+
+            try
             {
-                bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
-                bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
-
-                // Dragging is only possible when 1 playlist is selected, otherwise we 
-                // don't know in which playlist the tracks or files should be dropped.
-                // When dragging files, allow only valid files.
-                if (this.IsPlaylistSelected & (!isDraggingFiles | isDraggingValidFiles))
-                {
-                    GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
-
-                    try
-                    {
-                        dropInfo.NotHandled = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        dropInfo.NotHandled = false;
-                        LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
-                    }
-                }
+                dropInfo.NotHandled = true;
+            }
+            catch (Exception ex)
+            {
+                dropInfo.NotHandled = false;
+                LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
             }
         }
 
@@ -655,7 +719,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
                 if (target.Name.Equals("ListBoxPlaylists"))
                 {
-                    // Dragging stuff in Playlists listbox
+                    // Dragging to the Playlists listbox
                     if (this.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToPlaylists(dropInfo);
@@ -667,7 +731,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 else if (target.Name.Equals("ListBoxTracks"))
                 {
-                    // Dragging stuff in Tracks listbox
+                    // Dragging to the Tracks listbox
                     if (this.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);

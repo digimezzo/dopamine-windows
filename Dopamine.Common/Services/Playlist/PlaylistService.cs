@@ -70,10 +70,12 @@ namespace Dopamine.Common.Services.Playlist
         {
             return Path.Combine(this.playlistFolder, playlist + FileFormats.M3U);
         }
+        #endregion
 
-        private async Task<string> GetUniquePlaylistAsync(string playlist)
+        #region IPlaylistService
+        public async Task<string> GetUniquePlaylistAsync(string proposedPlaylistName)
         {
-            string uniquePlaylist = playlist;
+            string uniquePlaylist = proposedPlaylistName;
 
             try
             {
@@ -88,20 +90,18 @@ namespace Dopamine.Common.Services.Playlist
                     while (existingPlaylists.Contains(uniquePlaylist))
                     {
                         number++;
-                        uniquePlaylist = playlist + " (" + number + ")";
+                        uniquePlaylist = proposedPlaylistName + " (" + number + ")";
                     }
                 });
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", playlist, ex.Message);
+                LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
             }
 
             return uniquePlaylist;
         }
-        #endregion
 
-        #region IPlaylistService
         public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
             if (string.IsNullOrWhiteSpace(playlistName)) return AddPlaylistResult.Blank;
