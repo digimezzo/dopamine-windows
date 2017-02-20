@@ -164,13 +164,13 @@ namespace Dopamine.CollectionModule.ViewModels
         private void UpdateAddedPlaylist(string addedPlaylistName)
         {
             this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylistName });
-
             this.TrySelectFirstPlaylist();
         }
 
         private void UpdateDeletedPlaylist(string deletedPlaylistName)
         {
             this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
+            this.TrySelectFirstPlaylist();
         }
 
         private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
