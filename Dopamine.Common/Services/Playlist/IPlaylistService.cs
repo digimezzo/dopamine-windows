@@ -8,7 +8,7 @@ namespace Dopamine.Common.Services.Playlist
 {
     public delegate void PlaylistAddedHandler(string addedPlaylistName);
     public delegate void TracksAddedHandler(int numberTracksAdded, string playlistName);
-    public delegate void TracksDeletedHandler(List<string> deletedPaths, string playlistName);
+    public delegate void TracksDeletedHandler(string playlistName);
     public delegate void PlaylistDeletedHandler(string deletedPlaylistName);
     public delegate void PlaylistRenamedHandler(string oldPLaylistName, string newPlaylistName);
 
@@ -28,7 +28,7 @@ namespace Dopamine.Common.Services.Playlist
         Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
         Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName);
         Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName);
-        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlistName);
+        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName);
 
         event PlaylistAddedHandler PlaylistAdded;
         event PlaylistDeletedHandler PlaylistDeleted;

@@ -134,7 +134,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             // PlaylistService
             this.playlistService.TracksAdded += async (numberTracksAdded, playlistName) => await this.UpdateAddedTracksAsync(playlistName);
-            this.playlistService.TracksDeleted += async (deletedPaths, playlistName) => await this.UpdateDeletedTracksAsync(deletedPaths, playlistName);
+            this.playlistService.TracksDeleted += async (playlistName) => await this.UpdateDeletedTracksAsync(playlistName);
             this.playlistService.PlaylistAdded += (addedPlaylistName) => this.UpdateAddedPlaylist(addedPlaylistName);
             this.playlistService.PlaylistDeleted += (deletedPlaylistName) => this.UpdateDeletedPlaylist(deletedPlaylistName);
             this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
@@ -149,7 +149,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             try
             {
-                if(this.Playlists.Count > 0) this.SelectedPlaylist = this.Playlists[0];
+                if (this.Playlists.Count > 0) this.SelectedPlaylist = this.Playlists[0];
             }
             catch (Exception ex)
             {
@@ -165,7 +165,7 @@ namespace Dopamine.CollectionModule.ViewModels
             if (this.Playlists != null && this.Playlists.Count == 1)
             {
                 this.TrySelectFirstPlaylist();
-            }   
+            }
         }
 
         private void UpdateDeletedPlaylist(string deletedPlaylistName)
@@ -173,7 +173,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
 
             // If the selected playlist was deleted, select the first playlist.
-            if(this.SelectedPlaylist == null)
+            if (this.SelectedPlaylist == null)
             {
                 this.TrySelectFirstPlaylist();
             }
@@ -198,7 +198,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        private async Task UpdateDeletedTracksAsync(List<string> deletedPaths, string playlistName)
+        private async Task UpdateDeletedTracksAsync(string playlistName)
         {
             // Only update the tracks, if the selected playlist was modified.
             if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
@@ -463,7 +463,8 @@ namespace Dopamine.CollectionModule.ViewModels
             ResourceUtils.GetStringResource("Language_Yes"),
             ResourceUtils.GetStringResource("Language_No")))
             {
-                DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromPlaylistAsync(this.SelectedTracks.Select(t => t.Value).ToList(), this.SelectedPlaylistName);
+                List<int> selectedIndexes = await this.GetSelectedIndexesAsync();
+                DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromPlaylistAsync(selectedIndexes, this.SelectedPlaylistName);
 
                 if (result == DeleteTracksFromPlaylistResult.Error)
                 {
@@ -477,6 +478,30 @@ namespace Dopamine.CollectionModule.ViewModels
                         ResourceUtils.GetStringResource("Language_Log_File"));
                 }
             }
+        }
+
+        private async Task<List<int>> GetSelectedIndexesAsync()
+        {
+            var indexes = new List<int>();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    List<string> trackKeys = this.Tracks.Select(t => t.Key).ToList();
+
+                    foreach (KeyValuePair<string,PlayableTrack> selectedTrack in this.SelectedTracks)
+                    {
+                        indexes.Add(trackKeys.IndexOf(selectedTrack.Key));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
+            }
+
+            return indexes;
         }
 
         private async Task AddPlaylistToNowPlayingAsync()

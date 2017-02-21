@@ -416,16 +416,12 @@ namespace Dopamine.Common.Services.Playlist
             return result;
         }
 
-        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
+        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName)
         {
-            // TODO: all identical lines are deleted. Maybe the user doesn't want that.
-            // Maybe we should work with line indexes?
-
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
             string filename = this.CreatePlaylistFilename(playlistName);
-            List<string> paths = tracks.Select(t => t.Path).ToList();
-
+           
             var builder = new StringBuilder();
 
             string line = null;
@@ -436,15 +432,19 @@ namespace Dopamine.Common.Services.Playlist
                 {
                     using (StreamReader reader = new StreamReader(filename))
                     {
+                        int lineIndex = 0;
+
                         while ((line = reader.ReadLine()) != null)
                         {
-                            if (paths.Contains(line, StringComparer.OrdinalIgnoreCase)) continue;
+                            if (!indexes.Contains(lineIndex))
+                            {
+                                builder.AppendLine(line);
+                            }
 
-                            builder.AppendLine(line);
+                            lineIndex++;
                         }
                     }
 
-                    
                     using (FileStream fs = System.IO.File.Create(filename))
                     {
                         using (var writer = new StreamWriter(fs))
@@ -462,7 +462,7 @@ namespace Dopamine.Common.Services.Playlist
 
             if (result == DeleteTracksFromPlaylistResult.Success)
             {
-                this.TracksDeleted(paths, playlistName);
+                this.TracksDeleted(playlistName);
             }
 
             return result;
