@@ -213,7 +213,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task ConfirmAddPlaylistAsync()
         {
-            string responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+            string responseText = await this.playlistService.GetUniquePlaylistAsync( ResourceUtils.GetStringResource("Language_New_Playlist"));
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
