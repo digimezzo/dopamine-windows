@@ -132,6 +132,12 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName)
         {
+            if (string.IsNullOrWhiteSpace(playlistName))
+            {
+                LogClient.Error("PlaylistName is empty");
+                return DeletePlaylistsResult.Error;
+            }
+
             DeletePlaylistsResult result = DeletePlaylistsResult.Success;
 
             await Task.Run(() =>
@@ -163,6 +169,17 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
         {
+            if (string.IsNullOrWhiteSpace(oldPlaylistName))
+            {
+                LogClient.Error("OldPlaylistName is empty");
+                return RenamePlaylistResult.Error;
+            }
+            if (string.IsNullOrWhiteSpace(newPlaylistName))
+            {
+                LogClient.Error("NewPlaylistName is empty");
+                return RenamePlaylistResult.Blank;
+            }
+
             string oldFilename = this.CreatePlaylistFilename(oldPlaylistName);
             if (!System.IO.File.Exists(oldFilename))
             {
@@ -221,6 +238,12 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                LogClient.Error("FileName is empty");
+                return OpenPlaylistResult.Error;
+            }
+
             string playlistName = String.Empty;
             var paths = new List<String>();
 
@@ -294,7 +317,11 @@ namespace Dopamine.Common.Services.Playlist
         public async Task<List<PlayableTrack>> GetTracks(string playlistName)
         {
             // If no playlist was selected, return no tracks.
-            if (string.IsNullOrEmpty(playlistName)) return new List<PlayableTrack>();
+            if (string.IsNullOrEmpty(playlistName))
+            {
+                LogClient.Error("PlaylistName is empty. Returning empty list of tracks.");
+                return new List<PlayableTrack>();
+            }
 
             var tracks = new List<PlayableTrack>();
             var decoder = new PlaylistDecoder();
@@ -326,6 +353,18 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlistName)
         {
+            if (tracks == null || tracks.Count == 0)
+            {
+                LogClient.Error("Cannot set playlist order. No tracks were provided.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(playlistName))
+            {
+                LogClient.Error("Cannot set playlist order. No playlistName was provided.");
+                return;
+            }
+
             await Task.Run(() =>
             {
                 try
@@ -352,6 +391,18 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
         {
+            if (tracks == null || tracks.Count == 0)
+            {
+                LogClient.Error("Cannot add tracks to playlist. No tracks were provided.");
+                return AddTracksToPlaylistResult.Error;
+            }
+
+            if (string.IsNullOrEmpty(playlistName))
+            {
+                LogClient.Error("Cannot add tracks to playlist. No playlistName was provided.");
+                return AddTracksToPlaylistResult.Error;
+            }
+
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
             int numberTracksAdded = 0;
@@ -418,6 +469,18 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName)
         {
+            if (indexes == null || indexes.Count == 0)
+            {
+                LogClient.Error("Cannot delete tracks from playlist. No indexes were provided.");
+                return DeleteTracksFromPlaylistResult.Error;
+            }
+
+            if (string.IsNullOrEmpty(playlistName))
+            {
+                LogClient.Error("Cannot delete tracks from playlist. No playlistName was provided.");
+                return DeleteTracksFromPlaylistResult.Error;
+            }
+
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
             string filename = this.CreatePlaylistFilename(playlistName);

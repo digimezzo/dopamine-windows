@@ -36,6 +36,10 @@ namespace Dopamine.CollectionModule.ViewModels
         // Flags
         private bool isLoadingPlaylists;
 
+        // Strings
+        private string playlistsTarget = "ListBoxPlaylists";
+        private string tracksTarget = "ListBoxTracks";
+
         // Other
         private long playlistsCount;
         private double leftPaneWidthPercent;
@@ -722,13 +726,17 @@ namespace Dopamine.CollectionModule.ViewModels
             // We don't allow dragging playlists
             if (dropInfo.Data is PlaylistViewModel) return;
 
+            // If we're dragging files, we need to be dragging valid files.
             bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
             bool isDraggingValidFiles = false;
             if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
-
-            // If we're dragging files, we need to be dragging valid files.
             if (isDraggingFiles & !isDraggingValidFiles) return;
 
+            // If we're dragging into the ist of tracks, there must be playlists, and a playlist must be selected.
+            ListBox target = dropInfo.VisualTarget as ListBox;
+            if (target.Name.Equals("ListBoxTracks") && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null)) return;
+
+            // In all other cases, allow dragging.
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
             try
@@ -748,7 +756,7 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 ListBox target = dropInfo.VisualTarget as ListBox;
 
-                if (target.Name.Equals("ListBoxPlaylists"))
+                if (target.Name.Equals(this.playlistsTarget))
                 {
                     // Dragging to the Playlists listbox
                     if (this.IsDraggingFiles(dropInfo))
@@ -760,10 +768,10 @@ namespace Dopamine.CollectionModule.ViewModels
                         await this.AddDroppedTracksToHoveredPlaylist(dropInfo);
                     }
                 }
-                else if (target.Name.Equals("ListBoxTracks"))
+                else if (target.Name.Equals(this.tracksTarget))
                 {
                     // Dragging to the Tracks listbox
-                    if (this.IsDraggingFiles(dropInfo) && this.SelectedPlaylist != null)
+                    if (this.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
                     }
@@ -778,7 +786,6 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
-
         }
         #endregion
 
