@@ -1,3 +1,9 @@
+2017-02-23: Dopamine 1.3 Build 899 (Preview)
+--------------------------------------------
+
+- [Fixed] A potential crash when trying to figure out the Windows version at startup.
+
+
 2017-02-23: Dopamine 1.3 Build 898 (Preview)
 --------------------------------------------
 
