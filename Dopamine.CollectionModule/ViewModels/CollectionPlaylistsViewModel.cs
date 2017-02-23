@@ -213,7 +213,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task ConfirmAddPlaylistAsync()
         {
-            string responseText = await this.playlistService.GetUniquePlaylistAsync( ResourceUtils.GetStringResource("Language_New_Playlist"));
+            string responseText = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetStringResource("Language_New_Playlist"));
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
@@ -494,7 +494,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     List<string> trackKeys = this.Tracks.Select(t => t.Key).ToList();
 
-                    foreach (KeyValuePair<string,PlayableTrack> selectedTrack in this.SelectedTracks)
+                    foreach (KeyValuePair<string, PlayableTrack> selectedTrack in this.SelectedTracks)
                     {
                         indexes.Add(trackKeys.IndexOf(selectedTrack.Key));
                     }
@@ -723,24 +723,28 @@ namespace Dopamine.CollectionModule.ViewModels
         #region IDropTarget
         public void DragOver(IDropInfo dropInfo)
         {
-            // We don't allow dragging playlists
-            if (dropInfo.Data is PlaylistViewModel) return;
-
-            // If we're dragging files, we need to be dragging valid files.
-            bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
-            bool isDraggingValidFiles = false;
-            if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
-            if (isDraggingFiles & !isDraggingValidFiles) return;
-
-            // If we're dragging into the ist of tracks, there must be playlists, and a playlist must be selected.
-            ListBox target = dropInfo.VisualTarget as ListBox;
-            if (target.Name.Equals("ListBoxTracks") && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null)) return;
-
-            // In all other cases, allow dragging.
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
-
             try
             {
+                // We don't allow dragging playlists
+                if (dropInfo.Data is PlaylistViewModel) return;
+
+                // If we're dragging files, we need to be dragging valid files.
+                bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
+                bool isDraggingValidFiles = false;
+                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
+                if (isDraggingFiles & !isDraggingValidFiles) return;
+
+                // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.
+                ListBox target = dropInfo.VisualTarget as ListBox;
+                if (target.Name.Equals(tracksTarget) && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null)) return;
+
+                // If we're dragging tracks into the list of playlists, we cannot drag to the selected playlist.
+                string hoveredPlaylistName = null;
+                if (dropInfo.TargetItem != null && dropInfo.TargetItem is PlaylistViewModel) hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
+                if (!isDraggingFiles && target.Name.Equals(playlistsTarget) && !string.IsNullOrEmpty(hoveredPlaylistName) && !string.IsNullOrEmpty(this.SelectedPlaylistName) && hoveredPlaylistName.Equals(this.SelectedPlaylistName)) return;
+
+                // In all other cases, allow dragging.
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
                 dropInfo.NotHandled = true;
             }
             catch (Exception ex)
