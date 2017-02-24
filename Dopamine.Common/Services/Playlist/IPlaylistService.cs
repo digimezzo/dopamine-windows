@@ -35,5 +35,6 @@ namespace Dopamine.Common.Services.Playlist
         event PlaylistRenamedHandler PlaylistRenamed;
         event TracksAddedHandler TracksAdded;
         event TracksDeletedHandler TracksDeleted;
+        event EventHandler PlaylistFolderChanged;
     }
 }
