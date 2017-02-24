@@ -139,6 +139,8 @@ namespace Dopamine.Common.Services.Playlist
 
             AddPlaylistResult result = AddPlaylistResult.Success;
 
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+
             await Task.Run(() =>
             {
                 try
@@ -154,6 +156,8 @@ namespace Dopamine.Common.Services.Playlist
 
             if (result == AddPlaylistResult.Success) this.PlaylistAdded(sanitizedPlaylistName);
 
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+
             return result;
         }
 
@@ -166,6 +170,8 @@ namespace Dopamine.Common.Services.Playlist
             }
 
             DeletePlaylistsResult result = DeletePlaylistsResult.Success;
+
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -190,6 +196,8 @@ namespace Dopamine.Common.Services.Playlist
             });
 
             if (result == DeletePlaylistsResult.Success) this.PlaylistDeleted(playlistName);
+
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
             return result;
         }
@@ -220,6 +228,8 @@ namespace Dopamine.Common.Services.Playlist
 
             RenamePlaylistResult result = RenamePlaylistResult.Success;
 
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+
             await Task.Run(() =>
             {
                 try
@@ -234,6 +244,8 @@ namespace Dopamine.Common.Services.Playlist
             });
 
             if (result == RenamePlaylistResult.Success) this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
+
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
             return result;
         }
@@ -270,6 +282,8 @@ namespace Dopamine.Common.Services.Playlist
                 LogClient.Error("FileName is empty");
                 return OpenPlaylistResult.Error;
             }
+
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
             string playlistName = String.Empty;
             var paths = new List<String>();
@@ -338,6 +352,8 @@ namespace Dopamine.Common.Services.Playlist
             // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
             this.PlaylistAdded(playlistName);
 
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+
             return OpenPlaylistResult.Success;
         }
 
@@ -392,6 +408,8 @@ namespace Dopamine.Common.Services.Playlist
                 return;
             }
 
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+
             await Task.Run(() =>
             {
                 try
@@ -414,6 +432,8 @@ namespace Dopamine.Common.Services.Playlist
                     LogClient.Error("Could not set the playlist order. Exception: {0}", ex.Message);
                 }
             });
+
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
         }
 
         public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
@@ -431,6 +451,8 @@ namespace Dopamine.Common.Services.Playlist
             }
 
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
+
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
             int numberTracksAdded = 0;
             string filename = this.CreatePlaylistFilename(playlistName);
@@ -466,6 +488,8 @@ namespace Dopamine.Common.Services.Playlist
             });
 
             if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
+
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
             return result;
         }
@@ -509,6 +533,8 @@ namespace Dopamine.Common.Services.Playlist
             }
 
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
+
+            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
             string filename = this.CreatePlaylistFilename(playlistName);
            
@@ -554,6 +580,8 @@ namespace Dopamine.Common.Services.Playlist
             {
                 this.TracksDeleted(playlistName);
             }
+
+            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
             return result;
         }
