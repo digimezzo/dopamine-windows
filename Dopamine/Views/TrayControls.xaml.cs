@@ -69,27 +69,31 @@ namespace Dopamine.Views
         private void SetGeometry()
         {
             var taskbar = new Taskbar();
-            Rectangle taskbarbounds = taskbar.Bounds;
+           
+            Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+
+            this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
+            this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
 
             if (taskbar.Position == TaskbarPosition.Top)
             {
-                this.Left = taskbarbounds.Right - Constants.TrayControlsWidth - 5;
-                this.Top = taskbarbounds.Bottom + 5;
+                this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
+                this.Top = desktopWorkingArea.Top + 5;
             }
             else if (taskbar.Position == TaskbarPosition.Left)
             {
-                this.Left = taskbarbounds.Right + 5;
-                this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;
+                this.Left = desktopWorkingArea.Left + 5;
+                this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
             }
             else if (taskbar.Position == TaskbarPosition.Right)
             {
-                this.Left = taskbarbounds.Left - Constants.TrayControlsWidth - 5;
-                this.Top = taskbarbounds.Bottom - Constants.TrayControlsHeight - 5;
+                this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
+                this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
             }
             else
             {
-                this.Left = taskbarbounds.Right - Constants.TrayControlsWidth - 5;
-                this.Top = taskbarbounds.Top - Constants.TrayControlsHeight - 5;
+                this.Left = desktopWorkingArea.Right - Constants.TrayControlsWidth - 5;
+                this.Top = desktopWorkingArea.Bottom - Constants.TrayControlsHeight - 5;
             }
 
             LogClient.Info("Tray controls position: Taskbar position = {0}, Left = {1}px, Top = {2}px", taskbar.Position.ToString(), this.Left.ToString(), this.Top.ToString());
