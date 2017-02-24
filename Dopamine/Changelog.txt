@@ -2,6 +2,7 @@
 --------------------------------------------
 
 - [Added] Changes to the Music\Dopamine\Playlists folder are now detected automatically
+- [Fixed] A potential crash occuring during calculation of the albums panel layout
 
 
 2017-02-23: Dopamine 1.3 Build 899 (Preview)
