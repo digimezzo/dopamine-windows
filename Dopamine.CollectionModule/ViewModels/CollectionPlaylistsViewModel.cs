@@ -142,7 +142,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.playlistService.PlaylistAdded += (addedPlaylistName) => this.UpdateAddedPlaylist(addedPlaylistName);
             this.playlistService.PlaylistDeleted += (deletedPlaylistName) => this.UpdateDeletedPlaylist(deletedPlaylistName);
             this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
-
+            this.playlistService.PlaylistFolderChanged += async(_, __) => await this.FillListsAsync();
             // Set width of the panels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }

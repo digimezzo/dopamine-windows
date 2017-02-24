@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Dopamine.Common.Services.Playlist
 {
@@ -21,6 +22,8 @@ namespace Dopamine.Common.Services.Playlist
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private string playlistFolder;
+        private FileSystemWatcher watcher = new FileSystemWatcher();
+        private Timer playlistFolderChangedTimer = new Timer();
         #endregion
 
         #region Properties
@@ -54,6 +57,29 @@ namespace Dopamine.Common.Services.Playlist
                     LogClient.Error("Could not create Playlists folder. Exception: {0}", ex.Message);
                 }
             }
+
+            // Set watcher path
+            watcher.Path = playlistFolder;
+
+            // Watch for changes in LastAccess and LastWrite times, and the renaming of files or directories.
+            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            
+            // Only watch m3u files
+            watcher.Filter = "*" + FileFormats.M3U;
+
+            // Add event handlers
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
+            watcher.Created += new FileSystemEventHandler(OnChanged);
+            watcher.Deleted += new FileSystemEventHandler(OnChanged);
+            watcher.Renamed += new RenamedEventHandler(OnRenamed);
+
+            // Begin watching
+            watcher.EnableRaisingEvents = true;
+
+            // Configure timer
+            playlistFolderChangedTimer.Interval = 250;
+            playlistFolderChangedTimer.Elapsed += PlaylistsChangedTimer_Elapsed;
+            playlistFolderChangedTimer.Start();
         }
         #endregion
 
@@ -63,6 +89,7 @@ namespace Dopamine.Common.Services.Playlist
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
+        public event EventHandler PlaylistFolderChanged = delegate { };
         #endregion
 
         #region Private
@@ -529,6 +556,26 @@ namespace Dopamine.Common.Services.Playlist
             }
 
             return result;
+        }
+        #endregion
+
+        #region Event handlers
+        private void PlaylistsChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            playlistFolderChangedTimer.Stop();
+            this.PlaylistFolderChanged(this, new EventArgs());
+        }
+
+        private void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            playlistFolderChangedTimer.Stop();
+            playlistFolderChangedTimer.Start();
+        }
+
+        private void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            playlistFolderChangedTimer.Stop();
+            playlistFolderChangedTimer.Start();
         }
         #endregion
     }
