@@ -3,7 +3,7 @@
 
 - [Fixed] Audio files which reside on a NAS cannot be played from playlists
 - [Fixed] Dopamine process remains active in Task Manager after a controlled crash
-- [Fixed] Another potential crash occuring during calculation of the albums panel layout
+- [Fixed] Another potential crash occurring during calculation of the albums panel layout
 
 
 2017-02-24: Dopamine 1.3 Build 900 (Preview)
@@ -11,7 +11,7 @@
 
 - [Added] Changes to the Music\Dopamine\Playlists folder are now detected automatically
 - [Added] Double clicking a playlist queues and plays the songs of that playlist
-- [Fixed] A potential crash occuring during calculation of the albums panel layout
+- [Fixed] A potential crash occurring during calculation of the albums panel layout
 - [Fixed] Tray controls are positioned outside of the screen when using desktop scaling > 100%
 
 
