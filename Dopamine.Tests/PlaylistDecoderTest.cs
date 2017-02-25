@@ -10,7 +10,7 @@ namespace Dopamine.Tests
         public void DecodeM3uPlaylistTest()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Directory1\Test.m3u");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.m3u");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
@@ -18,20 +18,13 @@ namespace Dopamine.Tests
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 11 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
-                Assert.IsTrue(result.Paths.Count == 11);
-                Assert.AreEqual(result.Paths[0], "C:\\Users\\Digimezzo\\Desktop\\Dummy.mp3");
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[1]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[2]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[3]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[4]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[5]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[6]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[7]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[8]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[9]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[10]));
+                Assert.IsTrue(result.Paths.Count == 3);
+                Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
+                Assert.AreEqual(result.Paths[1], @"C:\Music\File2.mp3");
+                Assert.AreEqual(result.Paths[2], @"C:\Music\File3.mp3");
+                Assert.AreEqual(result.PlaylistName, "Test");
             }
             else
             {
@@ -43,7 +36,7 @@ namespace Dopamine.Tests
         public void DecodeZplPlaylistTest()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Directory1\Test.zpl");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.zpl");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
@@ -51,20 +44,13 @@ namespace Dopamine.Tests
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 11 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
-                Assert.IsTrue(result.Paths.Count == 11);
-                Assert.AreEqual(result.Paths[0], "C:\\Users\\Digimezzo\\Desktop\\Dummy.mp3");
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[1]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[2]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[3]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[4]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[5]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[6]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[7]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[8]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[9]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[10]));
+                Assert.IsTrue(result.Paths.Count == 3);
+                Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
+                Assert.AreEqual(result.Paths[1], @"C:\Music\File2.mp3");
+                Assert.AreEqual(result.Paths[2], @"C:\Music\File3.mp3");
+                Assert.AreEqual(result.PlaylistName, "ZPL test");
             }
             else
             {
@@ -76,7 +62,7 @@ namespace Dopamine.Tests
         public void DecodeWplPlaylistTest()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Directory1\Test.wpl");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.wpl");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
@@ -84,20 +70,13 @@ namespace Dopamine.Tests
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 11 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
-                Assert.IsTrue(result.Paths.Count == 11);
-                Assert.AreEqual(result.Paths[0], "C:\\Users\\Digimezzo\\Desktop\\Dummy.mp3");
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[1]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[2]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[3]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[4]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[5]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[6]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[7]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[8]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[9]));
-                Assert.IsTrue(System.IO.File.Exists(result.Paths[10]));
+                Assert.IsTrue(result.Paths.Count == 3);
+                Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
+                Assert.AreEqual(result.Paths[1], @"C:\Music\File2.mp3");
+                Assert.AreEqual(result.Paths[2], @"C:\Music\File3.mp3");
+                Assert.AreEqual(result.PlaylistName, "WPL test");
             }
             else
             {
@@ -112,13 +91,46 @@ namespace Dopamine.Tests
             var decoder = new PlaylistDecoder();
             PrivateObject obj = new PrivateObject(decoder);
 
-            string expectedPath1 = @"\\Device\Folder\Subfolder\File.mp3"; // Network path
+            string expectedPath1 = @"C:\Music\Folder\File.mp3";
+            string expectedPath2 = @"\\Device\Folder\Subfolder\File.mp3";
+            string expectedPath3 = @"C:\Music\File.mp3";
+            string expectedPath4 = @"C:\Music\File.mp3";
+            string expectedPath5 = @"C:\Music\File.mp3";
+            string expectedPath6 = @"C:\Music\Folder\File.mp3";
+            string expectedPath7 = @"C:\Music\Folder\File.mp3";
+            string expectedPath8 = @"C:\Music\Folder\File.mp3";
+            string expectedPath9 = @"C:\Music\File.mp3";
+            string expectedPath10 = @"C:\Music\Folder2\File.mp3";
+            string expectedPath11 = @"C:\Music\Folder2\Folder3\File.mp3";
+            string expectedPath12 = @"C:\Music\Folder2\File.mp3";
 
             // Act
-            var path1 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Users\MyUser\Music\Dopamine\Playlists\MyPlaylist.m3u", @"\\Device\Folder\Subfolder\File.mp3" });
+            var generatedPath1 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"C:\Music\Folder\File.mp3" });
+            var generatedPath2 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"\\Device\Folder\Subfolder\File.mp3" });
+            var generatedPath3 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"File.mp3" });
+            var generatedPath4 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"\File.mp3" });
+            var generatedPath5 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @".\File.mp3" });
+            var generatedPath6 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"Folder\File.mp3" });
+            var generatedPath7 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @"\Folder\File.mp3" });
+            var generatedPath8 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Playlist.m3u", @".\Folder\File.mp3" });
+            var generatedPath9 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Folder\Playlist.m3u", @"..\File.mp3" });
+            var generatedPath10 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Folder1\Playlist.m3u", @"..\Folder2\File.mp3" });
+            var generatedPath11 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Folder1\Playlist.m3u", @"..\Folder2\Folder3\File.mp3" });
+            var generatedPath12 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Music\Folder1\Playlist.m3u", @".\..\Folder2\File.mp3" });
 
             // Assert
-            Assert.AreEqual(expectedPath1, path1.ToString());
+            Assert.AreEqual(expectedPath1, generatedPath1.ToString());
+            Assert.AreEqual(expectedPath2, generatedPath2.ToString());
+            Assert.AreEqual(expectedPath3, generatedPath3.ToString());
+            Assert.AreEqual(expectedPath4, generatedPath4.ToString());
+            Assert.AreEqual(expectedPath5, generatedPath5.ToString());
+            Assert.AreEqual(expectedPath6, generatedPath6.ToString());
+            Assert.AreEqual(expectedPath7, generatedPath7.ToString());
+            Assert.AreEqual(expectedPath8, generatedPath8.ToString());
+            Assert.AreEqual(expectedPath9, generatedPath9.ToString());
+            Assert.AreEqual(expectedPath10, generatedPath10.ToString());
+            Assert.AreEqual(expectedPath11, generatedPath11.ToString());
+            Assert.AreEqual(expectedPath12, generatedPath12.ToString());
         }
     }
 }

@@ -128,10 +128,10 @@
     <Content Include="Files\AudioFormatsTest\test3.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory1\Test.zpl">
+    <Content Include="Files\PlaylistDecoderTest\Test.zpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory1\Test.wpl">
+    <Content Include="Files\PlaylistDecoderTest\Test.wpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -153,19 +153,7 @@
     <Content Include="Files\AudioFormatsTest\test3.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory1\Directory3\Dummy3.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory2\Dummy2.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\PlaylistDecoderTest\Dummy.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory1\Test.m3u">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\PlaylistDecoderTest\Directory1\Dummy1.mp3">
+    <Content Include="Files\PlaylistDecoderTest\Test.m3u">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\TaggingTest\01 - Paralyse.mp3">
