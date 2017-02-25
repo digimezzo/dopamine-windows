@@ -61,8 +61,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
             // Events
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
+            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
+            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     foreach (KeyValuePair<string, PlayableTrack> track in tracks)
                     {
-                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
+                        TrackViewModel vm = this.Container.Resolve<TrackViewModel>();
                         vm.Track = track.Value;
                         viewModels.Add(new KeyValuePair<string, TrackViewModel>(track.Key, vm));
                     }
@@ -117,7 +117,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             // Update duration and size
-            this.SetSizeInformationAsync(this.TracksCvs);
+            this.CalculateSizeInformationAsync(this.TracksCvs);
 
 
             // Show playing Track
@@ -127,16 +127,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
-            e.Accepted = Database.Utils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
+            e.Accepted = Database.Utils.FilterTracks(vm.Value.Track, this.SearchService.SearchText);
         }
         #endregion
 
         #region Private
-        private async void SetSizeInformationAsync(CollectionViewSource source)
+        private async void CalculateSizeInformationAsync(CollectionViewSource source)
         {
             // Reset duration and size
-            this.totalDuration = 0;
-            this.totalSize = 0;
+            this.SetSizeInformation(0,0);
 
             CollectionView viewCopy = null;
 
@@ -155,11 +154,16 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     try
                     {
+                        long totalDuration =0;
+                        long totalSize = 0;
+
                         foreach (KeyValuePair<string, TrackViewModel> vm in viewCopy)
                         {
-                            this.totalDuration += vm.Value.Track.Duration.Value;
-                            this.totalSize += vm.Value.Track.FileSize.Value;
+                            totalDuration += vm.Value.Track.Duration.Value;
+                            totalSize += vm.Value.Track.FileSize.Value;
                         }
+
+                        this.SetSizeInformation(totalDuration, totalSize);
                     }
                     catch (Exception ex)
                     {
@@ -179,11 +183,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
-            EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
+            EnqueueResult result = await this.PlaybackService.AddToQueueNextAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
@@ -191,11 +195,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
+            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
@@ -206,7 +210,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {
-                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
+                    this.EventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
                 }
             }
         }
@@ -223,7 +227,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            this.SetSizeInformationAsync(this.TracksCvs);
+            this.CalculateSizeInformationAsync(this.TracksCvs);
             this.ShowPlayingTrackAsync();
         }
 
@@ -273,7 +277,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             if (this.SelectedTracks != null && this.SelectedTracks.Count > 0)
             {
-                this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().Value.ArtistName, this.SelectedTracks.First().Value.TrackTitle });
+                this.ProviderService.SearchOnline(id, new string[] { this.SelectedTracks.First().Value.ArtistName, this.SelectedTracks.First().Value.TrackTitle });
             }
         }
 
@@ -302,10 +306,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (!this.playbackService.HasCurrentTrack) return;
+            if (!this.PlaybackService.HasCurrentTrack) return;
 
-            string trackGuid = this.playbackService.CurrentTrack.Key;
-            string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
+            string trackGuid = this.PlaybackService.CurrentTrack.Key;
+            string trackSafePath = this.PlaybackService.CurrentTrack.Value.SafePath;
 
             await Task.Run(() =>
             {
@@ -323,11 +327,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                         {
                             isTrackFound = true;
 
-                            if (!this.playbackService.IsStopped)
+                            if (!this.PlaybackService.IsStopped)
                             {
                                 vm.Value.IsPlaying = true;
 
-                                if (this.playbackService.IsPlaying)
+                                if (this.PlaybackService.IsPlaying)
                                 {
                                     vm.Value.IsPaused = false;
                                 }
@@ -350,11 +354,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                             {
                                 isTrackFound = true;
 
-                                if (!this.playbackService.IsStopped)
+                                if (!this.PlaybackService.IsStopped)
                                 {
                                     vm.Value.IsPlaying = true;
 
-                                    if (this.playbackService.IsPlaying)
+                                    if (this.PlaybackService.IsPlaying)
                                     {
                                         vm.Value.IsPaused = false;
                                     }

@@ -1,13 +1,12 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Database;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Threading.Tasks;
-using Dopamine.Common.Presentation.ViewModels.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -115,20 +114,20 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
+            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
             {
                 this.EnableRating = enableRating;
                 this.GetVisibleColumns();
             });
 
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
+            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
             {
                 this.EnableLove = enableLove;
                 this.GetVisibleColumns();
             });
 
             // MetadataService
-            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            this.MetadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // Show only the columns which are visible
             this.GetVisibleColumns();
@@ -149,10 +148,10 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private void ChooseColumns()
         {
-            CollectionTracksColumns view = this.container.Resolve<CollectionTracksColumns>();
-            view.DataContext = this.container.Resolve<CollectionTracksColumnsViewModel>();
+            CollectionTracksColumns view = this.Container.Resolve<CollectionTracksColumns>();
+            view.DataContext = this.Container.Resolve<CollectionTracksColumnsViewModel>();
 
-            this.dialogService.ShowCustomDialog(
+            this.DialogService.ShowCustomDialog(
                 0xe73e,
                 16,
                 ResourceUtils.GetStringResource("Language_Columns"),

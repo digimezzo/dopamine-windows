@@ -2,7 +2,6 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
@@ -35,35 +34,28 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
 
         // Services
-        protected IIndexingService indexingService;
-        protected ICollectionService collectionService;
-        protected IMetadataService metadataService;
-        protected II18nService i18nService;
-        protected IPlaybackService playbackService;
-        protected IDialogService dialogService;
-        protected ISearchService searchService;
-        protected IPlaylistService playlistService;
+        private IIndexingService indexingService;
+        private ICollectionService collectionService;
+        private IMetadataService metadataService;
+        private II18nService i18nService;
+        private IPlaybackService playbackService;
+        private IDialogService dialogService;
+        private ISearchService searchService;
+        private IPlaylistService playlistService;
 
         // EventAggregator
-        protected IEventAggregator eventAggregator;
-
-        // Repositories
-        protected ITrackRepository trackRepository;
+        private IEventAggregator eventAggregator;
 
         // Flags
         private bool enableRating;
         private bool enableLove;
-        protected bool isFirstLoad = true;
+        private bool isFirstLoad = true;
         private bool isIndexing;
-
-        // IActiveAware
-        private bool isActive;
-        public event EventHandler IsActiveChanged;
 
         // Counts
         private long tracksCount;
-        protected long totalDuration;
-        protected long totalSize;
+        private long totalDuration;
+        private long totalSize;
 
         // Other
         private TrackOrder trackOrder;
@@ -86,6 +78,77 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
+        public IIndexingService IndexingService
+        {
+            get
+            {
+                return this.indexingService;
+            }
+        }
+
+        public ICollectionService CollectionService
+        {
+            get
+            {
+                return this.collectionService;
+            }
+        }
+
+        public IMetadataService MetadataService
+        {
+            get
+            {
+                return this.metadataService;
+            }
+        }
+
+        public II18nService I18nService
+        {
+            get
+            {
+                return this.i18nService;
+            }
+        }
+
+        public IPlaybackService PlaybackService
+        {
+            get
+            {
+                return this.playbackService;
+            }
+        }
+
+        public IDialogService DialogService
+        {
+            get
+            {
+                return this.dialogService;
+            }
+        }
+
+        public ISearchService SearchService
+        {
+            get
+            {
+                return this.searchService;
+            }
+        }
+
+        public IPlaylistService PlaylistService
+        {
+            get
+            {
+                return this.playlistService;
+            }
+        }
+
+        protected IEventAggregator EventAggregator
+        {
+            get {
+                return eventAggregator;
+            }
+        }
+
         public long TracksCount
         {
             get { return this.tracksCount; }
@@ -160,14 +223,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public CommonViewModelBase(IUnityContainer container) : base(container)
         {
-            // UnityContainer
-            this.container = container;
-
             // EventAggregator
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Services
-            this.providerService = container.Resolve<IProviderService>();
             this.indexingService = container.Resolve<IIndexingService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.searchService = container.Resolve<ISearchService>();
@@ -178,10 +237,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playlistService = container.Resolve<IPlaylistService>();
 
             // Handlers
-            this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
-
-            // Repositories
-            this.trackRepository = container.Resolve<ITrackRepository>();
+            this.ProviderService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
 
             // Initialize the search providers in the ContextMenu
             this.GetSearchProvidersAsync();
@@ -270,7 +326,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             this.ContextMenuSearchProviders = null;
 
-            List<SearchProvider> providersList = await this.providerService.GetSearchProvidersAsync();
+            List<SearchProvider> providersList = await this.ProviderService.GetSearchProvidersAsync();
             var localProviders = new ObservableCollection<SearchProvider>();
 
             await Task.Run(() =>
@@ -286,6 +342,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Protected
+        protected bool IsFirstLoad()
+        {
+            bool originalIsFirstLoad = this.isFirstLoad;
+            if (this.isFirstLoad) this.isFirstLoad = false;
+
+            return originalIsFirstLoad;
+        }
+
+        protected void SetSizeInformation(long totalDuration, long totalSize)
+        {
+            this.totalDuration = totalDuration;
+            this.totalSize = totalSize;
+        }
+
         protected void UpdateTrackOrderText(TrackOrder trackOrder)
         {
             switch (trackOrder)
@@ -343,8 +413,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.CheckAllSelectedFilesExist(paths))
             {
-                Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
-                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
+                Views.FileInformation view = this.Container.Resolve<Views.FileInformation>();
+                view.DataContext = this.Container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
 
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,
@@ -367,8 +437,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.CheckAllSelectedFilesExist(paths))
             {
-                EditTrack view = this.container.Resolve<EditTrack>();
-                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
+                EditTrack view = this.Container.Resolve<EditTrack>();
+                view.DataContext = this.Container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
 
                 this.dialogService.ShowCustomDialog(
                     0xe104,
@@ -386,6 +456,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
             }
         }
+        #endregion
+
+        #region IActiveAware
+        private bool isActive;
+        public event EventHandler IsActiveChanged;
         #endregion
 
         #region INavigationAware

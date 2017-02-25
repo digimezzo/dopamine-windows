@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
@@ -40,21 +39,21 @@ namespace Dopamine.CollectionModule.ViewModels
         public CollectionAlbumsViewModel(IUnityContainer container) : base(container)
         {
             // IndexingService
-            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
+            this.IndexingService.RefreshArtwork += async (_, __) => await this.CollectionService.RefreshArtworkAsync(this.Albums);
 
             //  Commands
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async ()=>await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             // Events
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
+            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;
                 this.SetTrackOrder("AlbumsTrackOrder");
                 await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
             });
 
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
+            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
             {
                 this.EnableLove = enableLove;
                 this.SetTrackOrder("AlbumsTrackOrder");
@@ -62,7 +61,7 @@ namespace Dopamine.CollectionModule.ViewModels
             });
 
             // MetadataService
-            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            this.MetadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // Set the initial AlbumOrder
             this.AlbumOrder = (AlbumOrder)SettingsClient.Get<int>("Ordering", "AlbumsAlbumOrder");
@@ -85,7 +84,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Private
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.CollectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
             if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
@@ -128,7 +127,7 @@ namespace Dopamine.CollectionModule.ViewModels
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
+            if (this.MetadataService.IsUpdatingDatabaseMetadata) return;
 
             this.SetTrackOrder("AlbumsTrackOrder");
             await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);

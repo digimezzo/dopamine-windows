@@ -200,10 +200,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.SelectedAlbums == null || this.SelectedAlbums.Count == 0) return;
 
-            EditAlbum view = this.container.Resolve<EditAlbum>();
-            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
+            EditAlbum view = this.Container.Resolve<EditAlbum>();
+            view.DataContext = this.Container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
 
-            this.dialogService.ShowCustomDialog(
+            this.DialogService.ShowCustomDialog(
                 0xe104,
                 14,
                 ResourceUtils.GetStringResource("Language_Edit_Album"),
@@ -222,7 +222,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.searchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.SearchService.SearchText);
         }
         #endregion
 
@@ -345,7 +345,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
 
             // Set Album artwork
-            this.collectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
+            this.CollectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
         }
 
         protected async Task AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
@@ -357,7 +357,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
 
-                if (this.dialogService.ShowInputDialog(
+                if (this.DialogService.ShowInputDialog(
                     0xea37,
                     16,
                     ResourceUtils.GetStringResource("Language_New_Playlist"),
@@ -367,7 +367,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.PlaylistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -380,15 +380,15 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
+                    AddTracksToPlaylistResult result = await this.PlaylistService.AddAlbumsToPlaylistAsync(albums, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                     }
                     break;
                 case AddPlaylistResult.Error:
-                    this.dialogService.ShowNotification(
+                    this.DialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -398,7 +398,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                         ResourceUtils.GetStringResource("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
-                    this.dialogService.ShowNotification(
+                    this.DialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -415,11 +415,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async Task AddAlbumsToNowPlayingAsync(IList<Album> albums)
         {
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(albums);
+            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(albums);
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Albums_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Albums_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
