@@ -12,10 +12,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     {
         #region Variables
         // UnityContainer
-        protected IUnityContainer container;
-        
+        private IUnityContainer container;
+
         // Services
-        protected IProviderService providerService;
+        private IProviderService providerService;
 
         // Collections
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
@@ -26,6 +26,16 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
+        protected IUnityContainer Container
+        {
+            get { return container; }
+        }
+
+        protected IProviderService ProviderService
+        {
+            get { return providerService; }
+        }
+
         public ObservableCollection<SearchProvider> ContextMenuSearchProviders
         {
             get { return this.contextMenuSearchProviders; }

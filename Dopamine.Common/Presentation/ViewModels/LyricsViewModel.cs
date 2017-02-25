@@ -223,7 +223,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Overrides
         protected override void SearchOnline(string id)
         {
-            this.providerService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
+            this.ProviderService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
         }
         #endregion
     }
