@@ -10,7 +10,7 @@ namespace Dopamine.Tests
         public void DecodeM3uPlaylistTest()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath( @"Files\PlaylistDecoderTest\Directory1\Test.m3u");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Directory1\Test.m3u");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
@@ -103,6 +103,22 @@ namespace Dopamine.Tests
             {
                 Assert.Fail();
             }
+        }
+
+        [TestMethod]
+        public void GenerateFullPathTest()
+        {
+            // Arrange
+            var decoder = new PlaylistDecoder();
+            PrivateObject obj = new PrivateObject(decoder);
+
+            string expectedPath1 = @"\\Device\Folder\Subfolder\File.mp3"; // Network path
+
+            // Act
+            var path1 = obj.Invoke("GenerateFullTrackPath", new object[] { @"C:\Users\MyUser\Music\Dopamine\Playlists\MyPlaylist.m3u", @"\\Device\Folder\Subfolder\File.mp3" });
+
+            // Assert
+            Assert.AreEqual(expectedPath1, path1.ToString());
         }
     }
 }

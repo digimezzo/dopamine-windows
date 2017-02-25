@@ -1,3 +1,11 @@
+2017-02-25: Dopamine 1.3 Build 901 (Preview)
+--------------------------------------------
+
+- [Fixed] Audio files which reside on a NAS cannot be played from playlists
+- [Fixed] Dopamine process remains active in Task Manager after a controlled crash
+- [Fixed] Another potential crash occuring during calculation of the albums panel layout
+
+
 2017-02-24: Dopamine 1.3 Build 900 (Preview)
 --------------------------------------------
 

@@ -14,6 +14,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using Microsoft.Practices.ServiceLocation;
+using Dopamine.Common.Services.Playback;
 
 namespace Dopamine
 {
@@ -112,7 +114,6 @@ namespace Dopamine
             }
         }
 
-
         private void TryShowRunningInstance()
         {
             ICommandService commandServiceProxy = default(ICommandService);
@@ -129,7 +130,6 @@ namespace Dopamine
                 LogClient.Error("A problem occured while trying to show the running instance. Exception: {0}", ex.Message);
             }
         }
-
 
         private void TrySendCommandlineArguments(string[] args)
         {
@@ -189,7 +189,6 @@ namespace Dopamine
             this.ExecuteEmergencyStop(ex);
         }
 
-
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Prevent default unhandled exception processing
@@ -198,7 +197,6 @@ namespace Dopamine
             // Log the exception and stop the application
             this.ExecuteEmergencyStop(e.Exception);
         }
-
 
         private void ExecuteEmergencyStop(Exception ex)
         {
@@ -216,6 +214,10 @@ namespace Dopamine
 
             // Close the application to prevent further problems
             LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString());
+
+            // Stop playing (This avoids remaining processes in Task Manager)
+            var playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
+            playbackService.Stop();
 
             // Emergency save of the settings
             SettingsClient.Write();

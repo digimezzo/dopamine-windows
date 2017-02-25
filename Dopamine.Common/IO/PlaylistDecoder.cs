@@ -59,6 +59,12 @@ namespace Dopamine.Common.IO
                 // The line contains a relative path, let's construct the full path by ourselves.
                 string tempFullPath = string.Empty;
 
+                if (trackPath.StartsWith(@"\\"))
+                {
+                    // This is a network path. Just return as is.
+                    return trackPath;
+                }
+
                 if (trackPath.StartsWith(@"\"))
                 {
                     // Path starts with "\": add preceeding "." to make it a valid relative path.
@@ -104,7 +110,7 @@ namespace Dopamine.Common.IO
                         line = sr.ReadLine();
                     }
                 }
-               
+
                 op.Result = true;
             }
             catch (Exception ex)
