@@ -909,6 +909,7 @@ namespace Dopamine.Views
         {
             if (e.Key == Key.Space)
             {
+                throw new Exception();
                 // Only allow space to trigger play or pause when the user is not searching.
                 if (string.IsNullOrWhiteSpace(this.searchService.SearchText))
                 {
