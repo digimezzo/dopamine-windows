@@ -581,7 +581,7 @@ namespace Dopamine.Common.Services.Playback
                 if (numberSkips < 3)
                 {
                     numberSkips += 1;
-                    playSuccess = await this.TryPlayNextAsync();
+                    playSuccess = await this.TryPlayNextAsync(true);
                 }
                 else
                 {
@@ -606,7 +606,7 @@ namespace Dopamine.Common.Services.Playback
                 if (numberSkips < 3)
                 {
                     numberSkips += 1;
-                    playSuccess = await this.TryPlayPreviousAsync();
+                    playSuccess = await this.TryPlayPreviousAsync(true);
                 }
                 else
                 {
@@ -1025,7 +1025,7 @@ namespace Dopamine.Common.Services.Playback
             this.LoadingTrack(isLoadingTrack);
         }
 
-        private async Task<bool> TryPlayPreviousAsync()
+        private async Task<bool> TryPlayPreviousAsync(bool ignoreLoopOne)
         {
             this.isPlayingPreviousTrack = true;
 
@@ -1037,7 +1037,10 @@ namespace Dopamine.Common.Services.Playback
                 return true;
             }
 
-            KeyValuePair<string, PlayableTrack> previousTrack = await this.queueManager.PreviousTrackAsync(this.LoopMode);
+            // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
+            LoopMode loopMode = this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
+
+            KeyValuePair<string, PlayableTrack> previousTrack = await this.queueManager.PreviousTrackAsync(loopMode);
 
             if (previousTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
             {
@@ -1048,11 +1051,14 @@ namespace Dopamine.Common.Services.Playback
             return await this.TryPlayAsync(previousTrack);
         }
 
-        private async Task<bool> TryPlayNextAsync()
+        private async Task<bool> TryPlayNextAsync(bool ignoreLoopOne)
         {
             this.isPlayingPreviousTrack = false;
 
-            KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(this.LoopMode);
+            LoopMode loopMode =  this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
+
+            // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
+            KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(loopMode);
 
             if (nextTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
             {
@@ -1082,7 +1088,7 @@ namespace Dopamine.Common.Services.Playback
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
                 await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
-             await this.TryPlayNextAsync();
+             await this.TryPlayNextAsync(false);
             }), null);
         }
 
