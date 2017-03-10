@@ -545,6 +545,8 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayNextAsync()
         {
+            LogClient.Error("Received request to play the next track.");
+
             if (this.HasCurrentTrack)
             {
                 try
@@ -593,6 +595,8 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayPreviousAsync()
         {
+            LogClient.Error("Received request to play the previous track.");
+
             // We don't want interruptions when trying to play the previous Track. 
             // If the previous Track cannot be played, keep skipping to the
             // preceding Track until a working Track is found.
