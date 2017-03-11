@@ -74,7 +74,9 @@ namespace Dopamine.Common.Api.Lyrics
                 int end = json.IndexOf(",\"song_name\"", start);
                 result = json.Substring(start, end - start);
 
-                if (json[json.IndexOf("\"total\":") + 8] != '1')
+                int totalStart = json.IndexOf("\"total\":", end) + 8;
+                int totalEnd = json.IndexOf(",\"previous\":", totalStart);
+                if (json.Substring(totalStart, totalEnd - totalStart) != "1")
                 {
                     // The offical api will return the completely incorrect response
                     // even though the server doesn't contain this track
@@ -105,15 +107,17 @@ namespace Dopamine.Common.Api.Lyrics
                 httpClient.DefaultRequestHeaders.Add("Accept",
                     "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
 
-                bool isSuccessful = true;
-
                 var uri = new Uri(String.Format(apiTrackFormat, trackId));
-                var response = await httpClient.GetStreamAsync(uri);
-                string json = await DecompressStringFromGzip(response);
+
+                string json = string.Empty;
+                using (var response = await httpClient.GetStreamAsync(uri))
+                {
+                    json = await DecompressStringFromGzipAsync(response);
+                }
 
                 int start = json.IndexOf(",\"lyric_url\":\"http:\\/\\/");
                 int end = json.IndexOf("\",\"object_id\":", start);
-                if (start <=0 || end <= 0)
+                if (start <= 0 || end <= 0)
                     throw new Exception("No lrc found.");
                 start += 23;
                 var sb = new StringBuilder(json.Substring(start, end - start)).Replace(@"\/", @"/");
@@ -134,14 +138,26 @@ namespace Dopamine.Common.Api.Lyrics
 
                 httpClient.DefaultRequestHeaders.Remove("Host");
                 httpClient.DefaultRequestHeaders.Add("Host", "img.xiami.net");
+                var response = await httpClient.GetByteArrayAsync(lrcUrl);
 
-                lyrics = await httpClient.GetStringAsync(lrcUrl);
+                using (var ms = new MemoryStream(response))
+                {
+                    bool isGzip = await StreamIsGzipStreamAsync(ms);
+                    ms.Position = 0;
+                    if (isGzip)
+                        lyrics = await DecompressStringFromGzipAsync(ms);
+                    else
+                        await Task.Run(() => lyrics = new StreamReader(ms).ReadToEnd());
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Uri uri = new Uri(String.Format(apiTrackDetailWebPageFormat, trackId));
-                var response = await httpClient.GetStreamAsync(uri);
-                string html = await DecompressStringFromGzip(response);
+                string html = string.Empty;
+                using (var response = await httpClient.GetStreamAsync(uri))
+                {
+                    html = await DecompressStringFromGzipAsync(response);
+                }
 
                 await Task.Run(() =>
                 {
@@ -158,13 +174,21 @@ namespace Dopamine.Common.Api.Lyrics
             return lyrics;
         }
 
+        private async Task<bool> StreamIsGzipStreamAsync(Stream stream)
+        {
+            Byte[] buffer = new byte[2], head = new byte[2] {0x1F, 0x8B};
+            await stream.ReadAsync(buffer, 0, 2);
+
+            return buffer[0] == head[0] && buffer[1] == head[1];
+        }
+
         private string Unicode2String(string source)
         {
             return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
                 source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
         }
 
-        private async Task<string> DecompressStringFromGzip(Stream stream)
+        private async Task<string> DecompressStringFromGzipAsync(Stream stream)
         {
             string result = string.Empty;
 
