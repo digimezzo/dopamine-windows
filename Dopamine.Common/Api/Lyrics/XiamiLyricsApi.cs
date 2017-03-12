@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,7 +45,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             await Task.Run(async () =>
             {
-                httpClient = new HttpClient();
+                httpClient = new HttpClient(new HttpClientHandler() {AutomaticDecompression = DecompressionMethods.GZip});
                 if (this.timeoutSeconds > 0) httpClient.Timeout = TimeSpan.FromSeconds(this.timeoutSeconds);
                 // Must set proper headers, otherwise the response will be "Illegal request"
                 httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
@@ -68,7 +69,7 @@ namespace Dopamine.Common.Api.Lyrics
         {
             string result = string.Empty;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 int start = json.IndexOf("[{\"song_id\":") + 12;
                 int end = json.IndexOf(",\"song_name\"", start);
@@ -82,7 +83,7 @@ namespace Dopamine.Common.Api.Lyrics
                     // even though the server doesn't contain this track
                     start = json.IndexOf(":\"", end) + 2;
                     end = json.IndexOf("\",\"", start);
-                    string resultTitle = Unicode2String(json.Substring(start, end - start));
+                    string resultTitle = await Unicode2String(json.Substring(start, end - start));
                     // Some tracks' title that API returns may contain useless blank character
                     int length = title.Length < resultTitle.Length ? title.Length : resultTitle.Length;
                     if (!title.Substring(0, length).Equals(resultTitle.Substring(0, length)))
@@ -93,9 +94,9 @@ namespace Dopamine.Common.Api.Lyrics
             return result;
         }
 
-        private async Task<string> ParseTrackDetailAsync(string trackId)
+        private async Task<Tuple<bool, string>> ParseLyrcisUrlThroughApiAsync(string trackId)
         {
-            string result = string.Empty;
+            var result = new Tuple<bool, string>(false, null);
 
             await Task.Run(async () =>
             {
@@ -109,98 +110,61 @@ namespace Dopamine.Common.Api.Lyrics
 
                 var uri = new Uri(String.Format(apiTrackFormat, trackId));
 
-                string json = string.Empty;
-                using (var response = await httpClient.GetStreamAsync(uri))
-                {
-                    json = await DecompressStringFromGzipAsync(response);
-                }
+                string json = await httpClient.GetStringAsync(uri);
 
                 int start = json.IndexOf(",\"lyric_url\":\"http:\\/\\/");
                 int end = json.IndexOf("\",\"object_id\":", start);
-                if (start <= 0 || end <= 0)
-                    throw new Exception("No lrc found.");
-                start += 23;
+                if (start > 0 && end > 0)
+                    start += 23;
                 var sb = new StringBuilder(json.Substring(start, end - start)).Replace(@"\/", @"/");
-                result = "http://" + sb.ToString();
+                result = new Tuple<bool, string>(true, "http://" + sb.ToString());
             });
 
             return result;
         }
 
-        private async Task<string> ParseLyricsAsync(string trackId)
+        private async Task<Tuple<bool, string>> ParseLyricsAsync(string trackId)
         {
-            string lyrics = string.Empty;
+            var result = new Tuple<bool, string>(false, null);
+
             // If this track is delisted we cannot get the dynamic lyrics without logging,
             // try to fetch plain text lyrics
-            try
+            var tempResult = await ParseLyrcisUrlThroughApiAsync(trackId);
+            if (tempResult.Item1 == true)
             {
-                var lrcUrl = await ParseTrackDetailAsync(trackId);
-
                 httpClient.DefaultRequestHeaders.Remove("Host");
                 httpClient.DefaultRequestHeaders.Add("Host", "img.xiami.net");
-                var response = await httpClient.GetByteArrayAsync(lrcUrl);
 
-                using (var ms = new MemoryStream(response))
-                {
-                    bool isGzip = await StreamIsGzipStreamAsync(ms);
-                    ms.Position = 0;
-                    if (isGzip)
-                        lyrics = await DecompressStringFromGzipAsync(ms);
-                    else
-                        await Task.Run(() => lyrics = new StreamReader(ms).ReadToEnd());
-                }
+                result = new Tuple<bool, string>(true, await httpClient.GetStringAsync(tempResult.Item2));
             }
-            catch (Exception ex)
+            else
             {
                 Uri uri = new Uri(String.Format(apiTrackDetailWebPageFormat, trackId));
-                string html = string.Empty;
-                using (var response = await httpClient.GetStreamAsync(uri))
-                {
-                    html = await DecompressStringFromGzipAsync(response);
-                }
+                string html = await httpClient.GetStringAsync(uri);
 
                 await Task.Run(() =>
                 {
                     int start = html.IndexOf("<div class=\"lrc_main\">");
                     int end = html.IndexOf("</div>", start);
-                    if (start <= 0 || end <= 0)
-                        throw new Exception("No lrc found.");
-                    start += 22;
-                    var sb = new StringBuilder(html.Substring(start, end - start));
-                    lyrics = sb.Replace("<br />", "").Replace("\t", "").ToString();
+                    if (start > 0 && end > 0)
+                    {
+                        start += 22;
+                        var sb = new StringBuilder(html.Substring(start, end - start));
+                        result = new Tuple<bool, string>(true, sb.Replace("<br />", "").Replace("\t", "").ToString());
+                    }
                 });
             }
 
-            return lyrics;
+            return result;
         }
 
-        private async Task<bool> StreamIsGzipStreamAsync(Stream stream)
-        {
-            Byte[] buffer = new byte[2], head = new byte[2] {0x1F, 0x8B};
-            await stream.ReadAsync(buffer, 0, 2);
-
-            return buffer[0] == head[0] && buffer[1] == head[1];
-        }
-
-        private string Unicode2String(string source)
-        {
-            return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
-                source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
-        }
-
-        private async Task<string> DecompressStringFromGzipAsync(Stream stream)
+        private async Task<string> Unicode2String(string source)
         {
             string result = string.Empty;
 
-            await Task.Run(async () =>
-            {
-                using (var gs = new GZipStream(stream, CompressionMode.Decompress))
-                using (var ms = new MemoryStream())
-                {
-                    await gs.CopyToAsync(ms);
-                    result = Encoding.UTF8.GetString(ms.ToArray());
-                }
-            });
+            await Task.Run(
+                () => result = new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
+                    source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16))));
 
             return result;
         }
@@ -213,10 +177,11 @@ namespace Dopamine.Common.Api.Lyrics
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {
-            string trackId = await ParseTrackIdAsync(artist, title);
+            var trackId = await ParseTrackIdAsync(artist, title);
             if (trackId.Equals(string.Empty)) throw new Exception("No Xiami Lyrics.");
-            string lyrcis = await ParseLyricsAsync(trackId);
-            return lyrcis;
+            var result = await ParseLyricsAsync(trackId);
+            if (result.Item1 == false) throw new Exception("No Xiami Lyrics.");
+            return result.Item2;
         }
 
         #endregion
