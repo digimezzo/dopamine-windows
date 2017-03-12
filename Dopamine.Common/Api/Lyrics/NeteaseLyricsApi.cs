@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Digimezzo.Utilities.Utils;
 
 namespace Dopamine.Common.Api.Lyrics
 {
@@ -80,14 +81,13 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => "NeteaseLyrics";
+        public string SourceName => ResourceUtils.GetStringResource("Language_NeteaseLyrics");
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {
             var trackId = await ParseTrackIdAsync(artist, title);
-            //if (trackId.Equals(string.Empty)) throw new Exception("No Xiami Lyrics.");
             var result = await ParseLyricsAsync(trackId);
-            //if (result.Item1 == false) throw new Exception("No Xiami Lyrics.");
+
             return result;
         }
 

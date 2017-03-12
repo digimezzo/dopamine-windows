@@ -385,4 +385,6 @@
   <Text Key="Frequent">Fréquent</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Voulez-vous vraiment supprimer ce morceau de la playlist '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Voulez-vous vraiment supprimer ces morceaux de la playlist '%playlistname%'?</Text>
+  <Text Key="XiamiLyrics">XiamiLyrics</Text>
+  <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
 </Language>
