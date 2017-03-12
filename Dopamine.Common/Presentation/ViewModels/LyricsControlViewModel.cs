@@ -98,12 +98,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 if (this.previousTrack == null || !this.playbackService.CurrentTrack.Equals(this.previousTrack))
                 {
-                    if (SettingsClient.Get<bool>("FullPlayer", "IsNowPlayingSelected"))
-                    {
-                        this.refreshTimer.Stop();
-                        this.refreshTimer.Start();
-                        this.previousTrack = this.playbackService.CurrentTrack.Value;
-                    }
+                    this.refreshTimer.Stop();
+                    this.refreshTimer.Start();
+                    this.previousTrack = this.playbackService.CurrentTrack.Value;
                 }
             };
 
