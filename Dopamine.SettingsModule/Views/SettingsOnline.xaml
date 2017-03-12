@@ -117,6 +117,7 @@
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxLyricWikia" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LyricWikia" OffLabel="LyricWikia" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxLyricWikiaChecked}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxMetroLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="MetroLyrics" OffLabel="MetroLyrics" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxMetroLyricsChecked}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxXiamiLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="XiamiLyrics" OffLabel="XiamiLyrics" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxXiamiLyricsChecked}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxNeteaseLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="NeteaseLyrics" OffLabel="NeteaseLyrics" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxNeteaseLyricsChecked}"/>
                 <StackPanel.Style>
                     <Style>
                         <Style.Triggers>
