@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Digimezzo.Utilities.Utils;
 
 namespace Dopamine.Common.Api.Lyrics
 {
@@ -173,7 +174,7 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => "XiamiLyrics";
+        public string SourceName => ResourceUtils.GetStringResource("Language_XiamiLyrics");
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {

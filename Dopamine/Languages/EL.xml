@@ -385,4 +385,6 @@
   <Text Key="Frequent">Συχνά</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Είστε σίγουρος για την αφαίρεση αυτού του τραγουδιού από τη λίστα '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Είστε σίγουρος για την αφαίρεση αυτού των τραγουδιών από τη λίστα '%playlistname%'?</Text>
+  <Text Key="XiamiLyrics">XiamiLyrics</Text>
+  <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
 </Language>
