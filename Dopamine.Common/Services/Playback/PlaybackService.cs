@@ -545,7 +545,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayNextAsync()
         {
-            LogClient.Error("Received request to play the next track.");
+            LogClient.Error("Request to play the next track.");
 
             if (this.HasCurrentTrack)
             {
@@ -595,7 +595,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayPreviousAsync()
         {
-            LogClient.Error("Received request to play the previous track.");
+            LogClient.Error("Request to play the previous track.");
 
             // We don't want interruptions when trying to play the previous Track. 
             // If the previous Track cannot be played, keep skipping to the
@@ -716,9 +716,9 @@ namespace Dopamine.Common.Services.Playback
             {
                 foreach (PlayableTrack track in tracks)
                 {
-                 // New Guids are created here, they will never be found in the queue.
-                 // QueueManager will dequeue all tracks which have a matching SafePath.
-                 trackPairs.Add(new KeyValuePair<string, PlayableTrack>(Guid.NewGuid().ToString(), track));
+                    // New Guids are created here, they will never be found in the queue.
+                    // QueueManager will dequeue all tracks which have a matching SafePath.
+                    trackPairs.Add(new KeyValuePair<string, PlayableTrack>(Guid.NewGuid().ToString(), track));
                 }
             });
 
@@ -1059,7 +1059,7 @@ namespace Dopamine.Common.Services.Playback
         {
             this.isPlayingPreviousTrack = false;
 
-            LoopMode loopMode =  this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
+            LoopMode loopMode = this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
 
             // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
             KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(loopMode);
@@ -1082,7 +1082,11 @@ namespace Dopamine.Common.Services.Playback
         {
             // Playback was interrupted for some reason. Make sure we are in a correct state.
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
-            this.context.Post(new SendOrPostCallback((state) => this.Stop()), null);
+            this.context.Post(new SendOrPostCallback((state) =>
+            {
+                LogClient.Info("Track interrupted: {0}", this.CurrentTrack.Value.Path);
+                this.Stop();
+            }), null);
         }
 
         private void PlaybackFinishedHandler(Object sender, EventArgs e)
@@ -1091,8 +1095,9 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
+                LogClient.Info("Track finished: {0}", this.CurrentTrack.Value.Path);
                 await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
-             await this.TryPlayNextAsync(false);
+                await this.TryPlayNextAsync(false);
             }), null);
         }
 
@@ -1114,8 +1119,8 @@ namespace Dopamine.Common.Services.Playback
 
                 await Task.Run(() =>
                 {
-                // Makes lookup faster
-                foreach (var track in tracks)
+                    // Makes lookup faster
+                    foreach (var track in tracks)
                     {
                         tracksDictionary.Add(track.SafePath, track);
                     }
@@ -1124,21 +1129,21 @@ namespace Dopamine.Common.Services.Playback
                     {
                         KeyValuePair<string, PlayableTrack> trackToEnqueue = default(KeyValuePair<string, PlayableTrack>);
 
-                    // Enqueue only tracks which are found in the database and exist on disk.
-                    if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
+                        // Enqueue only tracks which are found in the database and exist on disk.
+                        if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
                         {
-                        // Create the track
-                        trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
+                            // Create the track
+                            trackToEnqueue = new KeyValuePair<string, PlayableTrack>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
 
-                        // Check if the track was playing
-                        if (savedQueuedTrack.IsPlaying == 1)
+                            // Check if the track was playing
+                            if (savedQueuedTrack.IsPlaying == 1)
                             {
                                 playingTrack = trackToEnqueue;
                                 progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
                             }
 
-                        // Add to tracksToEnqueue
-                        tracksToEnqueue.Add(trackToEnqueue);
+                            // Add to tracksToEnqueue
+                            tracksToEnqueue.Add(trackToEnqueue);
                         }
                     }
                 });
@@ -1209,7 +1214,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        private async Task EnqueueIfRequired(List<KeyValuePair<string,PlayableTrack>> tracks)
+        private async Task EnqueueIfRequired(List<KeyValuePair<string, PlayableTrack>> tracks)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {
