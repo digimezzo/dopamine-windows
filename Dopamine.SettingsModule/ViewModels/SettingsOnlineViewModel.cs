@@ -38,6 +38,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxLyricWikiaChecked;
         private bool checkBoxMetroLyricsChecked;
         private bool checkBoxXiamiLyricsChecked;
+        private bool checkBoxNeteaseLyricsChecked;
         private ObservableCollection<NameValue> timeouts;
         private NameValue selectedTimeout;
         #endregion
@@ -115,6 +116,16 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 this.AddRemoveLyricsDownloadProvider("xiamilyrics", value);
                 SetProperty<bool>(ref this.checkBoxXiamiLyricsChecked, value);
+            }
+        }
+
+        public bool CheckBoxNeteaseLyricsChecked
+        {
+            get { return this.checkBoxNeteaseLyricsChecked; }
+            set
+            {
+                this.AddRemoveLyricsDownloadProvider("neteaselyrics", value);
+                SetProperty<bool>(ref this.checkBoxNeteaseLyricsChecked, value);
             }
         }
 
@@ -322,12 +333,14 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.checkBoxLyricWikiaChecked = lyricsProviders.ToLower().Contains("lyricwikia");
                 this.checkBoxMetroLyricsChecked = lyricsProviders.ToLower().Contains("metrolyrics");
                 this.checkBoxXiamiLyricsChecked = lyricsProviders.ToLower().Contains("xiamilyrics");
+                this.checkBoxNeteaseLyricsChecked = lyricsProviders.ToLower().Contains("neteaselyrics");
 
                 OnPropertyChanged(() => this.CheckBoxChartLyricsChecked);
                 OnPropertyChanged(() => this.CheckBoxLoloLyricsChecked);
                 OnPropertyChanged(() => this.CheckBoxLyricWikiaChecked);
                 OnPropertyChanged(() => this.CheckBoxMetroLyricsChecked);
                 OnPropertyChanged(() => this.CheckBoxXiamiLyricsChecked);
+                OnPropertyChanged(() => this.CheckBoxNeteaseLyricsChecked);
             });
         }
 

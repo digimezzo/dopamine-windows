@@ -383,6 +383,8 @@
   <Text Key="About_Neowin_Head">感谢</Text>
   <Text Key="About_Neowin_End">社区的构想、程序测试与错误报告。</Text>
   <Text Key="Frequent">常用</Text>
-  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Are you sure you want to remove this song from playlist '%playlistname%'?</Text>
-  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">你确定要从播放列表 '%playlistname%' 中删除这首歌吗?</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">你确定要从播放列表 '%playlistname%' 中删除这几首歌吗?</Text>
+  <Text Key="XiamiLyrics">虾米音乐</Text>
+  <Text Key="NeteaseLyrics">网易云音乐</Text>
 </Language>
