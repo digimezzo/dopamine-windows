@@ -1,6 +1,8 @@
-2017-03-10: Dopamine 1.3 Build 904 (Preview)
+2017-03-13: Dopamine 1.3 Build 905 (Preview)
 --------------------------------------------
 
+- [Added] Added NeteaseLyrics support
+- [Added] Added XiamiLyrics support
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Polish translation
 - [Changed] Updated the Swedish translation
