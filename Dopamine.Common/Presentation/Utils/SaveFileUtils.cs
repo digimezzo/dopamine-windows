@@ -35,7 +35,7 @@ namespace Dopamine.Common.Presentation.Utils
                     try
                     {
                         string mime = string.Empty;
-                        switch (dlg.SafeFileName.Split('.')[dlg.SafeFileName.Split('.').Length - 1])
+                        switch (dlg.SafeFileName.Split('.')[dlg.SafeFileName.Split('.').Length - 1].ToLower())
                         {
                             case "png":
                                 mime = "image/png";
