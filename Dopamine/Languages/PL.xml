@@ -238,6 +238,8 @@
   <Text Key="Grouping">Grupowanie</Text>
   <Text Key="Comment">Komentarz</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Tylko numery dodatnie są dozwolone</Text>
+  <Text Key="Export">Export</Text>
+  <Text Key="Export_The_Image">Export the image</Text>
   <Text Key="Change">Zmień</Text>
   <Text Key="Change_The_Image">Zmień obraz</Text>
   <Text Key="Remove">Usuń</Text>
@@ -387,4 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Czy na pewno chcesz usunąć tę piosenki z playlisty '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
+  <Text Key="Save_As">Save As...</Text>
 </Language>
