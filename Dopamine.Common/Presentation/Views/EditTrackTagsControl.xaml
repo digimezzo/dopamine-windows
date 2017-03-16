@@ -51,7 +51,7 @@
                         Command="{Binding ExportArtworkCommand}"/>
             <Button 
                         Style="{StaticResource MetroButton}" 
-                        Margin="0,15,0,0" 
+                        Margin="0,10,0,0" 
                         Content="{Binding Source={StaticResource ChangeProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
                         ToolTip="{DynamicResource Language_Change_The_Image}"
                         Command="{Binding ChangeArtworkCommand}"/>
