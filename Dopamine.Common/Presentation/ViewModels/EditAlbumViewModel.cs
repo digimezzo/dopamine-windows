@@ -32,7 +32,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region ReadOnly Properties
         public bool HasArtwork
         {
-            get { return Artwork != null; }
+            get { return Artwork?.Value != null; }
         }
         #endregion
 
