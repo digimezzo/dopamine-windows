@@ -32,7 +32,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region ReadOnly Properties
         public bool HasArtwork
         {
-            get { return this.Artwork != null && this.Artwork != null; }
+            get { return Artwork?.Value != null; }
         }
         #endregion
 
@@ -76,6 +76,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         #region Commands
         public DelegateCommand LoadedCommand { get; set; }
+        public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
         public DelegateCommand DownloadArtworkCommand { get; set; }
@@ -92,6 +93,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.artwork = new MetadataArtworkValue();
 
             this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync());
+
+            this.ExportArtworkCommand = new DelegateCommand(async () =>
+            {
+                if (HasArtwork)
+                    await SaveFileUtils.SaveImageFileAsync(this.Artwork.Value);
+            });
+
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
            {
                if (!await OpenFileUtils.OpenImageFileAsync(new Action<byte[]>(this.UpdateArtwork)))
