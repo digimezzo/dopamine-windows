@@ -238,6 +238,8 @@
   <Text Key="Grouping">Gruplandırma</Text>
   <Text Key="Comment">Yorum</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Sadece pozitif sayılar girilebilir</Text>
+  <Text Key="Export">Export</Text>
+  <Text Key="Export_The_Image">Export the image</Text>
   <Text Key="Change">Değiştir</Text>
   <Text Key="Change_The_Image">Resmi değiştir</Text>
   <Text Key="Remove">Sil</Text>
@@ -387,4 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
+  <Text Key="Save_As">Save As...</Text>
 </Language>
