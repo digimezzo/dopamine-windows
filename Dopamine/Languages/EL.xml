@@ -238,6 +238,8 @@
   <Text Key="Grouping">Ομαδοποίηση</Text>
   <Text Key="Comment">Σχόλιο</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Επιτρέπονται μόνο θετικοί αριθμοί</Text>
+  <Text Key="Export">Export</Text>
+  <Text Key="Export_The_Image">Export the image</Text>
   <Text Key="Change">Αλλαγή</Text>
   <Text Key="Change_The_Image">Αλλαγή εικόνας</Text>
   <Text Key="Remove">Αφαίρεση</Text>
@@ -387,4 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Είστε σίγουρος για την αφαίρεση αυτού των τραγουδιών από τη λίστα '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
+  <Text Key="Save_As">Save As...</Text>
 </Language>
