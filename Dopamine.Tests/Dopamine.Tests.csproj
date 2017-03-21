@@ -96,12 +96,12 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AudioFormatsTest.cs" />
-    <Compile Include="LastfmApiTest.cs" />
-    <Compile Include="LyricWikiaApiTest.cs" />
+    <Compile Include="AudioFormatsMediaFoundation.cs" />
+    <Compile Include="LastfmApi.cs" />
+    <Compile Include="LyricsApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PlaylistDecoderTest.cs" />
-    <Compile Include="WasapiTest.cs" />
+    <Compile Include="PlaylistDecoder.cs" />
+    <Compile Include="TestCategories.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
@@ -110,59 +110,50 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\AudioFormatsTest\test.m4a">
+    <Content Include="Files\AudioFormats\test.m4a">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test4.mp3">
+    <Content Include="Files\AudioFormats\test4.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Files\AudioFormatsTest\test.ogg">
+    <Content Include="Files\AudioFormats\test.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test2.ogg">
+    <Content Include="Files\AudioFormats\test2.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test3.ogg">
+    <Content Include="Files\AudioFormats\test3.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Test.zpl">
+    <Content Include="Files\PlaylistDecoder\Test.zpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Test.wpl">
+    <Content Include="Files\PlaylistDecoder\Test.wpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Files\AudioFormatsTest\test.flac">
+    <Content Include="Files\AudioFormats\test.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test.mp3">
+    <Content Include="Files\AudioFormats\test.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test.wma">
+    <Content Include="Files\AudioFormats\test.wma">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test2.mp3">
+    <Content Include="Files\AudioFormats\test2.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\AudioFormatsTest\test3.mp3">
+    <Content Include="Files\AudioFormats\test3.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\PlaylistDecoderTest\Test.m3u">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\TaggingTest\01 - Paralyse.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\TaggingTest\12 - We Float.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\TaggingTest\AC-DC - Highway To Hell.mp3">
+    <Content Include="Files\PlaylistDecoder\Test.m3u">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

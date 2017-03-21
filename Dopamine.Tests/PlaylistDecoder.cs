@@ -4,17 +4,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dopamine.Tests
 {
     [TestClass]
-    public class PlaylistDecoderTest
+    public class PlaylistDecoder
     {
-        [TestMethod]
-        public void DecodeM3uPlaylistTest()
+        [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
+        public void DecodeM3uPlaylist()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.m3u");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.m3u");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new PlaylistDecoder();
+            var decoder = new Common.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -32,15 +32,15 @@ namespace Dopamine.Tests
             }
         }
 
-        [TestMethod]
-        public void DecodeZplPlaylistTest()
+        [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
+        public void DecodeZplPlaylist()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.zpl");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.zpl");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new PlaylistDecoder();
+            var decoder = new Common.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -58,15 +58,15 @@ namespace Dopamine.Tests
             }
         }
 
-        [TestMethod]
-        public void DecodeWplPlaylistTest()
+        [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
+        public void DecodeWplPlaylist()
         {
             // Arrange
-            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoderTest\Test.wpl");
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.wpl");
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new PlaylistDecoder();
+            var decoder = new Common.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -84,11 +84,11 @@ namespace Dopamine.Tests
             }
         }
 
-        [TestMethod]
-        public void GenerateFullPathTest()
+        [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
+        public void GenerateFullPath()
         {
             // Arrange
-            var decoder = new PlaylistDecoder();
+            var decoder = new Common.IO.PlaylistDecoder();
             PrivateObject obj = new PrivateObject(decoder);
 
             string expectedPath1 = @"C:\Music\Folder\File.mp3";
