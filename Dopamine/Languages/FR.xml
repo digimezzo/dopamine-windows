@@ -325,7 +325,7 @@
   <Text Key="Online">En ligne</Text>
   <Text Key="Add_Remove_Online_Search_Providers">Ajouter ou supprimer des fournisseurs de recherche en ligne</Text>
   <Text Key="Add">Ajouter</Text>
-  <Text Key="Confirm_Remove_Online_Search_Provider">Etes-vous sûr de vouloir supprimer le fournisseur de recherche en ligne '%provider%' ?</Text>
+  <Text Key="Confirm_Remove_Online_Search_Provider">Êtes-vous sûr de vouloir supprimer le fournisseur de recherche en ligne '%provider%' ?</Text>
   <Text Key="Error_Removing_Online_Search_Provider">Le fournisseur de recherche en ligne '%provider%' n'a pas pu être supprimé.  Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Url">Url</Text>
   <Text Key="Separator">Séparateur</Text>
@@ -333,10 +333,10 @@
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être ajouté. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
   <Text Key="Error_Updating_Online_Search_Provider">Le fournisseur de recherche en ligne n'a pas pu être modifié. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Le fournisseur de recherche en ligne n'a pas pu être modifié. Les champs 'Nom' et 'Url' sont obligatoires, 'Séparateur' est optionel.</Text>
-  <Text Key="Sign_In">Connecter</Text>
-  <Text Key="Sign_Out">Déconnecter</Text>
+  <Text Key="Sign_In">Se connecter</Text>
+  <Text Key="Sign_Out">Se déconnecter</Text>
   <Text Key="Signed_In">Connecté</Text>
-  <Text Key="Sign_In_Failed">La Connexion a échouée</Text>
+  <Text Key="Sign_In_Failed">La connexion a échouée</Text>
   <Text Key="Artist_Information">Informations sur l'artiste</Text>
   <Text Key="Biography">Biographie</Text>
   <Text Key="Similar">Similaire</Text>
@@ -382,12 +382,12 @@
   <Text Key="About_Donated_People">À ceux qui ont fait un don.</Text>
   <Text Key="About_Translators">Aux traducteurs.</Text>
   <Text Key="About_Components_Developers">Aux développeurs talentueux qui ont créé les composants mentionnés ci-dessus.</Text>
-  <Text Key="About_Neowin_Head">À la communauté.</Text>
+  <Text Key="About_Neowin_Head">À la communauté,</Text>
   <Text Key="About_Neowin_End">pour ses idées, ses tests et son repérage des bugs.</Text>
   <Text Key="Frequent">Fréquent</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Voulez-vous vraiment supprimer ce morceau de la playlist '%playlistname%'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Voulez-vous vraiment supprimer ces morceaux de la playlist '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Save_As">Save As...</Text>
+  <Text Key="Save_As">Enregistrer sous...</Text>
 </Language>
