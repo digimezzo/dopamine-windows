@@ -25,17 +25,5 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="PeakStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type Rectangle}">
-                    <Setter Property="Fill"
-                            Value="{DynamicResource RG_SpectrumPeaksBrush}" />
-                    <Setter Property="RadiusX"
-                            Value="0" />
-                    <Setter Property="RadiusY"
-                            Value="0" />
-                </Style>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 </ResourceDictionary>
