@@ -35,7 +35,7 @@ namespace Dopamine
 
             // Check that there is only one instance of the application running
             bool isNewInstance = false;
-            instanceMutex = new Mutex(true, string.Format("{0}-{1}", ProductInformation.ApplicationGuid, ProcessExecutable.AssemblyVersion().ToString()), out isNewInstance);
+            instanceMutex = new Mutex(true, string.Format("{0}-{1}", ProductInformation.ApplicationGuid, ProcessExecutable.AssemblyVersion()), out isNewInstance);
 
             // Process the commandline arguments
             this.ProcessCommandLineArguments(isNewInstance);
@@ -54,7 +54,7 @@ namespace Dopamine
 
         private void ExecuteStartup()
         {
-            LogClient.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable").ToString(), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
+            LogClient.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -127,13 +127,13 @@ namespace Dopamine
             }
             catch (Exception ex)
             {
-                LogClient.Error("A problem occured while trying to show the running instance. Exception: {0}", ex.Message);
+                LogClient.Error("A problem occurred while trying to show the running instance. Exception: {0}", ex.Message);
             }
         }
 
         private void TrySendCommandlineArguments(string[] args)
         {
-            LogClient.Info("Trying to send {0} commandline arguments to the running instance", args.Count().ToString());
+            LogClient.Info("Trying to send {0} commandline arguments to the running instance", args.Count());
 
             bool needsSending = true;
             DateTime startTime = DateTime.Now;
@@ -149,7 +149,7 @@ namespace Dopamine
                     // Try to send the commandline arguments to the running instance
                     fileServiceProxy = fileServiceFactory.CreateChannel();
                     fileServiceProxy.ProcessArguments(args);
-                    LogClient.Info("Sent {0} commandline arguments to the running instance", args.Count().ToString());
+                    LogClient.Info("Sent {0} commandline arguments to the running instance", args.Count());
 
                     needsSending = false;
                 }
@@ -206,14 +206,14 @@ namespace Dopamine
             // This might be fixed in .Net 4.5.2. See here: https://connect.microsoft.com/VisualStudio/feedback/details/789438/scrolling-in-virtualized-wpf-treeview-is-very-unstable
             if (ex.GetType().ToString().Equals("System.ArgumentNullException") & ex.Source.ToString().Equals("PresentationCore"))
             {
-                LogClient.Warning("Avoided Unhandled Exception: {0}", ex.ToString());
+                LogClient.Warning("Avoided Unhandled Exception: {0}", ex.Message);
                 return;
             }
 
             LogClient.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));
 
             // Close the application to prevent further problems
-            LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion());
 
             // Stop playing (This avoids remaining processes in Task Manager)
             var playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
