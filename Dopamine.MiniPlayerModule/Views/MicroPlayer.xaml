@@ -65,7 +65,7 @@
             <DockPanel>
                 <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" TitleFontSize="22" TitleFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Grid>
-                    <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="20"/>
+                    <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="324" Height="{x:Static corebase:Constants.SpectrumPanelHeight}"/>
                     <controlsmoduleviews:MicroPlayerControls Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
             </DockPanel>
