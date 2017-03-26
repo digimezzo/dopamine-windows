@@ -137,7 +137,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib">
+    <Reference Include="WPFSoundVisualizationLib, Version=0.4.6294.41400, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -229,6 +230,7 @@
     <Compile Include="Database\Utils.cs" />
     <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
+    <Compile Include="Enums\SpectrumPlayerEnums.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />

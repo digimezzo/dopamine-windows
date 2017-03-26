@@ -138,9 +138,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib, Version=0.3.5892.40536, Culture=neutral, PublicKeyToken=e7dadb4589580e40, processorArchitecture=MSIL">
+    <Reference Include="WPFSoundVisualizationLib, Version=0.4.6294.41400, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Workspaces\Dopamine\Main\Dopamine\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
+      <HintPath>Libraries\WPFSoundVisualizationLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

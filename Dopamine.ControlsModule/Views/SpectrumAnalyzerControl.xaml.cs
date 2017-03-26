@@ -1,6 +1,17 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using System.ComponentModel;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
+using WPFSoundVisualizationLib;
+using CSCore;
+using CSCore.Codecs;
+using CSCore.CoreAudioAPI;
+using CSCore.DSP;
+using CSCore.MediaFoundation;
+using CSCore.SoundOut;
+using CSCore.Streams;
+using CSCore.Streams.Effects;
+using Dopamine.Common.Enums;
 
 namespace Dopamine.ControlsModule.Views
 {
@@ -36,7 +47,8 @@ namespace Dopamine.ControlsModule.Views
         {
             if(this.playbackService.Player != null)
             {
-                Application.Current.Dispatcher.Invoke(() => { this.SpectrumAnalyzer.RegisterSoundPlayer((WPFSoundVisualizationLib.ISpectrumPlayer)this.playbackService.Player); });
+                Application.Current.Dispatcher.Invoke(() => { this.LeftSpectrumAnalyzer.RegisterSoundPlayer(this.playbackService.Player.GetWrapperSpectrumPlayer(SpectrumPlayerChannel.Left)); });
+                Application.Current.Dispatcher.Invoke(() => { this.RightSpectrumAnalyzer.RegisterSoundPlayer(this.playbackService.Player.GetWrapperSpectrumPlayer(SpectrumPlayerChannel.Right)); });
             }
         }
         #endregion
