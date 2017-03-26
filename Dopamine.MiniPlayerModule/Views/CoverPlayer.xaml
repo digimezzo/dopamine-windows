@@ -88,7 +88,7 @@
         <commonviews:ProgressControls Height="14" Margin="0,-6,0,0"/>
         <!-- Controls -->
         <Grid>
-            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Width="350" Height="20"/>
+            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Width="350" Height="{x:Static base:Constants.SpectrumPanelHeight}"/>
             <controlsmoduleviews:CoverPlayerControls Panel.ZIndex="1" Margin="0,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </StackPanel>
