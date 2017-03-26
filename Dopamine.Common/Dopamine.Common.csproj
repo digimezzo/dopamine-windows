@@ -22,7 +22,8 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <NuGetPackageImportStamp>0dab619f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,8 +54,13 @@
     <AssemblyOriginatorKeyFile>..\Dopamine\Dopamine.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSCore">
-      <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
+    <Reference Include="CSCore, Version=1.1.6245.30570, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSCore.1.2.0\lib\net35-client\CSCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CSCore.Ffmpeg, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSCore.Ffmpeg.1.2.0-beta1\lib\net35\CSCore.Ffmpeg.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
@@ -835,6 +841,9 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CSCore.Ffmpeg ReadMe.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -842,7 +851,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets'))" />
+    <Error Condition="!Exists('..\packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets'))" />
   </Target>
+  <Import Project="..\packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets" Condition="Exists('..\packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

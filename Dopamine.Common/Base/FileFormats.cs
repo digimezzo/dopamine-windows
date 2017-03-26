@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using CSCore.Codecs;
+using Dopamine.Common.Audio;
 
 namespace Dopamine.Common.Base
 {
@@ -51,6 +53,13 @@ namespace Dopamine.Common.Base
         public static bool IsSupportedPlaylistFile(string path)
         {
             return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+        }
+
+        static FileFormats()
+        {
+            var player = CSCorePlayer.Instance; //make sure to initialize the class first (since the codecs will be registered within its ctor)
+            SupportedMediaExtensions =
+                CodecFactory.Instance.GetSupportedFileExtensions().Select(x => "." + x).ToArray();
         }
     }
 }

@@ -9,7 +9,11 @@ using CSCore.Streams.Effects;
 using Dopamine.Common.Base;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
+using CSCore.Ffmpeg;
+using Digimezzo.Utilities.Log;
 using WPFSoundVisualizationLib;
 
 namespace Dopamine.Common.Audio
@@ -50,6 +54,15 @@ namespace Dopamine.Common.Audio
         {
             // Register the NVorbis new codec
             CodecFactory.Instance.Register("ogg-vorbis", new CodecFactoryEntry((s) => new NVorbisSource(s).ToWaveSource(), ".ogg"));
+
+            var inputFormats = FfmpegUtils.GetInputFormats().ToArray();
+            foreach (var inputFormat in inputFormats)
+            {
+                var extensions = inputFormat.FileExtensions.Concat(new[] {inputFormat.Name}).Distinct().ToArray();
+                CodecFactory.Instance.Register(inputFormat.Name, new CodecFactoryEntry((s) => new FfmpegDecoder(s), extensions));
+                LogClient.Info("Adding FFmpeg-Codec {0}({1}) for extensions {2}", inputFormat.Name, inputFormat.LongName, 
+                    String.Join(",", extensions.Select(x => "." + x.ToLower()).ToArray()));
+            }
 
             this.canPlay = true;
             this.canPause = false;
@@ -225,17 +238,24 @@ namespace Dopamine.Common.Audio
         {
             IWaveSource waveSource;
 
-            if (System.IO.Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
+            try
             {
-                // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
-                // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
-                // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
-                waveSource = new MediaFoundationDecoder(this.filename);
+                if (System.IO.Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
+                {
+                    // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
+                    // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
+                    // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
+                    waveSource = new MediaFoundationDecoder(this.filename);
+                }
+                else
+                {
+                    // Other file formats are using the default decoders
+                    waveSource = CodecFactory.Instance.GetCodec(this.filename);
+                }
             }
-            else
+            catch (Exception)
             {
-                // Other file formats are using the default decoders
-                waveSource = CodecFactory.Instance.GetCodec(this.filename);
+                waveSource = new FfmpegDecoder(filename); //try ffmpeg as last option
             }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.

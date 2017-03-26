@@ -1,0 +1,5 @@
+﻿ON ERROR - DLL NOT FOUND:
+
+With the installation of the CSCore.Ffmpeg nuget package, the native ffmpeg binaries should be copied automatically to the bin directory during the build process.
+Some VS version still have problems to do that (for example VS 2013 NuGet Package Manager 2.9).
+For that case, go to [YourVSProjectDirectory]\packages\CSCore.Ffmpeg[version]\build\ and copy the whole FFmpeg directory to your output directory (typically [YourVSProjectDirectory]\bin\[Debug/Release]\).
