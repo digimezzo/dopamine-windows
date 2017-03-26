@@ -256,7 +256,7 @@ namespace Dopamine.Common.Services.Indexing
                 LogClient.Info("There was a problem while updating the artwork. Exception: {0}", ex.Message);
             }
 
-            LogClient.Info("+++ FINISHED INDEXING ARTWORK: Covers deleted from database: {0}. Covers deleted from disk: {1}. Covers updated: {2}. Time required: {3} ms +++", numberDeletedFromDatabase.ToString(), numberDeletedFromDisk.ToString(), numberUpdated.ToString(), Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds).ToString());
+            LogClient.Info("+++ FINISHED INDEXING ARTWORK: Covers deleted from database: {0}. Covers deleted from disk: {1}. Covers updated: {2}. Time required: {3} ms +++", numberDeletedFromDatabase, numberDeletedFromDisk, numberUpdated, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
 
             return numberDeletedFromDatabase + numberDeletedFromDisk + numberUpdated;
         }
@@ -420,7 +420,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 numberTracksRemoved = await this.RemoveTracksAsync();
 
-                LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved.ToString(), Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds).ToString());
+                LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
 
                 await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete Tracks are removed, now we can determine new files
 
@@ -429,14 +429,14 @@ namespace Dopamine.Common.Services.Indexing
                 DateTime updateTracksStartTime = DateTime.Now;
                 numberTracksUpdated = await this.UpdateTracksAsync();
 
-                LogClient.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated.ToString(), Convert.ToInt64(DateTime.Now.Subtract(updateTracksStartTime).TotalMilliseconds).ToString());
+                LogClient.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated, Convert.ToInt64(DateTime.Now.Subtract(updateTracksStartTime).TotalMilliseconds));
 
                 // Step 3: add new Tracks
                 // ----------------------
                 DateTime addTracksStartTime = DateTime.Now;
                 numberTracksAdded = await this.AddTracksAsync();
 
-                LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded.ToString(), Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds).ToString());
+                LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
 
                 // Step 4: delete orphans
                 // ----------------------
@@ -449,7 +449,7 @@ namespace Dopamine.Common.Services.Indexing
                 LogClient.Info("There was a problem while indexing the collection. Exception: {0}", ex.Message);
             }
 
-            LogClient.Info("+++ FINISHED INDEXING COLLECTION: Tracks removed: {0}. Tracks updated: {1}. Tracks added: {2}. Time required: {3} ms +++", numberTracksRemoved.ToString(), numberTracksUpdated.ToString(), numberTracksAdded.ToString(), Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds).ToString());
+            LogClient.Info("+++ FINISHED INDEXING COLLECTION: Tracks removed: {0}. Tracks updated: {1}. Tracks added: {2}. Time required: {3} ms +++", numberTracksRemoved, numberTracksUpdated, numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
 
             return numberTracksRemoved + numberTracksAdded + numberTracksUpdated;
         }
