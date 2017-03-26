@@ -1,16 +1,6 @@
-﻿using System.ComponentModel;
-using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
-using WPFSoundVisualizationLib;
-using CSCore;
-using CSCore.Codecs;
-using CSCore.CoreAudioAPI;
-using CSCore.DSP;
-using CSCore.MediaFoundation;
-using CSCore.SoundOut;
-using CSCore.Streams;
-using CSCore.Streams.Effects;
 using Dopamine.Common.Enums;
 
 namespace Dopamine.ControlsModule.Views
