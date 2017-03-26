@@ -11,13 +11,14 @@
              xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
              SizeChanged="UserControl_SizeChanged">
 
     <DockPanel>
         <Grid DockPanel.Dock="Bottom">
-            <controlsmoduleviews:CollectionPlaybackControls Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <controlsmoduleviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="350" Height="20" />
+            <controlsmoduleviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{x:Static base:Constants.SpectrumAnalyzerControlWidth}" Height="{x:Static base:Constants.SpectrumPanelHeight}" />
         </Grid>
         <controls:TransitioningContentControl Margin="0,0,0,10" Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionRegion}"/>
     </DockPanel>

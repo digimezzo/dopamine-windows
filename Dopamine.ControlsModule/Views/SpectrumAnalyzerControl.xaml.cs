@@ -1,6 +1,7 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
+using Dopamine.Common.Enums;
 
 namespace Dopamine.ControlsModule.Views
 {
@@ -36,7 +37,8 @@ namespace Dopamine.ControlsModule.Views
         {
             if(this.playbackService.Player != null)
             {
-                Application.Current.Dispatcher.Invoke(() => { this.SpectrumAnalyzer.RegisterSoundPlayer((WPFSoundVisualizationLib.ISpectrumPlayer)this.playbackService.Player); });
+                Application.Current.Dispatcher.Invoke(() => { this.LeftSpectrumAnalyzer.RegisterSoundPlayer(this.playbackService.Player.GetWrapperSpectrumPlayer(SpectrumPlayerChannel.Left)); });
+                Application.Current.Dispatcher.Invoke(() => { this.RightSpectrumAnalyzer.RegisterSoundPlayer(this.playbackService.Player.GetWrapperSpectrumPlayer(SpectrumPlayerChannel.Right)); });
             }
         }
         #endregion
