@@ -8,20 +8,22 @@ using CSCore.Streams;
 using CSCore.Streams.Effects;
 using Dopamine.Common.Base;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
+using Dopamine.Common.Enums;
 using WPFSoundVisualizationLib;
 
 namespace Dopamine.Common.Audio
 {
-    public class CSCorePlayer : IPlayer, ISpectrumPlayer, IDisposable
+    public class CSCorePlayer : IPlayer, IDisposable
     {
         #region Variables
         // Singleton
         private static CSCorePlayer instance;
 
         // ISPectrumPlayer
-        private FftProvider fftProvider;
+        private List<EventHandler<SingleBlockReadEventArgs>> inputStreamList = new List<EventHandler<SingleBlockReadEventArgs>>();
 
         // IPlayer
         private string filename;
@@ -310,10 +312,12 @@ namespace Dopamine.Common.Audio
             this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
             this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
 
-            // Create the FFT provider
-            this.fftProvider = new FftProvider(this.soundOut.WaveSource.WaveFormat.Channels, FftSize.Fft2048);
+            if(inputStreamList.Count!=0)
+                foreach (var inputStream in inputStreamList)
+                {
+                    this.notificationSource.SingleBlockRead += inputStream;
+                }
 
-            this.notificationSource.SingleBlockRead += this.InputStream_Sample;
             this.soundOut.Stopped += this.SoundOutStoppedHandler;
 
             this.soundOut.Volume = this.volume;
@@ -330,7 +334,11 @@ namespace Dopamine.Common.Audio
             {
                 try
                 {
-                    if (this.notificationSource != null) this.notificationSource.SingleBlockRead -= this.InputStream_Sample;
+                    if (this.notificationSource != null)
+                        foreach (var inputStream in inputStreamList)
+                        {
+                            this.notificationSource.SingleBlockRead -= inputStream;
+                        }
 
                     // Remove the handler because we don't want to trigger this.soundOut.Stopped()
                     // when manually stopping the player. That event should only be triggered
@@ -395,50 +403,107 @@ namespace Dopamine.Common.Audio
             }
         }
 
-        public bool GetFFTData(ref float[] fftDataBuffer)
+        public ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumPlayerChannel channel)
         {
-            try
-            {
-                this.fftProvider.GetFftData(fftDataBuffer);
-            }
-            catch (Exception)
-            {
-            }
-
-            return this.IsPlaying;
+            return new WrapperSpectrumPlayer(instance, channel, inputStreamList);
         }
 
-        public int GetFFTFrequencyIndex(int frequency)
+        public class WrapperSpectrumPlayer : ISpectrumPlayer
         {
-            try
-            {
-                double maxFrequency = 0;
+            public event PropertyChangedEventHandler PropertyChanged = delegate { };
+            public CSCorePlayer player;
+            private FftProvider fftProvider;
+            private ISoundOut soundOut;
 
-                if (this.soundOut != null && this.soundOut.WaveSource != null)
+            public bool IsPlaying => this.player.isPlaying;
+
+            public WrapperSpectrumPlayer(CSCorePlayer player, SpectrumPlayerChannel channel,
+                ICollection<EventHandler<SingleBlockReadEventArgs>> inputStreamList)
+            {
+                this.player = player;
+                this.soundOut = player.soundOut;
+                fftProvider = new FftProvider(2, FftSize.Fft1024);
+                if (channel != SpectrumPlayerChannel.Stereo)
                 {
-                    maxFrequency = this.soundOut.WaveSource.WaveFormat.SampleRate / 2.0;
+                    if (channel == SpectrumPlayerChannel.Left)
+                    {
+                        this.player.notificationSource.SingleBlockRead += InputStream_LeftSample;
+                        inputStreamList.Add(InputStream_LeftSample);
+                    }
+                    if (channel == SpectrumPlayerChannel.Right)
+                    {
+                        this.player.notificationSource.SingleBlockRead += InputStream_RightSample;
+                        inputStreamList.Add(InputStream_RightSample);
+                    }
                 }
                 else
                 {
-                    maxFrequency = 22050;
+                    this.player.notificationSource.SingleBlockRead += InputStream_Sample;
+                    inputStreamList.Add(InputStream_Sample);
                 }
-                // Assume a default 44.1 kHz sample rate.
-                return Convert.ToInt32((frequency / maxFrequency) * ((int)this.fftProvider.FftSize / 2));
             }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
 
-        private void InputStream_Sample(object sender, SingleBlockReadEventArgs e)
-        {
-            try
+            private void InputStream_Sample(object sender, SingleBlockReadEventArgs e)
             {
-                this.fftProvider.Add(e.Left, e.Right);
+                try
+                {
+                    this.fftProvider.Add(e.Left, e.Right);
+                }
+                catch (Exception)
+                {
+                }
             }
-            catch (Exception)
+
+            private void InputStream_LeftSample(object sender, SingleBlockReadEventArgs e)
             {
+                try
+                {
+                    this.fftProvider.Add(e.Left, 0f);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            private void InputStream_RightSample(object sender, SingleBlockReadEventArgs e)
+            {
+                try
+                {
+                    this.fftProvider.Add(0f, e.Right);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            public bool GetFFTData(ref float[] fftDataBuffer)
+            {
+                var result = this.fftProvider.GetFftData(fftDataBuffer);
+                for (int i = 0; i < fftDataBuffer.Length; i++)
+                {
+                    fftDataBuffer[i] -= 0.003f;
+                }
+                return result;
+            }
+            public int GetFFTFrequencyIndex(int frequency)
+            {
+                try
+                {
+                    double maxFrequency = 0;
+
+                    if (soundOut != null && this.soundOut.WaveSource != null)
+                    {
+                        maxFrequency = this.soundOut.WaveSource.WaveFormat.SampleRate / 2.0;
+                    }
+                    else
+                    {
+                        maxFrequency = 22050;
+                    }
+                    // Assume a default 44.1 kHz sample rate.
+                    return Convert.ToInt32((frequency / maxFrequency) * ((int)this.fftProvider.FftSize / 2));
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
         #endregion

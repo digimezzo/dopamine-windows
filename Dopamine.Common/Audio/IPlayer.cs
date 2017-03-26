@@ -1,4 +1,6 @@
 ﻿using System;
+using Dopamine.Common.Enums;
+using WPFSoundVisualizationLib;
 
 namespace Dopamine.Common.Audio
 {
@@ -27,6 +29,7 @@ namespace Dopamine.Common.Audio
         void Dispose();
         void ApplyFilterValue(int index, double value);
         void ApplyFilter(double[] filterValues);
+        ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumPlayerChannel channel);
         #endregion
 
         #region Events
