@@ -7,12 +7,11 @@ using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
 using Dopamine.Common.Base;
+using Dopamine.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
-using Dopamine.Common.Enums;
-using WPFSoundVisualizationLib;
 
 namespace Dopamine.Common.Audio
 {

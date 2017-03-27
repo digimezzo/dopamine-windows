@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
+             xmlns:dca="clr-namespace:Dopamine.Common.Audio;assembly=Dopamine.Common"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
@@ -29,7 +29,7 @@
             <StackPanel.Effect>
                 <BlurEffect Radius="20"/>
             </StackPanel.Effect>
-            <svl:SpectrumAnalyzer 
+            <dca:SpectrumAnalyzer 
                 x:Name="LeftSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
                 Width="{x:Static base:Constants.SpectrumWidth}" 
@@ -40,11 +40,11 @@
                 BarHeightScaling="Decibel" 
                 RefreshInterval="{x:Static base:Constants.SpectrumRefreshIntervalMilliseconds}"
                 RenderTransformOrigin="0.5,0.5">
-                <svl:SpectrumAnalyzer.RenderTransform>
+                <dca:SpectrumAnalyzer.RenderTransform>
                     <ScaleTransform ScaleX="-1"/>
-                </svl:SpectrumAnalyzer.RenderTransform>
-            </svl:SpectrumAnalyzer>
-            <svl:SpectrumAnalyzer 
+                </dca:SpectrumAnalyzer.RenderTransform>
+            </dca:SpectrumAnalyzer>
+            <dca:SpectrumAnalyzer 
                 x:Name="RightSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
                 Width="{x:Static base:Constants.SpectrumWidth}" 

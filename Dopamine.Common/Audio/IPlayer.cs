@@ -1,6 +1,5 @@
-﻿using System;
-using Dopamine.Common.Enums;
-using WPFSoundVisualizationLib;
+﻿using Dopamine.Common.Enums;
+using System;
 
 namespace Dopamine.Common.Audio
 {
