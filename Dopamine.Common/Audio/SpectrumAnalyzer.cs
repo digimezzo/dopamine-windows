@@ -478,66 +478,6 @@ namespace Dopamine.Common.Audio
         }
         #endregion
 
-        #region BarHeightScaling
-        /// <summary>
-        /// Identifies the <see cref="BarHeightScaling" /> dependency property. 
-        /// </summary>
-        public static readonly DependencyProperty BarHeightScalingProperty = DependencyProperty.Register("BarHeightScaling", typeof(BarHeightScalingStyles), typeof(SpectrumAnalyzer), new UIPropertyMetadata(BarHeightScalingStyles.Decibel, OnBarHeightScalingChanged, OnCoerceBarHeightScaling));
-
-        private static object OnCoerceBarHeightScaling(DependencyObject o, object value)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null)
-                return spectrumAnalyzer.OnCoerceBarHeightScaling((BarHeightScalingStyles)value);
-            else
-                return value;
-        }
-
-        private static void OnBarHeightScalingChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null)
-                spectrumAnalyzer.OnBarHeightScalingChanged((BarHeightScalingStyles)e.OldValue, (BarHeightScalingStyles)e.NewValue);
-        }
-
-        /// <summary>
-        /// Coerces the value of <see cref="BarHeightScaling"/> when a new value is applied.
-        /// </summary>
-        /// <param name="value">The value that was set on <see cref="BarHeightScaling"/></param>
-        /// <returns>The adjusted value of <see cref="BarHeightScaling"/></returns>
-        protected virtual BarHeightScalingStyles OnCoerceBarHeightScaling(BarHeightScalingStyles value)
-        {
-            return value;
-        }
-
-        /// <summary>
-        /// Called after the <see cref="BarHeightScaling"/> value has changed.
-        /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="BarHeightScaling"/></param>
-        /// <param name="newValue">The new value of <see cref="BarHeightScaling"/></param>
-        protected virtual void OnBarHeightScalingChanged(BarHeightScalingStyles oldValue, BarHeightScalingStyles newValue)
-        {
-
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating to what scale the bar heights are drawn.
-        /// </summary>
-        [Category("Common")]
-        public BarHeightScalingStyles BarHeightScaling
-        {
-            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
-            get
-            {
-                return (BarHeightScalingStyles)GetValue(BarHeightScalingProperty);
-            }
-            set
-            {
-                SetValue(BarHeightScalingProperty, value);
-            }
-        }
-        #endregion
-
         #region AveragePeaks
         /// <summary>
         /// Identifies the <see cref="AveragePeaks" /> dependency property. 
@@ -1025,24 +965,11 @@ namespace Dopamine.Common.Audio
                 }
                 else // Draw the maximum value for the bar's band
                 {
-                    switch (BarHeightScaling)
-                    {
-                        case BarHeightScalingStyles.Decibel:
-                            double dbValue = 20 * Math.Log10((double)channelData[i]);
-                            fftBucketHeight = ((dbValue - minDBValue) / dbScale) * barHeightScale;
-                            break;
-                        case BarHeightScalingStyles.Linear:
-                            fftBucketHeight = (channelData[i] * scaleFactorLinear) * barHeightScale;
-                            break;
-                        case BarHeightScalingStyles.Sqrt:
-                            fftBucketHeight = (((Math.Sqrt((double)channelData[i])) * scaleFactorSqr) * barHeightScale);
-                            break;
-                    }
+                    double dbValue = 20 * Math.Log10((double)channelData[i]);
+                    fftBucketHeight = ((dbValue - minDBValue) / dbScale) * barHeightScale;
 
-                    if (barHeight < fftBucketHeight)
-                        barHeight = fftBucketHeight;
-                    if (barHeight < 0f)
-                        barHeight = 0f;
+                    if (barHeight < fftBucketHeight) barHeight = fftBucketHeight;
+                    if (barHeight < 0f) barHeight = 0f;
                 }
 
                 // If this is the last FFT bucket in the bar's group, draw the bar.
