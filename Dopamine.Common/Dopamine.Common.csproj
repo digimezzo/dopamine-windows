@@ -155,7 +155,6 @@
     <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
     <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
     <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />
-    <Compile Include="Audio\BarHeightScalingStyles.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\FFTDataSize.cs" />
