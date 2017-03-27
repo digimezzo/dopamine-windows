@@ -53,8 +53,8 @@ namespace Dopamine.SettingsModule.ViewModels
                 // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
-                    SettingsClient.Set<string>("Appearance", "ColorScheme", value.Name);
-                    Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), value.Name));
+                    SettingsClient.Set<string>("Appearance", "ColorScheme", value.AccentColor);
+                    Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), value.AccentColor));
                 }
 
                 SetProperty<ColorScheme>(ref this.selectedColorScheme, value);
