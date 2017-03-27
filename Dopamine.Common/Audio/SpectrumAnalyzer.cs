@@ -55,12 +55,11 @@ namespace Dopamine.Common.Audio
         private int minimumFrequencyIndex;
         private int[] barIndexMax;
         private int[] barLogScaleIndexMax;
-        private double peakDotHeight = 1.5; // Modification by Raphaël Godart
-        private double _BarWidth = 1; // Modification by Raphaël Godart
+        private double peakDotHeight = 1.5;
+
         #endregion
 
         #region Properties
-        // Modification by Raphaël Godart
         public double PeakDotHeight
         {
             get
@@ -73,16 +72,15 @@ namespace Dopamine.Common.Audio
             }
         }
 
-        // Modification by Raphaël Godart
         public double BarWidth
         {
             get
             {
-                return _BarWidth;
+                return this.barWidth;
             }
             set
             {
-                _BarWidth = value;
+                this.barWidth = value;
             }
         }
         #endregion
@@ -953,7 +951,6 @@ namespace Dopamine.Common.Audio
             double peakYPos = 0f;
             double height = spectrumCanvas.RenderSize.Height;
             int barIndex = 0;
-            //double peakDotHeight = Math.Max(barWidth / 2.0f, 1); // modification by Raphaël Godart
             double barHeightScale = (height - peakDotHeight);
 
             for (int i = minimumFrequencyIndex; i <= maximumFrequencyIndex; i++)
@@ -977,18 +974,20 @@ namespace Dopamine.Common.Audio
                 if (i == currentIndexMax)
                 {
                     // Peaks can't surpass the height of the control.
-                    if (barHeight > height)
-                        barHeight = height;
+                    if (barHeight > height) barHeight = height;
 
-                    if (AveragePeaks && barIndex > 0)
-                        barHeight = (lastPeakHeight + barHeight) / 2;
+                    if (AveragePeaks && barIndex > 0) barHeight = (lastPeakHeight + barHeight) / 2;
 
                     peakYPos = barHeight;
 
                     if (channelPeakData[barIndex] < peakYPos)
+                    {
                         channelPeakData[barIndex] = (float)peakYPos;
+                    }
                     else
+                    {
                         channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
+                    }
 
                     double xCoord = BarSpacing + (barWidth * barIndex) + (BarSpacing * barIndex) + 1;
 
@@ -997,8 +996,7 @@ namespace Dopamine.Common.Audio
                     peakShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - channelPeakData[barIndex] - peakDotHeight, 0, 0);
                     peakShapes[barIndex].Height = peakDotHeight;
 
-                    if (channelPeakData[barIndex] > 0.05)
-                        allZero = false;
+                    if (channelPeakData[barIndex] > 0.05) allZero = false;
 
                     lastPeakHeight = barHeight;
                     barHeight = 0f;
@@ -1006,14 +1004,12 @@ namespace Dopamine.Common.Audio
                 }
             }
 
-            if (allZero && !soundPlayer.IsPlaying)
-                animationTimer.Stop();
+            if (allZero && !soundPlayer.IsPlaying) animationTimer.Stop();
         }
 
         private void UpdateBarLayout()
         {
-            if (soundPlayer == null || spectrumCanvas == null)
-                return;
+            if (soundPlayer == null || spectrumCanvas == null) return;
 
             barWidth = Math.Max(((double)(spectrumCanvas.RenderSize.Width - (BarSpacing * (BarCount + 1))) / (double)BarCount), 1);
             maximumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
@@ -1021,10 +1017,16 @@ namespace Dopamine.Common.Audio
             bandWidth = Math.Max(((double)(maximumFrequencyIndex - minimumFrequencyIndex)) / spectrumCanvas.RenderSize.Width, 1.0);
 
             int actualBarCount;
+
             if (barWidth >= 1.0d)
+            {
                 actualBarCount = BarCount;
+            }
             else
+            {
                 actualBarCount = Math.Max((int)((spectrumCanvas.RenderSize.Width - BarSpacing) / (barWidth + BarSpacing)), 1);
+            }
+
             channelPeakData = new float[actualBarCount];
 
             int indexCount = maximumFrequencyIndex - minimumFrequencyIndex;
@@ -1032,12 +1034,14 @@ namespace Dopamine.Common.Audio
             List<int> maxIndexList = new List<int>();
             List<int> maxLogScaleIndexList = new List<int>();
             double maxLog = Math.Log(actualBarCount, actualBarCount);
+
             for (int i = 1; i < actualBarCount; i++)
             {
                 maxIndexList.Add(minimumFrequencyIndex + (i * linearIndexBucketSize));
                 int logIndex = (int)((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1))) * indexCount) + minimumFrequencyIndex;
                 maxLogScaleIndexList.Add(logIndex);
             }
+
             maxIndexList.Add(maximumFrequencyIndex);
             maxLogScaleIndexList.Add(maximumFrequencyIndex);
             barIndexMax = maxIndexList.ToArray();
@@ -1051,7 +1055,7 @@ namespace Dopamine.Common.Audio
             peakShapes.Clear();
 
             double height = spectrumCanvas.RenderSize.Height;
-            //double peakDotHeight = Math.Max(barWidth / 2.0f, 1); // modification by Raphaël Godart
+
             for (int i = 0; i < actualBarCount; i++)
             {
                 double xCoord = BarSpacing + (barWidth * i) + (BarSpacing * i) + 1;
@@ -1070,13 +1074,12 @@ namespace Dopamine.Common.Audio
                     Height = peakDotHeight,
                     Style = PeakStyle
                 };
+
                 peakShapes.Add(peakRectangle);
             }
 
-            foreach (Shape shape in barShapes)
-                spectrumCanvas.Children.Add(shape);
-            foreach (Shape shape in peakShapes)
-                spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in barShapes) spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in peakShapes) spectrumCanvas.Children.Add(shape);
 
             ActualBarWidth = barWidth;
         }
