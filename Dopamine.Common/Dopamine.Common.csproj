@@ -137,10 +137,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib, Version=0.4.6294.41400, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
@@ -159,13 +155,17 @@
     <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
     <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
     <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />
+    <Compile Include="Audio\BarHeightScalingStyles.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
+    <Compile Include="Audio\FFTDataSize.cs" />
     <Compile Include="Audio\IPlayer.cs" />
     <Compile Include="Audio\IPlayerFactory.cs" />
+    <Compile Include="Audio\ISpectrumPlayer.cs" />
     <Compile Include="Audio\NVorbisSource.cs" />
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
+    <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Base\Constants.cs" />
     <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />

@@ -91,10 +91,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib, Version=0.4.6294.41400, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dopamine\Libraries\WPFSoundVisualizationLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">

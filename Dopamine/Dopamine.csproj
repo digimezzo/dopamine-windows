@@ -138,10 +138,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSoundVisualizationLib, Version=0.4.6294.41400, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\WPFSoundVisualizationLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -394,7 +390,6 @@
     <Content Include="Libraries\NVorbis.dll" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />
     <Content Include="Libraries\WPFFolderBrowser.dll" />
-    <Content Include="Libraries\WPFSoundVisualizationLib.dll" />
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
