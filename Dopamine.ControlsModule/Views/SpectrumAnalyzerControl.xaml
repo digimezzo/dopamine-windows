@@ -26,9 +26,9 @@
 
     <Grid Visibility="{Binding ShowSpectrumAnalyzer,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Stretch" ClipToBounds="True">
         <StackPanel Opacity="0.65" Panel.ZIndex="1" Width="{x:Static base:Constants.SpectrumPanelWidth}" Margin="0,0,0,-1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Orientation="Horizontal">
-            <StackPanel.Effect>
+            <!--<StackPanel.Effect>
                 <BlurEffect Radius="20"/>
-            </StackPanel.Effect>
+            </StackPanel.Effect>-->
             <dca:SpectrumAnalyzer 
                 x:Name="LeftSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 

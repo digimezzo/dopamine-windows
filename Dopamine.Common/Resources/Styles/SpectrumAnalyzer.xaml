@@ -15,14 +15,6 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="PeakStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type Rectangle}">
-                    <Setter Property="Fill"
-                            Value="{DynamicResource RG_ForegroundBrush}" />
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dca:SpectrumAnalyzer}">
