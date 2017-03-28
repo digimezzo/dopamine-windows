@@ -191,7 +191,6 @@
             <File Source="taglib-sharp.dll" />
             <File Source="Unity.Wcf.dll" />
             <File Source="WPFFolderBrowser.dll" />
-            <File Source="WPFSoundVisualizationLib.dll" />
             <!-- Registry -->
             <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine">
               <RegistryValue Type="string" Value="Play with Dopamine"/>
