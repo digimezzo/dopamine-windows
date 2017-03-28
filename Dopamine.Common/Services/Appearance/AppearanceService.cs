@@ -278,7 +278,7 @@ namespace Dopamine.Common.Services.Appearance
             return this.colorSchemes;
         }
 
-        public ColorScheme GetColorScheme(string iName)
+        public ColorScheme GetColorScheme(string iAccentColor)
         {
 
             // Set the default theme in case the theme is not found by using the For loop
@@ -286,7 +286,7 @@ namespace Dopamine.Common.Services.Appearance
 
             foreach (ColorScheme item in this.colorSchemes)
             {
-                if (item.Name == iName)
+                if (item.AccentColor == iAccentColor)
                 {
                     returnVal = item;
                 }
