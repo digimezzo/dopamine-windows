@@ -357,10 +357,7 @@ namespace Dopamine.Common.Audio
                             // Do nothing
                             break;
                         case SpectrumAnimationStyle.Gentle:
-                            for (int j = 0; j < this.channelData.Length; i++)
-                            {
-                                this.channelData[i] -= 0.003f;
-                            }
+                            this.channelData[i] -= 0.003f;
                             break;
                         default:
                             break;
