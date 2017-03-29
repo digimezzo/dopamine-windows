@@ -56,8 +56,6 @@ namespace Dopamine.Common.Audio
         private int peakFallDelay = 10;
         #endregion
 
-        public static List<SpectrumAnalyzer> list = new List<SpectrumAnalyzer>();
-
         #region Dependency Properties
         #region BarWidth
         public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0, OnBarWidthChanged, OnCoerceBarWidth));
@@ -262,7 +260,6 @@ namespace Dopamine.Common.Audio
             };
 
             this.animationTimer.Tick += animationTimer_Tick;
-            list.Add(this);
         }
         #endregion
 
