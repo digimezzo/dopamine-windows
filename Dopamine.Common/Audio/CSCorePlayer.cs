@@ -410,9 +410,10 @@ namespace Dopamine.Common.Audio
         public class WrapperSpectrumPlayer : ISpectrumPlayer
         {
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
             public CSCorePlayer player;
-            private FftProvider fftProvider;
-            private ISoundOut soundOut;
+            private readonly FftProvider fftProvider;
+            private readonly ISoundOut soundOut;
 
             public bool IsPlaying => this.player.isPlaying;
 
@@ -420,7 +421,9 @@ namespace Dopamine.Common.Audio
                 ICollection<EventHandler<SingleBlockReadEventArgs>> inputStreamList)
             {
                 this.player = player;
+                this.player.PropertyChanged += (_, __) => PropertyChanged(_, __);
                 this.soundOut = player.soundOut;
+
                 fftProvider = new FftProvider(2, FftSize.Fft1024);
                 if (channel != SpectrumPlayerChannel.Stereo)
                 {
@@ -463,6 +466,7 @@ namespace Dopamine.Common.Audio
                 {
                 }
             }
+
             private void InputStream_RightSample(object sender, SingleBlockReadEventArgs e)
             {
                 try
@@ -473,6 +477,7 @@ namespace Dopamine.Common.Audio
                 {
                 }
             }
+
             public bool GetFFTData(ref float[] fftDataBuffer)
             {
                 var result = this.fftProvider.GetFftData(fftDataBuffer);
@@ -482,6 +487,7 @@ namespace Dopamine.Common.Audio
                 }
                 return result;
             }
+
             public int GetFFTFrequencyIndex(int frequency)
             {
                 try
