@@ -18,7 +18,7 @@
     <DockPanel>
         <Grid DockPanel.Dock="Bottom">
             <controlsmoduleviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{x:Static base:Constants.SpectrumAnalyzerControlWidth}" Height="{x:Static base:Constants.SpectrumPanelHeight}" />
+            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
         </Grid>
         <controls:TransitioningContentControl Margin="0,0,0,10" Foreground="{DynamicResource RG_ForegroundBrush}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionRegion}"/>
     </DockPanel>

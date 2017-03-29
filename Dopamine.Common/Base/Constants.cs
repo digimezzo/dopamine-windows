@@ -73,16 +73,6 @@
         public static readonly double FadeOutTimeoutSeconds = 0.2;
         public static readonly double FadeInTimeoutSeconds = 0.8;
 
-        // SpectrumAnalyzer 
-        public const int SpectrumRefreshIntervalMilliseconds = 25;
-        public const int SpectrumBarCount = 74;
-        public const double SpectrumWidth = 275;
-        public const double SpectrumBarWidth = 4;
-        public const double SpectrumBarSpacing = 0;
-        public const double SpectrumPanelWidth = 2 * SpectrumWidth;
-        public const double SpectrumPanelHeight = 60;
-        public const double SpectrumAnalyzerControlWidth = SpectrumPanelWidth + 50;
-
         // Delays
         public static readonly int ClosingFadeOutDelay = 500;
         public static readonly int ArtworkLoadDelay = 150;

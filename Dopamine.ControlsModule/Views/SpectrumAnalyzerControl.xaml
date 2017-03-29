@@ -25,19 +25,18 @@
     </UserControl.Resources>
 
     <Grid Visibility="{Binding ShowSpectrumAnalyzer,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Stretch" ClipToBounds="True">
-        <StackPanel Opacity="0.65" Panel.ZIndex="1" Width="{x:Static base:Constants.SpectrumPanelWidth}" Margin="0,0,0,-1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Opacity="0.65" Panel.ZIndex="1" Width="{Binding SpectrumPanelWidth}" Height="{Binding SpectrumPanelHeight}" Margin="0,0,0,-1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Orientation="Horizontal">
             <StackPanel.Effect>
-                <BlurEffect Radius="20"/>
+                <BlurEffect Radius="{Binding BlurRadius}"/>
             </StackPanel.Effect>
             <dca:SpectrumAnalyzer 
                 x:Name="LeftSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
-                Width="{x:Static base:Constants.SpectrumWidth}" 
-                BarSpacing="{x:Static base:Constants.SpectrumBarSpacing}" 
-                BarWidth="{x:Static base:Constants.SpectrumBarWidth}" 
+                Width="{Binding SpectrumWidth}" 
+                BarSpacing="{Binding SpectrumBarSpacing}" 
+                BarWidth="{Binding SpectrumBarWidth}" 
                 Margin="0,0,-1,0" 
-                BarCount="{x:Static base:Constants.SpectrumBarCount}"
-                RefreshInterval="{x:Static base:Constants.SpectrumRefreshIntervalMilliseconds}"
+                BarCount="{Binding SpectrumBarCount}"
                 RenderTransformOrigin="0.5,0.5">
                 <dca:SpectrumAnalyzer.RenderTransform>
                     <ScaleTransform ScaleX="-1"/>
@@ -46,14 +45,13 @@
             <dca:SpectrumAnalyzer 
                 x:Name="RightSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
-                Width="{x:Static base:Constants.SpectrumWidth}" 
-                BarSpacing="{x:Static base:Constants.SpectrumBarSpacing}" 
-                BarWidth="{x:Static base:Constants.SpectrumBarWidth}" 
-                Margin="-1,0,0,0" 
-                BarCount="{x:Static base:Constants.SpectrumBarCount}" 
-                RefreshInterval="{x:Static base:Constants.SpectrumRefreshIntervalMilliseconds}"/>
+                Width="{Binding SpectrumWidth}" 
+                BarSpacing="{Binding SpectrumBarSpacing}" 
+                BarWidth="{Binding SpectrumBarWidth}" 
+                Margin="-3,0,0,0" 
+                BarCount="{Binding SpectrumBarCount}" />
         </StackPanel>
-        <Ellipse Panel.ZIndex="0" Opacity="0" Width="{x:Static base:Constants.SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource RG_SpectrumGradientBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <Ellipse Panel.ZIndex="0" Opacity="0" Width="{Binding SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource RG_SpectrumGradientBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Ellipse.Style>
                 <Style>
                     <Style.Triggers>
