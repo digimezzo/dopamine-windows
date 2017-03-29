@@ -44,7 +44,7 @@ namespace Dopamine.Common.Audio
         private ISpectrumPlayer soundPlayer;
         private readonly List<Shape> barShapes = new List<Shape>();
         private double[] barHeights;
-        private float[] channelData = new float[2048];
+        private float[] channelData = new float[1024];
         private float[] channelPeakData;
         private double bandWidth = 1.0;
         private int maximumFrequency = 20000;
@@ -368,7 +368,9 @@ namespace Dopamine.Common.Audio
                 }
             }
 
-            if (allZero && !this.soundPlayer.IsPlaying) this.animationTimer.Stop();
+            if (!allZero || this.soundPlayer.IsPlaying)
+                return;
+            this.animationTimer.Stop();
         }
 
         private void UpdateBarLayout()
