@@ -85,7 +85,7 @@
             <Grid>
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
-                    <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
                     <controlsModuleViews:NowPlayingPlaybackControls>
                         <controlsModuleViews:NowPlayingPlaybackControls.Style>
                             <Style>

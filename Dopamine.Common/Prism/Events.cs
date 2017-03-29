@@ -1,4 +1,5 @@
 ﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Enums;
 using Prism.Events;
 
 namespace Dopamine.Common.Prism
@@ -44,6 +45,10 @@ namespace Dopamine.Common.Prism
     }
 
     public class SettingShowRemoveFromDiskChanged : PubSubEvent<bool>
+    {
+    }
+
+    public class SettingSpectrumStyleChanged : PubSubEvent<SpectrumStyle>
     {
     }
 

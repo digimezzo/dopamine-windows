@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>82</Value>
+      <Value>83</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -192,6 +192,9 @@
     </Setting>
     <Setting Name="ShowSpectrumAnalyzer">
       <Value>True</Value>
+    </Setting>
+    <Setting Name="SpectrumStyle">
+      <Value>1</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">

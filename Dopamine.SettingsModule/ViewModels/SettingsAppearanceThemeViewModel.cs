@@ -13,7 +13,6 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Variables
         private IAppearanceService appearanceService;
         private ObservableCollection<string> themes = new ObservableCollection<string>();
-        private string selectedTheme;
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
         private ColorScheme selectedColorScheme;
         private bool checkBoxWindowsColorChecked;
