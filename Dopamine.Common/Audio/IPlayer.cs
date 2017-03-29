@@ -28,7 +28,7 @@ namespace Dopamine.Common.Audio
         void Dispose();
         void ApplyFilterValue(int index, double value);
         void ApplyFilter(double[] filterValues);
-        ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumPlayerChannel channel);
+        ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel);
         #endregion
 
         #region Events

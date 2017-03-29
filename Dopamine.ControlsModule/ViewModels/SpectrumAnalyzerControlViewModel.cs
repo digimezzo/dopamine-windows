@@ -1,4 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Prism.Mvvm;
 
@@ -10,12 +12,14 @@ namespace Dopamine.ControlsModule.ViewModels
         private IPlaybackService playbackService;
         private bool showSpectrumAnalyzer;
         private bool isPlaying;
-        private double blurRadius = 20;
-        private int spectrumBarCount = 74;
-        private double spectrumWidth = 275;
-        private double spectrumBarWidth = 4;
-        private double spectrumBarSpacing = 0;
-        private double spectrumPanelHeight = 60;
+        private double blurRadius;
+        private int spectrumBarCount;
+        private double spectrumWidth ;
+        private double spectrumBarWidth;
+        private double spectrumBarSpacing;
+        private double spectrumPanelHeight;
+        private double spectrumOpacity;
+        private SpectrumAnimationStyle animationStyle;
         #endregion
 
         #region Properties
@@ -74,6 +78,18 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.spectrumPanelHeight; }
             set { SetProperty<double>(ref this.spectrumPanelHeight, value); }
         }
+
+        public double SpectrumOpacity
+        {
+            get { return this.spectrumOpacity; }
+            set { SetProperty<double>(ref this.spectrumOpacity, value); }
+        }
+
+        public SpectrumAnimationStyle AnimationStyle
+        {
+            get { return this.animationStyle; }
+            set { SetProperty<SpectrumAnimationStyle>(ref this.animationStyle, value); }
+        }
         #endregion
 
         #region Construction
@@ -99,6 +115,41 @@ namespace Dopamine.ControlsModule.ViewModels
             else
             {
                 this.IsPlaying = false;
+            }
+
+            // Default spectrum
+            this.SetSpectrumStyle(SpectrumStyle.Dopamine);
+        }
+        #endregion
+
+        #region Private
+        private void SetSpectrumStyle(SpectrumStyle style)
+        {
+            switch (style)
+            {
+                case SpectrumStyle.Dopamine:
+                    this.BlurRadius = 0;
+                    this.SpectrumBarCount = 45;
+                    this.SpectrumWidth = 175;
+                    this.SpectrumBarWidth = 1;
+                    this.SpectrumBarSpacing = 2;
+                    this.SpectrumPanelHeight = 20;
+                    this.SpectrumOpacity = 1.0;
+                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+                    break;
+                case SpectrumStyle.Zune:
+                    this.BlurRadius = 20;
+                    this.SpectrumBarCount = 74;
+                    this.SpectrumWidth = 275;
+                    this.SpectrumBarWidth = 4;
+                    this.SpectrumBarSpacing = 0;
+                    this.SpectrumPanelHeight = 60;
+                    this.SpectrumOpacity = 0.65;
+                    this.AnimationStyle = SpectrumAnimationStyle.Gentle;
+                    break;
+                default:
+                    // Shouldn't happen
+                    break;
             }
         }
         #endregion

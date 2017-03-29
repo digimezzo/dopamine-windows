@@ -402,7 +402,7 @@ namespace Dopamine.Common.Audio
             }
         }
 
-        public ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumPlayerChannel channel)
+        public ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel)
         {
             return new WrapperSpectrumPlayer(instance, channel, inputStreamList);
         }
@@ -417,7 +417,7 @@ namespace Dopamine.Common.Audio
 
             public bool IsPlaying => this.player.isPlaying;
 
-            public WrapperSpectrumPlayer(CSCorePlayer player, SpectrumPlayerChannel channel,
+            public WrapperSpectrumPlayer(CSCorePlayer player, SpectrumChannel channel,
                 ICollection<EventHandler<SingleBlockReadEventArgs>> inputStreamList)
             {
                 this.player = player;
@@ -425,14 +425,14 @@ namespace Dopamine.Common.Audio
                 this.soundOut = player.soundOut;
 
                 fftProvider = new FftProvider(2, FftSize.Fft1024);
-                if (channel != SpectrumPlayerChannel.Stereo)
+                if (channel != SpectrumChannel.Stereo)
                 {
-                    if (channel == SpectrumPlayerChannel.Left)
+                    if (channel == SpectrumChannel.Left)
                     {
                         this.player.notificationSource.SingleBlockRead += InputStream_LeftSample;
                         inputStreamList.Add(InputStream_LeftSample);
                     }
-                    if (channel == SpectrumPlayerChannel.Right)
+                    if (channel == SpectrumChannel.Right)
                     {
                         this.player.notificationSource.SingleBlockRead += InputStream_RightSample;
                         inputStreamList.Add(InputStream_RightSample);
