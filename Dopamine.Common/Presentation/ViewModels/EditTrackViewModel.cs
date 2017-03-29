@@ -248,7 +248,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.ExportArtworkCommand = new DelegateCommand(async () =>
             {
                 if (HasArtwork)
-                    await SaveFileUtils.SaveImageFileAsync(this.Artwork.Value);
+                    await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
             });
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>

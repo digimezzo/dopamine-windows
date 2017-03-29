@@ -389,5 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Είστε σίγουρος για την αφαίρεση αυτού των τραγουδιών από τη λίστα '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Save_As">Save As...</Text>
+  <Text Key="Spectrum_Style">Spectrum style</Text>
 </Language>

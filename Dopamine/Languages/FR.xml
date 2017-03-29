@@ -389,5 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Voulez-vous vraiment supprimer ces morceaux de la playlist '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Save_As">Enregistrer sous...</Text>
+  <Text Key="Spectrum_Style">Style de spectre</Text>
 </Language>

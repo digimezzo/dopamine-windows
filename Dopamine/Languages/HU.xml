@@ -189,8 +189,8 @@
   <Text Key="Close_Notification_Automatically_After">Close the notification automatically after</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!</Text>
   <Text Key="Save">Save</Text>
-  <Text Key="Error_Saving_Playlists">An error occured while saving the playlists. Please consult the log file for more information.</Text>
-  <Text Key="Error_Saving_Playlist">An error occured while saving the playlist. Please consult the log file for more information.</Text>
+  <Text Key="Error_Saving_Playlists">An error occurred while saving the playlists. Please consult the log file for more information.</Text>
+  <Text Key="Error_Saving_Playlist">An error occurred while saving the playlist. Please consult the log file for more information.</Text>
   <Text Key="Download_Latest_Version">Download the latest version</Text>
   <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">By album artist</Text>
@@ -212,7 +212,7 @@
   <Text Key="Added_Track_To_Playlist">Added %numberoftracks% song to '%playlistname%'</Text>
   <Text Key="Added_Tracks_To_Playlist">Added %numberoftracks% songs to '%playlistname%'</Text>
   <Text Key="All_Genres">All genres</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">An error occured while adding genres to the playlist %playlistname%. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">An error occurred while adding genres to the playlist %playlistname%. Please consult the log file for more information.</Text>
   <Text Key="Border">Border</Text>
   <Text Key="Show_Window_Border">Show a border of 1 px around the window</Text>
   <Text Key="System_Tray">Notification area</Text>
@@ -279,14 +279,14 @@
   <Text Key="Refreshing_Collection">Refreshing your collection</Text>
   <Text Key="Nothing_Is_Playing">Nothing is playing</Text>
   <Text Key="Remove_From_Now_Playing">Remove from now playing</Text>
-  <Text Key="Error_Removing_From_Now_Playing">An error occured while removing songs from now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Removing_From_Now_Playing">An error occurred while removing songs from now playing. Please consult the log file for more information.</Text>
   <Text Key="Added_Track_To_Now_Playing">Added %numberoftracks% song to now playing</Text>
   <Text Key="Added_Tracks_To_Now_Playing">Added %numberoftracks% songs to now playing</Text>
-  <Text Key="Error_Adding_Songs_To_Now_Playing">An error occured while adding songs to now playing. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Albums_To_Now_Playing">An error occured while adding albums to now playing. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Artists_To_Now_Playing">An error occured while adding artists to now playing. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Genres_To_Now_Playing">An error occured while adding genres to now playing. Please consult the log file for more information.</Text>
-  <Text Key="Error_Adding_Playlists_To_Now_Playing">An error occured while adding playlists to now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Songs_To_Now_Playing">An error occurred while adding songs to now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Albums_To_Now_Playing">An error occurred while adding albums to now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Artists_To_Now_Playing">An error occurred while adding artists to now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Genres_To_Now_Playing">An error occurred while adding genres to now playing. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Playlists_To_Now_Playing">An error occurred while adding playlists to now playing. Please consult the log file for more information.</Text>
   <Text Key="Play_All">Play all</Text>
   <Text Key="Shuffle_All">Shuffle all</Text>
   <Text Key="See_You_Later">See you later!</Text>
@@ -378,7 +378,7 @@
   <Text Key="Remove_From_Disk">Remove from disk</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
-  <Text Key="Error_Removing_Songs_From_Disk">An error occured while removing songs from the disk. Please consult the log file for more information.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">An error occurred while removing songs from the disk. Please consult the log file for more information.</Text>
   <Text Key="About_Donated_People">To the people who donated.</Text>
   <Text Key="About_Translators">To the translators.</Text>
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
@@ -389,5 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Are you sure you want to remove these songs from playlist '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Save_As">Save As...</Text>
+  <Text Key="Spectrum_Style">Spectrum style</Text>
 </Language>

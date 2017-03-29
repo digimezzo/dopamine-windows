@@ -389,5 +389,5 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Bu şarkıları '%playlistname%' adlı çalma listesinden kaldırmak istediğine emin misin?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Save_As">Farklı Kaydet...</Text>
+  <Text Key="Spectrum_Style">Spectrum style</Text>
 </Language>
