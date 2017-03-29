@@ -29,6 +29,12 @@ using System.Windows.Threading;
 
 namespace Dopamine.Common.Audio
 {
+    public enum SpectrumAnimationStyle
+    {
+        Nervous = 1,
+        Gentle
+    }
+
     public class SpectrumAnalyzer : Control
     {
         #region Constants
@@ -57,6 +63,22 @@ namespace Dopamine.Common.Audio
         #endregion
 
         #region Dependency Properties
+        #region AnimationStyle
+        public static readonly DependencyProperty AnimationStyleProperty = DependencyProperty.Register("AnimationStyle", typeof(SpectrumAnimationStyle), typeof(SpectrumAnalyzer), new PropertyMetadata(SpectrumAnimationStyle.Nervous, null));
+
+        public SpectrumAnimationStyle AnimationStyle
+        {
+            get
+            {
+                return (SpectrumAnimationStyle)GetValue(AnimationStyleProperty);
+            }
+            set
+            {
+                SetValue(AnimationStyleProperty, value);
+            }
+        }
+        #endregion
+
         #region BarWidth
         public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0, OnBarWidthChanged, OnCoerceBarWidth));
 
@@ -355,10 +377,19 @@ namespace Dopamine.Common.Audio
 
                     double xCoord = this.BarSpacing + (this.BarWidth * barIndex) + (this.BarSpacing * barIndex) + 1;
 
-                    //this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                    //this.barShapes[barIndex].Height = barHeight;
-                    this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - this.channelPeakData[barIndex], 0, 0);
-                    this.barShapes[barIndex].Height = this.channelPeakData[barIndex];
+                    switch (this.AnimationStyle)
+                    {
+                        case SpectrumAnimationStyle.Nervous:
+                            this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                            this.barShapes[barIndex].Height = barHeight;
+                            break;
+                        case SpectrumAnimationStyle.Gentle:
+                            this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - this.channelPeakData[barIndex], 0, 0);
+                            this.barShapes[barIndex].Height = this.channelPeakData[barIndex];
+                            break;
+                        default:
+                            break;
+                    }
 
                     if (this.channelPeakData[barIndex] > 0.05) allZero = false;
 
@@ -377,7 +408,6 @@ namespace Dopamine.Common.Audio
         {
             if (this.soundPlayer == null || this.spectrumCanvas == null) return;
 
-            this.BarWidth = Math.Max(((double)(this.spectrumCanvas.RenderSize.Width - (this.BarSpacing * (this.BarCount + 1))) / (double)this.BarCount), 1);
             this.maximumFrequencyIndex = Math.Min(this.soundPlayer.GetFFTFrequencyIndex(this.maximumFrequency) + 1, 2047);
             this.minimumFrequencyIndex = Math.Min(this.soundPlayer.GetFFTFrequencyIndex(this.minimumFrequency), 2047);
             this.bandWidth = Math.Max(((double)(this.maximumFrequencyIndex - this.minimumFrequencyIndex)) / this.spectrumCanvas.RenderSize.Width, 1.0);

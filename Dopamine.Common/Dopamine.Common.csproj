@@ -228,7 +228,7 @@
     <Compile Include="Database\Utils.cs" />
     <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
-    <Compile Include="Enums\SpectrumPlayerEnums.cs" />
+    <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />
