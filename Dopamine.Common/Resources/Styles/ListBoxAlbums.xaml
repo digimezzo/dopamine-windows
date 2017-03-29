@@ -158,7 +158,7 @@
                                         </Viewbox>
                                     </controls:Tile.Content>
                                 </controls:Tile>
-                                <Image Panel.ZIndex="1" 
+                                <controls:SourceChangedImage Panel.ZIndex="1" 
                                    Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                    Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                    RenderOptions.BitmapScalingMode="LowQuality">
@@ -168,7 +168,16 @@
                                             <Binding Path="DataContext.UpscaledCoverSize" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
                                         </MultiBinding>
                                     </Image.Source>
-                                </Image>
+                                    <Image.Triggers>
+                                        <EventTrigger RoutedEvent="controls:SourceChangedImage.SourceChanged">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Image.Triggers>
+                                </controls:SourceChangedImage>
                             </Grid>
                             <StackPanel Panel.ZIndex="1" Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
                                 <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">

@@ -173,6 +173,7 @@
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
+    <Compile Include="Controls\SourceChangedImage.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
     <Compile Include="Controls\DataGridEx.cs" />
