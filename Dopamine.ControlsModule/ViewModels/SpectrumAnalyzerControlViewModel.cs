@@ -118,7 +118,7 @@ namespace Dopamine.ControlsModule.ViewModels
             }
 
             // Default spectrum
-            this.SetSpectrumStyle(SpectrumStyle.Dopamine);
+            this.SetSpectrumStyle(SpectrumStyle.Zune);
         }
         #endregion
 
