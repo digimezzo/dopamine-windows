@@ -480,12 +480,7 @@ namespace Dopamine.Common.Audio
 
             public bool GetFFTData(ref float[] fftDataBuffer)
             {
-                var result = this.fftProvider.GetFftData(fftDataBuffer);
-                for (int i = 0; i < fftDataBuffer.Length; i++)
-                {
-                    fftDataBuffer[i] -= 0.003f;
-                }
-                return result;
+                return this.fftProvider.GetFftData(fftDataBuffer);
             }
 
             public int GetFFTFrequencyIndex(int frequency)

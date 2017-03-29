@@ -351,7 +351,23 @@ namespace Dopamine.Common.Audio
                 }
                 else // Draw the maximum value for the bar's band
                 {
-                    double dbValue = 20 * Math.Log10((double)channelData[i]);
+                    switch (this.AnimationStyle)
+                    {
+                        case SpectrumAnimationStyle.Nervous:
+                            // Do nothing
+                            break;
+                        case SpectrumAnimationStyle.Gentle:
+                            for (int j = 0; j < this.channelData.Length; i++)
+                            {
+                                this.channelData[i] -= 0.003f;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    double dbValue = 20 * Math.Log10((double)this.channelData[i]);
+
                     fftBucketHeight = ((dbValue - minDBValue) / dbScale) * height;
 
                     if (barHeight < fftBucketHeight) barHeight = fftBucketHeight;

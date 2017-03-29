@@ -133,7 +133,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumWidth = 175;
                     this.SpectrumBarWidth = 1;
                     this.SpectrumBarSpacing = 2;
-                    this.SpectrumPanelHeight = 20;
+                    this.SpectrumPanelHeight = 25;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
                     break;
