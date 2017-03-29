@@ -15,7 +15,7 @@ namespace Dopamine.CollectionModule.Views
         #endregion
 
         #region Private
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void AlignSpectrumAnalyzer()
         {
             // This makes sure the spectrum analyzer is centered on the screen, based on the left pixel.
             // When we align center, alignment is sometimes (depending on the width of the screen) done
@@ -29,6 +29,16 @@ namespace Dopamine.CollectionModule.Views
                 // Swallow this exception
             }
         }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.AlignSpectrumAnalyzer();
+        }
         #endregion
+
+        private void SpectrumAnalyzer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.AlignSpectrumAnalyzer();
+        }
     }
 }

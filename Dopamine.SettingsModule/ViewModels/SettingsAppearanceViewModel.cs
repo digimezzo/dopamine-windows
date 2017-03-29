@@ -7,6 +7,10 @@ using Prism.Events;
 using Prism.Mvvm;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections.ObjectModel;
+using Dopamine.Common.Enums;
+using Digimezzo.Utilities.Helpers;
+using System.Linq;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -18,22 +22,12 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxCheckBoxShowWindowBorderChecked;
         private bool checkBoxEnableTransparencyChecked;
         private IEventAggregator eventAggregator;
-        #endregion
-
-        #region Construction
-        public SettingsAppearanceViewModel(IPlaybackService playbackService, IEventAggregator eventAggregator)
-        {
-            this.playbackService = playbackService;
-            this.eventAggregator = eventAggregator;
-
-            this.ColorSchemesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
-
-            this.GetCheckBoxesAsync();
-        }
+        private ObservableCollection<NameValue> spectrumStyles;
+        private NameValue selectedSpectrumStyle;
         #endregion
 
         #region Properties
-        public string ColorSchemesDirectory { get; set; } 
+        public string ColorSchemesDirectory { get; set; }
 
         public bool CheckBoxCheckBoxShowWindowBorderChecked
         {
@@ -71,6 +65,36 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             get { return EnvironmentUtils.IsWindows10(); }
         }
+
+        public ObservableCollection<NameValue> SpectrumStyles
+        {
+            get { return this.spectrumStyles; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.spectrumStyles, value); }
+        }
+
+        public NameValue SelectedSpectrumStyle
+        {
+            get { return this.selectedSpectrumStyle; }
+            set
+            {
+                SetProperty<NameValue>(ref this.selectedSpectrumStyle, value);
+                SettingsClient.Set<int>("Playback", "SpectrumStyle", value.Value);
+                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingSpectrumStyleChanged>().Publish((SpectrumStyle)value.Value));
+            }
+        }
+        #endregion
+
+        #region Construction
+        public SettingsAppearanceViewModel(IPlaybackService playbackService, IEventAggregator eventAggregator)
+        {
+            this.playbackService = playbackService;
+            this.eventAggregator = eventAggregator;
+
+            this.ColorSchemesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
+
+            this.GetCheckBoxesAsync();
+            this.GetSpectrumStylesAsync();
+        }
         #endregion
 
         #region Private
@@ -82,6 +106,23 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxCheckBoxShowWindowBorderChecked = SettingsClient.Get<bool>("Appearance", "ShowWindowBorder");
                 this.CheckBoxEnableTransparencyChecked = SettingsClient.Get<bool>("Appearance", "EnableTransparency");
             });
+        }
+
+        private async void GetSpectrumStylesAsync()
+        {
+            var localSpectrumStyles = new ObservableCollection<NameValue>();
+
+            await Task.Run(() =>
+            {
+                localSpectrumStyles.Add(new NameValue { Name = "Dopamine", Value = 1 });
+                localSpectrumStyles.Add(new NameValue { Name = "Zune", Value = 2 });
+            });
+
+            this.SpectrumStyles = localSpectrumStyles;
+
+            NameValue localSelectedSpectrumStyle = null;
+            await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
+            this.SelectedSpectrumStyle = localSelectedSpectrumStyle;
         }
         #endregion
     }

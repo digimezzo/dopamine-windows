@@ -79,7 +79,7 @@ namespace Dopamine.FullPlayerModule.Views
             SetNowPlaying(true);
         }
 
-        private void NowPlaying_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void AlignSpectrumAnalyzer()
         {
             // This makes sure the spectrum analyzer is centered on the screen, based on the left pixel.
             // When we align center, alignment is sometimes (depending on the width of the screen) done
@@ -94,18 +94,28 @@ namespace Dopamine.FullPlayerModule.Views
             }
         }
 
+        private void NowPlaying_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.AlignSpectrumAnalyzer();
+        }
+
+        private void SpectrumAnalyzer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.AlignSpectrumAnalyzer();
+        }
+
         private async void NowPlaying_Loaded(object sender, RoutedEventArgs e)
         {
             // Duration is set after 1/2 second so the now playing info screen doesn't 
             // slide in from the left the first time the now playing screen is loaded.
             // Slide in from left combined with slide in from bottom for the cover picture,
-            // gives as combined effect a slide in from bottomleft for the cover picture.
+            // gives as combined effect a slide in from bottom left for the cover picture.
             // That doesn't look so good.
             await Task.Delay(500);
             this.NowPlayingContentRegion.SlideDuration = Constants.SlideTimeoutSeconds;
             this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds;
             this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds;
         }
-        #endregion
+        #endregion  
     }
 }

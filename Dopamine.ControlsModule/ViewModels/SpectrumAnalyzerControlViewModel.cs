@@ -1,7 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
+using Prism.Events;
 using Prism.Mvvm;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -10,6 +12,7 @@ namespace Dopamine.ControlsModule.ViewModels
     {
         #region Variables
         private IPlaybackService playbackService;
+        private IEventAggregator eventAggregator;
         private bool showSpectrumAnalyzer;
         private bool isPlaying;
         private double blurRadius;
@@ -93,9 +96,10 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService)
+        public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IEventAggregator eventAggregator)
         {
             this.playbackService = playbackService;
+            this.eventAggregator = eventAggregator;
 
             this.playbackService.SpectrumVisibilityChanged += isSpectrumVisible => this.ShowSpectrumAnalyzer = isSpectrumVisible;
 
@@ -104,6 +108,8 @@ namespace Dopamine.ControlsModule.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
             this.playbackService.PlaybackSuccess += (_) => this.IsPlaying = true;
+
+            this.eventAggregator.GetEvent<SettingSpectrumStyleChanged>().Subscribe((spectrumStyle) => this.SetSpectrumStyle(spectrumStyle));
 
             this.ShowSpectrumAnalyzer = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
@@ -115,10 +121,10 @@ namespace Dopamine.ControlsModule.ViewModels
             else
             {
                 this.IsPlaying = false;
-            }
+            }   
 
             // Default spectrum
-            this.SetSpectrumStyle(SpectrumStyle.Zune);
+            this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
         }
         #endregion
 
