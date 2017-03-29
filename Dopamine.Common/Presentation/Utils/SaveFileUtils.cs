@@ -9,21 +9,20 @@ namespace Dopamine.Common.Presentation.Utils
 {
     public class SaveFileUtils
     {
-        public static async Task<bool> SaveImageFileAsync(byte[] data)
+        public static async Task<bool> SaveImageFileAsync(string filename, byte[] data)
         {
-            return await SaveImageFileAsync(data, 0, 0, 100L);
+            return await SaveImageFileAsync(filename, data, 0, 0, 100L);
         }
 
-        public static async Task<bool> SaveImageFileAsync(byte[] data, int width, int height, long qualityPercent)
+        public static async Task<bool> SaveImageFileAsync(string filename, byte[] data, int width, int height, long qualityPercent)
         {
             bool isSaveSuccess = true;
 
             var dlg = new Microsoft.Win32.SaveFileDialog
             {
-                Title = ResourceUtils.GetStringResource("Language_Save_As"),
                 Filter = "PNG|*.png|JPEG|*.jpg|BMP|*.bmp",
                 AddExtension = true,
-                FileName = "cover",
+                FileName = filename,
                 OverwritePrompt = true
             };
 

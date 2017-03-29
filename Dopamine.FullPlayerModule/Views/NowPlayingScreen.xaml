@@ -28,19 +28,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <!--<UserControl.Resources>
-        <Storyboard x:Key="Taller">
-            <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="Height" BeginTime="0:0:1" From="20" To="40" Duration="0:0:0.5" />
-            </Storyboard>
-        </Storyboard>
-        <Storyboard x:Key="Shorter">
-            <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="Height" BeginTime="0:0:0" From="40" To="20" Duration="0:0:0.15" />
-            </Storyboard>
-        </Storyboard>
-    </UserControl.Resources>-->
-
     <Grid>
         <commonviews:BackgroundCoverArtControl Panel.ZIndex="0"/>
         <DockPanel Panel.ZIndex="1">
@@ -98,22 +85,7 @@
             <Grid>
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
-                    <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{x:Static base:Constants.SpectrumAnalyzerControlWidth}" Height="{x:Static base:Constants.SpectrumPanelHeight}">
-                        <!--<controlsModuleViews:SpectrumAnalyzerControl.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlayingScreenName}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard ="{StaticResource Shorter}"/>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard Storyboard ="{StaticResource Taller}"/>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsModuleViews:SpectrumAnalyzerControl.Style>-->
-                    </controlsModuleViews:SpectrumAnalyzerControl>
+                    <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="{x:Static base:Constants.SpectrumAnalyzerControlWidth}" Height="{x:Static base:Constants.SpectrumPanelHeight}"/>
                     <controlsModuleViews:NowPlayingPlaybackControls>
                         <controlsModuleViews:NowPlayingPlaybackControls.Style>
                             <Style>
