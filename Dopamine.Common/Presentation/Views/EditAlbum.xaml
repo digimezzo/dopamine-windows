@@ -21,6 +21,7 @@
 
     <UserControl.Resources>
         <presentationutils:BindingProxy x:Key="ChangeProxy" Data="{DynamicResource Language_Change}"/>
+        <presentationutils:BindingProxy x:Key="ExportProxy" Data="{DynamicResource Language_Export}"/>
         <Storyboard x:Key="FadeIn">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
@@ -92,7 +93,7 @@
             <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">
                 <Button 
                         Style="{StaticResource MetroButton}" 
-                        Content="{DynamicResource Language_Export}" 
+                        Content="{Binding Source={StaticResource ExportProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
                         ToolTip="{DynamicResource Language_Export_The_Image}"
                         Command="{Binding ExportArtworkCommand}"/>
                 <Button 
