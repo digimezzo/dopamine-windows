@@ -26,7 +26,7 @@ namespace Dopamine.MiniPlayerModule.Views
             // on a half pixel. This causes a blurry spectrum analyzer.
             try
             {
-                this.SpectrumAnalyzer.Margin = new Thickness(Convert.ToInt32(this.ActualWidth / 2) - this.CoverGrid.Width/2 - Convert.ToInt32(this.SpectrumAnalyzer.ActualWidth / 2), 0, 0, 0);
+                this.SpectrumAnalyzer.Margin = new Thickness(Convert.ToInt32(this.ControlsPanel.ActualWidth / 2) - Convert.ToInt32(this.SpectrumAnalyzer.ActualWidth / 2), 0, 0, 0);
             }
             catch (Exception)
             {
