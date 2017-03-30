@@ -30,7 +30,9 @@
     (#050505 is equivalent to #CBCBCB but with transparency)
     -->
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#090909" Opacity="0.1"/>
+    <Color x:Key="RG_ControlsBackgroundMediumTransparentBrushColor">#090909</Color>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighTransparentBrush" Color="#050505" Opacity="0.2"/>
+    <Color x:Key="RG_ControlsBackgroundHighTransparentBrushColor">#050505</Color>
     <SolidColorBrush x:Key="RG_DimBackgroundBrush" Color="Black" Opacity="0.2"/>
     <SolidColorBrush x:Key="RG_TooltipBackgroundBrush" Color="Black" Opacity="0.9"/>
 

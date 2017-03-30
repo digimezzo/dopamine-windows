@@ -30,7 +30,9 @@
     (#CCCCCC is equivalent to #292929 but with transparency) 
     -->
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#AAAAAA" Opacity="0.1"/>
+    <Color x:Key="RG_ControlsBackgroundMediumTransparentBrushColor">#AAAAAA</Color>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighTransparentBrush" Color="#CCCCCC" Opacity="0.15"/>
+    <Color x:Key="RG_ControlsBackgroundHighTransparentBrushColor">#CCCCCC</Color>
     <SolidColorBrush x:Key="RG_DimBackgroundBrush" Color="White" Opacity="0.2"/>
     <SolidColorBrush x:Key="RG_TooltipBackgroundBrush" Color="White" Opacity="0.9"/>
 

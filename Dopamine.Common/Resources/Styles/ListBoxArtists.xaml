@@ -2,7 +2,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
     xmlns:prism="clr-namespace:Dopamine.Common.Prism"
-    xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils">
+    xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
+    xmlns:base="clr-namespace:Dopamine.Common.Base">
 
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <converters:InvertingBooleanToCollapsedConverter x:Key="InvertingBooleanToCollapsedConverter" />
@@ -69,6 +70,25 @@
                             </Button>
                             <!-- Artist -->
                             <Border>
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource RG_ControlsBackgroundMediumTransparentBrushColor}" Opacity="0"/>
+                                </Border.Background>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard TargetProperty="Background.Opacity">
+                                                <DoubleAnimation To="0.1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard TargetProperty="Background.Opacity">
+                                                <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Border.Triggers>
                                 <Border
                            Background="{TemplateBinding Background}" 
                            Height="24">
@@ -81,15 +101,6 @@
                                ToolTip="{Binding ArtistName}"
                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"/>
                                 </Border>
-                                <Border.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <Trigger Property="Border.IsMouseOver" Value="True">
-                                                <Setter Property="Border.Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
                             </Border>
                         </DockPanel>
                     </Grid>
