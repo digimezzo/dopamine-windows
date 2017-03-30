@@ -133,7 +133,7 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             switch (style)
             {
-                case SpectrumStyle.Fire:
+                case SpectrumStyle.Flames:
                     this.BlurRadius = 20;
                     this.SpectrumBarCount = 65;
                     this.SpectrumWidth = 270;
@@ -145,8 +145,8 @@ namespace Dopamine.ControlsModule.ViewModels
                     break;
                 case SpectrumStyle.Lines:
                     this.BlurRadius = 0;
-                    this.SpectrumBarCount = 45;
-                    this.SpectrumWidth = 175;
+                    this.SpectrumBarCount = 50;
+                    this.SpectrumWidth = 162;
                     this.SpectrumBarWidth = 1;
                     this.SpectrumBarSpacing = 2;
                     this.SpectrumPanelHeight = 30;
@@ -155,8 +155,8 @@ namespace Dopamine.ControlsModule.ViewModels
                     break;
                 case SpectrumStyle.Bars:
                     this.BlurRadius = 0;
-                    this.SpectrumBarCount = 21;
-                    this.SpectrumWidth = 175;
+                    this.SpectrumBarCount = 20;
+                    this.SpectrumWidth = 162;
                     this.SpectrumBarWidth = 6;
                     this.SpectrumBarSpacing = 2;
                     this.SpectrumPanelHeight = 30;

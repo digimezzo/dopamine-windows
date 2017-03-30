@@ -15,7 +15,8 @@
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             ContextMenu="{StaticResource CoverPlayerContextMenu}" 
+             ContextMenu="{StaticResource CoverPlayerContextMenu}"
+             Loaded="CommonMiniPlayerView_Loaded"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <myViews:CommonMiniPlayerView.Resources>
@@ -88,7 +89,7 @@
         <commonviews:ProgressControls Height="14" Margin="0,-6,0,0"/>
         <!-- Controls -->
         <Grid>
-            <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left"/>
+            <controlsmoduleviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left"/>
             <controlsmoduleviews:CoverPlayerControls Panel.ZIndex="1" Margin="0,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </StackPanel>
