@@ -133,25 +133,35 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             switch (style)
             {
-                case SpectrumStyle.Dopamine:
-                    this.BlurRadius = 0;
-                    this.SpectrumBarCount = 45;
-                    this.SpectrumWidth = 175;
-                    this.SpectrumBarWidth = 1;
-                    this.SpectrumBarSpacing = 2;
-                    this.SpectrumPanelHeight = 25;
-                    this.SpectrumOpacity = 1.0;
-                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    break;
-                case SpectrumStyle.Zune:
+                case SpectrumStyle.Fire:
                     this.BlurRadius = 20;
-                    this.SpectrumBarCount = 74;
-                    this.SpectrumWidth = 275;
+                    this.SpectrumBarCount = 65;
+                    this.SpectrumWidth = 270;
                     this.SpectrumBarWidth = 4;
                     this.SpectrumBarSpacing = 0;
                     this.SpectrumPanelHeight = 60;
                     this.SpectrumOpacity = 0.65;
                     this.AnimationStyle = SpectrumAnimationStyle.Gentle;
+                    break;
+                case SpectrumStyle.Lines:
+                    this.BlurRadius = 0;
+                    this.SpectrumBarCount = 45;
+                    this.SpectrumWidth = 175;
+                    this.SpectrumBarWidth = 1;
+                    this.SpectrumBarSpacing = 2;
+                    this.SpectrumPanelHeight = 30;
+                    this.SpectrumOpacity = 1.0;
+                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+                    break;
+                case SpectrumStyle.Bars:
+                    this.BlurRadius = 0;
+                    this.SpectrumBarCount = 21;
+                    this.SpectrumWidth = 175;
+                    this.SpectrumBarWidth = 6;
+                    this.SpectrumBarSpacing = 2;
+                    this.SpectrumPanelHeight = 30;
+                    this.SpectrumOpacity = 0.8;
+                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
                     break;
                 default:
                     // Shouldn't happen
