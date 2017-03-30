@@ -9,7 +9,8 @@
 
     public enum SpectrumStyle
     {
-        Dopamine = 1,
-        Zune = 2
+        Fire = 1,
+        Lines = 2,
+        Bars = 3
     }
 }
