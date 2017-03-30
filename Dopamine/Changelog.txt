@@ -108,7 +108,7 @@ That is expected, and caused by changes to the installer, see (*). Please don't 
 - [Added] Added MetroLyrics as extra automatic lyrics provider (because Chartlyrics went dead)
 - [Added] Added an option to enable/disable automatic lyrics providers individually and an option to set a lyrics download timeout
 - [Added] Mouse XButton1 plays the previous song, XButton2 plays the next song.
-- [Fixed] Artists sorting (song, album, all) was restored after an unmanagable amount of complaints about its removal.
+- [Fixed] Artists sorting (song, album, all) was restored after an unmanageable amount of complaints about its removal.
 - [Fixed] Lyrics search stops if querying 1 lyrics provider fails, even if there are still other providers to left to use.
 - [Fixed] Mute doesn't stick when the next song starts playing
 - [Fixed] (*) Hopefully fixed an issue with the installer, which caused missing files on some computers (I hate Windows installer).
