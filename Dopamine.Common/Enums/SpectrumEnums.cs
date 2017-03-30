@@ -9,7 +9,7 @@
 
     public enum SpectrumStyle
     {
-        Fire = 1,
+        Flames = 1,
         Lines = 2,
         Bars = 3
     }

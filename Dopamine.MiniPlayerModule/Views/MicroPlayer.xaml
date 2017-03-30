@@ -16,6 +16,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf" 
              ContextMenu="{StaticResource MicroPlayerContextMenu}"
+             Loaded="CommonMiniPlayerView_Loaded"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <myViews:CommonMiniPlayerView.Resources>
@@ -65,7 +66,7 @@
             <DockPanel>
                 <commonviews:PlaybackInfoControl DockPanel.Dock="Top" Height="50" Width="286" Margin="20,10,0,0" TitleFontSize="22" TitleFontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Grid>
-                    <controlsmoduleviews:SpectrumAnalyzerControl Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <controlsmoduleviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                     <controlsmoduleviews:MicroPlayerControls Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
             </DockPanel>

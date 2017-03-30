@@ -114,7 +114,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             await Task.Run(() =>
             {
-                localSpectrumStyles.Add(new NameValue { Name = "Fire", Value = 1 });
+                localSpectrumStyles.Add(new NameValue { Name = "Flames", Value = 1 });
                 localSpectrumStyles.Add(new NameValue { Name = "Lines", Value = 2 });
                 localSpectrumStyles.Add(new NameValue { Name = "Bars", Value = 3 });
             });
@@ -123,15 +123,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             NameValue localSelectedSpectrumStyle = null;
             await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
-
-            if (localSelectedSpectrumStyle.Value <= this.SpectrumStyles.Last().Value)
-            {
-                this.SelectedSpectrumStyle = localSelectedSpectrumStyle;
-            }
-            else
-            {
-                this.SelectedSpectrumStyle = this.SpectrumStyles.First();
-            }
+            this.SelectedSpectrumStyle = localSelectedSpectrumStyle;
         }
         #endregion
     }
