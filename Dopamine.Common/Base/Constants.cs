@@ -1,7 +1,12 @@
-﻿namespace Dopamine.Common.Base
+﻿using System;
+using System.Windows;
+
+namespace Dopamine.Common.Base
 {
     public static class Constants
     {
+        private static long MillisecondsToTicks(int ms) => ms * 10000;
+
         // Links
         public static string LastFmJoinLink = "https://www.last.fm/join";
 
@@ -99,5 +104,10 @@
 
         // ListBoxAlbums
         public static readonly double AlbumTileAlbumInfoHeight = 40;
+
+        // Animation
+        public static readonly Duration MouseEnterDuration = new Duration(new TimeSpan(MillisecondsToTicks(50)));
+        public static readonly Duration MouseLeaveDuration = new Duration(new TimeSpan(MillisecondsToTicks(200)));
+        public static readonly Duration SourceChangedDuration = MouseLeaveDuration;
     }
 }
