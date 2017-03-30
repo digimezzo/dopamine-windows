@@ -162,21 +162,21 @@
                                    Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                    Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                    RenderOptions.BitmapScalingMode="LowQuality">
-                                    <Image.Source>
+                                    <controls:SourceChangedImage.Source>
                                         <MultiBinding Converter="{StaticResource PathToImageConverter}">
                                             <Binding Path="ArtworkPath" IsAsync="True"/>
                                             <Binding Path="DataContext.UpscaledCoverSize" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
                                         </MultiBinding>
-                                    </Image.Source>
-                                    <Image.Triggers>
+                                    </controls:SourceChangedImage.Source>
+                                    <controls:SourceChangedImage.Triggers>
                                         <EventTrigger RoutedEvent="controls:SourceChangedImage.SourceChanged">
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25" />
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="1" Duration="{x:Static base:Constants.SourceChangedDuration}" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
-                                    </Image.Triggers>
+                                    </controls:SourceChangedImage.Triggers>
                                 </controls:SourceChangedImage>
                             </Grid>
                             <StackPanel Panel.ZIndex="1" Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
