@@ -1,10 +1,10 @@
-2017-03-30: Dopamine 1.3 Build 909 (Preview)
+2017-03-31: Dopamine 1.3 Build 910 (Preview)
 --------------------------------------------
 
 - [Changed] Updated the French translation
 - [Changed] Updated the Turkish translation
 - [Added] Added button to export album and song covers to file
-- [Added] Added option to switch between 3 styles of spectrum analyzers
+- [Added] Added option to switch between 4 styles of spectrum analyzers
 - [Added] Smoother list animations
 
 
