@@ -152,7 +152,7 @@
             </Border.Background>
             <Border.Resources>
                 <Storyboard x:Key="BackgroundAnimation">
-                    <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="0:0:0.2" />
+                    <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="{x:Static base:Constants.SourceChangedDuration}" />
                 </Storyboard>
             </Border.Resources>
             <controls:TransitioningContentControl Grid.Row="0" Grid.Column="0" FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.PlayerTypeRegion}"/>

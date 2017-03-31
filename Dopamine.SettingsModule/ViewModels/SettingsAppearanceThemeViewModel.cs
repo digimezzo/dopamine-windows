@@ -17,6 +17,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private ColorScheme selectedColorScheme;
         private bool checkBoxWindowsColorChecked;
         private bool checkBoxThemeChecked;
+        private bool isViewModelLoaded = true;
         #endregion
 
         #region Properties
@@ -53,7 +54,13 @@ namespace Dopamine.SettingsModule.ViewModels
                 if (value != null)
                 {
                     SettingsClient.Set<string>("Appearance", "ColorScheme", value.AccentColor);
-                    Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), value.AccentColor));
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        await this.appearanceService.ApplyColorScheme(
+                            SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), isViewModelLoaded,
+                            value.AccentColor);
+                        isViewModelLoaded = false;
+                    });
                 }
 
                 SetProperty<ColorScheme>(ref this.selectedColorScheme, value);
@@ -67,7 +74,7 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
-                Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyColorScheme(value, SettingsClient.Get<string>("Appearance", "ColorScheme")));
+                Application.Current.Dispatcher.Invoke(async () => await this.appearanceService.ApplyColorScheme(value, isViewModelLoaded, SettingsClient.Get<string>("Appearance", "ColorScheme")));
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
             }
