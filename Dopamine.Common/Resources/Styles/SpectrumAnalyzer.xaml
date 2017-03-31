@@ -3,18 +3,6 @@
     xmlns:dca="clr-namespace:Dopamine.Common.Audio">
 
     <Style x:Key="SpectrumAnalyzer" TargetType="{x:Type dca:SpectrumAnalyzer}">
-        <Setter Property="BarStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type Rectangle}">
-                    <Setter Property="Fill"
-                            Value="{DynamicResource RG_AccentBrush}" />
-                    <Setter Property="RadiusX"
-                            Value="0" />
-                    <Setter Property="RadiusY"
-                            Value="0" />
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dca:SpectrumAnalyzer}">

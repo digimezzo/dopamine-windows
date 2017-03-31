@@ -117,6 +117,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 localSpectrumStyles.Add(new NameValue { Name = "Flames", Value = 1 });
                 localSpectrumStyles.Add(new NameValue { Name = "Lines", Value = 2 });
                 localSpectrumStyles.Add(new NameValue { Name = "Bars", Value = 3 });
+                localSpectrumStyles.Add(new NameValue { Name = "Stripes", Value = 4 });
             });
 
             this.SpectrumStyles = localSpectrumStyles;
