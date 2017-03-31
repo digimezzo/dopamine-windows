@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
+using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Services.Appearance
 {
@@ -24,6 +26,7 @@ namespace Dopamine.Common.Services.Appearance
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
+        private Timer applyColorSchemeTimer;
         private string colorSchemesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
         private double colorSchemeTimeoutSeconds = 0.2;
@@ -316,7 +319,7 @@ namespace Dopamine.Common.Services.Appearance
             }
         }
 
-        public void ApplyColorScheme(bool iFollowWindowsColor, string iSelectedColorScheme = "")
+        public async Task ApplyColorScheme(bool iFollowWindowsColor, bool isViewModelLoaded = false, string iSelectedColorScheme = "")
         {
             this.followWindowsColor = iFollowWindowsColor;
 
@@ -349,8 +352,46 @@ namespace Dopamine.Common.Services.Appearance
                 }
             }
 
-            Application.Current.Resources["RG_AccentColor"] = accentColor;
-            Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(accentColor);
+            if (!isViewModelLoaded)
+            {
+                await Task.Run(() =>
+                {
+                    int loop = 0;
+                    // TODO:
+                    // System.Timers.Timer cannot work in actual time, it's much slower
+                    // than DispatcherTimer, if we can find some way to fix time by not 
+                    // using DispatcherTimer, loopMax should be set to 50 to enhance gradient
+                    int loopMax = 30;
+                    var oldColor = (Color) Application.Current.Resources["RG_AccentColor"];
+                    if (applyColorSchemeTimer != null)
+                    {
+                        applyColorSchemeTimer.Stop();
+                        applyColorSchemeTimer = null;
+                    }
+                    applyColorSchemeTimer = new Timer()
+                    {
+                        Interval = colorSchemeTimeoutSeconds * 1000d / loopMax
+                    };
+                    applyColorSchemeTimer.Elapsed += (_, __) =>
+                    {
+                        loop++;
+                        var color = AnimatedTypeHelpers.InterpolateColor(oldColor, accentColor, loop / (double) loopMax);
+                        Application.Current.Resources["RG_AccentColor"] = color;
+                        Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
+                        if (loop == loopMax)
+                        {
+                            applyColorSchemeTimer.Stop();
+                            applyColorSchemeTimer = null;
+                        }
+                    };
+                    applyColorSchemeTimer.Start();
+                });
+            }
+            else
+            {
+                Application.Current.Resources["RG_AccentColor"] = accentColor;
+                Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(accentColor);
+            }
 
             // Re-apply theme to ensure brushes referencing AccentColor are updated
             this.ReApplyTheme();
