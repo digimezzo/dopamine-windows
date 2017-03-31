@@ -31,7 +31,8 @@
             </StackPanel.Effect>
             <dca:SpectrumAnalyzer 
                 x:Name="LeftSpectrumAnalyzer" 
-                Style="{StaticResource SpectrumAnalyzer}" 
+                Style="{StaticResource SpectrumAnalyzer}"
+                BarBackground="{Binding SpectrumBarBackground}"
                 Width="{Binding SpectrumWidth}" 
                 BarSpacing="{Binding SpectrumBarSpacing}" 
                 BarWidth="{Binding SpectrumBarWidth}" 
@@ -46,6 +47,7 @@
             <dca:SpectrumAnalyzer 
                 x:Name="RightSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
+                BarBackground="{Binding SpectrumBarBackground}"
                 Width="{Binding SpectrumWidth}" 
                 BarSpacing="{Binding SpectrumBarSpacing}" 
                 BarWidth="{Binding SpectrumBarWidth}" 

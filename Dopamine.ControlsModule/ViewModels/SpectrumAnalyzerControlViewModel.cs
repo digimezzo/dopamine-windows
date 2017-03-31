@@ -5,6 +5,8 @@ using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
 using Prism.Events;
 using Prism.Mvvm;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -23,6 +25,7 @@ namespace Dopamine.ControlsModule.ViewModels
         private double spectrumPanelHeight;
         private double spectrumOpacity;
         private SpectrumAnimationStyle animationStyle;
+        private Brush spectrumBarBackground;
         #endregion
 
         #region Properties
@@ -93,6 +96,12 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.animationStyle; }
             set { SetProperty<SpectrumAnimationStyle>(ref this.animationStyle, value); }
         }
+
+        public Brush SpectrumBarBackground
+        {
+            get { return this.spectrumBarBackground; }
+            set { SetProperty<Brush>(ref this.spectrumBarBackground, value); }
+        }
         #endregion
 
         #region Construction
@@ -142,6 +151,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumPanelHeight = 60;
                     this.SpectrumOpacity = 0.65;
                     this.AnimationStyle = SpectrumAnimationStyle.Gentle;
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Lines:
                     this.BlurRadius = 0;
@@ -152,6 +162,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumPanelHeight = 30;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Bars:
                     this.BlurRadius = 0;
@@ -162,6 +173,18 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumPanelHeight = 30;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
+                    break;
+                case SpectrumStyle.Stripes:
+                    this.BlurRadius = 0;
+                    this.SpectrumBarCount = 13;
+                    this.SpectrumWidth = 162;
+                    this.SpectrumBarWidth = 10;
+                    this.SpectrumBarSpacing = 2;
+                    this.SpectrumPanelHeight = 30;
+                    this.SpectrumOpacity = 1.0;
+                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentStripedBrush");
                     break;
                 default:
                     // Shouldn't happen

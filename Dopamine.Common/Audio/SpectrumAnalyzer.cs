@@ -79,6 +79,35 @@ namespace Dopamine.Common.Audio
         }
         #endregion
 
+        #region BarBackground
+        public static readonly DependencyProperty BarBackgroundProperty = DependencyProperty.Register("BarBackground", typeof(Brush), typeof(SpectrumAnalyzer), new PropertyMetadata(Brushes.White, OnBarBackgroundChanged));
+
+        private static void OnBarBackgroundChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+
+            if (spectrumAnalyzer.barShapes != null && spectrumAnalyzer.barShapes.Count > 0)
+            {
+                foreach (Shape bar in spectrumAnalyzer.barShapes)
+                {
+                    bar.Fill = spectrumAnalyzer.BarBackground;
+                }
+            }
+        }
+
+        public Brush BarBackground
+        {
+            get
+            {
+                return (Brush)GetValue(BarBackgroundProperty);
+            }
+            set
+            {
+                SetValue(BarBackgroundProperty, value);
+            }
+        }
+        #endregion
+
         #region BarWidth
         public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0, OnBarWidthChanged, OnCoerceBarWidth));
 
@@ -181,48 +210,6 @@ namespace Dopamine.Common.Audio
             set
             {
                 SetValue(BarSpacingProperty, value);
-            }
-        }
-        #endregion
-
-        #region BarStyle
-        public static readonly DependencyProperty BarStyleProperty = DependencyProperty.Register("BarStyle", typeof(Style), typeof(SpectrumAnalyzer), new UIPropertyMetadata(null, OnBarStyleChanged, OnCoerceBarStyle));
-
-        private static object OnCoerceBarStyle(DependencyObject o, object value)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null)
-                return spectrumAnalyzer.OnCoerceBarStyle((Style)value);
-            else
-                return value;
-        }
-
-        private static void OnBarStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null)
-                spectrumAnalyzer.OnBarStyleChanged((Style)e.OldValue, (Style)e.NewValue);
-        }
-
-        protected virtual Style OnCoerceBarStyle(Style value)
-        {
-            return value;
-        }
-
-        protected virtual void OnBarStyleChanged(Style oldValue, Style newValue)
-        {
-            UpdateBarLayout();
-        }
-
-        public Style BarStyle
-        {
-            get
-            {
-                return (Style)GetValue(BarStyleProperty);
-            }
-            set
-            {
-                SetValue(BarStyleProperty, value);
             }
         }
         #endregion
@@ -471,7 +458,7 @@ namespace Dopamine.Common.Audio
                     Margin = new Thickness(xCoord, height, 0, 0),
                     Width = this.BarWidth,
                     Height = 0,
-                    Style = this.BarStyle
+                    Fill = this.BarBackground
                 };
 
                 this.barShapes.Add(barRectangle);

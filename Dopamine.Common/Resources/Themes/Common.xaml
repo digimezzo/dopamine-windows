@@ -14,6 +14,16 @@
     <!-- Light grey -->
     <SolidColorBrush x:Key="RG_LightGreyBrush" Color="#DFDFDF"/>
 
+    <!-- Accent striped -->
+    <LinearGradientBrush x:Key="RG_AccentStripedBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3" SpreadMethod="Repeat">
+        <GradientStop Offset="0" Color="Transparent"/>
+        <GradientStop Offset="0.25" Color="Transparent"/>
+        <GradientStop Offset="0.25" Color="{DynamicResource RG_AccentColor}"/>
+        <GradientStop Offset="0.5" Color="{DynamicResource RG_AccentColor}"/>
+        <GradientStop Offset="0.75" Color="Transparent"/>
+        <GradientStop Offset="1" Color="Transparent"/>
+    </LinearGradientBrush>
+
     <!-- Gradients -->
     <LinearGradientBrush x:Key="RG_PlaybackInfoGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
         <GradientStop Color="#00000000" Offset="0.0" />
