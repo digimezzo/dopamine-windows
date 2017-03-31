@@ -107,7 +107,7 @@ namespace Dopamine
             // Making sure resources are set before we need them
             Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
             Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
-            Container.Resolve<IAppearanceService>().ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), SettingsClient.Get<string>("Appearance", "ColorScheme"));
+            Container.Resolve<IAppearanceService>().ApplyColorScheme(SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), true, SettingsClient.Get<string>("Appearance", "ColorScheme"));
         }
 
         protected void RegisterRepositories()

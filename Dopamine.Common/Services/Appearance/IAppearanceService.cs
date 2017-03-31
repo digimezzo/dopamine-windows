@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Appearance
@@ -9,7 +10,7 @@ namespace Dopamine.Common.Services.Appearance
         List<ColorScheme> GetColorSchemes();
         ColorScheme GetColorScheme(string name);
         void ApplyTheme(bool enableLightTheme);
-        void ApplyColorScheme(bool followWindowsColor, string selectedColorScheme = "");
+        Task ApplyColorScheme(bool followWindowsColor, bool isViewModelLoaded = false, string selectedColorScheme = "");
         void WatchWindowsColor(Window window);
         event EventHandler ThemeChanged;
         event EventHandler ColorSchemesChanged;
