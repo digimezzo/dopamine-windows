@@ -71,4 +71,8 @@ namespace Dopamine.Common.Prism
     public class SettingDownloadLyricsChanged : PubSubEvent<bool>
     {
     }
+
+    public class LyricsScreenIsActiveChanged : PubSubEvent<bool>
+    {
+    }
 }
