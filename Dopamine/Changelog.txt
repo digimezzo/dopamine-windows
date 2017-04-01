@@ -1,6 +1,7 @@
-2017-03-31: Dopamine 1.3 Build 910 (Preview)
+2017-04-01: Dopamine 1.3 Build 911 (Preview)
 --------------------------------------------
 
+- [Changed] Lyrics are not downloaded anymore when the lyrics screen is not visible
 - [Changed] Updated the French translation
 - [Changed] Updated the Turkish translation
 - [Added] Added button to export album and song covers to file

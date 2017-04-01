@@ -35,6 +35,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool canHighlight;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 500;
+        private bool lyricsScreenIsActive;
         #endregion
 
         #region Commands
@@ -88,6 +89,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
 
             this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value); });
+            this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Subscribe(lyricsScreenIsActive =>
+            {
+                this.lyricsScreenIsActive = lyricsScreenIsActive;
+                this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            });
 
             this.RefreshLyricsCommand = new DelegateCommand(() => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
@@ -149,6 +155,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void RefreshLyricsAsync(PlayableTrack track)
         {
+            if (!this.lyricsScreenIsActive) return;
             if (track == null) return;
 
             this.StopHighlighting();
