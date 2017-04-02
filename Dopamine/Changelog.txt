@@ -4,6 +4,7 @@
 - [Changed] Lyrics are not downloaded anymore when the lyrics screen is not visible
 - [Changed] Updated the French translation
 - [Changed] Updated the Turkish translation
+- [Changed] Updated the Bulgarian translation
 - [Added] Added button to export album and song covers to file
 - [Added] Added option to switch between 4 styles of spectrum analyzers
 - [Added] Smoother list animations
