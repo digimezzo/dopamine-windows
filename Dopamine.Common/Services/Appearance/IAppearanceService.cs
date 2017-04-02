@@ -13,6 +13,7 @@ namespace Dopamine.Common.Services.Appearance
         Task ApplyColorScheme(bool followWindowsColor, bool isViewModelLoaded = false, string selectedColorScheme = "");
         void WatchWindowsColor(Window window);
         event EventHandler ThemeChanged;
+        event EventHandler ColorSchemeChanged;
         event EventHandler ColorSchemesChanged;
     }
 }

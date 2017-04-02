@@ -8,6 +8,7 @@ using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Media;
 using Digimezzo.Utilities.ColorSpace;
+using Dopamine.Common.Services.Appearance;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -15,6 +16,7 @@ namespace Dopamine.ControlsModule.ViewModels
     {
         #region Variables
         private IPlaybackService playbackService;
+        private IAppearanceService appearanceService;
         private IEventAggregator eventAggregator;
         private bool showSpectrumAnalyzer;
         private bool isPlaying;
@@ -107,12 +109,15 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IEventAggregator eventAggregator)
+        public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService, IEventAggregator eventAggregator)
         {
             this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
+            this.appearanceService = appearanceService;
 
             this.playbackService.SpectrumVisibilityChanged += isSpectrumVisible => this.ShowSpectrumAnalyzer = isSpectrumVisible;
+
+            this.appearanceService.ColorSchemeChanged += (_, __) => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
 
             this.playbackService.PlaybackFailed += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
