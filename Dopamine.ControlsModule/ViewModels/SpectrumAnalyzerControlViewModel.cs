@@ -117,7 +117,8 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.playbackService.SpectrumVisibilityChanged += isSpectrumVisible => this.ShowSpectrumAnalyzer = isSpectrumVisible;
 
-            this.appearanceService.ColorSchemeChanged += (_, __) => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
+            this.appearanceService.ColorSchemeChanged += (_, __) =>
+            Application.Current.Dispatcher.Invoke(() => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle")));
 
             this.playbackService.PlaybackFailed += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;

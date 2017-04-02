@@ -377,11 +377,11 @@ namespace Dopamine.Common.Services.Appearance
                         {
                             applyColorSchemeTimer.Stop();
                             applyColorSchemeTimer = null;
-                        }
 
-                        // Re-apply theme to ensure brushes referencing AccentColor are updated
-                        this.ReApplyTheme();
-                        this.ColorSchemeChanged(this, new EventArgs());
+                            // Re-apply theme to ensure brushes referencing AccentColor are updated
+                            this.ReApplyTheme();
+                            this.ColorSchemeChanged(this, new EventArgs());
+                        } 
                     };
                     applyColorSchemeTimer.Start();
                 });
