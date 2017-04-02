@@ -36,7 +36,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 500;
         private bool lyricsScreenIsActive;
-        private bool isCurrentTrackFirstLoadLyrics;
+        private bool nowPlayingIsSelected;
         #endregion
 
         #region Commands
@@ -68,7 +68,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-
         public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService,
             IPlaybackService playbackService, EventAggregator eventAggregator)
         {
@@ -89,45 +88,36 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
-            this.metadataService.MetadataChanged +=
-                (_) => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.metadataService.MetadataChanged += (_) => this.RestartRefreshTimer();
 
             this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled =>
             {
-                if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+                if (isDownloadLyricsEnabled) this.RestartRefreshTimer();
             });
+
+            this.eventAggregator.GetEvent<NowPlayingIsSelectedChanged>().Subscribe(nowPlayingIsSelected =>
+            {
+                this.nowPlayingIsSelected = nowPlayingIsSelected; 
+                this.RestartRefreshTimer();
+            });
+
             this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Subscribe(lyricsScreenIsActive =>
             {
                 this.lyricsScreenIsActive = lyricsScreenIsActive;
-                this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+                this.nowPlayingIsSelected = true; // When the lyrics screen is active, we're also sure that now playing is selected.
+                this.RestartRefreshTimer();
             });
-            this.isCurrentTrackFirstLoadLyrics = true;
 
-            this.RefreshLyricsCommand =
-                new DelegateCommand(() =>
-                    {
-                        this.isCurrentTrackFirstLoadLyrics = true;
-                        this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
-                    },
-                    () => !this.IsDownloadingLyrics);
+            this.RefreshLyricsCommand = new DelegateCommand(() => this.RestartRefreshTimer(), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
-                isCurrentTrackFirstLoadLyrics = true;
-
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
-
-                if (this.previousTrack == null || !this.playbackService.CurrentTrack.Equals(this.previousTrack))
-                {
-                    this.refreshTimer.Stop();
-                    this.refreshTimer.Start();
-                    this.previousTrack = this.playbackService.CurrentTrack.Value;
-                }
+                this.RestartRefreshTimer();
             };
 
             this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
-            if (this.playbackService.HasCurrentTrack) this.previousTrack = this.playbackService.CurrentTrack.Value;
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -151,6 +141,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
+        private void RestartRefreshTimer()
+        {
+            this.refreshTimer.Stop();
+            this.refreshTimer.Start();
+        }
+
         private void StartHighlighting()
         {
             this.highlightTimer.Start();
@@ -170,13 +166,13 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void RefreshLyricsAsync(PlayableTrack track)
         {
-            if (!this.lyricsScreenIsActive) return;
-            if (!this.isCurrentTrackFirstLoadLyrics) return;
+            if (!this.nowPlayingIsSelected || !this.lyricsScreenIsActive) return;
             if (track == null) return;
+            if (this.previousTrack != null && this.previousTrack.Equals(track)) return;
+
+            this.previousTrack = track;
 
             this.StopHighlighting();
-
-            this.isCurrentTrackFirstLoadLyrics = false;
 
             FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
 
