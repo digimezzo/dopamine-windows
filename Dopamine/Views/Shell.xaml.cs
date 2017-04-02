@@ -225,6 +225,7 @@ namespace Dopamine.Views
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(MainScreen).FullName);
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
+                this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Publish(false);
             });
 
 
@@ -234,6 +235,7 @@ namespace Dopamine.Views
             {
                 this.regionManager.RequestNavigate(RegionNames.ScreenTypeRegion, typeof(NowPlayingScreen).FullName);
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
+                this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Publish(true);
             });
 
             Common.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);
