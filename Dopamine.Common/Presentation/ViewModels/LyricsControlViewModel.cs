@@ -36,6 +36,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 500;
         private bool lyricsScreenIsActive;
+        private bool isCurrentTrackFirstLoadLyrics;
         #endregion
 
         #region Commands
@@ -67,7 +68,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService, IPlaybackService playbackService, EventAggregator eventAggregator)
+
+        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService,
+            IPlaybackService playbackService, EventAggregator eventAggregator)
         {
             this.container = container;
             this.metadataService = metadataService;
@@ -86,20 +89,33 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.highlightTimer.Stop();
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
-            this.metadataService.MetadataChanged += (_) => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.metadataService.MetadataChanged +=
+                (_) => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
 
-            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled => { if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value); });
+            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled =>
+            {
+                if (isDownloadLyricsEnabled) this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            });
             this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Subscribe(lyricsScreenIsActive =>
             {
                 this.lyricsScreenIsActive = lyricsScreenIsActive;
                 this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
             });
+            this.isCurrentTrackFirstLoadLyrics = true;
 
-            this.RefreshLyricsCommand = new DelegateCommand(() => this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value), () => !this.IsDownloadingLyrics);
+            this.RefreshLyricsCommand =
+                new DelegateCommand(() =>
+                    {
+                        this.isCurrentTrackFirstLoadLyrics = true;
+                        this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+                    },
+                    () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
             this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
             {
+                isCurrentTrackFirstLoadLyrics = true;
+
                 this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
 
                 if (this.previousTrack == null || !this.playbackService.CurrentTrack.Equals(this.previousTrack))
@@ -111,7 +127,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
-            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
             if (this.playbackService.HasCurrentTrack) this.previousTrack = this.playbackService.CurrentTrack.Value;
         }
 
@@ -156,9 +171,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         private async void RefreshLyricsAsync(PlayableTrack track)
         {
             if (!this.lyricsScreenIsActive) return;
+            if (!this.isCurrentTrackFirstLoadLyrics) return;
             if (track == null) return;
 
             this.StopHighlighting();
+
+            this.isCurrentTrackFirstLoadLyrics = false;
 
             FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
 
