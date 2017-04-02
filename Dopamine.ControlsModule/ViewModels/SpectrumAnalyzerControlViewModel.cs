@@ -7,6 +7,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Media;
+using Digimezzo.Utilities.ColorSpace;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -19,7 +20,7 @@ namespace Dopamine.ControlsModule.ViewModels
         private bool isPlaying;
         private double blurRadius;
         private int spectrumBarCount;
-        private double spectrumWidth ;
+        private double spectrumWidth;
         private double spectrumBarWidth;
         private double spectrumBarSpacing;
         private double spectrumPanelHeight;
@@ -56,7 +57,8 @@ namespace Dopamine.ControlsModule.ViewModels
         public double SpectrumWidth
         {
             get { return this.spectrumWidth; }
-            set {
+            set
+            {
                 SetProperty<double>(ref this.spectrumWidth, value);
                 OnPropertyChanged(() => this.SpectrumPanelWidth);
             }
@@ -130,7 +132,7 @@ namespace Dopamine.ControlsModule.ViewModels
             else
             {
                 this.IsPlaying = false;
-            }   
+            }
 
             // Default spectrum
             this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
@@ -151,7 +153,14 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumPanelHeight = 60;
                     this.SpectrumOpacity = 0.65;
                     this.AnimationStyle = SpectrumAnimationStyle.Gentle;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
+                    var accentColor = (Color)Application.Current.TryFindResource("RG_AccentColor");
+                    var gradientColor = HSLColor.GetFromRgb(accentColor).MoveNext(40).ToRgb();
+                    this.SpectrumBarBackground = new LinearGradientBrush(new GradientStopCollection()
+                    {
+                        new GradientStop(accentColor, 0),
+                        new GradientStop(accentColor, 0.45),
+                        new GradientStop(gradientColor, 1),
+                    }, new Point(0.5, 1), new Point(0.5, 0));
                     break;
                 case SpectrumStyle.Lines:
                     this.BlurRadius = 0;
