@@ -1,50 +1,133 @@
-﻿using System.ComponentModel;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
+using Dopamine.Common.Services.Playback;
+using Prism.Mvvm;
+using System;
+using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace Dopamine.Common.Services.Taskbar
 {
-    public class TaskbarService : ITaskbarService, INotifyPropertyChanged
+    public class TaskbarService : BindableBase, ITaskbarService
     {
         #region Variables
+        private IPlaybackService playbackService;
         private string description;
         private TaskbarItemProgressState progressState;
         private double progressValue;
+        private string playPauseText;
+        private ImageSource playPauseIcon;
         #endregion
 
         #region Properties
         public string Description
         {
             get { return this.description; }
-            set
-            {
-                this.description = value;
-                OnPropertyChanged("Description");
-            }
+            private set { SetProperty<string>(ref this.description, value); }
         }
 
         public TaskbarItemProgressState ProgressState
         {
             get { return this.progressState; }
-            set
-            {
-                this.progressState = value;
-                OnPropertyChanged("ProgressState");
-            }
+            private set { SetProperty<TaskbarItemProgressState>(ref this.progressState, value); }
         }
 
         public double ProgressValue
         {
             get { return this.progressValue; }
-            set
-            {
-                this.progressValue = value;
-                OnPropertyChanged("ProgressValue");
-            }
+            private set { SetProperty<double>(ref this.progressValue, value); }
+        }
+
+        public string PlayPauseText
+        {
+            get { return this.playPauseText; }
+            private set { SetProperty<string>(ref this.playPauseText, value); }
+        }
+
+        public ImageSource PlayPauseIcon
+        {
+            get { return this.playPauseIcon; }
+            private set { SetProperty<ImageSource>(ref this.playPauseIcon, value); }
         }
         #endregion
 
-        #region ITaskbarService
-        public void SetTaskbarProgressState(bool showProgressInTaskbar, bool isPlaying)
+        #region Construction
+        public TaskbarService(IPlaybackService playbackService)
+        {
+            this.playbackService = playbackService;
+
+            this.ShowTaskBarItemInfoPause(false);  // When starting, we're not playing yet.
+
+            this.playbackService.PlaybackFailed += (_, __) =>
+            {
+                this.Description = ProductInformation.ApplicationDisplayName;
+                this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.ShowTaskBarItemInfoPause(false);
+            };
+
+            this.playbackService.PlaybackPaused += (_, __) =>
+            {
+                this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.ShowTaskBarItemInfoPause(false);
+            };
+
+            this.playbackService.PlaybackResumed += (_, __) =>
+            {
+                this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.ShowTaskBarItemInfoPause(true);
+            };
+
+            this.playbackService.PlaybackStopped += (_, __) =>
+            {
+                this.Description = ProductInformation.ApplicationDisplayName;
+                this.SetTaskbarProgressState(false, false);
+                this.ShowTaskBarItemInfoPause(false);
+            };
+
+            this.playbackService.PlaybackSuccess += (_) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.TrackTitle))
+                {
+                    this.Description = this.playbackService.CurrentTrack.Value.ArtistName + " - " + this.playbackService.CurrentTrack.Value.TrackTitle;
+                }
+                else
+                {
+                    this.Description = this.playbackService.CurrentTrack.Value.FileName;
+                }
+
+                this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
+                this.ShowTaskBarItemInfoPause(true);
+            };
+
+            this.playbackService.PlaybackProgressChanged += (_, __) => { this.ProgressValue = this.playbackService.Progress; };
+        }
+        #endregion
+
+        #region Private
+        private void ShowTaskBarItemInfoPause(bool showPause)
+        {
+            string value = "Play";
+
+            try
+            {
+                if (showPause)
+                {
+                    value = "Pause";
+                }
+
+                this.PlayPauseText = Application.Current.TryFindResource("Language_" + value).ToString();
+
+                Application.Current.Dispatcher.Invoke(() => { this.PlayPauseIcon = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,,/Icons/TaskbarItemInfo_" + value + ".ico"); });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
+            }
+        }
+
+        private void SetTaskbarProgressState(bool showProgressInTaskbar, bool isPlaying)
         {
             if (showProgressInTaskbar)
             {
@@ -65,12 +148,10 @@ namespace Dopamine.Common.Services.Taskbar
         }
         #endregion
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        protected void OnPropertyChanged(string name)
+        #region ITaskbarService
+        public void SetShowProgressInTaskbar(bool showProgressInTaskbar)
         {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+            this.SetTaskbarProgressState(showProgressInTaskbar, this.playbackService.IsPlaying);
         }
         #endregion
     }

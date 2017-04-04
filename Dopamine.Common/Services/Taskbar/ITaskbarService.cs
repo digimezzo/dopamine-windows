@@ -1,12 +1,15 @@
-﻿using System.Windows.Shell;
+﻿using System.Windows.Media;
+using System.Windows.Shell;
 
 namespace Dopamine.Common.Services.Taskbar
 {
     public interface ITaskbarService
     {
-        double ProgressValue { get; set; }
-        TaskbarItemProgressState ProgressState { get; set; }
-        string Description { get; set; }
-        void SetTaskbarProgressState(bool showProgressInTaskbar, bool isPaused);
+        double ProgressValue { get; }
+        TaskbarItemProgressState ProgressState { get; }
+        string Description { get; }
+        string PlayPauseText { get; }
+        ImageSource PlayPauseIcon { get; }
+        void SetShowProgressInTaskbar(bool showProgressInTaskbar);
     }
 }

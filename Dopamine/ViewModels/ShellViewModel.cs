@@ -1,7 +1,9 @@
 ﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
@@ -11,16 +13,11 @@ using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.ControlsModule.ViewModels;
 using Dopamine.ControlsModule.Views;
-using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Windows;
-using System.Windows.Media;
 
 namespace Dopamine.ViewModels
 {
@@ -36,8 +33,6 @@ namespace Dopamine.ViewModels
         private IFileService fileService;
         private IScrobblingService scrobblingService;
         private bool isOverlayVisible;
-        private string playPauseText;
-        private ImageSource playPauseIcon;
         private IUnityContainer container;
         #endregion
 
@@ -70,18 +65,6 @@ namespace Dopamine.ViewModels
             set { SetProperty<bool>(ref this.isOverlayVisible, value); }
         }
 
-        public string PlayPauseText
-        {
-            get { return this.playPauseText; }
-            set { SetProperty<string>(ref this.playPauseText, value); }
-        }
-
-        public ImageSource PlayPauseIcon
-        {
-            get { return this.playPauseIcon; }
-            set { SetProperty<ImageSource>(ref this.playPauseIcon, value); }
-        }
-
         public ITaskbarService TaskbarService
         {
             get { return this.taskbarService; }
@@ -101,11 +84,6 @@ namespace Dopamine.ViewModels
             this.jumpListService = jumpListService;
             this.fileService = fileService;
             this.scrobblingService = scrobblingService; // Not used here, but needs to be instantiated in the main window to ensure scrobbling is enabled.
-
-            // When starting, we're not playing yet
-            this.ShowTaskBarItemInfoPause(false);
-
-            this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
 
             // Event handlers
             this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
@@ -153,13 +131,9 @@ namespace Dopamine.ViewModels
 
             this.LoadedCommand = new DelegateCommand(() => this.fileService.ProcessArguments(Environment.GetCommandLineArgs()));
 
-            this.playbackService.PlaybackFailed += (iSender, iPlaybackFailedEventArgs) =>
+            this.playbackService.PlaybackFailed += (sender, playbackFailedEventArgs) =>
             {
-                this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
-                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
-                this.ShowTaskBarItemInfoPause(false);
-
-                switch (iPlaybackFailedEventArgs.FailureReason)
+                switch (playbackFailedEventArgs.FailureReason)
                 {
                     case PlaybackFailureReason.FileNotFound:
                         this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Cannot_Play_This_Song_File_Not_Found"), ResourceUtils.GetStringResource("Language_Ok"), false, string.Empty);
@@ -169,42 +143,6 @@ namespace Dopamine.ViewModels
                         break;
                 }
             };
-
-            this.playbackService.PlaybackPaused += (_, __) =>
-            {
-                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
-                this.ShowTaskBarItemInfoPause(false);
-            };
-
-            this.playbackService.PlaybackResumed += (_, __) =>
-            {
-                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
-                this.ShowTaskBarItemInfoPause(true);
-            };
-
-            this.playbackService.PlaybackStopped += (_, __) =>
-            {
-                this.TaskbarService.Description = ProductInformation.ApplicationDisplayName;
-                this.TaskbarService.SetTaskbarProgressState(false, false);
-                this.ShowTaskBarItemInfoPause(false);
-            };
-
-            this.playbackService.PlaybackSuccess += (_) =>
-            {
-                if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.TrackTitle))
-                {
-                    this.TaskbarService.Description = this.playbackService.CurrentTrack.Value.ArtistName + " - " + this.playbackService.CurrentTrack.Value.TrackTitle;
-                }
-                else
-                {
-                    this.TaskbarService.Description = this.playbackService.CurrentTrack.Value.FileName;
-                }
-
-                this.TaskbarService.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
-                this.ShowTaskBarItemInfoPause(true);
-            };
-
-            this.playbackService.PlaybackProgressChanged += (_, __) => { this.TaskbarService.ProgressValue = this.playbackService.Progress; };
 
             // Equalizer
             this.ShowEqualizerCommand = new DelegateCommand(() =>
@@ -231,31 +169,6 @@ namespace Dopamine.ViewModels
 
             // Populate the JumpList
             this.jumpListService.PopulateJumpListAsync();
-        }
-        #endregion
-
-        #region Private
-
-        private void ShowTaskBarItemInfoPause(bool showPause)
-        {
-            string value = "Play";
-
-            try
-            {
-                if (showPause)
-                {
-                    value = "Pause";
-                }
-
-                this.PlayPauseText = Application.Current.TryFindResource("Language_" + value).ToString();
-
-                Application.Current.Dispatcher.Invoke(() => { this.PlayPauseIcon = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,,/Icons/TaskbarItemInfo_" + value + ".ico"); });
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
-            }
-
         }
         #endregion
     }
