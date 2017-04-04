@@ -8,6 +8,7 @@
 - [Added] Added button to export album and song covers to file
 - [Added] Added option to switch between 4 styles of spectrum analyzers
 - [Added] Smoother list animations
+- [Fixed] Sorting of albums is broken on the albums screen
 
 
 2017-03-13: Dopamine 1.3 Build 905 (Preview)
