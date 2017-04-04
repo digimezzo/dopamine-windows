@@ -42,6 +42,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.IndexingService.RefreshArtwork += async (_, __) => await this.CollectionService.RefreshArtworkAsync(this.Albums);
 
             //  Commands
+            this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async ()=>await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
