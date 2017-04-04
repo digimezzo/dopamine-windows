@@ -118,8 +118,8 @@
                     <ThumbButtonInfo
                    x:Name="ThumbButtonInfoPlayPause"
                    Command="{x:Static commonprism:ApplicationCommands.TaskbarItemInfoPlayCommand}"
-                   Description="{Binding PlayPauseText}"
-                   ImageSource="{Binding PlayPauseIcon}"/>
+                   Description="{Binding TaskbarService.PlayPauseText}"
+                   ImageSource="{Binding TaskbarService.PlayPauseIcon}"/>
                     <ThumbButtonInfo
                    x:Name="ThumbButtonInfoNext"
                    Command="{Binding NextCommand}"

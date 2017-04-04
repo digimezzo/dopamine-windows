@@ -137,7 +137,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
                 if (this.taskbarService != null && this.playbackService != null)
                 {
-                    this.taskbarService.SetTaskbarProgressState(value, this.playbackService.IsPlaying);
+                    this.taskbarService.SetShowProgressInTaskbar(value);
                 }
             }
         }
