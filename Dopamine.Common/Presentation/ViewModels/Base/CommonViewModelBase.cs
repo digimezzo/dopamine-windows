@@ -144,7 +144,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected IEventAggregator EventAggregator
         {
-            get {
+            get
+            {
                 return eventAggregator;
             }
         }
@@ -255,7 +256,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
-            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.ShuffleAllAsync());
+            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.EnqueueAsync(true, false));
 
             // Events
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();

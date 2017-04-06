@@ -311,7 +311,7 @@ namespace Dopamine.Common.Audio
             this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
             this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
 
-            if(inputStreamList.Count!=0)
+            if (inputStreamList.Count != 0)
                 foreach (var inputStream in inputStreamList)
                 {
                     this.notificationSource.SingleBlockRead += inputStream;
@@ -425,22 +425,23 @@ namespace Dopamine.Common.Audio
                 this.soundOut = player.soundOut;
 
                 fftProvider = new FftProvider(2, FftSize.Fft1024);
+
                 if (channel != SpectrumChannel.Stereo)
                 {
                     if (channel == SpectrumChannel.Left)
                     {
-                        this.player.notificationSource.SingleBlockRead += InputStream_LeftSample;
+                        if (this.player.notificationSource != null) this.player.notificationSource.SingleBlockRead += InputStream_LeftSample;
                         inputStreamList.Add(InputStream_LeftSample);
                     }
                     if (channel == SpectrumChannel.Right)
                     {
-                        this.player.notificationSource.SingleBlockRead += InputStream_RightSample;
+                        if (this.player.notificationSource != null) this.player.notificationSource.SingleBlockRead += InputStream_RightSample;
                         inputStreamList.Add(InputStream_RightSample);
                     }
                 }
                 else
                 {
-                    this.player.notificationSource.SingleBlockRead += InputStream_Sample;
+                    if (this.player.notificationSource != null) this.player.notificationSource.SingleBlockRead += InputStream_Sample;
                     inputStreamList.Add(InputStream_Sample);
                 }
             }
