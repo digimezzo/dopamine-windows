@@ -1148,7 +1148,11 @@ namespace Dopamine.Common.Services.Playback
                     }
                 });
 
-                if (tracksToEnqueue.Count > 0) await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
+                if (tracksToEnqueue.Count > 0)
+                {
+                    await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
+                    this.QueueChanged(this, new EventArgs());
+                }
 
                 if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
 
