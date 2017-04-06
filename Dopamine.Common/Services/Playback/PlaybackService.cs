@@ -497,7 +497,7 @@ namespace Dopamine.Common.Services.Playback
                 else
                 {
                     // Enqueue all tracks before playing
-                    await this.EnqueueAsync();
+                    await this.EnqueueAsync(false, false);
                 }
             }
         }
@@ -620,29 +620,15 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        public async Task ShuffleAllAsync()
+        public async Task EnqueueAsync(bool shuffle, bool unshuffle)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
-
-            if (await this.queueManager.ClearQueueAsync()) await this.queueManager.EnqueueAsync(tracks, this.shuffle);
-            if (!this.shuffle) await SetShuffleAsync(true); // Make sure tracks get shuffled
-            await this.PlayFirstAsync();
-        }
-
-        public async Task EnqueueAsync()
-        {
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
+            await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
         public async Task EnqueueAsync(List<PlayableTrack> tracks)
         {
-            if (tracks == null) return;
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
+            await this.EnqueueAsync(tracks, false, false);
         }
 
         public async Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack track)
@@ -653,49 +639,36 @@ namespace Dopamine.Common.Services.Playback
             await this.PlaySelectedAsync(track);
         }
 
-        public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs)
+        public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> trackPair)
         {
-            if (trackPairs == null || trackPairs == null) return;
+            if (trackPairs == null || trackPair.Value == null) return;
 
             await this.EnqueueIfRequired(trackPairs);
+            await this.PlaySelectedAsync(trackPair);
         }
 
-        public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> track)
-        {
-            if (trackPairs == null || trackPairs == null) return;
-
-            await this.EnqueueIfRequired(trackPairs);
-            await this.PlaySelectedAsync(track);
-        }
-
-        public async Task EnqueueAsync(Artist artist)
+        public async Task EnqueueAsync(Artist artist, bool shuffle, bool unshuffle)
         {
             if (artist == null) return;
 
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
+            await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(Genre genre)
+        public async Task EnqueueAsync(Genre genre, bool shuffle, bool unshuffle)
         {
             if (genre == null) return;
 
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
+            await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(Album album)
+        public async Task EnqueueAsync(Album album, bool shuffle, bool unshuffle)
         {
             if (album == null) return;
 
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
-
-            await this.EnqueueIfRequired(tracks);
-            await this.PlayFirstAsync();
+            await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
         public async Task PlaySelectedAsync(PlayableTrack track)
@@ -833,6 +806,31 @@ namespace Dopamine.Common.Services.Playback
             this.GetSavedQueuedTracks();
         }
 
+        private async Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle)
+        {
+            if (tracks == null) return;
+
+            // Shuffle
+            if (shuffle)
+            {
+                if (await this.queueManager.ClearQueueAsync()) await this.queueManager.EnqueueAsync(tracks, this.shuffle);
+                if (!this.shuffle) await SetShuffleAsync(true); // Make sure tracks get shuffled
+            }
+
+            // Unshuffle
+            if (unshuffle)
+            {
+                if (await this.queueManager.ClearQueueAsync()) await this.queueManager.EnqueueAsync(tracks, this.shuffle);
+                if (this.shuffle) await SetShuffleAsync(false); // Make sure tracks get unshuffled
+            }
+
+            // Use the current shuffle mode
+            if (!shuffle && !unshuffle) await this.EnqueueIfRequired(tracks);
+
+            // Start playing
+            await this.PlayFirstAsync();
+        }
+
         private async void SavePlaybackCountersHandler(object sender, ElapsedEventArgs e)
         {
             await this.SavePlaybackCountersAsync();
@@ -960,9 +958,9 @@ namespace Dopamine.Common.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(KeyValuePair<string, PlayableTrack> track, bool silent = false)
+        private async Task<bool> TryPlayAsync(KeyValuePair<string, PlayableTrack> trackPair, bool silent = false)
         {
-            if (track.Value == null) return false;
+            if (trackPair.Value == null) return false;
             if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
             this.OnLoadingTrack(true);
 
@@ -975,13 +973,13 @@ namespace Dopamine.Common.Services.Playback
                 this.StopPlayback();
 
                 // Check that the file exists
-                if (!System.IO.File.Exists(track.Value.Path))
+                if (!System.IO.File.Exists(trackPair.Value.Path))
                 {
-                    throw new FileNotFoundException(string.Format("File '{0}' was not found", track.Value.Path));
+                    throw new FileNotFoundException(string.Format("File '{0}' was not found", trackPair.Value.Path));
                 }
 
                 // Start playing
-                await this.StartPlaybackAsync(track, silent);
+                await this.StartPlaybackAsync(trackPair, silent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this.isPlayingPreviousTrack);
@@ -989,7 +987,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1013,7 +1011,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }

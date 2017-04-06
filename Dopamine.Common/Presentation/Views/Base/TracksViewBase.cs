@@ -73,21 +73,21 @@ namespace Dopamine.Common.Presentation.Views.Base
                 if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                 {
                     await this.playbackService.EnqueueAsync(
-                        lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(), 
+                        lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(),
                         ((TrackViewModel)lb.SelectedItem).Track
                         );
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist);
+                    await this.playbackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist, false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre);
+                    await this.playbackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre, false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album);
+                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album, false, false);
                 }
             }
             catch (Exception ex)
