@@ -58,6 +58,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand SemanticJumpCommand { get; set; }
         public DelegateCommand AddGenresToNowPlayingCommand { get; set; }
         public DelegateCommand ToggleGenreOrderCommand { get; set; }
+        public DelegateCommand ShuffleSelectedGenresCommand { get; set; }
         #endregion
 
         #region Properties
@@ -169,6 +170,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.ShowGenresZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.SemanticJumpCommand = new DelegateCommand(() => this.IsGenresZoomVisible = false);
             this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenres));
+            this.ShuffleSelectedGenresCommand = new DelegateCommand(async () => await this.PlaybackService.EnqueueAsync(this.SelectedGenres, true, false));
 
             // Events
             this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>

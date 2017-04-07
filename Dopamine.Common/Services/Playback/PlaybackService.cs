@@ -635,7 +635,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (tracks == null || track == null) return;
 
-            await this.EnqueueIfRequired(tracks);
+            await this.EnqueueIfDifferent(tracks, this.shuffle);
             await this.PlaySelectedAsync(track);
         }
 
@@ -647,27 +647,27 @@ namespace Dopamine.Common.Services.Playback
             await this.PlaySelectedAsync(trackPair);
         }
 
-        public async Task EnqueueAsync(Artist artist, bool shuffle, bool unshuffle)
+        public async Task EnqueueAsync(IList<Artist> artists, bool shuffle, bool unshuffle)
         {
-            if (artist == null) return;
+            if (artists == null) return;
 
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artist.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(Genre genre, bool shuffle, bool unshuffle)
+        public async Task EnqueueAsync(IList<Genre> genres, bool shuffle, bool unshuffle)
         {
-            if (genre == null) return;
+            if (genres == null) return;
 
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genre.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(Album album, bool shuffle, bool unshuffle)
+        public async Task EnqueueAsync(IList<Album> albums, bool shuffle, bool unshuffle)
         {
-            if (album == null) return;
+            if (albums == null) return;
 
-            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(album.ToList()), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -811,21 +811,13 @@ namespace Dopamine.Common.Services.Playback
             if (tracks == null) return;
 
             // Shuffle
-            if (shuffle)
-            {
-                if (await this.queueManager.ClearQueueAsync()) await this.queueManager.EnqueueAsync(tracks, this.shuffle);
-                if (!this.shuffle) await SetShuffleAsync(true); // Make sure tracks get shuffled
-            }
+            if (shuffle) await this.EnqueueIfDifferent(tracks, true);
 
             // Unshuffle
-            if (unshuffle)
-            {
-                if (await this.queueManager.ClearQueueAsync()) await this.queueManager.EnqueueAsync(tracks, this.shuffle);
-                if (this.shuffle) await SetShuffleAsync(false); // Make sure tracks get unshuffled
-            }
+            if (unshuffle) await this.EnqueueIfDifferent(tracks, false);
 
             // Use the current shuffle mode
-            if (!shuffle && !unshuffle) await this.EnqueueIfRequired(tracks);
+            if (!shuffle && !unshuffle) await this.EnqueueIfDifferent(tracks, this.shuffle);
 
             // Start playing
             await this.PlayFirstAsync();
@@ -1201,17 +1193,22 @@ namespace Dopamine.Common.Services.Playback
             PlaybackProgressChanged(this, new EventArgs());
         }
 
-        private async Task EnqueueIfRequired(List<PlayableTrack> tracks)
+        private async Task EnqueueIfDifferent(List<PlayableTrack> tracks, bool shuffle)
         {
-            if (await this.queueManager.IsQueueDifferentAsync(tracks))
+            if (await this.queueManager.IsQueueDifferentAsync(tracks) || shuffle != this.shuffle)
             {
                 if (await this.queueManager.ClearQueueAsync())
                 {
-                    await this.queueManager.EnqueueAsync(tracks, this.shuffle);
+                    await this.queueManager.EnqueueAsync(tracks, shuffle);
+
+                    if (shuffle != this.shuffle)
+                    {
+                        this.shuffle = shuffle;
+                        this.PlaybackShuffleChanged(this, new EventArgs());
+                    }
                 }
 
                 this.QueueChanged(this, new EventArgs());
-
                 this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
             }
         }

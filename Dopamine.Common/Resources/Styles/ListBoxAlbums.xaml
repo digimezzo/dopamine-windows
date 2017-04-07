@@ -59,6 +59,12 @@
                 </CompositeCollection>
             </MenuItem.ItemsSource>
         </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Shuffle}" Command="{Binding DataContext.ShuffleSelectedAlbumsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Icon>
+                <TextBlock Margin="0,1,0,0" Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="15"/>
+            </MenuItem.Icon>
+        </MenuItem>
     </ContextMenu>
 
     <!-- ListBoxItem -->

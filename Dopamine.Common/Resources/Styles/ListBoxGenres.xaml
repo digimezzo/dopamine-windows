@@ -5,6 +5,10 @@
     xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
     xmlns:base="clr-namespace:Dopamine.Common.Base">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <converters:InvertingBooleanToCollapsedConverter x:Key="InvertingBooleanToCollapsedConverter" />
     <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter" />
@@ -33,6 +37,12 @@
                     <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
                 </CompositeCollection>
             </MenuItem.ItemsSource>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="{DynamicResource Language_Shuffle}" Command="{Binding DataContext.ShuffleSelectedGenresCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+            <MenuItem.Icon>
+                <TextBlock Margin="0,1,0,0" Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="15"/>
+            </MenuItem.Icon>
         </MenuItem>
     </ContextMenu>
     
