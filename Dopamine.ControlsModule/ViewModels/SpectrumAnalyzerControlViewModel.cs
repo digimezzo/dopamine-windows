@@ -159,14 +159,15 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumPanelHeight = 60;
                     this.SpectrumOpacity = 0.65;
                     this.AnimationStyle = SpectrumAnimationStyle.Gentle;
-                    var accentColor = (Color)Application.Current.TryFindResource("RG_AccentColor");
-                    var gradientColor = HSLColor.GetFromRgb(accentColor).MoveNext(40).ToRgb();
-                    this.SpectrumBarBackground = new LinearGradientBrush(new GradientStopCollection()
-                    {
-                        new GradientStop(accentColor, 0),
-                        new GradientStop(accentColor, 0.45),
-                        new GradientStop(gradientColor, 1),
-                    }, new Point(0.5, 1), new Point(0.5, 0));
+                    //var accentColor = (Color)Application.Current.TryFindResource("RG_AccentColor");
+                    //var gradientColor = HSLColor.GetFromRgb(accentColor).MoveNext(40).ToRgb();
+                    //this.SpectrumBarBackground = new LinearGradientBrush(new GradientStopCollection()
+                    //{
+                    //    new GradientStop(accentColor, 0),
+                    //    new GradientStop(accentColor, 0.45),
+                    //    new GradientStop(gradientColor, 1),
+                    //}, new Point(0.5, 1), new Point(0.5, 0));
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Lines:
                     this.BlurRadius = 0;
