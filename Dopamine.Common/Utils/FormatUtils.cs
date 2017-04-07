@@ -79,5 +79,25 @@ namespace Dopamine.Common.Utils
                 return string.Format("{0}", humanReadableSize);
             }
         }
+
+        public static bool ParseLyricsTime(string input, out TimeSpan result)
+        {
+            try
+            {
+                int minutes = Convert.ToInt32(input.Split(':')[0]);
+                string secondsAndMilliseconds = input.Split(':')[1];
+                int seconds = Convert.ToInt32(secondsAndMilliseconds.Split('.')[0]);
+                int milliseconds = Convert.ToInt32(secondsAndMilliseconds.Split('.')[1]);
+
+                result = TimeSpan.FromMilliseconds(minutes * 60000 + seconds * 1000 + milliseconds);
+                return true;
+            }
+            catch (Exception)
+            {
+            }
+
+            result = new TimeSpan();
+            return false;
+        }
     }
 }

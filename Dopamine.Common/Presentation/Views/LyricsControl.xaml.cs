@@ -145,7 +145,14 @@ namespace Dopamine.Common.Presentation.Views
                     }
 
                     TimeSpan currentPlaybackTime = this.playbackService.GetCurrentTime;
-                    string newLine = string.Format("{0}{1}", new DateTime(this.playbackService.GetCurrentTime.Ticks).ToString("[mm:ss.fff]"), strippedLine);
+
+                    int minutes = currentPlaybackTime.Minutes + currentPlaybackTime.Hours * 60;
+                    int seconds = currentPlaybackTime.Seconds;
+                    int milliseconds = currentPlaybackTime.Milliseconds;
+
+                    string format = string.Format("[{0:00}:{1:00}.{2:000}]", minutes, seconds, milliseconds);
+                    string newLine = string.Format("{0}{1}", new DateTime(currentPlaybackTime.Ticks).ToString(format), strippedLine);
+
                     this.lyricsTextBox.Text = this.lyricsTextBox.Text.Remove(lineStartIndex, line.Length);
                     this.lyricsTextBox.Text = this.lyricsTextBox.Text.Insert(lineStartIndex, newLine);
                     this.lyricsTextBox.CaretIndex = lineStartIndex + newLine.Length;
