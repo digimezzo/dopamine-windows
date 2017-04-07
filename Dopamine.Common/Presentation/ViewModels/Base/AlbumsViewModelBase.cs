@@ -56,6 +56,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         public DelegateCommand AddAlbumsToNowPlayingCommand { get; set; }
         public DelegateCommand<string> SetCoverSizeCommand { get; set; }
         public DelegateCommand DelaySelectedAlbumsCommand { get; set; }
+        public DelegateCommand ShuffleSelectedAlbumsCommand { get; set; }
         #endregion
 
         #region Properties
@@ -163,6 +164,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
+            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.PlaybackService.EnqueueAsync(this.SelectedAlbums, true, false));
 
             // Initialize
             this.Initialize();

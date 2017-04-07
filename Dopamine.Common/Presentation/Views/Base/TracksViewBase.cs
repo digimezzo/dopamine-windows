@@ -79,15 +79,15 @@ namespace Dopamine.Common.Presentation.Views.Base
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist, false, false);
+                    await this.playbackService.EnqueueAsync(((ArtistViewModel)lb.SelectedItem).Artist.ToList(), false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre, false, false);
+                    await this.playbackService.EnqueueAsync(((GenreViewModel)lb.SelectedItem).Genre.ToList(), false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album, false, false);
+                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album.ToList(), false, false);
                 }
             }
             catch (Exception ex)
