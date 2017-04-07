@@ -4,6 +4,7 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
@@ -179,6 +180,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                         var time = TimeSpan.Zero;
 
+
                         // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
                         if (index > 0)
                         {
@@ -186,7 +188,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                             foreach (Match m in ms)
                             {
                                 var subString = m.Value.Trim('[', ']');
-                                if (TimeSpan.TryParseExact(subString, new string[] { @"mm\:ss\.fff", @"mm\:ss\.ff", @"mm\:ss" }, System.Globalization.CultureInfo.InvariantCulture, out time))
+                                if (FormatUtils.ParseLyricsTime(subString, out time))
                                 {
                                     localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
                                 }
