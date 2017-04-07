@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Media;
 using Digimezzo.Utilities.ColorSpace;
 using Dopamine.Common.Services.Appearance;
+using Prism.Commands;
+using System;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -29,6 +31,7 @@ namespace Dopamine.ControlsModule.ViewModels
         private double spectrumOpacity;
         private SpectrumAnimationStyle animationStyle;
         private Brush spectrumBarBackground;
+        private SpectrumStyle spectrumStyle;
         #endregion
 
         #region Properties
@@ -108,6 +111,10 @@ namespace Dopamine.ControlsModule.ViewModels
         }
         #endregion
 
+        #region Commands
+        public DelegateCommand ToggleSpectrumCommand { get; set; }
+        #endregion
+
         #region Construction
         public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService, IEventAggregator eventAggregator)
         {
@@ -119,6 +126,8 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.appearanceService.ColorSchemeChanged += (_, __) =>
             Application.Current.Dispatcher.Invoke(() => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle")));
+
+            this.ToggleSpectrumCommand = new DelegateCommand(() => this.ToggleSpectrum());
 
             this.playbackService.PlaybackFailed += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
@@ -151,6 +160,7 @@ namespace Dopamine.ControlsModule.ViewModels
             switch (style)
             {
                 case SpectrumStyle.Flames:
+                    this.spectrumStyle = SpectrumStyle.Flames;
                     this.BlurRadius = 20;
                     this.SpectrumBarCount = 65;
                     this.SpectrumWidth = 270;
@@ -170,6 +180,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Lines:
+                    this.spectrumStyle = SpectrumStyle.Lines;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 50;
                     this.SpectrumWidth = 162;
@@ -181,6 +192,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Bars:
+                    this.spectrumStyle = SpectrumStyle.Bars;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 20;
                     this.SpectrumWidth = 162;
@@ -192,6 +204,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Stripes:
+                    this.spectrumStyle = SpectrumStyle.Stripes;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 13;
                     this.SpectrumWidth = 162;
@@ -206,6 +219,31 @@ namespace Dopamine.ControlsModule.ViewModels
                     // Shouldn't happen
                     break;
             }
+
+            SettingsClient.Set<int>("Playback", "SpectrumStyle", (int)style);
+        }
+
+        private void ToggleSpectrum()
+        {
+            if (!SettingsClient.Get<bool>("Playback", "ToggleSpectrumByClick")) return;
+
+            switch (this.spectrumStyle)
+            {
+                case SpectrumStyle.Flames:
+                    this.SetSpectrumStyle(SpectrumStyle.Lines);
+                    break;
+                case SpectrumStyle.Lines:
+                    this.SetSpectrumStyle(SpectrumStyle.Bars);
+                    break;
+                case SpectrumStyle.Bars:
+                    this.SetSpectrumStyle(SpectrumStyle.Stripes);
+                    break;
+                case SpectrumStyle.Stripes:
+                    this.SetSpectrumStyle(SpectrumStyle.Flames);
+                    break;
+            }
+
+            this.eventAggregator.GetEvent<SelectedSpectrumStyleChanged>().Publish("");
         }
         #endregion
     }

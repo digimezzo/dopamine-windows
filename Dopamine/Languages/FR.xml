@@ -390,4 +390,5 @@
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Style de spectre</Text>
+  <Text Key="Toggle_Spectrum_By_Click">Changer le style de spectre lors d'un clique sur l'analyseur de spectre</Text>
 </Language>
