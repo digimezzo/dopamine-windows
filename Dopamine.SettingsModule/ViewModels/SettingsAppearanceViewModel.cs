@@ -21,6 +21,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxShowSpectrumAnalyzerChecked;
         private bool checkBoxCheckBoxShowWindowBorderChecked;
         private bool checkBoxEnableTransparencyChecked;
+        private bool checkBoxToggleSpectrumByClickChecked;
         private IEventAggregator eventAggregator;
         private ObservableCollection<NameValue> spectrumStyles;
         private NameValue selectedSpectrumStyle;
@@ -48,6 +49,16 @@ namespace Dopamine.SettingsModule.ViewModels
                 SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
                 SetProperty<bool>(ref this.checkBoxShowSpectrumAnalyzerChecked, value);
                 this.playbackService.IsSpectrumVisible = value;
+            }
+        }
+
+        public bool CheckBoxToggleSpectrumByClickChecked
+        {
+            get { return this.checkBoxToggleSpectrumByClickChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Playback", "ToggleSpectrumByClick", value);
+                SetProperty<bool>(ref this.checkBoxToggleSpectrumByClickChecked, value);
             }
         }
 
@@ -92,6 +103,8 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.ColorSchemesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
+            this.eventAggregator.GetEvent<SelectedSpectrumStyleChanged>().Subscribe((_) => this.SetSelectedSpectrumStyle());
+
             this.GetCheckBoxesAsync();
             this.GetSpectrumStylesAsync();
         }
@@ -105,6 +118,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.CheckBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
                 this.CheckBoxCheckBoxShowWindowBorderChecked = SettingsClient.Get<bool>("Appearance", "ShowWindowBorder");
                 this.CheckBoxEnableTransparencyChecked = SettingsClient.Get<bool>("Appearance", "EnableTransparency");
+                this.CheckBoxToggleSpectrumByClickChecked = SettingsClient.Get<bool>("Playback", "ToggleSpectrumByClick");
             });
         }
 
@@ -122,6 +136,11 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.SpectrumStyles = localSpectrumStyles;
 
+            this.SetSelectedSpectrumStyle();
+        }
+
+        private async void SetSelectedSpectrumStyle()
+        {
             NameValue localSelectedSpectrumStyle = null;
             await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
             this.SelectedSpectrumStyle = localSelectedSpectrumStyle;

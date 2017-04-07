@@ -118,6 +118,15 @@ namespace Dopamine.Common.Audio
 
         private static void OnBarWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+
+            if (spectrumAnalyzer.barShapes != null && spectrumAnalyzer.barShapes.Count > 0)
+            {
+                foreach (Shape bar in spectrumAnalyzer.barShapes)
+                {
+                    bar.Width = spectrumAnalyzer.BarWidth;
+                }
+            }
         }
 
         public double BarWidth

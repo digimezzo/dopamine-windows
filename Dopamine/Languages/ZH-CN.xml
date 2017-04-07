@@ -390,4 +390,5 @@
   <Text Key="XiamiLyrics">虾米音乐</Text>
   <Text Key="NeteaseLyrics">网易云音乐</Text>
   <Text Key="Spectrum_Style">Spectrum style</Text>
+  <Text Key="Toggle_Spectrum_By_Click">Change the spectrum style when clicking on the spectrum analyzer</Text>
 </Language>

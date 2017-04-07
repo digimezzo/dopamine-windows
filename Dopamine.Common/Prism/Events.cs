@@ -52,6 +52,10 @@ namespace Dopamine.Common.Prism
     {
     }
 
+    public class SelectedSpectrumStyleChanged : PubSubEvent<string>
+    {
+    }
+
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
     }
