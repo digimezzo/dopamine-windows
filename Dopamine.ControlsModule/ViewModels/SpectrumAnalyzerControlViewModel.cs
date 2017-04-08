@@ -109,6 +109,12 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.spectrumBarBackground; }
             set { SetProperty<Brush>(ref this.spectrumBarBackground, value); }
         }
+
+        public SpectrumStyle SpectrumStyle
+        {
+            get { return this.spectrumStyle; }
+            set { SetProperty<SpectrumStyle>(ref this.spectrumStyle, value); }
+        }
         #endregion
 
         #region Commands
@@ -160,7 +166,7 @@ namespace Dopamine.ControlsModule.ViewModels
             switch (style)
             {
                 case SpectrumStyle.Flames:
-                    this.spectrumStyle = SpectrumStyle.Flames;
+                    this.SpectrumStyle = SpectrumStyle.Flames;
                     this.BlurRadius = 20;
                     this.SpectrumBarCount = 65;
                     this.SpectrumWidth = 270;
@@ -180,7 +186,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Lines:
-                    this.spectrumStyle = SpectrumStyle.Lines;
+                    this.SpectrumStyle = SpectrumStyle.Lines;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 50;
                     this.SpectrumWidth = 162;
@@ -192,7 +198,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Bars:
-                    this.spectrumStyle = SpectrumStyle.Bars;
+                    this.SpectrumStyle = SpectrumStyle.Bars;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 20;
                     this.SpectrumWidth = 162;
@@ -204,7 +210,7 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
                     break;
                 case SpectrumStyle.Stripes:
-                    this.spectrumStyle = SpectrumStyle.Stripes;
+                    this.SpectrumStyle = SpectrumStyle.Stripes;
                     this.BlurRadius = 0;
                     this.SpectrumBarCount = 13;
                     this.SpectrumWidth = 162;
