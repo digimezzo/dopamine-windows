@@ -56,7 +56,7 @@
                 Margin="-4,0,0,0" 
                 BarCount="{Binding SpectrumBarCount}" />
             </StackPanel>
-            <Ellipse Panel.ZIndex="0" Opacity="0" Width="{Binding SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource RG_SpectrumGradientBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Ellipse Panel.ZIndex="0" Opacity="0" Width="{Binding SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource RG_SpectrumGradientBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding SpectrumStyle, Converter={StaticResource SpectrumStyleEllipseConverter}}">
                 <Ellipse.Style>
                     <Style>
                         <Style.Triggers>
