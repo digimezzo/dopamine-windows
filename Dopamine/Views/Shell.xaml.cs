@@ -241,7 +241,7 @@ namespace Dopamine.Views
 
             // Application
             // -----------
-            this.ShowMainWindowCommand = new DelegateCommand(() => TrayIconContextMenuAppName_Click(null, null));
+            this.ShowMainWindowCommand = new DelegateCommand(() => this.ActivateNow());
             Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
         }
 
