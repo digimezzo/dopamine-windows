@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Code="SV" Name="Swedish">
   <Text Key="ISO639-1">SV</Text>
   <Text Key="Ok">OK</Text>
@@ -85,7 +85,7 @@
   <Text Key="Pause">Paus</Text>
   <Text Key="Next">Nästa</Text>
   <Text Key="Previous">Föregående</Text>
-  <Text Key="Loop">Loopa</Text>
+  <Text Key="Loop">Upprepa</Text>
   <Text Key="Shuffle">Blanda</Text>
   <Text Key="Mute">Ljud av</Text>
   <Text Key="Unmute">Ljud på</Text>
@@ -156,7 +156,7 @@
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Kunde inte byta namn på spellistan. Läs loggfilen för mer information.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Ange nytt namn för spellistan %playlistname%</Text>
-  <Text Key="Add_To_Playlist">Lägg till i spellistan</Text>
+  <Text Key="Add_To_Playlist">Lägg till i spellista</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Ett fel uppstod vid tillägg av låtar i spellistan %playlistname%. Läs loggfilen för mer information.</Text>
   <Text Key="Error_Adding_Albums_To_Playlist">Ett fel uppstod vid tillägg av album i spellistan %playlistname%. Läs loggfilen för mer information.</Text>
   <Text Key="Error_Adding_Artists_To_Playlist">Ett fel uppstod vid tillägg av artister i spellistan %playlistname%. Läs loggfilen för mer information.</Text>
@@ -171,9 +171,9 @@
   <Text Key="Are_You_Sure_To_Remove_Songs">Vill du säkert radera dessa låtar från samlingen? Detta raderar inte filen från datorn.</Text>
   <Text Key="Error_Removing_Songs">Ett fel uppstod vid radering av låtar från samlingen. Läs loggfilen för mer information.</Text>
   <Text Key="By_Date_Added">Datum tillagt</Text>
-  <Text Key="Cover_Player">Skivomslag spelare</Text>
-  <Text Key="Micro_Player">Micro spelare</Text>
-  <Text Key="Nano_Player">Nano spelare</Text>
+  <Text Key="Cover_Player">Skivomslagspelare</Text>
+  <Text Key="Micro_Player">Microspelare</Text>
+  <Text Key="Nano_Player">Nanospelare</Text>
   <Text Key="Lock_Position">Lås position</Text>
   <Text Key="Always_On_Top">Alltid överst</Text>
   <Text Key="Always_Show_Playback_Info">Visa alltid artist och titel</Text>
@@ -200,11 +200,11 @@
   <Text Key="Path">Sökväg</Text>
   <Text Key="Size">Storlek</Text>
   <Text Key="Last_Modified">Senast ändrad</Text>
-  <Text Key="Audio">Audio</Text>
+  <Text Key="Audio">Ljud</Text>
   <Text Key="Duration">Varaktighet</Text>
   <Text Key="Type">Typ</Text>
-  <Text Key="Sample_Rate">Sample rate</Text>
-  <Text Key="Bitrate">Bitrate</Text>
+  <Text Key="Sample_Rate">Samplingshastighet</Text>
+  <Text Key="Bitrate">Bithastighet</Text>
   <Text Key="Bytes">Bytes</Text>
   <Text Key="Kilobytes_Short">KB</Text>
   <Text Key="Megabytes_Short">MB</Text>
@@ -233,13 +233,13 @@
   <Text Key="Click_To_View_Full_Size">Klicka för att se full storlek</Text>
   <Text Key="Album_Artists">Album artister</Text>
   <Text Key="Track_Count">Låt antal</Text>
-  <Text Key="Disc_Number">Disc nummer</Text>
-  <Text Key="Disc_Count">Disc antal</Text>
+  <Text Key="Disc_Number">Skivnummer</Text>
+  <Text Key="Disc_Count">Skivantal</Text>
   <Text Key="Grouping">Gruppering</Text>
   <Text Key="Comment">Kommentar</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Endast positiva siffror är tillåtna</Text>
-  <Text Key="Export">Export</Text>
-  <Text Key="Export_The_Image">Export the image</Text>
+  <Text Key="Export">Exportera</Text>
+  <Text Key="Export_The_Image">Exportera bilden</Text>
   <Text Key="Change">Ändra</Text>
   <Text Key="Change_The_Image">Byt bilden</Text>
   <Text Key="Remove">Radera</Text>
@@ -259,7 +259,7 @@
   <Text Key="Update_Album_Cover">Uppdatera skivomslag</Text>
   <Text Key="Check_Box_To_Update_Album_Cover_In_Collection">Kryssa i denna ruta för att uppdatera skivomslaget i samlingen</Text>
   <Text Key="Edit_Album">Redigera album</Text>
-  <Text Key="Update_File_Covers">Uppdatera filomslag</Text>
+  <Text Key="Update_File_Covers">Uppdatera skivomslag</Text>
   <Text Key="Check_Box_To_Update_File_Covers">Kryssa i denna ruta för att uppdatera skivomslaget för alla filer i detta album</Text>
   <Text Key="Startup_Page">Uppstart sida</Text>
   <Text Key="Start_At_Last_Selected_Page">Öppna senast valda sida vid uppstart</Text>
@@ -354,9 +354,9 @@
   <Text Key="Font_Size">Tecken storlek</Text>
   <Text Key="Cancel_Edit">Avbryt redigering</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Spela låten och tryck Ctrl+T för att infoga en tidsstämpel i början av nuvarande rad</Text>
-  <Text Key="Sign_In_To_Enable_Lastfm">Logga in för att aktivera Last.fm 'Scrobble' och 'Love'</Text>
+  <Text Key="Sign_In_To_Enable_Lastfm">Logga in för att aktivera Last.fm 'Scrobble' och 'Gilla'</Text>
   <Text Key="Create_A_Lastfm_Account">Skapa ett Last.fm konto</Text>
-  <Text Key="Love">Love</Text>
+  <Text Key="Love">Gilla</Text>
   <Text Key="Show_Love_Button">Visa 'Hjärtan'</Text>
   <Text Key="Show_Rating_Button">Visa 'Stjärnmärkning'</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Visa avisering när en låt pausas</Text>
@@ -389,6 +389,6 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Vill du säkert radera dessa låtar från spellistan '%playlistname%'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Spectrum_Style">Spectrum style</Text>
-  <Text Key="Toggle_Spectrum_By_Click">Change the spectrum style when clicking on the spectrum analyzer</Text>
+  <Text Key="Spectrum_Style">Spektrum stil</Text>
+  <Text Key="Toggle_Spectrum_By_Click">Ändra spektrum stil med att klicka på spektrum analysatorn</Text>
 </Language>
