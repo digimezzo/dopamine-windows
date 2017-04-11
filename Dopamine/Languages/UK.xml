@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Звук відтворюється через Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Зовнішній вигляд</Text>
   <Text Key="Theme">Тема</Text>
-  <Text Key="Choose_Theme">Обрати тему</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Наслідувати кольори надані Windows</Text>
   <Text Key="Choose_A_Color">Обрати кольор</Text>
   <Text Key="Choose_Language">Обрати мову</Text>

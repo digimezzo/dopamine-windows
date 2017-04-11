@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Zvuk je přehráván přes Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Vzhled</Text>
   <Text Key="Theme">Téma</Text>
-  <Text Key="Choose_Theme">Zvolit téma</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Podle barev Windows</Text>
   <Text Key="Choose_A_Color">Zvolte barvu</Text>
   <Text Key="Choose_Language">Zvolte jazyk</Text>

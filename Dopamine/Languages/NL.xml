@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Geluid wordt afgespeeld via de Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Uiterlijk</Text>
   <Text Key="Theme">Thema</Text>
-  <Text Key="Choose_Theme">Kies een thema</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Volg de Windows kleur</Text>
   <Text Key="Choose_A_Color">Kies een kleur</Text>
   <Text Key="Choose_Language">Kies een taal</Text>

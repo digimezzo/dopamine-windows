@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Ljudet spelas upp av Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Utseende</Text>
   <Text Key="Theme">Tema</Text>
-  <Text Key="Choose_Theme">Välj ett tema</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Följ Windows färger</Text>
   <Text Key="Choose_A_Color">Välj en färg</Text>
   <Text Key="Choose_Language">Välj språk</Text>
