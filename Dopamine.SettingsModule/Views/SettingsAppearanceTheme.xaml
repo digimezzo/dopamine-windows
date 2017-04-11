@@ -13,7 +13,7 @@
 
     <StackPanel>
         <TextBlock Text="{DynamicResource Language_Choose_Theme}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-        <dc:Windows10ToggleSwitch x:Name="CheckBoxTheme" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Light}" OffLabel="{DynamicResource Language_Dark}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxThemeChecked}"/>
+        <dc:Windows10ToggleSwitch x:Name="CheckBoxTheme" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxThemeChecked}"/>
         <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Follow_Windows_Color}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         <dc:Windows10ToggleSwitch x:Name="CheckBoxWindowsColor" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWindowsColorChecked}"/>
         <ListBox Margin="0,20,0,0" Name="ListBoxColorSchemes" HorizontalAlignment="Left" DockPanel.Dock="Left" Background="Transparent" ItemsSource="{Binding Path=ColorSchemes}" SelectedItem="{Binding SelectedColorScheme,Mode=TwoWay}" IsHitTestVisible="{Binding Path=CheckBoxWindowsColorChecked, Converter={StaticResource InvertingBooleanConverter}}" >

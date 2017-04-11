@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">通过 Windows Audio Session API (WASAPI) 播放音频</Text>
   <Text Key="Appearance">外观</Text>
   <Text Key="Theme">主题</Text>
-  <Text Key="Choose_Theme">选择主题</Text>
+  <Text Key="Choose_Theme">使用亮色主题</Text>
   <Text Key="Follow_Windows_Color">使用系统颜色</Text>
   <Text Key="Choose_A_Color">选择颜色</Text>
   <Text Key="Choose_Language">选择语言</Text>
@@ -389,6 +389,6 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">你确定要从播放列表 '%playlistname%' 中删除这几首歌吗?</Text>
   <Text Key="XiamiLyrics">虾米音乐</Text>
   <Text Key="NeteaseLyrics">网易云音乐</Text>
-  <Text Key="Spectrum_Style">Spectrum style</Text>
-  <Text Key="Toggle_Spectrum_By_Click">Change the spectrum style when clicking on the spectrum analyzer</Text>
+  <Text Key="Spectrum_Style">选择频谱风格</Text>
+  <Text Key="Toggle_Spectrum_By_Click">当点击频谱时切换风格</Text>
 </Language>

@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Hang lejátszása a "Windows Audio Session API" (WASAPI)-n keresztül történik.</Text>
   <Text Key="Appearance">Megjelenés</Text>
   <Text Key="Theme">Séma</Text>
-  <Text Key="Choose_Theme">Válassz Sémát</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Használd a Windows színét</Text>
   <Text Key="Choose_A_Color">Válassz színt</Text>
   <Text Key="Choose_Language">Válassz nyelvet</Text>
