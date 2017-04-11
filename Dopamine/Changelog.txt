@@ -1,6 +1,7 @@
 2017-04-07: Dopamine 1.3 Build 913 (Preview)
 --------------------------------------------
 
+- [Changed] Updated the Swedish translation
 - [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
 
 
