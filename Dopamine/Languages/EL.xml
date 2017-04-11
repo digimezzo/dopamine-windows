@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Ο ήχος αναπαράγεται μέσω Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Εμφάνιση</Text>
   <Text Key="Theme">Θέμα</Text>
-  <Text Key="Choose_Theme">Επιλογή θέματος</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Ταύτιση με χρωματισμό Windows</Text>
   <Text Key="Choose_A_Color">Επιλογή χρώματος</Text>
   <Text Key="Choose_Language">Επιλογή γλώσσας</Text>

@@ -49,7 +49,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Le son est diffusé par la Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Apparence</Text>
   <Text Key="Theme">Thème</Text>
-  <Text Key="Choose_Theme">Choisissez un thème</Text>
+  <Text Key="Choose_Theme">Use light theme</Text>
   <Text Key="Follow_Windows_Color">Utiliser la couleur d'accentuation de Windows</Text>
   <Text Key="Choose_A_Color">Choisissez une couleur</Text>
   <Text Key="Choose_Language">Choisissez une langue</Text>
