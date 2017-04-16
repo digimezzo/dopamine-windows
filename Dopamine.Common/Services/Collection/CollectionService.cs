@@ -73,7 +73,8 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
         {
-            RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
+            var sendToRecycleBinResult = RemoveTracksResult.Success;
+            var result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
 
             if (result == RemoveTracksResult.Success)
             {
@@ -85,15 +86,25 @@ namespace Dopamine.Common.Services.Collection
                     // When the track is playing, the corresponding file is handled by the CSCore.
                     // To delete the file properly, PlaybackService must release this handle.
                     await this.playbackService.StopIfPlayingAsync(track);
-                    
-                    // Delete file from disk
-                    FileUtils.SendToRecycleBinSilent(track.Path);
+
+                    try
+                    {
+                        // Delete file from disk
+                        FileUtils.SendToRecycleBinSilent(track.Path);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error($"Error while removing track '{track.TrackTitle}' from disk. Expection: {ex.Message}");
+                        sendToRecycleBinResult = RemoveTracksResult.Error;
+                    }
                 }
 
                 this.CollectionChanged(this, new EventArgs());
             }
 
-            return result;
+            if (sendToRecycleBinResult == RemoveTracksResult.Success && result == RemoveTracksResult.Success)
+                return RemoveTracksResult.Success;
+            return RemoveTracksResult.Error;
         }
 
         public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels)
