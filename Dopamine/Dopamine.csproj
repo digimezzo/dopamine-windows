@@ -383,6 +383,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Libraries\CSCore.dll" />
+    <Content Include="Libraries\Digimezzo.Utilities.dll" />
     <Content Include="Libraries\Digimezzo.WPFControls.dll" />
     <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
     <Content Include="Libraries\Ionic.Zip.dll" />
