@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>84</Value>
+      <Value>85</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -75,6 +75,9 @@
       <Value>False</Value>
     </Setting>
     <Setting Name="FollowWindowsColor">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="FollowAlbumCoverColor">
       <Value>False</Value>
     </Setting>
     <Setting Name="Language">
