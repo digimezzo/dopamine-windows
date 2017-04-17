@@ -16,6 +16,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
         private ColorScheme selectedColorScheme;
         private bool checkBoxWindowsColorChecked;
+        private bool checkBoxAlbumCoverColorChecked;
         private bool checkBoxThemeChecked;
         private bool isViewModelLoaded = true;
         #endregion
@@ -57,7 +58,9 @@ namespace Dopamine.SettingsModule.ViewModels
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await this.appearanceService.ApplyColorScheme(
-                            SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"), isViewModelLoaded,
+                            SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
+                            SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
+                            isViewModelLoaded,
                             value.AccentColor);
                         isViewModelLoaded = false;
                     });
@@ -74,9 +77,36 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
-                Application.Current.Dispatcher.Invoke(async () => await this.appearanceService.ApplyColorScheme(value, isViewModelLoaded, SettingsClient.Get<string>("Appearance", "ColorScheme")));
+                Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    await this.appearanceService.ApplyColorScheme(
+                        value,
+                        this.CheckBoxAlbumCoverColorChecked,
+                        isViewModelLoaded,
+                        SettingsClient.Get<string>("Appearance", "ColorScheme"));
+                });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
+            }
+        }
+
+        public bool CheckBoxAlbumCoverColorChecked
+        {
+            get { return this.checkBoxAlbumCoverColorChecked; }
+
+            set
+            {
+                SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
+                Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    await this.appearanceService.ApplyColorScheme(
+                          this.CheckBoxWindowsColorChecked,
+                          value,
+                          isViewModelLoaded,
+                          SettingsClient.Get<string>("Appearance", "ColorScheme"));
+                });
+
+                SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);
             }
         }
         #endregion
@@ -98,7 +128,8 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             ObservableCollection<ColorScheme> localColorSchemes = new ObservableCollection<ColorScheme>();
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 foreach (ColorScheme cs in this.appearanceService.GetColorSchemes())
                 {
                     localColorSchemes.Add(cs);
@@ -121,9 +152,11 @@ namespace Dopamine.SettingsModule.ViewModels
 
         private async void GetCheckBoxesAsync()
         {
-            await Task.Run(() => {
-                this.CheckBoxWindowsColorChecked = SettingsClient.Get<bool>("Appearance", "FollowWindowsColor");
+            await Task.Run(() =>
+            {
                 this.CheckBoxThemeChecked = SettingsClient.Get<bool>("Appearance", "EnableLightTheme");
+                this.CheckBoxWindowsColorChecked = SettingsClient.Get<bool>("Appearance", "FollowWindowsColor");
+                this.CheckBoxAlbumCoverColorChecked = SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor");
             });
         }
         #endregion

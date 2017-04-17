@@ -10,7 +10,7 @@ namespace Dopamine.Common.Services.Appearance
         List<ColorScheme> GetColorSchemes();
         ColorScheme GetColorScheme(string name);
         void ApplyTheme(bool enableLightTheme);
-        Task ApplyColorScheme(bool followWindowsColor, bool isViewModelLoaded = false, string selectedColorScheme = "");
+        Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false, string selectedColorScheme = "");
         void WatchWindowsColor(Window window);
         event EventHandler ThemeChanged;
         event EventHandler ColorSchemeChanged;

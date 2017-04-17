@@ -1,7 +1,11 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -14,15 +18,17 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
-using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Services.Appearance
 {
     public class AppearanceService : IAppearanceService
     {
         #region Variables
+        private IPlaybackService playbackService;
+        private IMetadataService metadataService;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
-        private bool followWindowsColor = false;
+        private bool followWindowsColor;
+        private bool followAlbumCoverColor;
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
@@ -55,8 +61,15 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Construction
-        public AppearanceService()
+        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService)
         {
+            // Services
+            // --------
+            this.playbackService = playbackService;
+            this.metadataService = metadataService;
+
+            playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
+
             // Initialize the ColorSchemes directory
             // -------------------------------------
             // If the ColorSchemes subdirectory doesn't exist, create it
@@ -117,6 +130,12 @@ namespace Dopamine.Common.Services.Appearance
             this.colorSchemeWatcher.Created += new FileSystemEventHandler(WatcherChangedHandler);
             this.colorSchemeWatcher.Renamed += new RenamedEventHandler(WatcherRenamedHandler);
         }
+
+        private void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
+        {
+            if (!this.followAlbumCoverColor) return;
+            this.ApplyColorScheme(this.followWindowsColor, this.followAlbumCoverColor);
+        }
         #endregion
 
         #region Events
@@ -154,10 +173,8 @@ namespace Dopamine.Common.Services.Appearance
         #region Private
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED & this.followWindowsColor)
-            {
-                ApplyColorScheme(true);
-            }
+            if (!this.followWindowsColor) return IntPtr.Zero;
+            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED) this.ApplyColorScheme(this.followWindowsColor ,this.followAlbumCoverColor);
 
             return IntPtr.Zero;
         }
@@ -314,37 +331,33 @@ namespace Dopamine.Common.Services.Appearance
             this.ThemeChanged(this, new EventArgs());
         }
 
-        public async Task ApplyColorScheme(bool iFollowWindowsColor, bool isViewModelLoaded = false, string iSelectedColorScheme = "")
+        public async Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false, string selectedColorScheme = "")
         {
-            this.followWindowsColor = iFollowWindowsColor;
+            this.followWindowsColor = followWindowsColor;
+            this.followAlbumCoverColor = followAlbumCoverColor;
 
             Color accentColor = default(Color);
 
-            if (this.followWindowsColor)
+            try
             {
-                try
+                if (followWindowsColor)
                 {
-                    // This should never fail. But just in case, don't apply the ColorScheme
                     accentColor = (Color)ColorConverter.ConvertFromString(GetWindowsDWMColor());
                 }
-                catch (Exception)
+                else if (followAlbumCoverColor)
                 {
-                    return;
+                    byte[] artwork = await this.metadataService.GetArtworkAsync(this.playbackService.CurrentTrack.Value.Path);
+                    await Task.Run(() => accentColor = ImageUtils.GetDominantColor(artwork));
                 }
-            }
-            else
-            {
-                ColorScheme cs = this.GetColorScheme(iSelectedColorScheme);
-
-                try
+                else
                 {
-                    // This can fail if the user created a XML file with incorrect color codes. In case this fails, don't apply the ColorScheme
+                    ColorScheme cs = this.GetColorScheme(selectedColorScheme);
                     accentColor = (Color)ColorConverter.ConvertFromString(cs.AccentColor);
                 }
-                catch (Exception)
-                {
-                    return;
-                }
+            }
+            catch (Exception)
+            {
+                // In case this fails, don't change the color.
             }
 
             if (!isViewModelLoaded)
@@ -381,7 +394,7 @@ namespace Dopamine.Common.Services.Appearance
                             // Re-apply theme to ensure brushes referencing AccentColor are updated
                             this.ReApplyTheme();
                             this.ColorSchemeChanged(this, new EventArgs());
-                        } 
+                        }
                     };
                     applyColorSchemeTimer.Start();
                 });
@@ -394,7 +407,7 @@ namespace Dopamine.Common.Services.Appearance
                 // Re-apply theme to ensure brushes referencing AccentColor are updated
                 this.ReApplyTheme();
                 this.ColorSchemeChanged(this, new EventArgs());
-            }   
+            }
         }
         #endregion
     }

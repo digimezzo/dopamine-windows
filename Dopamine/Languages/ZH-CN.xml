@@ -391,4 +391,5 @@
   <Text Key="NeteaseLyrics">网易云音乐</Text>
   <Text Key="Spectrum_Style">选择频谱风格</Text>
   <Text Key="Toggle_Spectrum_By_Click">当点击频谱时切换风格</Text>
+  <Text Key="Follow_Album_Cover_Color">Follow the album cover color</Text>
 </Language>

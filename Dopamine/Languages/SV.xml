@@ -391,4 +391,5 @@
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Spektrum stil</Text>
   <Text Key="Toggle_Spectrum_By_Click">Ändra spektrum stil med att klicka på spektrum analysatorn</Text>
+  <Text Key="Follow_Album_Cover_Color">Follow the album cover color</Text>
 </Language>
