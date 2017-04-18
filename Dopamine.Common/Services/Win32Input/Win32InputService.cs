@@ -64,6 +64,7 @@ namespace Dopamine.Common.Services.Win32Input
             UnhookWindowsHookEx(keyboardHookID);
         }
 
+        [DebuggerHidden]
         private IntPtr HookCallback(int code, IntPtr wParam, IntPtr lParam)
         {
             if (code >= 0 && (wParam.ToInt32() == WM_KEYUP || wParam.ToInt32() == WM_SYSKEYUP))
@@ -164,6 +165,7 @@ namespace Dopamine.Common.Services.Win32Input
             }
         }
 
+        [DebuggerHidden]
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == WM_SHELLHOOKMESSAGE && (int)wParam == HSHELL_APPCOMMAND)
