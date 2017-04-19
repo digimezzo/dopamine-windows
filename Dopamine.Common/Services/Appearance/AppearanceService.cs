@@ -9,6 +9,7 @@ using Dopamine.Common.Services.Playback;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -171,6 +172,7 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Private
+        [DebuggerHidden]
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (!this.followWindowsColor) return IntPtr.Zero;
