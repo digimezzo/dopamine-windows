@@ -19,6 +19,7 @@
             <converters:PercentSizeConverter x:Key="PercentSizeConverter"/>
             <converters:AddEllipsisConverter x:Key="AddEllipsisConverter"/>
             <converters:SpectrumStyleEllipseConverter x:Key="SpectrumStyleEllipseConverter"/>
+            <converters:LyricSourceVisibilityConverter x:Key="LyricSourceVisibilityConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/AllStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>

@@ -1,5 +1,12 @@
 ﻿namespace Dopamine.Common.Api.Lyrics
 {
+    public enum SourceTypeEnum
+    {
+        Audio,
+        Lrc,
+        Online
+    }
+
     public class Lyrics
     {
         #region Variables
@@ -28,6 +35,8 @@
         {
             get { return !string.IsNullOrWhiteSpace(this.source); }
         }
+
+        public SourceTypeEnum SourceType { get; set; }
         #endregion
 
         #region Construction
