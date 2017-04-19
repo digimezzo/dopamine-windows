@@ -764,7 +764,14 @@ namespace Dopamine.Views
             {
                 if (this.WindowState == WindowState.Maximized)
                 {
-                    WindowUtils.RemoveWindowCaption(this);
+                    try
+                    {
+                        WindowUtils.RemoveWindowCaption(this);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not remove window caption. Exception: {0}", ex.Message);
+                    }
                 }
 
                 // When restored, show this window in Taskbar and ALT-TAB menu.
