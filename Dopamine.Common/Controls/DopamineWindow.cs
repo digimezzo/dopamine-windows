@@ -75,7 +75,6 @@ namespace Dopamine.Common.Controls
             this.minimizeButton.ToolTip = this.MinimizeToolTip;
         }
 
-
         private void BorderlessWindowBase_MaximizeRestoreToolTipChanged(object sender, EventArgs e)
         {
             if (this.WindowState == WindowState.Maximized)
@@ -129,20 +128,13 @@ namespace Dopamine.Common.Controls
 
             if (this.windowBorder == null) return;
 
-            if (this.WindowState == WindowState.Maximized)
+            if (this.HasBorder)
             {
-                this.SetBorderThickness(new Thickness(6));
+                this.SetBorderThickness(new Thickness(1));
             }
             else
             {
-                if (this.HasBorder)
-                {
-                    this.SetBorderThickness(new Thickness(1));
-                }
-                else
-                {
-                    this.SetBorderThickness(new Thickness(0));
-                }
+                this.SetBorderThickness(new Thickness(0));
             }
         }
         #endregion

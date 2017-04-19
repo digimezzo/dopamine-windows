@@ -63,6 +63,8 @@ namespace Dopamine.Views
         private bool isShuttingDown;
         private bool mustPerformClosingTasks;
         private ManagementEventWatcher managementEventWatcher;
+        private bool isStartup = true;
+        private bool startupWindowMaxmize;
         #endregion
 
         #region Commands
@@ -113,6 +115,7 @@ namespace Dopamine.Views
 
             // Tray icon
             this.InitializeTrayIcon();
+
         }
         #endregion
 
@@ -546,7 +549,14 @@ namespace Dopamine.Views
 
             if (SettingsClient.Get<bool>("FullPlayer", "IsMaximized"))
             {
-                this.WindowState = WindowState.Maximized;
+                if (!isStartup)
+                {
+                    this.WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    isStartup = false;
+                }
             }
             else
             {
@@ -752,6 +762,11 @@ namespace Dopamine.Views
             }
             else
             {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    WindowUtils.RemoveWindowCaption(this);
+                }
+
                 // When restored, show this window in Taskbar and ALT-TAB menu.
                 this.ShowInTaskbar = true;
 
