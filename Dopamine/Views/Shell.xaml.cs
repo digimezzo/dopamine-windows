@@ -64,7 +64,6 @@ namespace Dopamine.Views
         private bool mustPerformClosingTasks;
         private ManagementEventWatcher managementEventWatcher;
         private bool isStartup = true;
-        private bool startupWindowMaxmize;
         #endregion
 
         #region Commands
