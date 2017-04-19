@@ -202,13 +202,15 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(async () =>
                 {
+                    // Try to get lyrics from the audo file
                     lyrics = new Lyrics(fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty, string.Empty);
                     lyrics.SourceType = SourceTypeEnum.Audio;
 
-                    // If the file has no lyrics, and the user enabled automatic download of lyrics, indicate that we need to try to download.
+                    // If the audio file has no lyrics, try to find lyrics in a local lyrics file.
                     if (!lyrics.HasText)
                     {
                         var lrcFile = Path.Combine(Path.GetDirectoryName(fmd.Path), Path.GetFileNameWithoutExtension(fmd.Path) + ".lrc");
+
                         if (File.Exists(lrcFile))
                         {
                             using (var fs = new FileStream(lrcFile, FileMode.Open, FileAccess.Read))
@@ -225,6 +227,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                             }
                         }
 
+                        // If we still don't have lyrics and the user enabled automatic download of lyrics: try to download them online.
                         if (SettingsClient.Get<bool>("Lyrics", "DownloadLyrics"))
                         {
                             string artist = fmd.Artists != null && fmd.Artists.Values != null && fmd.Artists.Values.Length > 0 ? fmd.Artists.Values[0] : string.Empty;
