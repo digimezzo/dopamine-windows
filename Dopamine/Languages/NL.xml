@@ -392,5 +392,5 @@
   <Text Key="Spectrum_Style">Spectrum stijl</Text>
   <Text Key="Toggle_Spectrum_By_Click">Verander de spectrum stijl bij het klikken op de spectrum analyzer</Text>
   <Text Key="Follow_Album_Cover_Color">Follow the album cover color</Text>
-  <Text Key="Lyric_File">Local lyric file</Text>
+  <Text Key="Lyrics_File">Lyrics file</Text>
 </Language>

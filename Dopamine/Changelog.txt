@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Swedish translation
 - [Added] Option to follow the average album cover color
+- [Added] Added support for local lyrics files (LRC)
 - [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
 
 

@@ -143,7 +143,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.SourceType,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource LyricSourceVisibilityConverter},ConverterParameter={x:Static lyrics:SourceTypeEnum.Lrc}}">
                     <TextBlock VerticalAlignment="Center" Text="&#xE73E;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{DynamicResource Language_Lyric_File}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{DynamicResource Language_Lyrics_File}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.SourceType,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource LyricSourceVisibilityConverter},ConverterParameter={x:Static lyrics:SourceTypeEnum.Online}}">
                     <TextBlock VerticalAlignment="Center" Text="&#xE753;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
