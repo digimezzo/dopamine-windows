@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dopamine.OobeModule.Views"
              mc:Ignorable="d" 
-            xmlns:rgControls="clr-namespace:RaphaelGodart.Controls;assembly=RaphaelGodart.Controls"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:myCoreBase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
