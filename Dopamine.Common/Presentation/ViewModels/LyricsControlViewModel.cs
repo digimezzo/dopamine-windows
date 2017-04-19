@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.IO;
 using System.Text;
+using Dopamine.Common.Base;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -209,7 +210,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     // If the audio file has no lyrics, try to find lyrics in a local lyrics file.
                     if (!lyrics.HasText)
                     {
-                        var lrcFile = Path.Combine(Path.GetDirectoryName(fmd.Path), Path.GetFileNameWithoutExtension(fmd.Path) + ".lrc");
+                        var lrcFile = Path.Combine(Path.GetDirectoryName(fmd.Path), Path.GetFileNameWithoutExtension(fmd.Path) + FileFormats.LRC);
 
                         if (File.Exists(lrcFile))
                         {
