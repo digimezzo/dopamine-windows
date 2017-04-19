@@ -11,6 +11,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:lyrics="clr-namespace:Dopamine.Common.Api.Lyrics"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -136,11 +137,15 @@
             </Border>
             <commonviews:PlaybackInfoControl Height="50" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="False"/>
             <Grid Visibility="{Binding LyricsViewModel.ShowSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.HasSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.SourceType,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource LyricSourceVisibilityConverter},ConverterParameter={x:Static lyrics:SourceTypeEnum.Audio}}">
                     <TextBlock VerticalAlignment="Center" Text="&#xE73E;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{DynamicResource Language_Audio_File}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.HasSource,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.SourceType,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource LyricSourceVisibilityConverter},ConverterParameter={x:Static lyrics:SourceTypeEnum.Lrc}}">
+                    <TextBlock VerticalAlignment="Center" Text="&#xE73E;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{DynamicResource Language_Lyric_File}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding LyricsViewModel.SourceType,TargetNullValue=Hidden,FallbackValue=Hidden,Converter={StaticResource LyricSourceVisibilityConverter},ConverterParameter={x:Static lyrics:SourceTypeEnum.Online}}">
                     <TextBlock VerticalAlignment="Center" Text="&#xE753;" Style="{StaticResource SegoeAssets}" FontSize="17" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding LyricsViewModel.Lyrics.Source}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
                 </StackPanel>
