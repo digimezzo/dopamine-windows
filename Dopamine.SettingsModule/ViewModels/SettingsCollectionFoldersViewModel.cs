@@ -147,7 +147,7 @@ namespace Dopamine.SettingsModule.ViewModels
                     switch (result)
                     {
                         case AddFolderResult.Success:
-                            await this.indexingService.AddFolderWatcher(dlg.FileName);
+                            await this.indexingService.AddFolderWatcherAsync(dlg.FileName);
                             this.GetFoldersAsync();
                             break;
                         case AddFolderResult.Error:
@@ -204,7 +204,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 switch (result)
                 {
                     case RemoveFolderResult.Success:
-                        await this.indexingService.RemoveFolderWatcher(path);
+                        await this.indexingService.RemoveFolderWatcherAsync(path);
                         this.GetFoldersAsync();
                         break;
                     case RemoveFolderResult.Error:
