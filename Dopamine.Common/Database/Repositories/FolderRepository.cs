@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Common.Services.Indexing;
+using Microsoft.Practices.Unity;
 
 namespace Dopamine.Common.Database.Repositories
 {
@@ -18,21 +20,74 @@ namespace Dopamine.Common.Database.Repositories
     {
         #region Variables
         private SQLiteConnectionFactory factory;
+        private Lazy<IIndexingService> indexingService;
+        private List<FileSystemWatcher> collectionFoldersWatcher;
+        #endregion
+
+        #region Properties
+        [Dependency]
+        public Lazy<IIndexingService> IndexingService
+        {
+            set => indexingService = value;
+        }
         #endregion
 
         #region Construction
         public FolderRepository()
         {
             this.factory = new SQLiteConnectionFactory();
+
+            AddCollectionFoldersWatcherAsync();
         }
+        #endregion
+
+        #region Private
+        private void SetNeedIndexing()
+        {
+            this.indexingService.Value.RefreshNow();
+        }
+
+        private async Task<FileSystemWatcher> CreatCollectionFolderWatcher(string folder)
+        {
+            FileSystemWatcher watcher = null;
+            await Task.Run(() =>
+            {
+                watcher = new FileSystemWatcher(folder)
+                {
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = true
+                };
+                // Regardless subfolders or files are created/renamed/deleted, the Changed event will always be raised.
+                watcher.Changed += (_, __) => SetNeedIndexing();
+            });
+
+            return watcher;
+        }
+
+        private async void AddCollectionFoldersWatcherAsync()
+        {
+            await Task.Run(async() =>
+            {
+                this.collectionFoldersWatcher = new List<FileSystemWatcher>();
+
+                foreach (var folder in await GetFoldersAsync())
+                {
+                    var watcher = await CreatCollectionFolderWatcher(folder.SafePath);
+
+                    collectionFoldersWatcher.Add(watcher);
+                }
+            });
+        }
+
         #endregion
 
         #region IFolderRepository
         public async Task<AddFolderResult> AddFolderAsync(string path)
         {
             AddFolderResult result = AddFolderResult.Success;
+            FileSystemWatcher watcher = null;
 
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 try
                 {
@@ -44,6 +99,9 @@ namespace Dopamine.Common.Database.Repositories
                             {
                                 conn.Insert(new Folder { Path = path, SafePath = path.ToSafePath(), ShowInCollection = 1 });
                                 LogClient.Info("Added the Folder {0}", path);
+
+                                watcher = await CreatCollectionFolderWatcher(path);
+                                collectionFoldersWatcher.Add(watcher);
                             }
                             else
                             {
@@ -54,6 +112,7 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             LogClient.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
+                            watcher?.Dispose();
                             result = AddFolderResult.Error;
                         }
                     }
@@ -85,6 +144,10 @@ namespace Dopamine.Common.Database.Repositories
                             {
                                 conn.Delete(obsoleteFolder);
                                 LogClient.Info("Removed the Folder {0}", path);
+
+                                var watcher = collectionFoldersWatcher.First(w => w.Path == path);
+                                collectionFoldersWatcher.Remove(watcher);
+                                watcher.Dispose();
                             }
                         }
                         catch (Exception ex)

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Services.Indexing
 {
@@ -80,6 +82,12 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region IIndexingService
+        public void RefreshNow()
+        {
+            this.needsIndexing = true;
+            Application.Current.Dispatcher.BeginInvoke(new Action(async()=>await IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false)));
+        }
+
         public async Task CheckCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly)
         {
             if (this.IsIndexing | !this.needsIndexing) return;

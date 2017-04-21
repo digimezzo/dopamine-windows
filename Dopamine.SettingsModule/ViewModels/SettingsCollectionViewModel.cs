@@ -62,7 +62,7 @@ namespace Dopamine.SettingsModule.ViewModels
             this.collectionService = collectionService;
             this.trackRepository = trackRepository;
 
-            this.RefreshNowCommand = new DelegateCommand(() => this.RefreshNow());
+            this.RefreshNowCommand = new DelegateCommand(this.RefreshNow);
 
             this.GetCheckBoxesAsync();
         }
@@ -88,8 +88,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         private void RefreshNow()
         {
-            this.indexingService.NeedsIndexing = true;
-            this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.RefreshNow();
         }
         #endregion
 
