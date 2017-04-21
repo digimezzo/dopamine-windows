@@ -16,5 +16,7 @@ namespace Dopamine.Common.Services.Indexing
         event EventHandler RefreshLists;
         event EventHandler RefreshArtwork;
         void RefreshNow();
+        Task AddFolderWatcher(string folder);
+        Task RemoveFolderWatcher(string folder);
     }
 }
