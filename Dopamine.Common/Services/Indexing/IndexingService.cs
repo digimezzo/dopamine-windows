@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using Digimezzo.Utilities.Settings;
 
@@ -47,6 +48,7 @@ namespace Dopamine.Common.Services.Indexing
 
         // Watchers
         private List<FileSystemWatcher> collectionFolderWatchers;
+        private Timer collectionFolderWatchersTimer;
         #endregion
 
         #region Properties
@@ -88,8 +90,7 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region IIndexingService
-
-        public async Task AddFolderWatcher(string path)
+        public async Task AddFolderWatcherAsync(string path)
         {
             await Task.Run(async () =>
             {
@@ -100,16 +101,21 @@ namespace Dopamine.Common.Services.Indexing
                 }
                 var watcher = await CreateCollectionFolderWatcher(path);
                 this.collectionFolderWatchers.Add(watcher);
+
+                StartCollectionFolderWatchersTimer();
             });
         }
 
-        public async Task RemoveFolderWatcher(string path)
+        public async Task RemoveFolderWatcherAsync(string path)
         {
             await Task.Run(() =>
             {
-                var watcher = collectionFolderWatchers.First(w => w.Path.Equals(path));
+                var watcher =
+                    collectionFolderWatchers.First(w => Path.GetFullPath(w.Path).Equals(Path.GetFullPath(path)));
                 collectionFolderWatchers.Remove(watcher);
                 watcher.Dispose();
+
+                StartCollectionFolderWatchersTimer();
             });
         }
 
@@ -206,19 +212,25 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Private
-        private async void InitializeCollectionFolderWatchersAsync()
+        private async Task InitializeCollectionFolderWatchersAsync()
         {
-            await Task.Run(async () =>
+           await Task.Run(async () =>
             {
-                this.collectionFolderWatchers = new List<FileSystemWatcher>();
+                collectionFolderWatchersTimer = new Timer(2000);
+                collectionFolderWatchersTimer.Elapsed += CollectionFolderWatchersTimer_Elapsed;
 
+                this.collectionFolderWatchers = new List<FileSystemWatcher>();
                 foreach (var folder in await this.folderRepository.GetFoldersAsync())
                 {
-                    var watcher = await CreateCollectionFolderWatcher(folder.SafePath);
-
-                    collectionFolderWatchers.Add(watcher);
+                    await AddFolderWatcherAsync(folder.Path);
                 }
             });
+        }
+
+        private void CollectionFolderWatchersTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            collectionFolderWatchersTimer.Stop();
+            this.RefreshNow();
         }
 
         private async Task<FileSystemWatcher> CreateCollectionFolderWatcher(string folder)
@@ -232,10 +244,17 @@ namespace Dopamine.Common.Services.Indexing
                     IncludeSubdirectories = true
                 };
                 // Regardless subfolders or files are created/renamed/deleted, the Changed event will always be raised.
-                watcher.Changed += (_, __) => RefreshNow();
+                watcher.Changed += (_, __) => StartCollectionFolderWatchersTimer();
             });
 
             return watcher;
+        }
+
+        private void StartCollectionFolderWatchersTimer()
+        {
+            if(this.collectionFolderWatchersTimer.Enabled)
+                this.collectionFolderWatchersTimer.Stop();
+            this.collectionFolderWatchersTimer.Start();
         }
 
         private async Task InitializeAsync()

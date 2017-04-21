@@ -11,9 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Services.Indexing;
-using Microsoft.Practices.Unity;
-
 namespace Dopamine.Common.Database.Repositories
 {
     public class FolderRepository : IFolderRepository
