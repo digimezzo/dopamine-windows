@@ -44,6 +44,9 @@ namespace Dopamine.Common.Services.Indexing
         // Flags
         private bool isIndexing;
         private bool needsIndexing;
+
+        // Watchers
+        private List<FileSystemWatcher> collectionFolderWatchers;
         #endregion
 
         #region Properties
@@ -78,10 +81,38 @@ namespace Dopamine.Common.Services.Indexing
             // -----------------
             this.needsIndexing = true;
             this.isIndexing = false;
+
+            // Initialize watchers
+            InitializeCollectionFolderWatchersAsync();
         }
         #endregion
 
         #region IIndexingService
+
+        public async Task AddFolderWatcher(string path)
+        {
+            await Task.Run(async () =>
+            {
+                if (!Directory.Exists(path))
+                {
+                    LogClient.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
+                    return;
+                }
+                var watcher = await CreateCollectionFolderWatcher(path);
+                this.collectionFolderWatchers.Add(watcher);
+            });
+        }
+
+        public async Task RemoveFolderWatcher(string path)
+        {
+            await Task.Run(() =>
+            {
+                var watcher = collectionFolderWatchers.First(w => w.Path.Equals(path));
+                collectionFolderWatchers.Remove(watcher);
+                watcher.Dispose();
+            });
+        }
+
         public void RefreshNow()
         {
             this.needsIndexing = true;
@@ -175,6 +206,38 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Private
+        private async void InitializeCollectionFolderWatchersAsync()
+        {
+            await Task.Run(async () =>
+            {
+                this.collectionFolderWatchers = new List<FileSystemWatcher>();
+
+                foreach (var folder in await this.folderRepository.GetFoldersAsync())
+                {
+                    var watcher = await CreateCollectionFolderWatcher(folder.SafePath);
+
+                    collectionFolderWatchers.Add(watcher);
+                }
+            });
+        }
+
+        private async Task<FileSystemWatcher> CreateCollectionFolderWatcher(string folder)
+        {
+            FileSystemWatcher watcher = null;
+            await Task.Run(() =>
+            {
+                watcher = new FileSystemWatcher(folder)
+                {
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = true
+                };
+                // Regardless subfolders or files are created/renamed/deleted, the Changed event will always be raised.
+                watcher.Changed += (_, __) => RefreshNow();
+            });
+
+            return watcher;
+        }
+
         private async Task InitializeAsync()
         {
             // Initialize Factory
