@@ -8,8 +8,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         protected IPlaybackService playBackService;
         private double progressValue;
-        #endregion
         private bool canReportProgress;
+        #endregion
 
         #region Properties
         public double ProgressValue

@@ -16,6 +16,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
+using CSCore.CoreAudioAPI;
 
 namespace Dopamine.Common.Services.Playback
 {
@@ -66,6 +68,8 @@ namespace Dopamine.Common.Services.Playback
 
         private SynchronizationContext context;
         private bool isLoadingTrack;
+
+        private MMDevice outputDevice;
         #endregion
 
         #region Properties
@@ -288,6 +292,16 @@ namespace Dopamine.Common.Services.Playback
             this.queuedTrackRepository = queuedTrackRepository;
             this.equalizerService = equalizerService;
 
+            // Initialize MMDevice
+            using (var mmdeviceEnumerator = new MMDeviceEnumerator())
+            {
+                using (
+                    var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                {
+                    outputDevice = mmdeviceCollection[0];
+                }
+            }
+
             this.context = SynchronizationContext.Current;
 
             this.queueManager = new QueueManager();
@@ -330,6 +344,63 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region IPlaybackService
+        public async Task<MMDevice> GetCurrentOutputDeviceAsync()
+        {
+            return this.outputDevice;
+        }
+
+        public async Task<IList<MMDevice>> GetAllOutputDevicesAsync()
+        {
+            List<MMDevice> devices = null;
+            await Task.Run(() =>
+            {
+                devices = new List<MMDevice>();
+                using (var mmdeviceEnumerator = new MMDeviceEnumerator())
+                {
+                    using (
+                        var mmdeviceCollection =
+                            mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                    {
+                        foreach (var device in mmdeviceCollection)
+                        {
+                            devices.Add(device);
+                        }
+                    }
+                }
+            });
+
+            return devices;
+        }
+
+        public async Task SetCurrentOutputDeviceAsync(MMDevice device)
+        {
+            await Task.Run(async() =>
+            {
+                if (device.DeviceID == this.outputDevice.DeviceID) return;
+                foreach (var d in await this.GetAllOutputDevicesAsync())
+                {
+                    if (d.DeviceID == device.DeviceID)
+                    {
+                        this.outputDevice = d;
+                        break;
+                    }
+                }
+                if (player != null)
+                {
+                    var progress = this.progress;
+                    var track = this.CurrentTrack.Value;
+                    var isPlaying = this.IsPlaying;
+                    Application.Current.Dispatcher.Invoke(new Action(async () =>
+                        {
+                            await this.PlaySelectedAsync(track);
+                            if (!isPlaying)
+                                await this.PauseAsync();
+                            this.Skip(progress);
+                        }));
+                }
+            });
+        }
+
         public async Task StopIfPlayingAsync(PlayableTrack track)
         {
             if (track.Equals(this.CurrentTrack.Value))
@@ -949,7 +1020,7 @@ namespace Dopamine.Common.Services.Playback
             this.queueManager.SetCurrentTrack(track);
 
             // Play the Track
-            await Task.Run(() => this.player.Play(track.Value.Path));
+            await Task.Run(() => this.player.Play(track.Value.Path, this.outputDevice));
 
             // Start reporting progress
             this.progressTimer.Start();
