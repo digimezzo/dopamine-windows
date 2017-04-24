@@ -207,7 +207,7 @@ namespace Dopamine.Common.Audio
             return false;
         }
 
-        public void Play(string filename)
+        public void Play(string filename, MMDevice outputDevice)
         {
             this.filename = filename;
 
@@ -217,7 +217,7 @@ namespace Dopamine.Common.Audio
             this.canPause = true;
             this.canStop = true;
 
-            this.InitializeSoundOut(this.GetCodec(this.filename));
+            this.InitializeSoundOut(this.GetCodec(this.filename), outputDevice);
             this.ApplyFilter(this.filterValues);
             this.soundOut.Play();
         }
@@ -301,10 +301,10 @@ namespace Dopamine.Common.Audio
         #endregion
 
         #region Private
-        private void InitializeSoundOut(IWaveSource soundSource)
+        private void InitializeSoundOut(IWaveSource soundSource, MMDevice outputDevice)
         {
             // SoundOut implementation which plays the sound
-            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
+            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest){Device = outputDevice};
             ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
 
             // Initialize the soundOut 
