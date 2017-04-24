@@ -941,43 +941,31 @@ namespace Dopamine.Views
 
         private void Shell_KeyDown(object sender, KeyEventArgs e)
         {
+            e.Handled = true; // Prevents typing in the search box
+
             if (e.Key == Key.OemPlus | e.Key == Key.Add)
             {
-                e.Handled = true;
-
                 // [Ctrl] allows fine-tuning of the volume
-                if (Keyboard.Modifiers == ModifierKeys.Control)
-                {
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.01);
-                }
-                else
-                {
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.05);
-                }
+                this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + (Keyboard.Modifiers == ModifierKeys.Control ? 0.01 : 0.05));
             }
             else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
             {
-                e.Handled = true; // Prevents typing in the search box
-
                 // [Ctrl] allows fine-tuning of the volume
-                if (Keyboard.Modifiers == ModifierKeys.Control)
-                {
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.01);
-                }
-                else
-                {
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.05);
-                }
-
+                this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - (Keyboard.Modifiers == ModifierKeys.Control ? 0.01 : 0.05));
+            }
+            else if (e.Key == Key.Left)
+            {
+                this.playbackService.Jump(Convert.ToInt32(Keyboard.Modifiers == ModifierKeys.Control ? -5 : -15));
+            }
+            else if (e.Key == Key.Right)
+            {
+                this.playbackService.Jump(Convert.ToInt32(Keyboard.Modifiers == ModifierKeys.Control ? 5 : 15));
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control & e.Key == Key.L)
             {
-                e.Handled = true; // Prevents typing in the search box
-
-                // View the log file
                 try
                 {
-                    Actions.TryViewInExplorer(LogClient.Logfile());
+                    Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
                 }
                 catch (Exception ex)
                 {

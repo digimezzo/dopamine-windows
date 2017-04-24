@@ -8,7 +8,7 @@
                 <ControlTemplate TargetType="{x:Type controls:CombiLabel}">
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="0" Padding="0" FontStyle="{TemplateBinding FontStyle}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
-                        <Label Margin="1,0,0,0" Padding="0" FontStyle="{TemplateBinding FontStyle2}" FontWeight="{TemplateBinding FontWeight2}" FontSize="{TemplateBinding FontSize2}" Content="{TemplateBinding Content2}" Foreground="{TemplateBinding Foreground2}"/>
+                        <Label Margin="1,0,0,0" Padding="0" FontStyle="{TemplateBinding FontStyle2}" Style="{TemplateBinding Style}" FontWeight="{TemplateBinding FontWeight2}" FontSize="{TemplateBinding FontSize2}" Content="{TemplateBinding Content2}" Foreground="{TemplateBinding Foreground2}"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

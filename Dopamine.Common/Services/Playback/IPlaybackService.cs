@@ -42,6 +42,7 @@ namespace Dopamine.Common.Services.Playback
         #region Functions
         void Stop();
         void Skip(double progress);
+        void Jump(int jumpSeconds);
         void SetMute(bool mute);
         Task SetShuffleAsync(bool shuffle);
         Task PlayNextAsync();
