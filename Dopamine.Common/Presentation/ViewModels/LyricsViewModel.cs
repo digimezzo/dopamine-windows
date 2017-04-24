@@ -46,6 +46,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.lyrics != null ? this.lyrics.HasSource : false; }
         }
 
+        public SourceTypeEnum? SourceType => this.lyrics?.SourceType;
+
         public bool ShowSource
         {
             get { return this.lyrics != null ? this.lyrics.HasText : false; }

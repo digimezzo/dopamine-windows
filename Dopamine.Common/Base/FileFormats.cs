@@ -14,6 +14,9 @@ namespace Dopamine.Common.Base
         public static string AAC = ".aac";
         public static string WAV = ".wav";
 
+        // Lyrics extensions
+        public static string LRC = ".lrc";
+
         // Playlist extensions
         public static string M3U = ".m3u";
         public static string WPL = ".wpl";

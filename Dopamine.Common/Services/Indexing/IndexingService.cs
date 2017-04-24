@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Windows;
+using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Services.Indexing
 {
@@ -42,6 +45,10 @@ namespace Dopamine.Common.Services.Indexing
         // Flags
         private bool isIndexing;
         private bool needsIndexing;
+
+        // Watchers
+        private List<FileSystemWatcher> collectionFolderWatchers;
+        private Timer collectionFolderWatchersTimer;
         #endregion
 
         #region Properties
@@ -76,10 +83,48 @@ namespace Dopamine.Common.Services.Indexing
             // -----------------
             this.needsIndexing = true;
             this.isIndexing = false;
+
+            // Initialize watchers
+            InitializeCollectionFolderWatchersAsync();
         }
         #endregion
 
         #region IIndexingService
+        public async Task AddFolderWatcherAsync(string path)
+        {
+            await Task.Run(async () =>
+            {
+                if (!Directory.Exists(path))
+                {
+                    LogClient.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
+                    return;
+                }
+                var watcher = await CreateCollectionFolderWatcher(path);
+                this.collectionFolderWatchers.Add(watcher);
+
+                StartCollectionFolderWatchersTimer();
+            });
+        }
+
+        public async Task RemoveFolderWatcherAsync(string path)
+        {
+            await Task.Run(() =>
+            {
+                var watcher =
+                    collectionFolderWatchers.First(w => Path.GetFullPath(w.Path).Equals(Path.GetFullPath(path)));
+                collectionFolderWatchers.Remove(watcher);
+                watcher.Dispose();
+
+                StartCollectionFolderWatchersTimer();
+            });
+        }
+
+        public void RefreshNow()
+        {
+            this.needsIndexing = true;
+            Application.Current.Dispatcher.BeginInvoke(new Action(async()=>await IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false)));
+        }
+
         public async Task CheckCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly)
         {
             if (this.IsIndexing | !this.needsIndexing) return;
@@ -167,6 +212,51 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Private
+        private async Task InitializeCollectionFolderWatchersAsync()
+        {
+           await Task.Run(async () =>
+            {
+                collectionFolderWatchersTimer = new Timer(2000);
+                collectionFolderWatchersTimer.Elapsed += CollectionFolderWatchersTimer_Elapsed;
+
+                this.collectionFolderWatchers = new List<FileSystemWatcher>();
+                foreach (var folder in await this.folderRepository.GetFoldersAsync())
+                {
+                    await AddFolderWatcherAsync(folder.Path);
+                }
+            });
+        }
+
+        private void CollectionFolderWatchersTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            collectionFolderWatchersTimer.Stop();
+            this.RefreshNow();
+        }
+
+        private async Task<FileSystemWatcher> CreateCollectionFolderWatcher(string folder)
+        {
+            FileSystemWatcher watcher = null;
+            await Task.Run(() =>
+            {
+                watcher = new FileSystemWatcher(folder)
+                {
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = true
+                };
+                // Regardless subfolders or files are created/renamed/deleted, the Changed event will always be raised.
+                watcher.Changed += (_, __) => StartCollectionFolderWatchersTimer();
+            });
+
+            return watcher;
+        }
+
+        private void StartCollectionFolderWatchersTimer()
+        {
+            if(this.collectionFolderWatchersTimer.Enabled)
+                this.collectionFolderWatchersTimer.Stop();
+            this.collectionFolderWatchersTimer.Start();
+        }
+
         private async Task InitializeAsync()
         {
             // Initialize Factory
