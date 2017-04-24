@@ -5,6 +5,7 @@
 - [Added] Left and right arrow keys allow jumping 5 or 15 seconds backward or forward (Information > help for hotkeys)
 - [Added] Option to follow the average album cover color
 - [Added] Added support for local lyrics files (LRC)
+- [Added] Changes to the collection folders are detected automatically
 - [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
 
 
