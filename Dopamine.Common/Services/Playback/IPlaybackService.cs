@@ -7,6 +7,7 @@ using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CSCore.CoreAudioAPI;
 
 namespace Dopamine.Common.Services.Playback
 {
@@ -70,6 +71,9 @@ namespace Dopamine.Common.Services.Playback
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
         Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
         Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks);
+        Task<IList<MMDevice>> GetAllOutputDevicesAsync();
+        Task<MMDevice> GetCurrentOutputDeviceAsync();
+        Task SetCurrentOutputDeviceAsync(MMDevice outputDevice);
         #endregion
 
         #region Events

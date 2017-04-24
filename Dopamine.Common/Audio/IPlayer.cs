@@ -1,5 +1,6 @@
 ﻿using Dopamine.Common.Enums;
 using System;
+using CSCore.CoreAudioAPI;
 
 namespace Dopamine.Common.Audio
 {
@@ -16,7 +17,7 @@ namespace Dopamine.Common.Audio
 
         #region Functions
         void Stop();
-        void Play(string filename);
+        void Play(string filename, MMDevice outputDevice);
         void Skip(int gotoSeconds);
         void SetVolume(float volume);
         void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, double[] filterValues);
