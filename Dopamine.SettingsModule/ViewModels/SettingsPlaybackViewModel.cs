@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Helpers;
+﻿using System;
+using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Dialog;
@@ -12,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using CSCore.CoreAudioAPI;
+using Dopamine.Common.Audio;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -35,6 +38,8 @@ namespace Dopamine.SettingsModule.ViewModels
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
         private int selectedNotificationSecond;
+        private ObservableCollection<MMDevice> outputDevices;
+        private MMDevice selectedOutputDevice;
         #endregion
 
         #region Commands
@@ -183,6 +188,22 @@ namespace Dopamine.SettingsModule.ViewModels
                 SetProperty<int>(ref this.selectedNotificationSecond, value);
             }
         }
+
+        public ObservableCollection<MMDevice> OutputDevices
+        {
+            get => this.outputDevices;
+            set => SetProperty<ObservableCollection<MMDevice>>(ref this.outputDevices, value);
+        }
+
+        public MMDevice SelectedOutputDevice
+        {
+            get => this.selectedOutputDevice;
+            set
+            {
+                SetProperty<MMDevice>(ref this.selectedOutputDevice, value);
+                this.playbackService.SetCurrentOutputDeviceAsync(value);
+            }
+        }
         #endregion
 
         #region Construction
@@ -199,10 +220,28 @@ namespace Dopamine.SettingsModule.ViewModels
             this.GetNotificationPositionsAsync();
             this.GetNotificationSecondsAsync();
             this.GetLatenciesAsync();
+            this.GetOutputDevicesAsync();
         }
         #endregion
 
         #region Private
+        private async void GetOutputDevicesAsync()
+        {
+            await Task.Run(async () =>
+            {
+                var outputDevices = new ObservableCollection<MMDevice>();
+                foreach (var device in await this.playbackService.GetAllOutputDevicesAsync())
+                {
+                    outputDevices.Add(device);
+                }
+                Application.Current.Dispatcher.Invoke(new Action(() => this.OutputDevices = outputDevices));
+
+                var currentDevice = await this.playbackService.GetCurrentOutputDeviceAsync();
+                await Application.Current.Dispatcher.InvokeAsync(
+                    new Action(() => this.SelectedOutputDevice = outputDevices.First(d => d.DeviceID == currentDevice.DeviceID)));
+            });
+        }
+
         private async void GetLatenciesAsync()
         {
             var localLatencies = new ObservableCollection<NameValue>();
