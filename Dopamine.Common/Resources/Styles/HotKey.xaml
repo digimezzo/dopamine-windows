@@ -2,8 +2,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Dopamine.Common.Controls">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="Hotkey" TargetType="{x:Type controls:CombiLabel}">
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:CombiLabel}">
@@ -21,8 +25,27 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SegoeHotkey" TargetType="{x:Type controls:CombiLabel}">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:CombiLabel}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="48" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        </Border>
+                        <Label Content="+" Foreground="{DynamicResource RG_ForegroundBrush}" Padding="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content2}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="LongKey" TargetType="{x:Type Label}">
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
@@ -35,7 +58,7 @@
     </Style>
 
     <Style x:Key="NormalKey" TargetType="{x:Type Label}">
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
@@ -46,5 +69,17 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="SegoeNormalKey" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                        <Label Content="{TemplateBinding Content}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

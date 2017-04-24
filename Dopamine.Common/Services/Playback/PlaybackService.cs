@@ -531,6 +531,15 @@ namespace Dopamine.Common.Services.Playback
             this.PlaybackProgressChanged(this, new EventArgs());
         }
 
+        public void Jump(int jumpSeconds)
+        {
+            if (this.player != null && this.player.CanStop)
+            {
+                this.player.Skip(Convert.ToInt32(this.GetCurrentTime.TotalSeconds + jumpSeconds));
+                this.PlaybackProgressChanged(this, new EventArgs());
+            }
+        }
+
         public void Stop()
         {
             if (this.player != null && this.player.CanStop)

@@ -11,7 +11,7 @@ namespace Dopamine.Common.Controls
         public static readonly DependencyProperty FontSize2Property = DependencyProperty.Register("FontSize2", typeof(int), typeof(CombiLabel), new PropertyMetadata(null));
         public static readonly DependencyProperty FontWeight2Property = DependencyProperty.Register("FontWeight2", typeof(FontWeight), typeof(CombiLabel), new PropertyMetadata(null));
         public static readonly DependencyProperty FontStyle2Property = DependencyProperty.Register("FontStyle2", typeof(FontStyle), typeof(CombiLabel), new PropertyMetadata(null));
-        public static readonly DependencyProperty Content2Property = DependencyProperty.Register("Content2", typeof(string), typeof(CombiLabel), new PropertyMetadata(null));
+        public static readonly DependencyProperty Content2Property = DependencyProperty.Register("Content2", typeof(object), typeof(CombiLabel), new PropertyMetadata(null));
         public static readonly DependencyProperty Foreground2Property = DependencyProperty.Register("Foreground2", typeof(Brush), typeof(CombiLabel), new PropertyMetadata(null));
         #endregion
 
@@ -30,16 +30,9 @@ namespace Dopamine.Common.Controls
             set { SetValue(FontWeight2Property, value); }
         }
 
-        public FontStyle FontStyle2
+        public object Content2
         {
-            get { return (FontStyle)GetValue(FontStyle2Property); }
-
-            set { SetValue(FontStyle2Property, value); }
-        }
-
-        public string Content2
-        {
-            get { return Convert.ToString(GetValue(Content2Property)); }
+            get { return (object)GetValue(Content2Property); }
 
             set { SetValue(Content2Property, value); }
         }
