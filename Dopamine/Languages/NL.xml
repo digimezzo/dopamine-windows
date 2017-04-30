@@ -397,4 +397,5 @@
   <Text Key="Short_Jump_Backward">Spring 5 seconden achterwaarts</Text>
   <Text Key="Long_Jump_Forward">Spring 15 seconden voorwaarts</Text>
   <Text Key="Short_Jump_Forward">Spring 5 seconden voorwaarts</Text>
+  <Text Key="Default_Audio_Device">Standaard audioapparaat</Text>
 </Language>

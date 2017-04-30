@@ -397,4 +397,5 @@
   <Text Key="Long_Jump_Forward">Jump 15 seconds forward</Text>
   <Text Key="Short_Jump_Forward">Jump 5 seconds forward</Text>
   <Text Key="Lyrics_File">Lyrics file</Text>
+  <Text Key="Default_Audio_Device">Default audio device</Text>
 </Language>

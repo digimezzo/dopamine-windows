@@ -397,4 +397,5 @@
   <Text Key="Short_Jump_Backward">Reculer de 5 secondes</Text>
   <Text Key="Long_Jump_Forward">Avancer de 15 secondes</Text>
   <Text Key="Short_Jump_Forward">Avancer de 5 secondes</Text>
+  <Text Key="Default_Audio_Device">Périphérique audio par défaut</Text>
 </Language>
