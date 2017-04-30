@@ -99,6 +99,14 @@ namespace Dopamine.Common.Audio
         #endregion
 
         #region Public
+        public void SwitchOutputDevice(MMDevice outputDevice)
+        {
+            if (this.soundOut != null)
+            {
+                ((WasapiOut)this.soundOut).Device = outputDevice;
+            }
+        }
+
         public void ApplyFilterValue(int index, double value)
         {
             if (this.equalizer == null) return;
@@ -305,6 +313,7 @@ namespace Dopamine.Common.Audio
         {
             // SoundOut implementation which plays the sound
             this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest){Device = outputDevice};
+            
             ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
 
             // Initialize the soundOut 
