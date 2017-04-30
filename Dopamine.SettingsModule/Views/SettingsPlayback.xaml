@@ -14,9 +14,9 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,15" Padding="10,0,10,0" PanningMode="Both">
         <StackPanel>
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Output_Device}" />
-            <TextBlock Margin="0,5,0,0" Text="Choose playback device" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <ComboBox x:Name="ComboBoxOutputDevice" Style="{StaticResource MetroComboBox}" Margin="0,15,0,0" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" ItemsSource="{Binding OutputDevices}" SelectedItem="{Binding SelectedOutputDevice}"/>
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Audio_Device}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Choose_Audio_Device}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <ComboBox x:Name="ComboBoxOutputDevice" MinWidth="150" Style="{StaticResource MetroComboBox}" Margin="0,15,0,0" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" ItemsSource="{Binding OutputDevices}" SelectedItem="{Binding SelectedOutputDevice}"/>
             <TextBlock Margin="0,15,0,0" Text="{DynamicResource Language_Latency}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <ComboBox x:Name="ComboBoxLatency" Style="{StaticResource MetroComboBox}" Margin="0,15,0,0" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding Latencies}" SelectedItem="{Binding SelectedLatency}"/>
             <!--<StackPanel Margin="0,20,0,0">

@@ -44,7 +44,6 @@
   <Text Key="Decrease_Volume_By_1_Percent">Hangerő csökkentése 1 %-al</Text>
   <Text Key="Media_Keys">Média billentyűk</Text>
   <Text Key="Supported_Media_Keys">Támogatott média billentyűk: Lejátszás, Szünet, Előző és Következő.</Text>
-  <Text Key="Output_Device">Kimeneti eszköz</Text>
   <Text Key="Latency">Késleltetés</Text>
   <Text Key="Dopamine_Uses_WASAPI">Hang lejátszása a "Windows Audio Session API" (WASAPI)-n keresztül történik.</Text>
   <Text Key="Appearance">Megjelenés</Text>
@@ -398,4 +397,6 @@
   <Text Key="Long_Jump_Forward">Jump 15 seconds forward</Text>
   <Text Key="Short_Jump_Forward">Jump 5 seconds forward</Text>
   <Text Key="Default_Audio_Device">Default audio device</Text>
+  <Text Key="Audio_Device">Audio device</Text>
+  <Text Key="Choose_Audio_Device">Choose audio device</Text>
 </Language>

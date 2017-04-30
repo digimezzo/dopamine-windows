@@ -44,7 +44,6 @@
   <Text Key="Decrease_Volume_By_1_Percent">Verlaag het volume met 1 %</Text>
   <Text Key="Media_Keys">Media toetsen</Text>
   <Text Key="Supported_Media_Keys">Deze media toetsen worden ondersteund: Afspelen, Pauze, Vorige en Volgende.</Text>
-  <Text Key="Output_Device">Audio apparaat</Text>
   <Text Key="Latency">Latency</Text>
   <Text Key="Dopamine_Uses_WASAPI">Geluid wordt afgespeeld via de Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Uiterlijk</Text>
@@ -397,5 +396,7 @@
   <Text Key="Short_Jump_Backward">Spring 5 seconden achterwaarts</Text>
   <Text Key="Long_Jump_Forward">Spring 15 seconden voorwaarts</Text>
   <Text Key="Short_Jump_Forward">Spring 5 seconden voorwaarts</Text>
-  <Text Key="Default_Audio_Device">Standaard audioapparaat</Text>
+  <Text Key="Default_Audio_Device">Standaard audio apparaat</Text>
+  <Text Key="Audio_Device">Audio apparaat</Text>
+  <Text Key="Choose_Audio_Device">Choose audio device</Text>
 </Language>
