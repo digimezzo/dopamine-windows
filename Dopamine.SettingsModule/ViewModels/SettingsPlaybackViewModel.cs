@@ -279,16 +279,8 @@ namespace Dopamine.SettingsModule.ViewModels
             MMDevice currentDevice = await this.playbackService.GetCurrentOutputDeviceAsync();
 
             string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
-
-            if (string.IsNullOrWhiteSpace(savedAudioDeviceID))
-            {
-                this.selectedOutputDevice = this.OutputDevices.First();
-            }
-            else
-            {
-                this.selectedOutputDevice = this.OutputDevices.Select(d => d).Where(d => d.Device != null && d.Device.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
-            }
-
+            OutputDevice savedDevice = this.OutputDevices.Select(d => d).Where(d => d.Device != null && d.Device.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+            this.selectedOutputDevice = savedDevice == null ? this.selectedOutputDevice = this.OutputDevices.First() : savedDevice;
             OnPropertyChanged(() => this.SelectedOutputDevice);
         }
 

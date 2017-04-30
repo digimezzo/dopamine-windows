@@ -1316,16 +1316,9 @@ namespace Dopamine.Common.Services.Playback
         {
             string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
 
-            var outputDevices = await this.GetAllOutputDevicesAsync();
-
-            if (string.IsNullOrWhiteSpace(savedAudioDeviceID))
-            {
-                this.outputDevice = outputDevices.First();
-            }
-            else
-            {
-                this.outputDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
-            }
+            IList<MMDevice> outputDevices = await this.GetAllOutputDevicesAsync();
+            MMDevice savedDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+            this.outputDevice = savedDevice == null ? null : savedDevice;
         }
         #endregion
     }
