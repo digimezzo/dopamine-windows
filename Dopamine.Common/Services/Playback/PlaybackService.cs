@@ -385,9 +385,8 @@ namespace Dopamine.Common.Services.Playback
                         break;
                     }
                 }
-                if (player != null && this.outputDevice != null)
+                if (player != null)
                 {
-                    this.player.SwitchOutputDevice(this.outputDevice);
                     var progress = this.progress;
                     var track = this.CurrentTrack.Value;
                     var isPlaying = this.IsPlaying;
