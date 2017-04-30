@@ -11,7 +11,7 @@ namespace Dopamine.Tests
         private int PlayFile(string audioFile, bool wasapiEventMode, bool wasapiExclusiveMode, float volume, int skipSeconds = 0)
         {
             IPlayer player = CSCorePlayer.Instance;
-            player.SetOutputDevice(200, wasapiEventMode, wasapiExclusiveMode, new EqualizerPreset().Bands);
+            player.SetPlaybackSettings(200, wasapiEventMode, wasapiExclusiveMode, new EqualizerPreset().Bands);
             player.SetVolume(volume);
             player.Play(audioFile);
             if (skipSeconds > 0) player.Skip(skipSeconds);

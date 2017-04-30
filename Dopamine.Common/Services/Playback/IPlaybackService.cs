@@ -74,7 +74,7 @@ namespace Dopamine.Common.Services.Playback
         Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks);
         Task<IList<MMDevice>> GetAllOutputDevicesAsync();
         Task<MMDevice> GetCurrentOutputDeviceAsync();
-        Task SetCurrentOutputDeviceAsync(MMDevice outputDevice);
+        Task SwitchOutputDeviceAsync(MMDevice outputDevice);
         #endregion
 
         #region Events

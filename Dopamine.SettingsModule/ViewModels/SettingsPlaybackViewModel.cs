@@ -201,7 +201,7 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 SetProperty<MMDevice>(ref this.selectedOutputDevice, value);
-                this.playbackService.SetCurrentOutputDeviceAsync(value);
+                this.playbackService.SwitchOutputDeviceAsync(value);
             }
         }
         #endregion

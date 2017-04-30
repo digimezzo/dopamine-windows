@@ -37,6 +37,7 @@ namespace Dopamine.Common.Audio
         private ISoundOut soundOut;
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
+        private MMDevice outputDevice;
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
@@ -99,6 +100,26 @@ namespace Dopamine.Common.Audio
         #endregion
 
         #region Public
+        public void SwitchOutputDevice(MMDevice outputDevice)
+        {
+            this.outputDevice = outputDevice;
+            bool playerWasPaused = !this.canPause;
+
+            if (this.CanStop)
+            {
+                TimeSpan oldProgress = this.GetCurrentTime();
+                this.Stop();
+                this.Play(this.filename, outputDevice);
+                this.Skip(Convert.ToInt32(oldProgress.TotalSeconds));
+
+                // The player was paused. Pause it again after switching output device.
+                if (playerWasPaused)
+                {
+                    this.Pause();
+                }
+            }
+        }
+
         public void ApplyFilterValue(int index, double value)
         {
             if (this.equalizer == null) return;
@@ -117,7 +138,7 @@ namespace Dopamine.Common.Audio
             }
         }
 
-        public void SetOutputDevice(int latency, bool eventMode, bool exclusiveMode, double[] filterValues)
+        public void SetPlaybackSettings(int latency, bool eventMode, bool exclusiveMode, double[] filterValues)
         {
             this.latency = latency;
             this.eventSync = eventMode;
@@ -207,7 +228,7 @@ namespace Dopamine.Common.Audio
             return false;
         }
 
-        public void Play(string filename, MMDevice outputDevice)
+        public void Play(string filename)
         {
             this.filename = filename;
 
@@ -217,9 +238,15 @@ namespace Dopamine.Common.Audio
             this.canPause = true;
             this.canStop = true;
 
-            this.InitializeSoundOut(this.GetCodec(this.filename), outputDevice);
+            this.InitializeSoundOut(this.GetCodec(this.filename));
             this.ApplyFilter(this.filterValues);
             this.soundOut.Play();
+        }
+
+        public void Play(string filename, MMDevice outputDevice)
+        {
+            this.outputDevice = outputDevice;
+            this.Play(filename);
         }
 
         private IWaveSource GetCodec(string filename)
@@ -240,7 +267,7 @@ namespace Dopamine.Common.Audio
             }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
-            // The samplerate has to be bigger than 2 * frequency.
+            // The sample rate has to be bigger than 2 * frequency.
             if (waveSource.WaveFormat.SampleRate < 32000) waveSource = waveSource.ChangeSampleRate(32000);
 
             return waveSource
@@ -301,13 +328,27 @@ namespace Dopamine.Common.Audio
         #endregion
 
         #region Private
-        private void InitializeSoundOut(IWaveSource soundSource, MMDevice outputDevice)
+        private void InitializeSoundOut(IWaveSource soundSource)
         {
-            // SoundOut implementation which plays the sound
-            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest){Device = outputDevice};
-            ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
+            // Create SoundOut
+            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
 
-            // Initialize the soundOut 
+            if (this.outputDevice == null)
+            {
+                // If no output device was provided, we're playing on the default device.
+                // In such case, we want to detected when the default device changes.
+                // This is done by setting stream routing options
+                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
+            }
+            else
+            {
+                // If an output device was provided, assign it to soundOut.Device.
+                // Disable stream routing to prevent change detection of the default audio device.
+                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.Disabled;
+                ((WasapiOut)this.soundOut).Device = this.outputDevice;
+            }
+
+            // Initialize SoundOut 
             this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
             this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
 
@@ -318,7 +359,6 @@ namespace Dopamine.Common.Audio
                 }
 
             this.soundOut.Stopped += this.SoundOutStoppedHandler;
-
             this.soundOut.Volume = this.volume;
         }
 

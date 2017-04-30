@@ -372,7 +372,7 @@ namespace Dopamine.Common.Services.Playback
             return devices;
         }
 
-        public async Task SetCurrentOutputDeviceAsync(MMDevice device)
+        public async Task SwitchOutputDeviceAsync(MMDevice device)
         {
             await Task.Run(async() =>
             {
@@ -385,18 +385,10 @@ namespace Dopamine.Common.Services.Playback
                         break;
                     }
                 }
-                if (player != null)
+
+                if (this.player != null)
                 {
-                    var progress = this.progress;
-                    var track = this.CurrentTrack.Value;
-                    var isPlaying = this.IsPlaying;
-                    Application.Current.Dispatcher.Invoke(new Action(async () =>
-                        {
-                            await this.PlaySelectedAsync(track);
-                            if (!isPlaying)
-                                await this.PauseAsync();
-                            this.Skip(progress);
-                        }));
+                    this.player.SwitchOutputDevice(this.outputDevice);
                 }
             });
         }
@@ -1010,7 +1002,7 @@ namespace Dopamine.Common.Services.Playback
             // Play the Track from its runtime path (current or temporary)
             this.player = this.playerFactory.Create(Path.GetExtension(track.Value.Path));
 
-            this.player.SetOutputDevice(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
+            this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
 
             // We need to set PlayingTrack before trying to play the Track.
