@@ -44,7 +44,6 @@
   <Text Key="Decrease_Volume_By_1_Percent">Zmniejsz głośność o 1 %</Text>
   <Text Key="Media_Keys">Klawisze multimedialne</Text>
   <Text Key="Supported_Media_Keys">Obsługiwane klawisze multimedialne: Odtwarzaj, Wstrzymaj, Poprzedni i Następny.</Text>
-  <Text Key="Output_Device">Urządzenie wyjściowe</Text>
   <Text Key="Latency">Opóźnienie</Text>
   <Text Key="Dopamine_Uses_WASAPI">Dźwięk jest odtwarzany przez Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Wygląd</Text>
@@ -398,4 +397,6 @@
   <Text Key="Long_Jump_Forward">Jump 15 seconds forward</Text>
   <Text Key="Short_Jump_Forward">Jump 5 seconds forward</Text>
   <Text Key="Default_Audio_Device">Default audio device</Text>
+  <Text Key="Audio_Device">Audio device</Text>
+  <Text Key="Choose_Audio_Device">Choose audio device</Text>
 </Language>

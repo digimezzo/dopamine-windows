@@ -1,10 +1,11 @@
-2017-04-24: Dopamine 1.3 Build 915 (Preview)
+2017-04-30: Dopamine 1.3 Build 916 (Preview)
 --------------------------------------------
 
 - [Changed] Updated the Swedish translation
 - [Added] Left and right arrow keys allow jumping 5 or 15 seconds backward or forward (Information > help for hotkeys)
 - [Added] Option to follow the average album cover color
 - [Added] Added support for local lyrics files (LRC)
+- [Added] Added audio device selection
 - [Added] Changes to the collection folders are detected automatically
 - [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
 

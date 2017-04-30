@@ -44,7 +44,6 @@
   <Text Key="Decrease_Volume_By_1_Percent">Diminuer le volume de 1 %</Text>
   <Text Key="Media_Keys">Touches multimédia</Text>
   <Text Key="Supported_Media_Keys">Les touches multimédia suivantes sont supportées : Lecture, Pause, Précédente et Suivante.</Text>
-  <Text Key="Output_Device">Matériel audio</Text>
   <Text Key="Latency">Latence</Text>
   <Text Key="Dopamine_Uses_WASAPI">Le son est diffusé par la Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Apparence</Text>
@@ -398,4 +397,6 @@
   <Text Key="Long_Jump_Forward">Avancer de 15 secondes</Text>
   <Text Key="Short_Jump_Forward">Avancer de 5 secondes</Text>
   <Text Key="Default_Audio_Device">Périphérique audio par défaut</Text>
+  <Text Key="Audio_Device">Périphérique audio</Text>
+  <Text Key="Choose_Audio_Device">Choose audio device</Text>
 </Language>
