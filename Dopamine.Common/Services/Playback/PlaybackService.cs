@@ -292,16 +292,6 @@ namespace Dopamine.Common.Services.Playback
             this.queuedTrackRepository = queuedTrackRepository;
             this.equalizerService = equalizerService;
 
-            // Initialize MMDevice
-            using (var mmdeviceEnumerator = new MMDeviceEnumerator())
-            {
-                using (
-                    var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
-                {
-                    outputDevice = mmdeviceCollection[0];
-                }
-            }
-
             this.context = SynchronizationContext.Current;
 
             this.queueManager = new QueueManager();
@@ -358,8 +348,7 @@ namespace Dopamine.Common.Services.Playback
                 using (var mmdeviceEnumerator = new MMDeviceEnumerator())
                 {
                     using (
-                        var mmdeviceCollection =
-                            mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                        var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
                     {
                         foreach (var device in mmdeviceCollection)
                         {
@@ -374,18 +363,12 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task SwitchOutputDeviceAsync(MMDevice device)
         {
-            await Task.Run(async() =>
-            {
-                if (device.DeviceID == this.outputDevice.DeviceID) return;
-                foreach (var d in await this.GetAllOutputDevicesAsync())
-                {
-                    if (d.DeviceID == device.DeviceID)
-                    {
-                        this.outputDevice = d;
-                        break;
-                    }
-                }
+            if (device != null && this.outputDevice != null && device.DeviceID == this.outputDevice.DeviceID) return;
 
+            this.outputDevice = device;
+
+            await Task.Run(() =>
+            {
                 if (this.player != null)
                 {
                     this.player.SwitchOutputDevice(this.outputDevice);
@@ -871,6 +854,9 @@ namespace Dopamine.Common.Services.Playback
             // Settings
             this.SetPlaybackSettings();
 
+            // Audio device
+            await this.SetAudioDeviceAsync();
+
             // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
 
@@ -1324,6 +1310,22 @@ namespace Dopamine.Common.Services.Playback
             //this.EventMode = SettingsClient.Get<bool>("Playback", "WasapiEventMode");
             //this.ExclusiveMode = false;
             this.ExclusiveMode = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
+        }
+
+        private async Task SetAudioDeviceAsync()
+        {
+            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
+
+            var outputDevices = await this.GetAllOutputDevicesAsync();
+
+            if (string.IsNullOrWhiteSpace(savedAudioDeviceID))
+            {
+                this.outputDevice = outputDevices.First();
+            }
+            else
+            {
+                this.outputDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+            }
         }
         #endregion
     }

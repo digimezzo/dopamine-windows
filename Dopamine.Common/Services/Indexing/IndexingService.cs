@@ -102,7 +102,7 @@ namespace Dopamine.Common.Services.Indexing
                 var watcher = await CreateCollectionFolderWatcher(path);
                 this.collectionFolderWatchers.Add(watcher);
 
-                StartCollectionFolderWatchersTimer();
+                this.StartCollectionFolderWatchersTimer();
             });
         }
 
@@ -110,12 +110,17 @@ namespace Dopamine.Common.Services.Indexing
         {
             await Task.Run(() =>
             {
-                var watcher =
-                    collectionFolderWatchers.First(w => Path.GetFullPath(w.Path).Equals(Path.GetFullPath(path)));
+                if (!Directory.Exists(path))
+                {
+                    LogClient.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
+                    return;
+                }
+
+                var watcher = collectionFolderWatchers.First(w => Path.GetFullPath(w.Path).Equals(Path.GetFullPath(path)));
                 collectionFolderWatchers.Remove(watcher);
                 watcher.Dispose();
 
-                StartCollectionFolderWatchersTimer();
+                this.StartCollectionFolderWatchersTimer();
             });
         }
 

@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>85</Value>
+      <Value>86</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -169,6 +169,9 @@
     </Setting>
   </Namespace>
   <Namespace Name="Playback">
+    <Setting Name="AudioDevice">
+      <Value></Value>
+    </Setting>
     <Setting Name="AudioLatency">
       <Value>200</Value>
     </Setting>

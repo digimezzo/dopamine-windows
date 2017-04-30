@@ -15,11 +15,40 @@ using System.Threading.Tasks;
 using System.Windows;
 using CSCore.CoreAudioAPI;
 using Dopamine.Common.Audio;
+using System.Collections.Generic;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
     public class SettingsPlaybackViewModel : BindableBase
     {
+        #region DeviceContainer
+        public class OutputDevice
+        {
+            public string Name { get; set; }
+            public MMDevice Device { get; set; }
+
+            public override string ToString()
+            {
+                return this.Name;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null || !GetType().Equals(obj.GetType()))
+                {
+                    return false;
+                }
+
+                return this.Name.Equals(((OutputDevice)obj).Name);
+            }
+
+            public override int GetHashCode()
+            {
+                return new { this.Name, }.GetHashCode();
+            }
+        }
+        #endregion
+
         #region Variables
         private ObservableCollection<NameValue> latencies;
         private NameValue selectedLatency;
@@ -38,8 +67,8 @@ namespace Dopamine.SettingsModule.ViewModels
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
         private int selectedNotificationSecond;
-        private ObservableCollection<MMDevice> outputDevices;
-        private MMDevice selectedOutputDevice;
+        private ObservableCollection<OutputDevice> outputDevices;
+        private OutputDevice selectedOutputDevice;
         #endregion
 
         #region Commands
@@ -189,19 +218,28 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public ObservableCollection<MMDevice> OutputDevices
+        public ObservableCollection<OutputDevice> OutputDevices
         {
             get => this.outputDevices;
-            set => SetProperty<ObservableCollection<MMDevice>>(ref this.outputDevices, value);
+            set => SetProperty<ObservableCollection<OutputDevice>>(ref this.outputDevices, value);
         }
 
-        public MMDevice SelectedOutputDevice
+        public OutputDevice SelectedOutputDevice
         {
             get => this.selectedOutputDevice;
             set
             {
-                SetProperty<MMDevice>(ref this.selectedOutputDevice, value);
-                this.playbackService.SwitchOutputDeviceAsync(value);
+                if (value.Device == null)
+                {
+                    SettingsClient.Set<string>("Playback", "AudioDevice", string.Empty);
+                }
+                else
+                {
+                    SettingsClient.Set<string>("Playback", "AudioDevice", value.Device.DeviceID);
+                }
+
+                SetProperty<OutputDevice>(ref this.selectedOutputDevice, value);
+                this.playbackService.SwitchOutputDeviceAsync(value.Device);
             }
         }
         #endregion
@@ -227,19 +265,31 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Private
         private async void GetOutputDevicesAsync()
         {
-            await Task.Run(async () =>
-            {
-                var outputDevices = new ObservableCollection<MMDevice>();
-                foreach (var device in await this.playbackService.GetAllOutputDevicesAsync())
-                {
-                    outputDevices.Add(device);
-                }
-                Application.Current.Dispatcher.Invoke(new Action(() => this.OutputDevices = outputDevices));
+            IList<MMDevice> outputDevices = await this.playbackService.GetAllOutputDevicesAsync();
 
-                var currentDevice = await this.playbackService.GetCurrentOutputDeviceAsync();
-                await Application.Current.Dispatcher.InvokeAsync(
-                    new Action(() => this.SelectedOutputDevice = outputDevices.First(d => d.DeviceID == currentDevice.DeviceID)));
-            });
+            this.OutputDevices = new ObservableCollection<OutputDevice>();
+
+            this.OutputDevices.Add(new OutputDevice() { Name = ResourceUtils.GetStringResource("Language_Default_Audio_Device"), Device = null });
+
+            foreach (MMDevice device in outputDevices)
+            {
+                this.OutputDevices.Add(new OutputDevice() { Name = device.FriendlyName, Device = device });
+            }
+
+            MMDevice currentDevice = await this.playbackService.GetCurrentOutputDeviceAsync();
+
+            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
+
+            if (string.IsNullOrWhiteSpace(savedAudioDeviceID))
+            {
+                this.selectedOutputDevice = this.OutputDevices.First();
+            }
+            else
+            {
+                this.selectedOutputDevice = this.OutputDevices.Select(d => d).Where(d => d.Device != null && d.Device.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+            }
+
+            OnPropertyChanged(() => this.SelectedOutputDevice);
         }
 
         private async void GetLatenciesAsync()
@@ -268,7 +318,6 @@ namespace Dopamine.SettingsModule.ViewModels
                         });
                     }
                 }
-
             });
 
             this.Latencies = localLatencies;
