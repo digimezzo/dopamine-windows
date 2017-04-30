@@ -343,8 +343,8 @@ namespace Dopamine.Common.Audio
             else
             {
                 // If an output device was provided, assign it to soundOut.Device.
-                // Disable stream routing to prevent change detection of the default audio device.
-                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.Disabled;
+                // Only allow stream routing when the device was disconnected.
+                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
                 ((WasapiOut)this.soundOut).Device = this.outputDevice;
             }
 
