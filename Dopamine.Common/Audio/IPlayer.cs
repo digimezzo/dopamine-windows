@@ -30,7 +30,6 @@ namespace Dopamine.Common.Audio
         void ApplyFilterValue(int index, double value);
         void ApplyFilter(double[] filterValues);
         ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel);
-        void SwitchOutputDevice(MMDevice outputDevice);
         #endregion
 
         #region Events
