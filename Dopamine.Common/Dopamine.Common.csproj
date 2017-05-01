@@ -447,6 +447,7 @@
     <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Playback\AudioDevicesWatcher.cs" />
     <Compile Include="Services\Playback\EnqueueResult.cs" />
     <Compile Include="Services\Playback\DequeueResult.cs" />
     <Compile Include="Services\Playback\IPlaybackService.cs" />
