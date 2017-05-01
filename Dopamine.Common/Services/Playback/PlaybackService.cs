@@ -70,6 +70,7 @@ namespace Dopamine.Common.Services.Playback
         private bool isLoadingTrack;
 
         private MMDevice outputDevice;
+        private AudioDevicesWatcher watcher = new AudioDevicesWatcher();
         #endregion
 
         #region Properties
@@ -331,12 +332,18 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler PlayingTrackPlaybackInfoChanged = delegate { };
         public event EventHandler PlayingTrackArtworkChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
+        public event EventHandler AudioDevicesChanged = delegate { };
         #endregion
 
         #region IPlaybackService
-        public async Task<MMDevice> GetCurrentOutputDeviceAsync()
+        public async Task<MMDevice> GetSavedAudioDeviceAsync()
         {
-            return this.outputDevice;
+            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
+
+            IList<MMDevice> outputDevices = await this.GetAllOutputDevicesAsync();
+            MMDevice savedDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+
+            return savedDevice;
         }
 
         public async Task<IList<MMDevice>> GetAllOutputDevicesAsync()
@@ -857,7 +864,11 @@ namespace Dopamine.Common.Services.Playback
             // Audio device
             await this.SetAudioDeviceAsync();
 
-            // Equalizer
+            // Detect audio device changes
+            this.watcher.StartWatching();
+            this.watcher.AudioDevicesChanged += Watcher_AudioDevicesChanged;
+
+             // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
@@ -1314,11 +1325,13 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task SetAudioDeviceAsync()
         {
-            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
+            this.outputDevice = await this.GetSavedAudioDeviceAsync();
+        }
 
-            IList<MMDevice> outputDevices = await this.GetAllOutputDevicesAsync();
-            MMDevice savedDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
-            this.outputDevice = savedDevice == null ? null : savedDevice;
+        private async void Watcher_AudioDevicesChanged(object sender, EventArgs e)
+        {
+            await this.SetAudioDeviceAsync();
+            this.AudioDevicesChanged(this, new EventArgs());
         }
         #endregion
     }

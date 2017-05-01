@@ -11,7 +11,7 @@ using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Services.Playback
 {
-    public class QueueManager
+    internal class QueueManager
     {
         #region Variables
         private KeyValuePair<string, PlayableTrack> currentTrack;
@@ -259,7 +259,7 @@ namespace Dopamine.Common.Services.Playback
             return result;
         }
 
-        public async Task<EnqueueResult> EnqueueAsync(IList<KeyValuePair<string,PlayableTrack>> tracks, bool shuffle)
+        public async Task<EnqueueResult> EnqueueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
@@ -274,7 +274,7 @@ namespace Dopamine.Common.Services.Playback
                             this.queue.Add(track.Key, track.Value);
                         }
 
-                        result.EnqueuedTracks = tracks.Select(t=>t.Value).ToList();
+                        result.EnqueuedTracks = tracks.Select(t => t.Value).ToList();
                     }
                 });
 
@@ -387,7 +387,7 @@ namespace Dopamine.Common.Services.Playback
             return isQueueDifferent;
         }
 
-        public async Task<bool> IsQueueDifferentAsync(IList<KeyValuePair<string,PlayableTrack>> tracks)
+        public async Task<bool> IsQueueDifferentAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
         {
             bool isQueueDifferent = false;
 

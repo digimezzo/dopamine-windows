@@ -73,8 +73,8 @@ namespace Dopamine.Common.Services.Playback
         Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
         Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks);
         Task<IList<MMDevice>> GetAllOutputDevicesAsync();
-        Task<MMDevice> GetCurrentOutputDeviceAsync();
         Task SwitchOutputDeviceAsync(MMDevice outputDevice);
+        Task<MMDevice> GetSavedAudioDeviceAsync();
         #endregion
 
         #region Events
@@ -95,6 +95,7 @@ namespace Dopamine.Common.Services.Playback
         event EventHandler PlayingTrackPlaybackInfoChanged;
         event EventHandler PlayingTrackArtworkChanged;
         event EventHandler QueueChanged;
+        event EventHandler AudioDevicesChanged;
         #endregion
-    }
+        }
 }

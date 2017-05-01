@@ -229,17 +229,23 @@ namespace Dopamine.SettingsModule.ViewModels
             get => this.selectedOutputDevice;
             set
             {
-                if (value.Device == null)
-                {
-                    SettingsClient.Set<string>("Playback", "AudioDevice", string.Empty);
-                }
-                else
-                {
-                    SettingsClient.Set<string>("Playback", "AudioDevice", value.Device.DeviceID);
-                }
-
                 SetProperty<OutputDevice>(ref this.selectedOutputDevice, value);
-                this.playbackService.SwitchOutputDeviceAsync(value.Device);
+
+                // Due to two-way binding, this can be null when the list is being filled.
+                if (value != null)
+                {
+                    if (value.Device == null)
+                    {
+                        SettingsClient.Set<string>("Playback", "AudioDevice", string.Empty);
+                    }
+                    else
+                    {
+                        SettingsClient.Set<string>("Playback", "AudioDevice", value.Device.DeviceID);
+                    }
+
+                    
+                    this.playbackService.SwitchOutputDeviceAsync(value.Device);
+                } 
             }
         }
         #endregion
@@ -253,6 +259,8 @@ namespace Dopamine.SettingsModule.ViewModels
             this.dialogService = dialogService;
 
             ShowTestNotificationCommand = new DelegateCommand(() => this.notificationService.ShowNotificationAsync());
+
+            this.playbackService.AudioDevicesChanged += (_,__) => Application.Current.Dispatcher.Invoke(() => this.GetOutputDevicesAsync());
 
             this.GetCheckBoxesAsync();
             this.GetNotificationPositionsAsync();
@@ -276,11 +284,9 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.OutputDevices.Add(new OutputDevice() { Name = device.FriendlyName, Device = device });
             }
 
-            MMDevice currentDevice = await this.playbackService.GetCurrentOutputDeviceAsync();
+            MMDevice savedDevice = await this.playbackService.GetSavedAudioDeviceAsync();
 
-            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
-            OutputDevice savedDevice = this.OutputDevices.Select(d => d).Where(d => d.Device != null && d.Device.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
-            this.selectedOutputDevice = savedDevice == null ? this.selectedOutputDevice = this.OutputDevices.First() : savedDevice;
+            this.selectedOutputDevice = savedDevice == null ? this.OutputDevices.First() : new OutputDevice() { Name = savedDevice.FriendlyName, Device = savedDevice };
             OnPropertyChanged(() => this.SelectedOutputDevice);
         }
 
