@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
+﻿using CSCore.CoreAudioAPI;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
 using Dopamine.Common.Base;
@@ -16,8 +17,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Windows;
-using CSCore.CoreAudioAPI;
 
 namespace Dopamine.Common.Services.Playback
 {

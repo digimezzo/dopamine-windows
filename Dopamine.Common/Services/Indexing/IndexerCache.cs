@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dopamine.Common.Services.Indexing
 {
-    public class IndexerCache
+    internal class IndexerCache
     {
         #region Variables
         private HashSet<string> trackStatisticHashSet;
