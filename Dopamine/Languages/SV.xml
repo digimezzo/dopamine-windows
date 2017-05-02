@@ -48,7 +48,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Ljudet spelas upp av Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Utseende</Text>
   <Text Key="Theme">Tema</Text>
-  <Text Key="Choose_Theme">Use light theme</Text>
+  <Text Key="Choose_Theme">Använd ljust tema</Text>
   <Text Key="Follow_Windows_Color">Följ Windows färger</Text>
   <Text Key="Choose_A_Color">Välj en färg</Text>
   <Text Key="Choose_Language">Välj språk</Text>
@@ -342,8 +342,8 @@
   <Text Key="Not_Available">Inte tillgängligt</Text>
   <Text Key="Download_An_Image">Ladda ner en bild</Text>
   <Text Key="Tags">Taggar</Text>
-  <Text Key="Lyrics">Sångtexter</Text>
-  <Text Key="No_Lyrics_Found">Inga sångtexter hittades</Text>
+  <Text Key="Lyrics">Låttexter</Text>
+  <Text Key="No_Lyrics_Found">Inga låttexter hittades</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till uppspelande låt</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mus skrollning ändrar volymen med</Text>
   <Text Key="Refresh_Collection_On_Startup">Uppdatera samlingen vid start</Text>
@@ -360,9 +360,9 @@
   <Text Key="Show_Rating_Button">Visa 'Stjärnmärkning'</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Visa avisering när en låt pausas</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Visa avisering när en låt återupptas</Text>
-  <Text Key="Add_Lyrics">Lägg till sångtext</Text>
+  <Text Key="Add_Lyrics">Lägg till låttext</Text>
   <Text Key="Save_In_Audio_File">Spara i ljud fil</Text>
-  <Text Key="Download_Lyrics_Automatically">Ladda ner sångtexter automatiskt</Text>
+  <Text Key="Download_Lyrics_Automatically">Ladda ner låttexter automatiskt</Text>
   <Text Key="Download_Artist_Information_From_Lastfm_Automatically">Ladda ner artist information från Last.fm automatiskt</Text>
   <Text Key="Username">Användarnamn</Text>
   <Text Key="Password">Lösenord</Text>
@@ -370,9 +370,9 @@
   <Text Key="Audio_File">Ljud fil</Text>
   <Text Key="Play_Next">Spela nästa</Text>
   <Text Key="Last_Played">Senast spelad</Text>
-  <Text Key="Remember_Last_played_Song">Kom ihåg senaste spelade låt och dess uppspelnings position</Text>
-  <Text Key="Download_Lyrics_From">Ladda ner sångtexter från</Text>
-  <Text Key="Lyrics_Download_Timeout">Sångtext nerladdnings timeout</Text>
+  <Text Key="Remember_Last_played_Song">Kom ihåg senaste spelade låt och dess uppspelningsposition</Text>
+  <Text Key="Download_Lyrics_From">Ladda ner låttexter från</Text>
+  <Text Key="Lyrics_Download_Timeout">Låttext nerladdnings timeout</Text>
   <Text Key="Show_Remove_From_Disk">Visa 'Radera från disk' i innehållsmenyn</Text>
   <Text Key="Remove_From_Disk">Radera från disk</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Vill du säkert radera denna låt från disken? Du kan återställa den från Papperskorgen.</Text>
@@ -390,13 +390,13 @@
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Spektrum stil</Text>
   <Text Key="Toggle_Spectrum_By_Click">Ändra spektrum stil med att klicka på spektrum analysatorn</Text>
-  <Text Key="Follow_Album_Cover_Color">Follow the album cover color</Text>
-  <Text Key="Lyrics_File">Lyrics file</Text>
-  <Text Key="Long_Jump_Backward">Jump 15 seconds backward</Text>
-  <Text Key="Short_Jump_Backward">Jump 5 seconds backward</Text>
-  <Text Key="Long_Jump_Forward">Jump 15 seconds forward</Text>
-  <Text Key="Short_Jump_Forward">Jump 5 seconds forward</Text>
-  <Text Key="Default_Audio_Device">Default audio device</Text>
-  <Text Key="Audio_Device">Audio device</Text>
-  <Text Key="Choose_Audio_Device">Choose audio device</Text>
+  <Text Key="Follow_Album_Cover_Color">Följ skivomslagets färg</Text>
+  <Text Key="Lyrics_File">Låttext fil</Text>
+  <Text Key="Long_Jump_Backward">Hoppa 15 sekunder bakåt</Text>
+  <Text Key="Short_Jump_Backward">Hoppa 5 sekunder bakåt</Text>
+  <Text Key="Long_Jump_Forward">Hoppa 15 sekunder framåt</Text>
+  <Text Key="Short_Jump_Forward">Hoppa 5 sekunder framåt</Text>
+  <Text Key="Default_Audio_Device">Standard ljudenhet</Text>
+  <Text Key="Audio_Device">Ljudenhet</Text>
+  <Text Key="Choose_Audio_Device">Välj ljudenhet</Text>
 </Language>

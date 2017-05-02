@@ -1,3 +1,10 @@
+2017-05-02: Dopamine 1.3 Build 918 (Preview)
+--------------------------------------------
+
+- [Changed] Updated the Swedish translation
+- [Fixed] Typing in the search box doesn't work anymore
+
+
 2017-05-01: Dopamine 1.3 Build 917 (Preview)
 --------------------------------------------
 
