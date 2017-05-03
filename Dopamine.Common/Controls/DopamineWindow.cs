@@ -130,12 +130,12 @@ namespace Dopamine.Common.Controls
 
             if (this.HasBorder)
             {
-                this.SetBorderThickness(new Thickness(1));
+                this.SetBorderThickness(this.WindowState == WindowState.Maximized
+                    ? new Thickness(0)
+                    : new Thickness(1));
             }
             else
-            {
                 this.SetBorderThickness(new Thickness(0));
-            }
         }
         #endregion
 
