@@ -77,7 +77,20 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.queue.Count > 0)
                     {
-                        this.playbackOrder = new List<string>(this.queue.Keys).Randomize();
+                        if (this.currentTrack.Equals(default(KeyValuePair<string, PlayableTrack>)) || !this.queue.Keys.Contains(this.currentTrack.Key))
+                        {
+                            // We're not playing a track from the queue: just shuffle.
+                            this.playbackOrder = new List<string>(this.queue.Keys).Randomize();
+                        }
+                        else
+                        {
+                            // We're playing a track from the queue: shuffle, but make sure the playing track comes first.
+                            this.playbackOrder = new List<string>();
+                            this.playbackOrder.Add(this.currentTrack.Key);
+                            List<string> queueCopy = new List<string>(this.queue.Keys);
+                            queueCopy.Remove(this.currentTrack.Key);
+                            this.playbackOrder.AddRange(new List<string>(queueCopy).Randomize());
+                        }
                     }
                 }
             });
