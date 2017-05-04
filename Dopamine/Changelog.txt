@@ -1,3 +1,9 @@
+2017-05-04: Dopamine 1.3 Build 919 (Preview)
+--------------------------------------------
+
+- [Fixed] Ordering tracks on the albums screen is broken
+
+
 2017-05-02: Dopamine 1.3 Build 918 (Preview)
 --------------------------------------------
 
