@@ -390,13 +390,13 @@
   <Text Key="NeteaseLyrics">网易云音乐</Text>
   <Text Key="Spectrum_Style">选择频谱风格</Text>
   <Text Key="Toggle_Spectrum_By_Click">当点击频谱时切换风格</Text>
-  <Text Key="Follow_Album_Cover_Color">Follow the album cover color</Text>
-  <Text Key="Long_Jump_Backward">Jump 15 seconds backward</Text>
-  <Text Key="Short_Jump_Backward">Jump 5 seconds backward</Text>
-  <Text Key="Long_Jump_Forward">Jump 15 seconds forward</Text>
-  <Text Key="Short_Jump_Forward">Jump 5 seconds forward</Text>
-  <Text Key="Lyrics_File">Lyrics file</Text>
-  <Text Key="Default_Audio_Device">Default audio device</Text>
-  <Text Key="Audio_Device">Audio device</Text>
-  <Text Key="Choose_Audio_Device">Choose audio device</Text>
+  <Text Key="Follow_Album_Cover_Color">跟随专辑封面颜色</Text>
+  <Text Key="Long_Jump_Backward">快退15秒</Text>
+  <Text Key="Short_Jump_Backward">快退5秒</Text>
+  <Text Key="Long_Jump_Forward">快进15秒</Text>
+  <Text Key="Short_Jump_Forward">快进5秒</Text>
+  <Text Key="Lyrics_File">歌词文件</Text>
+  <Text Key="Default_Audio_Device">默认音频设备</Text>
+  <Text Key="Audio_Device">音频设备</Text>
+  <Text Key="Choose_Audio_Device">选择音频设备</Text>
 </Language>
