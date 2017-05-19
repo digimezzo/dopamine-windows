@@ -126,7 +126,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
                 }
                 else
                 {
-                    return string.Empty;
+                    return "--";
                 }
             }
         }
