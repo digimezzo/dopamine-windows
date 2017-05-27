@@ -54,13 +54,13 @@ namespace Dopamine.Views
             }
         }
 
-
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             // Prevent the Oobe window from appearing the next time the application is started
             SettingsClient.Set<bool>("General", "ShowOobe", false);
 
-            // Closing the Oobe windows, must show the main window
+            // Closing the Oobe windows, must show the tray icon and the main window
+            Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowTrayIconChanged>().Publish(true));
             Application.Current.MainWindow.Show();
 
             // We're closeing the OOBE screen, tell the IndexingService to start.
@@ -77,6 +77,10 @@ namespace Dopamine.Views
 
         private void BorderlessWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // When showing the Oobe window, the tray icon shouldn't be visible. If not, 
+            // once users Right Click the icon, the shell window will throw a Expection:
+            // "DragMove or Activate before a Window is shown"
+            Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowTrayIconChanged>().Publish(false));
             this.ShowWelcome();
         }
         #endregion
