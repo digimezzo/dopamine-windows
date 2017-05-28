@@ -14,6 +14,7 @@ namespace Dopamine.Common.Database.Entities
         public string ArtworkID { get; set; }
         public long DateLastSynced { get; set; }
         public long DateAdded { get; set; }
+        public long DateCreated { get; set; }
         #endregion
 
         #region ReadOnly Properties

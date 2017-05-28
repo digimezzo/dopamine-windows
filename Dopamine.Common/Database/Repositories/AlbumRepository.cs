@@ -34,7 +34,7 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                            albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
                                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                        " WHERE fol.ShowInCollection=1;");
@@ -69,7 +69,7 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                        " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
@@ -106,7 +106,7 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
+                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
                                                      " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
                                                      " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
@@ -196,7 +196,7 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, MAX(ts.DateLastPlayed) AS maxdatelastplayed, SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +
+                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated, MAX(ts.DateLastPlayed) AS maxdatelastplayed, SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +
                                                        "INNER JOIN Track tra ON ts.SafePath = tra.SafePath " +
                                                        "INNER JOIN Album alb ON tra.AlbumID = alb.AlbumID " +
                                                        "WHERE ts.PlayCount IS NOT NULL AND ts.PlayCount > 0 " +
