@@ -333,9 +333,14 @@ namespace Dopamine.Common.Services.Metadata
                             filesToSync.Add(fmd);
                             this.fileMetadataDictionary.Remove(fmd.SafePath);
                         }
+                        catch (IOException ex)
+                        {
+                            LogClient.Error("Unable to save metadata to the file for Track '{0}'. The file is probably playing. Trying again in {1} seconds. Exception: {2}", fmd.SafePath, this.updateFileMetadataLongTimeout / 1000, ex.Message);
+                        }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Unable to save metadata to the file for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                            LogClient.Error("Unable to save metadata to the file for Track '{0}'. Not trying again. Exception: {1}", fmd.SafePath, ex.Message);
+                            this.fileMetadataDictionary.Remove(fmd.SafePath);
                         }
                     }
 
