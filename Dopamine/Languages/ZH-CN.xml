@@ -399,4 +399,5 @@
   <Text Key="Default_Audio_Device">默认音频设备</Text>
   <Text Key="Audio_Device">音频设备</Text>
   <Text Key="Choose_Audio_Device">选择音频设备</Text>
+  <Text Key="By_Date_Created">By date created</Text>
 </Language>

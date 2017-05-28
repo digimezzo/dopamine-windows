@@ -239,6 +239,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AlbumOrder.ByDateAdded:
                     this.albumOrderText = ResourceUtils.GetStringResource("Language_By_Date_Added");
                     break;
+                case AlbumOrder.ByDateCreated:
+                    this.albumOrderText = ResourceUtils.GetStringResource("Language_By_Date_Created");
+                    break;
                 case AlbumOrder.ByAlbumArtist:
                     this.albumOrderText = ResourceUtils.GetStringResource("Language_By_Album_Artist");
                     break;
@@ -295,12 +298,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
                         switch (albumOrder)
                         {
-                            case AlbumOrder.Alphabetical:
-                                break;
-                            // Do nothing
-                            case AlbumOrder.ByDateAdded:
-                                break;
-                            // Do nothing
                             case AlbumOrder.ByAlbumArtist:
                                 mainHeader = alb.AlbumArtist;
                                 subHeader = alb.AlbumTitle;
@@ -309,9 +306,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                                 mainHeader = alb.Year.HasValue && alb.Year.Value > 0 ? alb.Year.ToString() : string.Empty;
                                 subHeader = alb.AlbumTitle;
                                 break;
+                            case AlbumOrder.Alphabetical:
+                            case AlbumOrder.ByDateAdded:
+                            case AlbumOrder.ByDateCreated:
                             default:
-                                break;
                                 // Do nothing
+                                break;
                         }
 
                         albumViewModels.Add(new AlbumViewModel
@@ -515,6 +515,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     this.AlbumOrder = AlbumOrder.ByDateAdded;
                     break;
                 case AlbumOrder.ByDateAdded:
+                    this.AlbumOrder = AlbumOrder.ByDateCreated;
+                    break;
+                case AlbumOrder.ByDateCreated:
                     this.AlbumOrder = AlbumOrder.ByAlbumArtist;
                     break;
                 case AlbumOrder.ByAlbumArtist:

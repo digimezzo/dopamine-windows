@@ -40,8 +40,9 @@
     {
         Alphabetical = 1,
         ByDateAdded = 2,
-        ByAlbumArtist = 3,
-        ByYear = 4
+        ByDateCreated = 3,
+        ByAlbumArtist = 4,
+        ByYear = 5
     }
 
     public enum RemoveTracksResult

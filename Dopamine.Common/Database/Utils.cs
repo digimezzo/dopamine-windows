@@ -119,6 +119,9 @@ namespace Dopamine.Common.Database
                     case AlbumOrder.ByDateAdded:
                         orderedAlbums = albums.OrderByDescending((a) => a.DateAdded).ToList();
                         break;
+                    case AlbumOrder.ByDateCreated:
+                        orderedAlbums = albums.OrderByDescending((a) => a.DateCreated).ToList();
+                        break;
                     case AlbumOrder.ByAlbumArtist:
                         orderedAlbums = albums.OrderBy((a) => GetSortableString(a.AlbumArtist, true)).ToList();
                         break;

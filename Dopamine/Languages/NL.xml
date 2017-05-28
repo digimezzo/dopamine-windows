@@ -399,4 +399,5 @@
   <Text Key="Default_Audio_Device">Standaard audio apparaat</Text>
   <Text Key="Audio_Device">Audio apparaat</Text>
   <Text Key="Choose_Audio_Device">Choose audio device</Text>
+  <Text Key="By_Date_Created">Per aanmaakdatum</Text>
 </Language>

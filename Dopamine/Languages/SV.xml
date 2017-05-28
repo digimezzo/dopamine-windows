@@ -399,4 +399,5 @@
   <Text Key="Default_Audio_Device">Standard ljudenhet</Text>
   <Text Key="Audio_Device">Ljudenhet</Text>
   <Text Key="Choose_Audio_Device">Välj ljudenhet</Text>
+  <Text Key="By_Date_Created">By date created</Text>
 </Language>

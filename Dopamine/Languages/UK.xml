@@ -399,4 +399,5 @@
   <Text Key="Default_Audio_Device">Default audio device</Text>
   <Text Key="Audio_Device">Audio device</Text>
   <Text Key="Choose_Audio_Device">Choose audio device</Text>
+  <Text Key="By_Date_Created">By date created</Text>
 </Language>
