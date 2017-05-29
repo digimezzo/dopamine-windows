@@ -43,7 +43,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.TotalTime = FormatUtils.FormatTime(this.playBackService.GetTotalTime);
         }
         #endregion
-
     }
-
 }
