@@ -3,6 +3,7 @@
 
     <Style TargetType="{x:Type ToolTip}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="true" />
         <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
         <Setter Property="Template">
             <Setter.Value>
