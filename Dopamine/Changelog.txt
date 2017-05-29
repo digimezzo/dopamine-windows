@@ -5,8 +5,7 @@
 - [Fixed] Ordering tracks on the albums screen is broken
 - [Fixed] Margin of 1 pixel when the main window is maximized
 - [Fixed] Volume control stops working when the audio device is changed
-- [Fixed] Context menu is blurry at desktop scaling higher as 100%
-- [Fixed] Notification window is blurry at desktop scaling higher as 100%
+- [Fixed] Blurry context menu, notification window and tooltips at desktop scaling higher as 100%
 
 
 2017-05-02: Dopamine 1.3 Build 918 (Preview)
