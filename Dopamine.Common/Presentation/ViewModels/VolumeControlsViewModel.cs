@@ -96,5 +96,4 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
     }
-
 }
