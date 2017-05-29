@@ -5,7 +5,6 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
-using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Playback;
@@ -187,9 +186,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
             this.SetCoverSizeCommand = new DelegateCommand<string>(async (coverSize) =>
             {
-                int selectedCoverSize = 0;
 
-                if (int.TryParse(coverSize, out selectedCoverSize))
+                if (int.TryParse(coverSize, out int selectedCoverSize))
                 {
                     await this.SetCoversizeAsync((CoverSizeType)selectedCoverSize);
                 }

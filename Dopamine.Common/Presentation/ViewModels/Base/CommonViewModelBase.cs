@@ -10,7 +10,6 @@ using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
-using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
 using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
@@ -20,19 +19,14 @@ using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class CommonViewModelBase : ViewModelBase, INavigationAware, IActiveAware
+    public abstract class CommonViewModelBase : ContextMenuViewModelBase, INavigationAware, IActiveAware
     {
         #region Variables
-        // Collections
-        private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        private ObservableCollection<SearchProvider> contextMenuSearchProviders;
-
         // Services
         private IIndexingService indexingService;
         private ICollectionService collectionService;
@@ -134,14 +128,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        public IPlaylistService PlaylistService
-        {
-            get
-            {
-                return this.playlistService;
-            }
-        }
-
         protected IEventAggregator EventAggregator
         {
             get
@@ -178,24 +164,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             set { SetProperty<bool>(ref this.enableLove, value); }
         }
 
-        public bool HasContextMenuPlaylists
-        {
-            get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
-        }
-
         public string TrackOrderText
         {
             get { return this.trackOrderText; }
-        }
-
-        public ObservableCollection<PlaylistViewModel> ContextMenuPlaylists
-        {
-            get { return this.contextMenuPlaylists; }
-            set
-            {
-                SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
-                OnPropertyChanged(() => this.HasContextMenuPlaylists);
-            }
         }
 
         public bool IsIndexing
@@ -237,12 +208,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.i18nService = container.Resolve<II18nService>();
             this.playlistService = container.Resolve<IPlaylistService>();
 
-            // Handlers
-            this.ProviderService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
-
-            // Initialize the search providers in the ContextMenu
-            this.GetSearchProvidersAsync();
-
             // Initialize
             this.Initialize();
         }
@@ -266,8 +231,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
 
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
-            this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
-            this.playlistService.PlaylistDeleted += (_) => this.GetContextMenuPlaylistsAsync();
 
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
@@ -286,59 +249,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // created after the Indexer is started, and thus after triggering the 
             // IndexingService.IndexerStarted event.
             this.SetEditCommands();
-
-            // Initialize the playlists in the ContextMenu
-            this.GetContextMenuPlaylistsAsync();
-        }
-
-        private async void GetContextMenuPlaylistsAsync()
-        {
-            try
-            {
-                // Unbind to improve UI performance
-                this.ContextMenuPlaylists = null;
-
-                List<string> playlists = await this.playlistService.GetPlaylistsAsync();
-
-                // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
-
-                await Task.Run(() =>
-                {
-                    foreach (string playlist in playlists)
-                    {
-                        playlistViewModels.Add(new PlaylistViewModel { Name = playlist });
-                    }
-
-                });
-
-                // Re-bind to update the UI
-                this.ContextMenuPlaylists = playlistViewModels;
-
-            }
-            catch (Exception)
-            {
-                // If loading from the database failed, create and empty Collection.
-                this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
-            }
-        }
-
-        private async void GetSearchProvidersAsync()
-        {
-            this.ContextMenuSearchProviders = null;
-
-            List<SearchProvider> providersList = await this.ProviderService.GetSearchProvidersAsync();
-            var localProviders = new ObservableCollection<SearchProvider>();
-
-            await Task.Run(() =>
-            {
-                foreach (SearchProvider vp in providersList)
-                {
-                    localProviders.Add(vp);
-                }
-            });
-
-            this.ContextMenuSearchProviders = localProviders;
         }
         #endregion
 

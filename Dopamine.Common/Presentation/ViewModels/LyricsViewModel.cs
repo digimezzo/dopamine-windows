@@ -18,7 +18,7 @@ using System.Windows;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class LyricsViewModel : ViewModelBase
+    public class LyricsViewModel : ContextMenuViewModelBase
     {
         #region Variables
         private PlayableTrack track;
@@ -144,8 +144,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Save to the file
             var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
             fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
-            var fmdList = new List<FileMetadata>();
-            fmdList.Add(fmd);
+
+            var fmdList = new List<FileMetadata>
+            {
+                fmd
+            };
+
             await this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
