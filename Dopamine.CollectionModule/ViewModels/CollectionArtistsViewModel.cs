@@ -10,9 +10,13 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Collection;
+using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
+using Dopamine.Common.Services.Search;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -30,19 +34,20 @@ namespace Dopamine.CollectionModule.ViewModels
     public class CollectionArtistsViewModel : AlbumsViewModelBase, ISemanticZoomViewModel
     {
         #region Variables
-        // Repositories
+        private ICollectionService collectionService;
+        private IMetadataService metadataService;
+        private IPlaybackService playbackService;
+        private IPlaylistService playlistService;
+        private IIndexingService indexingService;
+        private IDialogService dialogService;
+        private ISearchService searchService;
+        private IEventAggregator eventAggregator;
         private IArtistRepository artistRepository;
-
-        // Lists
         private ObservableCollection<ISemanticZoomable> artists;
         private CollectionViewSource artistsCvs;
         private IList<Artist> selectedArtists;
         private ObservableCollection<ISemanticZoomSelector> artistsZoomSelectors;
-
-        // Flags
         private bool isArtistsZoomVisible;
-
-        // Other
         private long artistsCount;
         private SubscriptionToken shellMouseUpToken;
         private double leftPaneWidthPercent;
@@ -155,10 +160,18 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionArtistsViewModel(IUnityContainer container, IArtistRepository artistRepository) : base(container)
+        public CollectionArtistsViewModel(IUnityContainer container) : base(container)
         {
-            // Repositories
-            this.artistRepository = artistRepository;
+            // Dependency injection
+            this.collectionService = container.Resolve<ICollectionService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.playlistService = container.Resolve<IPlaylistService>();
+            this.indexingService = container.Resolve<IIndexingService>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+            this.artistRepository = container.Resolve<IArtistRepository>();
 
             // Commands
             this.ToggleArtistOrderCommand = new DelegateCommand(async () => await this.ToggleArtistOrderAsync());
@@ -171,28 +184,25 @@ namespace Dopamine.CollectionModule.ViewModels
             this.ShowArtistsZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.SemanticJumpCommand = new DelegateCommand(() => this.HideSemanticZoom());
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
-            this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.PlaybackService.EnqueueAsync(this.SelectedArtists, true, false));
+            this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedArtists, true, false));
 
             // Events
-            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
+            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
+
+            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;
                 this.SetTrackOrder("ArtistsTrackOrder");
                 await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
             });
 
-            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
             {
                 this.EnableLove = enableLove;
                 this.SetTrackOrder("ArtistsTrackOrder");
                 await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
             });
-
-            // MetadataService
-            this.MetadataService.MetadataChanged += MetadataChangedHandlerAsync;
-
-            // IndexingService
-            this.IndexingService.RefreshArtwork += async (_, __) => await this.CollectionService.RefreshArtworkAsync(this.Albums);
 
             // Set the initial ArtistOrder		
             this.ArtistOrder = (ArtistOrder)SettingsClient.Get<int>("Ordering", "ArtistsArtistOrder");
@@ -254,7 +264,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.CollectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsArtistChanged | (e.IsAlbumChanged & (this.ArtistOrder == ArtistOrder.Album | this.ArtistOrder == ArtistOrder.All))) await this.GetArtistsAsync(this.ArtistOrder);
             if (e.IsArtistChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
@@ -294,7 +304,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occured while getting Artists. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Artists. Exception: {0}", ex.Message);
 
                 // Failed getting Artists. Create empty ObservableCollection.
                 this.Artists = new ObservableCollection<ISemanticZoomable>();
@@ -324,7 +334,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.MetadataService.IsUpdatingDatabaseMetadata) return;
+            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
@@ -340,7 +350,7 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
 
-                if (this.DialogService.ShowInputDialog(
+                if (this.dialogService.ShowInputDialog(
                     0xea37,
                     16,
                     ResourceUtils.GetStringResource("Language_New_Playlist"),
@@ -350,7 +360,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.PlaylistService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -363,15 +373,15 @@ namespace Dopamine.CollectionModule.ViewModels
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.PlaylistService.AddArtistsToPlaylistAsync(artists, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddArtistsToPlaylistAsync(artists, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
-                        this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                     }
                     break;
                 case AddPlaylistResult.Error:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -381,7 +391,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         ResourceUtils.GetStringResource("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -400,7 +410,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            e.Accepted = Dopamine.Common.Database.Utils.FilterArtists(avm.Artist, this.SearchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterArtists(avm.Artist, this.searchService.SearchText);
         }
 
         private async Task ToggleArtistOrderAsync()
@@ -427,10 +437,8 @@ namespace Dopamine.CollectionModule.ViewModels
             SettingsClient.Set<int>("Ordering", "ArtistsArtistOrder", (int)this.ArtistOrder);
             await this.GetArtistsAsync(this.ArtistOrder);
         }
-        #endregion
 
-        #region Protected
-        protected void UpdateArtistOrderText(ArtistOrder artistOrder)
+        private void UpdateArtistOrderText(ArtistOrder artistOrder)
         {
             switch (artistOrder)
             {
@@ -452,17 +460,17 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.ArtistOrderText);
         }
 
-        protected async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
+        private async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
         {
-            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(artists);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(artists);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Artists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Artists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
-        protected async Task ToggleTrackOrderAsync()
+        private async Task ToggleTrackOrderAsync()
         {
             base.ToggleTrackOrder();
 
@@ -470,7 +478,7 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.Track).ToList(), this.TrackOrder);
         }
 
-        protected async Task ToggleAlbumOrderAsync()
+        private async Task ToggleAlbumOrderAsync()
         {
 
             base.ToggleAlbumOrder();
@@ -527,7 +535,7 @@ namespace Dopamine.CollectionModule.ViewModels
             ApplicationCommands.AddArtistsToPlaylistCommand.UnregisterCommand(this.AddArtistsToPlaylistCommand);
 
             // Events
-            this.EventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
+            this.eventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
 
             // Other
             this.IsArtistsZoomVisible = false;
@@ -545,7 +553,7 @@ namespace Dopamine.CollectionModule.ViewModels
             ApplicationCommands.AddArtistsToPlaylistCommand.RegisterCommand(this.AddArtistsToPlaylistCommand);
 
             // Events
-            this.shellMouseUpToken = this.EventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
+            this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
         }
 
         protected override void RefreshLanguage()

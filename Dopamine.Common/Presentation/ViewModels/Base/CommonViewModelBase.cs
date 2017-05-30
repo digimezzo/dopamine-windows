@@ -27,7 +27,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class CommonViewModelBase : ContextMenuViewModelBase, INavigationAware, IActiveAware
     {
         #region Variables
-        // Services
+        private IUnityContainer container;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private IMetadataService metadataService;
@@ -36,22 +36,14 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private IDialogService dialogService;
         private ISearchService searchService;
         private IPlaylistService playlistService;
-
-        // EventAggregator
         private IEventAggregator eventAggregator;
-
-        // Flags
         private bool enableRating;
         private bool enableLove;
         private bool isFirstLoad = true;
         private bool isIndexing;
-
-        // Counts
         private long tracksCount;
         private long totalDuration;
         private long totalSize;
-
-        // Other
         private TrackOrder trackOrder;
         private string trackOrderText;
         private string searchTextBeforeInactivate = string.Empty;
@@ -72,84 +64,14 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
-        public IIndexingService IndexingService
-        {
-            get
-            {
-                return this.indexingService;
-            }
-        }
-
-        public ICollectionService CollectionService
-        {
-            get
-            {
-                return this.collectionService;
-            }
-        }
-
-        public IMetadataService MetadataService
-        {
-            get
-            {
-                return this.metadataService;
-            }
-        }
-
-        public II18nService I18nService
-        {
-            get
-            {
-                return this.i18nService;
-            }
-        }
-
-        public IPlaybackService PlaybackService
-        {
-            get
-            {
-                return this.playbackService;
-            }
-        }
-
-        public IDialogService DialogService
-        {
-            get
-            {
-                return this.dialogService;
-            }
-        }
-
-        public ISearchService SearchService
-        {
-            get
-            {
-                return this.searchService;
-            }
-        }
-
-        protected IEventAggregator EventAggregator
-        {
-            get
-            {
-                return eventAggregator;
-            }
-        }
+        public string TotalSizeInformation => this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty;
+        public string TotalDurationInformation => this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty;
+        public string TrackOrderText => this.trackOrderText;
 
         public long TracksCount
         {
             get { return this.tracksCount; }
             set { SetProperty<long>(ref this.tracksCount, value); }
-        }
-
-        public string TotalSizeInformation
-        {
-            get { return this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty; }
-        }
-
-        public string TotalDurationInformation
-        {
-            get { return this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty; }
         }
 
         public bool EnableRating
@@ -162,11 +84,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             get { return this.enableLove; }
             set { SetProperty<bool>(ref this.enableLove, value); }
-        }
-
-        public string TrackOrderText
-        {
-            get { return this.trackOrderText; }
         }
 
         public bool IsIndexing
@@ -195,10 +112,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public CommonViewModelBase(IUnityContainer container) : base(container)
         {
-            // EventAggregator
+            // Dependency injection
+            this.container = container;
             this.eventAggregator = container.Resolve<IEventAggregator>();
-
-            // Services
             this.indexingService = container.Resolve<IIndexingService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.searchService = container.Resolve<ISearchService>();
@@ -208,20 +124,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.i18nService = container.Resolve<II18nService>();
             this.playlistService = container.Resolve<IPlaylistService>();
 
-            // Initialize
-            this.Initialize();
-        }
-        #endregion
-
-        #region Private
-        private void Initialize()
-        {
             // Commands
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
-            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.EnqueueAsync(true, false)); 
+            this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.EnqueueAsync(true, false));
 
             // Events
             this.playbackService.PlaybackFailed += (_, __) => this.ShowPlayingTrackAsync();
@@ -229,15 +137,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
-
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
-
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
             this.indexingService.IndexingStopped += (_, __) => this.SetEditCommands();
-
             this.searchService.DoSearch += (searchText) => { if (this.IsActive) this.FilterLists(); };
-
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
             this.metadataService.LoveChanged += MetadataService_LoveChangedAsync;
 
@@ -324,8 +228,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.CheckAllSelectedFilesExist(paths))
             {
-                Views.FileInformation view = this.Container.Resolve<Views.FileInformation>();
-                view.DataContext = this.Container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
+                Views.FileInformation view = this.container.Resolve<Views.FileInformation>();
+                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
 
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,
@@ -348,8 +252,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.CheckAllSelectedFilesExist(paths))
             {
-                EditTrack view = this.Container.Resolve<EditTrack>();
-                view.DataContext = this.Container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
+                EditTrack view = this.container.Resolve<EditTrack>();
+                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
 
                 this.dialogService.ShowCustomDialog(
                     0xe104,

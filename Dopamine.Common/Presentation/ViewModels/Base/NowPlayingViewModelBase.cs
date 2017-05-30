@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
@@ -17,6 +18,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class NowPlayingViewModelBase : PlaylistViewModelBase, IDropTarget
     {
         #region Variables
+        private IPlaybackService playbackService;
+        private IDialogService dialogService;
         private bool isRemovingTracks;
         #endregion
 
@@ -28,18 +31,22 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         public NowPlayingViewModelBase(IUnityContainer container)
            : base(container)
         {
+            // Dependency injection
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.dialogService = container.Resolve<IDialogService>();
+
             // Commands
             this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
-            this.PlaybackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
+            this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
         }
         #endregion
 
         #region Protected
         protected async Task GetTracksAsync()
         {
-            await this.GetTracksCommonAsync(this.PlaybackService.Queue);
+            await this.GetTracksCommonAsync(this.playbackService.Queue);
         }
         #endregion
 
@@ -90,7 +97,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
                 }
 
-                await this.PlaybackService.UpdateQueueOrderAsync(droppedTracks);
+                await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
             }
             catch (Exception ex)
             {
@@ -107,7 +114,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.isRemovingTracks = true;
 
             // Remove Tracks from PlaybackService (this dequeues the Tracks)
-            DequeueResult dequeueResult = await this.PlaybackService.DequeueAsync(this.SelectedTracks);
+            DequeueResult dequeueResult = await this.playbackService.DequeueAsync(this.SelectedTracks);
 
             var viewModelsToRemove = new List<KeyValuePair<string, TrackViewModel>>();
 
@@ -133,7 +140,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (!dequeueResult.IsSuccess)
             {
-                this.DialogService.ShowNotification(
+                this.dialogService.ShowNotification(
                     0xe711,
                     16,
                     ResourceUtils.GetStringResource("Language_Error"),

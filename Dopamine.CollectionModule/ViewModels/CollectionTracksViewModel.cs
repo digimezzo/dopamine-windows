@@ -3,9 +3,11 @@ using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Events;
 using System.Threading.Tasks;
 
 namespace Dopamine.CollectionModule.ViewModels
@@ -13,7 +15,10 @@ namespace Dopamine.CollectionModule.ViewModels
     public class CollectionTracksViewModel : TracksViewModelBase
     {
         #region Variables
-        // Flags
+        private IUnityContainer container;
+        private IDialogService dialogService;
+        private IMetadataService metadataService;
+        private IEventAggregator eventAggregator;
         private bool ratingVisible;
         private bool loveVisible;
         private bool lyricsVisible;
@@ -108,26 +113,32 @@ namespace Dopamine.CollectionModule.ViewModels
         #region Construction
         public CollectionTracksViewModel(IUnityContainer container) : base(container)
         {
+            // Dependency injection
+            this.container = container;
+            this.dialogService = container.Resolve<IDialogService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName));
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
-            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
+            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
             {
                 this.EnableRating = enableRating;
                 this.GetVisibleColumns();
             });
 
-            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
             {
                 this.EnableLove = enableLove;
                 this.GetVisibleColumns();
             });
 
-            // MetadataService
-            this.MetadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            // Events
+            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // Show only the columns which are visible
             this.GetVisibleColumns();
@@ -148,10 +159,10 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private void ChooseColumns()
         {
-            CollectionTracksColumns view = this.Container.Resolve<CollectionTracksColumns>();
-            view.DataContext = this.Container.Resolve<CollectionTracksColumnsViewModel>();
+            CollectionTracksColumns view = this.container.Resolve<CollectionTracksColumns>();
+            view.DataContext = this.container.Resolve<CollectionTracksColumnsViewModel>();
 
-            this.DialogService.ShowCustomDialog(
+            this.dialogService.ShowCustomDialog(
                 0xe73e,
                 16,
                 ResourceUtils.GetStringResource("Language_Columns"),

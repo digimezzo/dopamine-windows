@@ -9,6 +9,7 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
 using Dopamine.ControlsModule.Views;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -26,15 +27,13 @@ namespace Dopamine.CollectionModule.ViewModels
         private IIndexingService indexingService;
         private ICacheService cacheService;
         private IRegionManager regionManager;
-
-        private bool isFirstLoad = true;
-
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
         private AlbumViewModel albumViewModel4;
         private AlbumViewModel albumViewModel5;
         private AlbumViewModel albumViewModel6;
+        private bool isFirstLoad = true;
         #endregion
 
         #region Commands
@@ -81,17 +80,20 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionFrequentViewModel(IAlbumRepository albumRepository, IPlaybackService playbackService, ICacheService cacheService, IIndexingService indexingService, IRegionManager regionManager)
+        public CollectionFrequentViewModel(IUnityContainer container)
         {
-            this.albumRepository = albumRepository;
-            this.playbackService = playbackService;
-            this.cacheService = cacheService;
-            this.indexingService = indexingService;
-            this.regionManager = regionManager;
+            // Dependency injection
+            this.albumRepository = container.Resolve<IAlbumRepository>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.cacheService = container.Resolve<ICacheService>();
+            this.indexingService = container.Resolve<IIndexingService>();
+            this.regionManager = container.Resolve<IRegionManager>();
 
+            // Events
             this.playbackService.PlaybackCountersChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
             this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
+            // Commands
             this.ClickCommand = new DelegateCommand<object>((album) =>
             {
                 try

@@ -10,9 +10,13 @@ using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Collection;
+using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
+using Dopamine.Common.Services.Search;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -30,19 +34,20 @@ namespace Dopamine.CollectionModule.ViewModels
     public class CollectionGenresViewModel : AlbumsViewModelBase, ISemanticZoomViewModel
     {
         #region Variables
-        // Repositories
+        private ICollectionService collectionService;
+        private IIndexingService indexingService;
+        private IMetadataService metadataService;
+        private IDialogService dialogService;
+        private IPlaybackService playbackService;
+        private IPlaylistService playlistService;
+        private ISearchService searchService;
+        private IEventAggregator eventAggregator;
         private IGenreRepository genreRepository;
-
-        // Lists
         private ObservableCollection<ISemanticZoomable> genres;
         private CollectionViewSource genresCvs;
         private IList<Genre> selectedGenres;
         private ObservableCollection<ISemanticZoomSelector> genresZoomSelectors;
-
-        // Flags
         private bool isGenresZoomVisible;
-
-        // Other
         private long genresCount;
         private SubscriptionToken shellMouseUpToken;
         private double leftPaneWidthPercent;
@@ -62,10 +67,7 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Properties
-        public string GenreOrderText
-        {
-            get { return this.genreOrderText; }
-        }
+        public string GenreOrderText => this.genreOrderText;
 
         public GenreOrder GenreOrder
         {
@@ -154,10 +156,18 @@ namespace Dopamine.CollectionModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionGenresViewModel(IUnityContainer container, IGenreRepository genreRepository) : base(container)
+        public CollectionGenresViewModel(IUnityContainer container) : base(container)
         {
-            // Repositories
-            this.genreRepository = genreRepository;
+            // Dependency injection
+            this.collectionService = container.Resolve<ICollectionService>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.indexingService = container.Resolve<IIndexingService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.playlistService = container.Resolve<IPlaylistService>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+            this.genreRepository = container.Resolve<IGenreRepository>();
 
             // Commands
             this.ToggleGenreOrderCommand = new DelegateCommand(async () => await this.ToggleGenreOrderAsync());
@@ -170,28 +180,25 @@ namespace Dopamine.CollectionModule.ViewModels
             this.ShowGenresZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.SemanticJumpCommand = new DelegateCommand(() => this.IsGenresZoomVisible = false);
             this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenres));
-            this.ShuffleSelectedGenresCommand = new DelegateCommand(async () => await this.PlaybackService.EnqueueAsync(this.SelectedGenres, true, false));
+            this.ShuffleSelectedGenresCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedGenres, true, false));
 
             // Events
-            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
+            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
+
+            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
             {
                 this.EnableRating = enableRating;
                 this.SetTrackOrder("GenresTrackOrder");
                 await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
             });
 
-            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
             {
                 this.EnableLove = enableLove;
                 this.SetTrackOrder("GenresTrackOrder");
                 await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
             });
-
-            // MetadataService
-            this.MetadataService.MetadataChanged += MetadataChangedHandlerAsync;
-
-            // IndexingService
-            this.IndexingService.RefreshArtwork += async (_, __) => await this.CollectionService.RefreshArtworkAsync(this.Albums);
 
             // Set the initial GenreOrder
             this.SetGenreOrder("GenresGenreOrder");
@@ -272,7 +279,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.GenreOrder = (GenreOrder)SettingsClient.Get<int>("Ordering", settingName);
         }
 
-        protected void UpdateGenreOrderText(GenreOrder genreOrder)
+        private void UpdateGenreOrderText(GenreOrder genreOrder)
         {
             switch (genreOrder)
             {
@@ -293,7 +300,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.CollectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsGenreChanged) await this.GetGenresAsync(this.GenreOrder);
             if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
@@ -369,7 +376,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.MetadataService.IsUpdatingDatabaseMetadata) return;
+            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
             await this.GetAlbumsAsync(null, this.SelectedGenres, (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder"));
             this.SetTrackOrder("GenresTrackOrder");
@@ -385,7 +392,7 @@ namespace Dopamine.CollectionModule.ViewModels
             {
                 var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
 
-                if (this.DialogService.ShowInputDialog(
+                if (this.dialogService.ShowInputDialog(
                     0xea37,
                     16,
                     ResourceUtils.GetStringResource("Language_New_Playlist"),
@@ -395,7 +402,7 @@ namespace Dopamine.CollectionModule.ViewModels
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.PlaylistService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -408,15 +415,15 @@ namespace Dopamine.CollectionModule.ViewModels
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.PlaylistService.AddGenresToPlaylistAsync(genres, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genres, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
-                        this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                     }
                     break;
                 case AddPlaylistResult.Error:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -426,7 +433,7 @@ namespace Dopamine.CollectionModule.ViewModels
                         ResourceUtils.GetStringResource("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -443,11 +450,11 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task AddGenresToNowPlayingAsync(IList<Genre> genres)
         {
-            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(genres);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(genres);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Genres_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Genres_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
@@ -455,12 +462,10 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = Dopamine.Common.Database.Utils.FilterGenres(gvm.Genre, this.SearchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterGenres(gvm.Genre, this.searchService.SearchText);
         }
-        #endregion
 
-        #region Protected
-        protected async Task ToggleTrackOrderAsync()
+        private async Task ToggleTrackOrderAsync()
         {
             base.ToggleTrackOrder();
 
@@ -468,7 +473,7 @@ namespace Dopamine.CollectionModule.ViewModels
             await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.Track).ToList(), this.TrackOrder);
         }
 
-        protected async Task ToggleAlbumOrderAsync()
+        private async Task ToggleAlbumOrderAsync()
         {
             base.ToggleAlbumOrder();
 
@@ -524,7 +529,7 @@ namespace Dopamine.CollectionModule.ViewModels
             ApplicationCommands.AddGenresToPlaylistCommand.UnregisterCommand(this.AddGenresToPlaylistCommand);
 
             // Events
-            this.EventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
+            this.eventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
 
             // Other
             this.IsGenresZoomVisible = false;
@@ -542,7 +547,7 @@ namespace Dopamine.CollectionModule.ViewModels
             ApplicationCommands.AddGenresToPlaylistCommand.RegisterCommand(this.AddGenresToPlaylistCommand);
 
             // Events
-            this.shellMouseUpToken = this.EventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsGenresZoomVisible = false);
+            this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsGenresZoomVisible = false);
         }
 
         protected override void RefreshLanguage()
