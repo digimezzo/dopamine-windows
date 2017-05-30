@@ -1,6 +1,7 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Utils;
+using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 
 namespace Dopamine.ControlsModule.ViewModels
@@ -15,7 +16,7 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public CollectionPlaybackControlsViewModel(IPlaybackService playbackService) : base(playbackService)
+        public CollectionPlaybackControlsViewModel(IUnityContainer container) : base(container)
         {
             this.playbackService.PlaybackStopped += (_, __) =>
             {

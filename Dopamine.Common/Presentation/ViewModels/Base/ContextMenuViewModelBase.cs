@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Services.Playlist;
+﻿using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -19,6 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         // Services
         private IProviderService providerService;
         private IPlaylistService playlistService;
+        private IPlaybackService playbackService;
 
         // Collections
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
@@ -27,6 +29,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         #region Commands
         public DelegateCommand<string> SearchOnlineCommand { get; set; }
+        public DelegateCommand<string> AddPlayingTrackToPlaylistCommand { get; set; }
         #endregion
 
         #region Properties
@@ -69,9 +72,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // Services
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
 
             // Commands
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
+            this.AddPlayingTrackToPlaylistCommand = new DelegateCommand<string>(async(playlistName) => await this.AddPlayingTrackToPlaylistAsync(playlistName));
 
             // Handlers
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
@@ -135,6 +140,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 // If loading from the database failed, create and empty Collection.
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
+        }
+
+        private async Task AddPlayingTrackToPlaylistAsync(string playlistName)
+        {
         }
         #endregion
 

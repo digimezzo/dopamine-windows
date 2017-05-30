@@ -7,7 +7,6 @@ using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Playback;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

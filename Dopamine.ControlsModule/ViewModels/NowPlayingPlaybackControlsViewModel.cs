@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
+using Microsoft.Practices.Unity;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -46,7 +47,7 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public NowPlayingPlaybackControlsViewModel(IPlaybackService playbackService) : base(playbackService)
+        public NowPlayingPlaybackControlsViewModel(IUnityContainer container) : base(container)
         {
             this.playbackService.PlaybackSuccess += (_) => OnPropertyChanged(() => this.HasPlaybackQueue);
 
