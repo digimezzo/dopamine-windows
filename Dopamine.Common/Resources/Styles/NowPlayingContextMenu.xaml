@@ -15,7 +15,7 @@
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
                     <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
-                    <Setter Property="Command" Value="{x:Static prism:ApplicationCommands.AddPlayingTrackToPlaylistCommand}" />
+                    <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
             </MenuItem.ItemContainerStyle>

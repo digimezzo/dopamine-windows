@@ -1,11 +1,12 @@
 ﻿using Dopamine.Common.Presentation.ViewModels;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Utils;
-using Prism.Mvvm;
+using Microsoft.Practices.Unity;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
-    public class PlaybackControlsViewModelBase : BindableBase
+    public class PlaybackControlsViewModelBase : ContextMenuViewModelBase
     {
         #region Variables
         protected PlaybackInfoViewModel playbackInfoViewModel;
@@ -21,9 +22,9 @@ namespace Dopamine.ControlsModule.ViewModels
         #endregion
 
         #region Construction
-        public PlaybackControlsViewModelBase(IPlaybackService playbackService)
+        public PlaybackControlsViewModelBase(IUnityContainer container) : base(container)
         {
-            this.playbackService = playbackService;
+            this.playbackService = container.Resolve<IPlaybackService>();
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
@@ -42,13 +43,18 @@ namespace Dopamine.ControlsModule.ViewModels
         {
             this.PlaybackInfoViewModel = new PlaybackInfoViewModel
             {
-                Title = "",
-                Artist = "",
-                Album = "",
-                Year = "",
-                CurrentTime = "",
-                TotalTime = ""
+                Title = string.Empty,
+                Artist = string.Empty,
+                Album = string.Empty,
+                Year = string.Empty,
+                CurrentTime = string.Empty,
+                TotalTime = string.Empty
             };
+        }
+
+        protected override void SearchOnline(string id)
+        {
+            // No implementation required here
         }
         #endregion
     }
