@@ -7,8 +7,11 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Collection;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
+using Dopamine.Common.Services.Search;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -26,18 +29,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class AlbumsViewModelBase : TracksViewModelBase
     {
         #region Variables
-        // Repositories
+        private IUnityContainer container;
+        private ICollectionService collectionService;
+        private IPlaybackService playbackService;
+        private IDialogService dialogService;
+        private ISearchService searchService;
+        private IPlaylistService playlistService;
         private IAlbumRepository albumRepository;
-
-        // Collections
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
         private IList<Album> selectedAlbums;
-
-        // Flags
         private bool delaySelectedAlbums;
-
-        // Other
         private long albumsCount;
         private AlbumOrder albumOrder;
         private string albumOrderText;
@@ -67,10 +69,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 return false;
             }
         }
-        public bool OrderedByYear
-        {
-            get { return this.AlbumOrder == AlbumOrder.ByYear; }
-        }
+        public bool OrderedByYear => this.AlbumOrder == AlbumOrder.ByYear;
+        public double UpscaledCoverSize => this.CoverSize * Constants.CoverUpscaleFactor;
+        public bool IsSmallCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Small;
+        public bool IsMediumCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Medium;
+        public bool IsLargeCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Large;
+        public string AlbumOrderText => this.albumOrderText;
 
         public double CoverSize
         {
@@ -88,26 +92,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             get { return this.albumHeight; }
             set { SetProperty<double>(ref this.albumHeight, value); }
-        }
-
-        public double UpscaledCoverSize
-        {
-            get { return this.CoverSize * Constants.CoverUpscaleFactor; }
-        }
-
-        public bool IsSmallCoverSizeSelected
-        {
-            get { return this.selectedCoverSize == CoverSizeType.Small; }
-        }
-
-        public bool IsMediumCoverSizeSelected
-        {
-            get { return this.selectedCoverSize == CoverSizeType.Medium; }
-        }
-
-        public bool IsLargeCoverSizeSelected
-        {
-            get { return this.selectedCoverSize == CoverSizeType.Large; }
         }
 
         public ObservableCollection<AlbumViewModel> Albums
@@ -148,33 +132,28 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.UpdateAlbumOrderText(value);
             }
         }
-
-        public string AlbumOrderText
-        {
-            get { return this.albumOrderText; }
-        }
         #endregion
 
         #region Construction
         public AlbumsViewModelBase(IUnityContainer container) : base(container)
         {
-            // Repositories
-            this.albumRepository = ServiceLocator.Current.GetInstance<IAlbumRepository>();
+            // Dependency injection
+            this.container = container;
+            this.collectionService = container.Resolve<ICollectionService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.playlistService = container.Resolve<IPlaylistService>();
+            this.albumRepository = container.Resolve<IAlbumRepository>();
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
-            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.PlaybackService.EnqueueAsync(this.SelectedAlbums, true, false));
-
-            // Initialize
-            this.Initialize();
-        }
-        #endregion
-
-        #region Private
-        private void Initialize()
-        {
-            // Initialize Commands
+            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedAlbums, true, false));
             this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbums, playlistName));
+            this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
+            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
+            this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
+
             this.SelectedAlbumsCommand = new DelegateCommand<object>(async (parameter) =>
             {
                 if (this.delaySelectedAlbums) await Task.Delay(Constants.DelaySelectedAlbumsDelay);
@@ -182,8 +161,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 await this.SelectedAlbumsHandlerAsync(parameter);
             });
 
-            this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
-            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
             this.SetCoverSizeCommand = new DelegateCommand<string>(async (coverSize) =>
             {
 
@@ -192,18 +169,18 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     await this.SetCoversizeAsync((CoverSizeType)selectedCoverSize);
                 }
             });
-
-            this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
         }
+        #endregion
 
+        #region Private
         private void EditSelectedAlbum()
         {
             if (this.SelectedAlbums == null || this.SelectedAlbums.Count == 0) return;
 
-            EditAlbum view = this.Container.Resolve<EditAlbum>();
-            view.DataContext = this.Container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
+            EditAlbum view = this.container.Resolve<EditAlbum>();
+            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
 
-            this.DialogService.ShowCustomDialog(
+            this.dialogService.ShowCustomDialog(
                 0xe104,
                 14,
                 ResourceUtils.GetStringResource("Language_Edit_Album"),
@@ -222,7 +199,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.SearchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.searchService.SearchText);
         }
         #endregion
 
@@ -345,7 +322,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
 
             // Set Album artwork
-            this.CollectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
+            this.collectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
         }
 
         protected async Task AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
@@ -357,7 +334,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
 
-                if (this.DialogService.ShowInputDialog(
+                if (this.dialogService.ShowInputDialog(
                     0xea37,
                     16,
                     ResourceUtils.GetStringResource("Language_New_Playlist"),
@@ -367,7 +344,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.PlaylistService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
                 }
             }
 
@@ -380,15 +357,15 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.PlaylistService.AddAlbumsToPlaylistAsync(albums, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
-                        this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                     }
                     break;
                 case AddPlaylistResult.Error:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -398,7 +375,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                         ResourceUtils.GetStringResource("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
-                    this.DialogService.ShowNotification(
+                    this.dialogService.ShowNotification(
                         0xe711,
                         16,
                         ResourceUtils.GetStringResource("Language_Error"),
@@ -415,11 +392,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async Task AddAlbumsToNowPlayingAsync(IList<Album> albums)
         {
-            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(albums);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(albums);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Albums_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Albums_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 

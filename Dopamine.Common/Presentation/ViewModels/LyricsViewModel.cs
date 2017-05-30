@@ -4,6 +4,7 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -29,6 +30,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool automaticScrolling;
         private bool isEditing;
         private IMetadataService metadataService;
+        private IProviderService providerService;
         #endregion
 
         #region Commands
@@ -113,10 +115,13 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsViewModel(IUnityContainer container, PlayableTrack track, IMetadataService metadataService) : base(container)
+        public LyricsViewModel(IUnityContainer container, PlayableTrack track) : base(container)
         {
             this.track = track;
-            this.metadataService = metadataService;
+
+            // Dependency injection
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.providerService = container.Resolve<IProviderService>();
 
             this.FontSize = SettingsClient.Get<double>("Lyrics", "FontSize");
             this.AutomaticScrolling = SettingsClient.Get<bool>("Lyrics", "AutomaticScrolling");
@@ -231,7 +236,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Overrides
         protected override void SearchOnline(string id)
         {
-            this.ProviderService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
+            this.providerService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
         }
         #endregion
     }

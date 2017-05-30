@@ -6,10 +6,14 @@ using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Services.Provider;
+using Dopamine.Common.Services.Search;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,12 +27,15 @@ namespace Dopamine.Common.Presentation.ViewModels
     public abstract class PlaylistViewModelBase : CommonViewModelBase
     {
         #region Variables
-        // Collections
+        private IUnityContainer container;
+        private IPlaybackService playbackService;
+        private IEventAggregator eventAggregator;
+        private ISearchService searchService;
+        private IDialogService dialogService;
+        private IProviderService providerService;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
-
-        // Flags
         protected bool isDroppingTracks;
         #endregion
 
@@ -53,85 +60,33 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public PlaylistViewModelBase(IUnityContainer container)
-           : base(container)
+        public PlaylistViewModelBase(IUnityContainer container) : base(container)
         {
+            // Dependency injection
+            this.container = container;
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.providerService = container.Resolve<IProviderService>();
+
             // Commands
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
             // Events
-            this.EventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
-            this.EventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
+            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
+            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
         }
         #endregion
 
         #region Private
-        protected async Task GetTracksCommonAsync(OrderedDictionary<string, PlayableTrack> tracks)
-        {
-            try
-            {
-                // Create new ObservableCollection
-                ObservableCollection<KeyValuePair<string, TrackViewModel>> viewModels = new ObservableCollection<KeyValuePair<string, TrackViewModel>>();
-
-                await Task.Run(() =>
-                {
-                    foreach (KeyValuePair<string, PlayableTrack> track in tracks)
-                    {
-                        TrackViewModel vm = this.Container.Resolve<TrackViewModel>();
-                        vm.Track = track.Value;
-                        viewModels.Add(new KeyValuePair<string, TrackViewModel>(track.Key, vm));
-                    }
-                });
-
-                // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
-                    this.TracksCvs = null;
-                    this.Tracks = null;
-                });
-
-                // Populate ObservableCollection
-                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
-
-                // Failed getting Tracks. Create empty ObservableCollection.
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.Tracks = new ObservableCollection<KeyValuePair<string, TrackViewModel>>();
-                });
-            }
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // Populate CollectionViewSource
-                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
-                this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
-
-                // Update count
-                this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
-            });
-
-            // Update duration and size
-            this.CalculateSizeInformationAsync(this.TracksCvs);
-
-
-            // Show playing Track
-            this.ShowPlayingTrackAsync();
-        }
-
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
-            e.Accepted = Database.Utils.FilterTracks(vm.Value.Track, this.SearchService.SearchText);
+            e.Accepted = Database.Utils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
         }
-        #endregion
-
-        #region Private
+      
         private async void CalculateSizeInformationAsync(CollectionViewSource source)
         {
             // Reset duration and size
@@ -178,16 +133,73 @@ namespace Dopamine.Common.Presentation.ViewModels
         }
         #endregion
 
-        #region Overrides
+        #region Protected
+        protected async Task GetTracksCommonAsync(OrderedDictionary<string, PlayableTrack> tracks)
+        {
+            try
+            {
+                // Create new ObservableCollection
+                ObservableCollection<KeyValuePair<string, TrackViewModel>> viewModels = new ObservableCollection<KeyValuePair<string, TrackViewModel>>();
+
+                await Task.Run(() =>
+                {
+                    foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                    {
+                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
+                        vm.Track = track.Value;
+                        viewModels.Add(new KeyValuePair<string, TrackViewModel>(track.Key, vm));
+                    }
+                });
+
+                // Unbind to improve UI performance
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    this.TracksCvs = null;
+                    this.Tracks = null;
+                });
+
+                // Populate ObservableCollection
+                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+
+                // Failed getting Tracks. Create empty ObservableCollection.
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.Tracks = new ObservableCollection<KeyValuePair<string, TrackViewModel>>();
+                });
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+                this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
+
+                // Update count
+                this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
+            });
+
+            // Update duration and size
+            this.CalculateSizeInformationAsync(this.TracksCvs);
+
+
+            // Show playing Track
+            this.ShowPlayingTrackAsync();
+        }
+
         protected async Task PlayNextAsync()
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
-            EnqueueResult result = await this.PlaybackService.AddToQueueNextAsync(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
@@ -195,14 +207,16 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
-            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
+        #endregion
 
+        #region Overrides
         protected override void ConditionalScrollToPlayingTrack()
         {
             // Trigger ScrollToPlayingTrack only if set in the settings
@@ -210,7 +224,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {
-                    this.EventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
+                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
                 }
             }
         }
@@ -277,7 +291,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             if (this.SelectedTracks != null && this.SelectedTracks.Count > 0)
             {
-                this.ProviderService.SearchOnline(id, new string[] { this.SelectedTracks.First().Value.ArtistName, this.SelectedTracks.First().Value.TrackTitle });
+                this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().Value.ArtistName, this.SelectedTracks.First().Value.TrackTitle });
             }
         }
 
@@ -306,10 +320,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (!this.PlaybackService.HasCurrentTrack) return;
+            if (!this.playbackService.HasCurrentTrack) return;
 
-            string trackGuid = this.PlaybackService.CurrentTrack.Key;
-            string trackSafePath = this.PlaybackService.CurrentTrack.Value.SafePath;
+            string trackGuid = this.playbackService.CurrentTrack.Key;
+            string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
 
             await Task.Run(() =>
             {
@@ -327,11 +341,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                         {
                             isTrackFound = true;
 
-                            if (!this.PlaybackService.IsStopped)
+                            if (!this.playbackService.IsStopped)
                             {
                                 vm.Value.IsPlaying = true;
 
-                                if (this.PlaybackService.IsPlaying)
+                                if (this.playbackService.IsPlaying)
                                 {
                                     vm.Value.IsPaused = false;
                                 }
@@ -354,11 +368,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                             {
                                 isTrackFound = true;
 
-                                if (!this.PlaybackService.IsStopped)
+                                if (!this.playbackService.IsStopped)
                                 {
                                     vm.Value.IsPlaying = true;
 
-                                    if (this.PlaybackService.IsPlaying)
+                                    if (this.playbackService.IsPlaying)
                                     {
                                         vm.Value.IsPaused = false;
                                     }

@@ -260,7 +260,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(() =>
                             {
-                                this.LyricsViewModel = new LyricsViewModel(container, track, metadataService);
+                                this.LyricsViewModel = new LyricsViewModel(container, track);
                                 this.LyricsViewModel.SetLyrics(lyrics);
                             });
             }

@@ -8,12 +8,18 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Collection;
+using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
+using Dopamine.Common.Services.Provider;
+using Dopamine.Common.Services.Search;
 using Microsoft.Practices.Unity;
 using Prism;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections;
@@ -29,10 +35,16 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class TracksViewModelBase : CommonViewModelBase, INavigationAware, IActiveAware
     {
         #region Variables
-        // Repositories
+        private IUnityContainer container;
+        private IDialogService dialogService;
         private ITrackRepository trackRepository;
-
-        // Collections
+        private ISearchService searchService;
+        private IPlaybackService playbackService;
+        private ICollectionService collectionService;
+        private II18nService i18nService;
+        private IEventAggregator eventAggregator;
+        private IProviderService providerService;
+        private IPlaylistService playlistService;
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<PlayableTrack> selectedTracks;
@@ -41,10 +53,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Properties
         public abstract bool CanOrderByAlbum { get; }
 
-        public bool ShowRemoveFromDisk
-        {
-            get { return SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk"); }
-        }
+        public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
 
         public ObservableCollection<TrackViewModel> Tracks
         {
@@ -68,8 +77,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Construction
         public TracksViewModelBase(IUnityContainer container) : base(container)
         {
-            // Repositories
+            // Dependency injection
+            this.container = container;
             this.trackRepository = container.Resolve<ITrackRepository>();
+            this.dialogService = container.Resolve<IDialogService>();
+            this.searchService = container.Resolve<ISearchService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.collectionService = container.Resolve<ICollectionService>();
+            this.i18nService = container.Resolve<II18nService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
+            this.providerService = container.Resolve<IProviderService>();
+            this.playlistService = container.Resolve<IPlaylistService>();
 
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
@@ -78,10 +96,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
             // PubSub Events
-            this.EventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
+            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
 
             // Events
-            this.I18nService.LanguageChanged += (_, __) =>
+            this.i18nService.LanguageChanged += (_, __) =>
             {
                 OnPropertyChanged(() => this.TotalDurationInformation);
                 OnPropertyChanged(() => this.TotalSizeInformation);
@@ -109,7 +127,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             TrackViewModel vm = e.Item as TrackViewModel;
-            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.SearchService.SearchText);
+            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
         protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<Album> selectedAlbums, TrackOrder trackOrder)
@@ -158,7 +176,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 {
                     foreach (PlayableTrack t in orderedTracks)
                     {
-                        TrackViewModel vm = this.Container.Resolve<TrackViewModel>();
+                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
                         vm.Track = t;
                         vm.ShowTrackNumber = showTracknumber;
                         viewModels.Add(vm);
@@ -217,17 +235,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs");
             }
 
-            if (this.DialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
             {
-                RemoveTracksResult result = await this.CollectionService.RemoveTracksFromCollectionAsync(selectedTracks);
+                RemoveTracksResult result = await this.collectionService.RemoveTracksFromCollectionAsync(selectedTracks);
 
                 if (result == RemoveTracksResult.Error)
                 {
-                    this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                 }
                 else
                 {
-                    await this.PlaybackService.DequeueAsync(selectedTracks);
+                    await this.playbackService.DequeueAsync(selectedTracks);
                 }
             }
         }
@@ -242,17 +260,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
             }
 
-            if (this.DialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
             {
-                RemoveTracksResult result = await this.CollectionService.RemoveTracksFromDiskAsync(selectedTracks);
+                RemoveTracksResult result = await this.collectionService.RemoveTracksFromDiskAsync(selectedTracks);
 
                 if (result == RemoveTracksResult.Error)
                 {
-                    this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
                 }
                 else
                 {
-                    await this.PlaybackService.DequeueAsync(selectedTracks);
+                    await this.playbackService.DequeueAsync(selectedTracks);
                 }
             }
         }
@@ -306,11 +324,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks;
 
-            EnqueueResult result = await this.PlaybackService.AddToQueueNextAsync(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }
         }
 
@@ -318,11 +336,78 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             IList<PlayableTrack> selectedTracks = this.SelectedTracks;
 
-            EnqueueResult result = await this.PlaybackService.AddToQueueAsync(selectedTracks);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
             if (!result.IsSuccess)
             {
-                this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
+        }
+
+        protected async Task AddTracksToPlaylistAsync(string playlistName)
+        {
+            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+
+            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
+
+            // If no playlist is provided, first create one.
+            if (playlistName == null)
+            {
+                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+
+                if (this.dialogService.ShowInputDialog(
+                    0xea37,
+                    16,
+                    ResourceUtils.GetStringResource("Language_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ref responseText))
+                {
+                    playlistName = responseText;
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+                }
+            }
+
+            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
+            if (playlistName == null) return;
+
+            // Verify if the playlist was added
+            switch (addPlaylistResult)
+            {
+                case AddPlaylistResult.Success:
+                case AddPlaylistResult.Duplicate:
+                    // Add items to playlist
+                    AddTracksToPlaylistResult result = await this.playlistService.AddTracksToPlaylistAsync(selectedTracks, playlistName);
+
+                    if (result == AddTracksToPlaylistResult.Error)
+                    {
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    }
+                    break;
+                case AddPlaylistResult.Error:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+                    break;
+                case AddPlaylistResult.Blank:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+                    break;
+                default:
+                    // Never happens
+                    break;
             }
         }
         #endregion
@@ -351,16 +436,16 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 if (this.Tracks != null && this.Tracks.Count > 0)
                 {
-                    this.EventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
+                    this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Publish(null);
                 }
             }
         }
 
         protected async override Task ShowPlayingTrackAsync()
         {
-            if (!this.PlaybackService.HasCurrentTrack) return;
+            if (!this.playbackService.HasCurrentTrack) return;
 
-            string safePath = this.PlaybackService.CurrentTrack.Value.SafePath;
+            string safePath = this.playbackService.CurrentTrack.Value.SafePath;
 
             await Task.Run(() =>
             {
@@ -377,11 +462,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                         {
                             isTrackFound = true;
 
-                            if (!this.PlaybackService.IsStopped)
+                            if (!this.playbackService.IsStopped)
                             {
                                 vm.IsPlaying = true;
 
-                                if (this.PlaybackService.IsPlaying)
+                                if (this.playbackService.IsPlaying)
                                 {
                                     vm.IsPaused = false;
                                 }
@@ -392,73 +477,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             });
 
             this.ConditionalScrollToPlayingTrack();
-        }
-
-        protected async Task AddTracksToPlaylistAsync(string playlistName)
-        {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
-
-            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
-
-            // If no playlist is provided, first create one.
-            if (playlistName == null)
-            {
-                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
-
-                if (this.DialogService.ShowInputDialog(
-                    0xea37,
-                    16,
-                    ResourceUtils.GetStringResource("Language_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    ResourceUtils.GetStringResource("Language_Cancel"),
-                    ref responseText))
-                {
-                    playlistName = responseText;
-                    addPlaylistResult = await this.PlaylistService.AddPlaylistAsync(playlistName);
-                }
-            }
-
-            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
-            if (playlistName == null) return;
-
-            // Verify if the playlist was added
-            switch (addPlaylistResult)
-            {
-                case AddPlaylistResult.Success:
-                case AddPlaylistResult.Duplicate:
-                    // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.PlaylistService.AddTracksToPlaylistAsync(selectedTracks, playlistName);
-
-                    if (result == AddTracksToPlaylistResult.Error)
-                    {
-                        this.DialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                    }
-                    break;
-                case AddPlaylistResult.Error:
-                    this.DialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
-                        true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
-                    break;
-                case AddPlaylistResult.Blank:
-                    this.DialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
-                        false,
-                        string.Empty);
-                    break;
-                default:
-                    // Never happens
-                    break;
-            }
         }
 
         protected async override void MetadataService_RatingChangedAsync(RatingChangedEventArgs e)
@@ -534,7 +552,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             if (this.SelectedTracks != null && this.SelectedTracks.Count > 0)
             {
-                this.ProviderService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
+                this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
             }
         }
         #endregion

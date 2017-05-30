@@ -14,15 +14,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     public abstract class ContextMenuViewModelBase : BindableBase
     {
         #region Variables
-        // UnityContainer
-        private IUnityContainer container;
-
-        // Services
         private IProviderService providerService;
         private IPlaylistService playlistService;
         private IPlaybackService playbackService;
-
-        // Collections
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
         #endregion
@@ -33,9 +27,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Properties
-        protected IUnityContainer Container => this.container;
-        protected IProviderService ProviderService => this.providerService;
-        protected IPlaylistService PlaylistService => this.playlistService;
+        public bool HasContextMenuPlaylists => this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0;
 
         public ObservableCollection<SearchProvider> ContextMenuSearchProviders
         {
@@ -56,20 +48,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 OnPropertyChanged(() => this.HasContextMenuPlaylists);
             }
         }
-
-        public bool HasContextMenuPlaylists
-        {
-            get { return this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0; }
-        }
         #endregion
 
         #region Construction
         public ContextMenuViewModelBase(IUnityContainer container)
         {
-            // UnityContainer
-            this.container = container;
-
-            // Services
+            // Dependency injection
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.playbackService = container.Resolve<IPlaybackService>();
@@ -78,7 +62,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
             this.AddPlayingTrackToPlaylistCommand = new DelegateCommand<string>(async(playlistName) => await this.AddPlayingTrackToPlaylistAsync(playlistName));
 
-            // Handlers
+            // Events
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
             this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
             this.playlistService.PlaylistDeleted += (_) => this.GetContextMenuPlaylistsAsync();
@@ -148,10 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Protected
-        protected bool HasContextMenuSearchProviders
-        {
-            get { return this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0; }
-        }
+        protected bool HasContextMenuSearchProviders => this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0;
         #endregion
 
         #region Abstract
