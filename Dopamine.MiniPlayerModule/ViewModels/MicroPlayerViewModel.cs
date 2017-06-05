@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Prism;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 
@@ -15,10 +16,10 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         #endregion
 
         #region Construction
-        public MicroPlayerViewModel(IEventAggregator eventAggregator) : base()
+        public MicroPlayerViewModel(IUnityContainer container) : base(container)
         {
 
-            this.eventAggregator = eventAggregator;
+            this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Commands
             this.MicroPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>

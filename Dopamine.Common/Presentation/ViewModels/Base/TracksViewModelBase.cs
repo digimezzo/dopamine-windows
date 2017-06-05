@@ -91,7 +91,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
-            this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName));
+            this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName, this.SelectedTracks));
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
@@ -341,73 +341,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             if (!result.IsSuccess)
             {
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-            }
-        }
-
-        protected async Task AddTracksToPlaylistAsync(string playlistName)
-        {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
-
-            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
-
-            // If no playlist is provided, first create one.
-            if (playlistName == null)
-            {
-                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
-
-                if (this.dialogService.ShowInputDialog(
-                    0xea37,
-                    16,
-                    ResourceUtils.GetStringResource("Language_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    ResourceUtils.GetStringResource("Language_Cancel"),
-                    ref responseText))
-                {
-                    playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
-                }
-            }
-
-            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
-            if (playlistName == null) return;
-
-            // Verify if the playlist was added
-            switch (addPlaylistResult)
-            {
-                case AddPlaylistResult.Success:
-                case AddPlaylistResult.Duplicate:
-                    // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddTracksToPlaylistAsync(selectedTracks, playlistName);
-
-                    if (result == AddTracksToPlaylistResult.Error)
-                    {
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
-                    }
-                    break;
-                case AddPlaylistResult.Error:
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
-                        true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
-                    break;
-                case AddPlaylistResult.Blank:
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
-                        false,
-                        string.Empty);
-                    break;
-                default:
-                    // Never happens
-                    break;
             }
         }
         #endregion

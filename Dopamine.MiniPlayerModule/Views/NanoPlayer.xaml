@@ -1,23 +1,21 @@
 ﻿<myViews:CommonMiniPlayerView x:Class="Dopamine.MiniPlayerModule.Views.NanoPlayer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Dopamine.MiniPlayerModule.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
-             xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
-             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
-             xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
-             ContextMenu="{StaticResource NanoPlayerContextMenu}">
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+                              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
+                              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+                              xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+                              xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
+                              xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
+                              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+                              mc:Ignorable="d"
+                              d:DesignHeight="300" d:DesignWidth="300"
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <myViews:CommonMiniPlayerView.Resources>
+        <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Storyboard x:Key="FadeIn">
             <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
@@ -40,6 +38,37 @@
         </Storyboard>
     </myViews:CommonMiniPlayerView.Resources>
 
+    <myViews:CommonMiniPlayerView.ContextMenu>
+        <ContextMenu>
+            <ContextMenu.Resources>
+                <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+            </ContextMenu.Resources>
+            <MenuItem Header="{DynamicResource Language_Always_On_Top}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerAlwaysOnTop,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Lock_Position}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerPositionLockedCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerPositionLocked,Mode=OneWay}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Language_Cover_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding IsCoverPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Micro_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding IsMicroPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Nano_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding IsNanoPlayerChecked,Mode=OneWay}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                        <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemsSource>
+                    <CompositeCollection>
+                        <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
+                        <Separator/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
+                    </CompositeCollection>
+                </MenuItem.ItemsSource>
+            </MenuItem>
+        </ContextMenu>
+    </myViews:CommonMiniPlayerView.ContextMenu>
+    
     <Grid x:Name="PlayerPanel" Width="{x:Static corebase:Constants.NanoPlayerWidth}" Height="{x:Static corebase:Constants.NanoPlayerHeight}">
         <StackPanel Orientation="Horizontal" Panel.ZIndex="0" Height="44" VerticalAlignment="Top">
             <controlsmoduleviews:NanoPlayerControls Margin="10,1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
