@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
 
 namespace Dopamine.MiniPlayerModule.ViewModels
 {
-    public class CommonMiniPlayerViewModel : BindableBase
+    public class CommonMiniPlayerViewModel : ContextMenuViewModelBase
     {
         #region Variables
         protected bool isPlaylistVisible;
@@ -16,7 +16,6 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         private bool isNanoPlayerChecked;
         private bool isMiniPlayerAlwaysOnTop;
         private bool isMiniPlayerPositionLocked;
-        protected IEventAggregator eventAggregator;
         #endregion
 
         #region Commands
@@ -64,7 +63,7 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         #endregion
 
         #region Construction
-        public CommonMiniPlayerViewModel()
+        public CommonMiniPlayerViewModel(IUnityContainer container) : base(container)
         {
             // Commands
             this.ChangePlayerTypeCommand = new DelegateCommand<string>(miniPlayerType => this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)(int.Parse(miniPlayerType))));
@@ -124,6 +123,13 @@ namespace Dopamine.MiniPlayerModule.ViewModels
 
             // This sets the initial state of the ContextMenu CheckBoxes
             this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+        }
+        #endregion
+
+        #region Overrides
+        protected override void SearchOnline(string id)
+        {
+            // No implementation required here
         }
         #endregion
     }

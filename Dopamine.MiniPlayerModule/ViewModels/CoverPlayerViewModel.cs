@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Prism;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 
@@ -8,6 +9,7 @@ namespace Dopamine.MiniPlayerModule.ViewModels
     public class CoverPlayerViewModel : CommonMiniPlayerViewModel
     {
         #region Variables
+        private IEventAggregator eventAggregator;
         private bool alwaysShowPlaybackInfo;
         private bool alignPlaylistVertically;
         #endregion
@@ -34,9 +36,9 @@ namespace Dopamine.MiniPlayerModule.ViewModels
         #endregion
 
         #region Construction
-        public CoverPlayerViewModel(IEventAggregator eventAggregator) : base()
+        public CoverPlayerViewModel(IUnityContainer container) : base(container)
         {
-            this.eventAggregator = eventAggregator;
+            this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Commands
             this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>

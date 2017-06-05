@@ -1,8 +1,4 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Utils;
-using Microsoft.Practices.Unity;
-using Prism.Mvvm;
+﻿using Microsoft.Practices.Unity;
 
 namespace Dopamine.ControlsModule.ViewModels
 {

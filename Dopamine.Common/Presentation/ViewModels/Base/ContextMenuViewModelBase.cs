@@ -1,4 +1,7 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Database;
+using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Microsoft.Practices.Unity;
@@ -17,6 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private IProviderService providerService;
         private IPlaylistService playlistService;
         private IPlaybackService playbackService;
+        private IDialogService dialogService;
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
         #endregion
@@ -57,21 +61,39 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.playbackService = container.Resolve<IPlaybackService>();
+            this.dialogService = container.Resolve<IDialogService>();
 
             // Commands
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
-            this.AddPlayingTrackToPlaylistCommand = new DelegateCommand<string>(async(playlistName) => await this.AddPlayingTrackToPlaylistAsync(playlistName));
+            this.AddPlayingTrackToPlaylistCommand = new DelegateCommand<string>(
+            async (playlistName) => await this.AddPlayingTrackToPlaylistAsync(playlistName), (_) => this.playbackService.HasCurrentTrack);
 
             // Events
             this.providerService.SearchProvidersChanged += (_, __) => { this.GetSearchProvidersAsync(); };
             this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
             this.playlistService.PlaylistDeleted += (_) => this.GetContextMenuPlaylistsAsync();
+            this.playbackService.PlaybackFailed += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
+            this.playbackService.PlaybackSuccess += (_) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
+            this.playbackService.PlaybackStopped += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
+            this.playbackService.PlaybackPaused += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
+            this.playbackService.PlaybackResumed += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
 
             // Initialize the search providers in the ContextMenu
             this.GetSearchProvidersAsync();
 
             // Initialize the playlists in the ContextMenu
             this.GetContextMenuPlaylistsAsync();
+        }
+
+        private async Task AddPlayingTrackToPlaylistAsync(string playlistName)
+        {
+            if (!this.playbackService.HasCurrentTrack)
+            {
+                return;
+            }
+
+            var playingTrack = new List<PlayableTrack>() { this.playbackService.CurrentTrack.Value };
+            await this.AddTracksToPlaylistAsync(playlistName, playingTrack);
         }
         #endregion
 
@@ -94,7 +116,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.ContextMenuSearchProviders = localProviders;
         }
 
-        private async void GetContextMenuPlaylistsAsync()
+        public async void GetContextMenuPlaylistsAsync()
         {
             try
             {
@@ -125,14 +147,75 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
         }
-
-        private async Task AddPlayingTrackToPlaylistAsync(string playlistName)
-        {
-        }
         #endregion
 
         #region Protected
         protected bool HasContextMenuSearchProviders => this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0;
+
+        protected async Task AddTracksToPlaylistAsync(string playlistName, IList<PlayableTrack> tracks)
+        {
+            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
+
+            // If no playlist is provided, first create one.
+            if (playlistName == null)
+            {
+                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+
+                if (this.dialogService.ShowInputDialog(
+                    0xea37,
+                    16,
+                    ResourceUtils.GetStringResource("Language_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
+                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ref responseText))
+                {
+                    playlistName = responseText;
+                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+                }
+            }
+
+            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
+            if (playlistName == null) return;
+
+            // Verify if the playlist was added
+            switch (addPlaylistResult)
+            {
+                case AddPlaylistResult.Success:
+                case AddPlaylistResult.Duplicate:
+                    // Add items to playlist
+                    AddTracksToPlaylistResult result = await this.playlistService.AddTracksToPlaylistAsync(tracks, playlistName);
+
+                    if (result == AddTracksToPlaylistResult.Error)
+                    {
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    }
+                    break;
+                case AddPlaylistResult.Error:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        true,
+                        ResourceUtils.GetStringResource("Language_Log_File"));
+                    break;
+                case AddPlaylistResult.Blank:
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetStringResource("Language_Error"),
+                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetStringResource("Language_Ok"),
+                        false,
+                        string.Empty);
+                    break;
+                default:
+                    // Never happens
+                    break;
+            }
+        }
         #endregion
 
         #region Abstract

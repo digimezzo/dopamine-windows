@@ -1,25 +1,25 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Api.Lyrics;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Metadata;
+using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Api.Lyrics;
-using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Metadata;
-using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
-using System.Threading.Tasks;
-using System.Timers;
 using System.IO;
 using System.Text;
-using Dopamine.Common.Base;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class LyricsControlViewModel : BindableBase
+    public class LyricsControlViewModel : ContextMenuViewModelBase
     {
         #region Variables
         private IUnityContainer container;
@@ -30,7 +30,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int contentSlideInFrom;
         private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
-        private EventAggregator eventAggregator;
+        private IEventAggregator eventAggregator;
         private Object lockObject = new Object();
         private Timer updateLyricsAfterEditingTimer = new Timer();
         private int updateLyricsAfterEditingTimerIntervalMilliseconds = 100;
@@ -71,13 +71,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public LyricsControlViewModel(IUnityContainer container, IMetadataService metadataService,
-            IPlaybackService playbackService, EventAggregator eventAggregator)
+        public LyricsControlViewModel(IUnityContainer container) : base(container)
         {
             this.container = container;
-            this.metadataService = metadataService;
-            this.playbackService = playbackService;
-            this.eventAggregator = eventAggregator;
+            this.metadataService = container.Resolve<IMetadataService>();
+            this.playbackService = container.Resolve<IPlaybackService>();
+            this.eventAggregator = container.Resolve<IEventAggregator>();
 
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
             this.highlightTimer.Elapsed += HighlightTimer_Elapsed;
@@ -318,6 +317,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
 
             });
+        }
+        #endregion
+
+        #region Overrides
+        protected override void SearchOnline(string id)
+        {
+            // No implementation required here
         }
         #endregion
     }
