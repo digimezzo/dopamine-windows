@@ -51,8 +51,15 @@
 
     <Style x:Key="ColorSchemeButtons" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ColorSchemeButtonsItem}" />
-        <Setter Property="Height" Value="50"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding Path=ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsHitTestVisible" Value="False">
                 <Setter Property="Opacity" Value="0.5" />
