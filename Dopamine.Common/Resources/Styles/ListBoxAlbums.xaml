@@ -178,7 +178,7 @@
                                         <EventTrigger RoutedEvent="controls:SourceChangedImage.SourceChanged">
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="1" Duration="{x:Static base:Constants.SourceChangedDuration}" />
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{x:Static base:Constants.SourceChangedImageChangedDuration}" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
