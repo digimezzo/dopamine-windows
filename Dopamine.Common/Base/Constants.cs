@@ -106,8 +106,9 @@ namespace Dopamine.Common.Base
         public static readonly double AlbumTileAlbumInfoHeight = 40;
 
         // Animation
-        public static readonly Duration MouseEnterDuration = new Duration(new TimeSpan(MillisecondsToTicks(50)));
-        public static readonly Duration MouseLeaveDuration = new Duration(new TimeSpan(MillisecondsToTicks(200)));
+        public static readonly Duration MouseEnterDuration = new Duration(TimeSpan.FromMilliseconds(50));
+        public static readonly Duration MouseLeaveDuration = new Duration(TimeSpan.FromMilliseconds(200));
         public static readonly Duration SourceChangedDuration = MouseLeaveDuration;
+        public static readonly Duration SourceChangedImageChangedDuration = new Duration(TimeSpan.FromMilliseconds(500));
     }
 }
