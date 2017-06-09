@@ -8,5 +8,5 @@
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <dc:HorizontalUWPBottomSlider x:Name="ProgressSliderThin" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
+    <dc:HorizontalUWPBottomSlider x:Name="ProgressSliderThin" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
 </UserControl>
