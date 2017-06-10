@@ -48,7 +48,7 @@
                                 <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16"/>
                             </Button>
                         </Grid>
-                        <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="50" Margin="0,5,0,10" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
+                        <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="50" Margin="0,5,0,10" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
                         <Label Padding="0" Content="{Binding VolumeValuePercent}" FontSize="12" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     </StackPanel>
                 </Border>
