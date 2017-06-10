@@ -12,7 +12,7 @@
 
     <StackPanel Orientation="Horizontal">
         <Label Padding="0" Width="50" Content="{Binding CurrentTime}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="{x:Static base:Constants.GlobalFontSize}"/>
-        <dc:HorizontalUWPSlider x:Name="ProgressSlider" Margin="20,0,20,0" Width="{Binding SliderLength,ElementName=ThisControl}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
+        <dc:HorizontalUWPSlider x:Name="ProgressSlider" Margin="20,0,20,0" Width="{Binding SliderLength,ElementName=ThisControl}" TrackBackground="{DynamicResource RG_SliderTrackBackgroundBrush}" ButtonInnerBackground="{DynamicResource RG_WindowBackgroundBrush}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
         <Label Padding="0" Width="50" Content="{Binding TotalTime}" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="{x:Static base:Constants.GlobalFontSize}"/>
     </StackPanel>
 </UserControl>
