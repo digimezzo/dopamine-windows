@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
+using Digimezzo.Utilities.ColorSpace;
 
 namespace Dopamine.Common.Services.Appearance
 {
@@ -176,7 +177,7 @@ namespace Dopamine.Common.Services.Appearance
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (!this.followWindowsColor) return IntPtr.Zero;
-            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED) this.ApplyColorScheme(this.followWindowsColor ,this.followAlbumCoverColor);
+            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED) this.ApplyColorScheme(this.followWindowsColor, this.followAlbumCoverColor);
 
             return IntPtr.Zero;
         }
@@ -339,6 +340,7 @@ namespace Dopamine.Common.Services.Appearance
             this.followAlbumCoverColor = followAlbumCoverColor;
 
             Color accentColor = default(Color);
+            bool applySelectedColorScheme = false;
 
             try
             {
@@ -349,17 +351,45 @@ namespace Dopamine.Common.Services.Appearance
                 else if (followAlbumCoverColor)
                 {
                     byte[] artwork = await this.metadataService.GetArtworkAsync(this.playbackService.CurrentTrack.Value.Path);
-                    await Task.Run(() => accentColor = ImageUtils.GetDominantColor(artwork));
+
+                    if (artwork?.Length > 0)
+                    {
+                        await Task.Run(() => accentColor = ImageUtils.GetDominantColor(artwork));
+                    }
+                    else
+                    {
+                        applySelectedColorScheme = true;
+                    }
                 }
                 else
                 {
-                    ColorScheme cs = this.GetColorScheme(selectedColorScheme);
-                    accentColor = (Color)ColorConverter.ConvertFromString(cs.AccentColor);
+                    applySelectedColorScheme = true;
                 }
             }
             catch (Exception)
             {
-                // In case this fails, don't change the color.
+                applySelectedColorScheme = true;
+            }
+
+            if (applySelectedColorScheme)
+            {
+                ColorScheme cs = this.GetColorScheme(selectedColorScheme);
+                accentColor = (Color)ColorConverter.ConvertFromString(cs.AccentColor);
+            }
+            else
+            {
+                HSLColor hslColor = HSLColor.GetFromRgb(accentColor);
+
+                if (hslColor.Luminosity < 30)
+                {
+                    hslColor.Luminosity = 30;
+                }
+                else if (hslColor.Luminosity > 70)
+                {
+                    hslColor.Luminosity = 70;
+                }
+
+                accentColor = hslColor.ToRgb();
             }
 
             if (!isViewModelLoaded)
@@ -390,8 +420,11 @@ namespace Dopamine.Common.Services.Appearance
                         Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
                         if (loop == loopMax)
                         {
-                            applyColorSchemeTimer.Stop();
-                            applyColorSchemeTimer = null;
+                            if (applyColorSchemeTimer != null)
+                            {
+                                applyColorSchemeTimer.Stop();
+                                applyColorSchemeTimer = null;
+                            }
 
                             // Re-apply theme to ensure brushes referencing AccentColor are updated
                             this.ReApplyTheme();
