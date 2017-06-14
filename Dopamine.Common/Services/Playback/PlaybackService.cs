@@ -681,6 +681,23 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
+        public async Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle)
+        {
+            if (tracks == null) return;
+
+            // Shuffle
+            if (shuffle) await this.EnqueueIfDifferent(tracks, true);
+
+            // Unshuffle
+            if (unshuffle) await this.EnqueueIfDifferent(tracks, false);
+
+            // Use the current shuffle mode
+            if (!shuffle && !unshuffle) await this.EnqueueIfDifferent(tracks, this.shuffle);
+
+            // Start playing
+            await this.PlayFirstAsync();
+        }
+
         public async Task EnqueueAsync(bool shuffle, bool unshuffle)
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
@@ -872,23 +889,6 @@ namespace Dopamine.Common.Services.Playback
 
             // Queued tracks
             this.GetSavedQueuedTracks();
-        }
-
-        private async Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle)
-        {
-            if (tracks == null) return;
-
-            // Shuffle
-            if (shuffle) await this.EnqueueIfDifferent(tracks, true);
-
-            // Unshuffle
-            if (unshuffle) await this.EnqueueIfDifferent(tracks, false);
-
-            // Use the current shuffle mode
-            if (!shuffle && !unshuffle) await this.EnqueueIfDifferent(tracks, this.shuffle);
-
-            // Start playing
-            await this.PlayFirstAsync();
         }
 
         private async void SavePlaybackCountersHandler(object sender, ElapsedEventArgs e)
