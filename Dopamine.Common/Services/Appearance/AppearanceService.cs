@@ -378,18 +378,7 @@ namespace Dopamine.Common.Services.Appearance
             }
             else
             {
-                HSLColor hslColor = HSLColor.GetFromRgb(accentColor);
-
-                if (hslColor.Luminosity < 30)
-                {
-                    hslColor.Luminosity = 30;
-                }
-                else if (hslColor.Luminosity > 70)
-                {
-                    hslColor.Luminosity = 70;
-                }
-
-                accentColor = hslColor.ToRgb();
+                accentColor = HSLColor.Normalize(accentColor, 30);
             }
 
             if (!isViewModelLoaded)
