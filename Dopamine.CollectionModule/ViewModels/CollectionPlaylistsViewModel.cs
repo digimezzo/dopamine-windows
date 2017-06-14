@@ -49,6 +49,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
         public DelegateCommand DeleteSelectedPlaylistCommand { get; set; }
         public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
+        public DelegateCommand ShuffleSelectedPlaylistCommand { get; set; }
         #endregion
 
         #region Properties
@@ -125,6 +126,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
             this.DeletePlaylistByNameCommand = new DelegateCommand<string>(async (playlistName) => await this.ConfirmDeletePlaylistAsync(playlistName));
+            this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
 
             this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
             {
@@ -504,6 +506,12 @@ namespace Dopamine.CollectionModule.ViewModels
             }
 
             return indexes;
+        }
+
+        private async Task ShuffleSelectedPlaylistAsync()
+        {
+            List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
+            await this.playbackService.EnqueueAsync(tracks, true, false);
         }
 
         private async Task AddPlaylistToNowPlayingAsync()
