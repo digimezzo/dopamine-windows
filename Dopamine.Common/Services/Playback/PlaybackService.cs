@@ -898,10 +898,23 @@ namespace Dopamine.Common.Services.Playback
 
         private async Task UpdateTrackStatisticsAsync(string path, bool incrementPlayCount, bool incrementSkipCount)
         {
+
             if (!this.trackStatistics.ContainsKey(path))
             {
+                // Try to find existing statistic
                 TrackStatistic trackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
-                this.trackStatistics.Add(path, trackStatistic);
+
+                // If no existing statistic was found, create a new one.
+                if(trackStatistic == null)
+                {
+                    trackStatistic = new TrackStatistic();
+                }
+
+                // Add statistic to the dictionary
+                lock (this.trackStatisticsLock)
+                {
+                    this.trackStatistics.Add(path, trackStatistic);
+                }
             }
 
             await Task.Run(() =>
@@ -912,10 +925,28 @@ namespace Dopamine.Common.Services.Playback
                     {
                         if (incrementPlayCount)
                         {
-                            this.trackStatistics[path].PlayCount += 1;
+                            if(this.trackStatistics[path].PlayCount != null)
+                            {
+                                this.trackStatistics[path].PlayCount += 1;
+                            }
+                            else
+                            {
+                                this.trackStatistics[path].PlayCount = 1;
+                            }
+
                             this.trackStatistics[path].DateLastPlayed = DateTime.Now.Ticks;
                         }
-                        if (incrementSkipCount) this.trackStatistics[path].SkipCount += 1;
+                        if (incrementSkipCount)
+                        {
+                            if (this.trackStatistics[path].SkipCount != null)
+                            {
+                                this.trackStatistics[path].SkipCount += 1;
+                            }
+                            else
+                            {
+                                this.trackStatistics[path].SkipCount = 1;
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
