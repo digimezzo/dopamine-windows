@@ -6,7 +6,7 @@ namespace Dopamine.CollectionModule
 {
     public class Utils
     {
-        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool loveVisible, ref bool lyricsVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
+        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool loveVisible, ref bool lyricsVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool playCountVisible, ref bool skipCountVisible, ref bool dateLastPlayedVisible,  ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
         {
             ratingVisible = false;
             loveVisible = false;
@@ -15,6 +15,9 @@ namespace Dopamine.CollectionModule
             albumVisible = false;
             genreVisible = false;
             lengthVisible = false;
+            playCountVisible = false;
+            skipCountVisible = false;
+            dateLastPlayedVisible = false;
             albumArtistVisible = false;
             trackNumberVisible = false;
             yearVisible = false;
@@ -63,6 +66,15 @@ namespace Dopamine.CollectionModule
                         case "length":
                             lengthVisible = true;
                             break;
+                        case "playcount":
+                            playCountVisible = true;
+                            break;
+                        case "skipcount":
+                            skipCountVisible = true;
+                            break;
+                        case "datelastplayed":
+                            dateLastPlayedVisible = true;
+                            break;
                         case "albumartist":
                             albumArtistVisible = true;
                             break;
@@ -81,7 +93,7 @@ namespace Dopamine.CollectionModule
         }
 
 
-        public static void SetVisibleSongsColumns(bool ratingVisible, bool loveVisible, bool lyricsVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
+        public static void SetVisibleSongsColumns(bool ratingVisible, bool loveVisible, bool lyricsVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool playCountVisible, bool skipCountVisible, bool dateLastPlayedVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
         {
             List<string> visibleColumns = new List<string>();
 
@@ -99,6 +111,12 @@ namespace Dopamine.CollectionModule
                 visibleColumns.Add("genre");
             if (lengthVisible)
                 visibleColumns.Add("length");
+            if (playCountVisible)
+                visibleColumns.Add("playcount");
+            if (skipCountVisible)
+                visibleColumns.Add("skipcount");
+            if (dateLastPlayedVisible)
+                visibleColumns.Add("datelastplayed");
             if (albumArtistVisible)
                 visibleColumns.Add("albumartist");
             if (trackNumberVisible)

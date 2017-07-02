@@ -98,7 +98,7 @@ namespace Dopamine.Common.Database.Repositories
             });
         }
 
-        public async Task UpdateCountersAsync(string path, int playCount, int skipCount, long dateLastPlayed)
+        public async Task UpdateTrackStatisticAsync(TrackStatistic trackStatistic)
         {
             await Task.Run(() =>
             {
@@ -108,45 +108,29 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            TrackStatistic existingTrackStatistic = conn.Query<TrackStatistic>("SELECT * FROM TrackStatistic WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                            TrackStatistic existingTrackStatistic = conn.Query<TrackStatistic>("SELECT * FROM TrackStatistic WHERE SafePath=?", trackStatistic.Path.ToSafePath()).FirstOrDefault();
 
                             if (existingTrackStatistic != null)
                             {
-                                if (existingTrackStatistic.PlayCount.HasValue)
-                                {
-                                    existingTrackStatistic.PlayCount += playCount;
-                                }
-                                else
-                                {
-                                    existingTrackStatistic.PlayCount = playCount;
-                                }
-
-                                if (existingTrackStatistic.SkipCount.HasValue)
-                                {
-                                    existingTrackStatistic.SkipCount += skipCount;
-                                }
-                                else
-                                {
-                                    existingTrackStatistic.SkipCount = skipCount;
-                                }
-
-                                existingTrackStatistic.DateLastPlayed = dateLastPlayed;
+                                existingTrackStatistic.PlayCount = trackStatistic.PlayCount;
+                                existingTrackStatistic.SkipCount = trackStatistic.SkipCount;
+                                existingTrackStatistic.DateLastPlayed = trackStatistic.DateLastPlayed;
                                 conn.Update(existingTrackStatistic);
                             }
                             else
                             {
                                 var newTrackStatistic = new TrackStatistic();
-                                newTrackStatistic.Path = path;
-                                newTrackStatistic.SafePath = path.ToSafePath();
-                                newTrackStatistic.PlayCount = playCount;
-                                newTrackStatistic.SkipCount = skipCount;
-                                newTrackStatistic.DateLastPlayed = dateLastPlayed;
+                                newTrackStatistic.Path = trackStatistic.Path;
+                                newTrackStatistic.SafePath = trackStatistic.Path.ToSafePath();
+                                newTrackStatistic.PlayCount = trackStatistic.PlayCount;
+                                newTrackStatistic.SkipCount = trackStatistic.SkipCount;
+                                newTrackStatistic.DateLastPlayed = trackStatistic.DateLastPlayed;
                                 conn.Insert(newTrackStatistic);
                             }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not update counters for path='{0}'. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not update statistics for path='{0}'. Exception: {1}", trackStatistic.Path, ex.Message);
                         }
                     }
                 }

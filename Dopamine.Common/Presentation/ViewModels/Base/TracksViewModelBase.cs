@@ -105,6 +105,26 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 OnPropertyChanged(() => this.TotalSizeInformation);
                 this.RefreshLanguage();
             };
+
+            this.playbackService.TrackStatisticsChanged += PlaybackService_TrackStatisticsChanged;
+        }
+
+        private async void PlaybackService_TrackStatisticsChanged(IList<TrackStatistic> trackStatistics)
+        {
+            if (this.Tracks == null) return;
+
+            await Task.Run(() =>
+            {
+                foreach (TrackViewModel vm in this.Tracks)
+                {
+                    if (trackStatistics.Select(t => t.SafePath).Contains(vm.Track.SafePath))
+                    {
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        TrackStatistic statistic = trackStatistics.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
+                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(statistic));
+                    }
+                }
+            });
         }
         #endregion
 
@@ -306,11 +326,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                             totalSize += vm.Track.FileSize.Value;
                         }
 
-                    this.SetSizeInformation(totalDuration, totalSize);
+                        this.SetSizeInformation(totalDuration, totalSize);
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("An error occured while setting size information. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });

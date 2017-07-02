@@ -1,4 +1,5 @@
-﻿using Dopamine.Common.Audio;
+﻿using CSCore.CoreAudioAPI;
+using Dopamine.Common.Audio;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
@@ -7,11 +8,11 @@ using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CSCore.CoreAudioAPI;
 
 namespace Dopamine.Common.Services.Playback
 {
     public delegate void PlaybackFailedEventHandler(object sender, PlaybackFailedEventArgs e);
+    public delegate void TrackStatisticsChangedEventHandler(IList<TrackStatistic> statistics);
 
     public interface IPlaybackService
     {
@@ -91,7 +92,7 @@ namespace Dopamine.Common.Services.Playback
         event EventHandler PlaybackShuffleChanged;
         event Action<bool> SpectrumVisibilityChanged;
         event Action<int> AddedTracksToQueue;
-        event EventHandler PlaybackCountersChanged;
+        event TrackStatisticsChangedEventHandler TrackStatisticsChanged;
         event Action<bool> LoadingTrack;
         event EventHandler PlayingTrackPlaybackInfoChanged;
         event EventHandler PlayingTrackArtworkChanged;

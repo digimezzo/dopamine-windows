@@ -401,4 +401,6 @@
   <Text Key="Choose_Audio_Device">Escolher dispositivo de áudio</Text>
   <Text Key="By_Date_Created">Por data de criação</Text>
   <Text Key="Output_Device">Dispositivo de saída</Text>
+  <Text Key="Plays">Plays</Text>
+  <Text Key="Skips">Skips</Text>
 </Language>

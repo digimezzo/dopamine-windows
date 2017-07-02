@@ -400,4 +400,6 @@
   <Text Key="Audio_Device">Audio apparaat</Text>
   <Text Key="Choose_Audio_Device">Choose audio device</Text>
   <Text Key="By_Date_Created">Per aanmaakdatum</Text>
+  <Text Key="Plays">Afgespeeld</Text>
+  <Text Key="Skips">Overgeslagen</Text>
 </Language>

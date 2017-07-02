@@ -7,7 +7,7 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
     {
         Task UpdateRatingAsync(string path, int rating);
         Task UpdateLoveAsync(string path, bool love);
-        Task UpdateCountersAsync(string path, int playCount, int skipCount, long dateLastPlayed);
+        Task UpdateTrackStatisticAsync(TrackStatistic trackStatistic);
         Task<TrackStatistic> GetTrackStatisticAsync(string path);
     }
 }

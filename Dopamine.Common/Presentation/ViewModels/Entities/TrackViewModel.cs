@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Scrobbling;
 using Prism.Mvvm;
@@ -185,6 +186,26 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             }
         }
 
+        public string PlayCount
+        {
+            get { return this.Track.PlayCount > 0 ? this.Track.PlayCount.ToString() : string.Empty; }
+        }
+
+        public string SkipCount
+        {
+            get { return this.Track.SkipCount  > 0 ? this.Track.SkipCount.ToString() : string.Empty; }
+        }
+
+        public string DateLastPlayed
+        {
+            get { return this.Track.DateLastPlayed > 0 ? new DateTime(this.Track.DateLastPlayed.Value).ToString("g") : string.Empty; }
+        }
+
+        public long SortDateLastPlayed
+        {
+            get { return this.Track.DateLastPlayed.Value; }
+        }
+
         public string AlbumArtist
         {
             get { return this.Track.AlbumArtist; }
@@ -362,6 +383,17 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             this.Track.Love = love ? 1 : 0;
             OnPropertyChanged(() => this.Love);
+        }
+
+        public void UpdateVisibleCounters(TrackStatistic statistic)
+        {
+            this.Track.PlayCount = statistic.PlayCount;
+            this.Track.SkipCount = statistic.SkipCount;
+            this.track.DateLastPlayed = statistic.DateLastPlayed;
+            OnPropertyChanged(() => this.PlayCount);
+            OnPropertyChanged(() => this.SkipCount);
+            OnPropertyChanged(() => this.DateLastPlayed);
+            OnPropertyChanged(() => this.SortDateLastPlayed);
         }
         #endregion
     }

@@ -26,6 +26,9 @@ namespace Dopamine.CollectionModule.ViewModels
         private bool albumVisible;
         private bool genreVisible;
         private bool lengthVisible;
+        private bool playCountVisible;
+        private bool skipCountVisible;
+        private bool dateLastPlayedVisible;
         private bool albumArtistVisible;
         private bool trackNumberVisible;
         private bool yearVisible;
@@ -73,6 +76,24 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             get { return this.lengthVisible; }
             set { SetProperty<bool>(ref this.lengthVisible, value); }
+        }
+
+        public bool PlayCountVisible
+        {
+            get { return this.playCountVisible; }
+            set { SetProperty<bool>(ref this.playCountVisible, value); }
+        }
+
+        public bool SkipCountVisible
+        {
+            get { return this.skipCountVisible; }
+            set { SetProperty<bool>(ref this.skipCountVisible, value); }
+        }
+
+        public bool DateLastPlayedVisible
+        {
+            get { return this.dateLastPlayedVisible; }
+            set { SetProperty<bool>(ref this.dateLastPlayedVisible, value); }
         }
 
         public bool AlbumArtistVisible
@@ -193,6 +214,9 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.albumVisible,
                 ref this.genreVisible,
                 ref this.lengthVisible,
+                ref this.playCountVisible,
+                ref this.skipCountVisible,
+                ref this.dateLastPlayedVisible,
                 ref this.albumArtistVisible,
                 ref this.trackNumberVisible,
                 ref this.yearVisible,
@@ -203,6 +227,9 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.AlbumVisible);
             OnPropertyChanged(() => this.GenreVisible);
             OnPropertyChanged(() => this.LengthVisible);
+            OnPropertyChanged(() => this.PlayCountVisible);
+            OnPropertyChanged(() => this.SkipCountVisible);
+            OnPropertyChanged(() => this.DateLastPlayedVisible);
             OnPropertyChanged(() => this.AlbumArtistVisible);
             OnPropertyChanged(() => this.TrackNumberVisible);
             OnPropertyChanged(() => this.YearVisible);
