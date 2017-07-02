@@ -262,9 +262,9 @@
   <Text Key="Check_Box_To_Update_File_Covers">Cochez cette case pour mettre à jour la pochette pour tous les fichiers de cet album</Text>
   <Text Key="Startup_Page">Page de démarrage</Text>
   <Text Key="Start_At_Last_Selected_Page">Afficher la dernière page sélectionnée au démarrage</Text>
-  <Text Key="Rating">Note</Text>
-  <Text Key="Save_Rating_In_Audio_Files">Sauvegarder les notes dans les fichiers audio (MP3 uniquement)</Text>
-  <Text Key="By_Rating">Par note</Text>
+  <Text Key="Rating">Classement</Text>
+  <Text Key="Save_Rating_In_Audio_Files">Sauvegarder les classements dans les fichiers audio (MP3 uniquement)</Text>
+  <Text Key="By_Rating">Par classement</Text>
   <Text Key="Day">jour</Text>
   <Text Key="Days">jours</Text>
   <Text Key="Hour">heure</Text>
@@ -357,7 +357,7 @@
   <Text Key="Create_A_Lastfm_Account">Créér un compte Last.fm</Text>
   <Text Key="Love">Love</Text>
   <Text Key="Show_Love_Button">Afficher le bouton 'Love'</Text>
-  <Text Key="Show_Rating_Button">Afficher le bouton 'Note'</Text>
+  <Text Key="Show_Rating_Button">Afficher le bouton 'Classement'</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Afficher une notification quand la lecture d'un morceau est mise en pause</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Afficher une notification quand la lecture d'un morceau est reprise</Text>
   <Text Key="Add_Lyrics">Ajouter des paroles</Text>
@@ -400,4 +400,6 @@
   <Text Key="Audio_Device">Périphérique audio</Text>
   <Text Key="Choose_Audio_Device">Choose audio device</Text>
   <Text Key="By_Date_Created">Par date de creation</Text>
+  <Text Key="Plays">Lectures</Text>
+  <Text Key="Skips">Sauts</Text>
 </Language>

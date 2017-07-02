@@ -17,6 +17,9 @@ namespace Dopamine.CollectionModule.ViewModels
         private bool checkBoxAlbumChecked;
         private bool checkBoxGenreChecked;
         private bool checkBoxLengthChecked;
+        private bool checkBoxPlayCountChecked;
+        private bool checkBoxSkipCountChecked;
+        private bool checkBoxDateLastPlayedChecked;
         private bool checkBoxAlbumArtistChecked;
         private bool checkBoxTrackNumberChecked;
         private bool checkBoxYearChecked;
@@ -78,6 +81,24 @@ namespace Dopamine.CollectionModule.ViewModels
             set { SetProperty<bool>(ref this.checkBoxLengthChecked, value); }
         }
 
+        public bool CheckBoxPlayCountChecked
+        {
+            get { return checkBoxPlayCountChecked; }
+            set { SetProperty<bool>(ref this.checkBoxPlayCountChecked, value); }
+        }
+
+        public bool CheckBoxSkipCountChecked
+        {
+            get { return checkBoxSkipCountChecked; }
+            set { SetProperty<bool>(ref this.checkBoxSkipCountChecked, value); }
+        }
+
+        public bool CheckBoxDateLastPlayedChecked
+        {
+            get { return checkBoxDateLastPlayedChecked; }
+            set { SetProperty<bool>(ref this.checkBoxDateLastPlayedChecked, value); }
+        }
+
         public bool CheckBoxAlbumArtistChecked
         {
             get { return checkBoxAlbumArtistChecked; }
@@ -129,6 +150,9 @@ namespace Dopamine.CollectionModule.ViewModels
                 ref this.checkBoxAlbumChecked,
                 ref this.checkBoxGenreChecked,
                 ref this.checkBoxLengthChecked,
+                ref this.checkBoxPlayCountChecked,
+                ref this.checkBoxSkipCountChecked,
+                ref this.checkBoxDateLastPlayedChecked,
                 ref this.checkBoxAlbumArtistChecked,
                 ref this.checkBoxTrackNumberChecked,
                 ref this.checkBoxYearChecked,
@@ -141,6 +165,9 @@ namespace Dopamine.CollectionModule.ViewModels
             OnPropertyChanged(() => this.CheckBoxAlbumChecked);
             OnPropertyChanged(() => this.CheckBoxGenreChecked);
             OnPropertyChanged(() => this.CheckBoxLengthChecked);
+            OnPropertyChanged(() => this.CheckBoxPlayCountChecked);
+            OnPropertyChanged(() => this.CheckBoxSkipCountChecked);
+            OnPropertyChanged(() => this.CheckBoxDateLastPlayedChecked);
             OnPropertyChanged(() => this.CheckBoxAlbumArtistChecked);
             OnPropertyChanged(() => this.CheckBoxTrackNumberChecked);
             OnPropertyChanged(() => this.CheckBoxYearChecked);
@@ -161,6 +188,9 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.CheckBoxAlbumChecked,
                     this.CheckBoxGenreChecked,
                     this.CheckBoxLengthChecked,
+                    this.CheckBoxPlayCountChecked,
+                    this.CheckBoxSkipCountChecked,
+                    this.CheckBoxDateLastPlayedChecked,
                     this.CheckBoxAlbumArtistChecked,
                     this.CheckBoxTrackNumberChecked,
                     this.CheckBoxYearChecked,

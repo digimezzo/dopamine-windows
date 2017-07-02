@@ -90,7 +90,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.regionManager = container.Resolve<IRegionManager>();
 
             // Events
-            this.playbackService.PlaybackCountersChanged += async (_, __) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
             this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands
