@@ -119,13 +119,7 @@ namespace Dopamine.Common.Database.Repositories
                             }
                             else
                             {
-                                var newTrackStatistic = new TrackStatistic();
-                                newTrackStatistic.Path = trackStatistic.Path;
-                                newTrackStatistic.SafePath = trackStatistic.Path.ToSafePath();
-                                newTrackStatistic.PlayCount = trackStatistic.PlayCount;
-                                newTrackStatistic.SkipCount = trackStatistic.SkipCount;
-                                newTrackStatistic.DateLastPlayed = trackStatistic.DateLastPlayed;
-                                conn.Insert(newTrackStatistic);
+                                conn.Insert(trackStatistic);
                             }
                         }
                         catch (Exception ex)

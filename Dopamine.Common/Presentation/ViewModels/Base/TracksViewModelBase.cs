@@ -111,7 +111,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         private async void PlaybackService_TrackStatisticsChanged(IList<TrackStatistic> trackStatistics)
         {
-            if (this.Tracks == null) return;
+            if (this.Tracks == null)
+            {
+                return;
+            }
+
+            if (trackStatistics == null)
+            {
+                return;
+            }
+
+            if (trackStatistics.Count == 0)
+            {
+                return;
+            }
 
             await Task.Run(() =>
             {
