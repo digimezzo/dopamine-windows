@@ -82,6 +82,7 @@ namespace Dopamine.Common.Database
                              "ArtworkID	        TEXT," +
                              "DateLastSynced	INTEGER," +
                              "DateAdded	        INTEGER," +
+                             "DateCreated	    INTEGER," +
                              "PRIMARY KEY(AlbumID));");
 
                 conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
