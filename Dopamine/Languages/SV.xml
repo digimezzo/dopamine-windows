@@ -276,7 +276,7 @@
   <Text Key="Show_In_Collection">Visa i samlingen</Text>
   <Text Key="Show_All_Folders_In_Collection">Visa alla mappar i samlingen</Text>
   <Text Key="Refreshing_Collection">Uppdaterar samlingen</Text>
-  <Text Key="Nothing_Is_Playing">Inget uppspelas</Text>
+  <Text Key="Nothing_Is_Playing">Inget spelas</Text>
   <Text Key="Remove_From_Now_Playing">Radera från Nu spelas</Text>
   <Text Key="Error_Removing_From_Now_Playing">Ett fel uppstod vid radering av låtar från Nu spelas. Läs loggfilen för mer information.</Text>
   <Text Key="Added_Track_To_Now_Playing">Tillagt %numberoftracks% låt i Nu spelas</Text>
@@ -344,7 +344,7 @@
   <Text Key="Tags">Taggar</Text>
   <Text Key="Lyrics">Låttexter</Text>
   <Text Key="No_Lyrics_Found">Inga låttexter hittades</Text>
-  <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till uppspelande låt</Text>
+  <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till spelande låt</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mus skrollning ändrar volymen med</Text>
   <Text Key="Refresh_Collection_On_Startup">Uppdatera samlingen vid start</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Denna låt hittades inte. Den var troligen flyttad eller raderad. Vill du uppdatera samlingen?</Text>
@@ -399,7 +399,7 @@
   <Text Key="Default_Audio_Device">Standard ljudenhet</Text>
   <Text Key="Audio_Device">Ljudenhet</Text>
   <Text Key="Choose_Audio_Device">Välj ljudenhet</Text>
-  <Text Key="By_Date_Created">By date created</Text>
-  <Text Key="Plays">Plays</Text>
-  <Text Key="Skips">Skips</Text>
+  <Text Key="By_Date_Created">Datum skapad</Text>
+  <Text Key="Plays">Spelat</Text>
+  <Text Key="Skips">Skippat</Text>
 </Language>
