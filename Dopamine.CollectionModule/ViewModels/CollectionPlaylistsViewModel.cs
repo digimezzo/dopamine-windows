@@ -83,7 +83,11 @@ namespace Dopamine.CollectionModule.ViewModels
             set
             {
                 SetProperty<PlaylistViewModel>(ref this.selectedPlaylist, value);
-                this.GetTracksAsync();
+
+                if(value != null)
+                {
+                    this.GetTracksAsync();
+                }
             }
         }
 
