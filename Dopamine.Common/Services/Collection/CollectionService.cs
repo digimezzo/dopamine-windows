@@ -94,7 +94,7 @@ namespace Dopamine.Common.Services.Collection
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error($"Error while removing track '{track.TrackTitle}' from disk. Expection: {ex.Message}");
+                        LogClient.Error($"Error while removing track '{track.TrackTitle}' from disk. Exception: {ex.Message}");
                         sendToRecycleBinResult = RemoveTracksResult.Error;
                     }
                 }
