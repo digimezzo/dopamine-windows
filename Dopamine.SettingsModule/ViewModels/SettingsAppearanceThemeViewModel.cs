@@ -76,17 +76,23 @@ namespace Dopamine.SettingsModule.ViewModels
 
             set
             {
+                if (value)
+                {
+                    this.CheckBoxAlbumCoverColorChecked = false;
+                }
+
                 SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorScheme(
                         value,
-                        this.CheckBoxAlbumCoverColorChecked,
+                        false,
                         isViewModelLoaded,
                         SettingsClient.Get<string>("Appearance", "ColorScheme"));
                 });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
+                OnPropertyChanged(() => this.CanChooseColor);
             }
         }
 
@@ -96,19 +102,31 @@ namespace Dopamine.SettingsModule.ViewModels
 
             set
             {
+                if (value)
+                {
+                    this.CheckBoxWindowsColorChecked = false;
+                }
+
                 SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorScheme(
-                          this.CheckBoxWindowsColorChecked,
+                          false,
                           value,
                           isViewModelLoaded,
                           SettingsClient.Get<string>("Appearance", "ColorScheme"));
                 });
 
                 SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);
+                OnPropertyChanged(() => this.CanChooseColor);
             }
         }
+
+        public bool CanChooseColor
+        {
+            get { return !this.CheckBoxWindowsColorChecked & !this.CheckBoxAlbumCoverColorChecked; }
+        }
+
         #endregion
 
         #region Construction
