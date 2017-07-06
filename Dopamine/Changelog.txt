@@ -1,136 +1,59 @@
-2017-07-03: Dopamine 1.3 Build 925 (Preview)
+2017-07-06: Dopamine 1.3 Build 926 (Release)
 --------------------------------------------
 
-- [Changed] Updated the Swedish translation
-- [Changed] Updated the Spanish translation
-- [Fixed] A bug on clean installations where albums fail to load after adding a collection folder
+Disclaimer:  
 
+Playlist support was rewritten from scratch. Your existing playlists will not be migrated. 
+Save you playlists to files manually before upgrading to this version. Import your saved
+playlists after upgrading to this version.
 
-2017-07-02: Dopamine 1.3 Build 924 (Preview)
---------------------------------------------
-
-- [Fixed] A nasty crash caused by incorrect handling of play- and skip count
-
-
-2017-07-02: Dopamine 1.3 Build 923 (Preview)
---------------------------------------------
-
+- [Added] Added a button to export album and song covers to files
+- [Added] Added option to switch between 4 styles of spectrum analyzers
+- [Added] Smoother list animations
 - [Added] Added extra album sorting option "By date created"
 - [Added] Added optional play count, skip count and date last played column to the songs screen
-- [Added] Context menu option to add the playing song to a playlist
-- [Fixed] Ordering tracks on the albums screen is broken
-- [Fixed] Margin of 1 pixel when the main window is maximized
-- [Fixed] Volume control stops working when the audio device is changed
-- [Fixed] Blurry context menu, notification window and tooltips at desktop scaling higher as 100%
-- [Fixed] Improved following of the album color so that the detected color is never too light or dark
-
-
-2017-05-02: Dopamine 1.3 Build 918 (Preview)
---------------------------------------------
-
-- [Changed] Updated the Swedish translation
-- [Fixed] Typing in the search box doesn't work anymore
-
-
-2017-05-01: Dopamine 1.3 Build 917 (Preview)
---------------------------------------------
-
-- [Changed] Updated the Swedish translation
+- [Added] Added a context menu option to add the playing song to a playlist
 - [Added] Left and right arrow keys allow jumping 5 or 15 seconds backward or forward (Information > help for hotkeys)
-- [Added] Option to follow the average album cover color
+- [Added] Added an option to follow the album cover color
 - [Added] Added support for local lyrics files (LRC)
 - [Added] Added audio device selection
-- [Added] Changes to the collection folders are detected automatically
-- [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
-
-
-2017-04-07: Dopamine 1.3 Build 912 (Preview)
---------------------------------------------
-
+- [Added] Changes to the collection folders are now detected automatically
+- [Added] Changes to the Music\Dopamine\Playlists folder are now detected automatically
+- [Added] Added NeteaseLyrics support
+- [Added] Added XiamiLyrics support
+- [Added] Double clicking a playlist queues and plays the songs of that playlist
+- [Added] The keyboard space bar now toggles play and pause
 - [Changed] Lyrics are not downloaded anymore when the lyrics screen is not visible
+- [Changed] When using "Loop one", pressing Previous or Next now skips to the previous or next song.
+- [Changed] Playlists support has been rewritten: playlists are now saved to files automatically.
+- [Changed] 'Cloud' screen was renamed to 'Frequent' and the layout was changed
+- [Changed] Song title on playback info panes now scales to the available width
+- [Changed] Updated the Swedish translation
+- [Changed] Updated the Spanish translation
 - [Changed] Updated the French translation
 - [Changed] Updated the Turkish translation
 - [Changed] Updated the Bulgarian translation
-- [Added] Added button to export album and song covers to file
-- [Added] Added option to switch between 4 styles of spectrum analyzers
-- [Added] Smoother list animations
-- [Fixed] Sorting of albums is broken on the albums screen
-
-
-2017-03-13: Dopamine 1.3 Build 905 (Preview)
---------------------------------------------
-
-- [Added] Added NeteaseLyrics support
-- [Added] Added XiamiLyrics support
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Polish translation
-- [Changed] Updated the Swedish translation
-- [Changed] When using "Loop one", pressing Previous or Next now skips to the previous or next song.
-
-
-2017-02-25: Dopamine 1.3 Build 901 (Preview)
---------------------------------------------
-
-- [Fixed] Audio files which reside on a NAS cannot be played from playlists
-- [Fixed] Dopamine process remains active in Task Manager after a controlled crash
-- [Fixed] Another potential crash occurring during calculation of the albums panel layout
-
-
-2017-02-24: Dopamine 1.3 Build 900 (Preview)
---------------------------------------------
-
-- [Added] Changes to the Music\Dopamine\Playlists folder are now detected automatically
-- [Added] Double clicking a playlist queues and plays the songs of that playlist
-- [Fixed] A potential crash occurring during calculation of the albums panel layout
-- [Fixed] Tray controls are positioned outside of the screen when using desktop scaling > 100%
-
-
-2017-02-23: Dopamine 1.3 Build 899 (Preview)
---------------------------------------------
-
-- [Fixed] A potential crash when trying to figure out the Windows version at startup.
-
-
-2017-02-23: Dopamine 1.3 Build 898 (Preview)
---------------------------------------------
-
-IMPORTANT:  Playlist support was rewritten from scratch. Your existing playlists will not be migrated. 
-			Save you playlists to files manually before upgrading to this version. Import your saved
-			playlists after upgrading to this version.
-
-- [Changed] Updated the French translation
-- [Changed] Updated the Spanish translation
 - [Changed] Updated the German translation
-- [Changed] Playlists support has been rewritten: playlists are now saved to files automatically.
-- [Changed] Tweaked the 'Frequent' screen
+- [Changed] Updated the Russian translation
 - [Fixed] Automatic install or download button for updates is confusing for some users
 - [Fixed] Improved sizing of time indicator on the main window
-
-
-2017-02-01: Dopamine 1.3 Build 884 (Preview)
---------------------------------------------
-
-- [Added] The keyboard space bar now toggles play and pause when there is no search being performed
-- [Changed] 'Cloud' screen was renamed to 'Frequent'
-- [Changed] Updated the Spanish translation
-- [Changed] Updated the Russian translation
-- [Changed] Updated the French translation
+- [Fixed] A potential crash when trying to figure out the Windows version at startup.
+- [Fixed] Blurry context menu, notification window and tooltips at desktop scaling higher as 100%
+- [Fixed] Timestamped lyrics for songs longer than 1 hour don't work
+- [Fixed] Audio files which reside on a NAS cannot be played from playlists
+- [Fixed] Dopamine process remains active in Task Manager after a controlled crash
+- [Fixed] Tray controls are positioned outside of the screen when using desktop scaling > 100%
 - [Fixed] Fixed an occasional crash which happened when automatically scrolling to the playing song
 - [Fixed] Mini player windows are buggy in Windows 10 tablet mode
-- [Fixed] Playback bug when queuing the same track multiple times by using 'Play next'
 - [Fixed] A possible startup crash caused by the tray icon
 - [Fixed] A conflict with the search box when changing the volume by pressing - or +
-
-
-2017-01-08: Dopamine 1.3 Build 871 (Preview)
---------------------------------------------
-
-- [Changed] Updated the Spanish translation
-- [Changed] Song title on playback info panes now scales to the available width
 - [Fixed] Tray controls don't respect the position of the Windows Taskbar.
 - [Fixed] Added optional 'Remove from disk' option to the song context menu
 - [Fixed] Date in the Song Information window is not localized
 - [Fixed] WASAPI Exclusive mode plays high pitched sound
+- [Fixed] Play next doesn't work correctly when shuffle is enabled
 
 
 2017-01-03: Dopamine 1.2.4 Build 862 (Release)

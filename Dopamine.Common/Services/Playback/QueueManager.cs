@@ -305,10 +305,9 @@ namespace Dopamine.Common.Services.Playback
             return result;
         }
 
-        public async Task<EnqueueResult> EnqueueNextAsync(IList<PlayableTrack> tracks, bool shuffle)
+        public async Task<EnqueueResult> EnqueueNextAsync(IList<PlayableTrack> tracks)
         {
             var result = new EnqueueResult { IsSuccess = true };
-
 
             try
             {
@@ -333,16 +332,11 @@ namespace Dopamine.Common.Services.Playback
                         }
 
                         this.queue.InsertRange(queueIndex + 1, kvp);
-                        this.playbackOrder.InsertRange(queueIndex + 1, kvp.Select(t => t.Key));
+                        this.playbackOrder.InsertRange(playbackOrderIndex + 1, kvp.Select(t => t.Key));
 
                         result.EnqueuedTracks = tracks;
                     }
                 });
-
-                if (shuffle)
-                    await this.ShuffleAsync();
-                else
-                    await this.UnShuffleAsync();
             }
             catch (Exception ex)
             {

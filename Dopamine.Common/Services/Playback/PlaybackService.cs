@@ -835,7 +835,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task<EnqueueResult> AddToQueueNextAsync(IList<PlayableTrack> tracks)
         {
-            EnqueueResult result = await this.queueManager.EnqueueNextAsync(tracks, this.shuffle);
+            EnqueueResult result = await this.queueManager.EnqueueNextAsync(tracks);
 
             this.QueueChanged(this, new EventArgs());
 
