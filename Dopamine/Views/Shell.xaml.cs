@@ -47,7 +47,6 @@ namespace Dopamine.Views
         private IWin32InputService win32InputService;
         private INotificationService notificationService;
         private IMetadataService metadataService;
-        private ISearchService searchService;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private bool isMiniPlayer;
@@ -82,7 +81,7 @@ namespace Dopamine.Views
         #endregion
 
         #region Construction
-        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, INotificationService notificationService, IMetadataService metadataService, ISearchService searchService)
+        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, INotificationService notificationService, IMetadataService metadataService)
         {
             InitializeComponent();
 
@@ -95,7 +94,6 @@ namespace Dopamine.Views
             this.eventAggregator = eventAggregator;
             this.notificationService = notificationService;
             this.metadataService = metadataService;
-            this.searchService = searchService;
 
             // Flags
             this.mustPerformClosingTasks = true;
@@ -922,7 +920,7 @@ namespace Dopamine.Views
             this.ShowWindowControls = false;
             Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
 
-            this.ClosingBorder.Visibility = Visibility.Visible;
+            this.ClosingBorder.Visibility = Visibility.Visible; 
             closingAnimation.Begin();
         }
 
@@ -930,12 +928,13 @@ namespace Dopamine.Views
         {
             if (e.Key == Key.Space)
             {
-                // Only allow space to trigger play or pause when the user is not searching.
-                if (string.IsNullOrWhiteSpace(this.searchService.SearchText))
+                if(e.OriginalSource is SearchBox || e.OriginalSource is TextBox)
                 {
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.PlayOrPauseAsync();
+                    return;
                 }
+
+                e.Handled = true; // Prevents typing in the search box
+                this.playbackService.PlayOrPauseAsync();
             }
         }
 
