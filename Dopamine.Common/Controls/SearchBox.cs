@@ -109,7 +109,6 @@ namespace Dopamine.Common.Controls
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
-            if (string.IsNullOrWhiteSpace(this.Text)) this.Text = string.Empty; // Make sure a search cannot start by a space
             this.HasText = this.Text.Length > 0;
             this.SetButtonState();
         }
