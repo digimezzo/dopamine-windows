@@ -30,7 +30,7 @@ namespace Dopamine.Common.Services.Playback
         #region Private
         private bool UpdateTrackPlaybackInfo(PlayableTrack track, FileMetadata fileMetadata)
         {
-            bool isPlaybackInfoUpdated = false;
+            bool isDisplayedPlaybackInfoChanged = false;
 
             try
             {
@@ -38,25 +38,30 @@ namespace Dopamine.Common.Services.Playback
                 if (fileMetadata.Title.IsValueChanged)
                 {
                     track.TrackTitle = fileMetadata.Title.Value;
-                    isPlaybackInfoUpdated = true;
+                    isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Artists.IsValueChanged)
                 {
                     track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
-                    isPlaybackInfoUpdated = true;
+                    isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Year.IsValueChanged)
                 {
                     track.Year = fileMetadata.Year.Value.SafeConvertToLong();
-                    isPlaybackInfoUpdated = true;
+                    isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Album.IsValueChanged)
                 {
                     track.AlbumTitle = fileMetadata.Album.Value;
-                    isPlaybackInfoUpdated = true;
+                    isDisplayedPlaybackInfoChanged = true;
+                }
+
+                if (fileMetadata.ArtworkData.IsValueChanged)
+                {
+                    isDisplayedPlaybackInfoChanged = true;
                 }
             }
             catch (Exception ex)
@@ -64,7 +69,7 @@ namespace Dopamine.Common.Services.Playback
                 LogClient.Error("Could not update the track metadata. Exception: {0}", ex.Message);
             }
 
-            return isPlaybackInfoUpdated;
+            return isDisplayedPlaybackInfoChanged;
         }
         #endregion
 
@@ -545,7 +550,7 @@ namespace Dopamine.Common.Services.Playback
             return isSuccess;
         }
 
-        public async Task<UpdateQueueMetadataResult> UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
+        public async Task<UpdateQueueMetadataResult> UpdateMetadataAsync(List<FileMetadata> fileMetadatas)
         {
             var result = new UpdateQueueMetadataResult();
 
@@ -555,20 +560,31 @@ namespace Dopamine.Common.Services.Playback
                 {
                     if (this.Queue != null)
                     {
-                        bool isQueueChanged = false;
-
                         foreach (PlayableTrack track in this.queue.Values)
                         {
                             FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
 
                             if (fmd != null)
                             {
-                                this.UpdateTrackPlaybackInfo(track, fmd);
-                                isQueueChanged = true;
+                                // Queue
+                                if (this.UpdateTrackPlaybackInfo(track, fmd))
+                                {
+                                    result.IsQueueChanged = true;
+
+                                    // Playing track
+                                    if (track.SafePath.Equals(this.currentTrack.Value.SafePath))
+                                    {
+                                        result.IsPlayingTrackPlaybackInfoChanged = true;
+
+                                        // Playing track artwork
+                                        if (fmd.ArtworkData.IsValueChanged)
+                                        {
+                                            result.IsPlayingTrackArtworkChanged = true;
+                                        }
+                                    }
+                                }
                             }
                         }
-
-                        if (isQueueChanged) result.IsQueueChanged = true;
                     }
                 }
             });
