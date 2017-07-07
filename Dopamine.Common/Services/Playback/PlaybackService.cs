@@ -403,7 +403,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
         {
-            UpdateQueueMetadataResult result = await this.queueManager.UpdateQueueMetadataAsync(fileMetadatas);
+            UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
             // Raise events
             if (result.IsPlayingTrackPlaybackInfoChanged) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
