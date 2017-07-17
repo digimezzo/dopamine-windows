@@ -399,7 +399,7 @@
   <Text Key="Default_Audio_Device">默认音频设备</Text>
   <Text Key="Audio_Device">音频设备</Text>
   <Text Key="Choose_Audio_Device">选择音频设备</Text>
-  <Text Key="By_Date_Created">By date created</Text>
-  <Text Key="Plays">Plays</Text>
-  <Text Key="Skips">Skips</Text>
+  <Text Key="By_Date_Created">按创建日期</Text>
+  <Text Key="Plays">播放次数</Text>
+  <Text Key="Skips">跳过次数</Text>
 </Language>
