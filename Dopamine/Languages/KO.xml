@@ -122,7 +122,7 @@
   <Text Key="Show_Audio_Progress_In_Taskbar">윈도우 작업 표시줄에 재생 진행률 보이기</Text>
   <Text Key="Spectrum_Analyzer">스펙트럼 분석기</Text>
   <Text Key="Show_Spectrum_Analyzer">스펙트럼 분석기 보이기</Text>
-  <Text Key="Columns">열</Text>
+  <Text Key="Columns">표시할 열 선택</Text>
   <Text Key="Length">길이</Text>
   <Text Key="Album_Artist">앨범 아티스트</Text>
   <Text Key="Track_Number">트랙 번호</Text>
@@ -216,7 +216,7 @@
   <Text Key="Show_Window_Border">창 주변에 1픽셀 테두리 보이기</Text>
   <Text Key="System_Tray">알림 영역</Text>
   <Text Key="Show_Tray_Icon">알림 영역에 아이콘 보이기</Text>
-  <Text Key="Align_Playlist_Vertically">세로로 재생 목록 정렬</Text>
+  <Text Key="Align_Playlist_Vertically">재생 목록을 세로로 정렬</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">플레이어가 보이지 않을 때만 알림 보이기</Text>
   <Text Key="Transparency">투명도</Text>
   <Text Key="Enable_Transparency">일부 요소 투명하게 만들기 (윈도우 10 전용)</Text>
@@ -319,7 +319,7 @@
   <Text Key="Delete_Preset_Confirmation">정말로 &apos;%preset%&apos; 설정값을 삭제할까요?</Text><Text Key="Error_While_Deleting_Preset">이 설정값을 삭제할 수 없습니다. 로그 파일에서 더 많은 정보를 알아보세요.</Text>
   <Text Key="Error_While_Deleting_Preset">이 설정값을 삭제할 수 없습니다. 로그 파일에서 더 많은 정보를 알아보세요.</Text>
   <Text Key="Exclusive_Mode">독점 모드</Text>
-  <Text Key="Exclusive_Mode_Confirmation">정말 독점 모드를 활성화 할까요? 이제 다른 애플리케이션은 소리를 재생할 수 없습니다.</Text>
+  <Text Key="Exclusive_Mode_Confirmation">정말 독점 모드를 활성화 할까요? 다른 애플리케이션은 소리를 재생할 수 없게 됩니다.</Text>
   <Text Key="Search_Online">온라인 검색</Text>
   <Text Key="Online">온라인</Text>
   <Text Key="Add_Remove_Online_Search_Providers">온라인 검색 공급자 추가 혹은 제거</Text>
@@ -369,7 +369,7 @@
   <Text Key="Search_Again">다시 검색</Text>
   <Text Key="Audio_File">오디오 파일</Text>
   <Text Key="Play_Next">다음 재생</Text>
-  <Text Key="Last_Played">마지막으로 재생</Text>
+  <Text Key="Last_Played">마지막 재생</Text>
   <Text Key="Remember_Last_played_Song">마지막으로 재생한 노래와 재생 진행률 기억하기</Text>
   <Text Key="Download_Lyrics_From">여기서 가사 다운로드</Text>
   <Text Key="Lyrics_Download_Timeout">가사 다운로드 시간 초과</Text>
@@ -383,7 +383,7 @@
   <Text Key="About_Components_Developers">위 구성 요소들을 제작하신 재능 있는 개발자 분들.</Text>
   <Text Key="About_Neowin_Head">이 곳에서</Text>
   <Text Key="About_Neowin_End">아이디어를 제공하고, 테스트하고, 버그를 신고해준 커뮤니티 분들.</Text>
-  <Text Key="Frequent">자주 들은 노래</Text>
+  <Text Key="Frequent">자주 들은 앨범</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">정말로 이 노래를 &apos;%playlistname%&apos; 재생목록에서 제거할까요?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">정말로 이 노래를 &apos;%playlistname%&apos; 재생목록에서 제거할까요?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
@@ -400,6 +400,6 @@
   <Text Key="Audio_Device">오디오 장치</Text>
   <Text Key="Choose_Audio_Device">오디오 장치 선택</Text>
   <Text Key="By_Date_Created">생성된 날짜</Text>
-  <Text Key="Plays">재생</Text>
-  <Text Key="Skips">건너뛰기</Text>
+  <Text Key="Plays">재생횟수</Text>
+  <Text Key="Skips">건너뛴 횟수</Text>
 </Language>
