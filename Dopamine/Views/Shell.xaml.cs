@@ -928,11 +928,7 @@ namespace Dopamine.Views
         {
             if (e.Key == Key.Space)
             {
-                if(e.OriginalSource is SearchBox || e.OriginalSource is TextBox)
-                {
-                    return;
-                }
-
+                if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
                 e.Handled = true; // Prevents typing in the search box
                 this.playbackService.PlayOrPauseAsync();
             }
@@ -940,41 +936,69 @@ namespace Dopamine.Views
 
         private void Shell_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.OemPlus | e.Key == Key.Add)
+            if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                e.Handled = true; // Prevents typing in the search box
-
-                // [Ctrl] allows fine-tuning of the volume
-                this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + (Keyboard.Modifiers == ModifierKeys.Control ? 0.01 : 0.05));
-            }
-            else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
-            {
-                e.Handled = true; // Prevents typing in the search box
-
-                // [Ctrl] allows fine-tuning of the volume
-                this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - (Keyboard.Modifiers == ModifierKeys.Control ? 0.01 : 0.05));
-            }
-            else if (e.Key == Key.Left)
-            {
-                e.Handled = true; // Prevents typing in the search box
-                this.playbackService.Jump(Convert.ToInt32(Keyboard.Modifiers == ModifierKeys.Control ? -5 : -15));
-            }
-            else if (e.Key == Key.Right)
-            {
-                e.Handled = true; // Prevents typing in the search box
-                this.playbackService.Jump(Convert.ToInt32(Keyboard.Modifiers == ModifierKeys.Control ? 5 : 15));
-            }
-            else if (Keyboard.Modifiers == ModifierKeys.Control & e.Key == Key.L)
-            {
-                e.Handled = true; // Prevents typing in the search box
-
-                try
+                // [Ctrl] is pressed
+                if(e.Key == Key.L)
                 {
-                    Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
+                    e.Handled = true; // Prevents typing in the search box
+
+                    try
+                    {
+                        Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else if (e.Key == Key.OemPlus | e.Key == Key.Add)
                 {
-                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.01);
+                }
+                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.01);
+                }
+                else if (e.Key == Key.Left)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Jump(Convert.ToInt32(-5));
+                }
+                else if (e.Key == Key.Right)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Jump(Convert.ToInt32(5));
+                }
+            }
+            else
+            {
+                // [Ctrl] is not pressed
+                if (e.Key == Key.OemPlus | e.Key == Key.Add)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.05);
+                }
+                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.05);
+                }
+                else if (e.Key == Key.Left)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Jump(Convert.ToInt32(-15));
+                }
+                else if (e.Key == Key.Right)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Jump(Convert.ToInt32(15));
                 }
             }
         }
