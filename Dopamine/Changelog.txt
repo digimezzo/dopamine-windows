@@ -3,6 +3,7 @@
 
 - [Fixed] Unable to type underscore in Last.fm user field
 - [Fixed] Window resizes behind Windows Task bar
+- [Fixed] Crash when attempting to jump to albums using key presses
 
 
 2017-07-07: Dopamine 1.3 Build 927 (Release)
