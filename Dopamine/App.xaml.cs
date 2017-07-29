@@ -30,14 +30,14 @@ namespace Dopamine
         {
             base.OnStartup(e);
 
-            // Create a jumplist and assign it to the current application
+            // Create a jump-list and assign it to the current application
             JumpList.SetJumpList(Application.Current, new JumpList());
 
             // Check that there is only one instance of the application running
             bool isNewInstance = false;
             instanceMutex = new Mutex(true, string.Format("{0}-{1}", ProductInformation.ApplicationGuid, ProcessExecutable.AssemblyVersion()), out isNewInstance);
 
-            // Process the commandline arguments
+            // Process the command-line arguments
             this.ProcessCommandLineArguments(isNewInstance);
 
             if (isNewInstance)
@@ -66,13 +66,13 @@ namespace Dopamine
 
         private void ProcessCommandLineArguments(bool isNewInstance)
         {
-            // Get the commandline arguments
+            // Get the command-line arguments
             string[] args = Environment.GetCommandLineArgs();
 
 
             if (args.Length > 1)
             {
-                LogClient.Info("Found commandline arguments.");
+                LogClient.Info("Found command-line arguments.");
 
                 switch (args[1])
                 {
@@ -91,17 +91,17 @@ namespace Dopamine
                         break;
                     default:
 
-                        LogClient.Info("Processing Non-JumpList commandline arguments.");
+                        LogClient.Info("Processing Non-JumpList command-line arguments.");
 
 
                         if (!isNewInstance)
                         {
-                            // Send the commandline arguments to the running instance
+                            // Send the command-line arguments to the running instance
                             this.TrySendCommandlineArguments(args);
                         }
                         else
                         {
-                            // Do nothing. The commandline arguments of a single instance will be processed,
+                            // Do nothing. The command-line arguments of a single instance will be processed,
                             // in the ShellViewModel because over there we have access to the FileService.
                         }
                         break;
@@ -133,7 +133,7 @@ namespace Dopamine
 
         private void TrySendCommandlineArguments(string[] args)
         {
-            LogClient.Info("Trying to send {0} commandline arguments to the running instance", args.Count());
+            LogClient.Info("Trying to send {0} command-line arguments to the running instance", args.Count());
 
             bool needsSending = true;
             DateTime startTime = DateTime.Now;
@@ -146,10 +146,10 @@ namespace Dopamine
             {
                 try
                 {
-                    // Try to send the commandline arguments to the running instance
+                    // Try to send the command-line arguments to the running instance
                     fileServiceProxy = fileServiceFactory.CreateChannel();
                     fileServiceProxy.ProcessArguments(args);
-                    LogClient.Info("Sent {0} commandline arguments to the running instance", args.Count());
+                    LogClient.Info("Sent {0} command-line arguments to the running instance", args.Count());
 
                     needsSending = false;
                 }
@@ -168,7 +168,7 @@ namespace Dopamine
                     {
                         // Log any other Exception and stop trying to send the file to the running instance
                         needsSending = false;
-                        LogClient.Info("A problem occured while trying to send {0} commandline arguments to the running instance. Exception: {1}", args.Count().ToString(), ex.Message);
+                        LogClient.Info("A problem occurred while trying to send {0} command-line arguments to the running instance. Exception: {1}", args.Count().ToString(), ex.Message);
                     }
                 }
 
