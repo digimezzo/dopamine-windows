@@ -18,6 +18,7 @@ using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.JumpList;
+using Dopamine.Common.Services.Logging;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
@@ -28,6 +29,7 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Core.Services.Logging;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -80,6 +82,7 @@ namespace Dopamine
 
         protected void RegisterServices()
         {
+            Container.RegisterSingletonType<ILoggingService, LoggingService>();
             Container.RegisterSingletonType<ICacheService, CacheService>();
             Container.RegisterSingletonType<IUpdateService, UpdateService>();
             Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
