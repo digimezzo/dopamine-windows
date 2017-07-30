@@ -9,6 +9,78 @@
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="This is the main page"></TextBlock>
+        <Pivot>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
+                        <TextBlock 
+                            Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToUpperConverter}}"
+                            FontSize="11"
+                            FontWeight="Bold"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem x:Uid="Collection" Margin="0">
+                <Pivot Margin="0,-13,0,0">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,-15,0,0">
+                                <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
+                                <TextBlock 
+                                    Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
+                                    FontSize="24"
+                                    FontWeight="Light"/>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <PivotItem x:Uid="Artists" Margin="0">
+                        
+                    </PivotItem>
+                    <PivotItem x:Uid="Albums" Margin="0">
+
+                    </PivotItem>
+                    <PivotItem x:Uid="Songs" Margin="0">
+
+                    </PivotItem>
+                </Pivot>
+            </PivotItem>
+            <PivotItem x:Uid="Settings" Margin="0">
+                <Pivot Margin="0,-13,0,0">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,-15,0,0">
+                                <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
+                                <TextBlock 
+                                    Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
+                                    FontSize="24"
+                                    FontWeight="Light"/>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <PivotItem x:Uid="Appearance" Margin="0">
+
+                    </PivotItem>
+                </Pivot>
+            </PivotItem>
+            <PivotItem x:Uid="Information" Margin="0">
+                <Pivot Margin="0,-13,0,0">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,-15,0,0">
+                                <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
+                                <TextBlock 
+                                    Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
+                                    FontSize="24"
+                                    FontWeight="Light"/>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <PivotItem x:Uid="About" Margin="0">
+
+                    </PivotItem>
+                </Pivot>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>
