@@ -1,7 +1,9 @@
 ﻿using Dopamine.Core.Extensions;
 using Dopamine.Core.Services.Logging;
+using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
 using Dopamine.UWP.Services.Logging;
+using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
 using GalaSoft.MvvmLight.Ioc;
 using System;
@@ -74,6 +76,7 @@ namespace Dopamine.UWP
         private void InitializeServices()
         {
             SimpleIoc.Default.RegisterOnce<ILoggingService, LoggingService>();
+            SimpleIoc.Default.RegisterOnce<ISettingsService, SettingsService>();
             SimpleIoc.Default.RegisterOnce<IAppearanceService, AppearanceService>();
         }
 
