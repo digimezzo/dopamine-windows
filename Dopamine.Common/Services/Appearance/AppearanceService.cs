@@ -20,6 +20,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
 using Digimezzo.Utilities.ColorSpace;
+using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine.Common.Services.Appearance
 {
@@ -141,7 +142,7 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Events
-        public event EventHandler ThemeChanged = delegate { };
+        public event ThemeChangedEventHandler ThemeChanged = delegate { };
         public event EventHandler ColorSchemeChanged = delegate { };
         public event EventHandler ColorSchemesChanged = delegate { };
         #endregion
@@ -299,7 +300,7 @@ namespace Dopamine.Common.Services.Appearance
             return this.colorSchemes;
         }
 
-        public ColorScheme GetColorScheme(string iAccentColor)
+        public ColorScheme GetColorScheme(string accentColor)
         {
 
             // Set the default theme in case the theme is not found by using the For loop
@@ -307,7 +308,7 @@ namespace Dopamine.Common.Services.Appearance
 
             foreach (ColorScheme item in this.colorSchemes)
             {
-                if (item.AccentColor == iAccentColor)
+                if (item.AccentColor == accentColor)
                 {
                     returnVal = item;
                 }
@@ -316,11 +317,11 @@ namespace Dopamine.Common.Services.Appearance
             return returnVal;
         }
 
-        public void ApplyTheme(bool enableLightTheme)
+        public void ApplyTheme(bool useLightTheme)
         {
             string themeName = "Dark";
 
-            if (enableLightTheme)
+            if (useLightTheme)
                 themeName = "Light";
 
             ResourceDictionary currentThemeDict = this.GetCurrentThemeDictionary();
@@ -331,7 +332,7 @@ namespace Dopamine.Common.Services.Appearance
             Application.Current.Resources.MergedDictionaries.Add(newThemeDict);
             Application.Current.Resources.MergedDictionaries.Remove(currentThemeDict);
 
-            this.ThemeChanged(this, new EventArgs());
+            this.ThemeChanged(useLightTheme);
         }
 
         public async Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false, string selectedColorScheme = "")

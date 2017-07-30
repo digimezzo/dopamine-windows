@@ -676,7 +676,7 @@ namespace Dopamine.Views
             this.SetPlayer(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
         }
 
-        private void ThemeChangedHandler(object sender, EventArgs e)
+        private void ThemeChangedHandler(bool useLightTheme)
         {
             Application.Current.Dispatcher.Invoke(() => { if (this.backgroundAnimation != null) this.backgroundAnimation.Begin(); });
         }

@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Services.Appearance
+﻿namespace Dopamine.Core.Services.Appearance
 {
     public class ColorScheme
     {
@@ -41,5 +41,4 @@
         }
         #endregion
     }
-
 }
