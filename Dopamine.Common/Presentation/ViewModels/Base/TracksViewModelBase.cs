@@ -48,6 +48,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<PlayableTrack> selectedTracks;
+        private TrackViewModel lastPlayingTrackVm;
         #endregion
 
         #region Properties
@@ -407,38 +408,35 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async override Task ShowPlayingTrackAsync()
-        {
-            if (!this.playbackService.HasCurrentTrack) return;
-
-            string safePath = this.playbackService.CurrentTrack.Value.SafePath;
-
+        protected override async Task ShowPlayingTrackAsync()
+        {          
             await Task.Run(() =>
             {
-                if (this.Tracks != null)
+                if (this.playbackService.HasCurrentTrack == false)
                 {
-                    bool isTrackFound = false;
-
-                    foreach (TrackViewModel vm in this.Tracks)
+                    if (!this.playbackService.IsStopped) return;
+                    foreach (var vm in this.tracks)
                     {
                         vm.IsPlaying = false;
                         vm.IsPaused = true;
-
-                        if (!isTrackFound && string.Equals(vm.Track.SafePath, safePath))
-                        {
-                            isTrackFound = true;
-
-                            if (!this.playbackService.IsStopped)
-                            {
-                                vm.IsPlaying = true;
-
-                                if (this.playbackService.IsPlaying)
-                                {
-                                    vm.IsPaused = false;
-                                }
-                            }
-                        }
                     }
+                    return;
+                }
+
+                if (this.Tracks == null) return;
+                {
+                    var safePath = this.playbackService.CurrentTrack.Value.SafePath;
+
+                    if (lastPlayingTrackVm != null)
+                    {
+                        lastPlayingTrackVm.IsPlaying = false;
+                        lastPlayingTrackVm.IsPaused = true;
+                    }                  
+
+                    var trackVm = this.Tracks.First(vm => vm.Track.SafePath.Equals(safePath));
+                    trackVm.IsPlaying = this.playbackService.IsPlaying;
+                    trackVm.IsPaused = this.playbackService.IsStopped;
+                    lastPlayingTrackVm = trackVm;
                 }
             });
 

@@ -363,6 +363,7 @@ namespace Dopamine.Common.Services.Playback
                 {
                     lock (this.queueLock)
                     {
+                        this.currentTrack = default(KeyValuePair<string, PlayableTrack>);
                         this.queue.Clear();
                         this.playbackOrder.Clear();
                     }
@@ -439,7 +440,7 @@ namespace Dopamine.Common.Services.Playback
             {
                 lock (this.queueLock)
                 {
-                    foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                    foreach (var track in tracks)
                     {
                         try
                         {
@@ -450,21 +451,21 @@ namespace Dopamine.Common.Services.Playback
                                 dequeuedTracks.Add(track);
 
                                 // If the key is known, indicate if the current track was dequeued by comparing the keys.
-                                isPlayingTrackDequeued = track.Key.Equals(this.currentTrack.Key);
+                                isPlayingTrackDequeued = isPlayingTrackDequeued || track.Key.Equals(this.currentTrack.Key);
                             }
                             else
                             {
                                 // If the key is not known, get all queued tracks which have the same path.
-                                List<KeyValuePair<string, PlayableTrack>> queuedTracksWithSamePath = this.queue.Select(t => t).Where(t => t.Value.SafePath.Equals(track.Value.SafePath)).ToList();
+                                var queuedTracksWithSamePath = this.queue.Select(t => t).Where(t => t.Value.SafePath.Equals(track.Value.SafePath)).ToList();
 
                                 // Remove all queued track which have the same path
-                                foreach (KeyValuePair<string, PlayableTrack> queuedTrackWithSamePath in queuedTracksWithSamePath)
+                                foreach (var queuedTrackWithSamePath in queuedTracksWithSamePath)
                                 {
                                     this.queue.Remove(queuedTrackWithSamePath.Key);
                                     dequeuedTracks.Add(queuedTrackWithSamePath);
 
                                     // If the key is not known, indicate if the current track was dequeued by comparing the paths.
-                                    isPlayingTrackDequeued = queuedTrackWithSamePath.Value.Equals(this.currentTrack.Value);
+                                    isPlayingTrackDequeued = isPlayingTrackDequeued || queuedTrackWithSamePath.Value.Equals(this.currentTrack.Value);
                                 }
                             }
                         }
@@ -475,7 +476,7 @@ namespace Dopamine.Common.Services.Playback
                         }
                     }
 
-                    foreach (KeyValuePair<string, PlayableTrack> dequeuedTrack in dequeuedTracks)
+                    foreach (var dequeuedTrack in dequeuedTracks)
                     {
                         try
                         {
@@ -494,9 +495,18 @@ namespace Dopamine.Common.Services.Playback
 
             var dequeueResult = new DequeueResult { IsSuccess = isSuccess, DequeuedTracks = dequeuedTracks, IsPlayingTrackDequeued = isPlayingTrackDequeued };
 
-            if (isSuccess & isPlayingTrackDequeued & this.playbackOrder.Count > indexOfLastDeueuedTrack)
+            if (isSuccess && isPlayingTrackDequeued)
             {
-                dequeueResult.NextAvailableTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[indexOfLastDeueuedTrack], this.queue[this.playbackOrder[indexOfLastDeueuedTrack]]);
+                if (this.playbackOrder.Count == 0)
+                {
+                    await this.ClearQueueAsync();
+                }
+                else if (this.playbackOrder.Count > indexOfLastDeueuedTrack)
+                {
+                    dequeueResult.NextAvailableTrack =
+                        new KeyValuePair<string, PlayableTrack>(this.playbackOrder[indexOfLastDeueuedTrack],
+                            this.queue[this.playbackOrder[indexOfLastDeueuedTrack]]);
+                }
             }
 
             return dequeueResult;
