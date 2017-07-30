@@ -43,6 +43,7 @@
     <Compile Include="Services\Appearance\ColorScheme.cs" />
     <Compile Include="Services\Appearance\IAppearanceService.cs" />
     <Compile Include="Services\Logging\ILoggingService.cs" />
+    <Compile Include="Services\Settings\ISettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\Indexing\" />
