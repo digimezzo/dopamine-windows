@@ -400,7 +400,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\Appearance\AppearanceService.cs" />
-    <Compile Include="Services\Appearance\ColorScheme.cs" />
     <Compile Include="Services\Appearance\IAppearanceService.cs" />
     <Compile Include="Services\Cache\CacheService.cs" />
     <Compile Include="Services\Cache\ICacheService.cs" />

@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using Dopamine.Core.Services.Appearance;
+using Dopamine.Core.Services.Logging;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Dopamine.UWP.Utils;
+using System.Linq;
+
+namespace Dopamine.UWP.Services.Appearance
+{
+    public class AppearanceService : IAppearanceService
+    {
+        #region Variables
+        private ILoggingService loggingService;
+        private bool followWindowsColor = false;
+        private ColorScheme[] colorSchemes = {
+                                                new ColorScheme {
+                                                    Name = "Blue",
+                                                    AccentColor = "#1D7DD4"
+                                                },
+                                                new ColorScheme {
+                                                    Name = "Green",
+                                                    AccentColor = "#7FB718"
+                                                },
+                                                new ColorScheme {
+                                                    Name = "Yellow",
+                                                    AccentColor = "#F09609"
+                                                },
+                                                new ColorScheme {
+                                                    Name = "Purple",
+                                                    AccentColor = "#A835B2"
+                                                },
+                                                new ColorScheme {
+                                                    Name = "Pink",
+                                                    AccentColor = "#CE0058"
+                                                },
+                                                new ColorScheme {
+                                                    Name = "Red",
+                                                    AccentColor = "#E31837"
+                                                }
+        };
+        #endregion
+
+        #region Construction
+        public AppearanceService(ILoggingService loggingService)
+        {
+            this.loggingService = loggingService;
+        }
+        #endregion
+
+        #region IAppearanceService
+        public event ThemeChangedEventHandler ThemeChanged = delegate { };
+        public event EventHandler ColorSchemeChanged = delegate { };
+        public event EventHandler ColorSchemesChanged = delegate { };
+
+        public void ApplyColorScheme(bool followWindowsColor, string selectedColorScheme = "")
+        {
+            this.followWindowsColor = followWindowsColor;
+
+            Color accentColor = default(Color);
+
+            if (this.followWindowsColor)
+            {
+                accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
+            }
+            else
+            {
+                ColorScheme cs = this.GetColorScheme(selectedColorScheme);
+                accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
+            }
+
+            Application.Current.Resources["Color_Accent"] = accentColor;
+            ((SolidColorBrush)Application.Current.Resources["Brush_Accent"]).Color = accentColor;
+        }
+
+        public void ApplyTheme(bool enableLightTheme)
+        {
+           // TODO
+        }
+
+        public ColorScheme GetColorScheme(string name)
+        {
+            // Set the default theme in case the theme is not found by using the For loop
+            ColorScheme returnVal = this.colorSchemes[0];
+
+            foreach (ColorScheme item in this.colorSchemes)
+            {
+                if (item.Name == name)
+                {
+                    returnVal = item;
+                }
+            }
+
+            return returnVal;
+        }
+
+        public List<ColorScheme> GetColorSchemes()
+        {
+            return this.colorSchemes.ToList();
+        }
+        #endregion
+    }
+}
