@@ -111,6 +111,9 @@
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsAppearance.xaml.cs">
+      <DependentUpon>SettingsAppearance.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -171,6 +174,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsAppearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

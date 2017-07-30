@@ -24,6 +24,8 @@ namespace Dopamine.UWP.Services.Settings
 
             // Make sure each setting has an initial value
             this.InitializeSetting("UseLightTheme", false);
+            this.InitializeSetting("FollowWindowsColor", false);
+            this.InitializeSetting("ColorScheme", "Blue");
         }
 
         private void InitializeSetting(string settingName, object settingValue)
@@ -46,6 +48,30 @@ namespace Dopamine.UWP.Services.Settings
             set
             {
                 this.settings.Values["UseLightTheme"] = value;
+            }
+        }
+
+        public bool FollowWindowsColor
+        {
+            get
+            {
+                return (bool)this.settings.Values["FollowWindowsColor"];
+            }
+            set
+            {
+                this.settings.Values["FollowWindowsColor"] = value;
+            }
+        }
+
+        public string ColorScheme
+        {
+            get
+            {
+                return (string)this.settings.Values["ColorScheme"];
+            }
+            set
+            {
+                this.settings.Values["ColorScheme"] = value;
             }
         }
 
