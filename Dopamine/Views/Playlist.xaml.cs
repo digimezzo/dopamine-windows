@@ -10,6 +10,7 @@ using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace Dopamine.Views
 {
@@ -23,6 +24,7 @@ namespace Dopamine.Views
         private MiniPlayerType miniPlayerType;
         private double separationSize = 5;
         private bool alignCoverPlayerPlaylistVertically;
+        private IntPtr windowHandle;
         #endregion
 
         #region Construction
@@ -35,31 +37,31 @@ namespace Dopamine.Views
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            this.eventAggregator.GetEvent<ToggledCoverPlayerAlignPlaylistVertically>().Subscribe(alignPlaylistVertically =>
+            this.eventAggregator.GetEvent<ToggledCoverPlayerAlignPlaylistVertically>().Subscribe(async alignPlaylistVertically =>
             {
                 this.alignCoverPlayerPlaylistVertically = alignPlaylistVertically;
                 if (this.IsVisible)
-                    this.SetGeometry();
+                    await this.SetGeometry();
             });
         }
         #endregion
 
         #region Parent Handlers
-        private void Parent_LocationChanged(object sender, EventArgs e)
+        private async void Parent_LocationChanged(object sender, EventArgs e)
         {
-            this.SetGeometry();
+            await this.SetGeometry();
         }
         #endregion
 
         #region Handlers
-        protected override void OnActivated(EventArgs e)
+        protected override async void OnActivated(EventArgs e)
         {
-            this.SetGeometry();
+            await this.SetGeometry();
         }
         #endregion
 
         #region Public
-        public void Show(MiniPlayerType miniPlayerType)
+        public async Task Show(MiniPlayerType miniPlayerType)
         {
             this.miniPlayerType = miniPlayerType;
 
@@ -80,10 +82,11 @@ namespace Dopamine.Views
 
             base.Show();
 
-            this.SetTransparency();
-            this.SetGeometry();
-        }
+            this.windowHandle = new WindowInteropHelper(this).Handle;
 
+            this.SetTransparency();
+            await this.SetGeometry();
+        }
 
         public new void Hide()
         {
@@ -107,7 +110,7 @@ namespace Dopamine.Views
             }
         }
 
-        private void SetGeometry()
+        private async Task SetGeometry()
         {
             switch (this.miniPlayerType)
             {
@@ -134,63 +137,61 @@ namespace Dopamine.Views
                     break;
                 default:
                     break;
-                    // Doesn't happen
+                // Doesn't happen
             }
 
-            this.Top = this.GetTop();
-            this.Left = this.GetLeft();
+            var tal = await this.GetTopAndLeft(this.Width, this.Height, this.parent.Top, this.parent.Left,
+                this.parent.ActualWidth, this.parent.ActualHeight);
+            var top = tal.Item1;
+            var left = tal.Item2;
+
+            this.Left = left;
+            this.Top = top;
         }
 
-        private double GetTop()
+        private async Task<Tuple<double, double>> GetTopAndLeft(double width, double height, double parentTop,
+            double parentLeft, double parentActualWidth, double parentActualheight)
         {
-            if (this.miniPlayerType == MiniPlayerType.CoverPlayer & !this.alignCoverPlayerPlaylistVertically)
-            {
-                return this.parent.Top;
-            }
-            else
+            double top = 0, left = 0;
+            await Task.Run(() =>
             {
                 // We're using the Windows Forms Screen class to get correct screen information.
                 // WPF doesn't provide such detailed information about the screens.
-                var screen = System.Windows.Forms.Screen.FromRectangle(new System.Drawing.Rectangle(Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Width), Convert.ToInt32(this.Height)));
+                var screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
 
-
-                if (this.parent.Top + this.parent.ActualHeight + this.Height <= screen.WorkingArea.Bottom)
+                if (this.miniPlayerType == MiniPlayerType.CoverPlayer & !this.alignCoverPlayerPlaylistVertically)
                 {
-                    // Position at the bottom of the main window
-                    return this.parent.Top + this.parent.ActualHeight + this.separationSize;
+                    top = parentTop;
+
+                    if (parentLeft + parentActualWidth + width <= screen.WorkingArea.Width)
+                    {
+                        // Position at the right of the main window
+                        left = parentLeft + parentActualWidth + this.separationSize;
+                    }
+                    else
+                    {
+                        // Position at the left of the main window
+                        left = parentLeft - Width - this.separationSize;
+                    }
                 }
                 else
                 {
-                    // Position at the top of the main window
-                    return this.parent.Top - this.Height - this.separationSize;
-                }
-            }
-        }
+                    left = parentLeft;
 
-        private double GetLeft()
-        {
-            if (this.miniPlayerType == MiniPlayerType.CoverPlayer & !this.alignCoverPlayerPlaylistVertically)
-            {
-                // We're using the Windows Forms Screen class to get correct screen information.
-                // WPF doesn't provide such detailed information about the screens.
-                var screen = System.Windows.Forms.Screen.FromRectangle(new System.Drawing.Rectangle(Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Width), Convert.ToInt32(this.Height)));
-
-
-                if (this.parent.Left + this.parent.ActualWidth + this.Width <= screen.WorkingArea.Right)
-                {
-                    // Position at the right of the main window
-                    return this.parent.Left + this.parent.ActualWidth + this.separationSize;
+                    if (parentTop + parentActualheight + height <= screen.WorkingArea.Height)
+                    {
+                        // Position at the bottom of the main window
+                        top = parentTop + parentActualheight + this.separationSize;
+                    }
+                    else
+                    {
+                        // Position at the top of the main window
+                        top = parentTop - height - this.separationSize;
+                    }
                 }
-                else
-                {
-                    // Position at the left of the main window
-                    return this.parent.Left - this.Width - this.separationSize;
-                }
-            }
-            else
-            {
-                return this.parent.Left;
-            }
+            });
+
+            return new Tuple<double, double>(top, left);
         }
 
         private async void PlaylistWindow_Loaded(object sender, RoutedEventArgs e)
