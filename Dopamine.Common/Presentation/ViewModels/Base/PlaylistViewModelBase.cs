@@ -37,6 +37,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
         protected bool isDroppingTracks;
+        private KeyValuePair<string, TrackViewModel> lastPlayingTrackVm;
         #endregion
 
         #region Properties
@@ -334,61 +335,41 @@ namespace Dopamine.Common.Presentation.ViewModels
                     return;
                 }
 
-                if (this.Tracks != null)
+                if (this.Tracks == null) return;
                 {
-                    string trackGuid = this.playbackService.CurrentTrack.Key;
-                    string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
-                    bool isTrackFound = false;
+                    var trackGuid = this.playbackService.CurrentTrack.Key;
+                    var trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
+                    var isTrackFound = false;
+
+                    if (!lastPlayingTrackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
+                    {
+                        lastPlayingTrackVm.Value.IsPlaying = false;
+                        lastPlayingTrackVm.Value.IsPaused = true;
+                    }
 
                     // 2nd pass: try to find a matching Guid. This is the most exact.
-                    foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
+                    var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
+                    if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                     {
-                        vm.Value.IsPlaying = false;
-                        vm.Value.IsPaused = true;
-
-                        if (!isTrackFound && vm.Key == trackGuid)
+                        isTrackFound = true;
+                    }
+                    else
+                    {
+                        // 3rd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                        // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
+                        // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
+                        // to rely on the path of the tracks.
+                        trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
+                        if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                         {
                             isTrackFound = true;
-
-                            if (!this.playbackService.IsStopped)
-                            {
-                                vm.Value.IsPlaying = true;
-
-                                if (this.playbackService.IsPlaying)
-                                {
-                                    vm.Value.IsPaused = false;
-                                }
-                            }
                         }
                     }
 
-                    // 3rd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
-                    // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
-                    // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
-                    // to rely on the path of the tracks. TODO: can this be improved?
-                    if (!isTrackFound)
-                    {
-                        foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
-                        {
-                            vm.Value.IsPlaying = false;
-                            vm.Value.IsPaused = true;
-
-                            if (!isTrackFound && string.Equals(vm.Value.Track.SafePath, trackSafePath))
-                            {
-                                isTrackFound = true;
-
-                                if (!this.playbackService.IsStopped)
-                                {
-                                    vm.Value.IsPlaying = true;
-
-                                    if (this.playbackService.IsPlaying)
-                                    {
-                                        vm.Value.IsPaused = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    if (!isTrackFound) return;
+                    trackVm.Value.IsPlaying = this.playbackService.IsPlaying;
+                    trackVm.Value.IsPaused = this.playbackService.IsStopped;
+                    lastPlayingTrackVm = trackVm;
                 }
             });
 
