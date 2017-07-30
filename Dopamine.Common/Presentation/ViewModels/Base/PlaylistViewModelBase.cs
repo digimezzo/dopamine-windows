@@ -323,17 +323,13 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             await Task.Run(() =>
             {
-                // 1st pass: if Player is stopped, mark all tracks isn't playing
-                if (this.playbackService.HasCurrentTrack == false)
+                if (!lastPlayingTrackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                 {
-                    if (!this.playbackService.IsStopped) return;
-                    foreach (var vm in this.tracks)
-                    {
-                        vm.Value.IsPlaying = false;
-                        vm.Value.IsPaused = true;
-                    }
-                    return;
+                    lastPlayingTrackVm.Value.IsPlaying = false;
+                    lastPlayingTrackVm.Value.IsPaused = true;
                 }
+
+                if (!this.playbackService.HasCurrentTrack) return;
 
                 if (this.Tracks == null) return;
                 {
@@ -341,13 +337,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     var trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     var isTrackFound = false;
 
-                    if (!lastPlayingTrackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
-                    {
-                        lastPlayingTrackVm.Value.IsPlaying = false;
-                        lastPlayingTrackVm.Value.IsPaused = true;
-                    }
-
-                    // 2nd pass: try to find a matching Guid. This is the most exact.
+                    // Firstly, try to find a matching Guid. This is the most exact.
                     var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
                     if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                     {
@@ -355,7 +345,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     else
                     {
-                        // 3rd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                        // If Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
                         // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
                         // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
                         // to rely on the path of the tracks.
@@ -367,8 +357,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
 
                     if (!isTrackFound) return;
-                    trackVm.Value.IsPlaying = this.playbackService.IsPlaying;
-                    trackVm.Value.IsPaused = this.playbackService.IsStopped;
+                    if (!this.playbackService.IsStopped)
+                    {
+                        trackVm.Value.IsPlaying = true;
+                        trackVm.Value.IsPaused = !this.playbackService.IsPlaying;
+                    }
                     lastPlayingTrackVm = trackVm;
                 }
             });
