@@ -16,7 +16,8 @@
                         <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
                         <TextBlock 
                             Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToUpperConverter}}"
-                            FontSize="15"/>
+                            FontSize="15"
+                            FontWeight="SemiBold"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
