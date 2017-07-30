@@ -11,8 +11,25 @@
     DataContext="{Binding SettingsAppearance, Source={StaticResource Locator}}">
 
     <StackPanel>
-        <TextBlock x:Uid="Theme" FontWeight="Light" FontSize="24" Foreground="{ThemeResource Brush_Accent}"/>
+        <TextBlock x:Uid="Theme" FontWeight="Light" FontSize="24" Foreground="{ThemeResource SystemControlHighlightAccentBrush}"/>
         <ToggleSwitch x:Uid="UseLightTheme" Margin="0,10,0,0" IsOn="{Binding UseLightTheme,Mode=TwoWay}"/>
         <ToggleSwitch x:Uid="FollowWindowsColor" Margin="0,10,0,0" IsOn="{Binding FollowWindowsColor,Mode=TwoWay}"/>
+        <ListBox 
+            Name="ListBoxColorSchemes" 
+            Margin="0,20,0,0" 
+            HorizontalAlignment="Left" 
+            Background="Transparent" 
+            ItemsSource="{Binding Path=ColorSchemes}" 
+            SelectedItem="{Binding SelectedColorScheme,Mode=TwoWay}"
+            IsEnabled="{Binding FollowWindowsColor,Converter={StaticResource InvertingBooleanConverter},Mode=TwoWay}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.Style>
+                <StaticResource ResourceKey="ColorSchemeButtons"/>
+            </ListBox.Style>
+        </ListBox>
     </StackPanel>
 </UserControl>
