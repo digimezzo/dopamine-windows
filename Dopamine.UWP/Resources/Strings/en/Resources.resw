@@ -132,6 +132,9 @@
   <data name="Collection.Header" xml:space="preserve">
     <value>Collection</value>
   </data>
+  <data name="FollowWindowsColor.Header" xml:space="preserve">
+    <value>Follow the Windows color</value>
+  </data>
   <data name="Information.Header" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -140,5 +143,17 @@
   </data>
   <data name="Songs.Header" xml:space="preserve">
     <value>Songs</value>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="UseLightTheme.Header" xml:space="preserve">
+    <value>Use light theme</value>
+  </data>
+  <data name="UseLightTheme.OffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UseLightTheme.OnContent" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

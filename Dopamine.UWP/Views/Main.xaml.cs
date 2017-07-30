@@ -22,6 +22,7 @@ namespace Dopamine.UWP.Views
 
             this.settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
             this.appearanceService.ApplyTheme(this.settingsService.UseLightTheme);
+            this.appearanceService.ApplyColorScheme(this.settingsService.FollowWindowsColor, this.settingsService.ColorScheme);
         }
         #endregion
 

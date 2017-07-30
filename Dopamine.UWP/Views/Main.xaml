@@ -16,8 +16,7 @@
                         <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
                         <TextBlock 
                             Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToUpperConverter}}"
-                            FontSize="11"
-                            FontWeight="Bold"/>
+                            FontSize="15"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
@@ -29,13 +28,13 @@
                                 <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
                                 <TextBlock 
                                     Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
-                                    FontSize="24"
+                                    FontSize="30"
                                     FontWeight="Light"/>
                             </Grid>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
                     <PivotItem x:Uid="Artists" Margin="0">
-                        
+                       
                     </PivotItem>
                     <PivotItem x:Uid="Albums" Margin="0">
 
@@ -53,13 +52,15 @@
                                 <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
                                 <TextBlock 
                                     Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
-                                    FontSize="24"
+                                    FontSize="30"
                                     FontWeight="Light"/>
                             </Grid>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
                     <PivotItem x:Uid="Appearance" Margin="0">
-
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                            <local:SettingsAppearance Margin="15"/>
+                        </ScrollViewer>
                     </PivotItem>
                 </Pivot>
             </PivotItem>
@@ -71,7 +72,7 @@
                                 <TextBlock x:Name="Dummy" Text="{Binding}" Visibility="Collapsed"/>
                                 <TextBlock 
                                     Text="{Binding Text,ElementName=Dummy,Converter={StaticResource StringToLowerConverter}}"
-                                    FontSize="24"
+                                    FontSize="30"
                                     FontWeight="Light"/>
                             </Grid>
                         </DataTemplate>
