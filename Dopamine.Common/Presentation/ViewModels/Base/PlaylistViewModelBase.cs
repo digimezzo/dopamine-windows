@@ -318,17 +318,25 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        protected async override Task ShowPlayingTrackAsync()
+        protected override async Task ShowPlayingTrackAsync()
         {
-            if (!this.playbackService.HasCurrentTrack) return;
-
-            string trackGuid = this.playbackService.CurrentTrack.Key;
-            string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
-
             await Task.Run(() =>
             {
+                if (this.playbackService.HasCurrentTrack == false)
+                {
+                    if (!this.playbackService.IsStopped) return;
+                    foreach (var vm in this.tracks)
+                    {
+                        vm.Value.IsPlaying = false;
+                        vm.Value.IsPaused = true;
+                    }
+                    return;
+                }
+
                 if (this.Tracks != null)
                 {
+                    string trackGuid = this.playbackService.CurrentTrack.Key;
+                    string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     bool isTrackFound = false;
 
                     // 1st pass: try to find a matching Guid. This is the most exact.

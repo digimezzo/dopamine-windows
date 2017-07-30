@@ -599,6 +599,9 @@ namespace Dopamine.Common.Services.Playback
                 this.player.Stop();
             }
 
+            this.PlayingTrackArtworkChanged(this, new EventArgs());
+            this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+
             this.progressTimer.Stop();
             this.Progress = 0.0;
             this.PlaybackStopped(this, new EventArgs());
