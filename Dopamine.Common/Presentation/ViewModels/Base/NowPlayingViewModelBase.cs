@@ -20,7 +20,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Variables
         private IPlaybackService playbackService;
         private IDialogService dialogService;
-        private bool isRemovingTracks;
         #endregion
 
         #region Commands
@@ -51,13 +50,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Overrides
-        protected async override Task FillListsAsync()
+        protected override async Task FillListsAsync()
         {
-            if (this.isRemovingTracks) return;
             await this.GetTracksAsync();
         }
 
-        protected async override Task LoadedCommandAsync()
+        protected override async Task LoadedCommandAsync()
         {
             if (!this.IsFirstLoad()) return;
             await Task.Delay(Constants.NowPlayingListLoadDelay);  // Wait for the UI to slide in
@@ -111,8 +109,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #region Private
         private async Task RemoveSelectedTracksFromNowPlayingAsync()
         {
-            this.isRemovingTracks = true;
-
             // Remove Tracks from PlaybackService (this dequeues the Tracks)
             DequeueResult dequeueResult = await this.playbackService.DequeueAsync(this.SelectedTracks);
 
@@ -120,14 +116,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             await Task.Run(() =>
             {
-             // Collect the ViewModels to remove
-             foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
-                {
-                    if (dequeueResult.DequeuedTracks.Select((t) => t.Key).ToList().Contains(vm.Key))
-                    {
-                        viewModelsToRemove.Add(vm);
-                    }
-                }
+                // Collect the ViewModels to remove
+                viewModelsToRemove.AddRange(this.Tracks.Where(vm => dequeueResult.DequeuedTracks.Select(t => t.Key)
+                    .ToList()
+                    .Contains(vm.Key)));
             });
 
             // Remove the ViewModels from Tracks (this updates the UI)
@@ -149,8 +141,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     true,
                     ResourceUtils.GetStringResource("Language_Log_File"));
             }
-
-            this.isRemovingTracks = false;
         }
         #endregion
     }

@@ -407,16 +407,24 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async override Task ShowPlayingTrackAsync()
-        {
-            if (!this.playbackService.HasCurrentTrack) return;
-
-            string safePath = this.playbackService.CurrentTrack.Value.SafePath;
-
+        protected override async Task ShowPlayingTrackAsync()
+        {          
             await Task.Run(() =>
             {
+                if (this.playbackService.HasCurrentTrack == false)
+                {
+                    if (!this.playbackService.IsStopped) return;
+                    foreach (var vm in this.tracks)
+                    {
+                        vm.IsPlaying = false;
+                        vm.IsPaused = true;
+                    }
+                    return;
+                }
+
                 if (this.Tracks != null)
                 {
+                    string safePath = this.playbackService.CurrentTrack.Value.SafePath;
                     bool isTrackFound = false;
 
                     foreach (TrackViewModel vm in this.Tracks)
