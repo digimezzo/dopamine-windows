@@ -5,10 +5,13 @@
     xmlns:local="using:Dopamine.UWP"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:converters="using:Dopamine.UWP.Converters"
     mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="using:Dopamine.UWP.ViewModels"/>
+            <converters:StringToLowerConverter x:Key="StringToLowerConverter"/>
+            <converters:StringToUpperConverter x:Key="StringToUpperConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
