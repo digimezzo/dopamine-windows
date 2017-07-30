@@ -322,6 +322,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             await Task.Run(() =>
             {
+                // 1st pass: if Player is stopped, mark all tracks isn't playing
                 if (this.playbackService.HasCurrentTrack == false)
                 {
                     if (!this.playbackService.IsStopped) return;
@@ -339,7 +340,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     string trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     bool isTrackFound = false;
 
-                    // 1st pass: try to find a matching Guid. This is the most exact.
+                    // 2nd pass: try to find a matching Guid. This is the most exact.
                     foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                     {
                         vm.Value.IsPlaying = false;
@@ -361,7 +362,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                         }
                     }
 
-                    // 2nd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                    // 3rd pass: if Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
                     // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
                     // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
                     // to rely on the path of the tracks. TODO: can this be improved?
