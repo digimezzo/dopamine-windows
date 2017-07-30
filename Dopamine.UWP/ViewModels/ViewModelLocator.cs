@@ -5,6 +5,11 @@ namespace Dopamine.UWP.ViewModels
 {
     public class ViewModelLocator
     {
+        #region Properties
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public SettingsAppearanceViewModel SettingsAppearance => ServiceLocator.Current.GetInstance<SettingsAppearanceViewModel>();
+        #endregion
+
         #region Construction
         public ViewModelLocator()
         {
@@ -18,6 +23,7 @@ namespace Dopamine.UWP.ViewModels
         private void RegisterViewModels()
         {
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<SettingsAppearanceViewModel>();
         }
         #endregion
     }
