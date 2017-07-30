@@ -10,17 +10,31 @@ namespace Dopamine.UWP.ViewModels
         private ISettingsService settingsService;
         private IAppearanceService appearanceService;
         private bool useLightTheme;
+        private bool followWindowsColor;
         #endregion
 
         #region Properties
         public bool UseLightTheme
         {
             get { return this.useLightTheme; }
-            set {
+            set
+            {
                 this.useLightTheme = value;
                 this.settingsService.UseLightTheme = value;
                 this.appearanceService.ApplyTheme(value);
                 this.RaisePropertyChanged(() => this.UseLightTheme);
+            }
+        }
+
+        public bool FollowWindowsColor
+        {
+            get { return this.useLightTheme; }
+            set
+            {
+                this.followWindowsColor = value;
+                this.settingsService.FollowWindowsColor = value;
+                this.appearanceService.ApplyColorScheme(value, this.settingsService.ColorScheme);
+                this.RaisePropertyChanged(() => this.FollowWindowsColor);
             }
         }
         #endregion
@@ -40,6 +54,7 @@ namespace Dopamine.UWP.ViewModels
         private void GetToggleSwitches()
         {
             this.UseLightTheme = this.settingsService.UseLightTheme;
+            this.FollowWindowsColor = this.settingsService.FollowWindowsColor;
         }
         #endregion
     }
