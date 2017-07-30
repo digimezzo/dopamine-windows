@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Dopamine.UWP.Utils;
 using System.Linq;
+using Windows.UI.ViewManagement;
 
 namespace Dopamine.UWP.Services.Appearance
 {
@@ -77,7 +78,8 @@ namespace Dopamine.UWP.Services.Appearance
 
         public void ApplyTheme(bool enableLightTheme)
         {
-           // TODO
+            this.SetTitleBarTheme(enableLightTheme);
+            this.ThemeChanged(enableLightTheme);
         }
 
         public ColorScheme GetColorScheme(string name)
@@ -99,6 +101,31 @@ namespace Dopamine.UWP.Services.Appearance
         public List<ColorScheme> GetColorSchemes()
         {
             return this.colorSchemes.ToList();
+        }
+        #endregion
+
+        #region Private
+        private void SetTitleBarTheme(bool enableLightTheme)
+        {
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            Color foregroundColor = Colors.White;
+            Color backgroundColor = Colors.Black;
+
+            if (enableLightTheme)
+            {
+                foregroundColor = Colors.Black;
+                backgroundColor = Colors.White;
+            }
+
+            titleBar.BackgroundColor = backgroundColor;
+            titleBar.ForegroundColor = foregroundColor;
+            titleBar.InactiveBackgroundColor = backgroundColor;
+            titleBar.InactiveForegroundColor = foregroundColor;
+            titleBar.ButtonBackgroundColor = backgroundColor;
+            titleBar.ButtonForegroundColor = foregroundColor;
+            titleBar.ButtonInactiveBackgroundColor = backgroundColor;
+            titleBar.ButtonInactiveForegroundColor = foregroundColor;
         }
         #endregion
     }
