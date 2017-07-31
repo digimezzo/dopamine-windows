@@ -95,6 +95,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FullLogo.xaml.cs">
+      <DependentUpon>FullLogo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Converters\StringToLowerConverter.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
@@ -107,9 +110,13 @@
     <Compile Include="Services\Logging\LoggingService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
+    <Compile Include="ViewModels\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\InformationAbout.xaml.cs">
+      <DependentUpon>InformationAbout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
@@ -122,6 +129,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Dopamine.UWP_TemporaryKey.pfx" />
+    <Content Include="Resources\Fonts\Monoglyceride.ttf" />
     <PRIResource Include="Resources\Strings\nl\Resources.resw" />
     <PRIResource Include="Resources\Strings\en\Resources.resw" />
   </ItemGroup>
@@ -175,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FullLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\All.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,10 +197,19 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\Styles\Geometries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\Styles\ToggleSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\InformationAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Main.xaml">
       <SubType>Designer</SubType>

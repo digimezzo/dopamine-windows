@@ -21,7 +21,7 @@
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem x:Uid="Collection" Margin="0">
+            <PivotItem x:Uid="PivotItemCollection" Margin="0">
                 <Pivot Margin="0,-13,0,0">
                     <Pivot.HeaderTemplate>
                         <DataTemplate>
@@ -34,18 +34,18 @@
                             </Grid>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
-                    <PivotItem x:Uid="Artists" Margin="0">
+                    <PivotItem x:Uid="PivotItemArtists" Margin="0">
                        
                     </PivotItem>
-                    <PivotItem x:Uid="Albums" Margin="0">
+                    <PivotItem x:Uid="PivotItemAlbums" Margin="0">
 
                     </PivotItem>
-                    <PivotItem x:Uid="Songs" Margin="0">
+                    <PivotItem x:Uid="PivotItemSongs" Margin="0">
 
                     </PivotItem>
                 </Pivot>
             </PivotItem>
-            <PivotItem x:Uid="Settings" Margin="0">
+            <PivotItem x:Uid="PivotItemSettings" Margin="0">
                 <Pivot Margin="0,-13,0,0">
                     <Pivot.HeaderTemplate>
                         <DataTemplate>
@@ -58,14 +58,14 @@
                             </Grid>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
-                    <PivotItem x:Uid="Appearance" Margin="0">
+                    <PivotItem x:Uid="PivotItemAppearance" Margin="0">
                         <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
                             <local:SettingsAppearance Margin="15"/>
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>
             </PivotItem>
-            <PivotItem x:Uid="Information" Margin="0">
+            <PivotItem x:Uid="PivotItemInformation" Margin="0">
                 <Pivot Margin="0,-13,0,0">
                     <Pivot.HeaderTemplate>
                         <DataTemplate>
@@ -78,8 +78,8 @@
                             </Grid>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
-                    <PivotItem x:Uid="About" Margin="0">
-
+                    <PivotItem x:Uid="PivotItemAbout" Margin="0">
+                        <local:InformationAbout Margin="15"/>
                     </PivotItem>
                 </Pivot>
             </PivotItem>

@@ -38,6 +38,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Extensions\MvvmLightExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\ColorScheme.cs" />
