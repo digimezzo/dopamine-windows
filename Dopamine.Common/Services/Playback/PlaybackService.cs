@@ -762,6 +762,19 @@ namespace Dopamine.Common.Services.Playback
             await this.TryPlayAsync(track);
         }
 
+        public async Task<bool> PlaySelectedAsync(IList<PlayableTrack> tracks)
+        {
+            var result = await this.queueManager.ClearQueueAsync();
+            if (result)
+            {
+                result = (await this.AddToQueueAsync(tracks)).IsSuccess; 
+                if(result)
+                    await this.PlayNextAsync();
+            }
+
+            return result;
+        }
+
         public async Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks)
         {
             IList<KeyValuePair<string, PlayableTrack>> trackPairs = new List<KeyValuePair<string, PlayableTrack>>();
@@ -868,6 +881,15 @@ namespace Dopamine.Common.Services.Playback
         {
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
+        }
+
+        public async Task<bool> ClearQueueAsync()
+        {
+            var result = await this.queueManager.ClearQueueAsync();
+            if (result)
+                this.Stop();
+
+            return result;
         }
         #endregion
 

@@ -402,4 +402,6 @@
   <Text Key="By_Date_Created">Per aanmaakdatum</Text>
   <Text Key="Plays">Afgespeeld</Text>
   <Text Key="Skips">Overgeslagen</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>
