@@ -117,43 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About.Header" xml:space="preserve">
-    <value>Over</value>
-  </data>
-  <data name="Albums.Header" xml:space="preserve">
-    <value>Albums</value>
-  </data>
-  <data name="Appearance.Header" xml:space="preserve">
-    <value>Uiterlijk</value>
-  </data>
-  <data name="Artists.Header" xml:space="preserve">
-    <value>Artiesten</value>
-  </data>
-  <data name="Collection.Header" xml:space="preserve">
-    <value>Collectie</value>
-  </data>
   <data name="FollowWindowsColor.Header" xml:space="preserve">
     <value>Volg de Windows kleur</value>
   </data>
-  <data name="Information.Header" xml:space="preserve">
+  <data name="PivotItemAbout.Header" xml:space="preserve">
+    <value>Over</value>
+  </data>
+  <data name="PivotItemAlbums.Header" xml:space="preserve">
+    <value>Albums</value>
+  </data>
+  <data name="PivotItemAppearance.Header" xml:space="preserve">
+    <value>Uiterlijk</value>
+  </data>
+  <data name="PivotItemArtists.Header" xml:space="preserve">
+    <value>Artiesten</value>
+  </data>
+  <data name="PivotItemCollection.Header" xml:space="preserve">
+    <value>Collectie</value>
+  </data>
+  <data name="PivotItemInformation.Header" xml:space="preserve">
     <value>Informatie</value>
   </data>
-  <data name="Settings.Header" xml:space="preserve">
+  <data name="PivotItemSettings.Header" xml:space="preserve">
     <value>Instellingen</value>
   </data>
-  <data name="Songs.Header" xml:space="preserve">
+  <data name="PivotItemSongs.Header" xml:space="preserve">
     <value>Nummers</value>
   </data>
-  <data name="Theme.Text" xml:space="preserve">
+  <data name="TextBlockAbout.Text" xml:space="preserve">
+    <value>Over</value>
+  </data>
+  <data name="TextBlockTheme.Text" xml:space="preserve">
     <value>Thema</value>
   </data>
-  <data name="UseLightTheme.Header" xml:space="preserve">
+  <data name="ToggleSwitchUseLightTheme.Header" xml:space="preserve">
     <value>Gebruik helder thema</value>
   </data>
-  <data name="UseLightTheme.OffContent" xml:space="preserve">
+  <data name="ToggleSwitchUseLightTheme.OffContent" xml:space="preserve">
     <value>Nee</value>
   </data>
-  <data name="UseLightTheme.OnContent" xml:space="preserve">
+  <data name="ToggleSwitchUseLightTheme.OnContent" xml:space="preserve">
     <value>Ja</value>
   </data>
 </root>

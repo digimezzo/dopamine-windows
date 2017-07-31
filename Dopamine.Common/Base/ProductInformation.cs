@@ -1,16 +1,12 @@
 ﻿using Digimezzo.Utilities.Packaging;
-using System;
-using System.Reflection;
 
 namespace Dopamine.Common.Base
 {
-    public sealed class ProductInformation
+    public sealed class ProductInformation : Core.Base.ProductInformation
     {
         #region About
         public static string ApplicationGuid = "75ba9e1e-9eff-4a8e-845e-125dc4318c3b";
-        public static string ApplicationDisplayName = "Dopamine";
         public static string ApplicationAssemblyName = "Dopamine";
-        public static string Copyright = "Copyright Digimezzo © 2014-" + DateTime.Now.Year;
         #endregion
 
         #region Components
