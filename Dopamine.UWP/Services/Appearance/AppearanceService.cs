@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Media;
 using Dopamine.UWP.Utils;
 using System.Linq;
 using Windows.UI.ViewManagement;
+using Windows.Foundation.Metadata;
 
 namespace Dopamine.UWP.Services.Appearance
 {
@@ -80,6 +81,7 @@ namespace Dopamine.UWP.Services.Appearance
         public void ApplyTheme(bool enableLightTheme)
         {
             this.SetTitleBarTheme(enableLightTheme);
+            this.SetStatusBarTheme(enableLightTheme);
             this.ThemeChanged(enableLightTheme);
         }
 
@@ -127,6 +129,27 @@ namespace Dopamine.UWP.Services.Appearance
             titleBar.ButtonForegroundColor = foregroundColor;
             titleBar.ButtonInactiveBackgroundColor = backgroundColor;
             titleBar.ButtonInactiveForegroundColor = foregroundColor;
+        }
+
+        private void SetStatusBarTheme(bool enableLightTheme)
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+
+                Color foregroundColor = Colors.White;
+                Color backgroundColor = Colors.Black;
+
+                if (enableLightTheme)
+                {
+                    foregroundColor = Colors.Black;
+                    backgroundColor = Colors.White;
+                }
+
+                statusBar.BackgroundColor = backgroundColor;
+                statusBar.ForegroundColor = foregroundColor;
+                statusBar.BackgroundOpacity = 1;
+            }
         }
         #endregion
     }
