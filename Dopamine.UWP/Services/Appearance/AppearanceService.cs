@@ -72,7 +72,9 @@ namespace Dopamine.UWP.Services.Appearance
                 accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
             }
 
-            ((SolidColorBrush)Application.Current.Resources["SystemControlHighlightAccentBrush"]).Color = accentColor;
+            Application.Current.Resources["Color_Accent"] = accentColor;
+            ((SolidColorBrush)Application.Current.Resources["Brush_Accent"]).Color = accentColor;
+            ((SolidColorBrush)Application.Current.Resources["Brush_AccentMedium"]).Color = accentColor;
         }
 
         public void ApplyTheme(bool enableLightTheme)
