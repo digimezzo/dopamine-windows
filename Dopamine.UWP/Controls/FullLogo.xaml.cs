@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Base;
+﻿using Dopamine.UWP.Base;
 using Windows.UI.Xaml.Controls;
 
 namespace Dopamine.UWP.Controls

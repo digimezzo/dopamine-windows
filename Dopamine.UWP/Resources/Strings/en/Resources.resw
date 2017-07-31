@@ -150,6 +150,9 @@
   <data name="TextBlockTheme.Text" xml:space="preserve">
     <value>Theme</value>
   </data>
+  <data name="TextBlockVersion.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="ToggleSwitchUseLightTheme.Header" xml:space="preserve">
     <value>Use light theme</value>
   </data>
