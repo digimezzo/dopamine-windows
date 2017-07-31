@@ -11,16 +11,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Grid ToolTipService.ToolTip="{Binding Path=Name}" Margin="2">
-                        <Border x:Name="Accent" Canvas.ZIndex="0" Height="36" Width="36">
+                    <Grid ToolTipService.ToolTip="{Binding Path=Name}" Margin="3">
+                        <Border x:Name="Accent" Canvas.ZIndex="0" Height="44" Width="44">
                             <Border.Background>
                                 <SolidColorBrush Color="{Binding Path=AccentColor}"/>
                             </Border.Background>
                         </Border>
-                        <Border x:Name="Overlay" Background="{StaticResource IconGradientBrush}" Canvas.ZIndex="1" Height="36" Width="36"/>
+                        <Border x:Name="Overlay" Background="{StaticResource IconGradientBrush}" Canvas.ZIndex="1" Height="44" Width="44"/>
                         <FontIcon x:Name="ColorSchemeSelector" 
                                   Foreground="White" 
-                                  FontSize="18" 
+                                  FontSize="22" 
                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                   Glyph="&#xE8FB;"
                                   Opacity="0.0"/>
@@ -85,7 +85,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
+                    <VariableSizedWrapGrid/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
