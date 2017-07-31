@@ -882,15 +882,6 @@ namespace Dopamine.Common.Services.Playback
             List<PlayableTrack> tracks = await Database.Utils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
-
-        public async Task<bool> ClearQueueAsync()
-        {
-            var result = await this.queueManager.ClearQueueAsync();
-            if (result)
-                this.Stop();
-
-            return result;
-        }
         #endregion
 
         #region Private
