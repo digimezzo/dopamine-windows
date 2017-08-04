@@ -304,7 +304,6 @@
   <Text Key="Light">淺色</Text>
   <Text Key="Components">元件</Text>
   <Text Key="Thanks">謝謝</Text>
-  <Text Key="License_Information">這些元件的軟件授權位於Dopamine的安裝目錄裏</Text>
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">獨佔模式 (將其它應用程式靜音)</Text>
   <Text Key="Equalizer">等化器</Text>

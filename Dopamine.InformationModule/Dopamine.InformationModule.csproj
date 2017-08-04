@@ -161,6 +161,10 @@
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
+      <Project>{fa738735-b667-4809-97ba-83df5f3393bb}</Project>
+      <Name>Dopamine.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

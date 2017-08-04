@@ -304,7 +304,6 @@
   <Text Key="Light">Ανοιχτό</Text>
   <Text Key="Components">Τμήματα</Text>
   <Text Key="Thanks">Ευχαριστίες</Text>
-  <Text Key="License_Information">Οι άδειες για αυτά τα τμήματα βρίσκονται στο φάκελο εγκατάστασης του Dopamine.</Text>
   <Text Key="License">Άδεια</Text>
   <Text Key="Wasapi_Exclusive_Mode">Αποκλειστική λειτουργία (με σίγαση ήχων από άλλες εφαρμογές)</Text>
   <Text Key="Equalizer">Ισοσταθμιστής</Text>
