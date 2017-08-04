@@ -304,7 +304,6 @@
   <Text Key="Light">Clair</Text>
   <Text Key="Components">Composants</Text>
   <Text Key="Thanks">Merci</Text>
-  <Text Key="License_Information">Les licenses pour ces composants se trouvent dans le dossier d'installation de Dopamine.</Text>
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">Mode exclusif (désactive le son des autres applications)</Text>
   <Text Key="Equalizer">Égaliseur</Text>

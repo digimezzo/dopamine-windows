@@ -304,7 +304,6 @@
   <Text Key="Light">Claro</Text>
   <Text Key="Components">Componentes</Text>
   <Text Key="Thanks">Obrigado</Text>
-  <Text Key="License_Information">As licenças para estes componentes podem ser encontradas onde o Dopamine está instalado.</Text>
   <Text Key="License">Licença</Text>
   <Text Key="Wasapi_Exclusive_Mode">Deseja ativar o modo exclusivo (Esta opção silencia os outros programas, de modo a que você não seja incomodado)</Text>
   <Text Key="Equalizer">Equalizador</Text>

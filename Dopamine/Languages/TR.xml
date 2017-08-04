@@ -304,7 +304,6 @@
   <Text Key="Light">Açık</Text>
   <Text Key="Components">Bileşenler</Text>
   <Text Key="Thanks">Teşekkürler</Text>
-  <Text Key="License_Information">Bu bileşenlerin lisansları, Dopamine'ın kurulu olduğu klasörde bulunabilir.</Text>
   <Text Key="License">Lisans</Text>
   <Text Key="Wasapi_Exclusive_Mode">Ayrıcalıklı kip (diğer uygulamaların sesini kapatır)</Text>
   <Text Key="Equalizer">Ekolayzer</Text>

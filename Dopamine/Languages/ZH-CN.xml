@@ -304,7 +304,6 @@
   <Text Key="Light">亮色</Text>
   <Text Key="Components">组件</Text>
   <Text Key="Thanks">谢谢！</Text>
-  <Text Key="License_Information">这些组件的授权协议可以在程序目录找到。</Text>
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">独占模式（其它程序将被静音）</Text>
   <Text Key="Equalizer">均衡器</Text>

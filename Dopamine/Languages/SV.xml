@@ -304,7 +304,6 @@
   <Text Key="Light">Ljust</Text>
   <Text Key="Components">Komponenter</Text>
   <Text Key="Thanks">Tack</Text>
-  <Text Key="License_Information">Licenser för dessa komponenter finns i mappen där Dopamine är installerad.</Text>
   <Text Key="License">Licens</Text>
   <Text Key="Wasapi_Exclusive_Mode">Exklusivt läge (detta dämpar ljud från andra program)</Text>
   <Text Key="Equalizer">Ekvalisator</Text>
