@@ -401,4 +401,6 @@
   <Text Key="By_Date_Created">Datum skapad</Text>
   <Text Key="Plays">Spelat</Text>
   <Text Key="Skips">Skippat</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>
