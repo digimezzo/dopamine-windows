@@ -52,6 +52,7 @@ namespace Dopamine.Common.Services.Playback
         Task PlayOrPauseAsync();
         Task PlaySelectedAsync(PlayableTrack track);
         Task PlaySelectedAsync(KeyValuePair<string, PlayableTrack> trackPair);
+        Task<bool> PlaySelectedAsync(IList<PlayableTrack> tracks);
         Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> track);
         Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack trackPair);
         Task EnqueueAsync(List<PlayableTrack> tracks);
