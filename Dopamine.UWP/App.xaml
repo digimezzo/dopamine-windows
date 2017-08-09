@@ -9,10 +9,6 @@
     mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
-            <!-- Dummy resources to avoid Resource Not Found exceptions in XAML. These are updated by AppearanceService. -->
-            <Color x:Key="Color_Accent">Black</Color>
-            <SolidColorBrush x:Key="Brush_Accent" Color="Black"/>
-            <SolidColorBrush x:Key="Brush_AccentMedium" Color="Black" Opacity="0.8"/>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="using:Dopamine.UWP.ViewModels"/>
             <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
             <converters:StringToLowerConverter x:Key="StringToLowerConverter"/>
