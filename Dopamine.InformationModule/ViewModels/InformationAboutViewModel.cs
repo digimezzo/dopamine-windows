@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Dialog;
+using Dopamine.Core.Base;
 using Dopamine.InformationModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -22,6 +23,12 @@ namespace Dopamine.InformationModule.ViewModels
         #endregion
 
         #region Properties
+        public string PayPalLink => ContactInformation.PayPalLink;
+        public string WebsiteLink => ContactInformation.WebsiteLink;
+        public string WebsiteContactLink => ContactInformation.WebsiteContactLink;
+        public string FacebookLink => ContactInformation.FacebookLink;
+        public string TwitterLink => ContactInformation.TwitterLink;
+
         public Package Package
         {
             get { return this.package; }
