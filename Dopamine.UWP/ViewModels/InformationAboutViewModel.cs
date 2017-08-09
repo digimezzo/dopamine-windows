@@ -1,9 +1,9 @@
 ﻿using Dopamine.UWP.Base;
-using GalaSoft.MvvmLight;
+using Prism.Mvvm;
 
 namespace Dopamine.UWP.ViewModels
 {
-    public class InformationAboutViewModel : ViewModelBase
+    public class InformationAboutViewModel : BindableBase
     {
         #region Properties
         public string AssemblyVersion

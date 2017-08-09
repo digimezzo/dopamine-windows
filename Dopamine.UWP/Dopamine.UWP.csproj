@@ -96,12 +96,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Base\ProductInformation.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\InvertingBooleanConverter.cs" />
-    <Compile Include="Converters\StringToLowerConverter.cs" />
-    <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
@@ -114,12 +112,11 @@
     <Compile Include="ViewModels\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsAppearanceViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\InformationAbout.xaml.cs">
       <DependentUpon>InformationAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Main.xaml.cs">
-      <DependentUpon>Main.xaml</DependentUpon>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsAppearance.xaml.cs">
       <DependentUpon>SettingsAppearance.xaml</DependentUpon>
@@ -188,6 +185,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Converters\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\Styles\All.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,7 +214,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Main.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,27 +227,28 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.2.3</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLight">
-      <Version>5.3.0</Version>
+    <PackageReference Include="Prism.Core">
+      <Version>6.3.0</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
-      <Version>5.3.0</Version>
+    <PackageReference Include="Prism.Unity">
+      <Version>6.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Windows">
+      <Version>6.3.0</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.1.2</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{fa738735-b667-4809-97ba-83df5f3393bb}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
+    <PackageReference Include="Unity">
+      <Version>4.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsMobile, Version=10.0.15063.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <Import Project="..\Dopamine.Core\Dopamine.Core.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,12 +1,12 @@
 ﻿using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
-using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
+using Prism.Mvvm;
 
 namespace Dopamine.UWP.ViewModels
 {
-    public class SettingsAppearanceViewModel : ViewModelBase
+    public class SettingsAppearanceViewModel : BindableBase
     {
         #region Variables
         private ISettingsService settingsService;
@@ -23,8 +23,7 @@ namespace Dopamine.UWP.ViewModels
             get { return this.useLightTheme; }
             set
             {
-                this.useLightTheme = value;
-                this.RaisePropertyChanged(() => this.UseLightTheme);
+                SetProperty<bool>(ref this.useLightTheme, value);
 
                 this.settingsService.UseLightTheme = value;
                 this.appearanceService.ApplyTheme(value);
@@ -36,8 +35,7 @@ namespace Dopamine.UWP.ViewModels
             get { return this.followWindowsColor; }
             set
             {
-                this.followWindowsColor = value;
-                this.RaisePropertyChanged(() => this.FollowWindowsColor);
+                SetProperty<bool>(ref this.followWindowsColor, value);
 
                 this.settingsService.FollowWindowsColor = value;
                 this.appearanceService.ApplyColorScheme(value, this.settingsService.ColorScheme);   
@@ -49,8 +47,7 @@ namespace Dopamine.UWP.ViewModels
             get { return this.colorSchemes; }
             set
             {
-                this.colorSchemes = value;
-                this.RaisePropertyChanged(() => this.ColorSchemes);
+                SetProperty<ObservableCollection<ColorScheme>>(ref this.colorSchemes, value);
             }
         }
 
@@ -60,8 +57,7 @@ namespace Dopamine.UWP.ViewModels
 
             set
             {
-                this.selectedColorScheme = value;
-                this.RaisePropertyChanged(() => this.SelectedColorScheme);
+                SetProperty(ref this.selectedColorScheme, value);
 
                 if (value != null)
                 {

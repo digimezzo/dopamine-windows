@@ -1,11 +1,10 @@
 ﻿using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
-using GalaSoft.MvvmLight.Ioc;
 using Windows.UI.Xaml.Controls;
 
 namespace Dopamine.UWP.Views
 {
-    public sealed partial class Main : Page
+    public sealed partial class MainPage : Page
     {
         #region Variables
         private IAppearanceService appearanceService;
@@ -13,14 +12,14 @@ namespace Dopamine.UWP.Views
         #endregion
 
         #region Construction
-        public Main()
+        public MainPage(ISettingsService settingsService, IAppearanceService appearanceService)
         {
             this.InitializeComponent();
 
-            this.appearanceService = SimpleIoc.Default.GetInstance<IAppearanceService>();
+            this.appearanceService = appearanceService;
             this.appearanceService.ThemeChanged += AppearanceService_ThemeChanged;
 
-            this.settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
+            this.settingsService = settingsService;
             this.appearanceService.ApplyTheme(this.settingsService.UseLightTheme);
             this.appearanceService.ApplyColorScheme(this.settingsService.FollowWindowsColor, this.settingsService.ColorScheme);
         }

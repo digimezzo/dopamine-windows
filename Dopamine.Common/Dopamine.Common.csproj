@@ -30,7 +30,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_DESKTOP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -91,13 +91,11 @@
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.2.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.1.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
@@ -119,8 +117,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -232,7 +229,6 @@
     <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
@@ -254,7 +250,6 @@
     <Compile Include="Presentation\Converters\BooleanToCollapsedConverter.cs" />
     <Compile Include="Presentation\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LoveConverter.cs" />
     <Compile Include="Presentation\Converters\NullImageConverter.cs" />
     <Compile Include="Presentation\Converters\PathToImageConverter.cs" />
@@ -263,8 +258,6 @@
     <Compile Include="Presentation\Converters\SolidColorBrushToColorConverter.cs" />
     <Compile Include="Presentation\Converters\StringEmptyToInvisibleConverter.cs" />
     <Compile Include="Presentation\Converters\StringEmptyToVisibleConverter.cs" />
-    <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
-    <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="Presentation\Interfaces\ISemanticZoomable.cs" />
     <Compile Include="Presentation\Interfaces\ISemanticZoomSelector.cs" />
     <Compile Include="Presentation\Interfaces\ISemanticZoomViewModel.cs" />
@@ -501,6 +494,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\FullLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -849,12 +846,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{fa738735-b667-4809-97ba-83df5f3393bb}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\Dopamine.Core\Dopamine.Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCL.native.sqlite3.v110_xp.0.9.2\build\SQLitePCL.native.sqlite3.v110_xp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
