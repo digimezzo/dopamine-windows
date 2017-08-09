@@ -2,7 +2,7 @@
 
 namespace Dopamine.UWP.Base
 {
-    public sealed  class ProductInformation : Core.Base.ProductInformation
+    public sealed class ProductInformation : Core.Base.ProductInformation
     {
         public static string AssemblyVersion
         {

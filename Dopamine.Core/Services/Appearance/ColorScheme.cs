@@ -3,23 +3,12 @@
     public class ColorScheme
     {
         #region Variables
-        private string name;
-        private string accentColor;
         private int hashCode = 0;
         #endregion
 
         #region Properties
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
-
-        public string AccentColor
-        {
-            get { return this.accentColor; }
-            set { this.accentColor = value; }
-        }
+        public string Name { get; set; }
+        public string AccentColor { get; set; }
         #endregion
 
         #region Overrides

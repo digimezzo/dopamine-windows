@@ -67,12 +67,9 @@ namespace Dopamine.Views
             this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
         }
 
-        private void ThemeChangedHandler(object sender, EventArgs e)
+        private void ThemeChangedHandler(bool useLightTheme)
         {
-            if (this.backgroundAnimation != null)
-            {
-                this.backgroundAnimation.Begin();
-            }
+            this.backgroundAnimation?.Begin();
         }
 
         private void BorderlessWindow_Loaded(object sender, RoutedEventArgs e)
