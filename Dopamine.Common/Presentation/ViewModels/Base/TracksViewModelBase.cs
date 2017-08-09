@@ -93,6 +93,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
             this.AddTracksToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddTracksToPlaylistAsync(playlistName, this.SelectedTracks));
+            this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
@@ -352,6 +353,16 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             OnPropertyChanged(() => this.TotalDurationInformation);
             OnPropertyChanged(() => this.TotalSizeInformation);
+        }
+
+        protected async Task PlaySelectedAsync()
+        {
+            var result = await this.playbackService.PlaySelectedAsync(this.selectedTracks);
+
+            if (!result)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Playing_Selected_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+            }
         }
 
         protected async Task PlayNextAsync()
