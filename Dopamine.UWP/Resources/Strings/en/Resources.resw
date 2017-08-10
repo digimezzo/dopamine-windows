@@ -162,17 +162,29 @@
   <data name="TextBlockComponents.Text" xml:space="preserve">
     <value>Components</value>
   </data>
+  <data name="TextBlockContactUs.Text" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
   <data name="TextBlockDonate.Text" xml:space="preserve">
     <value>Donate</value>
   </data>
   <data name="TextBlockDonateDescription.Text" xml:space="preserve">
     <value>Do you like Dopamine? Please click here to donate. Thank you!</value>
   </data>
+  <data name="TextBlockEmail.Text" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="TextBlockSocialNetworks.Text" xml:space="preserve">
+    <value>Social networks</value>
+  </data>
   <data name="TextBlockTheme.Text" xml:space="preserve">
     <value>Theme</value>
   </data>
   <data name="TextBlockVersion.Text" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="TextBlockWebsite.Text" xml:space="preserve">
+    <value>Website</value>
   </data>
   <data name="ToggleSwitchUseLightTheme.Header" xml:space="preserve">
     <value>Use light theme</value>

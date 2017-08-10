@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Dopamine.UWP.Views
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class Main : Page
     {
         #region Variables
         private IAppearanceService appearanceService;
@@ -12,7 +12,7 @@ namespace Dopamine.UWP.Views
         #endregion
 
         #region Construction
-        public MainPage(ISettingsService settingsService, IAppearanceService appearanceService)
+        public Main(ISettingsService settingsService, IAppearanceService appearanceService)
         {
             this.InitializeComponent();
 
