@@ -101,6 +101,7 @@
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="IO\LegacyPaths.cs" />
+    <Compile Include="Packaging\ExternalComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
     <Compile Include="Services\Appearance\IAppearanceService.cs" />
