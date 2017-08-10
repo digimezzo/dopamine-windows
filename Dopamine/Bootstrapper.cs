@@ -4,7 +4,6 @@ using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database.Repositories;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
@@ -38,6 +37,7 @@ using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
+using Dopamine.Core.Extensions;
 using Unity.Wcf;
 
 namespace Dopamine
@@ -102,7 +102,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
             Container.RegisterSingletonType<IProviderService, ProviderService>();
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
-            Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
+            Container.RegisterSingletonType<IPlaylistService, PlaylistService>(); 
         }
 
         private void InitializeServices()
