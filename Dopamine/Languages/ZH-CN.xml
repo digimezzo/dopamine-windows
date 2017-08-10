@@ -304,7 +304,6 @@
   <Text Key="Light">亮色</Text>
   <Text Key="Components">组件</Text>
   <Text Key="Thanks">谢谢！</Text>
-  <Text Key="License_Information">这些组件的授权协议可以在程序目录找到。</Text>
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">独占模式（其它程序将被静音）</Text>
   <Text Key="Equalizer">均衡器</Text>
@@ -402,4 +401,6 @@
   <Text Key="By_Date_Created">按创建日期</Text>
   <Text Key="Plays">播放次数</Text>
   <Text Key="Skips">跳过次数</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>

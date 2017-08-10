@@ -2,8 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Resources/Styles/Brushes.xaml" />
         <ResourceDictionary Source="/Resources/Styles/ColorSchemeButtons.xaml" />
+        <ResourceDictionary Source="/Resources/Styles/ContentDialog.xaml" />
         <ResourceDictionary Source="/Resources/Styles/Geometries.xaml" />
+        <ResourceDictionary Source="/Resources/Styles/HyperlinkButton.xaml" />
         <ResourceDictionary Source="/Resources/Styles/ToggleSwitch.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

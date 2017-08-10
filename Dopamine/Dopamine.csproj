@@ -390,45 +390,6 @@
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licenses\CSCore.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\DotNetZip.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\Font Awesome.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\GongSolutions.WPF.DragDrop.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\NVorbis.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\Prism.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\Sqlite-net.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\TagLib#.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\Unity.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\Unity.WCF.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\WiX.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\WPF Native Folder Browser.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licenses\WPF Sound Visualization Library.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -459,10 +420,6 @@
     <ProjectReference Include="..\Dopamine.OobeModule\Dopamine.OobeModule.csproj">
       <Project>{8D430586-2B69-41EE-9C9E-D0BF7067FF38}</Project>
       <Name>Dopamine.OobeModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Packager\Dopamine.Packager.csproj">
-      <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
-      <Name>Dopamine.Packager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
       <Project>{91BF5D58-4C30-4A76-8BEA-437994E529E7}</Project>

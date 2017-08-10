@@ -63,7 +63,7 @@ namespace Dopamine.Views
             // Closing the Oobe windows, must show the main window
             Application.Current.MainWindow.Show();
 
-            // We're closeing the OOBE screen, tell the IndexingService to start.
+            // We're closing the OOBE screen, tell the IndexingService to start.
             this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
         }
 

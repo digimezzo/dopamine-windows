@@ -18,14 +18,7 @@
                 <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
             </Viewbox>
             <Viewbox Width="56" Height="56" Canvas.ZIndex="2">
-                <Path x:Name="Overlay" Data="{StaticResource Droplet}">
-                    <Path.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.1">
-                            <GradientStop Color="White" Offset="0.0" />
-                            <GradientStop Color="Transparent" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Path.Fill>
-                </Path>
+                <Path x:Name="Overlay" Data="{StaticResource Droplet}" Fill="{ThemeResource Brush_IconGradient}"/>
             </Viewbox>
         </Grid>
         <TextBlock Margin="15,-2,0,0" Padding="0" Text="{Binding Path=ApplicationDisplayName,ElementName=FullLogoName}" FontFamily="/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="44"/>

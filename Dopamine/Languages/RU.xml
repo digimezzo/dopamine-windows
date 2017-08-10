@@ -304,7 +304,6 @@
   <Text Key="Light">Светлая</Text>
   <Text Key="Components">Компоненты</Text>
   <Text Key="Thanks">Благодарности</Text>
-  <Text Key="License_Information">Лицензии этих компонентов могут быть найдены в папке, в которую установлен Dopamine.</Text>
   <Text Key="License">Лицензия</Text>
   <Text Key="Wasapi_Exclusive_Mode">Эксклюзивный режим (блокирует звуки других приложений)</Text>
   <Text Key="Equalizer">Эквалайзер</Text>
@@ -402,4 +401,6 @@
   <Text Key="By_Date_Created">By date created</Text>
   <Text Key="Plays">Plays</Text>
   <Text Key="Skips">Skips</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>

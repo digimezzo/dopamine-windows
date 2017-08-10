@@ -162,7 +162,6 @@
     <Compile Include="Audio\PlayerFactory.cs" />
     <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Base\Constants.cs" />
-    <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\FileFormats.cs" />
