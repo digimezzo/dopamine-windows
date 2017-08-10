@@ -6,6 +6,8 @@ using Dopamine.UWP.Services.Logging;
 using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
 using System;
+using System.Globalization;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -15,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Prism.Unity.Windows;
 using Microsoft.Practices.Unity;
+using Prism.Mvvm;
 using Prism.Windows.AppModel;
 
 namespace Dopamine.UWP
@@ -37,7 +40,7 @@ namespace Dopamine.UWP
 
         protected override UIElement CreateShell(Frame rootFrame)
         {
-            var shell = Container.Resolve<MainPage>();
+            var shell = Container.Resolve<Main>();
 
             return shell;
         }
@@ -48,6 +51,17 @@ namespace Dopamine.UWP
             Container.RegisterSingletonType<ILoggingService, LoggingService>();
             Container.RegisterSingletonType<ISettingsService, SettingsService>();
             Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
+            {
+                var viewName = viewType.FullName;
+                viewName = viewName.Replace(".Views.", ".ViewModels.");
+                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+                var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
+                var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+                return Type.GetType(viewModelName);
+            }
+          );
 
             return base.OnInitializeAsync(args);
         }
