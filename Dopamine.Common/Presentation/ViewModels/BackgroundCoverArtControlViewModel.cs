@@ -31,7 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.cacheService = cacheService;
             this.metadataService = metadataService;
 
-            this.appearanceService.ThemeChanged += (_) => this.Opacity = SettingsClient.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
+            this.appearanceService.ThemeChanged += useLightTheme => this.Opacity = useLightTheme ? 1.0 : 0.5;
 
             this.Opacity = SettingsClient.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 
-namespace Dopamine.Common.Extensions
+namespace Dopamine.Core.Extensions
 {
     public static class UnityExtensions
     {

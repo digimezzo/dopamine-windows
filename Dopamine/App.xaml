@@ -1,26 +1,11 @@
 ﻿<Application x:Class="Dopamine.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters;assembly=Dopamine.Common"
              DispatcherUnhandledException="App_DispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>
-            <converters:NullImageConverter x:Key="NullImageConverter"/>
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter"/>
-            <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter"/>
-            <converters:InvertingBooleanToCollapsedConverter x:Key="InvertingBooleanToCollapsedConverter"/>
-            <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
-            <converters:StringEmptyToInvisibleConverter x:Key="StringEmptyToInvisibleConverter"/>
-            <converters:StringEmptyToVisibleConverter x:Key="StringEmptyToVisibleConverter"/>
-            <converters:StringToLowerConverter x:Key="StringToLowerConverter"/>
-            <converters:StringToUpperConverter x:Key="StringToUpperConverter"/>
-            <converters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
-            <converters:PercentSizeConverter x:Key="PercentSizeConverter"/>
-            <converters:AddEllipsisConverter x:Key="AddEllipsisConverter"/>
-            <converters:SpectrumStyleEllipseConverter x:Key="SpectrumStyleEllipseConverter"/>
-            <converters:LyricSourceVisibilityConverter x:Key="LyricSourceVisibilityConverter"/>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Dopamine.Common;component/Presentation/Converters/Converters.xaml"/>
                 <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/AllStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

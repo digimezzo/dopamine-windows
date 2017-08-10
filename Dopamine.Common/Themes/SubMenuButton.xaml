@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+                    xmlns:coreConverters="clr-namespace:Dopamine.Core.Presentation.Converters">
 
-    <converters:StringToLowerConverter x:Key="StringToLowerConverter" />
+    <coreConverters:StringToLowerConverter x:Key="StringToLowerConverter" />
 
     <Style x:Key="{x:Type controls:SubMenuButton}" TargetType="{x:Type controls:SubMenuButton}">
         <Setter Property="Template">

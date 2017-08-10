@@ -69,10 +69,7 @@ namespace Dopamine.Views
 
         private void ThemeChangedHandler(bool useLightTheme)
         {
-            if (this.backgroundAnimation != null)
-            {
-                this.backgroundAnimation.Begin();
-            }
+            this.backgroundAnimation?.Begin();
         }
 
         private void BorderlessWindow_Loaded(object sender, RoutedEventArgs e)

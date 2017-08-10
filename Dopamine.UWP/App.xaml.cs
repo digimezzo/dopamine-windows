@@ -5,21 +5,26 @@ using Dopamine.UWP.Services.Appearance;
 using Dopamine.UWP.Services.Logging;
 using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
-using GalaSoft.MvvmLight.Ioc;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Prism.Unity.Windows;
+using Microsoft.Practices.Unity;
+using Prism.Windows.AppModel;
 
 namespace Dopamine.UWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App : PrismUnityApplication
     {
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,64 +35,26 @@ namespace Dopamine.UWP
             this.Suspending += OnSuspending;
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override UIElement CreateShell(Frame rootFrame)
         {
-            this.InitializeServices();
+            var shell = Container.Resolve<MainPage>();
 
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(Main), e.Arguments);
-                }
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            return shell;
         }
 
-        private void InitializeServices()
+        protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            SimpleIoc.Default.RegisterOnce<ILoggingService, LoggingService>();
-            SimpleIoc.Default.RegisterOnce<ISettingsService, SettingsService>();
-            SimpleIoc.Default.RegisterOnce<IAppearanceService, AppearanceService>();
+            Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
+            Container.RegisterSingletonType<ILoggingService, LoggingService>();
+            Container.RegisterSingletonType<ISettingsService, SettingsService>();
+            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+
+            return base.OnInitializeAsync(args);
         }
 
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>

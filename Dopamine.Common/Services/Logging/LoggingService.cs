@@ -1,10 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
 using System;
 using System.Runtime.CompilerServices;
+using Dopamine.Core.Services.Logging;
 
 namespace Dopamine.Common.Services.Logging
 {
-    public class LoggingService : Core.Services.Logging.ILoggingService
+    public class LoggingService : ILoggingService
     {
         #region Private
         private string GetCallsite(string sourceFilePath = "", string memberName = "")

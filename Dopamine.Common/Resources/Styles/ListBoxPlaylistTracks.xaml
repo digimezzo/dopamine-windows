@@ -2,10 +2,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Dopamine.Common.Controls"
     xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
+    xmlns:coreConverters="clr-namespace:Dopamine.Core.Presentation.Converters"
     xmlns:prism="clr-namespace:Dopamine.Common.Prism"
     xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils">
 
-    <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter" />
+    <coreConverters:InvertingBooleanConverter x:Key="InvertingBooleanConverter" />
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
