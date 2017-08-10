@@ -5,11 +5,11 @@
     xmlns:local="using:Dopamine.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    mvvm:ViewModelLocator.AutoWireViewModel="True">
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel>
         <TextBlock x:Uid="TextBlockTheme" FontWeight="Light" FontSize="24" Foreground="{ThemeResource Brush_Accent}"/>

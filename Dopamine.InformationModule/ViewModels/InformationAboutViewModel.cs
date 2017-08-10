@@ -2,15 +2,14 @@
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Core.Base;
+using Dopamine.Core.ViewModel;
 using Dopamine.InformationModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Mvvm;
 
 namespace Dopamine.InformationModule.ViewModels
 {
-    public class InformationAboutViewModel : BindableBase
+    public sealed class InformationAboutViewModel : InformationAboutViewModelBase
     {
         #region Variables
         private IUnityContainer container;
@@ -23,12 +22,6 @@ namespace Dopamine.InformationModule.ViewModels
         #endregion
 
         #region Properties
-        public string PayPalLink => ContactInformation.PayPalLink;
-        public string WebsiteLink => ContactInformation.WebsiteLink;
-        public string WebsiteContactLink => ContactInformation.WebsiteContactLink;
-        public string FacebookLink => ContactInformation.FacebookLink;
-        public string TwitterLink => ContactInformation.TwitterLink;
-
         public Package Package
         {
             get { return this.package; }

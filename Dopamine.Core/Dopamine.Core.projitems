@@ -9,8 +9,10 @@
     <Import_RootNamespace>Dopamine.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Base\ProductInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\ContactInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\ProductInformationBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Packaging\ExternalComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToUpperConverter.cs" />
@@ -18,5 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\IAppearanceService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILoggingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Settings\ISettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\InformationAboutViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Services\Indexing\" />
   </ItemGroup>
 </Project>
