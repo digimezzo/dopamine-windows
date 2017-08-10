@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonLicense.Content" xml:space="preserve">
+    <value>License</value>
+  </data>
   <data name="FollowWindowsColor.Header" xml:space="preserve">
     <value>Follow the Windows color</value>
+  </data>
+  <data name="HyperlinkButtonComponentLicense.Content" xml:space="preserve">
+    <value>Licence</value>
+  </data>
+  <data name="HyperlinkButtonComponentWebsite.Content" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="HyperlinkButtonDonate.Content" xml:space="preserve">
+    <value>Donate with PayPal</value>
   </data>
   <data name="PivotItemAbout.Header" xml:space="preserve">
     <value>About</value>
@@ -146,6 +158,15 @@
   </data>
   <data name="TextBlockAbout.Text" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="TextBlockComponents.Text" xml:space="preserve">
+    <value>Components</value>
+  </data>
+  <data name="TextBlockDonate.Text" xml:space="preserve">
+    <value>Donate</value>
+  </data>
+  <data name="TextBlockDonateDescription.Text" xml:space="preserve">
+    <value>Do you like Dopamine? Please click here to donate. Thank you!</value>
   </data>
   <data name="TextBlockTheme.Text" xml:space="preserve">
     <value>Theme</value>

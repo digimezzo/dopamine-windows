@@ -304,7 +304,6 @@
   <Text Key="Light">Clair</Text>
   <Text Key="Components">Composants</Text>
   <Text Key="Thanks">Merci</Text>
-  <Text Key="License_Information">Les licenses pour ces composants se trouvent dans le dossier d'installation de Dopamine.</Text>
   <Text Key="License">License</Text>
   <Text Key="Wasapi_Exclusive_Mode">Mode exclusif (désactive le son des autres applications)</Text>
   <Text Key="Equalizer">Égaliseur</Text>
@@ -402,4 +401,6 @@
   <Text Key="By_Date_Created">Par date de creation</Text>
   <Text Key="Plays">Lectures</Text>
   <Text Key="Skips">Sauts</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>

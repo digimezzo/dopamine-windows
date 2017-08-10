@@ -1,6 +1,6 @@
-﻿namespace Dopamine.Common.Base
+﻿namespace Dopamine.Core.Base
 {
-    public static class ContactInformation
+    public class ContactInformation
     {
         public static string ContactEmail = "info@digimezzo.com";
         public static string WebsiteLink = "http://www.digimezzo.com";

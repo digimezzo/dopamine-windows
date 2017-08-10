@@ -110,24 +110,6 @@
               <File Source="Languages\ZH-TW.xml" />
             </Component>
           </Directory>
-          <!-- Licenses -->
-          <Directory Id="LICENSESFOLDER" Name="Licenses">
-            <Component Id="LICENSESCMP" DiskId="1" Guid="5ADDD4A8-E954-415A-806D-07AA324B64DC">
-              <File Source="Licenses\CSCore.txt" />
-              <File Source="Licenses\DotNetZip.txt" />
-              <File Source="Licenses\Font Awesome.txt" />
-              <File Source="Licenses\GongSolutions.WPF.DragDrop.txt" />
-              <File Source="Licenses\NVorbis.txt" />
-              <File Source="Licenses\Prism.txt" />
-              <File Source="Licenses\SQLite-net.txt" />
-              <File Source="Licenses\TagLib#.txt" />
-              <File Source="Licenses\Unity.txt" />
-              <File Source="Licenses\Unity.WCF.txt" />
-              <File Source="Licenses\WiX.txt" />
-              <File Source="Licenses\WPF Native Folder Browser.txt" />
-              <File Source="Licenses\WPF Sound Visualization Library.txt" />
-            </Component>
-          </Directory>
           <!-- Equalizer -->
           <Directory Id="EQUALIZERFOLDER" Name="Equalizer">
             <Component Id="EQUALIZERCMP" DiskId="1" Guid="FF9E83AA-FEEF-4F34-B8DB-60EF19477587">
@@ -260,7 +242,6 @@
     <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
       <ComponentRef Id="ICONSCMP" />
       <ComponentRef Id="LANGUAGESCMP" />
-      <ComponentRef Id="LICENSESCMP" />
       <ComponentRef Id="EQUALIZERCMP" />
       <ComponentRef Id="MAINCMP" />
       <ComponentRef Id="X64CMP" />

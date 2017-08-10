@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Dopamine.Core.Packaging;
+using System.Linq;
+using System.Reflection;
 
 namespace Dopamine.UWP.Base
 {
@@ -17,6 +19,17 @@ namespace Dopamine.UWP.Base
                 //  {3}: Revision
 
                 return string.Format("{0}.{1}.{2}", an.Version.Major, an.Version.Minor, an.Version.Build);
+            }
+        }
+
+        public static ExternalComponent[] SpecificComponents = {
+        };
+
+        public static ExternalComponent[] Components
+        {
+            get
+            {
+                return CommonComponents.Concat(SpecificComponents).ToArray().OrderBy(c => c.Name).ToArray();
             }
         }
     }

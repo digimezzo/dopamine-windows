@@ -304,7 +304,6 @@
   <Text Key="Light">Lys</Text>
   <Text Key="Components">Komponenter</Text>
   <Text Key="Thanks">Tak</Text>
-  <Text Key="License_Information">Licenserne til disse dele kan findes i mappen hvor Dopamine er installeret.</Text>
   <Text Key="License">Licens</Text>
   <Text Key="Wasapi_Exclusive_Mode">Eksklusiv-tilstand (dette dæmper lyde fra andre applikationer)</Text>
   <Text Key="Equalizer">Equalizer</Text>
@@ -402,4 +401,6 @@
   <Text Key="By_Date_Created">By date created</Text>
   <Text Key="Plays">Plays</Text>
   <Text Key="Skips">Skips</Text>
+  <Text Key="Play_Selected">Play Selected</Text>
+  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
 </Language>
