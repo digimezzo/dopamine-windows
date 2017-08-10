@@ -5,35 +5,54 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Dopamine.UWP.Controls"
-    xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:prisMvvm="using:Prism.Windows.Mvvm"
+    xmlns:packaging="using:Dopamine.Core.Packaging"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    mvvm:ViewModelLocator.AutoWireViewModel="True">
+    prisMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel>
-        <TextBlock x:Uid="TextBlockAbout" FontWeight="Light" FontSize="24" Foreground="{ThemeResource Brush_Accent}"/>
+        <TextBlock x:Uid="TextBlockAbout" Style="{StaticResource TitleTextBlock}"/>
         <controls:FullLogo Margin="0,10,0,0"/>
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
             <TextBlock x:Uid="TextBlockVersion"/>
             <TextBlock Text=":" Margin="0,0,5,0"/>
-            <TextBlock Text="{Binding AssemblyVersion}" Margin="0,0,5,0" FontWeight="Bold"/>
+            <TextBlock Text="{x:Bind ViewModel.AssemblyVersion}" Margin="0,0,5,0" FontWeight="Bold"/>
         </StackPanel>
-        <TextBlock Text="{Binding Copyright}" Margin="0,0,5,0"/>
-        <Button Margin="0,10,0,0" x:Uid="ButtonLicense"/>
-        <TextBlock Margin="0,20,0,0" x:Uid="TextBlockDonate" FontWeight="Light" FontSize="24" Foreground="{ThemeResource Brush_Accent}"/>
+        <TextBlock Text="{x:Bind ViewModel.Copyright}" Margin="0,0,5,0"/>
+        <Button Margin="0,10,0,0" x:Uid="ButtonLicense" Style="{StaticResource MetroButton}"/>
+        <TextBlock x:Uid="TextBlockDonate" Style="{StaticResource TitleTextBlock}"/>
         <TextBlock Margin="0,5,0,0" x:Uid="TextBlockDonateDescription"/>
-        <HyperlinkButton Margin="0,5,0,0" x:Uid="HyperlinkButtonDonate" NavigateUri="{Binding DonateUrl}" ToolTipService.ToolTip="{Binding DonateUrl}"/>
-        <TextBlock Margin="0,20,0,0" x:Uid="TextBlockComponents" FontWeight="Light" FontSize="24" Foreground="{ThemeResource Brush_Accent}"/>
-        <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding Components}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Center">
+        <HyperlinkButton Margin="0,5,0,0" x:Uid="HyperlinkButtonDonate" NavigateUri="{x:Bind ViewModel.DonateUrl}" ToolTipService.ToolTip="{x:Bind ViewModel.DonateUrl}"/>
+        <TextBlock x:Uid="TextBlockContactUs" Style="{StaticResource TitleTextBlock}"/>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+            <TextBlock x:Uid="TextBlockWebsite"/>
+            <TextBlock Margin="0,0,5,0" Text=":"/>
+            <HyperlinkButton Content="{x:Bind ViewModel.WebsiteLink}" NavigateUri="{x:Bind ViewModel.WebsiteLink}" ToolTipService.ToolTip="{x:Bind ViewModel.WebsiteLink}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Uid="TextBlockEmail"/>
+            <TextBlock Margin="0,0,5,0" Text=":"/>
+            <HyperlinkButton Content="{x:Bind ViewModel.WebsiteContactLink}" NavigateUri="{x:Bind ViewModel.WebsiteContactLink}" ToolTipService.ToolTip="{x:Bind ViewModel.WebsiteContactLink}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Uid="TextBlockSocialNetworks"/>
+            <TextBlock Margin="0,0,5,0" Text=":"/>
+            <HyperlinkButton Content="Facebook" NavigateUri="{x:Bind ViewModel.FacebookLink}" ToolTipService.ToolTip="{x:Bind ViewModel.FacebookLink}"/>
+            <TextBlock Margin="0,0,5,0" Text=","/>
+            <HyperlinkButton Content="Twitter" NavigateUri="{x:Bind ViewModel.TwitterLink}" ToolTipService.ToolTip="{x:Bind ViewModel.TwitterLink}"/>
+        </StackPanel>
+        <TextBlock x:Uid="TextBlockComponents" Style="{StaticResource TitleTextBlock}"/>
+        <ItemsControl Margin="0,10,0,0" ItemsSource="{x:Bind ViewModel.Components}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Center">
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="packaging:ExternalComponent">
                     <StackPanel Margin="0,10,0,0">
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
+                        <TextBlock Text="{x:Bind Name}" FontWeight="Bold" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap"/>
                         <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton x:Uid="HyperlinkButtonComponentWebsite" NavigateUri="{Binding Url}" ToolTipService.ToolTip="{Binding Url}"/>
-                            <HyperlinkButton x:Uid="HyperlinkButtonComponentLicense" Margin="10,0,0,0" NavigateUri="{Binding LicenseUrl}" ToolTipService.ToolTip="{Binding LicenseUrl}"/>
+                            <HyperlinkButton x:Uid="HyperlinkButtonComponentWebsite" NavigateUri="{x:Bind Url}" ToolTipService.ToolTip="{x:Bind Url}"/>
+                            <HyperlinkButton x:Uid="HyperlinkButtonComponentLicense" Margin="10,0,0,0" NavigateUri="{x:Bind LicenseUrl}" ToolTipService.ToolTip="{x:Bind LicenseUrl}"/>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

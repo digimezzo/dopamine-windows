@@ -1,10 +1,10 @@
 ﻿using Dopamine.Core.Packaging;
-using System.Linq;
 using System.Reflection;
+using Dopamine.Core.Base;
 
 namespace Dopamine.UWP.Base
 {
-    public sealed class ProductInformation : Core.Base.ProductInformation
+    public sealed class ProductInformation : ProductInformationBase
     {
         public static string AssemblyVersion
         {
@@ -22,15 +22,11 @@ namespace Dopamine.UWP.Base
             }
         }
 
-        public static ExternalComponent[] SpecificComponents = {
+        private static readonly ExternalComponent[] specificComponents =
+        {
+            new ExternalComponent(), 
         };
 
-        public static ExternalComponent[] Components
-        {
-            get
-            {
-                return CommonComponents.Concat(SpecificComponents).ToArray().OrderBy(c => c.Name).ToArray();
-            }
-        }
+        public override ExternalComponent[] SpecificComponents => specificComponents;
     }
 }
