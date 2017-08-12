@@ -37,6 +37,7 @@ using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
+using Dopamine.Common.Services.ExternalControl;
 using Dopamine.Core.Extensions;
 using Unity.Wcf;
 
@@ -103,6 +104,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IProviderService, ProviderService>();
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
             Container.RegisterSingletonType<IPlaylistService, PlaylistService>(); 
+            Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
         }
 
         private void InitializeServices()
@@ -115,6 +117,7 @@ namespace Dopamine
                 SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
                 true,
                 SettingsClient.Get<string>("Appearance", "ColorScheme"));
+            Container.Resolve<IExternalControlService>();
         }
 
         protected void RegisterRepositories()
