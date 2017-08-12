@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Core.ViewModel;
+using Dopamine.Core.ViewModels;
 using Dopamine.InformationModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
