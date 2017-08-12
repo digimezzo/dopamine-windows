@@ -20,7 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\IAppearanceService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILoggingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Settings\ISettingsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\InformationAboutViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\Indexing\" />

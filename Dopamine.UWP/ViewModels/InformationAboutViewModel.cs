@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.ViewModel;
+﻿using Dopamine.Core.ViewModels;
 using Dopamine.UWP.Base;
 
 namespace Dopamine.UWP.ViewModels

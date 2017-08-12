@@ -7,7 +7,7 @@ using Dopamine.UWP.Base;
 using Dopamine.Common.Base;
 #endif
 
-namespace Dopamine.Core.ViewModel
+namespace Dopamine.Core.ViewModels
 {
     public abstract class InformationAboutViewModelBase : BindableBase
     {
