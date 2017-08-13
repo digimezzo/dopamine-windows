@@ -39,6 +39,7 @@ using System;
 using System.Windows;
 using Dopamine.Core.Extensions;
 using Unity.Wcf;
+using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine
 {

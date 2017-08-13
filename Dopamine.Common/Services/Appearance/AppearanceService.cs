@@ -288,11 +288,14 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region IAppearanceService
-        public void WatchWindowsColor(Window win)
+        public void WatchWindowsColor(object win)
         {
-            IntPtr windowHandle = (new WindowInteropHelper(win)).Handle;
-            HwndSource src = HwndSource.FromHwnd(windowHandle);
-            src.AddHook(new HwndSourceHook(WndProc));
+            if(win is Window)
+            {
+                IntPtr windowHandle = (new WindowInteropHelper((Window)win)).Handle;
+                HwndSource src = HwndSource.FromHwnd(windowHandle);
+                src.AddHook(new HwndSourceHook(WndProc));
+            }
         }
 
         public List<ColorScheme> GetColorSchemes()

@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
