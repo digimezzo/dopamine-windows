@@ -35,7 +35,7 @@ namespace Dopamine.Common.Audio
         private bool eventSync = false; // Default is False
         private AudioClientShareMode audioClientShareMode = AudioClientShareMode.Shared; // Default is Shared
         private ISoundOut soundOut;
-        private SingleBlockNotificationStream notificationSource;
+        internal SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
         private MMDevice outputDevice;
 
