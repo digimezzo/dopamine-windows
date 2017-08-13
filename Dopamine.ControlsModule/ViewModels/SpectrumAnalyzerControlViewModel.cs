@@ -3,14 +3,12 @@ using Dopamine.Common.Audio;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Services.Appearance;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Media;
-using Digimezzo.Utilities.ColorSpace;
-using Dopamine.Common.Services.Appearance;
-using Prism.Commands;
-using System;
 
 namespace Dopamine.ControlsModule.ViewModels
 {

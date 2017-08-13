@@ -9,6 +9,7 @@ using Dopamine.UWP.Utils;
 using System.Linq;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Metadata;
+using System.Threading.Tasks;
 
 namespace Dopamine.UWP.Services.Appearance
 {
@@ -57,10 +58,9 @@ namespace Dopamine.UWP.Services.Appearance
         public event EventHandler ColorSchemeChanged = delegate { };
         public event EventHandler ColorSchemesChanged = delegate { };
 
-        public void ApplyColorScheme(bool followWindowsColor, string selectedColorScheme = "")
+        public async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
         {
             this.followWindowsColor = followWindowsColor;
-
             Color accentColor = default(Color);
 
             if (this.followWindowsColor)
@@ -69,8 +69,11 @@ namespace Dopamine.UWP.Services.Appearance
             }
             else
             {
-                ColorScheme cs = this.GetColorScheme(selectedColorScheme);
-                accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
+                await Task.Run(() =>
+                {
+                    ColorScheme cs = this.GetColorScheme(selectedColorScheme);
+                    accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
+                });
             }
 
             Application.Current.Resources["Color_Accent"] = accentColor;
@@ -150,6 +153,11 @@ namespace Dopamine.UWP.Services.Appearance
                 statusBar.ForegroundColor = foregroundColor;
                 statusBar.BackgroundOpacity = 1;
             }
+        }
+
+        public void WatchWindowsColor(object window)
+        {
+            // No implementation required here
         }
         #endregion
     }

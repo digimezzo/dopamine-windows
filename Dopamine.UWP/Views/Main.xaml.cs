@@ -1,5 +1,5 @@
-﻿using Dopamine.Core.Services.Settings;
-using Dopamine.UWP.Services.Appearance;
+﻿using Dopamine.Core.Services.Appearance;
+using Dopamine.Core.Services.Settings;
 using Windows.UI.Xaml.Controls;
 
 namespace Dopamine.UWP.Views
@@ -21,7 +21,7 @@ namespace Dopamine.UWP.Views
 
             this.settingsService = settingsService;
             this.appearanceService.ApplyTheme(this.settingsService.UseLightTheme);
-            this.appearanceService.ApplyColorScheme(this.settingsService.FollowWindowsColor, this.settingsService.ColorScheme);
+            this.appearanceService.ApplyColorSchemeAsync(this.settingsService.ColorScheme, this.settingsService.FollowWindowsColor, false);
         }
         #endregion
 

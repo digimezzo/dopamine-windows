@@ -1,10 +1,15 @@
 ﻿using Dopamine.Core.Extensions;
+using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Logging;
 using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
 using Dopamine.UWP.Services.Logging;
 using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
+using Microsoft.Practices.Unity;
+using Prism.Mvvm;
+using Prism.Unity.Windows;
+using Prism.Windows.AppModel;
 using System;
 using System.Globalization;
 using System.Reflection;
@@ -14,11 +19,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Prism.Unity.Windows;
-using Microsoft.Practices.Unity;
-using Prism.Mvvm;
-using Prism.Windows.AppModel;
 
 namespace Dopamine.UWP
 {
@@ -48,9 +48,8 @@ namespace Dopamine.UWP
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
-            Container.RegisterSingletonType<ILoggingService, LoggingService>();
-            Container.RegisterSingletonType<ISettingsService, SettingsService>();
-            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+            this.RegisterServices();
+            this.RegisterViews();
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
             {
@@ -64,6 +63,18 @@ namespace Dopamine.UWP
           );
 
             return base.OnInitializeAsync(args);
+        }
+
+        private void RegisterServices()
+        {
+            Container.RegisterSingletonType<ILoggingService, LoggingService>();
+            Container.RegisterSingletonType<ISettingsService, SettingsService>();
+            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+        }
+
+        private void RegisterViews()
+        {
+            Container.RegisterType<object, InformationAboutLicense>(typeof(InformationAboutLicense).FullName);
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

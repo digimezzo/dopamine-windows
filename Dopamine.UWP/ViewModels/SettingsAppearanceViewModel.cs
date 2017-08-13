@@ -1,8 +1,7 @@
 ﻿using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Settings;
-using Dopamine.UWP.Services.Appearance;
-using System.Collections.ObjectModel;
 using Prism.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace Dopamine.UWP.ViewModels
 {
@@ -10,7 +9,7 @@ namespace Dopamine.UWP.ViewModels
     {
         #region Variables
         private ISettingsService settingsService;
-        private Services.Appearance.IAppearanceService appearanceService;
+        private IAppearanceService appearanceService;
         private bool useLightTheme;
         private bool followWindowsColor;
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
@@ -38,7 +37,7 @@ namespace Dopamine.UWP.ViewModels
                 SetProperty<bool>(ref this.followWindowsColor, value);
 
                 this.settingsService.FollowWindowsColor = value;
-                this.appearanceService.ApplyColorScheme(value, this.settingsService.ColorScheme);   
+                this.appearanceService.ApplyColorSchemeAsync(this.settingsService.ColorScheme, value, false);   
             }
         }
 
@@ -62,14 +61,14 @@ namespace Dopamine.UWP.ViewModels
                 if (value != null)
                 {
                     this.settingsService.ColorScheme = value.Name;
-                    this.appearanceService.ApplyColorScheme(this.settingsService.FollowWindowsColor, value.Name);
+                    this.appearanceService.ApplyColorSchemeAsync(value.Name, this.settingsService.FollowWindowsColor, false);
                 }
             }
         }
         #endregion
 
         #region Construction
-        public SettingsAppearanceViewModel(ISettingsService settingsService, Services.Appearance.IAppearanceService appearanceService)
+        public SettingsAppearanceViewModel(ISettingsService settingsService, IAppearanceService appearanceService)
         {
             this.settingsService = settingsService;
             this.appearanceService = appearanceService;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dopamine.Core.Services.Appearance
 {
@@ -13,5 +14,7 @@ namespace Dopamine.Core.Services.Appearance
         event ThemeChangedEventHandler ThemeChanged;
         event EventHandler ColorSchemeChanged;
         event EventHandler ColorSchemesChanged;
+        Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false);
+        void WatchWindowsColor(object window);
     }
 }

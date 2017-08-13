@@ -78,22 +78,35 @@ namespace Dopamine.Common.Services.Dialog
             return true;
         }
 
-        public bool ShowCustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
+        public bool ShowCustomDialog(object icon, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
         {
             bool returnValue = false;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                CustomDialog dialog = new CustomDialog(iconCharCode: iconCharCode, iconSize: iconSize, title: title, content: content, width: width, height: height, canResize: canResize, autoSize:autoSize, showTitle: showTitle, showCancelButton: showCancelButton, okText: okText, cancelText: cancelText, callback: callback);
-                this.ShowDialog(dialog);
+                CustomDialog dialog = null;
 
-                if (dialog.DialogResult.HasValue & dialog.DialogResult.Value)
+                if (icon is int)
                 {
-                    returnValue = true;
+                    dialog = new CustomDialog(iconCharCode: (int)icon, iconSize: iconSize, title: title, content: content, width: width, height: height, canResize: canResize, autoSize: autoSize, showTitle: showTitle, showCancelButton: showCancelButton, okText: okText, cancelText: cancelText, callback: callback);
                 }
-                else
+                else if (icon is UserControl)
                 {
-                    returnValue = false;
+                    dialog = new CustomDialog(icon: (UserControl)icon, title: title, content: content, width: width, height: height, canResize: canResize, autoSize: autoSize, showTitle: showTitle, showCancelButton: showCancelButton, okText: okText, cancelText: cancelText, callback: callback);
+                }
+
+                if(dialog != null)
+                {
+                    this.ShowDialog(dialog);
+
+                    if (dialog.DialogResult.HasValue & dialog.DialogResult.Value)
+                    {
+                        returnValue = true;
+                    }
+                    else
+                    {
+                        returnValue = false;
+                    }
                 }
             });
 
