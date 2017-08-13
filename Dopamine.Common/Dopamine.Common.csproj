@@ -418,7 +418,6 @@
     <Compile Include="Services\Equalizer\IEqualizerService.cs" />
     <Compile Include="Services\ExternalControl\ExternalControlServer.cs" />
     <Compile Include="Services\ExternalControl\ExternalControlService.cs" />
-    <Compile Include="Services\ExternalControl\IExternalControlClient.cs" />
     <Compile Include="Services\ExternalControl\IExternalControlServer.cs" />
     <Compile Include="Services\ExternalControl\IExternalControlService.cs" />
     <Compile Include="Services\File\FileService.cs" />
