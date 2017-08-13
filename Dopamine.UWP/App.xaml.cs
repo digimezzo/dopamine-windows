@@ -1,10 +1,15 @@
 ﻿using Dopamine.Core.Extensions;
+using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Logging;
 using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
 using Dopamine.UWP.Services.Logging;
 using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
+using Microsoft.Practices.Unity;
+using Prism.Mvvm;
+using Prism.Unity.Windows;
+using Prism.Windows.AppModel;
 using System;
 using System.Globalization;
 using System.Reflection;
@@ -14,11 +19,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Prism.Unity.Windows;
-using Microsoft.Practices.Unity;
-using Prism.Mvvm;
-using Prism.Windows.AppModel;
 
 namespace Dopamine.UWP
 {

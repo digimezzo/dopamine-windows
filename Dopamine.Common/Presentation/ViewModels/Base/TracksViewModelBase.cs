@@ -435,8 +435,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 {
                     var safePath = this.playbackService.CurrentTrack.Value.SafePath;              
 
-                    var trackVm = this.Tracks.First(vm => vm.Track.SafePath.Equals(safePath));
-                    if (!this.playbackService.IsStopped)
+                    TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
+
+                    if (!this.playbackService.IsStopped && trackVm != null)
                     {
                         trackVm.IsPlaying = true;
                         trackVm.IsPaused = !this.playbackService.IsPlaying;

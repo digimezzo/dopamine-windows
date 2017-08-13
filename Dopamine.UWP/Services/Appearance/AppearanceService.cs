@@ -58,25 +58,23 @@ namespace Dopamine.UWP.Services.Appearance
         public event EventHandler ColorSchemeChanged = delegate { };
         public event EventHandler ColorSchemesChanged = delegate { };
 
-        public async Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor = false, bool isViewModelLoaded = false, string selectedColorScheme = "")
+        public async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
         {
             this.followWindowsColor = followWindowsColor;
             Color accentColor = default(Color);
 
-            await Task.Run(() =>
+            if (this.followWindowsColor)
             {
-               
-
-                if (this.followWindowsColor)
-                {
-                    accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
-                }
-                else
+                accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
+            }
+            else
+            {
+                await Task.Run(() =>
                 {
                     ColorScheme cs = this.GetColorScheme(selectedColorScheme);
                     accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
-                }
-            });
+                });
+            }
 
             Application.Current.Resources["Color_Accent"] = accentColor;
             ((SolidColorBrush)Application.Current.Resources["Brush_Accent"]).Color = accentColor;
