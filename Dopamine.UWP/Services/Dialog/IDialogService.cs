@@ -4,6 +4,6 @@ namespace Dopamine.UWP.Services.Dialog
 {
     public interface IDialogService
     {
-        Task<bool> ShowConfirmationAsync(int iconCharCode, int iconSize, string title, string content, string primaryButtonText, string secondaryButtonText);
+        Task<bool> ShowContentDialogAsync(string title, object content, string primaryButtonText, string secondaryButtonText);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Dopamine.Core.ViewModels;
 using Dopamine.UWP.Base;
+using Dopamine.UWP.Services.Dialog;
 using Dopamine.UWP.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -10,6 +11,7 @@ namespace Dopamine.UWP.ViewModels
     {
         #region Variables
         private IUnityContainer container;
+        private IDialogService dialogService;
         #endregion
 
         #region Properties
@@ -21,14 +23,16 @@ namespace Dopamine.UWP.ViewModels
         #endregion
 
         #region Construction
-        public InformationAboutViewModel(IUnityContainer container)
+        public InformationAboutViewModel(IUnityContainer container, IDialogService dialogService)
         {
             this.container = container;
+            this.dialogService = dialogService;
 
             this.ShowLicenseCommand = new DelegateCommand(() =>
             {
                 var view = this.container.Resolve<InformationAboutLicense>();
 
+                this.dialogService.ShowContentDialogAsync("title", "content", "ok", "cancel");
                 //this.dialogService.ShowCustomDialog(
                 //    0xe73e,
                 //    16,

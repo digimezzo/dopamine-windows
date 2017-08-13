@@ -60,7 +60,7 @@
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
                     <PivotItem x:Uid="PivotItemAppearance" Margin="0">
-                        <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <local:SettingsAppearance Margin="15"/>
                         </ScrollViewer>
                     </PivotItem>
@@ -80,7 +80,7 @@
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
                     <PivotItem x:Uid="PivotItemAbout" Margin="0">
-                        <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <local:InformationAbout Margin="15"/>
                         </ScrollViewer>
                     </PivotItem>

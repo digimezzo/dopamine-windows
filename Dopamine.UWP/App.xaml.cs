@@ -3,6 +3,7 @@ using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Logging;
 using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
+using Dopamine.UWP.Services.Dialog;
 using Dopamine.UWP.Services.Logging;
 using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
@@ -70,6 +71,7 @@ namespace Dopamine.UWP
             Container.RegisterSingletonType<ILoggingService, LoggingService>();
             Container.RegisterSingletonType<ISettingsService, SettingsService>();
             Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+            Container.RegisterSingletonType<IDialogService, DialogService>();
         }
 
         private void RegisterViews()
