@@ -152,6 +152,7 @@ namespace Dopamine.ViewModels
 
                 this.dialogService.ShowCustomDialog(
                     new EqualizerIcon() { IsDialogIcon = true },
+                    0,
                     ResourceUtils.GetStringResource("Language_Equalizer"),
                     view,
                     570,
