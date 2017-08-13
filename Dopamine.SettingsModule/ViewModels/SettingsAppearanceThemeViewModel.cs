@@ -11,7 +11,7 @@ namespace Dopamine.SettingsModule.ViewModels
     public class SettingsAppearanceThemeViewModel : BindableBase
     {
         #region Variables
-        private Common.Services.Appearance.IAppearanceService appearanceService;
+        private IAppearanceService appearanceService;
         private ObservableCollection<string> themes = new ObservableCollection<string>();
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
         private ColorScheme selectedColorScheme;
@@ -130,7 +130,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Construction
-        public SettingsAppearanceThemeViewModel(Common.Services.Appearance.IAppearanceService appearanceService)
+        public SettingsAppearanceThemeViewModel(IAppearanceService appearanceService)
         {
             this.appearanceService = appearanceService;
 

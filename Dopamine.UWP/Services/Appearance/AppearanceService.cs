@@ -9,6 +9,7 @@ using Dopamine.UWP.Utils;
 using System.Linq;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Metadata;
+using System.Threading.Tasks;
 
 namespace Dopamine.UWP.Services.Appearance
 {
@@ -57,21 +58,25 @@ namespace Dopamine.UWP.Services.Appearance
         public event EventHandler ColorSchemeChanged = delegate { };
         public event EventHandler ColorSchemesChanged = delegate { };
 
-        public void ApplyColorScheme(bool followWindowsColor, string selectedColorScheme = "")
+        public async Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor = false, bool isViewModelLoaded = false, string selectedColorScheme = "")
         {
             this.followWindowsColor = followWindowsColor;
-
             Color accentColor = default(Color);
 
-            if (this.followWindowsColor)
+            await Task.Run(() =>
             {
-                accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
-            }
-            else
-            {
-                ColorScheme cs = this.GetColorScheme(selectedColorScheme);
-                accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
-            }
+               
+
+                if (this.followWindowsColor)
+                {
+                    accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
+                }
+                else
+                {
+                    ColorScheme cs = this.GetColorScheme(selectedColorScheme);
+                    accentColor = ColorUtils.ConvertStringToColor(cs.AccentColor);
+                }
+            });
 
             Application.Current.Resources["Color_Accent"] = accentColor;
             ((SolidColorBrush)Application.Current.Resources["Brush_Accent"]).Color = accentColor;
@@ -150,6 +155,11 @@ namespace Dopamine.UWP.Services.Appearance
                 statusBar.ForegroundColor = foregroundColor;
                 statusBar.BackgroundOpacity = 1;
             }
+        }
+
+        public void WatchWindowsColor(object window)
+        {
+            // No implementation required here
         }
         #endregion
     }

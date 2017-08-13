@@ -1,12 +1,11 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Controls;
-using Dopamine.Common.Services.Appearance;
-using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Indexing;
+using Dopamine.Core.Services.Appearance;
 using Dopamine.OobeModule.Views;
 using Prism.Events;
 using Prism.Regions;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;

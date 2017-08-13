@@ -103,7 +103,6 @@
     <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
-    <Compile Include="Services\Appearance\IAppearanceService.cs" />
     <Compile Include="Services\Dialog\ConfirmationDialog.xaml.cs">
       <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
     </Compile>
