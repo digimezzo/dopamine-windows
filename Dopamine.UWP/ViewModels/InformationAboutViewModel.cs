@@ -4,6 +4,7 @@ using Dopamine.UWP.Services.Dialog;
 using Dopamine.UWP.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Windows.ApplicationModel.Resources;
 
 namespace Dopamine.UWP.ViewModels
 {
@@ -12,6 +13,7 @@ namespace Dopamine.UWP.ViewModels
         #region Variables
         private IUnityContainer container;
         private IDialogService dialogService;
+        ResourceLoader loader = ResourceLoader.GetForCurrentView();
         #endregion
 
         #region Properties
@@ -32,21 +34,11 @@ namespace Dopamine.UWP.ViewModels
             {
                 var view = this.container.Resolve<InformationAboutLicense>();
 
-                this.dialogService.ShowContentDialogAsync("title", "content", "ok", "cancel");
-                //this.dialogService.ShowCustomDialog(
-                //    0xe73e,
-                //    16,
-                //    ResourceUtils.GetStringResource("Language_License"),
-                //    view,
-                //    400,
-                //    0,
-                //    false,
-                //    true,
-                //    true,
-                //    false,
-                //    ResourceUtils.GetStringResource("Language_Ok"),
-                //    string.Empty,
-                //    null);
+                this.dialogService.ShowContentDialogAsync(
+                    loader.GetString("LicenseDialogLicense"), 
+                    view, 
+                    loader.GetString("LicenseDialogOk"), 
+                    string.Empty);
             });
         }
         #endregion

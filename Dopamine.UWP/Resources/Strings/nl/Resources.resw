@@ -132,6 +132,12 @@
   <data name="HyperlinkButtonDonate.Content" xml:space="preserve">
     <value>Doneren via PayPal</value>
   </data>
+  <data name="LicenseDialogLicense" xml:space="preserve">
+    <value>Licentie</value>
+  </data>
+  <data name="LicenseDialogOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="PivotItemAbout.Header" xml:space="preserve">
     <value>Over</value>
   </data>
