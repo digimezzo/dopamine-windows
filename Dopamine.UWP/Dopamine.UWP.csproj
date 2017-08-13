@@ -103,7 +103,6 @@
     <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
-    <Compile Include="Services\Appearance\IAppearanceService.cs" />
     <Compile Include="Services\Dialog\ConfirmationDialog.xaml.cs">
       <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
     </Compile>
@@ -119,6 +118,9 @@
     <Compile Include="ViewModels\SettingsAppearanceViewModel.cs" />
     <Compile Include="Views\InformationAbout.xaml.cs">
       <DependentUpon>InformationAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InformationAboutLicense.xaml.cs">
+      <DependentUpon>InformationAboutLicense.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
@@ -240,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformationAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InformationAboutLicense.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

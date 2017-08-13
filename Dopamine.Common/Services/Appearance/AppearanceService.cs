@@ -136,8 +136,12 @@ namespace Dopamine.Common.Services.Appearance
 
         private void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
-            if (!this.followAlbumCoverColor) return;
-            this.ApplyColorScheme(this.followWindowsColor, this.followAlbumCoverColor);
+            if (!this.followAlbumCoverColor)
+            {
+                return;
+            }
+
+            this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
         }
         #endregion
 
@@ -178,7 +182,11 @@ namespace Dopamine.Common.Services.Appearance
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (!this.followWindowsColor) return IntPtr.Zero;
-            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED) this.ApplyColorScheme(this.followWindowsColor, this.followAlbumCoverColor);
+
+            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
+            {
+                this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
+            }
 
             return IntPtr.Zero;
         }
@@ -288,11 +296,14 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region IAppearanceService
-        public void WatchWindowsColor(Window win)
+        public void WatchWindowsColor(object win)
         {
-            IntPtr windowHandle = (new WindowInteropHelper(win)).Handle;
-            HwndSource src = HwndSource.FromHwnd(windowHandle);
-            src.AddHook(new HwndSourceHook(WndProc));
+            if(win is Window)
+            {
+                IntPtr windowHandle = (new WindowInteropHelper((Window)win)).Handle;
+                HwndSource src = HwndSource.FromHwnd(windowHandle);
+                src.AddHook(new HwndSourceHook(WndProc));
+            }
         }
 
         public List<ColorScheme> GetColorSchemes()
@@ -335,7 +346,7 @@ namespace Dopamine.Common.Services.Appearance
             this.ThemeChanged(useLightTheme);
         }
 
-        public async Task ApplyColorScheme(bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false, string selectedColorScheme = "")
+        public async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
         {
             this.followWindowsColor = followWindowsColor;
             this.followAlbumCoverColor = followAlbumCoverColor;
