@@ -24,7 +24,6 @@ namespace Dopamine.UWP.Base
 
         private static readonly ExternalComponent[] specificComponents =
         {
-            new ExternalComponent(), 
         };
 
         public override ExternalComponent[] SpecificComponents => specificComponents;
