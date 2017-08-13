@@ -48,9 +48,8 @@ namespace Dopamine.UWP
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
-            Container.RegisterSingletonType<ILoggingService, LoggingService>();
-            Container.RegisterSingletonType<ISettingsService, SettingsService>();
-            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+            this.RegisterServices();
+            this.RegisterViews();
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
             {
@@ -64,6 +63,18 @@ namespace Dopamine.UWP
           );
 
             return base.OnInitializeAsync(args);
+        }
+
+        private void RegisterServices()
+        {
+            Container.RegisterSingletonType<ILoggingService, LoggingService>();
+            Container.RegisterSingletonType<ISettingsService, SettingsService>();
+            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+        }
+
+        private void RegisterViews()
+        {
+            Container.RegisterType<object, InformationAboutLicense>(typeof(InformationAboutLicense).FullName);
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
