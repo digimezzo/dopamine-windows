@@ -287,7 +287,11 @@ namespace Dopamine.Common.Services.ExternalControl
             if (clients.Count == 0)
             {
                 this.player = playbackService.Player as CSCorePlayer;
-                if (this.player != null && this.haveAddedInputStream) this.player.notificationSource.SingleBlockRead -= InputStream;
+                if (this.player != null && this.haveAddedInputStream)
+                {
+                    this.player.notificationSource.SingleBlockRead -= InputStream;
+                    this.haveAddedInputStream = false;
+                }
             }
         }
 
