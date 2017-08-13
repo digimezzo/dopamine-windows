@@ -57,11 +57,12 @@ namespace Dopamine.SettingsModule.ViewModels
                     SettingsClient.Set<string>("Appearance", "ColorScheme", value.AccentColor);
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        await this.appearanceService.ApplyColorScheme(
+                        await this.appearanceService.ApplyColorSchemeAsync(
+                            value.AccentColor,
                             SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
                             SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
-                            isViewModelLoaded,
-                            value.AccentColor);
+                            isViewModelLoaded
+                            );
                         isViewModelLoaded = false;
                     });
                 }
@@ -84,11 +85,12 @@ namespace Dopamine.SettingsModule.ViewModels
                 SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await this.appearanceService.ApplyColorScheme(
+                    await this.appearanceService.ApplyColorSchemeAsync(
+                        SettingsClient.Get<string>("Appearance", "ColorScheme"),
                         value,
                         false,
-                        isViewModelLoaded,
-                        SettingsClient.Get<string>("Appearance", "ColorScheme"));
+                        isViewModelLoaded
+                        );
                 });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
@@ -110,11 +112,12 @@ namespace Dopamine.SettingsModule.ViewModels
                 SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await this.appearanceService.ApplyColorScheme(
+                    await this.appearanceService.ApplyColorSchemeAsync(
+                          SettingsClient.Get<string>("Appearance", "ColorScheme"),
                           false,
                           value,
-                          isViewModelLoaded,
-                          SettingsClient.Get<string>("Appearance", "ColorScheme"));
+                          isViewModelLoaded
+                          );
                 });
 
                 SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);
