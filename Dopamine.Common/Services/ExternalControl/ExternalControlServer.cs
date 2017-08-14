@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using CSCore.DSP;
 using CSCore.Streams;
 using Dopamine.Common.Audio;
@@ -17,22 +20,24 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace Dopamine.Common.Services.ExternalControl
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class ExternalControlServer : IExternalControlServer, IDisposable
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
+    public class ExternalControlServer : IExternalControlServer, IFftDataServer, IDisposable
     {
-        private const int FftDataLength = 256;
+        private const int FftDataLength = 256 * 4;
 
         #region Variables
         private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
+        private readonly DispatcherTimer fftProviderDataTimer;
         private CSCorePlayer player;
-        private readonly float[] fftDataBuffer = new float[FftDataLength];
-        private readonly byte[] fftDataBufferBytes = new byte[FftDataLength * 4];
+        private readonly float[] fftDataBuffer = new float[FftDataLength / 4];
+        private readonly byte[] fftDataBufferBytes = new byte[FftDataLength];
         private readonly MemoryMappedFile fftDataMemoryMappedFile;
         private readonly MemoryMappedViewStream fftDataMemoryMappedFileStream;
         private readonly BinaryWriter fftDataMemoryMappedFileStreamWriter;
         private readonly Mutex fftDataMemoryMappedFileMutex;
         private readonly Dictionary<string, IExternalControlServerCallback> clients = new Dictionary<string, IExternalControlServerCallback>();
         private readonly Stack<string> deadClients = new Stack<string>();
+
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
         private bool haveAddedInputStream;
@@ -44,8 +49,14 @@ namespace Dopamine.Common.Services.ExternalControl
             this.playbackService = playbackService;
             this.cacheService = cacheService;
 
-            fftDataMemoryMappedFile = MemoryMappedFile.CreateNew("DopamineFftDataMemory", sizeof(float) * FftDataLength);
-            fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream();
+            this.fftProviderDataTimer = new DispatcherTimer(){Interval = TimeSpan.FromSeconds(2)};
+            this.fftProviderDataTimer.Tick += FftProviderDataTimerElapsed;
+
+            var sec = new MemoryMappedFileSecurity();
+            sec.AddAccessRule(new AccessRule<MemoryMappedFileRights>(new SecurityIdentifier(WellKnownSidType.SelfSid, null), MemoryMappedFileRights.FullControl, AccessControlType.Allow));
+            sec.AddAccessRule(new AccessRule<MemoryMappedFileRights>(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MemoryMappedFileRights.Read, AccessControlType.Allow));
+            fftDataMemoryMappedFile = MemoryMappedFile.CreateNew("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, sec, HandleInheritability.None);
+            fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream(0, FftDataLength, MemoryMappedFileAccess.ReadWrite);
             fftDataMemoryMappedFileStreamWriter = new BinaryWriter(fftDataMemoryMappedFileStream);
             fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
             fftDataMemoryMappedFileMutex.ReleaseMutex();
@@ -53,7 +64,7 @@ namespace Dopamine.Common.Services.ExternalControl
         #endregion
 
         #region IDisposable
-        private bool m_disposed;
+        private bool m_disposed = false;
 
         public void Dispose()
         {
@@ -95,8 +106,6 @@ namespace Dopamine.Common.Services.ExternalControl
                 clients.TryRemove(context.SessionId);
                 clients.Add(sessionId, callback);
 
-                AddInputStreamHandler();
-
                 return sessionId;
             }
             catch (Exception)
@@ -110,8 +119,6 @@ namespace Dopamine.Common.Services.ExternalControl
         public void DeregisterClient(string sessionId)
         {
             clients.TryRemove(sessionId);
-
-            TryRemoveInputStreamHandler();
         }
 
         [OperationBehavior]
@@ -147,6 +154,10 @@ namespace Dopamine.Common.Services.ExternalControl
         [OperationBehavior]
         public bool GetFftData()
         {
+            this.fftProviderDataTimer.Stop();
+            this.fftProviderDataTimer.Start();
+            TryAddInputStreamHandler();
+
             this.fftProvider.GetFftData(fftDataBuffer);
 
             fftDataMemoryMappedFileMutex.WaitOne();
@@ -188,76 +199,59 @@ namespace Dopamine.Common.Services.ExternalControl
         #endregion
 
         #region Private
-        private void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
+        private async void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChanged));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChangedAsync));
         }
 
-        private void PlayingTrackPlaybackInfoChangedCallback(object sender, EventArgs e)
+        private async void PlayingTrackPlaybackInfoChangedCallback(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackPlaybackInfoChanged));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackPlaybackInfoChangedAsync));
         }
 
-        private void PlaybackMuteCallBack(object sender, EventArgs e)
+        private async void PlaybackMuteCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackMuteChanged));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackMuteChangedAsync));
         }
 
-        private void PlaybackVolumeChangedCallBack(object sender, EventArgs e)
+        private async void PlaybackVolumeChangedCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackVolumeChanged));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackVolumeChangedAsync));
         }
 
-        private void PlaybackProgressChangedCallBack(object sender, EventArgs e)
+        private async void PlaybackProgressChangedCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackProgressChanged));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackProgressChangedAsync));
         }
 
-        private void PlaybackResumedCallBack(object sender, EventArgs e)
+        private async void PlaybackResumedCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackResumed));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackResumedAsync));
         }
 
-        private void PlaybackPausedCallBack(object sender, EventArgs e)
+        private async void PlaybackPausedCallBack(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackPaused));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackPausedAsync));
         }
 
-        private void PlaybackStoppedCallback(object sender, EventArgs e)
+        private async void PlaybackStoppedCallback(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackStopped));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackStoppedAsync));
         }
 
-        private void PlaybackSuccessCallback(bool _)
+        private async void PlaybackSuccessCallback(bool _)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackSuccess));
+            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackSuccessAsync));
         }
 
-        private void ProxyMethod(string methodName)
+        private async Task ProxyMethod(string methodName)
         {
-            VerifyClients();
-
             var methodInfo = typeof(IExternalControlServerCallback).GetMethod(methodName);
             foreach (var client in clients)
             {
                 try
                 {
-                    methodInfo.Invoke(client.Value, null);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
-        }
-
-        private void VerifyClients()
-        {
-            foreach (var client in clients)
-            {
-                try
-                {
-                    client.Value.SendHeartBeat();
+                    await (Task) methodInfo.Invoke(client.Value, null);
                 }
                 catch (Exception ex)
                 {
@@ -268,33 +262,25 @@ namespace Dopamine.Common.Services.ExternalControl
 
             deadClients.ForEach(c => clients.Remove(c));
             deadClients.Clear();
-
-            TryRemoveInputStreamHandler();
         }
 
-        private void AddInputStreamHandler()
+        private void TryAddInputStreamHandler()
         {
-            if (clients.Count == 1)
+            this.player = playbackService.Player as CSCorePlayer;
+            if (this.player != null && !this.haveAddedInputStream)
             {
-                this.player = playbackService.Player as CSCorePlayer;
-                if (this.player != null)
-                {
-                    this.player.notificationSource.SingleBlockRead += InputStream;
-                    this.haveAddedInputStream = true;
-                }
+                this.player.notificationSource.SingleBlockRead += InputStream;
+                this.haveAddedInputStream = true;
             }
         }
 
         private void TryRemoveInputStreamHandler()
         {
-            if (clients.Count == 0)
+            this.player = playbackService.Player as CSCorePlayer;
+            if (this.player != null && this.haveAddedInputStream)
             {
-                this.player = playbackService.Player as CSCorePlayer;
-                if (this.player != null && this.haveAddedInputStream)
-                {
-                    this.player.notificationSource.SingleBlockRead -= InputStream;
-                    this.haveAddedInputStream = false;
-                }
+                this.player.notificationSource.SingleBlockRead -= InputStream;
+                this.haveAddedInputStream = false;
             }
         }
 
@@ -308,6 +294,12 @@ namespace Dopamine.Common.Services.ExternalControl
             {
                 // ignored
             }
+        }
+
+        private void FftProviderDataTimerElapsed(object sender, EventArgs e)
+        {
+            this.fftProviderDataTimer.Stop();
+            TryRemoveInputStreamHandler();
         }
         #endregion
     }

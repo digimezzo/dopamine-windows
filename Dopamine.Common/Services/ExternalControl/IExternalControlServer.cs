@@ -52,42 +52,39 @@ namespace Dopamine.Common.Services.ExternalControl
 
         [OperationContract]
         string GetCurrentTrackArtworkPath(string artworkId);
-
-        [OperationContract]
-        bool GetFftData();
     }
 
     [ServiceContract(Namespace = nameof(ExternalControl))]
     public interface IExternalControlServerCallback
     {
         [OperationContract]
-        void SendHeartBeat();
+        Task SendHeartBeatAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackSuccess();
+        Task RaiseEventPlaybackSuccessAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackStopped();
+        Task RaiseEventPlaybackStoppedAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackPaused();
+        Task RaiseEventPlaybackPausedAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackResumed();
+        Task RaiseEventPlaybackResumedAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackProgressChanged();
+        Task RaiseEventPlaybackProgressChangedAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackVolumeChanged();
+        Task RaiseEventPlaybackVolumeChangedAsync();
 
         [OperationContract]
-        void RaiseEventPlaybackMuteChanged();
+        Task RaiseEventPlaybackMuteChangedAsync();
 
         [OperationContract]
-        void RaiseEventPlayingTrackPlaybackInfoChanged();
+        Task RaiseEventPlayingTrackPlaybackInfoChangedAsync();
 
         [OperationContract]
-        void RaiseEventPlayingTrackArtworkChanged();
+        Task RaiseEventPlayingTrackArtworkChangedAsync();
     }
 }
