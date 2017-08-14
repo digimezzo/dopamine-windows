@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.ServiceModel;
@@ -150,6 +151,7 @@ namespace Dopamine.Common.Services.ExternalControl
 
             fftDataMemoryMappedFileMutex.WaitOne();
             Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
+            fftDataMemoryMappedFileStreamWriter.Seek(0, SeekOrigin.Begin);
             fftDataMemoryMappedFileStreamWriter.Write(fftDataBufferBytes);
             fftDataMemoryMappedFileMutex.ReleaseMutex();
 
@@ -259,6 +261,7 @@ namespace Dopamine.Common.Services.ExternalControl
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine($"Remove client {client.Key} in ExternalControlServer, reason: {ex.Message}");
                     deadClients.Push(client.Key);
                 }
             }
