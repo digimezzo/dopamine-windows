@@ -28,6 +28,7 @@ namespace Dopamine.Common.Services.ExternalControl
         #region Variables
         private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
         private readonly DispatcherTimer fftProviderDataTimer;
+        private bool haveAddedInputStream;
         private CSCorePlayer player;
         private readonly float[] fftDataBuffer = new float[FftDataLength / 4];
         private readonly byte[] fftDataBufferBytes = new byte[FftDataLength];
@@ -35,12 +36,13 @@ namespace Dopamine.Common.Services.ExternalControl
         private readonly MemoryMappedViewStream fftDataMemoryMappedFileStream;
         private readonly BinaryWriter fftDataMemoryMappedFileStreamWriter;
         private readonly Mutex fftDataMemoryMappedFileMutex;
+
         private readonly Dictionary<string, IExternalControlServerCallback> clients = new Dictionary<string, IExternalControlServerCallback>();
         private readonly Stack<string> deadClients = new Stack<string>();
+        private readonly object clientsLock = new object();
 
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
-        private bool haveAddedInputStream;
         #endregion
 
         #region Constructor
@@ -199,69 +201,73 @@ namespace Dopamine.Common.Services.ExternalControl
         #endregion
 
         #region Private
-        private async void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
+        private void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChangedAsync));
         }
 
-        private async void PlayingTrackPlaybackInfoChangedCallback(object sender, EventArgs e)
+        private void PlayingTrackPlaybackInfoChangedCallback(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackPlaybackInfoChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackPlaybackInfoChangedAsync));
         }
 
-        private async void PlaybackMuteCallBack(object sender, EventArgs e)
+        private void PlaybackMuteCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackMuteChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackMuteChangedAsync));
         }
 
-        private async void PlaybackVolumeChangedCallBack(object sender, EventArgs e)
+        private void PlaybackVolumeChangedCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackVolumeChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackVolumeChangedAsync));
         }
 
-        private async void PlaybackProgressChangedCallBack(object sender, EventArgs e)
+        private void PlaybackProgressChangedCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackProgressChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackProgressChangedAsync));
         }
 
-        private async void PlaybackResumedCallBack(object sender, EventArgs e)
+        private void PlaybackResumedCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackResumedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackResumedAsync));
         }
 
-        private async void PlaybackPausedCallBack(object sender, EventArgs e)
+        private void PlaybackPausedCallBack(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackPausedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackPausedAsync));
         }
 
-        private async void PlaybackStoppedCallback(object sender, EventArgs e)
+        private void PlaybackStoppedCallback(object sender, EventArgs e)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackStoppedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackStoppedAsync));
         }
 
-        private async void PlaybackSuccessCallback(bool _)
+        private void PlaybackSuccessCallback(bool _)
         {
-            await ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackSuccessAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackSuccessAsync));
         }
 
-        private async Task ProxyMethod(string methodName)
+        private void ProxyMethod(string methodName)
         {
             var methodInfo = typeof(IExternalControlServerCallback).GetMethod(methodName);
-            foreach (var client in clients)
-            {
-                try
-                {
-                    await (Task) methodInfo.Invoke(client.Value, null);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Remove client {client.Key} in ExternalControlServer, reason: {ex.Message}");
-                    deadClients.Push(client.Key);
-                }
-            }
 
-            deadClients.ForEach(c => clients.Remove(c));
-            deadClients.Clear();
+            lock (clientsLock)
+            {
+                foreach (var client in clients)
+                {
+                    try
+                    {
+                        methodInfo.Invoke(client.Value, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Remove client {client.Key} in ExternalControlServer, reason: {ex.Message}");
+                        deadClients.Push(client.Key);
+                    }
+                }
+
+                deadClients.ForEach(c => clients.Remove(c));
+                deadClients.Clear();
+            }
         }
 
         private void TryAddInputStreamHandler()
