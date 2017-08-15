@@ -1,18 +1,19 @@
 ﻿using SQLite;
 
-namespace Dopamine.Common.Database.Entities
+namespace Dopamine.Core.Database.Entities
 {
-    public class QueuedTrack
+    public class TrackStatistic
     {
         #region Properties
         [PrimaryKey(), AutoIncrement()]
-        public long QueuedTrackID { get; set; }
-        public string QueueID { get; set; }
+        public long TrackStatisticID { get; set; }
         public string Path { get; set; }
         public string SafePath { get; set; }
-        public long IsPlaying { get; set; }
-        public long ProgressSeconds { get; set; }
-        public long OrderID { get; set; }
+        public long? Rating { get; set; }
+        public long? Love { get; set; }
+        public long? PlayCount { get; set; }
+        public long? SkipCount { get; set; }
+        public long? DateLastPlayed { get; set; }
         #endregion
 
         #region Overrides
@@ -23,12 +24,12 @@ namespace Dopamine.Common.Database.Entities
                 return false;
             }
 
-            return this.QueuedTrackID.Equals(((QueuedTrack)obj).QueuedTrackID);
+            return this.SafePath.Equals(((TrackStatistic)obj).SafePath);
         }
 
         public override int GetHashCode()
         {
-            return new { this.QueuedTrackID }.GetHashCode();
+            return new { this.SafePath }.GetHashCode();
         }
         #endregion
     }

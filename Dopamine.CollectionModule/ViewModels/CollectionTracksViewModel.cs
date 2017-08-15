@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Database;
+using Dopamine.Core.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;

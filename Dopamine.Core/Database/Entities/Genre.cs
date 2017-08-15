@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SQLite;
 
-namespace Dopamine.Common.Database.Entities
+namespace Dopamine.Core.Database.Entities
 {
     public class Genre
     {

@@ -1,10 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
@@ -12,7 +9,9 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
-using Microsoft.Practices.ServiceLocation;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Extensions;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
@@ -199,7 +198,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            e.Accepted = Dopamine.Common.Database.Utils.FilterAlbums(avm.Album, this.searchService.SearchText);
+            e.Accepted = DatabaseUtils.FilterAlbums(avm.Album, this.searchService.SearchText);
         }
         #endregion
 
@@ -262,7 +261,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 var albumViewModels = new ObservableCollection<AlbumViewModel>();
 
                 // Order the incoming Albums
-                List<Album> orderedAlbums = await Database.Utils.OrderAlbumsAsync(albums, albumOrder);
+                List<Album> orderedAlbums = await DatabaseUtils.OrderAlbumsAsync(albums, albumOrder);
 
                 await Task.Run(() =>
                 {

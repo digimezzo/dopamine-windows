@@ -10,7 +10,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Base\ContactInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\Defaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\ProductInformationBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Album.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Artist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Folder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Genre.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\IndexingStatistic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\QueuedTrack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\RemovedTrack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Track.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\TrackStatistic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\PlayableTrack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DatabaseUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnityExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Packaging\ExternalComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\InvertingBooleanConverter.cs" />

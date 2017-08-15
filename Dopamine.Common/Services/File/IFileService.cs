@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Database;
+﻿using Dopamine.Core.Database;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;

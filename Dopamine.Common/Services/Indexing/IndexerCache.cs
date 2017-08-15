@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Database.Entities;
 using Digimezzo.Utilities.Log;
 using SQLite;
 using System;

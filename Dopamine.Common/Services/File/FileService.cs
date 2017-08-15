@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
+using Dopamine.Core.Database;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
@@ -184,7 +184,7 @@ namespace Dopamine.Common.Services.File
             {
                 lock (this.lockObject)
                 {
-                    tempFiles = (List<string>)this.files.Clone();
+                    tempFiles = this.files.Select(item => (string)item.Clone()).ToList();
                     this.files.Clear(); // Clear the list
                 }
 

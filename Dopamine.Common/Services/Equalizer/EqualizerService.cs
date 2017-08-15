@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Services.Equalizer
 {

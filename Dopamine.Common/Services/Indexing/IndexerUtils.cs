@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Base;
+using Dopamine.Core.Database.Entities;
 using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
 using System;

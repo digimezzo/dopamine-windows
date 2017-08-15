@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Database
+﻿namespace Dopamine.Core.Database
 {
     public enum AddFolderResult
     {

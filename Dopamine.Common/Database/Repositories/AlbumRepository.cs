@@ -1,6 +1,7 @@
-﻿using Dopamine.Common.Database.Entities;
+﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace Dopamine.Common.Database.Repositories
                             string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
                                        " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                        " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", Utils.ToQueryList(artistIDs), Utils.ToQueryList(artistNames));
+                                       " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
 
                             albums = conn.Query<Album>(q);
                         }
@@ -109,7 +110,7 @@ namespace Dopamine.Common.Database.Repositories
                             string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
                                                      " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
                                                      " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", Utils.ToQueryList(genreIDs));
+                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(genreIDs));
 
                             albums = conn.Query<Album>(q);
                         }
