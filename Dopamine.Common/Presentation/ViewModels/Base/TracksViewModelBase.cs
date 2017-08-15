@@ -2,10 +2,10 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
+using Dopamine.Core.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
@@ -162,7 +162,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             TrackViewModel vm = e.Item as TrackViewModel;
-            e.Accepted = Dopamine.Common.Database.Utils.FilterTracks(vm.Track, this.searchService.SearchText);
+            e.Accepted = DatabaseUtils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
         protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<Album> selectedAlbums, TrackOrder trackOrder)
@@ -205,7 +205,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
 
                 // Order the incoming Tracks
-                List<PlayableTrack> orderedTracks = await Database.Utils.OrderTracksAsync(tracks, trackOrder);
+                List<PlayableTrack> orderedTracks = await DatabaseUtils.OrderTracksAsync(tracks, trackOrder);
 
                 await Task.Run(() =>
                 {

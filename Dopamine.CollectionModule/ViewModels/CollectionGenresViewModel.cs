@@ -2,8 +2,8 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
@@ -316,7 +316,7 @@ namespace Dopamine.CollectionModule.ViewModels
             try
             {
                 // Order the incoming Genres
-                List<Genre> orderedGenres = await Common.Database.Utils.OrderGenresAsync(genres, genreOrder);
+                List<Genre> orderedGenres = await DatabaseUtils.OrderGenresAsync(genres, genreOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<GenreViewModel> genreViewModels = new ObservableCollection<GenreViewModel>();
@@ -462,7 +462,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = Dopamine.Common.Database.Utils.FilterGenres(gvm.Genre, this.searchService.SearchText);
+            e.Accepted = DatabaseUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
         }
 
         private async Task ToggleTrackOrderAsync()

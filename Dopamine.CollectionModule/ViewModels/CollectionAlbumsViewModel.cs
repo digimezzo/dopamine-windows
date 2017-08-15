@@ -6,6 +6,7 @@ using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Database;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

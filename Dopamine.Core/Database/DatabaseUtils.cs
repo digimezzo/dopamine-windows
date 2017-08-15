@@ -1,13 +1,13 @@
-﻿using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Extensions;
+﻿using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Database
+namespace Dopamine.Core.Database
 {
-    public sealed class Utils
+    public sealed class DatabaseUtils
     {
         public static bool FilterAlbums(Album album, string filter)
         {
@@ -90,14 +90,14 @@ namespace Dopamine.Common.Database
                 switch (genreOrder)
                 {
                     case GenreOrder.Alphabetical:
-                        orderedGenres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        orderedGenres = genres.OrderBy((g) => GetSortableString(g.GenreName, true)).ToList();
                         break;
                     case GenreOrder.ReverseAlphabetical:
-                        orderedGenres = genres.OrderByDescending((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        orderedGenres = genres.OrderByDescending((g) => GetSortableString(g.GenreName, true)).ToList();
                         break;
                     default:
                         // Alphabetical
-                        orderedGenres = genres.OrderBy((g) => Utils.GetSortableString(g.GenreName, true)).ToList();
+                        orderedGenres = genres.OrderBy((g) => GetSortableString(g.GenreName, true)).ToList();
                         break;
                 }
             });

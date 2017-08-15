@@ -1,12 +1,13 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Api.Lastfm;
+using Dopamine.Common.Base;
+using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Api.Lastfm;
-using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Metadata;
+using Dopamine.Core.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -19,7 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private bool isBusy;
-        private Common.Database.Entities.Album album;
+        private Core.Database.Entities.Album album;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
@@ -55,7 +56,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<MetadataArtworkValue>(ref this.artwork, value); }
         }
 
-        public Common.Database.Entities.Album Album
+        public Core.Database.Entities.Album Album
         {
             get { return this.album; }
             set { base.SetProperty(ref this.album, value); }
@@ -83,7 +84,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public EditAlbumViewModel(Common.Database.Entities.Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
+        public EditAlbumViewModel(Core.Database.Entities.Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
         {
             this.Album = album;
             this.metadataService = metadataService;
@@ -203,7 +204,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                await this.metadataService.UpdateAlbumAsync((Common.Database.Entities.Album)this.Album, this.Artwork, this.UpdateFileArtwork);
+                await this.metadataService.UpdateAlbumAsync((Core.Database.Entities.Album)this.Album, this.Artwork, this.UpdateFileArtwork);
             }
             catch (Exception ex)
             {

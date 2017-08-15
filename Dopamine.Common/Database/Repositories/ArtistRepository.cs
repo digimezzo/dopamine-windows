@@ -1,10 +1,11 @@
-﻿using Dopamine.Common.Database.Entities;
+﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using System.Linq;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Log;
 
 namespace Dopamine.Common.Database.Repositories
 {
@@ -72,7 +73,7 @@ namespace Dopamine.Common.Database.Repositories
                             }
 
                             // Orders the artists
-                            artists = artists.OrderBy((a) => Utils.GetSortableString(a.ArtistName, true)).ToList();
+                            artists = artists.OrderBy((a) => DatabaseUtils.GetSortableString(a.ArtistName, true)).ToList();
                         }
                         catch (Exception ex)
                         {

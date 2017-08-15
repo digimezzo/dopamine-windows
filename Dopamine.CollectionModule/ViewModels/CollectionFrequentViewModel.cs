@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;

@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Base;
-using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Extensions;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Extensions;
 using System.Collections.Generic;
 
-namespace Dopamine.Common.Database
+namespace Dopamine.Core.Database
 {
     public class PlayableTrack : Track
     {

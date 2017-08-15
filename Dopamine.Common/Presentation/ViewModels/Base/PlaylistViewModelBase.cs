@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Database;
+using Dopamine.Core.Database;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
@@ -86,7 +86,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
-            e.Accepted = Database.Utils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
+            e.Accepted = DatabaseUtils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
         }
       
         private async void CalculateSizeInformationAsync(CollectionViewSource source)

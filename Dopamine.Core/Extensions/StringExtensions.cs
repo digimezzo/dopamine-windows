@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dopamine.Common.Extensions
+namespace Dopamine.Core.Extensions
 {
     public static class StringExtensions
     {

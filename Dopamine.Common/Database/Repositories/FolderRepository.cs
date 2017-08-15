@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database.Entities;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
+using Dopamine.Core.Extensions;
 using Dopamine.Common.IO;
 using Digimezzo.Utilities.Log;
 using System;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Database.Repositories
 {
