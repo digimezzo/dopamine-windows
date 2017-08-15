@@ -1,8 +1,8 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Base;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.IO;
 using SQLite;
 
-namespace Dopamine.Common.Database
+namespace Dopamine.Core.Database
 {
     public class SQLiteConnectionFactory
     {
@@ -20,7 +20,7 @@ namespace Dopamine.Common.Database
         #region Construction
         public SQLiteConnectionFactory()
         {
-            this.databaseFile = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ProductInformation.ApplicationAssemblyName + ".db");
+            this.databaseFile = System.IO.Path.Combine(Storage.StorageFolder, ProductInformationBase.ApplicationName + ".db");
         }
         #endregion
 

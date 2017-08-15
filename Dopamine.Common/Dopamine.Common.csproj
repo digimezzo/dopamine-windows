@@ -209,7 +209,6 @@
     <Compile Include="Database\Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackRepository.cs" />
     <Compile Include="Database\Repositories\TrackStatisticRepository.cs" />
-    <Compile Include="Database\SQLiteConnectionFactory.cs" />
     <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Enums\SpectrumEnums.cs" />

@@ -44,7 +44,7 @@ namespace Dopamine.Common.Services.Playlist
 
             // Initialize Playlists folder
             string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            this.playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationDisplayName, "Playlists");
+            this.playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationName, "Playlists");
 
             if (!Directory.Exists(playlistFolder))
             {

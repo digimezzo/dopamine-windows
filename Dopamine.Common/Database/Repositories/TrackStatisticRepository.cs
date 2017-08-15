@@ -5,6 +5,7 @@ using Dopamine.Core.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Database.Repositories
 {

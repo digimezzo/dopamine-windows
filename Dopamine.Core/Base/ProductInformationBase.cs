@@ -6,7 +6,7 @@ namespace Dopamine.Core.Base
 {
     public abstract class ProductInformationBase
     {
-        public static string ApplicationDisplayName = "Dopamine";
+        public static string ApplicationName = "Dopamine";
         public static string Copyright = "Copyright Digimezzo © 2014-" + DateTime.Now.Year;
 
         public static ExternalComponent[] CommonComponents = {

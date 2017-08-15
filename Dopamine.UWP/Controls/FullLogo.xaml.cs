@@ -8,7 +8,7 @@ namespace Dopamine.UWP.Controls
         #region Properties
         public string ApplicationDisplayName
         {
-            get { return ProductInformation.ApplicationDisplayName.ToLower(); }
+            get { return ProductInformation.ApplicationName.ToLower(); }
         }
         #endregion
 

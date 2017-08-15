@@ -357,7 +357,7 @@ namespace Dopamine.ControlsModule.ViewModels
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.DEQ;
             dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
-            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerFolder);
+            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
 
             while (showSaveDialog)
             {
@@ -426,7 +426,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 try
                 {
                     await Task.Run(() => {
-                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationAssemblyName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
+                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
                         System.IO.File.Delete(presetPath);
                     });
 

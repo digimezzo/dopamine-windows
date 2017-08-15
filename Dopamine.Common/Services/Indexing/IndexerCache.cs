@@ -5,6 +5,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Services.Indexing
 {

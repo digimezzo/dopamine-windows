@@ -19,7 +19,7 @@ namespace Dopamine.Packager
 		   config = Configuration.Release;
 #endif
 
-            var worker = new PackageCreator(ProductInformation.ApplicationDisplayName, an.Version, config);
+            var worker = new PackageCreator(ProductInformation.ApplicationName, an.Version, config);
             worker.Execute();
         }
     }

@@ -62,7 +62,7 @@ namespace Dopamine.Common.Services.Taskbar
 
             this.playbackService.PlaybackFailed += (_, __) =>
             {
-                this.Description = ProductInformation.ApplicationDisplayName;
+                this.Description = ProductInformation.ApplicationName;
                 this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);
                 this.ShowTaskBarItemInfoPause(false);
             };
@@ -81,7 +81,7 @@ namespace Dopamine.Common.Services.Taskbar
 
             this.playbackService.PlaybackStopped += (_, __) =>
             {
-                this.Description = ProductInformation.ApplicationDisplayName;
+                this.Description = ProductInformation.ApplicationName;
                 this.SetTaskbarProgressState(false, false);
                 this.ShowTaskBarItemInfoPause(false);
             };
