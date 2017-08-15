@@ -1,4 +1,12 @@
-﻿using System;
+﻿using CSCore.DSP;
+using CSCore.Streams;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Extensions;
+using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Database;
+using Microsoft.Practices.ObjectBuilder2;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,14 +17,6 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using CSCore.DSP;
-using CSCore.Streams;
-using Dopamine.Common.Audio;
-using Dopamine.Common.Database;
-using Dopamine.Common.Extensions;
-using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Playback;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Dopamine.Common.Services.ExternalControl
 {

@@ -214,8 +214,6 @@
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
