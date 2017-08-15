@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>86</Value>
+      <Value>87</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -204,6 +204,9 @@
     </Setting>
     <Setting Name="SpectrumStyle">
       <Value>1</Value>
+    </Setting>
+    <Setting Name="EnableExternalControl">
+      <Value>False</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">
