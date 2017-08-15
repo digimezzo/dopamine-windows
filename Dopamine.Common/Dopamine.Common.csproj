@@ -23,6 +23,7 @@
     <SccProvider>
     </SccProvider>
     <NuGetPackageImportStamp>0dab619f</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -226,6 +227,7 @@
     <Compile Include="Enums\PageEnums.cs" />
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Enums\SpectrumEnums.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
@@ -414,6 +416,11 @@
     </Compile>
     <Compile Include="Services\Equalizer\EqualizerService.cs" />
     <Compile Include="Services\Equalizer\IEqualizerService.cs" />
+    <Compile Include="Services\ExternalControl\ExternalControlServer.cs" />
+    <Compile Include="Services\ExternalControl\ExternalControlService.cs" />
+    <Compile Include="Services\ExternalControl\IExternalControlServer.cs" />
+    <Compile Include="Services\ExternalControl\IExternalControlService.cs" />
+    <Compile Include="Services\ExternalControl\IFftDataServer.cs" />
     <Compile Include="Services\File\FileService.cs" />
     <Compile Include="Services\File\IFileService.cs" />
     <Compile Include="Services\I18n\I18nService.cs" />
@@ -488,7 +495,9 @@
     <Resource Include="Resources\Fonts\segmdl2.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\FullLogo.xaml">
