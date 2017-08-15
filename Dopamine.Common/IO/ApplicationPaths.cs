@@ -14,8 +14,8 @@ namespace Dopamine.Common.IO
         public static string BuiltinLanguagesFolder = "Languages";
         public static string CustomLanguagesFolder = "Languages";
         public static string UpdatesFolder = "Updates";
-        public static string LogFile = ProductInformation.ApplicationAssemblyName + ".log";
-        public static string LogArchiveFile = ProductInformation.ApplicationAssemblyName + ".{#}.log";
+        public static string LogFile = ProductInformation.ApplicationName + ".log";
+        public static string LogArchiveFile = ProductInformation.ApplicationName + ".{#}.log";
         public static string ExecutionFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
     }
 }

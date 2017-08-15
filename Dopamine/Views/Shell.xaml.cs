@@ -248,7 +248,7 @@ namespace Dopamine.Views
         {
             this.trayIcon = new System.Windows.Forms.NotifyIcon();
             this.trayIcon.Visible = false;
-            this.trayIcon.Text = ProductInformation.ApplicationAssemblyName;
+            this.trayIcon.Text = ProductInformation.ApplicationName;
 
             // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
             // without specifying the full path, the application fails to find the Tray icon and crashes here
@@ -726,7 +726,7 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
             this.isShuttingDown = true;
             this.Close();
         }
@@ -866,7 +866,7 @@ namespace Dopamine.Views
                 await this.playbackService.SavePlaybackCountersAsync();
             }
 
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
 
             this.mustPerformClosingTasks = false;
             this.Close();

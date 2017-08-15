@@ -160,7 +160,7 @@ namespace Dopamine.Common.Services.File
 
             // Check if there is only 1 instance (this one) of the application running. If not,
             // that could mean there are other instances trying to send files to this instance.
-            if (EnvironmentUtils.IsSingleInstance(ProductInformation.ApplicationAssemblyName))
+            if (EnvironmentUtils.IsSingleInstance(ProductInformation.ApplicationName))
             {
                 lock (this.lockObject)
                 {

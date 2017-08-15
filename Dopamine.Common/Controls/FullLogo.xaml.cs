@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Dopamine.Common.Base;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -13,6 +14,12 @@ namespace Dopamine.Common.Controls
 
             set { SetValue(AccentProperty, value); }
         }
+
+        public string ApplicationName
+        {
+            get { return ProductInformation.ApplicationName; }
+        }
+
         #endregion
 
         #region Dependency Properties

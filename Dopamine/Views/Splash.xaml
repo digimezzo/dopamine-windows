@@ -167,7 +167,7 @@
                         <Label 
                         Margin="15,5,0,0" 
                         Padding="0" 
-                        Content="{Binding Source={x:Static base:ProductInformation.ApplicationDisplayName},Converter={StaticResource StringToLowerConverter}}" 
+                        Content="{Binding Source={x:Static base:ProductInformation.ApplicationName},Converter={StaticResource StringToLowerConverter}}" 
                         Foreground="{StaticResource Local_ForegroundBrush}" 
                         FontFamily="/Dopamine.Common;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" 
                         FontSize="{Binding Source={x:Static base:Constants.SplashAppNameFontSize}}"/>

@@ -1,9 +1,10 @@
-﻿using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Database;
-using Dopamine.Core.Database.Entities;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Services.Cache;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Services.Indexing
 {

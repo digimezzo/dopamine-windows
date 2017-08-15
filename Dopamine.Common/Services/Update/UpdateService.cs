@@ -48,12 +48,12 @@ namespace Dopamine.Common.Services.Update
         #region Private
         private Package CreateDummyPackage()
         {
-            return new Package(ProductInformation.ApplicationDisplayName, new Version("0.0.0.0"), Configuration.Debug);
+            return new Package(ProductInformation.ApplicationName, new Version("0.0.0.0"), Configuration.Debug);
         }
 
         private Package CreateDummyPackage(Version version)
         {
-            return new Package(ProductInformation.ApplicationDisplayName, version, Configuration.Debug);
+            return new Package(ProductInformation.ApplicationName, version, Configuration.Debug);
         }
 
         private Package XElement2Package(XElement element)
@@ -61,7 +61,7 @@ namespace Dopamine.Common.Services.Update
             try
             {
                 return new Package(
-                    ProductInformation.ApplicationDisplayName,
+                    ProductInformation.ApplicationName,
                     new Version(element.Value),
                     (Configuration)Convert.ToInt32(element.Attribute("Configuration").Value));
             }
@@ -106,7 +106,7 @@ namespace Dopamine.Common.Services.Update
                     // Query the XML file for only result which match this application name
                     var versionXElements = (from a in doc.Element("Applications").Elements("Application")
                                             from v in a.Elements("Version")
-                                            where a.Attribute("Name").Value.ToLower().Equals(ProductInformation.ApplicationDisplayName.ToLower())
+                                            where a.Attribute("Name").Value.ToLower().Equals(ProductInformation.ApplicationName.ToLower())
                                             orderby v.Value
                                             select v).ToList();
 

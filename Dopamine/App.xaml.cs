@@ -47,14 +47,14 @@ namespace Dopamine
             }
             else
             {
-                LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationDisplayName);
+                LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }
         }
 
         private void ExecuteStartup()
         {
-            LogClient.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
+            LogClient.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -117,7 +117,7 @@ namespace Dopamine
         private void TryShowRunningInstance()
         {
             ICommandService commandServiceProxy = default(ICommandService);
-            ChannelFactory<ICommandService> commandServiceFactory = new ChannelFactory<ICommandService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/CommandService/CommandServiceEndpoint", ProductInformation.ApplicationDisplayName)));
+            ChannelFactory<ICommandService> commandServiceFactory = new ChannelFactory<ICommandService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/CommandService/CommandServiceEndpoint", ProductInformation.ApplicationName)));
 
             try
             {
@@ -139,7 +139,7 @@ namespace Dopamine
             DateTime startTime = DateTime.Now;
 
             IFileService fileServiceProxy = default(IFileService);
-            ChannelFactory<IFileService> fileServiceFactory = new ChannelFactory<IFileService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/FileService/FileServiceEndpoint", ProductInformation.ApplicationDisplayName)));
+            ChannelFactory<IFileService> fileServiceFactory = new ChannelFactory<IFileService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/FileService/FileServiceEndpoint", ProductInformation.ApplicationName)));
 
 
             while (needsSending)
@@ -213,7 +213,7 @@ namespace Dopamine
             LogClient.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));
 
             // Close the application to prevent further problems
-            LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationDisplayName, ProcessExecutable.AssemblyVersion());
+            LogClient.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion());
 
             // Stop playing (This avoids remaining processes in Task Manager)
             var playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();

@@ -42,7 +42,7 @@ namespace Dopamine.Common.Services.ExternalControl
             }
             this.svcExternalControlInstance.Open();
 
-            svcHost = new ServiceHost(svcExternalControlInstance, new Uri($"net.pipe://localhost/{ProductInformationBase.ApplicationDisplayName}"));
+            svcHost = new ServiceHost(svcExternalControlInstance, new Uri($"net.pipe://localhost/{ProductInformationBase.ApplicationName}"));
             svcHost.AddServiceEndpoint(typeof(IExternalControlServer), new NetNamedPipeBinding()
             {
 #if DEBUG

@@ -25,9 +25,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Database\Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\PlayableTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DatabaseUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\SQLiteConnectionFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnityExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IO\Storage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Packaging\ExternalComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToLowerConverter.cs" />
