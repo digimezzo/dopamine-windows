@@ -215,6 +215,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
@@ -417,7 +418,6 @@
     <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="Services\JumpList\IJumpListService.cs" />
     <Compile Include="Services\JumpList\JumpListService.cs" />
-    <Compile Include="Services\Logging\LoggingService.cs" />
     <Compile Include="Services\Metadata\IMetadataService.cs" />
     <Compile Include="Services\Metadata\LoveChangedEventArgs.cs" />
     <Compile Include="Services\Metadata\MetadataChangedEventArgs.cs" />
