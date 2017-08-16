@@ -1,4 +1,4 @@
-﻿namespace Dopamine.UWP.Services.Logging
+﻿namespace Dopamine.Core.Logging
 {
     public class LogEntry
     {

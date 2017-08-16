@@ -30,13 +30,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnityExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\Storage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Packaging\ExternalComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\ColorScheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\IAppearanceService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Logging\ILoggingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Settings\ISettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>

@@ -108,8 +108,6 @@
     </Compile>
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="Services\Dialog\IDialogService.cs" />
-    <Compile Include="Services\Logging\LogEntry.cs" />
-    <Compile Include="Services\Logging\LogLevel.cs" />
     <Compile Include="Services\Logging\LoggingService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
