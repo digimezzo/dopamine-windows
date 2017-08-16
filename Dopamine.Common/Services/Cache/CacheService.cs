@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using System;
 using System.IO;
 using System.Net;

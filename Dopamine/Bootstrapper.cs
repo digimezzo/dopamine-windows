@@ -1,5 +1,4 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database.Repositories;
@@ -39,6 +38,7 @@ using Dopamine.Common.Services.ExternalControl;
 using Dopamine.Core.Extensions;
 using Unity.Wcf;
 using Dopamine.Core.Services.Appearance;
+using Dopamine.Core.Logging;
 
 namespace Dopamine
 {

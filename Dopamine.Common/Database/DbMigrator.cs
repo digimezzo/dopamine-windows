@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Log;
+﻿using Dopamine.Core.Logging;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
 using System;

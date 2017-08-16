@@ -2,7 +2,7 @@
 using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Events;

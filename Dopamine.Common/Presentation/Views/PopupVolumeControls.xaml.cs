@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Log;
+﻿using Dopamine.Core.Logging;
 using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;

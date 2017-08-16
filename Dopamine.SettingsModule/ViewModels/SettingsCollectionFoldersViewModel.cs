@@ -7,7 +7,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

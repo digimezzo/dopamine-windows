@@ -215,7 +215,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
-    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Core\Logging\LogClient.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
