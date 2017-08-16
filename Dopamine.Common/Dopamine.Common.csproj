@@ -194,7 +194,6 @@
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
-    <Compile Include="Database\DbMigrator.cs" />
     <Compile Include="Database\Repositories\AlbumRepository.cs" />
     <Compile Include="Database\Repositories\ArtistRepository.cs" />
     <Compile Include="Database\Repositories\FolderRepository.cs" />

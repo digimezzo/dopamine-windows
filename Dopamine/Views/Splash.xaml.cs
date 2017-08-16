@@ -1,12 +1,12 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Packaging;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
+using Dopamine.Core.Database;
 using Dopamine.Core.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using Digimezzo.Utilities.Packaging;
-using Digimezzo.Utilities.IO;
 
 namespace Dopamine.Views
 {
