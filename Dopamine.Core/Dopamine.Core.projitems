@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Base\ContactInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\Defaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\ProductInformationBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DbMigrator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Album.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Artist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Configuration.cs" />
