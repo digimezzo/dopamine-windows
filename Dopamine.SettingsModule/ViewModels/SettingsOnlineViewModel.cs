@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Digimezzo.Utilities.Helpers;
 using System.Linq;
 

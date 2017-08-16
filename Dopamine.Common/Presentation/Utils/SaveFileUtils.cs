@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Digimezzo.Utilities.Utils;
 
 namespace Dopamine.Common.Presentation.Utils

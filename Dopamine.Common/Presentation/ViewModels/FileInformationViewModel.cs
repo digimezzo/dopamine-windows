@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Utils;
 using Prism.Mvvm;

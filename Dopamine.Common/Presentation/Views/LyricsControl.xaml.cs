@@ -1,6 +1,6 @@
 ﻿using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Playback;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Common.Prism;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Events;

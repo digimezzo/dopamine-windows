@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Database.Repositories

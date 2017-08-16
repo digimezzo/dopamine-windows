@@ -4,7 +4,7 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using System;
 using System.Threading.Tasks;

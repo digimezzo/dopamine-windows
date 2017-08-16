@@ -5,7 +5,7 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Common.Metadata;
 using Prism.Commands;
 using Prism.Mvvm;

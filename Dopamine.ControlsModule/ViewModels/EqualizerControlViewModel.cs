@@ -7,7 +7,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Audio;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

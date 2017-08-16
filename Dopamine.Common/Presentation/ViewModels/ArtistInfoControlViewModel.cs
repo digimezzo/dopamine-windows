@@ -6,7 +6,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Core.Database;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;

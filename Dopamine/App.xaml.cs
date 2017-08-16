@@ -5,7 +5,7 @@ using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Views;
 using System;
 using System.Linq;

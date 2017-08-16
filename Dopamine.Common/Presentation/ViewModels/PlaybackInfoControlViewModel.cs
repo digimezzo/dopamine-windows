@@ -1,7 +1,7 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Database;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Logging;
 using Dopamine.Common.Utils;
 using Prism.Mvvm;
 using System;
