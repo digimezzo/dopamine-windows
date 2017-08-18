@@ -1,22 +1,20 @@
-﻿using System;
+﻿using Dopamine.Core.Services.Appearance;
+using Dopamine.UWP.Utils;
+using System;
 using System.Collections.Generic;
-using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Services.Logging;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Dopamine.UWP.Utils;
-using System.Linq;
-using Windows.UI.ViewManagement;
-using Windows.Foundation.Metadata;
-using System.Threading.Tasks;
 
 namespace Dopamine.UWP.Services.Appearance
 {
     public class AppearanceService : IAppearanceService
     {
         #region Variables
-        private ILoggingService loggingService;
         private bool followWindowsColor = false;
         private ColorScheme[] colorSchemes = {
                                                 new ColorScheme {
@@ -47,9 +45,8 @@ namespace Dopamine.UWP.Services.Appearance
         #endregion
 
         #region Construction
-        public AppearanceService(ILoggingService loggingService)
+        public AppearanceService()
         {
-            this.loggingService = loggingService;
         }
         #endregion
 
