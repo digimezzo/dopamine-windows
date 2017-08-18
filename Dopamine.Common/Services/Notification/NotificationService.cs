@@ -7,8 +7,12 @@ using Dopamine.Common.Base;
 using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Media;
+using Windows.Media.Playback;
+using Windows.Storage.Streams;
 
 namespace Dopamine.Common.Services.Notification
 {
@@ -23,6 +27,10 @@ namespace Dopamine.Common.Services.Notification
         private DopamineWindow mainWindow;
         private DopamineWindow playlistWindow;
         private Window trayControlsWindow;
+        private SystemMediaTransportControls systemMediaControls;
+        private SystemMediaTransportControlsDisplayUpdater displayUpdater;
+        private MusicDisplayProperties musicProperties;
+        private InMemoryRandomAccessStream artworkStream;
         #endregion
 
         #region Properties
@@ -61,10 +69,67 @@ namespace Dopamine.Common.Services.Notification
             {
                 if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming")) await this.ShowNotificationIfAllowedAsync();
             };
+
+            systemMediaControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Closed;
+            systemMediaControls.IsEnabled = true;
+            systemMediaControls.IsPlayEnabled = true;
+            systemMediaControls.IsPauseEnabled = true;
+            systemMediaControls.IsStopEnabled = true;
+            systemMediaControls.IsPreviousEnabled = true;
+            systemMediaControls.IsNextEnabled = true;
+            systemMediaControls.IsRewindEnabled = false;
+            systemMediaControls.IsFastForwardEnabled = false;
+
+            displayUpdater = systemMediaControls.DisplayUpdater;
+            displayUpdater.Type = MediaPlaybackType.Music;
+            musicProperties = displayUpdater.MusicProperties;
+            musicProperties.AlbumArtist = "Artist";
+            musicProperties.AlbumTitle = "Title";
+            musicProperties.Artist = "Artist";
+            musicProperties.Title = "Title";
+            musicProperties.TrackNumber = 1;
+            displayUpdater.Update();
         }
         #endregion
 
         #region Private
+        private async void SetArtworkThumbnail(byte[] data)
+        {
+            if (artworkStream != null)
+                artworkStream.Dispose();
+            if (data == null)
+            {
+                artworkStream = null;
+                displayUpdater.Thumbnail = null;
+            }
+            else
+            {
+                artworkStream = new InMemoryRandomAccessStream();
+                //await artworkStream.WriteAsync(data.AsBuffer());
+                displayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(artworkStream);
+            }
+        }
+
+        private void SetDisplayValues()
+        {
+            displayUpdater.ClearAll();
+            displayUpdater.Type = MediaPlaybackType.Music;
+            SetArtworkThumbnail(null);
+
+                musicProperties.AlbumArtist = "Artist";
+                musicProperties.AlbumTitle = "Title";
+                uint value;
+                musicProperties.Artist = "Artist";
+            musicProperties.Title = "Title";
+                    musicProperties.TrackNumber = 1;
+                byte[] imageData;
+
+                //SetArtworkThumbnail(imageData);
+            
+            displayUpdater.Update();
+        }
+
         private void ShowMainWindow(Object sender, EventArgs e)
         {
             if (this.mainWindow != null)
