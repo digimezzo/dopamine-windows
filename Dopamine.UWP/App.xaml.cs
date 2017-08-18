@@ -1,4 +1,6 @@
-﻿using Dopamine.Core.Extensions;
+﻿using Dopamine.Core.Database;
+using Dopamine.Core.Extensions;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Services.Settings;
 using Dopamine.UWP.Services.Appearance;
@@ -47,6 +49,7 @@ namespace Dopamine.UWP
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
+            this.InitializeDatabase();
             this.RegisterServices();
             this.RegisterViews();
 
@@ -93,6 +96,37 @@ namespace Dopamine.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void InitializeDatabase()
+        {
+            try
+            {
+                var migrator = new DbMigrator();
+
+                if (!migrator.DatabaseExists())
+                {
+                    // Create the database if it doesn't exist
+                    LogClient.Info("Creating database");
+                    migrator.InitializeNewDatabase();
+                }
+                else
+                {
+                    // Upgrade the database if it is not the latest version
+
+                    if (migrator.DatabaseNeedsUpgrade())
+                    {
+                        LogClient.Info("Upgrading database");
+                        migrator.UpgradeDatabase();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+            }
+
+            return;
         }
     }
 }
