@@ -65,6 +65,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxShowProgressInTaskbarChecked;
         private bool checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
         private bool checkBoxEnableExternalControlChecked;
+        private bool checkBoxEnableSystemNotificationChecked;
         private ObservableCollection<NameValue> notificationPositions;
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
@@ -253,6 +254,19 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.externalControlService.Stop();
             }
         }
+
+        public bool IsWindows10 => EnvironmentUtils.IsWindows10();
+
+        public bool CheckBoxEnableSystemNotificationChecked
+        {
+            get => this.checkBoxEnableSystemNotificationChecked;
+            set
+            {
+                SettingsClient.Set("Behaviour", "EnableSystemNotification", value);
+                SetProperty(ref this.checkBoxEnableSystemNotificationChecked, value);
+            }
+        }
+
         #endregion
 
         #region Construction
