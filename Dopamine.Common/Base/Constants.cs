@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows;
+using Digimezzo.Utilities.Utils;
 
 namespace Dopamine.Common.Base
 {
     public static class Constants
     {
-        private static long MillisecondsToTicks(int ms) => ms * 10000;
+        // Environment
+        public static bool IsWindows10 = EnvironmentUtils.IsWindows10();
 
         // Links
         public static string LastFmJoinLink = "https://www.last.fm/join";

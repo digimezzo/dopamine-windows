@@ -7,6 +7,8 @@ using Dopamine.Common.Base;
 using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +29,11 @@ namespace Dopamine.Common.Services.Notification
         private DopamineWindow mainWindow;
         private DopamineWindow playlistWindow;
         private Window trayControlsWindow;
+        private bool systemNotificationIsEnabled;
+        private bool showNotificationWhenPlaying;
+        private bool showNotificationWhenPausing;
+        private bool showNotificationWhenResuming;
+        private bool showNotificationControls;
         private SystemMediaTransportControls systemMediaControls;
         private SystemMediaTransportControlsDisplayUpdater displayUpdater;
         private MusicDisplayProperties musicProperties;
@@ -34,15 +41,55 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Properties
-        public bool CanShowNotification
-        {
-            get
-            {
-                if (this.trayControlsWindow != null && this.trayControlsWindow.IsActive) return false; // Never show a notification when the tray controls are visible.
-                if (this.mainWindow != null && this.mainWindow.IsActive && SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
-                if (this.playlistWindow != null && this.playlistWindow.IsActive && SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible")) return false;
 
-                return true;
+        public bool ShowNotificationControls
+        {
+            get => this.showNotificationControls;
+            set
+            {
+                this.showNotificationControls = value;
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationControls", value);
+            }
+        }
+
+        public bool ShowNotificationWhenResuming
+        {
+            get => this.showNotificationWhenResuming;
+            set
+            {
+                this.showNotificationWhenResuming = value;
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenResuming", value);
+            }
+        }
+
+        public bool ShowNotificationWhenPausing
+        {
+            get => this.showNotificationWhenPausing;
+            set
+            {
+                this.showNotificationWhenPausing = value;
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPausing", value);
+            }
+        }
+
+        public bool ShowNotificationWhenPlaying
+        {
+            get => this.showNotificationWhenPlaying;
+            set
+            {
+                this.showNotificationWhenPlaying = value;
+                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPlaying", value);
+            }
+        }
+
+        public bool SystemNotificationIsEnabled
+        {
+            get => this.systemNotificationIsEnabled;
+            set
+            {
+                this.systemNotificationIsEnabled = value;
+                SettingsClient.Set("Behaviour", "EnableSystemNotification", value);
+                Application.Current.Dispatcher.InvokeAsync(async () => await SwitchNotificationHandlerAsync(value));
             }
         }
         #endregion
@@ -55,49 +102,163 @@ namespace Dopamine.Common.Services.Notification
             this.cacheService = cacheService;
             this.metadataService = metadataService;
 
-            this.playbackService.PlaybackSuccess += async (_) =>
+            // Pay attention to UPPERCASE property
+            this.SystemNotificationIsEnabled = SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification");
+            this.showNotificationControls = SettingsClient.Get<bool>("Behaviour", "ShowNotificationControls");
+            this.showNotificationWhenResuming = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming");
+            this.showNotificationWhenPausing = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPausing");
+            this.showNotificationWhenPlaying = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPlaying");
+
+            if (Constants.IsWindows10)
             {
-                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPlaying")) await this.ShowNotificationIfAllowedAsync();
-            };
-
-            this.playbackService.PlaybackPaused += async (_, __) =>
-            {
-                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPausing")) await this.ShowNotificationIfAllowedAsync();
-            };
-
-            this.playbackService.PlaybackResumed += async (_, __) =>
-            {
-                if (SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming")) await this.ShowNotificationIfAllowedAsync();
-            };
-
-            systemMediaControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
-            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Closed;
-            systemMediaControls.IsEnabled = true;
-            systemMediaControls.IsPlayEnabled = true;
-            systemMediaControls.IsPauseEnabled = true;
-            systemMediaControls.IsStopEnabled = true;
-            systemMediaControls.IsPreviousEnabled = true;
-            systemMediaControls.IsNextEnabled = true;
-            systemMediaControls.IsRewindEnabled = false;
-            systemMediaControls.IsFastForwardEnabled = false;
-
-            displayUpdater = systemMediaControls.DisplayUpdater;
-            displayUpdater.Type = MediaPlaybackType.Music;
-            musicProperties = displayUpdater.MusicProperties;
-            musicProperties.AlbumArtist = "Artist";
-            musicProperties.AlbumTitle = "Title";
-            musicProperties.Artist = "Artist";
-            musicProperties.Title = "Title";
-            musicProperties.TrackNumber = 1;
-            displayUpdater.Update();
+                systemMediaControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
+                displayUpdater = systemMediaControls.DisplayUpdater;
+                displayUpdater.Type = MediaPlaybackType.Music;
+                musicProperties = displayUpdater.MusicProperties;
+                systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Closed;
+                displayUpdater.Update();
+            }
         }
         #endregion
 
         #region Private
-        private async void SetArtworkThumbnail(byte[] data)
+
+        private void SMCAutoRepeatModeChangeRequested(SystemMediaTransportControls sender, AutoRepeatModeChangeRequestedEventArgs e)
         {
-            if (artworkStream != null)
-                artworkStream.Dispose();
+            switch (e.RequestedAutoRepeatMode)
+            {
+                case MediaPlaybackAutoRepeatMode.None:
+                    this.playbackService.LoopMode = LoopMode.None;
+                    break;
+                case MediaPlaybackAutoRepeatMode.Track:
+                    this.playbackService.LoopMode = LoopMode.One;
+                    break;
+                case MediaPlaybackAutoRepeatMode.List:
+                    this.playbackService.LoopMode = LoopMode.All;
+                    break;
+                default:
+                    // Never happens
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private async void SMCButtonPressed(SystemMediaTransportControls sender,
+            SystemMediaTransportControlsButtonPressedEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case SystemMediaTransportControlsButton.Previous:
+                    await this.playbackService.PlayPreviousAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Next:
+                    await this.playbackService.PlayNextAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Pause:
+                    await this.playbackService.PlayOrPauseAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Play:
+                    await this.playbackService.PlayOrPauseAsync();
+                    break;
+                default:
+                    // Never happens
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void PlaybackResumedSystemNotificationHandler(object _, EventArgs __)
+        {
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
+            displayUpdater.Update();
+        }
+
+        private void PlaybackPausedSystemNotificationHandler(object _, EventArgs __)
+        {
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Paused;
+            displayUpdater.Update();
+        }
+
+        private async void PlaybackSuccessSystemNotificationHandler(bool _)
+        {
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
+            var track = this.playbackService.CurrentTrack.Value;
+            musicProperties.AlbumArtist = track.AlbumArtist;
+            musicProperties.AlbumTitle = track.AlbumTitle;
+            musicProperties.Artist = track.ArtistName;
+            musicProperties.Title = track.TrackTitle;
+            musicProperties.TrackNumber = Convert.ToUInt32(track.TrackNumber);
+            await SetArtworkThumbnailAsync(await this.metadataService.GetArtworkAsync(track.Path));
+            displayUpdater.Update();
+        }
+
+        private async void PlaybackResumedHandler(object _, EventArgs __)
+        {
+            if (this.showNotificationWhenResuming) await this.ShowNotificationIfAllowedAsync();
+        }
+
+        private async void PlaybackPausedHandler(object _, EventArgs __)
+        {
+            if(this.showNotificationWhenPausing) await this.ShowNotificationIfAllowedAsync();
+        }
+
+        private async void PlaybackSuccessHandler(bool _)
+        {
+            if (this.showNotificationWhenPlaying) await this.ShowNotificationIfAllowedAsync();
+        }
+
+        private async Task SwitchNotificationHandlerAsync(bool systemNotificationIsEnabled)
+        {
+            await Task.Run(() =>
+            {
+                if (systemNotificationIsEnabled)
+                {
+                    // We can safely unsubscribe event handlers before subscribing them
+                    // See https://msdn.microsoft.com/en-us/library/system.delegate.remove.aspx
+                    this.playbackService.PlaybackSuccess -= this.PlaybackSuccessHandler;
+                    this.playbackService.PlaybackPaused -= this.PlaybackPausedHandler;
+                    this.playbackService.PlaybackResumed -= this.PlaybackResumedHandler;
+
+                    if (Constants.IsWindows10)
+                    {
+                        systemMediaControls.IsEnabled = true;
+                        systemMediaControls.IsPlayEnabled = true;
+                        systemMediaControls.IsPauseEnabled = true;
+                        systemMediaControls.IsStopEnabled = true;
+                        systemMediaControls.IsPreviousEnabled = true;
+                        systemMediaControls.IsNextEnabled = true;
+                        systemMediaControls.ShuffleEnabled = true;
+                        systemMediaControls.IsRewindEnabled = false;
+                        systemMediaControls.IsFastForwardEnabled = false;
+                        systemMediaControls.ButtonPressed += SMCButtonPressed;
+                        systemMediaControls.AutoRepeatModeChangeRequested += SMCAutoRepeatModeChangeRequested;
+
+                        this.playbackService.PlaybackSuccess += this.PlaybackSuccessSystemNotificationHandler;
+                        this.playbackService.PlaybackPaused += this.PlaybackPausedSystemNotificationHandler;
+                        this.playbackService.PlaybackResumed += this.PlaybackResumedSystemNotificationHandler;
+                    }
+                }
+                else
+                {
+                    this.playbackService.PlaybackSuccess += this.PlaybackSuccessHandler;
+                    this.playbackService.PlaybackPaused += this.PlaybackPausedHandler;
+                    this.playbackService.PlaybackResumed += this.PlaybackResumedHandler;
+
+                    if (Constants.IsWindows10)
+                    {
+                        systemMediaControls.IsEnabled = false;
+                        systemMediaControls.ButtonPressed -= SMCButtonPressed;
+                        systemMediaControls.AutoRepeatModeChangeRequested -= SMCAutoRepeatModeChangeRequested;
+
+                        this.playbackService.PlaybackSuccess -= this.PlaybackSuccessSystemNotificationHandler;
+                        this.playbackService.PlaybackPaused -= this.PlaybackPausedSystemNotificationHandler;
+                        this.playbackService.PlaybackResumed -= this.PlaybackResumedSystemNotificationHandler;
+                    }
+                }
+            });
+        }
+
+        private async Task SetArtworkThumbnailAsync(byte[] data)
+        {
+            artworkStream?.Dispose();
             if (data == null)
             {
                 artworkStream = null;
@@ -106,28 +267,9 @@ namespace Dopamine.Common.Services.Notification
             else
             {
                 artworkStream = new InMemoryRandomAccessStream();
-                //await artworkStream.WriteAsync(data.AsBuffer());
+                await artworkStream.WriteAsync(data.AsBuffer());
                 displayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(artworkStream);
             }
-        }
-
-        private void SetDisplayValues()
-        {
-            displayUpdater.ClearAll();
-            displayUpdater.Type = MediaPlaybackType.Music;
-            SetArtworkThumbnail(null);
-
-                musicProperties.AlbumArtist = "Artist";
-                musicProperties.AlbumTitle = "Title";
-                uint value;
-                musicProperties.Artist = "Artist";
-            musicProperties.Title = "Title";
-                    musicProperties.TrackNumber = 1;
-                byte[] imageData;
-
-                //SetArtworkThumbnail(imageData);
-            
-            displayUpdater.Update();
         }
 
         private void ShowMainWindow(Object sender, EventArgs e)
@@ -138,9 +280,20 @@ namespace Dopamine.Common.Services.Notification
             }
         }
 
+        private bool CanShowNotification()
+        {
+            if (this.systemNotificationIsEnabled) return false;
+            var showNotificationOnlyWhenPlayerNotVisible = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
+            if (this.trayControlsWindow != null && this.trayControlsWindow.IsActive) return false; // Never show a notification when the tray controls are visible.
+            if (this.mainWindow != null && this.mainWindow.IsActive && showNotificationOnlyWhenPlayerNotVisible) return false;
+            if (this.playlistWindow != null && this.playlistWindow.IsActive && showNotificationOnlyWhenPlayerNotVisible) return false;
+
+            return true;
+        }
+
         private async Task ShowNotificationIfAllowedAsync()
         {
-            if (this.CanShowNotification)
+            if (this.CanShowNotification())
             {
                 await this.ShowNotificationAsync();
             }
