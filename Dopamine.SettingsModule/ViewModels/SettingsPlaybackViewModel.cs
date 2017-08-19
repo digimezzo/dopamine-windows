@@ -65,6 +65,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxShowProgressInTaskbarChecked;
         private bool checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
         private bool checkBoxEnableExternalControlChecked;
+        private bool checkBoxEnableSystemNotificationChecked;
         private ObservableCollection<NameValue> notificationPositions;
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
@@ -78,7 +79,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Properties
-        public bool IsNotificationEnabled => this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked;
+        public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
         public ObservableCollection<NameValue> Latencies
         {
@@ -122,8 +123,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get => this.checkBoxShowNotificationWhenPlayingChecked;
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPlaying", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPlayingChecked, value);
+                this.notificationService.ShowNotificationWhenPlaying = value;
                 RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
@@ -133,8 +134,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get => this.checkBoxShowNotificationWhenPausingChecked;
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenPausing", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPausingChecked, value);
+                this.notificationService.ShowNotificationWhenPausing = value;
                 RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
@@ -144,8 +145,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get => this.checkBoxShowNotificationWhenResumingChecked;
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowNotificationWhenResuming", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenResumingChecked, value);
+                this.notificationService.ShowNotificationWhenResuming = value;
                 RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
@@ -155,8 +156,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get => this.checkBoxShowNotificationControlsChecked;
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowNotificationControls", value);
                 SetProperty<bool>(ref this.checkBoxShowNotificationControlsChecked, value);
+                this.notificationService.ShowNotificationControls = value;
             }
         }
 
@@ -253,6 +254,20 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.externalControlService.Stop();
             }
         }
+
+        public bool IsWindows10 => Constants.IsWindows10;
+
+        public bool CheckBoxEnableSystemNotificationChecked
+        {
+            get => this.checkBoxEnableSystemNotificationChecked;
+            set
+            {
+                SetProperty(ref this.checkBoxEnableSystemNotificationChecked, value);
+                this.notificationService.SystemNotificationIsEnabled = value;
+                RaisePropertyChanged(nameof(this.IsNotificationEnabled));
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -384,13 +399,14 @@ namespace Dopamine.SettingsModule.ViewModels
                 this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
                 RaisePropertyChanged(nameof(this.CheckBoxWasapiExclusiveModeChecked));
 
-                this.CheckBoxShowNotificationWhenPlayingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPlaying");
-                this.CheckBoxShowNotificationWhenPausingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenPausing");
-                this.CheckBoxShowNotificationWhenResumingChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationWhenResuming");
-                this.CheckBoxShowNotificationControlsChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationControls");
+                this.CheckBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
+                this.CheckBoxShowNotificationWhenPausingChecked = this.notificationService.ShowNotificationWhenPausing;
+                this.CheckBoxShowNotificationWhenResumingChecked = this.notificationService.ShowNotificationWhenResuming;
+                this.CheckBoxShowNotificationControlsChecked = this.notificationService.ShowNotificationControls;
                 this.CheckBoxShowProgressInTaskbarChecked = SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar");
                 this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
                 this.checkBoxEnableExternalControlChecked = SettingsClient.Get<bool>("Playback", "EnableExternalControl");
+                this.CheckBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
             });
         }
 
