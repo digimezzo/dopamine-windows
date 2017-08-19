@@ -46,7 +46,7 @@ namespace Dopamine.Common.Presentation.Utils
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while setting the availability of the semantic zoom selectors.", ex.Message);
+                    CoreLogger.Error("Error while setting the availability of the semantic zoom selectors.", ex.Message);
                 }
             });
 

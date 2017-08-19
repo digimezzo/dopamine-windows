@@ -80,7 +80,7 @@ namespace Dopamine.Common.Services.Provider
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not load providers XML. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not load providers XML. Exception: {0}", ex.Message);
                 }
 
             }
@@ -115,7 +115,7 @@ namespace Dopamine.Common.Services.Provider
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not load search providers. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not load search providers. Exception: {0}", ex.Message);
                 }
 
             });
@@ -150,7 +150,7 @@ namespace Dopamine.Common.Services.Provider
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not search online using url: '{0}'. Exception: {1}", url, ex.Message);
+                CoreLogger.Error("Could not search online using url: '{0}'. Exception: {1}", url, ex.Message);
             }
         }
 
@@ -175,7 +175,7 @@ namespace Dopamine.Common.Services.Provider
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not remove search provider. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not remove search provider. Exception: {0}", ex.Message);
                 }
             }
 
@@ -186,7 +186,7 @@ namespace Dopamine.Common.Services.Provider
         {
             if (string.IsNullOrEmpty(provider.Name) | string.IsNullOrEmpty(provider.Url))
             {
-                LogClient.Error("The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
+                CoreLogger.Error("The online search provider could not be added. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
                 return UpdateSearchProviderResult.MissingFields;
             }
 
@@ -207,7 +207,7 @@ namespace Dopamine.Common.Services.Provider
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not update search provider. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not update search provider. Exception: {0}", ex.Message);
             }
 
             return UpdateSearchProviderResult.Failure;
@@ -217,7 +217,7 @@ namespace Dopamine.Common.Services.Provider
         {
             if (string.IsNullOrEmpty(provider.Name) | string.IsNullOrEmpty(provider.Url))
             {
-                LogClient.Error("The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
+                CoreLogger.Error("The online search provider could not be updated. Fields 'Name' and 'Url' are required, 'Separator' is optional.");
                 return UpdateSearchProviderResult.MissingFields;
             }
 
@@ -242,7 +242,7 @@ namespace Dopamine.Common.Services.Provider
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not update search provider. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not update search provider. Exception: {0}", ex.Message);
             }
 
             return UpdateSearchProviderResult.Failure;

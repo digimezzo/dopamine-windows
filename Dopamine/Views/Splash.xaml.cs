@@ -151,7 +151,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Windows Media Foundation could not be found. Exception: {0}", ex.Message);
+                CoreLogger.Error("Windows Media Foundation could not be found. Exception: {0}", ex.Message);
                 isSuccess = false;
             }
 
@@ -178,7 +178,7 @@ namespace Dopamine.Views
                 if (SettingsClient.IsUpgradeNeeded())
                 {
                     this.ShowProgressRing = true;
-                    LogClient.Info("Upgrading settings");
+                    CoreLogger.Info("Upgrading settings");
                     await Task.Run(() => SettingsClient.Upgrade());
                 }
 
@@ -186,7 +186,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
+                CoreLogger.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
                 isSuccess = false;
             }
@@ -206,7 +206,7 @@ namespace Dopamine.Views
                 {
                     // Create the database if it doesn't exist
                     this.ShowProgressRing = true;
-                    LogClient.Info("Creating database");
+                    CoreLogger.Info("Creating database");
                     await Task.Run(() => migrator.InitializeNewDatabase());
                 }
                 else
@@ -216,7 +216,7 @@ namespace Dopamine.Views
                     if (migrator.DatabaseNeedsUpgrade())
                     {
                         this.ShowProgressRing = true;
-                        LogClient.Info("Upgrading database");
+                        CoreLogger.Info("Upgrading database");
                         await Task.Run(() => migrator.UpgradeDatabase());
                     }
                 }
@@ -225,7 +225,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+                CoreLogger.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
                 isSuccess = false;
             }

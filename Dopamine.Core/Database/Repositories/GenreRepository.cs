@@ -32,13 +32,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
+                            CoreLogger.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

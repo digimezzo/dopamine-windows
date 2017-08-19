@@ -261,13 +261,13 @@ namespace Dopamine.Common.Services.Appearance
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Exception: {0}", ex.Message);
+                        CoreLogger.Error("Exception: {0}", ex.Message);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Exception: {0}", ex.Message);
+                    CoreLogger.Error("Exception: {0}", ex.Message);
                 }
             }
         }

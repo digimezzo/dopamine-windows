@@ -133,7 +133,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Private
         private async void AddFolder()
         {
-            LogClient.Info("Adding a folder to the collection.");
+            CoreLogger.Info("Adding a folder to the collection.");
 
             var dlg = new WPFFolderBrowserDialog();
 
@@ -176,7 +176,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Exception: {0}", ex.Message);
+                    CoreLogger.Error("Exception: {0}", ex.Message);
 
                     this.dialogService.ShowNotification(
                         0xe711,
@@ -215,7 +215,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("Exception: {0}", ex.Message);
+                CoreLogger.Error("Exception: {0}", ex.Message);
 
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Folder"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
             }

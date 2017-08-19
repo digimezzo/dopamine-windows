@@ -101,7 +101,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not get artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                    CoreLogger.Error("Could not get artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
                 }
 
                 this.artwork = artwork;
@@ -124,7 +124,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
+                        CoreLogger.Error("Could not show file artwork for Track {0}. Exception: {1}", track.Path, ex.Message);
                         this.ClearArtwork();
                     }
 

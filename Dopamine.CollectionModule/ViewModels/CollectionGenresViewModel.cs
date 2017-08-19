@@ -346,7 +346,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
+                CoreLogger.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
 
                 // Failed getting Genres. Create empty ObservableCollection.
                 this.Genres = new ObservableCollection<ISemanticZoomable>();

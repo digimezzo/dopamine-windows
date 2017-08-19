@@ -305,7 +305,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occurred while getting Artists. Exception: {0}", ex.Message);
+                CoreLogger.Error("An error occurred while getting Artists. Exception: {0}", ex.Message);
 
                 // Failed getting Artists. Create empty ObservableCollection.
                 this.Artists = new ObservableCollection<ISemanticZoomable>();

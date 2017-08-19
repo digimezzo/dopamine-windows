@@ -114,7 +114,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
+                CoreLogger.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                CoreLogger.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
             }
         }
 
@@ -172,7 +172,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
         #endregion

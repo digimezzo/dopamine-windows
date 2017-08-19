@@ -40,7 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnityExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\Storage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\CoreLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Packaging\ExternalComponent.cs" />
@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Indexing\IndexerCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Settings\ISettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\CoreSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>
 </Project>

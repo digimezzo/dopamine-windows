@@ -2,7 +2,7 @@
 
 namespace Dopamine.Core.Logging
 {
-    public partial class LogClient
+    public partial class CoreLogger
     {
         public static string Logfile()
         {

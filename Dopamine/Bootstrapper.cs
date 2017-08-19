@@ -172,12 +172,12 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                LogClient.Info("Showing Oobe screen");
+                CoreLogger.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                LogClient.Info("Showing Main screen");
+                CoreLogger.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
@@ -198,11 +198,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                LogClient.Info("CommandService was started successfully");
+                CoreLogger.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -213,11 +213,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                LogClient.Info("FileService was started successfully");
+                CoreLogger.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }

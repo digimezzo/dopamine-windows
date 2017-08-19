@@ -282,7 +282,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
                     this.OpenDownloadLink();
                 }
             }
@@ -312,7 +312,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not open the download link. Exception: {0}", ex.Message);
+                CoreLogger.Error("Could not open the download link. Exception: {0}", ex.Message);
             }
         }
         #endregion

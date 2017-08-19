@@ -390,7 +390,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
+                            CoreLogger.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
 
                             this.dialogService.ShowNotification(
                                                 0xe711,
@@ -435,7 +435,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset.Name, ex.Message);
+                    CoreLogger.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset.Name, ex.Message);
 
                     this.dialogService.ShowNotification(
                                         0xe711,

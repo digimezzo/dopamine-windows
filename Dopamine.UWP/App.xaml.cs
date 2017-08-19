@@ -107,7 +107,7 @@ namespace Dopamine.UWP
                 if (!migrator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
-                    LogClient.Info("Creating database");
+                    CoreLogger.Info("Creating database");
                     migrator.InitializeNewDatabase();
                 }
                 else
@@ -116,14 +116,14 @@ namespace Dopamine.UWP
 
                     if (migrator.DatabaseNeedsUpgrade())
                     {
-                        LogClient.Info("Upgrading database");
+                        CoreLogger.Info("Upgrading database");
                         migrator.UpgradeDatabase();
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+                CoreLogger.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
             }
 
             return;
