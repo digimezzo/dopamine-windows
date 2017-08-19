@@ -79,7 +79,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Properties
-        public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && this.IsWindows10;
+        public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
         public ObservableCollection<NameValue> Latencies
         {
@@ -125,6 +125,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPlayingChecked, value);
                 this.notificationService.ShowNotificationWhenPlaying = value;
+                RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
 
@@ -135,6 +136,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenPausingChecked, value);
                 this.notificationService.ShowNotificationWhenPausing = value;
+                RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
 
@@ -145,6 +147,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SetProperty<bool>(ref this.checkBoxShowNotificationWhenResumingChecked, value);
                 this.notificationService.ShowNotificationWhenResuming = value;
+                RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
 
@@ -261,6 +264,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 SetProperty(ref this.checkBoxEnableSystemNotificationChecked, value);
                 this.notificationService.SystemNotificationIsEnabled = value;
+                RaisePropertyChanged(nameof(this.IsNotificationEnabled));
             }
         }
 
