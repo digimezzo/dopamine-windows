@@ -1,7 +1,5 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
@@ -11,7 +9,9 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;

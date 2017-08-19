@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Database.Repositories.Interfaces
+namespace Dopamine.Core.Database.Repositories.Interfaces
 {
     public interface IAlbumRepository
     {

@@ -198,10 +198,7 @@
     <Compile Include="Database\Repositories\ArtistRepository.cs" />
     <Compile Include="Database\Repositories\FolderRepository.cs" />
     <Compile Include="Database\Repositories\GenreRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IAlbumRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IArtistRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IFolderRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IGenreRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\IQueuedTrackRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\ITrackRepository.cs" />
     <Compile Include="Database\Repositories\Interfaces\ITrackStatisticRepository.cs" />

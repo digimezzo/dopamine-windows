@@ -1,7 +1,7 @@
-﻿using Dopamine.Core.Logging;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Core.Database;
+﻿using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;

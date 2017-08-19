@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Database;
+using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Database.Repositories
 {
