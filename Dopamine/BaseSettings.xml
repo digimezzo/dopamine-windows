@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>87</Value>
+      <Value>88</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -108,6 +108,9 @@
     </Setting>
     <Setting Name="FollowTrack">
       <Value>True</Value>
+    </Setting>
+    <Setting Name="EnableSystemNotification">
+      <Value>False</Value>
     </Setting>
     <Setting Name="ShowNotificationWhenPlaying">
       <Value>True</Value>

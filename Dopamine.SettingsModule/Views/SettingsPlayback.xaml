@@ -27,29 +27,28 @@
                 <TextBlock Text="{DynamicResource Language_Wasapi_Exclusive_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiExclusiveMode" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiExclusiveModeChecked}"/>
             </StackPanel>
+
+            <!-- Notification -->
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Notification}" />
-            <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Song_Starts}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPlaying" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPlayingChecked}"/>
+            <StackPanel Margin="0,5,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding IsWindows10}">
+                <TextBlock Text="{DynamicResource Language_Enable_System_Notification}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableSystemNotification" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableSystemNotificationChecked}"/>
             </StackPanel>
-            <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Pausing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPausing" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPausingChecked}"/>
+            <StackPanel Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding CheckBoxEnableSystemNotificationChecked,Converter={StaticResource InvertingBooleanConverter}}">
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="{DynamicResource Language_Show_Notification_When_Song_Starts}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPlaying" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPlayingChecked}"/>
+                </StackPanel>
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="{DynamicResource Language_Show_Notification_When_Pausing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenPausing" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenPausingChecked}"/>
+                </StackPanel>
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="{DynamicResource Language_Show_Notification_When_Resuming_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenResuming" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenResumingChecked}"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Notification_When_Resuming_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationWhenResuming" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationWhenResumingChecked}"/>
-            </StackPanel>
-            <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding IsNotificationEnabled}">
-                <StackPanel.Style>
-                    <Style TargetType="{x:Type StackPanel}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}" Value="False">
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
+            <StackPanel Margin="0,20,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding IsNotificationEnabled}">
                 <StackPanel>
                     <TextBlock Text="{DynamicResource Language_Show_Notification_Only_When_Player_Not_Visible}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     <dc:Windows10ToggleSwitch x:Name="CheckBoxShowNotificationOnlyWhenPlayerNotVisible" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked}"/>
@@ -69,6 +68,8 @@
                     <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Seconds}" VerticalAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 </DockPanel>
             </StackPanel>
+            <!-- End Notification -->
+            
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Taskbar}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Audio_Progress_In_Taskbar}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxShowProgressInTaskbar" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowProgressInTaskbarChecked}"/>

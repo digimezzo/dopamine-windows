@@ -405,4 +405,5 @@
   <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
+  <Text Key="Enable_System_Notification">Enable system notification (Windows 10 only)</Text>
 </Language>

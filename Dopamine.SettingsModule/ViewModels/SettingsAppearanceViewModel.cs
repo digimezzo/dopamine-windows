@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using Dopamine.Common.Enums;
 using Digimezzo.Utilities.Helpers;
 using System.Linq;
+using Dopamine.Common.Base;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -72,10 +73,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public bool IsWindows10
-        {
-            get { return EnvironmentUtils.IsWindows10(); }
-        }
+        public bool IsWindows10 => Constants.IsWindows10;
 
         public ObservableCollection<NameValue> SpectrumStyles
         {
