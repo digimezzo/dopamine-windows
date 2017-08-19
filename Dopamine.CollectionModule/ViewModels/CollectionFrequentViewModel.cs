@@ -16,6 +16,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.CollectionModule.ViewModels
 {

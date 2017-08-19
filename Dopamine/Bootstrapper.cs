@@ -12,6 +12,7 @@ using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Equalizer;
+using Dopamine.Common.Services.ExternalControl;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Indexing;
@@ -26,6 +27,10 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Extensions;
+using Dopamine.Core.Logging;
+using Dopamine.Core.Services.Appearance;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -34,11 +39,7 @@ using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
-using Dopamine.Common.Services.ExternalControl;
-using Dopamine.Core.Extensions;
 using Unity.Wcf;
-using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Logging;
 
 namespace Dopamine
 {
