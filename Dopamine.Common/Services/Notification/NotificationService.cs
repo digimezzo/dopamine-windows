@@ -122,26 +122,6 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Private
-
-        private void SMCAutoRepeatModeChangeRequested(SystemMediaTransportControls sender, AutoRepeatModeChangeRequestedEventArgs e)
-        {
-            switch (e.RequestedAutoRepeatMode)
-            {
-                case MediaPlaybackAutoRepeatMode.None:
-                    this.playbackService.LoopMode = LoopMode.None;
-                    break;
-                case MediaPlaybackAutoRepeatMode.Track:
-                    this.playbackService.LoopMode = LoopMode.One;
-                    break;
-                case MediaPlaybackAutoRepeatMode.List:
-                    this.playbackService.LoopMode = LoopMode.All;
-                    break;
-                default:
-                    // Never happens
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private async void SMCButtonPressed(SystemMediaTransportControls sender,
             SystemMediaTransportControlsButtonPressedEventArgs e)
         {
@@ -222,14 +202,14 @@ namespace Dopamine.Common.Services.Notification
                         systemMediaControls.IsEnabled = true;
                         systemMediaControls.IsPlayEnabled = true;
                         systemMediaControls.IsPauseEnabled = true;
-                        systemMediaControls.IsStopEnabled = true;
                         systemMediaControls.IsPreviousEnabled = true;
                         systemMediaControls.IsNextEnabled = true;
-                        systemMediaControls.ShuffleEnabled = true;
+                        systemMediaControls.ShuffleEnabled = false;
                         systemMediaControls.IsRewindEnabled = false;
                         systemMediaControls.IsFastForwardEnabled = false;
+                        systemMediaControls.IsRecordEnabled = false;
+                        systemMediaControls.IsStopEnabled = false;
                         systemMediaControls.ButtonPressed += SMCButtonPressed;
-                        systemMediaControls.AutoRepeatModeChangeRequested += SMCAutoRepeatModeChangeRequested;
 
                         this.playbackService.PlaybackSuccess += this.PlaybackSuccessSystemNotificationHandler;
                         this.playbackService.PlaybackPaused += this.PlaybackPausedSystemNotificationHandler;
@@ -246,7 +226,6 @@ namespace Dopamine.Common.Services.Notification
                     {
                         systemMediaControls.IsEnabled = false;
                         systemMediaControls.ButtonPressed -= SMCButtonPressed;
-                        systemMediaControls.AutoRepeatModeChangeRequested -= SMCAutoRepeatModeChangeRequested;
 
                         this.playbackService.PlaybackSuccess -= this.PlaybackSuccessSystemNotificationHandler;
                         this.playbackService.PlaybackPaused -= this.PlaybackPausedSystemNotificationHandler;
