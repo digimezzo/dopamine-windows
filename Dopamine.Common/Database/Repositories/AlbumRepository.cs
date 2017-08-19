@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,21 +8,10 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class AlbumRepository : IAlbumRepository
+    public class AlbumRepository : Core.Database.Repositories.AlbumRepository
     {
-        #region Variables
-        private SQLiteConnectionFactory factory;
-        #endregion
-
-        #region Construction
-        public AlbumRepository()
-        {
-            this.factory = new SQLiteConnectionFactory();
-        }
-        #endregion
-
-        #region IAlbumRepository
-        public async Task<List<Album>> GetAlbumsAsync()
+        #region Overrides
+        public override async Task<List<Album>> GetAlbumsAsync()
         {
             var albums = new List<Album>();
 
@@ -31,7 +19,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -55,7 +43,7 @@ namespace Dopamine.Common.Database.Repositories
             return albums;
         }
 
-        public async Task<List<Album>> GetAlbumsAsync(IList<Artist> artists)
+        public override async Task<List<Album>> GetAlbumsAsync(IList<Artist> artists)
         {
             var albums = new List<Album>();
 
@@ -63,7 +51,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -93,7 +81,7 @@ namespace Dopamine.Common.Database.Repositories
             return albums;
         }
 
-        public async Task<List<Album>> GetAlbumsAsync(IList<Genre> genres)
+        public override async Task<List<Album>> GetAlbumsAsync(IList<Genre> genres)
         {
             var albums = new List<Album>();
 
@@ -101,7 +89,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -129,7 +117,7 @@ namespace Dopamine.Common.Database.Repositories
             return albums;
         }
 
-        public async Task<Album> GetAlbumAsync(string albumTitle, string albumArtist)
+        public override async Task<Album> GetAlbumAsync(string albumTitle, string albumArtist)
         {
             Album album = null;
 
@@ -137,7 +125,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -158,13 +146,13 @@ namespace Dopamine.Common.Database.Repositories
             return album;
         }
 
-        public Album GetAlbum(long albumID)
+        public override Album GetAlbum(long albumID)
         {
             Album album = null;
 
             try
             {
-                using (var conn = this.factory.GetConnection())
+                using (var conn = this.Factory.GetConnection())
                 {
                     try
                     {
@@ -185,7 +173,7 @@ namespace Dopamine.Common.Database.Repositories
             return album;
         }
 
-        public async Task<List<Album>> GetFrequentAlbumsAsync(int limit)
+        public override async Task<List<Album>> GetFrequentAlbumsAsync(int limit)
         {
             var albums = new List<Album>();
 
@@ -193,7 +181,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -219,13 +207,13 @@ namespace Dopamine.Common.Database.Repositories
             return albums;
         }
 
-        public async Task<Album> AddAlbumAsync(Album album)
+        public override async Task<Album> AddAlbumAsync(Album album)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -249,7 +237,7 @@ namespace Dopamine.Common.Database.Repositories
             return album;
         }
 
-        public async Task<bool> UpdateAlbumAsync(Album album)
+        public override async Task<bool> UpdateAlbumAsync(Album album)
         {
             bool isUpdateSuccess = false;
 
@@ -257,7 +245,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -279,7 +267,7 @@ namespace Dopamine.Common.Database.Repositories
             return isUpdateSuccess;
         }
 
-        public async Task<bool> UpdateAlbumArtworkAsync(string albumTitle, string albumArtist, string artworkID)
+        public override async Task<bool> UpdateAlbumArtworkAsync(string albumTitle, string albumArtist, string artworkID)
         {
             bool isUpdateSuccess = false;
 
@@ -287,7 +275,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -314,31 +302,6 @@ namespace Dopamine.Common.Database.Repositories
             });
 
             return isUpdateSuccess;
-        }
-
-        public async Task DeleteOrphanedAlbumsAsync()
-        {
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            conn.Execute("DELETE FROM Album WHERE AlbumID NOT IN (SELECT AlbumID FROM Track);");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
         }
         #endregion
     }

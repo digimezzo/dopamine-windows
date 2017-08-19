@@ -22,6 +22,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Dopamine.Core.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {

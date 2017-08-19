@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
 using Dopamine.Common.IO;
+using Dopamine.Core.Base;
+using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Concurrent;
@@ -11,26 +11,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class FolderRepository : IFolderRepository
+    public class FolderRepository : Core.Database.Repositories.FolderRepository
     {
-        #region Variables
-        private SQLiteConnectionFactory factory;
-        #endregion
-
-        #region Construction
-        public FolderRepository()
-        {
-            this.factory = new SQLiteConnectionFactory();
-        }
-        #endregion
-
-        #region IFolderRepository
-        public async Task<AddFolderResult> AddFolderAsync(string path)
+        #region Overrides
+        public override async Task<AddFolderResult> AddFolderAsync(string path)
         {
             AddFolderResult result = AddFolderResult.Success;
 
@@ -38,7 +25,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -69,7 +56,7 @@ namespace Dopamine.Common.Database.Repositories
             return result;
         }
 
-        public async Task<RemoveFolderResult> RemoveFolderAsync(string path)
+        public override async Task<RemoveFolderResult> RemoveFolderAsync(string path)
         {
             RemoveFolderResult result = RemoveFolderResult.Success;
 
@@ -77,7 +64,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -105,7 +92,7 @@ namespace Dopamine.Common.Database.Repositories
             return result;
         }
 
-        public async Task<List<Folder>> GetFoldersAsync()
+        public override async Task<List<Folder>> GetFoldersAsync()
         {
             var allFolders = new List<Folder>();
 
@@ -113,7 +100,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -135,7 +122,7 @@ namespace Dopamine.Common.Database.Repositories
             return allFolders;
         }
 
-        public async Task<List<Tuple<long, string, long>>> GetPathsAsync()
+        public override async Task<List<Tuple<long, string, long>>> GetPathsAsync()
         {
             var diskPaths = new Dictionary<string, Tuple<long, string, long>>();
             List<Folder> folders = await this.GetFoldersAsync();
@@ -192,13 +179,13 @@ namespace Dopamine.Common.Database.Repositories
             return diskPaths.Values.ToList();
         }
 
-        public async Task UpdateFoldersAsync(IList<Folder> folders)
+        public override async Task UpdateFoldersAsync(IList<Folder> folders)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {

@@ -101,6 +101,12 @@
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Logging\LogClient.cs" />
+    <Compile Include="Database\Repositories\AlbumRepository.cs" />
+    <Compile Include="Database\Repositories\ArtistRepository.cs" />
+    <Compile Include="Database\Repositories\FolderRepository.cs" />
+    <Compile Include="Database\Repositories\GenreRepository.cs" />
+    <Compile Include="Helpers\RecursiveFileIterator.cs" />
+    <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\LegacyPaths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
@@ -282,6 +288,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Dopamine.Core\Dopamine.Core.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

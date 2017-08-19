@@ -171,7 +171,6 @@
     <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Base\Constants.cs" />
     <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\FileFormats.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />

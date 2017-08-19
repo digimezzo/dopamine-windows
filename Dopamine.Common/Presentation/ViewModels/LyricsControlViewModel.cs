@@ -16,6 +16,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -202,7 +203,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                 await Task.Run(async () =>
                 {
-                    // Try to get lyrics from the audo file
+                    // Try to get lyrics from the audio file
                     lyrics = new Lyrics(fmd != null && fmd.Lyrics.Value != null ? fmd.Lyrics.Value : String.Empty, string.Empty);
                     lyrics.SourceType = SourceTypeEnum.Audio;
 
