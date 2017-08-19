@@ -1,10 +1,11 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Logging;
 using SQLite;
 using System;
 using System.Collections.Generic;

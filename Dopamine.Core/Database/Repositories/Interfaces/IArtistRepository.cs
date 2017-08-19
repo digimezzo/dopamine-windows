@@ -1,9 +1,10 @@
-﻿using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
+﻿using Dopamine.Core.Database.Entities;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Database.Repositories.Interfaces
+namespace Dopamine.Core.Database.Repositories.Interfaces
 {
     public interface IArtistRepository
     {
