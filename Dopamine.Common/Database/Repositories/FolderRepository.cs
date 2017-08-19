@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dopamine.Core.Database;
+using Dopamine.Core.Database.Repositories.Interfaces;
 
 namespace Dopamine.Common.Database.Repositories
 {
