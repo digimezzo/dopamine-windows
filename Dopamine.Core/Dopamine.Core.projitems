@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Database\DatabaseUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IAlbumRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IArtistRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IFolderRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IGenreRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\SQLiteConnectionFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
