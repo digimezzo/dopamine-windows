@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Digimezzo.Utilities.Packaging;
+using Dopamine.Core.Services.Indexing;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
