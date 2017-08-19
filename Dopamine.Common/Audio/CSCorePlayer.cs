@@ -8,6 +8,7 @@ using CSCore.Streams;
 using CSCore.Streams.Effects;
 using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
+using Dopamine.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Services.File
 {

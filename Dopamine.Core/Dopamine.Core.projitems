@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Base\ContactInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\Defaults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\FileFormats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\ProductInformationBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbMigrator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Entities\Album.cs" />
@@ -26,6 +27,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Database\Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\PlayableTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DatabaseUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\AlbumRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\ArtistRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\GenreRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\FolderRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IAlbumRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IArtistRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Repositories\Interfaces\IFolderRepository.cs" />

@@ -1,30 +1,17 @@
-﻿using Dopamine.Core.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using System;
+﻿using Dopamine.Core.Database;
+using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Logging;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class GenreRepository : IGenreRepository
+    public class GenreRepository : Core.Database.Repositories.GenreRepository
     {
-        #region Variables
-        private SQLiteConnectionFactory factory;
-        #endregion
-
-        #region Construction
-        public GenreRepository()
-        {
-            this.factory = new SQLiteConnectionFactory();
-        }
-        #endregion
-
-        #region IGenreRepository
-        public async Task<List<Genre>> GetGenresAsync()
+        #region Overrides
+        public override async Task<List<Genre>> GetGenresAsync()
         {
             var genres = new List<Genre>();
 
@@ -32,7 +19,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -59,7 +46,7 @@ namespace Dopamine.Common.Database.Repositories
             return genres;
         }
 
-        public async Task<Genre> GetGenreAsync(string genreName)
+        public override async Task<Genre> GetGenreAsync(string genreName)
         {
             Genre genre = null;
 
@@ -67,7 +54,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -88,13 +75,13 @@ namespace Dopamine.Common.Database.Repositories
             return genre;
         }
 
-        public async Task<Genre> AddGenreAsync(Genre genre)
+        public override async Task<Genre> AddGenreAsync(Genre genre)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -116,31 +103,6 @@ namespace Dopamine.Common.Database.Repositories
             });
 
             return genre;
-        }
-
-        public async Task DeleteOrphanedGenresAsync()
-        {
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            conn.Execute("DELETE FROM Genre WHERE GenreID NOT IN (SELECT GenreID FROM Track);");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
         }
         #endregion
     }

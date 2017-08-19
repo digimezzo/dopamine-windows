@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,21 +8,10 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class ArtistRepository : IArtistRepository
+    public class ArtistRepository : Core.Database.Repositories.ArtistRepository
     {
-        #region Variables
-        private SQLiteConnectionFactory factory;
-        #endregion
-
-        #region Construction
-        public ArtistRepository()
-        {
-            this.factory = new SQLiteConnectionFactory();
-        }
-        #endregion
-
-        #region IArtistRepository
-        public async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
+        #region Overrides
+        public override async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
         {
             var artists = new List<Artist>();
 
@@ -31,7 +19,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -90,7 +78,7 @@ namespace Dopamine.Common.Database.Repositories
             return artists;
         }
 
-        public async Task<Artist> GetArtistAsync(string artistName)
+        public override async Task<Artist> GetArtistAsync(string artistName)
         {
             Artist artist = null;
 
@@ -98,7 +86,7 @@ namespace Dopamine.Common.Database.Repositories
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -119,13 +107,13 @@ namespace Dopamine.Common.Database.Repositories
             return artist;
         }
 
-        public async Task<Artist> AddArtistAsync(Artist artist)
+        public override async Task<Artist> AddArtistAsync(Artist artist)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.Factory.GetConnection())
                     {
                         try
                         {
@@ -147,31 +135,6 @@ namespace Dopamine.Common.Database.Repositories
             });
 
             return artist;
-        }
-
-        public async Task DeleteOrphanedArtistsAsync()
-        {
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            conn.Execute("DELETE FROM Artist WHERE ArtistID NOT IN (SELECT ArtistID FROM Track);");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("There was a problem while deleting orphaned Artists. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
         }
         #endregion
     }
