@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dopamine.Common.Services.Indexing
+namespace Dopamine.Core.Services.Indexing
 {
     public class IndexingStatusEventArgs : EventArgs
     {

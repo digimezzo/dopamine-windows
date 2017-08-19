@@ -6,6 +6,7 @@ using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Logging;
+using Dopamine.Core.Services.Indexing;
 using SQLite;
 using System;
 using System.Collections.Generic;

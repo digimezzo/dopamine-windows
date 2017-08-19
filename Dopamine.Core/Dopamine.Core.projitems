@@ -49,10 +49,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\ColorScheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Appearance\IAppearanceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Indexing\Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Indexing\IndexerCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Settings\ISettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InformationAboutViewModelBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Services\Indexing\" />
   </ItemGroup>
 </Project>

@@ -411,12 +411,9 @@
     <Compile Include="Services\I18n\I18nService.cs" />
     <Compile Include="Services\I18n\II18nService.cs" />
     <Compile Include="Services\I18n\Language.cs" />
-    <Compile Include="Services\Indexing\Enums.cs" />
     <Compile Include="Services\Indexing\IIndexingService.cs" />
-    <Compile Include="Services\Indexing\IndexerCache.cs" />
     <Compile Include="Services\Indexing\IndexerUtils.cs" />
     <Compile Include="Services\Indexing\IndexingService.cs" />
-    <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="Services\JumpList\IJumpListService.cs" />
     <Compile Include="Services\JumpList\JumpListService.cs" />
     <Compile Include="Services\Metadata\IMetadataService.cs" />
