@@ -40,13 +40,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
+                            CoreLogger.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -70,13 +70,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not save queued tracks. Exception: {0}", ex.Message);
+                            CoreLogger.Error("Could not save queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -97,13 +97,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
+                            CoreLogger.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

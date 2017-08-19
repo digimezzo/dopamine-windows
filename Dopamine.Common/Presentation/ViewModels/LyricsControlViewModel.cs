@@ -252,7 +252,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
+                        CoreLogger.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
                     }
 
                     this.IsDownloadingLyrics = false;
@@ -267,7 +267,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 this.IsDownloadingLyrics = false;
-                LogClient.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
+                CoreLogger.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ClearLyrics();
                 return;
             }
@@ -314,7 +314,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not highlight the lyrics. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not highlight the lyrics. Exception: {0}", ex.Message);
                 }
 
             });

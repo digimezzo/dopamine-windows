@@ -123,7 +123,7 @@ namespace Dopamine.Common.Services.Taskbar
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
+                CoreLogger.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
             }
         }
 

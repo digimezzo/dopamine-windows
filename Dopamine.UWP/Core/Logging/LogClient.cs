@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 
 namespace Dopamine.Core.Logging
 {
-    partial class LogClient
+    partial class CoreLogger
     {
         #region Variables
         private SQLiteConnection connection;

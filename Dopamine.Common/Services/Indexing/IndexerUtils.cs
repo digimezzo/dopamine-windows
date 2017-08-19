@@ -51,7 +51,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", path, ex.Message);
+                CoreLogger.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", path, ex.Message);
             }
 
             return artworkData;
@@ -72,7 +72,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem while getting external artwork for Track with path='{0}'. Exception: {1}", path, ex.Message);
+                CoreLogger.Error("There was a problem while getting external artwork for Track with path='{0}'. Exception: {1}", path, ex.Message);
             }
 
             return artworkData;
@@ -99,7 +99,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                CoreLogger.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
             return artworkData;

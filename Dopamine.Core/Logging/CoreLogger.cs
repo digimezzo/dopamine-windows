@@ -4,21 +4,21 @@ using System.Text;
 
 namespace Dopamine.Core.Logging
 {
-    public partial class LogClient
+    public partial class CoreLogger
     {
-        private static LogClient instance;
+        private static CoreLogger instance;
 
-        private LogClient()
+        private CoreLogger()
         {
         }
 
-        public static LogClient Instance
+        public static CoreLogger Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new LogClient();
+                    instance = new CoreLogger();
                 }
                 return instance;
             }
@@ -26,17 +26,17 @@ namespace Dopamine.Core.Logging
 
         public static void Info(string message, object arg1 = null, object arg2 = null, object arg3 = null, object arg4 = null, object arg5 = null, object arg6 = null, object arg7 = null, object arg8 = null, [CallerFilePath] string sourceFilePath = "", [CallerMemberName] string memberName = "")
         {
-            LogClient.Instance.LogInfo(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
+            CoreLogger.Instance.LogInfo(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
         }
 
         public static void Warning(string message, object arg1 = null, object arg2 = null, object arg3 = null, object arg4 = null, object arg5 = null, object arg6 = null, object arg7 = null, object arg8 = null, [CallerFilePath] string sourceFilePath = "", [CallerMemberName] string memberName = "")
         {
-            LogClient.Instance.LogWarning(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
+            CoreLogger.Instance.LogWarning(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
         }
 
         public static void Error(string message, object arg1 = null, object arg2 = null, object arg3 = null, object arg4 = null, object arg5 = null, object arg6 = null, object arg7 = null, object arg8 = null, [CallerFilePath] string sourceFilePath = "", [CallerMemberName] string memberName = "")
         {
-            LogClient.Instance.LogError(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
+            CoreLogger.Instance.LogError(message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, sourceFilePath, memberName);
         }
 
         public static string GetAllExceptions(Exception ex)

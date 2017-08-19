@@ -127,7 +127,7 @@ namespace Dopamine.Common.Services.Win32Input
 
                 if (this.source == null)
                 {
-                    LogClient.Error("hWnd is NULL.");
+                    CoreLogger.Error("hWnd is NULL.");
                 }
 
                 this.source.AddHook(WndProc);
@@ -135,13 +135,13 @@ namespace Dopamine.Common.Services.Win32Input
 
                 if (WM_SHELLHOOKMESSAGE == 0)
                 {
-                    LogClient.Error("RegisterWindowMessage 'SHELLHOOK' failed.");
+                    CoreLogger.Error("RegisterWindowMessage 'SHELLHOOK' failed.");
 
                 }
 
                 if (!RegisterShellHookWindow(this.hWnd))
                 {
-                    LogClient.Error("RegisterShellHookWindow failed.");
+                    CoreLogger.Error("RegisterShellHookWindow failed.");
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace Dopamine.Common.Services.Win32Input
                 {
                     if (!DeregisterShellHookWindow(this.hWnd))
                     {
-                        LogClient.Error("DeregisterShellHookWindow failed.");
+                        CoreLogger.Error("DeregisterShellHookWindow failed.");
                     }
                     this.source.Dispose();
                 }

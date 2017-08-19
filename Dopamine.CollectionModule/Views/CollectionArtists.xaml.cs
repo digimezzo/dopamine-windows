@@ -40,7 +40,7 @@ namespace Dopamine.CollectionModule.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
+                    CoreLogger.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
                 }
             });
 

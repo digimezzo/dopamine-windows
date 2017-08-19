@@ -116,7 +116,7 @@ namespace Dopamine.Common.Services.File
             {
                 // Make sure the file can be opened by creating a Track with some default values
                 returnTrack = PlayableTrack.CreateDefault(path);
-                LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
+                CoreLogger.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
             }
 
             return returnTrack;
@@ -132,7 +132,7 @@ namespace Dopamine.Common.Services.File
 
                 await Task.Run(() =>
                 {
-                    LogClient.Info("Received commandline arguments.");
+                    CoreLogger.Info("Received commandline arguments.");
 
                     // Don't process index=0, as this contains the name of the executable.
                     for (int index = 1; index <= args.Length - 1; index++)
@@ -140,7 +140,7 @@ namespace Dopamine.Common.Services.File
                         lock (this.lockObject)
                         {
                             this.files.Add(args[index]);
-                            LogClient.Info("Added file '{0}'", args[index]);
+                            CoreLogger.Info("Added file '{0}'", args[index]);
                         }
                     }
                 });
@@ -165,7 +165,7 @@ namespace Dopamine.Common.Services.File
             {
                 lock (this.lockObject)
                 {
-                    LogClient.Info("Finished adding files. Number of files added = {0}", this.files.Count.ToString());
+                    CoreLogger.Info("Finished adding files. Number of files added = {0}", this.files.Count.ToString());
                 }
 
                 await Application.Current.Dispatcher.BeginInvoke(new Action(async () => await this.ImportFilesAsync()));
@@ -194,11 +194,11 @@ namespace Dopamine.Common.Services.File
 
             List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
 
-            LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
+            CoreLogger.Info("Number of tracks to play = {0}", tracks.Count.ToString());
 
             if (tracks.Count > 0)
             {
-                LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
+                CoreLogger.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
                 this.TracksImported(tracks);
             }
         }
@@ -210,7 +210,7 @@ namespace Dopamine.Common.Services.File
 
             if (!decodeResult.DecodeResult.Result)
             {
-                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+                CoreLogger.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
             }
 
             return decodeResult.Paths;
@@ -228,7 +228,7 @@ namespace Dopamine.Common.Services.File
             {
                 foreach (Exception recurseException in recurseExceptions)
                 {
-                    LogClient.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
+                    CoreLogger.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
                 }
             }
 
@@ -250,7 +250,7 @@ namespace Dopamine.Common.Services.File
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("There was a problem while fetching file artwork. Exception: {0}", ex.Message);
+                    CoreLogger.Error("There was a problem while fetching file artwork. Exception: {0}", ex.Message);
                 }
 
                 if (artworkFiles != null && artworkFiles.Count() > 0)
@@ -268,7 +268,7 @@ namespace Dopamine.Common.Services.File
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("There was a problem while deleting cached file artwork {0}. Exception: {1}", artworkFile, ex.Message);
+                            CoreLogger.Error("There was a problem while deleting cached file artwork {0}. Exception: {1}", artworkFile, ex.Message);
                         }
                     }
                 }

@@ -162,7 +162,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("Error while getting file Metadata. Exception: {0}", ex.Message);
+                CoreLogger.Error("Error while getting file Metadata. Exception: {0}", ex.Message);
             }
         }
 
@@ -178,7 +178,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("Error while getting file Information. Exception: {0}", ex.Message);
+                CoreLogger.Error("Error while getting file Information. Exception: {0}", ex.Message);
             }
         }
         #endregion
