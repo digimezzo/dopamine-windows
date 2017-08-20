@@ -95,7 +95,7 @@ namespace Dopamine
         {
             Container.RegisterSingletonType<ICacheService, CacheService>();
             Container.RegisterSingletonType<IUpdateService, UpdateService>();
-            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+            Container.RegisterSingletonType<IAppearanceService, Common.Services.Appearance.AppearanceService>();
             Container.RegisterSingletonType<II18nService, I18nService>();
             Container.RegisterSingletonType<IDialogService, DialogService>();
             Container.RegisterSingletonType<IIndexingService, IndexingService>();

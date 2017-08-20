@@ -70,7 +70,7 @@ namespace Dopamine.UWP
         private void RegisterServices()
         {
             Container.RegisterSingletonType<ISettingsService, SettingsService>();
-            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
+            Container.RegisterSingletonType<IAppearanceService, Services.Appearance.AppearanceService>();
             Container.RegisterSingletonType<IDialogService, DialogService>();
         }
 

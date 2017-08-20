@@ -2,10 +2,6 @@
 {
     public class ColorScheme
     {
-        #region Variables
-        private int hashCode = 0;
-        #endregion
-
         #region Properties
         public string Name { get; set; }
         public string AccentColor { get; set; }
@@ -19,14 +15,12 @@
                 return false;
             }
 
-            return this.GetHashCode().Equals(((ColorScheme)obj).GetHashCode());
+            return this.Name.Equals(((ColorScheme)obj).Name);
         }
 
         public override int GetHashCode()
         {
-            if (this.hashCode == 0)
-                this.hashCode = (Name + AccentColor).GetHashCode();
-            return this.hashCode;
+            return this.Name.GetHashCode();
         }
         #endregion
     }
