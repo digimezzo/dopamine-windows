@@ -24,47 +24,23 @@ using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine.Common.Services.Appearance
 {
-    public class AppearanceService : IAppearanceService
+    public class AppearanceService : Core.Services.Appearance.AppearanceService
     {
         #region Variables
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
-        private bool followWindowsColor;
         private bool followAlbumCoverColor;
-        private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
         private Timer applyColorSchemeTimer;
         private string colorSchemesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
         private double colorSchemeTimeoutSeconds = 0.2;
-        private ColorScheme[] builtInColorSchemes = {
-                                                        new ColorScheme {
-                                                            Name = "Blue",
-                                                            AccentColor = "#1D7DD4"
-                                                        },
-                                                        new ColorScheme {
-                                                            Name = "Green",
-                                                            AccentColor = "#7FB718"
-                                                        },
-                                                        new ColorScheme {
-                                                            Name = "Yellow",
-                                                            AccentColor = "#F09609"
-                                                        },
-                                                        new ColorScheme {
-                                                            Name = "Purple",
-                                                            AccentColor = "#A835B2"
-                                                        },
-                                                        new ColorScheme {
-                                                            Name = "Pink",
-                                                            AccentColor = "#CE0058"
-                                                        }
-                                                    };
         #endregion
 
         #region Construction
-        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService)
+        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService) : base()
         {
             // Services
             // --------
@@ -114,10 +90,6 @@ namespace Dopamine.Common.Services.Appearance
 
             System.IO.File.WriteAllLines(howToFile, lines, System.Text.Encoding.UTF8);
 
-            // Get the available ColorSchemes
-            // ------------------------------
-            this.GetAllColorSchemes();
-
             // Configure the ColorSchemeTimer
             // ------------------------------
             this.colorSchemeTimer.Interval = TimeSpan.FromSeconds(this.colorSchemeTimeoutSeconds).TotalMilliseconds;
@@ -141,14 +113,8 @@ namespace Dopamine.Common.Services.Appearance
                 return;
             }
 
-            this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
+            this.ApplyColorSchemeAsync(string.Empty, this.FollowWindowsColor, this.followAlbumCoverColor);
         }
-        #endregion
-
-        #region Events
-        public event ThemeChangedEventHandler ThemeChanged = delegate { };
-        public event EventHandler ColorSchemeChanged = delegate { };
-        public event EventHandler ColorSchemesChanged = delegate { };
         #endregion
 
         #region Event handlers
@@ -172,7 +138,7 @@ namespace Dopamine.Common.Services.Appearance
             Application.Current.Dispatcher.Invoke(() =>
             {
                 this.GetAllColorSchemes();
-                this.ColorSchemesChanged(this, new EventArgs());
+                this.OnColorSchemesChanged(new EventArgs());
             });
         }
         #endregion
@@ -181,11 +147,11 @@ namespace Dopamine.Common.Services.Appearance
         [DebuggerHidden]
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (!this.followWindowsColor) return IntPtr.Zero;
+            if (!this.FollowWindowsColor) return IntPtr.Zero;
 
             if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
             {
-                this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
+                this.ApplyColorSchemeAsync(string.Empty, this.FollowWindowsColor, this.followAlbumCoverColor);
             }
 
             return IntPtr.Zero;
@@ -220,20 +186,39 @@ namespace Dopamine.Common.Services.Appearance
             return returnColor;
         }
 
-        private void GetBuiltInColorSchemes()
+        private ResourceDictionary GetCurrentThemeDictionary()
         {
-            // For now, we are returning a hardcoded list of themes
-            foreach (ColorScheme cs in this.builtInColorSchemes)
-            {
-                this.colorSchemes.Add(cs);
-            }
+            // Determine the current theme by looking at the application resources and return the first dictionary having the resource key 'RG_AppearanceServiceBrush' defined.
+            return (from dict in Application.Current.Resources.MergedDictionaries
+                    where dict.Contains("RG_AppearanceServiceBrush")
+                    select dict).FirstOrDefault();
         }
 
-        private void GetAllColorSchemes()
+        private void ReApplyTheme()
         {
-            this.colorSchemes.Clear();
-            this.GetBuiltInColorSchemes();
+            ResourceDictionary currentThemeDict = this.GetCurrentThemeDictionary();
 
+            if (currentThemeDict != null)
+            {
+                var newThemeDict = new ResourceDictionary { Source = currentThemeDict.Source };
+
+                // Prevent exceptions by adding the new dictionary before removing the old one
+                Application.Current.Resources.MergedDictionaries.Add(newThemeDict);
+                Application.Current.Resources.MergedDictionaries.Remove(currentThemeDict);
+            }
+        }
+        #endregion
+
+        #region Protected
+        protected override void GetAllColorSchemes()
+        {
+            this.ClearColorSchemes();
+            this.GetBuiltInColorSchemes();
+            this.GetCustomColorSchemes();
+        }
+
+        private void GetCustomColorSchemes()
+        {
             var dirInfo = new DirectoryInfo(this.colorSchemesSubDirectory);
 
             foreach (FileInfo fileInfo in dirInfo.GetFiles("*.xml"))
@@ -257,7 +242,7 @@ namespace Dopamine.Common.Services.Appearance
                     {
                         // This is some sort of validation of the XML file. If the conversion from String to Color doesn't work, the XML is invalid.
                         Color accentColor = (Color)ColorConverter.ConvertFromString(colorScheme.AccentColor);
-                        this.colorSchemes.Add(colorScheme);
+                        this.AddColorScheme(colorScheme);
                     }
                     catch (Exception ex)
                     {
@@ -271,32 +256,10 @@ namespace Dopamine.Common.Services.Appearance
                 }
             }
         }
-
-        private ResourceDictionary GetCurrentThemeDictionary()
-        {
-            // Determine the current theme by looking at the app resources and return the first dictionary having the resource key 'RG_AppearanceServiceBrush' defined.
-            return (from dict in Application.Current.Resources.MergedDictionaries
-                    where dict.Contains("RG_AppearanceServiceBrush")
-                    select dict).FirstOrDefault();
-        }
-
-        private void ReApplyTheme()
-        {
-            ResourceDictionary currentThemeDict = this.GetCurrentThemeDictionary();
-
-            if (currentThemeDict != null)
-            {
-                var newThemeDict = new ResourceDictionary { Source = currentThemeDict.Source };
-
-                // Prevent exceptions by adding the new dictionary before removing the old one
-                Application.Current.Resources.MergedDictionaries.Add(newThemeDict);
-                Application.Current.Resources.MergedDictionaries.Remove(currentThemeDict);
-            }
-        }
         #endregion
 
         #region IAppearanceService
-        public void WatchWindowsColor(object win)
+        public override void WatchWindowsColor(object win)
         {
             if(win is Window)
             {
@@ -306,34 +269,14 @@ namespace Dopamine.Common.Services.Appearance
             }
         }
 
-        public List<ColorScheme> GetColorSchemes()
-        {
-            return this.colorSchemes;
-        }
-
-        public ColorScheme GetColorScheme(string accentColor)
-        {
-
-            // Set the default theme in case the theme is not found by using the For loop
-            ColorScheme returnVal = this.colorSchemes[0];
-
-            foreach (ColorScheme item in this.colorSchemes)
-            {
-                if (item.AccentColor == accentColor)
-                {
-                    returnVal = item;
-                }
-            }
-
-            return returnVal;
-        }
-
-        public void ApplyTheme(bool useLightTheme)
+        public override void ApplyTheme(bool useLightTheme)
         {
             string themeName = "Dark";
 
             if (useLightTheme)
+            {
                 themeName = "Light";
+            }
 
             ResourceDictionary currentThemeDict = this.GetCurrentThemeDictionary();
 
@@ -343,12 +286,12 @@ namespace Dopamine.Common.Services.Appearance
             Application.Current.Resources.MergedDictionaries.Add(newThemeDict);
             Application.Current.Resources.MergedDictionaries.Remove(currentThemeDict);
 
-            this.ThemeChanged(useLightTheme);
+            this.OnThemeChanged(useLightTheme);
         }
 
-        public async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
+        public override async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
         {
-            this.followWindowsColor = followWindowsColor;
+            this.FollowWindowsColor = followWindowsColor;
             this.followAlbumCoverColor = followAlbumCoverColor;
 
             Color accentColor = default(Color);
@@ -429,7 +372,7 @@ namespace Dopamine.Common.Services.Appearance
 
                             // Re-apply theme to ensure brushes referencing AccentColor are updated
                             this.ReApplyTheme();
-                            this.ColorSchemeChanged(this, new EventArgs());
+                            this.OnColorSchemeChanged(new EventArgs());
                         }
                     };
                     applyColorSchemeTimer.Start();
@@ -442,7 +385,7 @@ namespace Dopamine.Common.Services.Appearance
 
                 // Re-apply theme to ensure brushes referencing AccentColor are updated
                 this.ReApplyTheme();
-                this.ColorSchemeChanged(this, new EventArgs());
+                this.OnColorSchemeChanged(new EventArgs());
             }
         }
         #endregion

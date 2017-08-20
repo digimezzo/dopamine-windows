@@ -58,7 +58,7 @@ namespace Dopamine.SettingsModule.ViewModels
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await this.appearanceService.ApplyColorSchemeAsync(
-                            value.AccentColor,
+                            value.Name,
                             SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
                             SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
                             isViewModelLoaded
