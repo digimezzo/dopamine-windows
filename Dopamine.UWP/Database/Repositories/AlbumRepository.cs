@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 
 namespace Dopamine.UWP.Database.Repositories
 {
     public class AlbumRepository : Core.Database.Repositories.AlbumRepository
     {
+        #region Construction
+        public AlbumRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override Task<Album> AddAlbumAsync(Album album)
         {

@@ -17,6 +17,14 @@ namespace Dopamine.UWP.ViewModels
         #endregion
 
         #region Properties
+        public override Core.Packaging.ExternalComponent[] Components
+        {
+            get
+            {
+                return new ProductInformation().Components;
+            }
+        }
+
         public string AssemblyVersion => ProductInformation.AssemblyVersion;
         #endregion
 

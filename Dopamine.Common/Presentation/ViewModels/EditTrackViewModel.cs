@@ -318,7 +318,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
+                LogClient.Current.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
             }
 
             if (fileMetadatas.Count == 0) return;
@@ -384,7 +384,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("An error occured while parsing the metadata. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("An error occured while parsing the metadata. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -514,7 +514,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("An error occured while setting the metadata. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("An error occured while setting the metadata. Exception: {0}", ex.Message);
                 }
 
             });

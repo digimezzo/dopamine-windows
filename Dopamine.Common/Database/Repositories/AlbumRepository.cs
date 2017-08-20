@@ -10,6 +10,12 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class AlbumRepository : Core.Database.Repositories.AlbumRepository
     {
+        #region Construction
+        public AlbumRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override async Task<List<Album>> GetAlbumsAsync()
         {
@@ -30,13 +36,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get all the Albums. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get all the Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -67,14 +73,14 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Albums for Artists. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Albums for Artists. Exception: {0}", ex.Message);
                         }
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -104,13 +110,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Albums for Genres. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Albums for Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -133,14 +139,14 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
+                            LogClient.Current.Error("Could not get the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     album = null;
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
             return album;
@@ -160,14 +166,14 @@ namespace Dopamine.Common.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not get the Album with AlbumID='{0}'. Exception: {1}", albumID.ToString(), ex.Message);
+                        LogClient.Current.Error("Could not get the Album with AlbumID='{0}'. Exception: {1}", albumID.ToString(), ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
                 album = null;
-                CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
             }
 
             return album;
@@ -194,13 +200,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Album history. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Album history. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -224,13 +230,13 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             album = null;
-                            CoreLogger.Error("Could not create the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                            LogClient.Current.Error("Could not create the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -254,13 +260,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not update the Album with Title='{0}' and Album artist = '{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                            LogClient.Current.Error("Could not update the Album with Title='{0}' and Album artist = '{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -291,13 +297,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not update album artwork for album with title '{0}' and album artist '{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
+                            LogClient.Current.Error("Could not update album artwork for album with title '{0}' and album artist '{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

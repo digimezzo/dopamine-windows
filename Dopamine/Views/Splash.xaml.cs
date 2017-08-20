@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Dopamine.Core.Logging;
 using System;
 using System.Threading.Tasks;
@@ -151,7 +151,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Windows Media Foundation could not be found. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Windows Media Foundation could not be found. Exception: {0}", ex.Message);
                 isSuccess = false;
             }
 
@@ -178,7 +178,7 @@ namespace Dopamine.Views
                 if (SettingsClient.IsUpgradeNeeded())
                 {
                     this.ShowProgressRing = true;
-                    CoreLogger.Info("Upgrading settings");
+                    LogClient.Current.Info("Upgrading settings");
                     await Task.Run(() => SettingsClient.Upgrade());
                 }
 
@@ -186,7 +186,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
+                LogClient.Current.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
                 isSuccess = false;
             }
@@ -200,13 +200,13 @@ namespace Dopamine.Views
 
             try
             {
-                var migrator = new DbMigrator();
+                var migrator = new DbMigrator(new SQLiteConnectionFactory());
 
                 if (!migrator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
                     this.ShowProgressRing = true;
-                    CoreLogger.Info("Creating database");
+                    LogClient.Current.Info("Creating database");
                     await Task.Run(() => migrator.InitializeNewDatabase());
                 }
                 else
@@ -216,7 +216,7 @@ namespace Dopamine.Views
                     if (migrator.DatabaseNeedsUpgrade())
                     {
                         this.ShowProgressRing = true;
-                        CoreLogger.Info("Upgrading database");
+                        LogClient.Current.Info("Upgrading database");
                         await Task.Run(() => migrator.UpgradeDatabase());
                     }
                 }
@@ -225,7 +225,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+                LogClient.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
                 isSuccess = false;
             }

@@ -91,7 +91,7 @@ namespace Dopamine.Common.Services.Collection
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error($"Error while removing track '{track.TrackTitle}' from disk. Exception: {ex.Message}");
+                        LogClient.Current.Error($"Error while removing track '{track.TrackTitle}' from disk. Exception: {ex.Message}");
                         sendToRecycleBinResult = RemoveTracksResult.Error;
                     }
                 }
@@ -128,7 +128,7 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
+                            LogClient.Current.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
                         }
                     }
                 });
@@ -151,13 +151,13 @@ namespace Dopamine.Common.Services.Collection
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
+                            LogClient.Current.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Error while setting album artwork. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Error while setting album artwork. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -182,7 +182,7 @@ namespace Dopamine.Common.Services.Collection
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
+                    LogClient.Current.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
                 }
             });
         }
@@ -199,7 +199,7 @@ namespace Dopamine.Common.Services.Collection
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Error updating folders. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Error updating folders. Exception: {0}", ex.Message);
             }
 
             if (isCollectionChanged) this.CollectionChanged(this, new EventArgs());

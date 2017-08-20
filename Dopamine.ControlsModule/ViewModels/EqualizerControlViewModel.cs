@@ -7,7 +7,6 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Audio;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Dopamine.Core.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -15,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Dopamine.Core.Base;
+using Dopamine.Logging;
 
 namespace Dopamine.ControlsModule.ViewModels
 {
@@ -357,7 +357,7 @@ namespace Dopamine.ControlsModule.ViewModels
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.DEQ;
             dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
-            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
+            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), Common.Base.ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
 
             while (showSaveDialog)
             {
@@ -390,7 +390,7 @@ namespace Dopamine.ControlsModule.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("An error occured while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
+                            LogClient.Current.Error("An error occurred while saving preset to file '{0}'. Exception: {1}", dlg.FileName, ex.Message);
 
                             this.dialogService.ShowNotification(
                                                 0xe711,
@@ -426,7 +426,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 try
                 {
                     await Task.Run(() => {
-                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
+                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), Common.Base.ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
                         System.IO.File.Delete(presetPath);
                     });
 
@@ -435,7 +435,7 @@ namespace Dopamine.ControlsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("An error occured while deleting preset '{0}'. Exception: {1}", this.SelectedPreset.Name, ex.Message);
+                    LogClient.Current.Error("An error occurred while deleting preset '{0}'. Exception: {1}", this.SelectedPreset.Name, ex.Message);
 
                     this.dialogService.ShowNotification(
                                         0xe711,

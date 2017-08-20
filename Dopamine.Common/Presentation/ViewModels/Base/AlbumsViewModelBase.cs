@@ -307,7 +307,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
+                LogClient.Current.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
 
                 // Failed getting Albums. Create empty ObservableCollection.
                 this.Albums = new ObservableCollection<AlbumViewModel>();

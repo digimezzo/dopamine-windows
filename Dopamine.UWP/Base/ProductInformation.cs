@@ -4,7 +4,7 @@ using Dopamine.Core.Base;
 
 namespace Dopamine.UWP.Base
 {
-    public sealed class ProductInformation : ProductInformationBase
+    public sealed class ProductInformation : Core.Base.ProductInformation
     {
         public static string AssemblyVersion
         {

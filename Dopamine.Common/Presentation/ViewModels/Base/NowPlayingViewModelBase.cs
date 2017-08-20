@@ -75,7 +75,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             catch (Exception ex)
             {
                 dropInfo.NotHandled = false;
-                CoreLogger.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not drag tracks. Exception: {0}", ex.Message);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
 
             isDroppingTracks = false;

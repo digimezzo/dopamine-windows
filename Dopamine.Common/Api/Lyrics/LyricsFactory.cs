@@ -43,7 +43,7 @@ namespace Dopamine.Common.Api.Lyrics
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Error while getting lyrics from '{0}'. Exception: {1}", api.SourceName, ex.Message);
+                    LogClient.Current.Error("Error while getting lyrics from '{0}'. Exception: {1}", api.SourceName, ex.Message);
                 }
 
                 api = this.GetRandomApi();

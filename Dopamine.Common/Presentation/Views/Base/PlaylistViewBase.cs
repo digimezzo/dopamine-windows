@@ -116,7 +116,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Error while handling action. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Error while handling action. Exception: {0}", ex.Message);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
             }
         }
 
@@ -158,7 +158,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
 
@@ -176,7 +176,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
         #endregion

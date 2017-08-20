@@ -41,7 +41,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem changing the volume by mouse scroll. Exception: {0}", ex.Message);
+                LogClient.Current.Error("There was a problem changing the volume by mouse scroll. Exception: {0}", ex.Message);
             }
         }
         #endregion

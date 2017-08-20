@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:coreConverters="using:Dopamine.Core.Presentation.Converters"
-                    xmlns:cd="clr-namespace:Dopamine">
+                    xmlns:local="using:Dopamine.UWP.Presentation.Converters"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <coreConverters:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
-    <coreConverters:StringToLowerConverter x:Key="StringToLowerConverter"/>
-    <coreConverters:StringToUpperConverter x:Key="StringToUpperConverter"/>
+    <local:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
+    <local:StringToLowerConverter x:Key="StringToLowerConverter"/>
+    <local:StringToUpperConverter x:Key="StringToUpperConverter"/>
 </ResourceDictionary>

@@ -27,6 +27,7 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
@@ -63,6 +64,7 @@ namespace Dopamine
         {
             base.ConfigureContainer();
 
+            this.RegisterCoreComponents();
             this.RegisterRepositories();
             this.RegisterServices();
             this.InitializeServices();
@@ -81,7 +83,15 @@ namespace Dopamine
             return mappings;
         }
 
-        protected void RegisterServices()
+        private void RegisterCoreComponents()
+        {
+            //Container.RegisterSingletonType<ISettingsClient, Settings.SettingsClient>();
+            Container.RegisterSingletonType<ILogClient, Logging.LogClient>();
+            Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
+            Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
+        }
+
+        private void RegisterServices()
         {
             Container.RegisterSingletonType<ICacheService, CacheService>();
             Container.RegisterSingletonType<IUpdateService, UpdateService>();
@@ -102,7 +112,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
             Container.RegisterSingletonType<IProviderService, ProviderService>();
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
-            Container.RegisterSingletonType<IPlaylistService, PlaylistService>(); 
+            Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
             Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
         }
 
@@ -172,12 +182,12 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                CoreLogger.Info("Showing Oobe screen");
+                LogClient.Current.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                CoreLogger.Info("Showing Main screen");
+                LogClient.Current.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
@@ -198,11 +208,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                CoreLogger.Info("CommandService was started successfully");
+                LogClient.Current.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -213,11 +223,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                CoreLogger.Info("FileService was started successfully");
+                LogClient.Current.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not start FileService. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }

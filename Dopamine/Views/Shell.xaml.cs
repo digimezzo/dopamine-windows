@@ -306,7 +306,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
             }
         }
 
@@ -322,7 +322,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
             }
         }
 
@@ -336,7 +336,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
             }
 
             return registryTabletMode == 1 ? true : false;
@@ -716,7 +716,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
             }
 
             // By default, the window appears in the background when showing
@@ -726,7 +726,7 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
-            CoreLogger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Current.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
             this.isShuttingDown = true;
             this.Close();
         }
@@ -752,7 +752,7 @@ namespace Dopamine.Views
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
                     }
                 }
             }
@@ -766,7 +766,7 @@ namespace Dopamine.Views
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not remove window caption. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could not remove window caption. Exception: {0}", ex.Message);
                     }
                 }
 
@@ -779,7 +779,7 @@ namespace Dopamine.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
                 }
             }
 
@@ -807,7 +807,7 @@ namespace Dopamine.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
                 }
             }
             else
@@ -822,7 +822,7 @@ namespace Dopamine.Views
 
         private async Task PerformClosingTasksAsync()
         {
-            CoreLogger.Info("Performing closing tasks");
+            LogClient.Current.Info("Performing closing tasks");
 
             this.ShowClosingAnimation();
 
@@ -866,7 +866,7 @@ namespace Dopamine.Views
                 await this.playbackService.SavePlaybackCountersAsync();
             }
 
-            CoreLogger.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Current.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
 
             this.mustPerformClosingTasks = false;
             this.Close();
@@ -944,11 +944,11 @@ namespace Dopamine.Views
 
                     try
                     {
-                        Actions.TryViewInExplorer(CoreLogger.Logfile()); // View the log file
+                        Actions.TryViewInExplorer(LogClient.Current.Logfile()); // View the log file
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Logfile(), ex.Message);
+                        LogClient.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Current.Logfile(), ex.Message);
                     }
                 }
                 else if (e.Key == Key.OemPlus | e.Key == Key.Add)

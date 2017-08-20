@@ -92,11 +92,11 @@ namespace Dopamine.ViewModels
             {
                 try
                 {
-                    Actions.TryViewInExplorer(CoreLogger.Logfile());
+                    Actions.TryViewInExplorer(LogClient.Current.Logfile());
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Logfile(), ex.Message);
+                    LogClient.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Current.Logfile(), ex.Message);
                 }
             });
 
@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
+                    LogClient.Current.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
                 }
             });
             ApplicationCommands.OpenPathCommand.RegisterCommand(this.OpenPathCommand);
@@ -121,7 +121,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
+                    LogClient.Current.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);

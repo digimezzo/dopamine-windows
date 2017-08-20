@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.IO;
+﻿using Dopamine.UWP.IO;
 using SQLite;
 using System;
 using System.Collections.Concurrent;
@@ -25,7 +25,7 @@ namespace Dopamine.Core.Logging
         private void Initialize()
         {
             // Initializing the connection also creates the database file if it doesn't exist yet.
-            this.connection = new SQLiteConnection(System.IO.Path.Combine(Storage.StorageFolder, "Logging.db"));
+            this.connection = new SQLiteConnection(System.IO.Path.Combine(LegacyPaths.LocalAppDataFolder(), "Logging.db"));
 
             // Check if the table exists. If not, create it.
             var tableExistsQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='LogEntry';";

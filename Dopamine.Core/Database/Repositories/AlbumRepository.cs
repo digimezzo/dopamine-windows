@@ -10,17 +10,17 @@ namespace Dopamine.Core.Database.Repositories
     public abstract class AlbumRepository : IAlbumRepository
     {
         #region Variables
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
         #endregion
 
         #region Properties
-        public SQLiteConnectionFactory Factory => this.factory;
+        public ISQLiteConnectionFactory Factory => this.factory;
         #endregion
 
         #region Construction
-        public AlbumRepository()
+        public AlbumRepository(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
         #endregion
 
@@ -39,13 +39,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

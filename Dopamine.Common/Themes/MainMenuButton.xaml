@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-                    xmlns:coreConverters="clr-namespace:Dopamine.Core.Presentation.Converters">
+                    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters">
 
-    <coreConverters:StringToUpperConverter x:Key="StringToUpperConverter" />
+    <converters:StringToUpperConverter x:Key="StringToUpperConverter" />
 
     <Style x:Key="{x:Type controls:MainMenuButton}" TargetType="{x:Type controls:MainMenuButton}">
         <Setter Property="Template">

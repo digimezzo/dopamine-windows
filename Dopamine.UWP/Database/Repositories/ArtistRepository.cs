@@ -8,6 +8,12 @@ namespace Dopamine.UWP.Database.Repositories
 {
     public class ArtistRepository : Core.Database.Repositories.ArtistRepository
     {
+        #region Construction
+        public ArtistRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override Task<Artist> AddArtistAsync(Artist artist)
         {

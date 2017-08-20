@@ -1,12 +1,11 @@
 ﻿using Dopamine.Core.Base;
 using Dopamine.Core.Logging;
 using System;
-using System.IO;
 using System.Reflection;
 
 namespace Dopamine.Core.Database
 {
-    public class DbMigrator
+    public abstract class DbMigrator : IDbMigrator
     {
         #region DatabaseVersionAttribute
         protected sealed class DatabaseVersionAttribute : Attribute
@@ -30,15 +29,19 @@ namespace Dopamine.Core.Database
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
         protected const int CURRENT_VERSION = 19;
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
 
         #region Construction
-        public DbMigrator()
+        public DbMigrator(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
+        #endregion
+
+        #region Properties
+        public ISQLiteConnectionFactory Factory => this.factory;
         #endregion
 
         #region Fresh database setup
@@ -990,12 +993,7 @@ namespace Dopamine.Core.Database
         }
         #endregion
 
-        #region Public
-        public bool DatabaseExists()
-        {
-            return File.Exists(this.factory.DatabaseFile);
-        }
-
+        #region IDbMigrator
         public bool DatabaseNeedsUpgrade()
         {
             using (var conn = this.factory.GetConnection())
@@ -1021,48 +1019,28 @@ namespace Dopamine.Core.Database
             this.CreateConfiguration();
             this.CreateTablesAndIndexes();
 
-            CoreLogger.Info("New database created at {0}", this.factory.DatabaseFile);
+            LogClient.Current.Info("New database created at {0}", this.factory.DatabaseFile);
         }
 
-        public void UpgradeDatabase()
+        public virtual void UpgradeDatabase()
         {
-            // Create a copy of the database file
-            try
-            {
-                string databaseFileCopy = this.factory.DatabaseFile + ".old";
-
-                if (File.Exists(databaseFileCopy)) File.Delete(databaseFileCopy);
-                File.Copy(this.factory.DatabaseFile, databaseFileCopy);
-            }
-            catch (Exception ex)
-            {
-                CoreLogger.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
-            }
-
-            // Perform the upgrade
-            MethodInfo[] methods = typeof(DbMigrator).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
-
             for (int i = this.userDatabaseVersion + 1; i <= CURRENT_VERSION; i++)
             {
-                foreach (MethodInfo method in methods)
-                {
-                    foreach (DatabaseVersionAttribute attr in method.GetCustomAttributes(typeof(DatabaseVersionAttribute), false))
-                    {
-                        if (attr.Version == i)
-                        {
-                            method.Invoke(this, null);
-                        }
-                    }
-                }
+                MethodInfo method = typeof(DbMigrator).GetTypeInfo().GetDeclaredMethod("Migrate" + i);
+                if (method != null) method.Invoke(this, null);
             }
 
             using (var conn = this.factory.GetConnection())
             {
-                conn.Execute(string.Format("UPDATE Configuration SET Value = {0} WHERE Key = 'DatabaseVersion'", CURRENT_VERSION));
+                conn.Execute("UPDATE Configuration SET Value = ? WHERE Key = 'DatabaseVersion'", CURRENT_VERSION);
             }
 
-            CoreLogger.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
+            LogClient.Current.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
         }
+        #endregion
+
+        #region Abstract
+        public abstract bool DatabaseExists();
         #endregion
     }
 }

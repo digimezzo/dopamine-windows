@@ -1,11 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Dopamine.Common.Presentation.Converters"
-                    xmlns:coreConverters="clr-namespace:Dopamine.Core.Presentation.Converters">
-    
-    <coreConverters:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
-    <coreConverters:StringToLowerConverter x:Key="StringToLowerConverter"/>
-    <coreConverters:StringToUpperConverter x:Key="StringToUpperConverter"/>
+                    xmlns:local="clr-namespace:Dopamine.Common.Presentation.Converters">
+
+    <local:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
+    <local:StringToLowerConverter x:Key="StringToLowerConverter"/>
+    <local:StringToUpperConverter x:Key="StringToUpperConverter"/>
     <local:NullImageConverter x:Key="NullImageConverter"/>
     <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <local:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter"/>

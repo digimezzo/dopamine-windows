@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dopamine.Core.Services.Indexing
 {
-    internal class IndexerCache
+    public class IndexerCache
     {
         #region Variables
         private HashSet<string> trackStatisticHashSet;
@@ -20,13 +20,13 @@ namespace Dopamine.Core.Services.Indexing
         private long maxArtistID;
         private long maxGenreID;
 
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
         #endregion
 
         #region Construction
-        public IndexerCache()
+        public IndexerCache(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
             this.Initialize();
         }
         #endregion
@@ -58,7 +58,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
+                LogClient.Current.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
             }
 
             if (similarArtistId != 0)
@@ -89,7 +89,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
+                LogClient.Current.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
             }
 
             if (similarGenreId != 0)
@@ -120,7 +120,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                LogClient.Current.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
             if (similarAlbumId != 0)

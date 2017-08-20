@@ -106,7 +106,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("An error occurred during Album enqueue. Exception: {0}", ex.Message);
                 }
 
             });

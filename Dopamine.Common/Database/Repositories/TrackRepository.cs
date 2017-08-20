@@ -64,13 +64,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Tracks for Paths. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Tracks for Paths. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -95,13 +95,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get all the Tracks. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get all the Tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -131,13 +131,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -166,13 +166,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -201,13 +201,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Tracks for Albums. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Tracks for Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -228,13 +228,13 @@ namespace Dopamine.Common.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not get the Track with Path='{0}'. Exception: {1}", path, ex.Message);
+                        LogClient.Current.Error("Could not get the Track with Path='{0}'. Exception: {1}", path, ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
             }
 
             return track;
@@ -285,13 +285,13 @@ namespace Dopamine.Common.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could remove tracks from the database. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could remove tracks from the database. Exception: {0}", ex.Message);
                         result = RemoveTracksResult.Error;
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                     result = RemoveTracksResult.Error;
                 }
             });
@@ -314,12 +314,12 @@ namespace Dopamine.Common.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not clear removed tracks. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could not clear removed tracks. Exception: {0}", ex.Message);
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -342,13 +342,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not update the Track with path='{0}'. Exception: {1}", track.Path, ex.Message);
+                            LogClient.Current.Error("Could not update the Track with path='{0}'. Exception: {1}", track.Path, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -381,13 +381,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not update file information for Track with Path='{0}'. Exception: {1}", path, ex.Message);
+                            LogClient.Current.Error("Could not update file information for Track with Path='{0}'. Exception: {1}", path, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

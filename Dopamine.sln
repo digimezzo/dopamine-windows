@@ -31,14 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine", "Dopamine\Dopami
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.UWP", "Dopamine.UWP\Dopamine.UWP.csproj", "{CCAEE456-A5A1-4CA5-9FB5-1B718F8224CD}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dopamine.Core", "Dopamine.Core\Dopamine.Core.shproj", "{AC5E7B87-4103-49E2-9633-10B1E053B869}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dopamine.Core", "Dopamine.Core\Dopamine.Core.csproj", "{7E12890A-2831-4A17-A71C-9C21430C29CA}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Dopamine.Core\Dopamine.Core.projitems*{839c5668-b96d-4826-9bf5-e00bf3d9b292}*SharedItemsImports = 4
-		Dopamine.Core\Dopamine.Core.projitems*{ac5e7b87-4103-49e2-9633-10b1e053b869}*SharedItemsImports = 13
-		Dopamine.Core\Dopamine.Core.projitems*{ccaee456-a5a1-4ca5-9fb5-1b718f8224cd}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -246,6 +241,22 @@ Global
 		{CCAEE456-A5A1-4CA5-9FB5-1B718F8224CD}.Release|x86.ActiveCfg = Release|x86
 		{CCAEE456-A5A1-4CA5-9FB5-1B718F8224CD}.Release|x86.Build.0 = Release|x86
 		{CCAEE456-A5A1-4CA5-9FB5-1B718F8224CD}.Release|x86.Deploy.0 = Release|x86
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|ARM.Build.0 = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|x64.Build.0 = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E12890A-2831-4A17-A71C-9C21430C29CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

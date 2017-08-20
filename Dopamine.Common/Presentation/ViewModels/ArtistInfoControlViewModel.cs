@@ -134,7 +134,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
+                LogClient.Current.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }
