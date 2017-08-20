@@ -6,7 +6,6 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Command;
