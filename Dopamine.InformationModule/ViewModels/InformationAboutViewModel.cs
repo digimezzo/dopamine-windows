@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Core.ViewModels;
 using Dopamine.InformationModule.Views;
@@ -27,6 +28,14 @@ namespace Dopamine.InformationModule.ViewModels
             get { return this.package; }
             set { SetProperty<Package>(ref this.package, value); }
         }
+        
+        public override Core.Packaging.ExternalComponent[] Components
+        {
+            get {
+                return new ProductInformation().Components;
+            }
+        }
+
         #endregion
 
         #region Construction

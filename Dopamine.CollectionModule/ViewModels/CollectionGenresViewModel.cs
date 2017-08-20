@@ -16,7 +16,7 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Logging;
+using Dopamine.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -346,7 +346,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
+                LogClient.Current.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
 
                 // Failed getting Genres. Create empty ObservableCollection.
                 this.Genres = new ObservableCollection<ISemanticZoomable>();

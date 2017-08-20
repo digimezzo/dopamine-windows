@@ -10,6 +10,12 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class ArtistRepository : Core.Database.Repositories.ArtistRepository
     {
+        #region Construction
+        public ArtistRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
         {
@@ -65,13 +71,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Artists. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get the Artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -94,13 +100,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
+                            LogClient.Current.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -124,13 +130,13 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             artist = null;
-                            CoreLogger.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
+                            LogClient.Current.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

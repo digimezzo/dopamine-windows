@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.UWP.Database;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
@@ -102,12 +102,12 @@ namespace Dopamine.UWP
         {
             try
             {
-                var migrator = new DbMigrator();
+                var migrator = new DbMigrator(new SQLiteConnectionFactory());
 
                 if (!migrator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
-                    CoreLogger.Info("Creating database");
+                    LogClient.Current.Info("Creating database");
                     migrator.InitializeNewDatabase();
                 }
                 else
@@ -116,14 +116,14 @@ namespace Dopamine.UWP
 
                     if (migrator.DatabaseNeedsUpgrade())
                     {
-                        CoreLogger.Info("Upgrading database");
+                        LogClient.Current.Info("Upgrading database");
                         migrator.UpgradeDatabase();
                     }
                 }
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+                LogClient.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
             }
 
             return;

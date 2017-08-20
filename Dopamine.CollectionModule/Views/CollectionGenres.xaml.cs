@@ -42,7 +42,7 @@ namespace Dopamine.CollectionModule.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not perform semantic zoom on Genres. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not perform semantic zoom on Genres. Exception: {0}", ex.Message);
                 }
             });
 
@@ -70,7 +70,7 @@ namespace Dopamine.CollectionModule.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not perform semantic scroll Genre. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not perform semantic scroll Genre. Exception: {0}", ex.Message);
                 }
 
             });

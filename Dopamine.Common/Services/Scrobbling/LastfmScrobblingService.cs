@@ -109,16 +109,16 @@ namespace Dopamine.Common.Services.Scrobbling
 
                         if (isSuccess)
                         {
-                            CoreLogger.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
+                            LogClient.Current.Info("Successfully updated Now Playing for track '{0} - {1}'", artist, trackTitle);
                         }
                         else
                         {
-                            CoreLogger.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
+                            LogClient.Current.Error("Could not update Now Playing for track '{0} - {1}'", artist, trackTitle);
                         }
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
+                        LogClient.Current.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                     }
                     
                 }
@@ -153,16 +153,16 @@ namespace Dopamine.Common.Services.Scrobbling
 
                                 if (isSuccess)
                                 {
-                                    CoreLogger.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
+                                    LogClient.Current.Info("Successfully Scrobbled track '{0} - {1}'", artist, trackTitle);
                                 }
                                 else
                                 {
-                                    CoreLogger.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
+                                    LogClient.Current.Error("Could not Scrobble track '{0} - {1}'", artist, trackTitle);
                                 }
                             }
                             catch (Exception ex)
                             {
-                                CoreLogger.Error("Could not Scrobble track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
+                                LogClient.Current.Error("Could not Scrobble track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                             }
                         }
                     }
@@ -183,18 +183,18 @@ namespace Dopamine.Common.Services.Scrobbling
                     SettingsClient.Set<string>("Lastfm", "Username", this.username);
                     SettingsClient.Set<string>("Lastfm", "Password", this.password);
                     SettingsClient.Set<string>("Lastfm", "Key", this.sessionKey);
-                    CoreLogger.Info("User '{0}' successfully signed in to Last.fm.", this.username);
+                    LogClient.Current.Info("User '{0}' successfully signed in to Last.fm.", this.username);
                     this.SignInState = SignInState.SignedIn;
                 }
                 else
                 {
-                    CoreLogger.Error("User '{0}' could not sign in to Last.fm.", this.username);
+                    LogClient.Current.Error("User '{0}' could not sign in to Last.fm.", this.username);
                     this.SignInState = SignInState.Error;
                 }
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("User '{0}' could not sign in to Last.fm. Exception: {1}", this.username, ex.Message);
+                LogClient.Current.Error("User '{0}' could not sign in to Last.fm. Exception: {1}", this.username, ex.Message);
                 this.SignInState = SignInState.Error;
             }
 
@@ -206,7 +206,7 @@ namespace Dopamine.Common.Services.Scrobbling
             this.sessionKey = string.Empty;
             SettingsClient.Set<string>("Lastfm", "Key", string.Empty);
 
-            CoreLogger.Info("User '{0}' signed out of Last.fm.", this.username);
+            LogClient.Current.Info("User '{0}' signed out of Last.fm.", this.username);
             this.SignInState = SignInState.SignedOut;
 
             this.SignInStateChanged(this.SignInState);
@@ -229,7 +229,7 @@ namespace Dopamine.Common.Services.Scrobbling
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
                     }
                     
                 }else
@@ -240,7 +240,7 @@ namespace Dopamine.Common.Services.Scrobbling
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        LogClient.Current.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
                     }
                 }
             }

@@ -1,9 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Packaging;
+﻿using Dopamine.Core.Packaging;
 
 namespace Dopamine.Common.Base
 {
-    public sealed class ProductInformation : ProductInformationBase
+    public sealed class ProductInformation : Core.Base.ProductInformation
     {
         #region About
         public static string ApplicationGuid = "75ba9e1e-9eff-4a8e-845e-125dc4318c3b";

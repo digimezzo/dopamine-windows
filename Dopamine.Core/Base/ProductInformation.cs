@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Dopamine.Core.Base
 {
-    public abstract class ProductInformationBase
+    public abstract class ProductInformation
     {
         public static string ApplicationName = "Dopamine";
         public static string Copyright = "Copyright Digimezzo © 2014-" + DateTime.Now.Year;
 
-        public static ExternalComponent[] CommonComponents = {
+        public ExternalComponent[] CommonComponents = {
             new ExternalComponent {
                 Name = "Sqlite-net",
                 Description = "A minimal library to allow .NET and Mono applications to store data in SQLite 3 databases.",
@@ -38,7 +38,7 @@ namespace Dopamine.Core.Base
 
         public abstract ExternalComponent[] SpecificComponents { get; }
 
-        public ExternalComponent[] Components => CommonComponents.Concat(SpecificComponents)
+        public ExternalComponent[] Components => this.CommonComponents.Concat(this.SpecificComponents)
             .ToArray()
             .OrderBy(c => c.Name)
             .ToArray();

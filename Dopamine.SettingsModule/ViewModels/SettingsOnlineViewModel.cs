@@ -365,7 +365,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
+                LogClient.Current.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
             }
         }
 

@@ -13,6 +13,12 @@ namespace Dopamine.UWP.Database.Repositories
 {
     public class FolderRepository : Core.Database.Repositories.FolderRepository
     {
+        #region Construction
+        public FolderRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override async Task<List<Tuple<long, string, long>>> GetPathsAsync()
         {
@@ -30,7 +36,7 @@ namespace Dopamine.UWP.Database.Repositories
 
             foreach (var ex in iterator.Exceptions)
             {
-                CoreLogger.Error("Error while recursively getting files/folders. Exception: {0}", ex.ToString());
+                LogClient.Current.Error("Error while recursively getting files/folders. Exception: {0}", ex.ToString());
             }
 
             return diskPaths;

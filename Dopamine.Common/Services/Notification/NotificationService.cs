@@ -293,7 +293,7 @@ namespace Dopamine.Common.Services.Notification
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Error while trying to disable the notification. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Error while trying to disable the notification. Exception: {0}", ex.Message);
             }
 
             try
@@ -320,7 +320,7 @@ namespace Dopamine.Common.Services.Notification
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
+                LogClient.Current.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
             }
         }
 

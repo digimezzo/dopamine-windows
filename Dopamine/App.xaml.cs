@@ -47,14 +47,14 @@ namespace Dopamine
             }
             else
             {
-                CoreLogger.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
+                LogClient.Current.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }
         }
 
         private void ExecuteStartup()
         {
-            CoreLogger.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
+            LogClient.Current.Info("### STARTING {0}, version {1}, IsPortable = {2}, Windows version = {3} ({4}) ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion(), SettingsClient.BaseGet<bool>("Configuration", "IsPortable"), EnvironmentUtils.GetFriendlyWindowsVersion(), EnvironmentUtils.GetInternalWindowsVersion());
 
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -72,12 +72,12 @@ namespace Dopamine
 
             if (args.Length > 1)
             {
-                CoreLogger.Info("Found command-line arguments.");
+                LogClient.Current.Info("Found command-line arguments.");
 
                 switch (args[1])
                 {
                     case "/donate":
-                        CoreLogger.Info("Detected DonateCommand from JumpList.");
+                        LogClient.Current.Info("Detected DonateCommand from JumpList.");
 
                         try
                         {
@@ -85,13 +85,13 @@ namespace Dopamine
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", args[2], ex.Message);
+                            LogClient.Current.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", args[2], ex.Message);
                         }
                         this.Shutdown();
                         break;
                     default:
 
-                        CoreLogger.Info("Processing Non-JumpList command-line arguments.");
+                        LogClient.Current.Info("Processing Non-JumpList command-line arguments.");
 
 
                         if (!isNewInstance)
@@ -123,17 +123,17 @@ namespace Dopamine
             {
                 commandServiceProxy = commandServiceFactory.CreateChannel();
                 commandServiceProxy.ShowMainWindowCommand();
-                CoreLogger.Info("Trying to show the running instance");
+                LogClient.Current.Info("Trying to show the running instance");
             }
             catch (Exception ex)
             {
-                CoreLogger.Error("A problem occurred while trying to show the running instance. Exception: {0}", ex.Message);
+                LogClient.Current.Error("A problem occurred while trying to show the running instance. Exception: {0}", ex.Message);
             }
         }
 
         private void TrySendCommandlineArguments(string[] args)
         {
-            CoreLogger.Info("Trying to send {0} command-line arguments to the running instance", args.Count());
+            LogClient.Current.Info("Trying to send {0} command-line arguments to the running instance", args.Count());
 
             bool needsSending = true;
             DateTime startTime = DateTime.Now;
@@ -149,7 +149,7 @@ namespace Dopamine
                     // Try to send the command-line arguments to the running instance
                     fileServiceProxy = fileServiceFactory.CreateChannel();
                     fileServiceProxy.ProcessArguments(args);
-                    CoreLogger.Info("Sent {0} command-line arguments to the running instance", args.Count());
+                    LogClient.Current.Info("Sent {0} command-line arguments to the running instance", args.Count());
 
                     needsSending = false;
                 }
@@ -168,7 +168,7 @@ namespace Dopamine
                     {
                         // Log any other Exception and stop trying to send the file to the running instance
                         needsSending = false;
-                        CoreLogger.Info("A problem occurred while trying to send {0} command-line arguments to the running instance. Exception: {1}", args.Count().ToString(), ex.Message);
+                        LogClient.Current.Info("A problem occurred while trying to send {0} command-line arguments to the running instance. Exception: {1}", args.Count().ToString(), ex.Message);
                     }
                 }
 
@@ -206,14 +206,14 @@ namespace Dopamine
             // This might be fixed in .Net 4.5.2. See here: https://connect.microsoft.com/VisualStudio/feedback/details/789438/scrolling-in-virtualized-wpf-treeview-is-very-unstable
             if (ex.GetType().ToString().Equals("System.ArgumentNullException") & ex.Source.ToString().Equals("PresentationCore"))
             {
-                CoreLogger.Warning("Avoided Unhandled Exception: {0}", ex.Message);
+                LogClient.Current.Warning("Avoided Unhandled Exception: {0}", ex.Message);
                 return;
             }
 
-            CoreLogger.Error("Unhandled Exception. {0}", CoreLogger.GetAllExceptions(ex));
+            LogClient.Current.Error("Unhandled Exception. {0}", LogClient.Current.GetAllExceptions(ex));
 
             // Close the application to prevent further problems
-            CoreLogger.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion());
+            LogClient.Current.Info("### FORCED STOP of {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion());
 
             // Stop playing (This avoids remaining processes in Task Manager)
             var playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();

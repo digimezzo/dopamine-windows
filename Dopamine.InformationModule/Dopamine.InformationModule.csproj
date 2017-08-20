@@ -159,7 +159,7 @@
       <Name>Dopamine.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{fa738735-b667-4809-97ba-83df5f3393bb}</Project>
+      <Project>{7e12890a-2831-4a17-a71c-9c21430c29ca}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
   </ItemGroup>

@@ -16,6 +16,12 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class FolderRepository : Core.Database.Repositories.FolderRepository
     {
+        #region Construction
+        public FolderRepository(ISQLiteConnectionFactory factory) : base(factory)
+        {
+        }
+        #endregion
+
         #region Overrides
         public override async Task<AddFolderResult> AddFolderAsync(string path)
         {
@@ -32,24 +38,24 @@ namespace Dopamine.Common.Database.Repositories
                             if (!conn.Table<Folder>().Select((f) => f).ToList().Select((f) => f.SafePath).Contains(path.ToSafePath()))
                             {
                                 conn.Insert(new Folder { Path = path, SafePath = path.ToSafePath(), ShowInCollection = 1 });
-                                CoreLogger.Info("Added the Folder {0}", path);
+                                LogClient.Current.Info("Added the Folder {0}", path);
                             }
                             else
                             {
-                                CoreLogger.Info("Didn't add the Folder {0} because it is already in the database", path);
+                                LogClient.Current.Info("Didn't add the Folder {0} because it is already in the database", path);
                                 result = AddFolderResult.Duplicate;
                             }
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
+                            LogClient.Current.Error("Could not add the Folder {0}. Exception: {1}", path, ex.Message);
                             result = AddFolderResult.Error;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -73,19 +79,19 @@ namespace Dopamine.Common.Database.Repositories
                             if (obsoleteFolder != null)
                             {
                                 conn.Delete(obsoleteFolder);
-                                CoreLogger.Info("Removed the Folder {0}", path);
+                                LogClient.Current.Info("Removed the Folder {0}", path);
                             }
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not remove the Folder {0}. Exception: {1}", path, ex.Message);
+                            LogClient.Current.Error("Could not remove the Folder {0}. Exception: {1}", path, ex.Message);
                             result = RemoveFolderResult.Error;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -108,13 +114,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not get all the Folders. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not get all the Folders. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
 
             });
@@ -148,13 +154,13 @@ namespace Dopamine.Common.Database.Repositories
                             {
                                 foreach (Exception recurseException in recurseExceptions)
                                 {
-                                    CoreLogger.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
+                                    LogClient.Current.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not iterate through the subdirectories of folder '{0}'. Exception: {1}", fol.Path, ex.Message);
+                            LogClient.Current.Error("Could not iterate through the subdirectories of folder '{0}'. Exception: {1}", fol.Path, ex.Message);
                         }
 
                         foreach (string path in paths)
@@ -169,7 +175,7 @@ namespace Dopamine.Common.Database.Repositories
                             }
                             catch (Exception ex)
                             {
-                                CoreLogger.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol.Path, ex.Message);
+                                LogClient.Current.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol.Path, ex.Message);
                             }
                         }
                     }
@@ -202,13 +208,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Error("Could not update the Folders. Exception: {0}", ex.Message);
+                            LogClient.Current.Error("Could not update the Folders. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

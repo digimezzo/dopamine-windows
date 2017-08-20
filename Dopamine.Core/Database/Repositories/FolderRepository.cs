@@ -1,5 +1,6 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,17 +10,17 @@ namespace Dopamine.Core.Database.Repositories
     public abstract class FolderRepository : IFolderRepository
     {
         #region Variables
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
         #endregion
 
         #region Properties
-        public SQLiteConnectionFactory Factory => this.factory;
+        public ISQLiteConnectionFactory Factory => this.factory;
         #endregion
 
         #region Construction
-        public FolderRepository()
+        public FolderRepository(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
         #endregion
 
