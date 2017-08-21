@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using Dopamine.Core.Base;
 
 namespace Dopamine.OobeModule.ViewModels
 {
@@ -15,6 +16,8 @@ namespace Dopamine.OobeModule.ViewModels
         #endregion
 
         #region Properties
+        public string DonateUrl => ContactInformation.PayPalLink;
+
         public bool IsActive
         {
             get { return isActive; }
