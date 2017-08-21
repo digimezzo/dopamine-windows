@@ -97,7 +97,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        CoreLogger.Current.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });
@@ -121,7 +121,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        CoreLogger.Current.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });

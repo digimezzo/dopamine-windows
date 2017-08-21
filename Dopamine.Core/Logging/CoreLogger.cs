@@ -5,26 +5,26 @@ using System.Text;
 
 namespace Dopamine.Core.Logging
 {
-    public abstract class LogClient : ILogClient
+    public abstract class CoreLogger : ICoreLogger
     {
-        public static ILogClient Current
+        public static ICoreLogger Current
         {
             get
             {
-                ILogClient logClient;
+                ICoreLogger coreLogger;
 
                 try
                 {
-                    logClient = ServiceLocator.Current.GetInstance<ILogClient>();
+                    coreLogger = ServiceLocator.Current.GetInstance<ICoreLogger>();
                 }
                 catch (Exception)
                 {
-                    // Failure to resolve an implementation of ILogClient should not break code which require logging.
+                    // Failure to resolve an implementation of ICoreLogger should not break code which require logging.
                     // This is especially useful in unit tests, where logging is not the center of focus.
-                    logClient = new MockLogClient();
+                    coreLogger = new MockCoreLogger();
                 }
 
-                return logClient;
+                return coreLogger;
             }
         }
 

@@ -31,6 +31,7 @@ using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
+using Dopamine.Core.Settings;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -84,8 +85,8 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            //Container.RegisterSingletonType<ISettingsClient, Settings.SettingsClient>();
-            Container.RegisterSingletonType<ILogClient, Logging.LogClient>();
+            Container.RegisterSingletonType<ICoreSettings, Common.Settings.CoreSettings>();
+            Container.RegisterSingletonType<ICoreLogger, Common.Logging.CoreLogger>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
         }
@@ -164,7 +165,6 @@ namespace Dopamine
         protected override void InitializeShell()
         {
             base.InitializeShell();
-
             this.InitializeWCFServices();
 
             Application.Current.MainWindow = (Window)this.Shell;
@@ -181,12 +181,12 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                LogClient.Current.Info("Showing Oobe screen");
+                CoreLogger.Current.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                LogClient.Current.Info("Showing Main screen");
+                CoreLogger.Current.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
@@ -207,11 +207,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                LogClient.Current.Info("CommandService was started successfully");
+                CoreLogger.Current.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -222,11 +222,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                LogClient.Current.Info("FileService was started successfully");
+                CoreLogger.Current.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not start FileService. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }

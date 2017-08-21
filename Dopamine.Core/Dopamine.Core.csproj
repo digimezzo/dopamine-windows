@@ -50,7 +50,7 @@
     <Compile Include="Database\Entities\Track.cs" />
     <Compile Include="Database\Entities\TrackStatistic.cs" />
     <Compile Include="Database\Enums.cs" />
-    <Compile Include="Database\IDbMigrator.cs" />
+    <Compile Include="Database\Entities\IDbMigrator.cs" />
     <Compile Include="Database\ISQLiteConnectionFactory.cs" />
     <Compile Include="Database\PlayableTrack.cs" />
     <Compile Include="Database\Repositories\AlbumRepository.cs" />
@@ -65,11 +65,11 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />
-    <Compile Include="Logging\ILogClient.cs" />
-    <Compile Include="Logging\LogClient.cs" />
+    <Compile Include="Logging\ICoreLogger.cs" />
+    <Compile Include="Logging\CoreLogger.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="Logging\MockLogClient.cs" />
+    <Compile Include="Logging\MockCoreLogger.cs" />
     <Compile Include="Packaging\ExternalComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
@@ -78,7 +78,9 @@
     <Compile Include="Services\Indexing\Enums.cs" />
     <Compile Include="Services\Indexing\IndexerCache.cs" />
     <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
-    <Compile Include="Services\Settings\ISettingsService.cs" />
+    <Compile Include="Settings\ICoreSettings.cs" />
+    <Compile Include="Settings\MockCoreSettings.cs" />
+    <Compile Include="Settings\CoreSettings.cs" />
     <Compile Include="ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

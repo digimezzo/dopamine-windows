@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dopamine.Core.Logging
 {
-    public class MockLogClient : ILogClient
+    public class MockCoreLogger : ICoreLogger
     {
         public string Logfile()
         {

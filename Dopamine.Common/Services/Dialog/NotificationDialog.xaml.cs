@@ -48,11 +48,11 @@ namespace Dopamine.Common.Services.Dialog
         {
             try
             {
-                Actions.TryViewInExplorer(LogClient.Current.Logfile());
+                Actions.TryViewInExplorer(CoreLogger.Current.Logfile());
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Current.Logfile(), ex.Message);
+                CoreLogger.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Current.Logfile(), ex.Message);
             }
         }
         #endregion

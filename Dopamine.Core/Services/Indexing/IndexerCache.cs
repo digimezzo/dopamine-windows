@@ -58,7 +58,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
+                CoreLogger.Current.Error("There was a problem checking if Artist '{0}' exists in the cache. Exception: {1}", artist.ArtistName, ex.Message);
             }
 
             if (similarArtistId != 0)
@@ -89,7 +89,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
+                CoreLogger.Current.Error("There was a problem checking if Genre '{0}' exists in the cache. Exception: {1}", genre.GenreName, ex.Message);
             }
 
             if (similarGenreId != 0)
@@ -120,7 +120,7 @@ namespace Dopamine.Core.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                CoreLogger.Current.Error("There was a problem checking if Album '{0} / {1}' exists in the cache. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
             }
 
             if (similarAlbumId != 0)

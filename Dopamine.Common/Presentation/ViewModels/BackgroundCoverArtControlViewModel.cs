@@ -1,7 +1,7 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Cache;
+﻿using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Settings;
 using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine.Common.Presentation.ViewModels
@@ -33,7 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.appearanceService.ThemeChanged += useLightTheme => this.Opacity = useLightTheme ? 1.0 : 0.5;
 
-            this.Opacity = SettingsClient.Get<bool>("Appearance", "EnableLightTheme") ? 1.0 : 0.5;
+            this.Opacity = CoreSettings.Current.UseLightTheme ? 1.0 : 0.5;
         }
         #endregion
     }

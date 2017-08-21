@@ -15,7 +15,9 @@ namespace Dopamine.UWP.Services.Appearance
         #region Construction
         public AppearanceService() : base()
         {
-
+            // Get the available ColorSchemes
+            // ------------------------------
+            this.GetAllColorSchemes();
         }
         #endregion
 

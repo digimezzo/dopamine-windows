@@ -34,7 +34,7 @@ namespace Dopamine.Common.Presentation.Utils
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("An error occured while converting the image to a Byte[]. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("An error occured while converting the image to a Byte[]. Exception: {0}", ex.Message);
                         isOpenSuccess = false;
                     }
                 });

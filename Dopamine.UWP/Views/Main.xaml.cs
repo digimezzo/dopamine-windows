@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Services.Settings;
+using Dopamine.UWP.Settings;
 using Windows.UI.Xaml.Controls;
 
 namespace Dopamine.UWP.Views
@@ -8,20 +8,18 @@ namespace Dopamine.UWP.Views
     {
         #region Variables
         private IAppearanceService appearanceService;
-        private ISettingsService settingsService;
         #endregion
 
         #region Construction
-        public Main(ISettingsService settingsService, IAppearanceService appearanceService)
+        public Main(IAppearanceService appearanceService)
         {
             this.InitializeComponent();
 
             this.appearanceService = appearanceService;
             this.appearanceService.ThemeChanged += AppearanceService_ThemeChanged;
 
-            this.settingsService = settingsService;
-            this.appearanceService.ApplyTheme(this.settingsService.UseLightTheme);
-            this.appearanceService.ApplyColorSchemeAsync(this.settingsService.ColorScheme, this.settingsService.FollowWindowsColor, false);
+            this.appearanceService.ApplyTheme(CoreSettings.Current.UseLightTheme);
+            this.appearanceService.ApplyColorSchemeAsync(CoreSettings.Current.ColorScheme, CoreSettings.Current.FollowWindowsColor, false);
         }
         #endregion
 

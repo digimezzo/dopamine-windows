@@ -91,7 +91,7 @@ namespace Dopamine.Common.Services.Indexing
             this.isIndexing = false;
 
             // Initialize watchers
-            InitializeCollectionFolderWatchersAsync();
+            this.InitializeCollectionFolderWatchersAsync();
         }
         #endregion
 
@@ -102,7 +102,7 @@ namespace Dopamine.Common.Services.Indexing
             {
                 if (!Directory.Exists(path))
                 {
-                    LogClient.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
+                    CoreLogger.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
                     return;
                 }
                 var watcher = await CreateCollectionFolderWatcher(path);
@@ -118,7 +118,7 @@ namespace Dopamine.Common.Services.Indexing
             {
                 if (!Directory.Exists(path))
                 {
-                    LogClient.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
+                    CoreLogger.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
                     return;
                 }
 
@@ -166,7 +166,7 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get indexing statistics from database. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get indexing statistics from database. Exception: {0}", ex.Message);
             }
         }
 
@@ -197,7 +197,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 if (isTracksChanged)
                 {
-                    LogClient.Current.Info("Sending event to refresh the lists");
+                    CoreLogger.Current.Info("Sending event to refresh the lists");
                     this.RefreshLists(this, new EventArgs());
                 }
             }
@@ -208,7 +208,7 @@ namespace Dopamine.Common.Services.Indexing
 
             if (isArtworkChanged)
             {
-                LogClient.Current.Info("Sending event to refresh the artwork");
+                CoreLogger.Current.Info("Sending event to refresh the artwork");
                 this.RefreshArtwork(this, new EventArgs());
             }
 
@@ -319,7 +319,7 @@ namespace Dopamine.Common.Services.Indexing
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Info("An error occurred while updating indexing statistics. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Info("An error occurred while updating indexing statistics. Exception: {0}", ex.Message);
                     }
                 }
             });
@@ -327,7 +327,7 @@ namespace Dopamine.Common.Services.Indexing
 
         private async Task<long> IndexArtworkAsync(bool quickArtworkIndexing)
         {
-            LogClient.Current.Info("+++ STARTED INDEXING ARTWORK +++");
+            CoreLogger.Current.Info("+++ STARTED INDEXING ARTWORK +++");
 
             DateTime startTime = DateTime.Now;
 
@@ -351,10 +351,10 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Info("There was a problem while updating the artwork. Exception: {0}", ex.Message);
+                CoreLogger.Current.Info("There was a problem while updating the artwork. Exception: {0}", ex.Message);
             }
 
-            LogClient.Current.Info("+++ FINISHED INDEXING ARTWORK: Covers deleted from database: {0}. Covers deleted from disk: {1}. Covers updated: {2}. Time required: {3} ms +++", numberDeletedFromDatabase, numberDeletedFromDisk, numberUpdated, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+            CoreLogger.Current.Info("+++ FINISHED INDEXING ARTWORK: Covers deleted from database: {0}. Covers deleted from disk: {1}. Covers updated: {2}. Time required: {3} ms +++", numberDeletedFromDatabase, numberDeletedFromDisk, numberUpdated, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
 
             return numberDeletedFromDatabase + numberDeletedFromDisk + numberUpdated;
         }
@@ -391,7 +391,7 @@ namespace Dopamine.Common.Services.Indexing
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                            CoreLogger.Current.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
                         }
 
                         // Report progress if at least 1 album is added
@@ -469,7 +469,7 @@ namespace Dopamine.Common.Services.Indexing
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Current.Error("There was a problem while deleting cached artwork {0}. Exception: {1}", artworkFile, ex.Message);
+                                CoreLogger.Current.Error("There was a problem while deleting cached artwork {0}. Exception: {1}", artworkFile, ex.Message);
                             }
                         }
 
@@ -502,7 +502,7 @@ namespace Dopamine.Common.Services.Indexing
 
         private async Task<long> IndexTracksAsync(bool ignoreRemovedFiles)
         {
-            LogClient.Current.Info("+++ STARTED INDEXING COLLECTION +++");
+            CoreLogger.Current.Info("+++ STARTED INDEXING COLLECTION +++");
 
             DateTime startTime = DateTime.Now;
 
@@ -518,7 +518,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 numberTracksRemoved = await this.RemoveTracksAsync();
 
-                LogClient.Current.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
+                CoreLogger.Current.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
 
                 await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete Tracks are removed, now we can determine new files
 
@@ -527,14 +527,14 @@ namespace Dopamine.Common.Services.Indexing
                 DateTime updateTracksStartTime = DateTime.Now;
                 numberTracksUpdated = await this.UpdateTracksAsync();
 
-                LogClient.Current.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated, Convert.ToInt64(DateTime.Now.Subtract(updateTracksStartTime).TotalMilliseconds));
+                CoreLogger.Current.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated, Convert.ToInt64(DateTime.Now.Subtract(updateTracksStartTime).TotalMilliseconds));
 
                 // Step 3: add new Tracks
                 // ----------------------
                 DateTime addTracksStartTime = DateTime.Now;
                 numberTracksAdded = await this.AddTracksAsync();
 
-                LogClient.Current.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
+                CoreLogger.Current.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
 
                 // Step 4: delete orphans
                 // ----------------------
@@ -544,10 +544,10 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Current.Info("There was a problem while indexing the collection. Exception: {0}", ex.Message);
+                CoreLogger.Current.Info("There was a problem while indexing the collection. Exception: {0}", ex.Message);
             }
 
-            LogClient.Current.Info("+++ FINISHED INDEXING COLLECTION: Tracks removed: {0}. Tracks updated: {1}. Tracks added: {2}. Time required: {3} ms +++", numberTracksRemoved, numberTracksUpdated, numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+            CoreLogger.Current.Info("+++ FINISHED INDEXING COLLECTION: Tracks removed: {0}. Tracks updated: {1}. Tracks added: {2}. Time required: {3} ms +++", numberTracksRemoved, numberTracksUpdated, numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
 
             return numberTracksRemoved + numberTracksAdded + numberTracksUpdated;
         }
@@ -658,7 +658,7 @@ namespace Dopamine.Common.Services.Indexing
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("There was a problem while removing Tracks. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("There was a problem while removing Tracks. Exception: {0}", ex.Message);
                 }
             });
 
@@ -697,7 +697,7 @@ namespace Dopamine.Common.Services.Indexing
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Current.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
+                                CoreLogger.Current.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
                             }
 
                             currentValue += 1;
@@ -718,7 +718,7 @@ namespace Dopamine.Common.Services.Indexing
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("There was a problem while updating Tracks. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("There was a problem while updating Tracks. Exception: {0}", ex.Message);
                 }
             });
 
@@ -772,7 +772,7 @@ namespace Dopamine.Common.Services.Indexing
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Current.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
+                                CoreLogger.Current.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
                             }
 
                             currentValue += 1;
@@ -793,7 +793,7 @@ namespace Dopamine.Common.Services.Indexing
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("There was a problem while adding Tracks. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("There was a problem while adding Tracks. Exception: {0}", ex.Message);
                 }
             });
 
@@ -817,7 +817,7 @@ namespace Dopamine.Common.Services.Indexing
             catch (Exception ex)
             {
                 processingSuccessful = false;
-                LogClient.Current.Error("Error while retrieving tag information for file {0}. File not added to the database. Exception: {1}", track.Path, ex.Message);
+                CoreLogger.Current.Error("Error while retrieving tag information for file {0}. File not added to the database. Exception: {1}", track.Path, ex.Message);
             }
 
             if (processingSuccessful)

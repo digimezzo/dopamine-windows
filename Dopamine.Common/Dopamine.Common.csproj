@@ -218,7 +218,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
-    <Compile Include="Logging\LogClient.cs" />
+    <Compile Include="Logging\CoreLogger.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
@@ -464,6 +464,7 @@
     <Compile Include="Services\Update\UpdateService.cs" />
     <Compile Include="Services\Win32Input\IWin32InputService.cs" />
     <Compile Include="Services\Win32Input\Win32InputService.cs" />
+    <Compile Include="Settings\CoreSettings.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

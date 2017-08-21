@@ -162,7 +162,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -305,7 +305,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("An error occurred while getting Playlists. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("An error occurred while getting Playlists. Exception: {0}", ex.Message);
 
                 // If loading from the database failed, create and empty Collection.
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
@@ -507,7 +507,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
             }
 
             return indexes;
@@ -540,7 +540,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
             }
 
             return false;
@@ -565,7 +565,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
             }
 
             return false;
@@ -586,7 +586,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not get the dropped tracks. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not get the dropped tracks. Exception: {0}", ex.Message);
                 }
             });
 
@@ -627,7 +627,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
                 }
             }
         }
@@ -644,7 +644,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
             }
 
             return filenames;
@@ -660,7 +660,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not add dropped files to selected playlist. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not add dropped files to selected playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -679,7 +679,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -700,7 +700,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
                 }
             }
             else if (dropInfo.TargetItem == null)
@@ -761,7 +761,7 @@ namespace Dopamine.CollectionModule.ViewModels
             catch (Exception ex)
             {
                 dropInfo.NotHandled = false;
-                LogClient.Current.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not drag tracks. Exception: {0}", ex.Message);
             }
         }
 
@@ -799,7 +799,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not perform drop. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
         }
         #endregion

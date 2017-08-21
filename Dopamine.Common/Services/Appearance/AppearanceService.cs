@@ -104,6 +104,10 @@ namespace Dopamine.Common.Services.Appearance
             this.colorSchemeWatcher.Deleted += new FileSystemEventHandler(WatcherChangedHandler);
             this.colorSchemeWatcher.Created += new FileSystemEventHandler(WatcherChangedHandler);
             this.colorSchemeWatcher.Renamed += new RenamedEventHandler(WatcherRenamedHandler);
+
+            // Get the available ColorSchemes
+            // ------------------------------
+            this.GetAllColorSchemes();
         }
 
         private void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
@@ -246,13 +250,13 @@ namespace Dopamine.Common.Services.Appearance
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("Exception: {0}", ex.Message);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Exception: {0}", ex.Message);
                 }
             }
         }
