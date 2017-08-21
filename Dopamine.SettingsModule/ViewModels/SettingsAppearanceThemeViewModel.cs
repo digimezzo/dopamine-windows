@@ -55,7 +55,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
-                    CoreSettings.Current.ColorScheme = value.AccentColor;
+                    CoreSettings.Current.ColorScheme = value.Name;
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await this.appearanceService.ApplyColorSchemeAsync(
@@ -84,6 +84,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
 
                 CoreSettings.Current.FollowWindowsColor = value;
+
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
@@ -95,7 +96,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
-                OnPropertyChanged(() => this.CanChooseColor);
+                this.RaisePropertyChanged(nameof(this.CanChooseColor));
             }
         }
 
@@ -111,6 +112,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
 
                 SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
+
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
@@ -122,7 +124,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 });
 
                 SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);
-                OnPropertyChanged(() => this.CanChooseColor);
+                this.RaisePropertyChanged(nameof(this.CanChooseColor));
             }
         }
 
@@ -176,9 +178,14 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxThemeChecked = CoreSettings.Current.UseLightTheme;
-                this.CheckBoxWindowsColorChecked = CoreSettings.Current.FollowWindowsColor;
-                this.CheckBoxAlbumCoverColorChecked = SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor");
+                this.checkBoxThemeChecked = CoreSettings.Current.UseLightTheme;
+                this.RaisePropertyChanged(nameof(this.CheckBoxThemeChecked));
+
+                this.checkBoxWindowsColorChecked = CoreSettings.Current.FollowWindowsColor;
+                this.RaisePropertyChanged(nameof(this.CheckBoxWindowsColorChecked));
+
+                this.checkBoxAlbumCoverColorChecked = SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor");
+                this.RaisePropertyChanged(nameof(this.CheckBoxAlbumCoverColorChecked));
             });
         }
         #endregion
