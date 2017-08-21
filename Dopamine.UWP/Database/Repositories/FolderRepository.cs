@@ -36,7 +36,7 @@ namespace Dopamine.UWP.Database.Repositories
 
             foreach (var ex in iterator.Exceptions)
             {
-                LogClient.Current.Error("Error while recursively getting files/folders. Exception: {0}", ex.ToString());
+                CoreLogger.Current.Error("Error while recursively getting files/folders. Exception: {0}", ex.ToString());
             }
 
             return diskPaths;

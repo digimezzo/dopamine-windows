@@ -26,7 +26,7 @@ namespace Dopamine.UWP.Database
             }
             catch (Exception ex)
             {
-                LogClient.Current.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
+                CoreLogger.Current.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
             }
 
             base.UpgradeDatabase();

@@ -337,11 +337,11 @@ namespace Dopamine.Common.Services.Metadata
                         }
                         catch (IOException ex)
                         {
-                            LogClient.Current.Error("Unable to save metadata to the file for Track '{0}'. The file is probably playing. Trying again in {1} seconds. Exception: {2}", fmd.SafePath, this.updateFileMetadataLongTimeout / 1000, ex.Message);
+                            CoreLogger.Current.Error("Unable to save metadata to the file for Track '{0}'. The file is probably playing. Trying again in {1} seconds. Exception: {2}", fmd.SafePath, this.updateFileMetadataLongTimeout / 1000, ex.Message);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("Unable to save metadata to the file for Track '{0}'. Not trying again. Exception: {1}", fmd.SafePath, ex.Message);
+                            CoreLogger.Current.Error("Unable to save metadata to the file for Track '{0}'. Not trying again. Exception: {1}", fmd.SafePath, ex.Message);
                             this.fileMetadataDictionary.Remove(fmd.SafePath);
                         }
                     }
@@ -452,7 +452,7 @@ namespace Dopamine.Common.Services.Metadata
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
+                    CoreLogger.Current.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                 }
             }
 
@@ -464,7 +464,7 @@ namespace Dopamine.Common.Services.Metadata
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Error while deleting orphans. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Error while deleting orphans. Exception: {0}", ex.Message);
             }
 
             this.isUpdatingDatabaseMetadata = false;

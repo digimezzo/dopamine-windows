@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Logging;
 using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
@@ -16,7 +17,6 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -346,7 +346,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("An error occurred while getting Genres. Exception: {0}", ex.Message);
 
                 // Failed getting Genres. Create empty ObservableCollection.
                 this.Genres = new ObservableCollection<ISemanticZoomable>();

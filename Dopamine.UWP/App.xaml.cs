@@ -1,19 +1,15 @@
-﻿using Dopamine.UWP.Database;
+﻿using Dopamine.Core.Database;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Services.Settings;
-using Dopamine.UWP.Services.Appearance;
+using Dopamine.Core.Settings;
 using Dopamine.UWP.Services.Dialog;
-using Dopamine.UWP.Services.Settings;
 using Dopamine.UWP.Views;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using Prism.Unity.Windows;
 using Prism.Windows.AppModel;
 using System;
-using System.Globalization;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -49,27 +45,27 @@ namespace Dopamine.UWP
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
-            this.InitializeDatabase();
+
+            this.RegisterCoreComponents();
             this.RegisterServices();
             this.RegisterViews();
+            this.InitializeDatabase();
 
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
-            {
-                var viewName = viewType.FullName;
-                viewName = viewName.Replace(".Views.", ".ViewModels.");
-                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
-                var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
-                return Type.GetType(viewModelName);
-            }
-          );
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => { return Container.Resolve(type); });
 
             return base.OnInitializeAsync(args);
         }
 
+        private void RegisterCoreComponents()
+        {
+            Container.RegisterSingletonType<ICoreSettings, Settings.CoreSettings>();
+            Container.RegisterSingletonType<ICoreLogger, Logging.CoreLogger>();
+            Container.RegisterSingletonType<ISQLiteConnectionFactory, Database.SQLiteConnectionFactory>();
+            Container.RegisterSingletonType<IDbMigrator, Database.DbMigrator>();
+        }
+
         private void RegisterServices()
         {
-            Container.RegisterSingletonType<ISettingsService, SettingsService>();
             Container.RegisterSingletonType<IAppearanceService, Services.Appearance.AppearanceService>();
             Container.RegisterSingletonType<IDialogService, DialogService>();
         }
@@ -102,12 +98,12 @@ namespace Dopamine.UWP
         {
             try
             {
-                var migrator = new DbMigrator(new SQLiteConnectionFactory());
+                var migrator = new Database.DbMigrator(new Database.SQLiteConnectionFactory());
 
                 if (!migrator.DatabaseExists())
                 {
                     // Create the database if it doesn't exist
-                    LogClient.Current.Info("Creating database");
+                    CoreLogger.Current.Info("Creating database");
                     migrator.InitializeNewDatabase();
                 }
                 else
@@ -116,14 +112,14 @@ namespace Dopamine.UWP
 
                     if (migrator.DatabaseNeedsUpgrade())
                     {
-                        LogClient.Current.Info("Upgrading database");
+                        CoreLogger.Current.Info("Upgrading database");
                         migrator.UpgradeDatabase();
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
             }
 
             return;

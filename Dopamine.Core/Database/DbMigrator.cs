@@ -1019,7 +1019,7 @@ namespace Dopamine.Core.Database
             this.CreateConfiguration();
             this.CreateTablesAndIndexes();
 
-            LogClient.Current.Info("New database created at {0}", this.factory.DatabaseFile);
+            CoreLogger.Current.Info("New database created at {0}", this.factory.DatabaseFile);
         }
 
         public virtual void UpgradeDatabase()
@@ -1035,7 +1035,7 @@ namespace Dopamine.Core.Database
                 conn.Execute("UPDATE Configuration SET Value = ? WHERE Key = 'DatabaseVersion'", CURRENT_VERSION);
             }
 
-            LogClient.Current.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
+            CoreLogger.Current.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
         }
         #endregion
 

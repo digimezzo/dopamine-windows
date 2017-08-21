@@ -52,7 +52,7 @@ namespace Dopamine.Common.Presentation.Utils
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("An error occured while saving the byte[] to a file. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("An error occured while saving the byte[] to a file. Exception: {0}", ex.Message);
                         isSaveSuccess = false;
                     }
                 });

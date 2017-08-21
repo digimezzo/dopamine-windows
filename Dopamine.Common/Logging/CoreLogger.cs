@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
-namespace Dopamine.Logging
+namespace Dopamine.Common.Logging
 {
-    public class LogClient : Core.Logging.LogClient
+    public class CoreLogger : Core.Logging.CoreLogger
     {
         public override string Logfile()
         {

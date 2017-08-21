@@ -42,7 +42,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get lyricsListBox from the DataTemplate. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get lyricsListBox from the DataTemplate. Exception: {0}", ex.Message);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get lyricsTextBox from the DataTemplate. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get lyricsTextBox from the DataTemplate. Exception: {0}", ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Dopamine.Common.Presentation.Views
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
             }
         }
         #endregion
@@ -106,7 +106,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not set focus on lyricsTextBox. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not set focus on lyricsTextBox. Exception: {0}", ex.Message);
                 }
 
             }
@@ -170,7 +170,7 @@ namespace Dopamine.Common.Presentation.Views
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not add timeStamp to selected lyrics line. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not add timeStamp to selected lyrics line. Exception: {0}", ex.Message);
                 }
             }
         }

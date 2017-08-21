@@ -231,7 +231,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
                 Application.Current.Dispatcher.Invoke(() =>
@@ -345,7 +345,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });

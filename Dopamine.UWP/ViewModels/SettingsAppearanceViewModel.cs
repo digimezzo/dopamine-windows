@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Services.Settings;
+using Dopamine.UWP.Settings;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
@@ -8,7 +8,6 @@ namespace Dopamine.UWP.ViewModels
     public class SettingsAppearanceViewModel : BindableBase
     {
         #region Variables
-        private ISettingsService settingsService;
         private IAppearanceService appearanceService;
         private bool useLightTheme;
         private bool followWindowsColor;
@@ -24,7 +23,7 @@ namespace Dopamine.UWP.ViewModels
             {
                 SetProperty<bool>(ref this.useLightTheme, value);
 
-                this.settingsService.UseLightTheme = value;
+                CoreSettings.Current.UseLightTheme = value;
                 this.appearanceService.ApplyTheme(value);
             }
         }
@@ -36,8 +35,8 @@ namespace Dopamine.UWP.ViewModels
             {
                 SetProperty<bool>(ref this.followWindowsColor, value);
 
-                this.settingsService.FollowWindowsColor = value;
-                this.appearanceService.ApplyColorSchemeAsync(this.settingsService.ColorScheme, value, false);   
+                CoreSettings.Current.FollowWindowsColor = value;
+                this.appearanceService.ApplyColorSchemeAsync(CoreSettings.Current.ColorScheme, value, false);   
             }
         }
 
@@ -60,17 +59,16 @@ namespace Dopamine.UWP.ViewModels
 
                 if (value != null)
                 {
-                    this.settingsService.ColorScheme = value.Name;
-                    this.appearanceService.ApplyColorSchemeAsync(value.Name, this.settingsService.FollowWindowsColor, false);
+                    CoreSettings.Current.ColorScheme = value.Name;
+                    this.appearanceService.ApplyColorSchemeAsync(value.Name, CoreSettings.Current.FollowWindowsColor, false);
                 }
             }
         }
         #endregion
 
         #region Construction
-        public SettingsAppearanceViewModel(ISettingsService settingsService, IAppearanceService appearanceService)
+        public SettingsAppearanceViewModel(IAppearanceService appearanceService)
         {
-            this.settingsService = settingsService;
             this.appearanceService = appearanceService;
 
             // Toggle switches
@@ -91,14 +89,14 @@ namespace Dopamine.UWP.ViewModels
                 this.ColorSchemes.Add(cs);
             }
 
-            string savedAppearanceColorScheme = this.settingsService.ColorScheme;
+            string savedAppearanceColorScheme = CoreSettings.Current.ColorScheme;
             this.SelectedColorScheme = this.appearanceService.GetColorScheme(savedAppearanceColorScheme);
         }
 
         private void GetToggleSwitches()
         {
-            this.UseLightTheme = this.settingsService.UseLightTheme;
-            this.FollowWindowsColor = this.settingsService.FollowWindowsColor;
+            this.UseLightTheme = CoreSettings.Current.UseLightTheme;
+            this.FollowWindowsColor = CoreSettings.Current.FollowWindowsColor;
         }
         #endregion
     }

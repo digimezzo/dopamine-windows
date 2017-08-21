@@ -39,13 +39,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
+                            CoreLogger.Current.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

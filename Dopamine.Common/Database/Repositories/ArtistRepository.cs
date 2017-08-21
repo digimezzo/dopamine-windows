@@ -71,13 +71,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("Could not get the Artists. Exception: {0}", ex.Message);
+                            CoreLogger.Current.Error("Could not get the Artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -100,13 +100,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
+                            CoreLogger.Current.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -130,13 +130,13 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             artist = null;
-                            LogClient.Current.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
+                            CoreLogger.Current.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

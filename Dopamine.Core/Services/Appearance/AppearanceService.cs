@@ -42,15 +42,6 @@ namespace Dopamine.Core.Services.Appearance
         }
         #endregion
 
-        #region Construction
-        public AppearanceService()
-        {
-            // Get the available ColorSchemes
-            // ------------------------------
-            this.GetAllColorSchemes();
-        }
-        #endregion
-
         #region Protected
         protected abstract void GetAllColorSchemes();
 

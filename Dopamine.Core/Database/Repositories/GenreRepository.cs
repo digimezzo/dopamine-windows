@@ -11,7 +11,7 @@ namespace Dopamine.Core.Database.Repositories
     {
         #region Variables
         private ISQLiteConnectionFactory factory;
-        private ILogClient logClient;
+        private ICoreLogger logClient;
         #endregion
 
         #region Properties
@@ -40,13 +40,13 @@ namespace Dopamine.Core.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Current.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
+                            CoreLogger.Current.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }

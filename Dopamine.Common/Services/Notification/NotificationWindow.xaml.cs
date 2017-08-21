@@ -162,7 +162,7 @@ namespace Dopamine.Common.Services.Notification
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not hide notification window from ALT-TAB menu. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not hide notification window from ALT-TAB menu. Exception: {0}", ex.Message);
             }
             
             this.IsEnabled = true;

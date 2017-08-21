@@ -479,11 +479,11 @@ namespace Dopamine.Common.Services.Playback
 
                 await this.queuedTrackRepository.SaveQueuedTracksAsync(queuedTracks);
 
-                LogClient.Current.Info("Saved {0} queued tracks", queuedTracks.Count.ToString());
+                CoreLogger.Current.Info("Saved {0} queued tracks", queuedTracks.Count.ToString());
             }
             catch (Exception ex)
             {
-                LogClient.Current.Info("Could not save queued tracks. Exception: {0}", ex.Message);
+                CoreLogger.Current.Info("Could not save queued tracks. Exception: {0}", ex.Message);
             }
 
             this.isSavingQueuedTracks = false;
@@ -515,7 +515,7 @@ namespace Dopamine.Common.Services.Playback
 
             this.TrackStatisticsChanged(localTrackStatistics);
 
-            LogClient.Current.Info("Saved track statistics");
+            CoreLogger.Current.Info("Saved track statistics");
 
             this.isSavingTrackStatistics = false;
 
@@ -609,7 +609,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayNextAsync()
         {
-            LogClient.Current.Info("Request to play the next track.");
+            CoreLogger.Current.Info("Request to play the next track.");
 
             if (this.HasCurrentTrack)
             {
@@ -630,7 +630,7 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Current.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                    CoreLogger.Current.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
                 }
             }
 
@@ -659,7 +659,7 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task PlayPreviousAsync()
         {
-            LogClient.Current.Info("Request to play the previous track.");
+            CoreLogger.Current.Info("Request to play the previous track.");
 
             // We don't want interruptions when trying to play the previous Track. 
             // If the previous Track cannot be played, keep skipping to the
@@ -966,7 +966,7 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("Could not update track statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
+                        CoreLogger.Current.Error("Could not update track statistics for track with path='{0}'. Exception: {1}", path, ex.Message);
                     }
                 }
             });
@@ -986,7 +986,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not pause track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                CoreLogger.Current.Error("Could not pause track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
             }
         }
 
@@ -1011,7 +1011,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not resume track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                CoreLogger.Current.Error("Could not resume track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
             }
         }
 
@@ -1095,7 +1095,7 @@ namespace Dopamine.Common.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Current.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
+                CoreLogger.Current.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1116,10 +1116,10 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception)
                 {
-                    LogClient.Current.Error("Could not stop the Player");
+                    CoreLogger.Current.Error("Could not stop the Player");
                 }
 
-                LogClient.Current.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                CoreLogger.Current.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1190,7 +1190,7 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback((state) =>
             {
-                LogClient.Current.Info("Track interrupted: {0}", this.CurrentTrack.Value.Path);
+                CoreLogger.Current.Info("Track interrupted: {0}", this.CurrentTrack.Value.Path);
                 this.Stop();
             }), null);
         }
@@ -1201,7 +1201,7 @@ namespace Dopamine.Common.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
-                LogClient.Current.Info("Track finished: {0}", this.CurrentTrack.Value.Path);
+                CoreLogger.Current.Info("Track finished: {0}", this.CurrentTrack.Value.Path);
                 await this.UpdateTrackStatisticsAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
                 await this.TryPlayNextAsync(false);
             }), null);
@@ -1270,14 +1270,14 @@ namespace Dopamine.Common.Services.Playback
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Current.Error("Could not set the playing track. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("Could not set the playing track. Exception: {0}", ex.Message);
                         this.Stop(); // Should not be required, but just in case.
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Current.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
+                CoreLogger.Current.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
             }
         }
 

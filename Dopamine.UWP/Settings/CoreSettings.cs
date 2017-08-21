@@ -1,16 +1,13 @@
-﻿using System;
-using Dopamine.Core.Services.Settings;
-
-namespace Dopamine.UWP.Services.Settings
+﻿namespace Dopamine.UWP.Settings
 {
-    public class SettingsService : ISettingsService
+    public class CoreSettings : Core.Settings.CoreSettings
     {
         #region Variables
         private Windows.Storage.ApplicationDataContainer settings;
         #endregion
 
         #region Construction
-        public SettingsService()
+        public CoreSettings()
         {
             this.Initialize();
         }
@@ -38,8 +35,8 @@ namespace Dopamine.UWP.Services.Settings
         }
         #endregion
 
-        #region ISettingsService
-        public bool UseLightTheme
+        #region Static Properties
+        public override bool UseLightTheme
         {
             get
             {
@@ -51,7 +48,7 @@ namespace Dopamine.UWP.Services.Settings
             }
         }
 
-        public bool FollowWindowsColor
+        public override bool FollowWindowsColor
         {
             get
             {
@@ -63,7 +60,7 @@ namespace Dopamine.UWP.Services.Settings
             }
         }
 
-        public string ColorScheme
+        public override string ColorScheme
         {
             get
             {
@@ -74,8 +71,10 @@ namespace Dopamine.UWP.Services.Settings
                 this.settings.Values["ColorScheme"] = value;
             }
         }
+        #endregion
 
-        public void Reset()
+        #region override Methods
+        public override void Reset()
         {
             this.settings.Values.Clear();
             this.Initialize();

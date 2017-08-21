@@ -96,11 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Base\ProductInformation.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Logging\LogClient.cs" />
     <Compile Include="Database\DbMigrator.cs" />
     <Compile Include="Database\Repositories\AlbumRepository.cs" />
     <Compile Include="Database\Repositories\ArtistRepository.cs" />
@@ -110,6 +108,7 @@
     <Compile Include="Helpers\RecursiveFileIterator.cs" />
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\LegacyPaths.cs" />
+    <Compile Include="Logging\CoreLogger.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
@@ -121,7 +120,7 @@
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="Services\Dialog\IDialogService.cs" />
     <Compile Include="Services\Logging\LoggingService.cs" />
-    <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Settings\CoreSettings.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="ViewModels\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
