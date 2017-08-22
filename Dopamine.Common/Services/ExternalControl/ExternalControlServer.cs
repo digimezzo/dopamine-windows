@@ -54,10 +54,7 @@ namespace Dopamine.Common.Services.ExternalControl
             this.fftProviderDataTimer = new DispatcherTimer(){Interval = TimeSpan.FromSeconds(2)};
             this.fftProviderDataTimer.Tick += FftProviderDataTimerElapsed;
 
-            var sec = new MemoryMappedFileSecurity();
-            sec.AddAccessRule(new AccessRule<MemoryMappedFileRights>(new SecurityIdentifier(WellKnownSidType.SelfSid, null), MemoryMappedFileRights.FullControl, AccessControlType.Allow));
-            sec.AddAccessRule(new AccessRule<MemoryMappedFileRights>(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MemoryMappedFileRights.Read, AccessControlType.Allow));
-            fftDataMemoryMappedFile = MemoryMappedFile.CreateNew("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, sec, HandleInheritability.None);
+            fftDataMemoryMappedFile = MemoryMappedFile.CreateOrOpen("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, null, HandleInheritability.None);
             fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream(0, FftDataLength, MemoryMappedFileAccess.ReadWrite);
             fftDataMemoryMappedFileStreamWriter = new BinaryWriter(fftDataMemoryMappedFileStream);
             fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
@@ -80,10 +77,10 @@ namespace Dopamine.Common.Services.ExternalControl
             {
                 if (!disposing)
                 {
-                    fftDataMemoryMappedFileMutex.Dispose();
-                    fftDataMemoryMappedFileStreamWriter.Dispose();
-                    fftDataMemoryMappedFileStream.Dispose();
-                    fftDataMemoryMappedFile.Dispose();
+                    fftDataMemoryMappedFileMutex?.Dispose();
+                    fftDataMemoryMappedFileStreamWriter?.Dispose();
+                    fftDataMemoryMappedFileStream?.Dispose();
+                    fftDataMemoryMappedFile?.Dispose();
                 }
             }
         }
@@ -95,7 +92,6 @@ namespace Dopamine.Common.Services.ExternalControl
         #endregion
 
         #region IExternalControlServer
-
         [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.None)]
         public string RegisterClient()
         {
@@ -122,6 +118,9 @@ namespace Dopamine.Common.Services.ExternalControl
         {
             clients.TryRemove(sessionId);
         }
+
+        [OperationBehavior]
+        public void SendHeartbeat() { }
 
         [OperationBehavior]
         public async Task PlayNextAsync() => await this.playbackService.PlayNextAsync();
@@ -152,23 +151,30 @@ namespace Dopamine.Common.Services.ExternalControl
 
         [OperationBehavior]
         public string GetCurrentTrackArtworkPath(string artworkId) => this.cacheService.GetCachedArtworkPath(artworkId);
+        #endregion
+
+        #region IFftDataServer
 
         [OperationBehavior]
-        public bool GetFftData()
+        public int GetFftDataSize() => FftDataLength;
+
+        [OperationBehavior]
+        public async Task GetFftData()
         {
             this.fftProviderDataTimer.Stop();
             this.fftProviderDataTimer.Start();
             TryAddInputStreamHandler();
 
-            this.fftProvider.GetFftData(fftDataBuffer);
+            await Task.Run(() =>
+            {
+                this.fftProvider.GetFftData(fftDataBuffer);
 
-            fftDataMemoryMappedFileMutex.WaitOne();
-            Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
-            fftDataMemoryMappedFileStreamWriter.Seek(0, SeekOrigin.Begin);
-            fftDataMemoryMappedFileStreamWriter.Write(fftDataBufferBytes);
-            fftDataMemoryMappedFileMutex.ReleaseMutex();
-
-            return true;
+                fftDataMemoryMappedFileMutex.WaitOne();
+                Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
+                fftDataMemoryMappedFileStreamWriter.Seek(0, SeekOrigin.Begin);
+                fftDataMemoryMappedFileStreamWriter.Write(fftDataBufferBytes);
+                fftDataMemoryMappedFileMutex.ReleaseMutex();
+            });
         }
         #endregion
 
