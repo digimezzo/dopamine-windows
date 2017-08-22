@@ -54,9 +54,7 @@ namespace Dopamine.Common.Services.ExternalControl
             this.fftProviderDataTimer = new DispatcherTimer(){Interval = TimeSpan.FromSeconds(2)};
             this.fftProviderDataTimer.Tick += FftProviderDataTimerElapsed;
 
-            var sec = new MemoryMappedFileSecurity();
-            sec.AddAccessRule(new AccessRule<MemoryMappedFileRights>(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MemoryMappedFileRights.Read, AccessControlType.Allow));
-            fftDataMemoryMappedFile = MemoryMappedFile.CreateOrOpen("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, sec, HandleInheritability.None);
+            fftDataMemoryMappedFile = MemoryMappedFile.CreateOrOpen("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, null, HandleInheritability.None);
             fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream(0, FftDataLength, MemoryMappedFileAccess.ReadWrite);
             fftDataMemoryMappedFileStreamWriter = new BinaryWriter(fftDataMemoryMappedFileStream);
             fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
