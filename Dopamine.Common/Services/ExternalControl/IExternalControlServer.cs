@@ -24,6 +24,9 @@ namespace Dopamine.Common.Services.ExternalControl
         void DeregisterClient(string sessionId);
 
         [OperationContract]
+        void SendHeartbeat();
+
+        [OperationContract]
         Task PlayNextAsync();
 
         [OperationContract]
@@ -57,9 +60,6 @@ namespace Dopamine.Common.Services.ExternalControl
     [ServiceContract(Namespace = nameof(ExternalControl))]
     public interface IExternalControlServerCallback
     {
-        [OperationContract]
-        Task SendHeartBeatAsync();
-
         [OperationContract]
         Task RaiseEventPlaybackSuccessAsync();
 
