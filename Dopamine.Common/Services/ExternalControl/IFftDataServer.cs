@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.ExternalControl
 {
@@ -6,6 +8,9 @@ namespace Dopamine.Common.Services.ExternalControl
     public interface IFftDataServer
     {
         [OperationContract]
-        bool GetFftData();
+        int GetFftDataSize();
+
+        [OperationContract]
+        Task GetFftData();
     }
 }
