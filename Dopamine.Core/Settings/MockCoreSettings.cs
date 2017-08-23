@@ -2,9 +2,23 @@
 {
     public class MockCoreSettings : ICoreSettings
     {
-        public bool UseLightTheme { get => false; set => value = false; }
-        public bool FollowWindowsColor { get => false; set => value = false; }
-        public string ColorScheme { get => "Blue"; set => value = "Blue"; }
+        public bool UseLightTheme
+        {
+            get { return false; }
+            set { }
+        }
+
+        public bool FollowWindowsColor
+        {
+            get { return false; }
+            set { }
+        }
+
+        public string ColorScheme
+        {
+            get { return "Blue"; }
+            set { }
+        }
 
         public void Reset()
         {

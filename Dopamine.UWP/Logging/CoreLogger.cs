@@ -113,7 +113,10 @@ namespace Dopamine.Logging
 
             try
             {
-                if (args != null) message = string.Format(message, args.Select(a => a.ToString()).ToArray());
+                if (args != null)
+                {
+                    message = string.Format(message, args.Select(a => a.ToString()).ToArray());
+                }
 
                 string levelDescription = string.Empty;
 

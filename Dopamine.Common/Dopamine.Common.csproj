@@ -464,7 +464,7 @@
     <Compile Include="Services\Update\UpdateService.cs" />
     <Compile Include="Services\Win32Input\IWin32InputService.cs" />
     <Compile Include="Services\Win32Input\Win32InputService.cs" />
-    <Compile Include="Settings\CoreSettings.cs" />
+    <Compile Include="Settings\SettingsClient.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -33,7 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.appearanceService.ThemeChanged += useLightTheme => this.Opacity = useLightTheme ? 1.0 : 0.5;
 
-            this.Opacity = CoreSettings.Current.UseLightTheme ? 1.0 : 0.5;
+            this.Opacity = SettingsClient.UseLightTheme ? 1.0 : 0.5;
         }
         #endregion
     }
