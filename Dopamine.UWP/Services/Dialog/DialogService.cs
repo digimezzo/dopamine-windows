@@ -16,7 +16,7 @@ namespace Dopamine.UWP.Services.Dialog
                 Content = content,
                 PrimaryButtonText = primaryButtonText,
                 SecondaryButtonText = secondaryButtonText,
-                RequestedTheme = CoreSettings.Current.UseLightTheme ? Windows.UI.Xaml.ElementTheme.Light : Windows.UI.Xaml.ElementTheme.Dark
+                RequestedTheme = SettingsClient.UseLightTheme ? Windows.UI.Xaml.ElementTheme.Light : Windows.UI.Xaml.ElementTheme.Dark
             };
 
             var result = await dialog.ShowAsync();

@@ -34,7 +34,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxThemeChecked; }
             set
             {
-                CoreSettings.Current.UseLightTheme = value;
+                Common.Settings.SettingsClient.UseLightTheme = value;
                 Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyTheme(value));
                 SetProperty<bool>(ref this.checkBoxThemeChecked, value);
             }
@@ -55,13 +55,13 @@ namespace Dopamine.SettingsModule.ViewModels
                 // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
-                    CoreSettings.Current.ColorScheme = value.Name;
+                    Common.Settings.SettingsClient.ColorScheme = value.Name;
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await this.appearanceService.ApplyColorSchemeAsync(
                             value.Name,
-                            CoreSettings.Current.FollowWindowsColor,
-                            SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
+                            Common.Settings.SettingsClient.FollowWindowsColor,
+                            Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
                             isViewModelLoaded
                             );
                         isViewModelLoaded = false;
@@ -83,12 +83,12 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.CheckBoxAlbumCoverColorChecked = false;
                 }
 
-                CoreSettings.Current.FollowWindowsColor = value;
+                Common.Settings.SettingsClient.FollowWindowsColor = value;
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                        CoreSettings.Current.ColorScheme,
+                        Common.Settings.SettingsClient.ColorScheme,
                         value,
                         false,
                         isViewModelLoaded
@@ -111,12 +111,12 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.CheckBoxWindowsColorChecked = false;
                 }
 
-                SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
+                Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                          CoreSettings.Current.ColorScheme,
+                          Common.Settings.SettingsClient.ColorScheme,
                           false,
                           value,
                           isViewModelLoaded
@@ -162,7 +162,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.ColorSchemes = localColorSchemes;
 
-            string savedColorSchemeName = CoreSettings.Current.ColorScheme;
+            string savedColorSchemeName = Common.Settings.SettingsClient.ColorScheme;
 
             if (!string.IsNullOrEmpty(savedColorSchemeName))
             {
@@ -178,13 +178,13 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.checkBoxThemeChecked = CoreSettings.Current.UseLightTheme;
+                this.checkBoxThemeChecked = Common.Settings.SettingsClient.UseLightTheme;
                 this.RaisePropertyChanged(nameof(this.CheckBoxThemeChecked));
 
-                this.checkBoxWindowsColorChecked = CoreSettings.Current.FollowWindowsColor;
+                this.checkBoxWindowsColorChecked = Common.Settings.SettingsClient.FollowWindowsColor;
                 this.RaisePropertyChanged(nameof(this.CheckBoxWindowsColorChecked));
 
-                this.checkBoxAlbumCoverColorChecked = SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor");
+                this.checkBoxAlbumCoverColorChecked = Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor");
                 this.RaisePropertyChanged(nameof(this.CheckBoxAlbumCoverColorChecked));
             });
         }

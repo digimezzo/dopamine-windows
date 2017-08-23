@@ -23,7 +23,7 @@ namespace Dopamine.UWP.ViewModels
             {
                 SetProperty<bool>(ref this.useLightTheme, value);
 
-                CoreSettings.Current.UseLightTheme = value;
+                SettingsClient.UseLightTheme = value;
                 this.appearanceService.ApplyTheme(value);
             }
         }
@@ -35,8 +35,8 @@ namespace Dopamine.UWP.ViewModels
             {
                 SetProperty<bool>(ref this.followWindowsColor, value);
 
-                CoreSettings.Current.FollowWindowsColor = value;
-                this.appearanceService.ApplyColorSchemeAsync(CoreSettings.Current.ColorScheme, value, false);   
+                SettingsClient.FollowWindowsColor = value;
+                this.appearanceService.ApplyColorSchemeAsync(SettingsClient.ColorScheme, value, false);   
             }
         }
 
@@ -59,8 +59,8 @@ namespace Dopamine.UWP.ViewModels
 
                 if (value != null)
                 {
-                    CoreSettings.Current.ColorScheme = value.Name;
-                    this.appearanceService.ApplyColorSchemeAsync(value.Name, CoreSettings.Current.FollowWindowsColor, false);
+                    SettingsClient.ColorScheme = value.Name;
+                    this.appearanceService.ApplyColorSchemeAsync(value.Name, SettingsClient.FollowWindowsColor, false);
                 }
             }
         }
@@ -71,11 +71,8 @@ namespace Dopamine.UWP.ViewModels
         {
             this.appearanceService = appearanceService;
 
-            // Toggle switches
-            this.GetToggleSwitches();
-
-            // ColorSchemes
             this.LoadColorSchemes();
+            this.GetToggleSwitches();
         }
         #endregion
 
@@ -89,14 +86,17 @@ namespace Dopamine.UWP.ViewModels
                 this.ColorSchemes.Add(cs);
             }
 
-            string savedAppearanceColorScheme = CoreSettings.Current.ColorScheme;
+            string savedAppearanceColorScheme = SettingsClient.ColorScheme;
             this.SelectedColorScheme = this.appearanceService.GetColorScheme(savedAppearanceColorScheme);
         }
 
         private void GetToggleSwitches()
         {
-            this.UseLightTheme = CoreSettings.Current.UseLightTheme;
-            this.FollowWindowsColor = CoreSettings.Current.FollowWindowsColor;
+            this.useLightTheme = SettingsClient.UseLightTheme;
+            this.RaisePropertyChanged(nameof(this.UseLightTheme));
+
+            this.followWindowsColor = SettingsClient.FollowWindowsColor;
+            this.RaisePropertyChanged(nameof(this.FollowWindowsColor));
         }
         #endregion
     }

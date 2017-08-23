@@ -58,7 +58,6 @@ namespace Dopamine.UWP
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ICoreSettings, Settings.CoreSettings>();
             Container.RegisterSingletonType<ICoreLogger, Logging.CoreLogger>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Database.DbMigrator>();

@@ -18,8 +18,8 @@ namespace Dopamine.UWP.Views
             this.appearanceService = appearanceService;
             this.appearanceService.ThemeChanged += AppearanceService_ThemeChanged;
 
-            this.appearanceService.ApplyTheme(CoreSettings.Current.UseLightTheme);
-            this.appearanceService.ApplyColorSchemeAsync(CoreSettings.Current.ColorScheme, CoreSettings.Current.FollowWindowsColor, false);
+            this.appearanceService.ApplyTheme(SettingsClient.UseLightTheme);
+            this.appearanceService.ApplyColorSchemeAsync(SettingsClient.ColorScheme, SettingsClient.FollowWindowsColor, false);
         }
         #endregion
 

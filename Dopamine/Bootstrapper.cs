@@ -85,7 +85,6 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ICoreSettings, Common.Settings.CoreSettings>();
             Container.RegisterSingletonType<ICoreLogger, Common.Logging.CoreLogger>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
