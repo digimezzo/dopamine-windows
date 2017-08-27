@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.3.1.928" ?>
+<?define Version="1.3.2.930" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -150,6 +150,7 @@
             <File Source="Prism.Unity.Wpf.dll" />
             <File Source="Prism.Wpf.dll" />
             <File Source="Dopamine.Common.dll" />
+            <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Icons.dll" />
             <File Source="Dopamine.CollectionModule.dll" />
             <File Source="Dopamine.ControlsModule.dll" />
