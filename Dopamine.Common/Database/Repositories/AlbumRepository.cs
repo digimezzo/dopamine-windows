@@ -1,5 +1,7 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,9 +12,24 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class AlbumRepository : Core.Database.Repositories.AlbumRepository
     {
+        #region Variables
+        private ILocalizationInfo info;
+        #endregion
+
         #region Construction
-        public AlbumRepository(ISQLiteConnectionFactory factory) : base(factory)
+        public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
         {
+            this.info = info;
+        }
+        #endregion
+
+        #region Private
+        private string SelectQueryPart()
+        {
+            return "SELECT DISTINCT alb.AlbumID, " +
+                   $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
+                   $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
+                   "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb ";
         }
         #endregion
 
@@ -29,10 +46,10 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
-                                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
-                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                       " WHERE fol.ShowInCollection=1;");
+                            albums = conn.Query<Album>(this.SelectQueryPart() +
+                                                       "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
+                                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                       "WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
                         {
@@ -64,10 +81,11 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
-                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
-                                       " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
-                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                       " WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
+                            string q = this.SelectQueryPart() +
+                                       "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
+                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                       $"WHERE (tra.ArtistID IN ({DatabaseUtils.ToQueryList(artistIDs)}) OR " +
+                                       $"alb.AlbumArtist IN ({DatabaseUtils.ToQueryList(artistNames)})) AND fol.ShowInCollection=1;";
 
                             albums = conn.Query<Album>(q);
                         }
@@ -101,10 +119,10 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
-                            string q = string.Format("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb" +
-                                                     " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
-                                                     " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                     " WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(genreIDs));
+                            string q = this.SelectQueryPart() +
+                                       "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
+                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                       $"WHERE tra.GenreID IN ({ DatabaseUtils.ToQueryList(genreIDs)}) AND fol.ShowInCollection=1;";
 
                             albums = conn.Query<Album>(q);
                         }
@@ -191,7 +209,12 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            albums = conn.Query<Album>("SELECT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated, MAX(ts.DateLastPlayed) AS maxdatelastplayed, SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +
+                            albums = conn.Query<Album>("SELECT alb.AlbumID, " +
+                                                       $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
+                                                       $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
+                                                       "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated, " +
+                                                       "MAX(ts.DateLastPlayed) AS maxdatelastplayed, " +
+                                                       "SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +
                                                        "INNER JOIN Track tra ON ts.SafePath = tra.SafePath " +
                                                        "INNER JOIN Album alb ON tra.AlbumID = alb.AlbumID " +
                                                        "WHERE ts.PlayCount IS NOT NULL AND ts.PlayCount > 0 " +

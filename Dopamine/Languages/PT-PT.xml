@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Entrar ou sair do modo ecrã total</Text>
   <Text Key="File_Type_Not_Supported">Este tipo de áudio não é suportado</Text>
   <Text Key="Unknown_Artist">Artista desconhecido</Text>
-  <Text Key="Unknown_Album_Artist">Álbum do artista desconhecido</Text>
   <Text Key="Unknown_Title">Título desconhecido</Text>
   <Text Key="Close_Notification_Automatically_After">Quanto tempo deve a notificação manter-se no ecrã?</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Se você gosta do Dopamine, por favor considere doar. Você pode doar agora ou mais tarde na janela "sobre". Obrigado!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

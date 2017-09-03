@@ -54,8 +54,8 @@ namespace Dopamine.Common.Services.Notification
             }
             else
             {
-                this.TextBoxTitle.Text = ResourceUtils.GetStringResource("Language_Title");
-                this.TextBoxArtist.Text = ResourceUtils.GetStringResource("Language_Artist");
+                this.TextBoxTitle.Text = ResourceUtils.GetString("Language_Title");
+                this.TextBoxArtist.Text = ResourceUtils.GetString("Language_Artist");
             }
 
             this.ToolTipTitle.Text = this.TextBoxTitle.Text;

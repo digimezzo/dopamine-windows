@@ -80,9 +80,9 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Online_Search_Provider_Missing_Fields"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Adding_Online_Search_Provider_Missing_Fields"),
+                        ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
 
@@ -91,11 +91,11 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Online_Search_Provider"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Adding_Online_Search_Provider"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
 
                     return false;
                 default:
@@ -114,9 +114,9 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Updating_Online_Search_Provider_Missing_Fields"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Updating_Online_Search_Provider_Missing_Fields"),
+                        ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
 
@@ -125,11 +125,11 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Updating_Online_Search_Provider"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Updating_Online_Search_Provider"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
 
                     return false;
                 default:

@@ -8,19 +8,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Core.Helpers;
+using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Database.Repositories
 {
     public class TrackRepository : ITrackRepository
     {
         #region Variables
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
+        private ILocalizationInfo info;
         #endregion
 
         #region Construction
-        public TrackRepository()
+        public TrackRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
+            this.info = info;
         }
         #endregion
 
@@ -31,8 +35,12 @@ namespace Dopamine.Common.Database.Repositories
                    "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
                    "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
                    "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
-                   "tra.DateFileModified, tra.MetaDataHash, art.ArtistName, gen.GenreName, alb.AlbumTitle, " +
-                   "alb.AlbumArtist, alb.Year AS AlbumYear, " +
+                   "tra.DateFileModified, tra.MetaDataHash, " +
+                   $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName, " +
+                   $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName, " +
+                   $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
+                   $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
+                   "alb.Year AS AlbumYear, " +
                    "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
                    "FROM Track tra " +
                    "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +

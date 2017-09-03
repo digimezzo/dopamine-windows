@@ -3,6 +3,7 @@ using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database.Repositories;
 using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
@@ -29,6 +30,7 @@ using Dopamine.Common.Services.Win32Input;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Settings;
@@ -88,6 +90,7 @@ namespace Dopamine
             Container.RegisterSingletonType<ICoreLogger, Common.Logging.CoreLogger>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
+            Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
 
         private void RegisterServices()

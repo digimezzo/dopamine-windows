@@ -1,5 +1,7 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,9 +12,14 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class GenreRepository : Core.Database.Repositories.GenreRepository
     {
+        #region Variables
+        private ILocalizationInfo info;
+        #endregion
+
         #region Construction
-        public GenreRepository(ISQLiteConnectionFactory factory) : base(factory)
+        public GenreRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
         {
+            this.info = info;
         }
         #endregion
 
@@ -29,10 +36,11 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, gen.GenreName FROM Genre gen" +
-                                                       " INNER JOIN Track tra ON gen.GenreID=tra.GenreID" +
-                                                       " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                       " WHERE fol.ShowInCollection=1");
+                            genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, " +
+                                                       $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName FROM Genre gen " +
+                                                       "INNER JOIN Track tra ON gen.GenreID=tra.GenreID " +
+                                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                       "WHERE fol.ShowInCollection=1");
 
                             // Orders the Genres
                             genres = genres.OrderBy((g) => DatabaseUtils.GetSortableString(g.GenreName)).ToList();

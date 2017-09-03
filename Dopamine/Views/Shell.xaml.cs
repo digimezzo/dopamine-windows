@@ -426,7 +426,7 @@ namespace Dopamine.Views
 
             if (isMiniPlayer)
             {
-                PART_MiniPlayerButton.ToolTip = ResourceUtils.GetStringResource("Language_Restore");
+                PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Restore");
 
                 switch (miniPlayerType)
                 {
@@ -450,7 +450,7 @@ namespace Dopamine.Views
             else
             {
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
-                PART_MiniPlayerButton.ToolTip = ResourceUtils.GetStringResource("Language_Mini_Player");
+                PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
             }
 
@@ -1034,7 +1034,7 @@ namespace Dopamine.Views
 
         private void Shell_CloseToolTipChanged(object sender, EventArgs e)
         {
-            this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetStringResource("Language_Mini_Player");
+            this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
         }
         #endregion
     }

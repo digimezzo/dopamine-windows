@@ -136,10 +136,10 @@ namespace Dopamine.ViewModels
                 switch (playbackFailedEventArgs.FailureReason)
                 {
                     case PlaybackFailureReason.FileNotFound:
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Cannot_Play_This_Song_File_Not_Found"), ResourceUtils.GetStringResource("Language_Ok"), false, string.Empty);
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Cannot_Play_This_Song_File_Not_Found"), ResourceUtils.GetString("Language_Ok"), false, string.Empty);
                         break;
                     default:
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Cannot_Play_This_Song"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Cannot_Play_This_Song"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                         break;
                 }
             };
@@ -153,7 +153,7 @@ namespace Dopamine.ViewModels
                 this.dialogService.ShowCustomDialog(
                     new EqualizerIcon() { IsDialogIcon = true },
                     0,
-                    ResourceUtils.GetStringResource("Language_Equalizer"),
+                    ResourceUtils.GetString("Language_Equalizer"),
                     view,
                     570,
                     0,
@@ -161,7 +161,7 @@ namespace Dopamine.ViewModels
                     true,
                     true,
                     false,
-                    ResourceUtils.GetStringResource("Language_Close"),
+                    ResourceUtils.GetString("Language_Close"),
                     string.Empty,
                     null);
             });

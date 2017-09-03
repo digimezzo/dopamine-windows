@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Відкрити/закрити повноекранний режим</Text>
   <Text Key="File_Type_Not_Supported">Данний тип файлу не підтримується.</Text>
   <Text Key="Unknown_Artist">Невідомий виконавець</Text>
-  <Text Key="Unknown_Album_Artist">Невідомий виконаведь альбому</Text>
   <Text Key="Unknown_Title">Без назви</Text>
   <Text Key="Close_Notification_Automatically_After">Автоматично приховувати сповіщення</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Якщо вам подобається Dopamine, будь-ласка, внесіть грошову пожертву. YВи можете допомогти прямо зараз у секції 'Інформація'. Дякую!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

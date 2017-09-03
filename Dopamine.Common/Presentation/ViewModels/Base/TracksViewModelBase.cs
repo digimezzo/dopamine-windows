@@ -262,21 +262,21 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async Task RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
         {
-            string title = ResourceUtils.GetStringResource("Language_Remove");
-            string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song");
+            string title = ResourceUtils.GetString("Language_Remove");
+            string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song");
 
             if (selectedTracks != null && selectedTracks.Count > 1)
             {
-                body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs");
+                body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs");
             }
 
-            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
             {
                 RemoveTracksResult result = await this.collectionService.RemoveTracksFromCollectionAsync(selectedTracks);
 
                 if (result == RemoveTracksResult.Error)
                 {
-                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Songs"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                 }
                 else
                 {
@@ -287,21 +287,21 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async Task RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
         {
-            string title = ResourceUtils.GetStringResource("Language_Remove_From_Disk");
-            string body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Disk");
+            string title = ResourceUtils.GetString("Language_Remove_From_Disk");
+            string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Disk");
 
             if (selectedTracks != null && selectedTracks.Count > 1)
             {
-                body = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
+                body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Disk");
             }
 
-            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, title, body, ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
             {
                 RemoveTracksResult result = await this.collectionService.RemoveTracksFromDiskAsync(selectedTracks);
 
                 if (result == RemoveTracksResult.Error)
                 {
-                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                    this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Songs_From_Disk"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                 }
                 else
                 {
@@ -361,7 +361,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (!result)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Playing_Selected_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Playing_Selected_Songs"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -373,7 +373,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -385,7 +385,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
         #endregion
@@ -567,8 +567,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         }
         #endregion
 
-        #region Abstract
-        protected abstract void RefreshLanguage();
+        #region Virtual
+        protected virtual void RefreshLanguage()
+        {
+            // Make sure that unknown artist, genre and album are translated correctly.
+            this.FillListsAsync();
+        }
         #endregion
     }
 }

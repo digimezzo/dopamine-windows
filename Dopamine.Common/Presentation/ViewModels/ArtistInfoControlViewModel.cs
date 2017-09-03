@@ -86,10 +86,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             // Artist name is unknown
-            if (track.ArtistName == Defaults.UnknownArtistString)
+            if (track.ArtistName == Defaults.UnknownArtistText)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Common.Api.Lastfm.Artist { Name = Defaults.UnknownArtistString });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Common.Api.Lastfm.Artist { Name = Defaults.UnknownArtistText });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;
@@ -110,7 +110,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Common.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetStringResource("Language_ISO639-1"));
+                Common.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {

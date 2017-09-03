@@ -284,14 +284,14 @@ namespace Dopamine.CollectionModule.ViewModels
             switch (genreOrder)
             {
                 case GenreOrder.Alphabetical:
-                    this.genreOrderText = ResourceUtils.GetStringResource("Language_A_Z");
+                    this.genreOrderText = ResourceUtils.GetString("Language_A_Z");
                     break;
                 case GenreOrder.ReverseAlphabetical:
-                    this.genreOrderText = ResourceUtils.GetStringResource("Language_Z_A");
+                    this.genreOrderText = ResourceUtils.GetString("Language_Z_A");
                     break;
                 default:
                     // Cannot happen, but just in case.
-                    this.genreOrderText = ResourceUtils.GetStringResource("Language_A_Z");
+                    this.genreOrderText = ResourceUtils.GetString("Language_A_Z");
                     break;
             }
 
@@ -390,15 +390,15 @@ namespace Dopamine.CollectionModule.ViewModels
             // If no playlist is provided, first create one.
             if (playlistName == null)
             {
-                var responseText = ResourceUtils.GetStringResource("Language_New_Playlist");
+                var responseText = ResourceUtils.GetString("Language_New_Playlist");
 
                 if (this.dialogService.ShowInputDialog(
                     0xea37,
                     16,
-                    ResourceUtils.GetStringResource("Language_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ResourceUtils.GetString("Language_New_Playlist"),
+                    ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+                    ResourceUtils.GetString("Language_Ok"),
+                    ResourceUtils.GetString("Language_Cancel"),
                     ref responseText))
                 {
                     playlistName = responseText;
@@ -419,26 +419,26 @@ namespace Dopamine.CollectionModule.ViewModels
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Playlist").Replace("%playlistname%", "\"" + playlistName + "\""), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                     }
                     break;
                 case AddPlaylistResult.Error:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
                     break;
@@ -454,7 +454,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Genres_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Genres_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -555,6 +555,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.UpdateGenreOrderText(this.GenreOrder);
             this.UpdateAlbumOrderText(this.AlbumOrder);
             this.UpdateTrackOrderText(this.TrackOrder);
+            base.RefreshLanguage();
         }
         #endregion
     }

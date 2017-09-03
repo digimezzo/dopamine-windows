@@ -298,7 +298,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.OutputDevices = new ObservableCollection<OutputDevice>();
 
-            this.OutputDevices.Add(new OutputDevice() { Name = ResourceUtils.GetStringResource("Language_Default_Audio_Device"), Device = null });
+            this.OutputDevices.Add(new OutputDevice() { Name = ResourceUtils.GetString("Language_Default_Audio_Device"), Device = null });
 
             foreach (MMDevice device in outputDevices)
             {
@@ -354,10 +354,10 @@ namespace Dopamine.SettingsModule.ViewModels
 
             await Task.Run(() =>
             {
-                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetStringResource("Language_Bottom_Left"), Value = (int)NotificationPosition.BottomLeft });
-                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetStringResource("Language_Top_Left"), Value = (int)NotificationPosition.TopLeft });
-                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetStringResource("Language_Top_Right"), Value = (int)NotificationPosition.TopRight });
-                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetStringResource("Language_Bottom_Right"), Value = (int)NotificationPosition.BottomRight });
+                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetString("Language_Bottom_Left"), Value = (int)NotificationPosition.BottomLeft });
+                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetString("Language_Top_Left"), Value = (int)NotificationPosition.TopLeft });
+                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetString("Language_Top_Right"), Value = (int)NotificationPosition.TopRight });
+                localNotificationPositions.Add(new NameValue { Name = ResourceUtils.GetString("Language_Bottom_Right"), Value = (int)NotificationPosition.BottomRight });
             });
 
             this.NotificationPositions = localNotificationPositions;
@@ -415,10 +415,10 @@ namespace Dopamine.SettingsModule.ViewModels
             if (this.dialogService.ShowConfirmation(
                 0xe11b,
                 16,
-                ResourceUtils.GetStringResource("Language_Exclusive_Mode"),
-                ResourceUtils.GetStringResource("Language_Exclusive_Mode_Confirmation"),
-                ResourceUtils.GetStringResource("Language_Yes"),
-                ResourceUtils.GetStringResource("Language_No")))
+                ResourceUtils.GetString("Language_Exclusive_Mode"),
+                ResourceUtils.GetString("Language_Exclusive_Mode_Confirmation"),
+                ResourceUtils.GetString("Language_Yes"),
+                ResourceUtils.GetString("Language_No")))
             {
                 ApplyExclusiveMode(true);
             }

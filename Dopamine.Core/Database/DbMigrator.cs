@@ -28,7 +28,7 @@ namespace Dopamine.Core.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 19;
+        protected const int CURRENT_VERSION = 20;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -446,8 +446,8 @@ namespace Dopamine.Core.Database
                 conn.Execute("INSERT INTO Genres(GenreName) SELECT DISTINCT Genre FROM Tracks WHERE TRIM(Genre) <>'';");
                 conn.Execute("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName=Tracks.Genre) WHERE TRIM(Genre) <> '';");
 
-                conn.Execute(String.Format("INSERT INTO Genres(GenreName) VALUES('{0}');", Defaults.UnknownGenreString));
-                conn.Execute(String.Format("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='{0}') WHERE TRIM(Genre) = '';", Defaults.UnknownGenreString));
+                conn.Execute(String.Format("INSERT INTO Genres(GenreName) VALUES('{0}');", Defaults.UnknownGenreText));
+                conn.Execute(String.Format("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='{0}') WHERE TRIM(Genre) = '';", Defaults.UnknownGenreText));
 
                 conn.Execute("CREATE TABLE Tracks_Backup (" +
                              "TrackID	            INTEGER," +
@@ -986,6 +986,24 @@ namespace Dopamine.Core.Database
                 conn.Execute("ALTER TABLE Album ADD DateCreated INTEGER;");
                 conn.Execute("UPDATE Album SET DateCreated=DateAdded;");
                 conn.Execute($"UPDATE Album SET DateAdded={DateTime.Now.Ticks};");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 20
+        [DatabaseVersion(20)]
+        private void Migrate20()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute($"UPDATE Album SET AlbumTitle='{Defaults.UnknownAlbumText}' WHERE AlbumTitle='Unknown Album';");
+                conn.Execute($"UPDATE Album SET AlbumArtist='{Defaults.UnknownArtistText}' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
+                conn.Execute($"UPDATE Genre SET GenreName='{Defaults.UnknownGenreText}' WHERE GenreName='Unknown Genre';");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

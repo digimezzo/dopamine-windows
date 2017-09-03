@@ -174,7 +174,7 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => ResourceUtils.GetStringResource("Language_XiamiLyrics");
+        public string SourceName => ResourceUtils.GetString("Language_XiamiLyrics");
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {

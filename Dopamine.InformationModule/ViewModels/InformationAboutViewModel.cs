@@ -60,7 +60,7 @@ namespace Dopamine.InformationModule.ViewModels
                 this.dialogService.ShowCustomDialog(
                     0xe73e,
                     16,
-                    ResourceUtils.GetStringResource("Language_License"),
+                    ResourceUtils.GetString("Language_License"),
                     view,
                     400,
                     0,
@@ -68,7 +68,7 @@ namespace Dopamine.InformationModule.ViewModels
                     true,
                     true,
                     false,
-                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetString("Language_Ok"),
                     string.Empty,
                     null);
             });

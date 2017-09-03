@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Entra o esci da schermo intero</Text>
   <Text Key="File_Type_Not_Supported">Questo tipo di file non è supportato.</Text>
   <Text Key="Unknown_Artist">Artista sconosciuto</Text>
-  <Text Key="Unknown_Album_Artist">Artista album sconosciuto</Text>
   <Text Key="Unknown_Title">Titolo sconosciuto</Text>
   <Text Key="Close_Notification_Automatically_After">Chiudi la notifica automaticamente dopo</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Se ti piace Dopamine, per favore considera l'idea di effettuare una donazione. Puoi donare adesso, oppure più tardi nella sezione "Riguardo Dopamine". Grazie!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

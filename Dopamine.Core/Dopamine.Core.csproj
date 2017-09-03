@@ -65,6 +65,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />
+    <Compile Include="Helpers\ILocalizationHelper.cs" />
     <Compile Include="Logging\ICoreLogger.cs" />
     <Compile Include="Logging\CoreLogger.cs" />
     <Compile Include="Logging\LogEntry.cs" />

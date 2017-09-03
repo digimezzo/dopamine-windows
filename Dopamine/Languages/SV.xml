@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Starta eller lämna fullskärm</Text>
   <Text Key="File_Type_Not_Supported">Denna filtyp stöds inte.</Text>
   <Text Key="Unknown_Artist">Okänd artist</Text>
-  <Text Key="Unknown_Album_Artist">Okänd album artist</Text>
   <Text Key="Unknown_Title">Okänd titel</Text>
   <Text Key="Close_Notification_Automatically_After">Stäng avisering automatiskt efter</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Om du gillar Dopamine, överväg en donation. Du kan donera nu, eller senare i 'Om' fönstret. Tack så mycket!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>
