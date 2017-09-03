@@ -16,7 +16,7 @@
     <SolidColorBrush x:Key="RG_ContextMenuSeparatorBrush" Color="#BBBBBB" />
 
     <!-- Background Brushes -->
-    <Color x:Key="RG_WindowBackgroundColor">#0B0B0B</Color>
+    <Color x:Key="RG_WindowBackgroundColor">#121212</Color>
     <SolidColorBrush x:Key="RG_WindowBackgroundBrush" Color="{DynamicResource RG_WindowBackgroundColor}"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#101010"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#1A1A1A"/>
