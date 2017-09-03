@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>88</Value>
+      <Value>89</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -270,7 +270,7 @@
     <Setting Name="IgnoreRemovedFiles">
       <Value>True</Value>
     </Setting>
-    <Setting Name="RefreshCollectionOnStartup">
+    <Setting Name="RefreshCollectionAutomatically">
       <Value>True</Value>
     </Setting>
   </Namespace>

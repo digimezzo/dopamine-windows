@@ -344,7 +344,6 @@
   <Text Key="No_Lyrics_Found">Ingen sangtekst fundet</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Rul automatisk hen til sangen der spilles</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Rul med musen ændrer lydstyrken med</Text>
-  <Text Key="Refresh_Collection_On_Startup">Opdater samlingen ved opstart</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Sangen kan ikke findes. Den er måske blevet fjernet eller slettet. Vil du opdatere din samling?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">En eller flere sange kan ikke findes. De er måske blevet fjernet eller slettet. Vil du opdatere din samling?</Text>
   <Text Key="Automatic_Scrolling">Automatisk rulning</Text>
@@ -407,4 +406,5 @@
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
 </Language>
