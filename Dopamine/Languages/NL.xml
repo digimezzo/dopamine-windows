@@ -344,7 +344,6 @@
   <Text Key="No_Lyrics_Found">Er werd geen songtekst gevonden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
-  <Text Key="Refresh_Collection_On_Startup">Collectie verversen bij het opstarten</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
   <Text Key="Automatic_Scrolling">Automatisch scrollen</Text>
@@ -407,4 +406,5 @@
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
   <Text Key="Unknown_Album">Onbekend album</Text>
   <Text Key="Unknown_Genre">Onbekend genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>
 </Language>

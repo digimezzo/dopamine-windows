@@ -16,7 +16,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Variables
         private bool isActive;
         private bool checkBoxIgnoreRemovedFilesChecked;
-        private bool checkBoxRefreshCollectionOnStartupChecked;
+        private bool checkBoxRefreshCollectionAutomaticallyChecked;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private ITrackRepository trackRepository;
@@ -44,13 +44,13 @@ namespace Dopamine.SettingsModule.ViewModels
             }
         }
 
-        public bool CheckBoxRefreshCollectionOnStartupChecked
+        public bool CheckBoxRefreshCollectionAutomaticallyChecked
         {
-            get { return this.checkBoxRefreshCollectionOnStartupChecked; }
+            get { return this.checkBoxRefreshCollectionAutomaticallyChecked; }
             set
             {
-                SettingsClient.Set<bool>("Indexing", "RefreshCollectionOnStartup", value);
-                SetProperty<bool>(ref this.checkBoxRefreshCollectionOnStartupChecked, value);
+                SettingsClient.Set<bool>("Indexing", "RefreshCollectionAutomatically", value);
+                SetProperty<bool>(ref this.checkBoxRefreshCollectionAutomaticallyChecked, value);
             }
         }
         #endregion
@@ -77,7 +77,7 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxRefreshCollectionOnStartupChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionOnStartup");
+                this.CheckBoxRefreshCollectionAutomaticallyChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
 
                 // Set the backing field of the property. This avoids executing a clear
                 // of removed tracks when loading the screen when the setting is false.
@@ -100,10 +100,13 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
+            {
+                this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            }
+            
             this.collectionService.SaveMarkedFoldersAsync();
         }
-
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

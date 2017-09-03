@@ -344,7 +344,6 @@
   <Text Key="No_Lyrics_Found">Es wurden keine Texte gefunden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch zum aktuellen Titel scrollen</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Das Mausrad ändert die Lautstärke um</Text>
-  <Text Key="Refresh_Collection_On_Startup">Die Sammlung beim Start aktualisieren</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Dieses Lied wurde nicht gefunden. Es wurde vermutlich verschoben oder gelöscht. Möchtest du deine Sammlung aktualisieren?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Ein oder mehrere Songs können nicht gefunden werden. Sie wurden vermutlich verschoben oder gelöscht. Möchtest du deine Sammlung aktualisieren?</Text>
   <Text Key="Automatic_Scrolling">Automatisches Scrollen</Text>
@@ -407,4 +406,5 @@
   <Text Key="Enable_System_Notification">System Benachrichtigungen aktivieren (nur in Windows 10)</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
 </Language>

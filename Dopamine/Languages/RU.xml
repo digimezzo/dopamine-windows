@@ -344,7 +344,6 @@
   <Text Key="No_Lyrics_Found">Текст песни не найден</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatically scroll to the playing song</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
-  <Text Key="Refresh_Collection_On_Startup">Refresh the collection on startup</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">This song cannot be found. It was probably moved or deleted. Do you want to refresh your collection?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">One or more songs cannot be found. They were probably moved or deleted. Do you want to refresh your collection?</Text>
   <Text Key="Automatic_Scrolling">Автоматическая прокрутка</Text>
@@ -407,4 +406,5 @@
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
 </Language>

@@ -344,7 +344,6 @@
   <Text Key="No_Lyrics_Found">Inga låttexter hittades</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till spelande låt</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mus skrollning ändrar volymen med</Text>
-  <Text Key="Refresh_Collection_On_Startup">Uppdatera samlingen vid start</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Denna låt hittades inte. Den var troligen flyttad eller raderad. Vill du uppdatera samlingen?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">En eller flera låtar hittades inte. Dom var troligen flyttade eller raderade. Vill du uppdatera samlingen?</Text>
   <Text Key="Automatic_Scrolling">Automatisk skrollning</Text>
@@ -407,4 +406,5 @@
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
 </Language>

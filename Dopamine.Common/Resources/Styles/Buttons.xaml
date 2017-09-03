@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Digimezzo.WPFControls.Converters;assembly=Digimezzo.WPFControls">
+
+    <converters:StringToUpperConverter x:Key="StringToUpperConverter" />
+    
+    <Style x:Key="AccentButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid">
+                        <Border x:Name="myborder" CornerRadius="14" Height="28" Panel.ZIndex="1" 
+                                Background="{DynamicResource RG_AccentBrush}" BorderThickness="0" VerticalAlignment="Center">
+                        </Border>
+                        <Border x:Name="myblackborder" CornerRadius="14" Height="28" Panel.ZIndex="2" 
+                                Background="Black" Opacity="0" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Label x:Name="myContent" Content="{TemplateBinding Content, Converter={StaticResource StringToUpperConverter}}" 
+                               FontWeight="SemiBold" Foreground="{DynamicResource RG_WhiteBrush}" Panel.ZIndex="3" Background="Transparent" Padding="16,0,16,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="myblackborder" Property="Opacity" Value="0.12"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="myblackborder" Property="Opacity" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="myborder" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EmptyButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid">
+                        <Border x:Name="myborder" CornerRadius="14" Height="28" Panel.ZIndex="1" 
+                                Background="Transparent" BorderBrush="{DynamicResource RG_WhiteBrush}" BorderThickness="1.2" VerticalAlignment="Center">
+                        </Border>
+                        <Border x:Name="myblackborder" CornerRadius="14" Height="28" Panel.ZIndex="2" 
+                                Background="Black" Opacity="0" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Label x:Name="myContent" Content="{TemplateBinding Content, Converter={StaticResource StringToUpperConverter}}" 
+                               FontWeight="SemiBold" Foreground="{DynamicResource RG_WhiteBrush}" Panel.ZIndex="3" Background="Transparent" Padding="16,0,16,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="myblackborder" Property="Opacity" Value="0.12"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="myblackborder" Property="Opacity" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="myborder" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
