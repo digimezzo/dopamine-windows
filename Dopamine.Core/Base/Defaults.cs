@@ -21,10 +21,9 @@
 
         public static readonly string ManualPresetName = "Manual";
 
-        public static readonly string UnknownAlbumString = "Unknown Album";
-        public static readonly string UnknownArtistString = "Unknown Artist";
-        public static readonly string UnknownGenreString = "Unknown Genre";
-        public static readonly string UnknownAlbumArtistString = "Unknown Album Artist";
+        public static readonly string UnknownAlbumText = "%unknown_album%";
+        public static readonly string UnknownArtistText = "%unknown_artist%";
+        public static readonly string UnknownGenreText = "%unknown_genre%";
         public static readonly string DefaultLanguageCode = "EN";
         public static readonly string WindowsPopMUser = "Windows Media Player 9 Series";
         public static readonly string[] OtherPopMUsers = { "MusicBee" };

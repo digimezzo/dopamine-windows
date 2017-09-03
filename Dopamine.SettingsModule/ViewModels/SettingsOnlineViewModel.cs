@@ -257,7 +257,7 @@ namespace Dopamine.SettingsModule.ViewModels
             SettingsOnlineAddEditSearchProvider view = this.container.Resolve<SettingsOnlineAddEditSearchProvider>();
             view.DataContext = this.container.Resolve<SettingsOnlineAddEditSearchProviderViewModel>(new DependencyOverride(typeof(SearchProvider), new SearchProvider()));
 
-            string dialogTitle = ResourceUtils.GetStringResource("Language_Add");
+            string dialogTitle = ResourceUtils.GetString("Language_Add");
 
             this.dialogService.ShowCustomDialog(
                 0xe104,
@@ -270,8 +270,8 @@ namespace Dopamine.SettingsModule.ViewModels
                 true,
                 true,
                 true,
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
                 ((SettingsOnlineAddEditSearchProviderViewModel)view.DataContext).AddSearchProviderAsync);
         }
 
@@ -280,7 +280,7 @@ namespace Dopamine.SettingsModule.ViewModels
             SettingsOnlineAddEditSearchProvider view = this.container.Resolve<SettingsOnlineAddEditSearchProvider>();
             view.DataContext = this.container.Resolve<SettingsOnlineAddEditSearchProviderViewModel>(new DependencyOverride(typeof(SearchProvider), this.selectedSearchProvider));
 
-            string dialogTitle = ResourceUtils.GetStringResource("Language_Edit");
+            string dialogTitle = ResourceUtils.GetString("Language_Edit");
 
             this.dialogService.ShowCustomDialog(
                 0xe104,
@@ -293,14 +293,14 @@ namespace Dopamine.SettingsModule.ViewModels
                 true,
                 true,
                 true,
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
                 ((SettingsOnlineAddEditSearchProviderViewModel)view.DataContext).UpdateSearchProviderAsync);
         }
 
         private void RemoveSearchProvider()
         {
-            if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Remove"), ResourceUtils.GetStringResource("Language_Confirm_Remove_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name), ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Remove"), ResourceUtils.GetString("Language_Confirm_Remove_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
             {
                 var isRemoveSuccess = this.providerService.RemoveSearchProvider(this.selectedSearchProvider);
 
@@ -309,11 +309,11 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Removing_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Removing_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                 }
             }
         }

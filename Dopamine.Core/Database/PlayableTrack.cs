@@ -37,13 +37,10 @@ namespace Dopamine.Core.Database
             track.Path = path;
             track.SafePath = path.ToSafePath();
             track.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
-
-            track.ArtistName = Defaults.UnknownArtistString;
-
-            track.GenreName = Defaults.UnknownGenreString;
-
-            track.AlbumTitle = Defaults.UnknownAlbumString;
-            track.AlbumArtist = Defaults.UnknownAlbumArtistString;
+            track.ArtistName = Defaults.UnknownArtistText;
+            track.GenreName = Defaults.UnknownGenreText;
+            track.AlbumTitle = Defaults.UnknownAlbumText;
+            track.AlbumArtist = Defaults.UnknownArtistText;
 
             return track;
         }

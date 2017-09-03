@@ -99,7 +99,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.RemoveFolderCommand = new DelegateCommand<string>(iPath =>
             {
-                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Remove"), ResourceUtils.GetStringResource("Language_Confirm_Remove_Folder"), ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Remove"), ResourceUtils.GetString("Language_Confirm_Remove_Folder"), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
                 {
                     this.RemoveFolder(iPath);
                 }
@@ -154,20 +154,20 @@ namespace Dopamine.SettingsModule.ViewModels
                             this.dialogService.ShowNotification(
                                 0xe711,
                                 16,
-                                ResourceUtils.GetStringResource("Language_Error"),
-                                ResourceUtils.GetStringResource("Language_Error_Adding_Folder"),
-                                ResourceUtils.GetStringResource("Language_Ok"),
+                                ResourceUtils.GetString("Language_Error"),
+                                ResourceUtils.GetString("Language_Error_Adding_Folder"),
+                                ResourceUtils.GetString("Language_Ok"),
                                 true,
-                                ResourceUtils.GetStringResource("Language_Log_File"));
+                                ResourceUtils.GetString("Language_Log_File"));
                             break;
                         case AddFolderResult.Duplicate:
 
                             this.dialogService.ShowNotification(
                                 0xe711,
                                 16,
-                                ResourceUtils.GetStringResource("Language_Already_Exists"),
-                                ResourceUtils.GetStringResource("Language_Folder_Already_In_Collection"),
-                                ResourceUtils.GetStringResource("Language_Ok"),
+                                ResourceUtils.GetString("Language_Already_Exists"),
+                                ResourceUtils.GetString("Language_Folder_Already_In_Collection"),
+                                ResourceUtils.GetString("Language_Ok"),
                                 false,
                                 "");
                             break;
@@ -180,11 +180,11 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Folder"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Adding_Folder"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                 }
                 finally
                 {
@@ -208,7 +208,7 @@ namespace Dopamine.SettingsModule.ViewModels
                         this.GetFoldersAsync();
                         break;
                     case RemoveFolderResult.Error:
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Folder"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Folder"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                         break;
                 }
             }
@@ -216,7 +216,7 @@ namespace Dopamine.SettingsModule.ViewModels
             {
                 CoreLogger.Current.Error("Exception: {0}", ex.Message);
 
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Removing_Folder"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Folder"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
             finally
             {

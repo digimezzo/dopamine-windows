@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Потвърдете или оставете на цял екран</Text>
   <Text Key="File_Type_Not_Supported">Тези типове файлове не се поддържат.</Text>
   <Text Key="Unknown_Artist">Неизвестен артист</Text>
-  <Text Key="Unknown_Album_Artist">Неизвестен албум артист</Text>
   <Text Key="Unknown_Title">Неизвестна песен</Text>
   <Text Key="Close_Notification_Automatically_After">Затвори известието автоматично след</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable system notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

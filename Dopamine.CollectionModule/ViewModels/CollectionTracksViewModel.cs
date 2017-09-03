@@ -185,7 +185,7 @@ namespace Dopamine.CollectionModule.ViewModels
             this.dialogService.ShowCustomDialog(
                 0xe73e,
                 16,
-                ResourceUtils.GetStringResource("Language_Columns"),
+                ResourceUtils.GetString("Language_Columns"),
                 view,
                 400,
                 0,
@@ -193,8 +193,8 @@ namespace Dopamine.CollectionModule.ViewModels
                 true,
                 true,
                 true,
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
                 ((CollectionTracksColumnsViewModel)view.DataContext).SetVisibleColumns);
 
             // When the dialog is closed, update the columns
@@ -264,7 +264,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         protected override void RefreshLanguage()
         {
-            // Do Nothing
+            base.RefreshLanguage();
         }
         #endregion
     }

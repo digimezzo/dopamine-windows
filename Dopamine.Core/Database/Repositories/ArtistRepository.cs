@@ -1,5 +1,6 @@
 ﻿using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Dopamine.Core.Database.Repositories
     {
         #region Variables
         private ISQLiteConnectionFactory factory;
+        private ILocalizationInfo info;
         #endregion
 
         #region Properties
@@ -18,9 +20,10 @@ namespace Dopamine.Core.Database.Repositories
         #endregion
 
         #region Construction
-        public ArtistRepository(ISQLiteConnectionFactory factory)
+        public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
+            this.info = info;
         }
         #endregion
 

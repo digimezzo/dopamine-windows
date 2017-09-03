@@ -14,9 +14,9 @@ namespace Dopamine.Common.Presentation.Utils
 
             // Set up the file dialog box
             var dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Title = ResourceUtils.GetStringResource("Language_Select_Image");
+            dlg.Title = ResourceUtils.GetString("Language_Select_Image");
             dlg.DefaultExt = FileFormats.JPG; // Default file extension
-            dlg.Filter = ResourceUtils.GetStringResource("Language_Images") + " (*" + FileFormats.PNG + ";*" + FileFormats.JPG + ";*" + FileFormats.JPEG + ";*" + FileFormats.BMP + ")|*" + FileFormats.PNG + ";*" + FileFormats.JPG + ";*" + FileFormats.JPEG + ";*" + FileFormats.BMP; // Filter files by extension
+            dlg.Filter = ResourceUtils.GetString("Language_Images") + " (*" + FileFormats.PNG + ";*" + FileFormats.JPG + ";*" + FileFormats.JPEG + ";*" + FileFormats.BMP + ")|*" + FileFormats.PNG + ";*" + FileFormats.JPG + ";*" + FileFormats.JPEG + ";*" + FileFormats.BMP; // Filter files by extension
 
             // Show the file dialog box
             bool? dialogResult = dlg.ShowDialog();

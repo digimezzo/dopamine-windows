@@ -218,6 +218,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
+    <Compile Include="Helpers\LocalizationInfo.cs" />
     <Compile Include="Logging\CoreLogger.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />

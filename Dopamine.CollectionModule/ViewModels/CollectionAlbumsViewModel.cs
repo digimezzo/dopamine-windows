@@ -162,6 +162,7 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             this.UpdateAlbumOrderText(this.AlbumOrder);
             this.UpdateTrackOrderText(this.TrackOrder);
+            base.RefreshLanguage();
         }
         #endregion
     }

@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">進入或離開全螢幕</Text>
   <Text Key="File_Type_Not_Supported">不支援這個檔案類型。</Text>
   <Text Key="Unknown_Artist">未知演出者</Text>
-  <Text Key="Unknown_Album_Artist">未知專輯演出者</Text>
   <Text Key="Unknown_Title">未知標題</Text>
   <Text Key="Close_Notification_Automatically_After">在下列時間後自動關閉通知</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">如果你喜歡Dopamine，請考慮捐贈。您可以在馬上捐贈，或者之後造訪「關於」頁面。謝謝！</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

@@ -59,11 +59,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playlistService.TracksAdded += (numberTracksAdded, playlist) =>
             {
-                string text = ResourceUtils.GetStringResource("Language_Added_Track_To_Playlist");
+                string text = ResourceUtils.GetString("Language_Added_Track_To_Playlist");
 
                 if (numberTracksAdded > 1)
                 {
-                    text = ResourceUtils.GetStringResource("Language_Added_Tracks_To_Playlist");
+                    text = ResourceUtils.GetString("Language_Added_Tracks_To_Playlist");
                 }
 
                 this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", numberTracksAdded.ToString()).Replace("%playlistname%", playlist);
@@ -73,11 +73,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.playbackService.AddedTracksToQueue += iNumberOfTracks =>
             {
-                string text = ResourceUtils.GetStringResource("Language_Added_Track_To_Now_Playing");
+                string text = ResourceUtils.GetString("Language_Added_Track_To_Now_Playing");
 
                 if (iNumberOfTracks > 1)
                 {
-                    text = ResourceUtils.GetStringResource("Language_Added_Tracks_To_Now_Playing");
+                    text = ResourceUtils.GetString("Language_Added_Tracks_To_Now_Playing");
                 }
 
                 this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", iNumberOfTracks.ToString());

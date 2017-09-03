@@ -218,15 +218,15 @@ namespace Dopamine.CollectionModule.ViewModels
 
         private async Task ConfirmAddPlaylistAsync()
         {
-            string responseText = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetStringResource("Language_New_Playlist"));
+            string responseText = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
                 16,
-                ResourceUtils.GetStringResource("Language_New_Playlist"),
-                ResourceUtils.GetStringResource("Language_Enter_Name_For_New_Playlist"),
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
+                ResourceUtils.GetString("Language_New_Playlist"),
+                ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
                 ref responseText))
             {
                 await this.AddPlaylistAsync(responseText);
@@ -243,9 +243,9 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Already_Exists"),
-                        ResourceUtils.GetStringResource("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", playlistName),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Already_Exists"),
+                        ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", playlistName),
+                        ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
                     break;
@@ -253,19 +253,19 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Adding_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Adding_Playlist"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                     break;
                 case AddPlaylistResult.Blank:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+                        ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
                     break;
@@ -326,11 +326,11 @@ namespace Dopamine.CollectionModule.ViewModels
                 this.dialogService.ShowNotification(
                     0xe711,
                     16,
-                    ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Deleting_Playlist").Replace("%playlistname%", playlistName),
-                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("%playlistname%", playlistName),
+                    ResourceUtils.GetString("Language_Ok"),
                     true,
-                    ResourceUtils.GetStringResource("Language_Log_File"));
+                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -339,10 +339,10 @@ namespace Dopamine.CollectionModule.ViewModels
             if (this.dialogService.ShowConfirmation(
                 0xe11b,
                 16,
-                ResourceUtils.GetStringResource("Language_Delete"),
-                ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Delete_Playlist").Replace("%playlistname%", playlistName),
-                ResourceUtils.GetStringResource("Language_Yes"),
-                ResourceUtils.GetStringResource("Language_No")))
+                ResourceUtils.GetString("Language_Delete"),
+                ResourceUtils.GetString("Language_Are_You_Sure_To_Delete_Playlist").Replace("%playlistname%", playlistName),
+                ResourceUtils.GetString("Language_Yes"),
+                ResourceUtils.GetString("Language_No")))
             {
                 await this.DeletePlaylistAsync(playlistName);
             }
@@ -358,10 +358,10 @@ namespace Dopamine.CollectionModule.ViewModels
             if (this.dialogService.ShowInputDialog(
                 0xea37,
                 16,
-                ResourceUtils.GetStringResource("Language_Rename_Playlist"),
-                ResourceUtils.GetStringResource("Language_Enter_New_Name_For_Playlist").Replace("%playlistname%", oldPlaylistName),
-                ResourceUtils.GetStringResource("Language_Ok"),
-                ResourceUtils.GetStringResource("Language_Cancel"),
+                ResourceUtils.GetString("Language_Rename_Playlist"),
+                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("%playlistname%", oldPlaylistName),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
                 ref newPlaylistName))
             {
                 RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);
@@ -372,9 +372,9 @@ namespace Dopamine.CollectionModule.ViewModels
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,
-                            ResourceUtils.GetStringResource("Language_Already_Exists"),
-                            ResourceUtils.GetStringResource("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", newPlaylistName),
-                            ResourceUtils.GetStringResource("Language_Ok"),
+                            ResourceUtils.GetString("Language_Already_Exists"),
+                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", newPlaylistName),
+                            ResourceUtils.GetString("Language_Ok"),
                             false,
                             string.Empty);
                         break;
@@ -382,19 +382,19 @@ namespace Dopamine.CollectionModule.ViewModels
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,
-                            ResourceUtils.GetStringResource("Language_Error"),
-                            ResourceUtils.GetStringResource("Language_Error_Renaming_Playlist"),
-                            ResourceUtils.GetStringResource("Language_Ok"),
+                            ResourceUtils.GetString("Language_Error"),
+                            ResourceUtils.GetString("Language_Error_Renaming_Playlist"),
+                            ResourceUtils.GetString("Language_Ok"),
                             true,
-                            ResourceUtils.GetStringResource("Language_Log_File"));
+                            ResourceUtils.GetString("Language_Log_File"));
                         break;
                     case RenamePlaylistResult.Blank:
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,
-                            ResourceUtils.GetStringResource("Language_Error"),
-                            ResourceUtils.GetStringResource("Language_Provide_Playlist_Name"),
-                            ResourceUtils.GetStringResource("Language_Ok"),
+                            ResourceUtils.GetString("Language_Error"),
+                            ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+                            ResourceUtils.GetString("Language_Ok"),
                             false,
                             string.Empty);
                         break;
@@ -413,7 +413,7 @@ namespace Dopamine.CollectionModule.ViewModels
             dlg.DefaultExt = FileFormats.M3U; // Default file extension
 
             // Filter files by extension
-            dlg.Filter = ResourceUtils.GetStringResource("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
+            dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
 
             // Show the file dialog box
             bool? dialogResult = dlg.ShowDialog();
@@ -432,11 +432,11 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Opening_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Opening_Playlist"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                 }
             }
         }
@@ -461,16 +461,16 @@ namespace Dopamine.CollectionModule.ViewModels
         {
             if (!this.IsPlaylistSelected) return;
 
-            string question = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
-            if (this.SelectedTracks.Count == 1) question = ResourceUtils.GetStringResource("Language_Are_You_Sure_To_Remove_Song_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
+            string question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
+            if (this.SelectedTracks.Count == 1) question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
 
             if (this.dialogService.ShowConfirmation(
             0xe11b,
             16,
-            ResourceUtils.GetStringResource("Language_Delete"),
+            ResourceUtils.GetString("Language_Delete"),
             question,
-            ResourceUtils.GetStringResource("Language_Yes"),
-            ResourceUtils.GetStringResource("Language_No")))
+            ResourceUtils.GetString("Language_Yes"),
+            ResourceUtils.GetString("Language_No")))
             {
                 List<int> selectedIndexes = await this.GetSelectedIndexesAsync();
                 DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromPlaylistAsync(selectedIndexes, this.SelectedPlaylistName);
@@ -480,11 +480,11 @@ namespace Dopamine.CollectionModule.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Removing_From_Playlist"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Removing_From_Playlist"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                 }
             }
         }
@@ -527,7 +527,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -705,7 +705,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             else if (dropInfo.TargetItem == null)
             {
-                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetStringResource("Language_New_Playlist"));
+                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
                 List<string> allFilenames = this.GetDroppedFilenames(dropInfo);
                 List<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
                 List<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();

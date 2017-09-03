@@ -65,14 +65,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get
             {
-                string dialogTitle = this.paths.Count > 1 ? ResourceUtils.GetStringResource("Language_Edit_Multiple_Songs") : ResourceUtils.GetStringResource("Language_Edit_Song");
+                string dialogTitle = this.paths.Count > 1 ? ResourceUtils.GetString("Language_Edit_Multiple_Songs") : ResourceUtils.GetString("Language_Edit_Song");
                 return dialogTitle.ToLower();
             }
         }
 
         public string MultipleTracksWarningText
         {
-            get { return ResourceUtils.GetStringResource("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.paths.Count.ToString()); }
+            get { return ResourceUtils.GetString("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.paths.Count.ToString()); }
         }
 
         public bool ShowMultipleTracksWarning
@@ -217,7 +217,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Construction
         public EditTrackViewModel(IList<string> paths, IMetadataService metadataService, IDialogService dialogService)
         {
-            this.multipleValuesText = "<"+ ResourceUtils.GetStringResource("Language_Multiple_Values")+">";
+            this.multipleValuesText = "<"+ ResourceUtils.GetString("Language_Multiple_Values")+">";
 
             this.artists = new MetadataValue();
             this.title = new MetadataValue();
@@ -258,11 +258,11 @@ namespace Dopamine.Common.Presentation.ViewModels
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
-                        ResourceUtils.GetStringResource("Language_Error"),
-                        ResourceUtils.GetStringResource("Language_Error_Changing_Image"),
-                        ResourceUtils.GetStringResource("Language_Ok"),
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Changing_Image"),
+                        ResourceUtils.GetString("Language_Ok"),
                         true,
-                        ResourceUtils.GetStringResource("Language_Log_File"));
+                        ResourceUtils.GetString("Language_Log_File"));
                 }
             });
 

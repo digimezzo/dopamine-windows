@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Schermvullende modus activeren of verlaten</Text>
   <Text Key="File_Type_Not_Supported">Dit bestandstype wordt niet ondersteund.</Text>
   <Text Key="Unknown_Artist">Onbekende artiest</Text>
-  <Text Key="Unknown_Album_Artist">Onbekende album artiest</Text>
   <Text Key="Unknown_Title">Onbekende titel</Text>
   <Text Key="Close_Notification_Automatically_After">Popup automatisch sluiten na</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Als je Dopamine leuk vindt, overweeg een donatie. Je kan meteen doneren, of later via het 'Over' scherm. Dank je!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Onbekend album</Text>
+  <Text Key="Unknown_Genre">Onbekend genre</Text>
 </Language>

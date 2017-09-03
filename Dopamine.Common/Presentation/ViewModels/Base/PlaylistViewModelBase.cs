@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Dopamine.Common.Services.I18n;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -33,6 +34,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ISearchService searchService;
         private IDialogService dialogService;
         private IProviderService providerService;
+        private II18nService i18nService;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
@@ -70,6 +72,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.searchService = container.Resolve<ISearchService>();
             this.dialogService = container.Resolve<IDialogService>();
             this.providerService = container.Resolve<IProviderService>();
+            this.i18nService = container.Resolve<II18nService>();
 
             // Commands
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
@@ -79,6 +82,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
+            this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
         }
         #endregion
 
@@ -132,6 +136,12 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             OnPropertyChanged(() => this.TotalDurationInformation);
             OnPropertyChanged(() => this.TotalSizeInformation);
+        }
+
+        private void RefreshLanguage()
+        {
+            // Make sure that unknown artist, genre and album are translated correctly.
+            this.FillListsAsync();
         }
         #endregion
 
@@ -199,7 +209,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             if (!result)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Playing_Selected_Songs"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Playing_Selected_Songs"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -211,7 +221,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -223,7 +233,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             if (!result.IsSuccess)
             {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetStringResource("Language_Error"), ResourceUtils.GetStringResource("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetStringResource("Language_Ok"), true, ResourceUtils.GetStringResource("Language_Log_File"));
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
         #endregion

@@ -216,7 +216,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
         {
             string progress = string.Empty;
 
-            progress = "(" + ResourceUtils.GetStringResource("Language_Current_Of_Total") + ")";
+            progress = "(" + ResourceUtils.GetString("Language_Current_Of_Total") + ")";
             progress = progress.Replace("%current%", currentProgres);
             progress = progress.Replace("%total%", totalProgress);
 
@@ -256,11 +256,11 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
                 if (!string.IsNullOrEmpty(destinationPath))
                 {
-                    this.UpdateToolTip = ResourceUtils.GetStringResource("Language_Click_Here_To_Install");
+                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Install");
                 }
                 else
                 {
-                    this.UpdateToolTip = ResourceUtils.GetStringResource("Language_Click_Here_To_Download");
+                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
                 }
             }
         }

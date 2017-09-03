@@ -231,8 +231,8 @@ namespace Dopamine.Common.Metadata
                 string trackArtist = GetFirstArtist(fmd); // will be used for the album if no album artist is found
 
                 // Album information
-                album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumString : MetadataUtils.SanitizeTag(fmd.Album.Value);
-                album.AlbumArtist = (albumArtist == Defaults.UnknownAlbumArtistString ? trackArtist : albumArtist);
+                album.AlbumTitle = string.IsNullOrWhiteSpace(fmd.Album.Value) ? Defaults.UnknownAlbumText : MetadataUtils.SanitizeTag(fmd.Album.Value);
+                album.AlbumArtist = (albumArtist == Defaults.UnknownArtistText ? trackArtist : albumArtist);
                 album.DateAdded = DateTime.Now.Ticks;
                 album.DateCreated = FileUtils.DateCreatedTicks(path);
 
@@ -316,22 +316,22 @@ namespace Dopamine.Common.Metadata
 
         public static string GetFirstGenre(FileMetadata fmd)
         {
-            return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreString : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreString);
+            return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreText : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreText);
         }
 
         public static string GetFirstArtist(FileMetadata iFileMetadata)
         {
-            return string.IsNullOrWhiteSpace(iFileMetadata.Artists.Value) ? Defaults.UnknownArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistString));
+            return string.IsNullOrWhiteSpace(iFileMetadata.Artists.Value) ? Defaults.UnknownArtistText : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistText));
         }
 
         public static string GetFirstAlbumArtist(FileMetadata iFileMetadata)
         {
-            return string.IsNullOrWhiteSpace(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownAlbumArtistString : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownAlbumArtistString));
+            return string.IsNullOrWhiteSpace(iFileMetadata.AlbumArtists.Value) ? Defaults.UnknownArtistText : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(iFileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownArtistText));
         }
 
         public static bool UpdateAlbumYear(Album album, long year)
         {
-            if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumString) && year > 0 && (album.Year == null || album.Year != year))
+            if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumText) && year > 0 && (album.Year == null || album.Year != year))
             {
                 album.Year = year;
                 return true;

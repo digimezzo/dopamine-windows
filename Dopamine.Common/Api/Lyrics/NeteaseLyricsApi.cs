@@ -81,7 +81,7 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => ResourceUtils.GetStringResource("Language_NeteaseLyrics");
+        public string SourceName => ResourceUtils.GetString("Language_NeteaseLyrics");
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {

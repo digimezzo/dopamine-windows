@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">Vejít nebo odejít z režimu celé obrazovky</Text>
   <Text Key="File_Type_Not_Supported">Tento typ souboru není podporován.</Text>
   <Text Key="Unknown_Artist">Neznámý autor</Text>
-  <Text Key="Unknown_Album_Artist">Neznámý autor alba</Text>
   <Text Key="Unknown_Title">Neznámý název</Text>
   <Text Key="Close_Notification_Automatically_After">Automaticky zavřít oznámení po</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Pokud máte rádi Dopamine, prosím zvažte jeho podpoření. Můžete jej podpořit přímo odtud, nebo v sekci 'O mně'. Děkuji!</Text>
@@ -406,4 +405,6 @@
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
   <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Unknown_Album">Unknown album</Text>
+  <Text Key="Unknown_Genre">Unknown genre</Text>
 </Language>

@@ -223,7 +223,7 @@ namespace Dopamine.ControlsModule.ViewModels
             get { return this.selectedPreset; }
             set
             {
-                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetStringResource("Language_Manual");
+                if (value.Name == Defaults.ManualPresetName) value.DisplayName = ResourceUtils.GetString("Language_Manual");
                 SetProperty<EqualizerPreset>(ref this.selectedPreset, value);
                 this.SetBandValues();
                 this.ApplySelectedPreset();
@@ -319,7 +319,7 @@ namespace Dopamine.ControlsModule.ViewModels
 
             foreach (EqualizerPreset preset in await this.equalizerService.GetPresetsAsync())
             {
-                if (preset.Name == Defaults.ManualPresetName) preset.DisplayName = ResourceUtils.GetStringResource("Language_Manual"); // Make sure the manual preset is translated
+                if (preset.Name == Defaults.ManualPresetName) preset.DisplayName = ResourceUtils.GetString("Language_Manual"); // Make sure the manual preset is translated
                 localEqualizerPresets.Add(preset);
             }
 
@@ -355,7 +355,7 @@ namespace Dopamine.ControlsModule.ViewModels
             var dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.DEQ;
-            dlg.Filter = string.Concat(ResourceUtils.GetStringResource("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
+            dlg.Filter = string.Concat(ResourceUtils.GetString("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
             dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), Common.Base.ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
 
             while (showSaveDialog)
@@ -371,9 +371,9 @@ namespace Dopamine.ControlsModule.ViewModels
                         this.dialogService.ShowNotification(
                                                 0xe711,
                                                 16,
-                                                ResourceUtils.GetStringResource("Language_Error"),
-                                                ResourceUtils.GetStringResource("Language_Preset_Already_Taken"),
-                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                ResourceUtils.GetString("Language_Error"),
+                                                ResourceUtils.GetString("Language_Preset_Already_Taken"),
+                                                ResourceUtils.GetString("Language_Ok"),
                                                 false,
                                                 string.Empty);
                     }
@@ -394,11 +394,11 @@ namespace Dopamine.ControlsModule.ViewModels
                             this.dialogService.ShowNotification(
                                                 0xe711,
                                                 16,
-                                                ResourceUtils.GetStringResource("Language_Error"),
-                                                ResourceUtils.GetStringResource("Language_Error_While_Saving_Preset"),
-                                                ResourceUtils.GetStringResource("Language_Ok"),
+                                                ResourceUtils.GetString("Language_Error"),
+                                                ResourceUtils.GetString("Language_Error_While_Saving_Preset"),
+                                                ResourceUtils.GetString("Language_Ok"),
                                                 true,
-                                                ResourceUtils.GetStringResource("Language_Log_File"));
+                                                ResourceUtils.GetString("Language_Log_File"));
 
                         }
                         SettingsClient.Set<string>("Equalizer", "SelectedPreset", System.IO.Path.GetFileNameWithoutExtension(dlg.FileName));
@@ -417,10 +417,10 @@ namespace Dopamine.ControlsModule.ViewModels
             if (this.dialogService.ShowConfirmation(
                 0xe11b,
                 16,
-                ResourceUtils.GetStringResource("Language_Delete_Preset"),
-                ResourceUtils.GetStringResource("Language_Delete_Preset_Confirmation").Replace("%preset%", this.SelectedPreset.Name),
-                ResourceUtils.GetStringResource("Language_Yes"),
-                ResourceUtils.GetStringResource("Language_No")))
+                ResourceUtils.GetString("Language_Delete_Preset"),
+                ResourceUtils.GetString("Language_Delete_Preset_Confirmation").Replace("%preset%", this.SelectedPreset.Name),
+                ResourceUtils.GetString("Language_Yes"),
+                ResourceUtils.GetString("Language_No")))
             {
                 try
                 {
@@ -439,11 +439,11 @@ namespace Dopamine.ControlsModule.ViewModels
                     this.dialogService.ShowNotification(
                                         0xe711,
                                         16,
-                                        ResourceUtils.GetStringResource("Language_Error"),
-                                        ResourceUtils.GetStringResource("Language_Error_While_Deleting_Preset"),
-                                        ResourceUtils.GetStringResource("Language_Ok"),
+                                        ResourceUtils.GetString("Language_Error"),
+                                        ResourceUtils.GetString("Language_Error_While_Deleting_Preset"),
+                                        ResourceUtils.GetString("Language_Ok"),
                                         true,
-                                        ResourceUtils.GetStringResource("Language_Log_File"));
+                                        ResourceUtils.GetString("Language_Log_File"));
                 }
             }
         }

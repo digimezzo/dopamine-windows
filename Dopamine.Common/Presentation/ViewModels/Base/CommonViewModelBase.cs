@@ -177,20 +177,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             switch (trackOrder)
             {
                 case TrackOrder.Alphabetical:
-                    this.trackOrderText = ResourceUtils.GetStringResource("Language_A_Z");
+                    this.trackOrderText = ResourceUtils.GetString("Language_A_Z");
                     break;
                 case TrackOrder.ReverseAlphabetical:
-                    this.trackOrderText = ResourceUtils.GetStringResource("Language_Z_A");
+                    this.trackOrderText = ResourceUtils.GetString("Language_Z_A");
                     break;
                 case TrackOrder.ByAlbum:
-                    this.trackOrderText = ResourceUtils.GetStringResource("Language_By_Album");
+                    this.trackOrderText = ResourceUtils.GetString("Language_By_Album");
                     break;
                 case TrackOrder.ByRating:
-                    this.trackOrderText = ResourceUtils.GetStringResource("Language_By_Rating");
+                    this.trackOrderText = ResourceUtils.GetString("Language_By_Rating");
                     break;
                 default:
                     // Cannot happen, but just in case.
-                    this.trackOrderText = ResourceUtils.GetStringResource("Language_By_Album");
+                    this.trackOrderText = ResourceUtils.GetString("Language_By_Album");
                     break;
             }
 
@@ -212,10 +212,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (!allSelectedTracksExist)
             {
-                string message = ResourceUtils.GetStringResource("Language_Song_Cannot_Be_Found_Refresh_Collection");
-                if (paths.Count > 1) message = ResourceUtils.GetStringResource("Language_Songs_Cannot_Be_Found_Refresh_Collection");
+                string message = ResourceUtils.GetString("Language_Song_Cannot_Be_Found_Refresh_Collection");
+                if (paths.Count > 1) message = ResourceUtils.GetString("Language_Songs_Cannot_Be_Found_Refresh_Collection");
 
-                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetStringResource("Language_Refresh"), message, ResourceUtils.GetStringResource("Language_Yes"), ResourceUtils.GetStringResource("Language_No")))
+                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Refresh"), message, ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
                 {
                     this.indexingService.NeedsIndexing = true;
                     this.indexingService.IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
@@ -235,7 +235,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,
                     16,
-                    ResourceUtils.GetStringResource("Language_Information"),
+                    ResourceUtils.GetString("Language_Information"),
                     view,
                     400,
                     620,
@@ -243,7 +243,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     true,
                     true,
                     false,
-                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetString("Language_Ok"),
                     string.Empty,
                     null);
             }
@@ -259,7 +259,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.dialogService.ShowCustomDialog(
                     0xe104,
                     14,
-                    ResourceUtils.GetStringResource("Language_Edit_Song"),
+                    ResourceUtils.GetString("Language_Edit_Song"),
                     view,
                     620,
                     660,
@@ -267,8 +267,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     false,
                     false,
                     true,
-                    ResourceUtils.GetStringResource("Language_Ok"),
-                    ResourceUtils.GetStringResource("Language_Cancel"),
+                    ResourceUtils.GetString("Language_Ok"),
+                    ResourceUtils.GetString("Language_Cancel"),
                 ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
             }
         }

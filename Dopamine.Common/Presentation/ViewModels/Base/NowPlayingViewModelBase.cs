@@ -135,11 +135,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.dialogService.ShowNotification(
                     0xe711,
                     16,
-                    ResourceUtils.GetStringResource("Language_Error"),
-                    ResourceUtils.GetStringResource("Language_Error_Removing_From_Now_Playing"),
-                    ResourceUtils.GetStringResource("Language_Ok"),
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Removing_From_Now_Playing"),
+                    ResourceUtils.GetString("Language_Ok"),
                     true,
-                    ResourceUtils.GetStringResource("Language_Log_File"));
+                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
         #endregion

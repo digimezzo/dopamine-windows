@@ -381,7 +381,7 @@ namespace Dopamine.Common.Services.Metadata
             // Artist
             if (fileMetadata.Artists.IsValueChanged)
             {
-                string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistString;
+                string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
                 Artist artist = await this.artistRepository.GetArtistAsync(newArtistName);
                 if (artist == null) artist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
                 if (artist != null) track.ArtistID = artist.ArtistID;
@@ -390,7 +390,7 @@ namespace Dopamine.Common.Services.Metadata
             // Genre
             if (fileMetadata.Genres.IsValueChanged)
             {
-                string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : Defaults.UnknownGenreString;
+                string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : Defaults.UnknownGenreText;
                 Genre genre = await this.genreRepository.GetGenreAsync(newGenreName);
                 if (genre == null) genre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
                 if (genre != null) track.GenreID = genre.GenreID;
@@ -399,8 +399,8 @@ namespace Dopamine.Common.Services.Metadata
             // Album
             if (fileMetadata.Album.IsValueChanged || fileMetadata.AlbumArtists.IsValueChanged || fileMetadata.Year.IsValueChanged)
             {
-                string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString;
-                string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString;
+                string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumText;
+                string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
                 Album album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
 
                 if (album == null)
@@ -426,11 +426,11 @@ namespace Dopamine.Common.Services.Metadata
                 // If no album artist is found, use the artist name. The album was probably saved using the artist name.
                 if (string.IsNullOrEmpty(albumArtist))
                 {
-                    albumArtist = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownAlbumArtistString;
+                    albumArtist = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
                 }
 
                 // Get the album title
-                string albumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumString;
+                string albumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumText;
 
                 // Cache the new artwork
                 string artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);
