@@ -315,7 +315,7 @@
     <Content Include="Languages\DA.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Languages\DU.xml">
+    <Content Include="Languages\DE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Languages\EL.xml">
