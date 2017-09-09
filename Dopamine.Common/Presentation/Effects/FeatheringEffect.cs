@@ -32,12 +32,6 @@ namespace Dopamine.Common.Presentation.Effects
             get => (double)GetValue(TexWidthProperty);
             set => SetValue(TexWidthProperty, value);
         }
-
-        public double TexHeight
-        {
-            get => (double)GetValue(TexHeightProperty);
-            set => SetValue(TexHeightProperty, value);
-        }
         #endregion
 
         #region Dependency Properties
@@ -45,13 +39,10 @@ namespace Dopamine.Common.Presentation.Effects
             RegisterPixelShaderSamplerProperty("InputBackground", typeof(FeatheringEffect), 0);
 
         public static DependencyProperty FeatheringRadiusProperty = DependencyProperty.Register("FeatheringRadius",
-            typeof(double), typeof(FeatheringEffect), new UIPropertyMetadata(0d, PixelShaderConstantCallback(0)));
+            typeof(double), typeof(FeatheringEffect), new UIPropertyMetadata(default(double), PixelShaderConstantCallback(0)));
 
         public static DependencyProperty TexWidthProperty = DependencyProperty.Register("TexWidth", typeof(double),
-            typeof(FeatheringEffect), new UIPropertyMetadata(100d, PixelShaderConstantCallback(1)));
-
-        public static DependencyProperty TexHeightProperty = DependencyProperty.Register("TexHeight", typeof(double),
-            typeof(FeatheringEffect), new UIPropertyMetadata(100d, PixelShaderConstantCallback(1)));
+            typeof(FeatheringEffect), new UIPropertyMetadata(default(double), PixelShaderConstantCallback(1)));
         #endregion
 
         #region Constructor
@@ -61,7 +52,6 @@ namespace Dopamine.Common.Presentation.Effects
             UpdateShaderValue(InputBackgroundProperty);
             UpdateShaderValue(FeatheringRadiusProperty);
             UpdateShaderValue(TexWidthProperty);
-            UpdateShaderValue(TexHeightProperty);
         }
         #endregion
     }

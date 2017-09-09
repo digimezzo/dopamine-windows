@@ -7,17 +7,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FeatheringEdgeSlidingContentControl}">
-                    <Grid x:Name="PART_Grid" ClipToBounds="True">
+                    <Grid ClipToBounds="True">
                         <Rectangle x:Name="PART_PaintArea" Panel.ZIndex="0"/>
-                        <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" Panel.ZIndex="1" Margin="60,0,60,0"/>
-                        <Rectangle x:Name="Dummy" Panel.ZIndex="0" IsHitTestVisible="False" Opacity="0"/>
+                        <ContentPresenter x:Name="PART_MainContent" Content="{TemplateBinding Content}" Panel.ZIndex="1" Margin="20,0,20,0"/>
                     </Grid>
                 </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Effect">
-            <Setter.Value>
-                <effects:FeatheringEffect FeatheringRadius="5" TexHeight="{Binding ActualHeight, ElementName=PART_Grid}" TexWidth="{Binding ActualWidth, ElementName=PART_Grid}"/>
             </Setter.Value>
         </Setter>
     </Style>

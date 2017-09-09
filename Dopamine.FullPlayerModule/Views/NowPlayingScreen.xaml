@@ -114,11 +114,7 @@
                     </controlsModuleViews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <controls:FeatheringEdgeSlidingContentControl x:Name="NowPlayingContentRegion" Margin="70,90,70,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}">
-<controls:FeatheringEdgeSlidingContentControl.CacheMode>
-    <BitmapCache EnableClearType="True" RenderAtScale="1" SnapsToDevicePixels="True"/>
-                    </controls:FeatheringEdgeSlidingContentControl.CacheMode>
-                    </controls:FeatheringEdgeSlidingContentControl>
+                <controls:FeatheringEdgeSlidingContentControl x:Name="NowPlayingContentRegion" FeatheringRadius="24" Margin="100,90,100,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>
             </Grid>
         </DockPanel>
     </Grid>
