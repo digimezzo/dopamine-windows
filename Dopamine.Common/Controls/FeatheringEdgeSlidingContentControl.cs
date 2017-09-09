@@ -9,7 +9,8 @@ namespace Dopamine.Common.Controls
     public class FeatheringEdgeSlidingContentControl : SlidingContentControl
     {
         #region Variables
-        private FeatheringEffect _effect;
+        private Window parentWindow;
+        private FeatheringEffect effect;
         #endregion
 
         #region Properties
@@ -35,14 +36,19 @@ namespace Dopamine.Common.Controls
         #region Override
         public override void OnApplyTemplate()
         {
-            this._effect = new FeatheringEffect(){FeatheringRadius = this.FeatheringRadius};
+            this.parentWindow = this.GetWindow(this);
+            this.effect = new FeatheringEffect(){FeatheringRadius = this.FeatheringRadius};
             base.OnApplyTemplate();
         }
 
         protected override void BeginAnimateContentReplacement()
         {
-            this._effect.TexWidth = ActualWidth;
-            this.Effect = _effect;
+            // Disable shader effect to optimize performance when window is maximized
+            if (this.parentWindow.WindowState == WindowState.Normal)
+            {
+                this.effect.TexWidth = ActualWidth;
+                this.Effect = effect;
+            }
             var newContentTransform = new TranslateTransform();
             var oldContentTransform = new TranslateTransform();
             this.paintArea.RenderTransform = oldContentTransform;
@@ -92,6 +98,20 @@ namespace Dopamine.Common.Controls
                 this.paintArea.BeginAnimation(OpacityProperty, this.CreateFadeAnimation(1, 0, this.FadeOutDuration));
             }
         }
+        #endregion
+
+        #region Private
+
+        private Window GetWindow(DependencyObject dObj)
+        {
+            var d = VisualTreeHelper.GetParent(dObj);
+            switch (d)
+            {
+                case Window w: return w;
+                default: return GetWindow(d);
+            }
+        }
+
         #endregion
     }
 }
