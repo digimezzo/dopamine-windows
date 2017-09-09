@@ -112,9 +112,9 @@ namespace Dopamine.FullPlayerModule.Views
             // gives as combined effect a slide in from bottom left for the cover picture.
             // That doesn't look so good.
             await Task.Delay(500);
-            this.NowPlayingContentRegion.SlideDuration = Constants.SlideTimeoutSeconds;
-            this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds;
-            this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds;
+            this.NowPlayingContentRegion.SlideDuration = Constants.SlideTimeoutSeconds * 1.5;
+            this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds *1.25;
+            this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds *2;
         }
         #endregion  
     }
