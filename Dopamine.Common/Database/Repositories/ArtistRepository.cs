@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Database;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Logging;
@@ -11,9 +12,14 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class ArtistRepository : Core.Database.Repositories.ArtistRepository
     {
+        #region Private
+        private ILocalizationInfo info;
+        #endregion
+
         #region Construction
         public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
         {
+            this.info = info;
         }
         #endregion
 
@@ -34,17 +40,22 @@ namespace Dopamine.Common.Database.Repositories
                             var albumArtists = new List<string>();
 
                             // Get the Track Artists
-                            trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, art.ArtistName FROM Artist art" +
-                                                              " INNER JOIN Track tra ON art.ArtistID=tra.ArtistID" +
-                                                              " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                              " WHERE fol.ShowInCollection=1");
+                            trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, " +
+                                                              $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName " +
+                                                              "FROM Artist art " +
+                                                              "INNER JOIN Track tra ON art.ArtistID=tra.ArtistID " +
+                                                              "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                              "WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
-                            var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, alb.AlbumTitle, alb.AlbumArtist, alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb" +
-                                                           " INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID" +
-                                                           " INNER JOIN Folder fol ON tra.FolderID=fol.FolderID" +
-                                                           " INNER JOIN Artist art ON tra.ArtistID=art.ArtistID" +
-                                                           " WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
+                            var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, " +
+                                                           $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
+                                                           $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
+                                                           "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb " +
+                                                           "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
+                                                           "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                           "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
+                                                           "WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
 
                             albumArtists = albums.Select((a) => a.AlbumArtist).ToList();
 
