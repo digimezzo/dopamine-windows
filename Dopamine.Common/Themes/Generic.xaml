@@ -18,5 +18,6 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SyncRing.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/Tile.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/TotalsInformation.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Themes/FeatheringEdgeSlidingContentControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -4,13 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Dopamine.FullPlayerModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:controlsModuleViews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
@@ -116,7 +114,7 @@
                     </controlsModuleViews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:SlidingContentControl x:Name="NowPlayingContentRegion" Margin="120,90,120,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>
+                <controls:FeatheringEdgeSlidingContentControl x:Name="NowPlayingContentRegion" FeatheringRadius="24" Margin="100,90,100,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>
             </Grid>
         </DockPanel>
     </Grid>
