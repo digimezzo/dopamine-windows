@@ -113,8 +113,8 @@ namespace Dopamine.FullPlayerModule.Views
             // That doesn't look so good.
             await Task.Delay(500);
             this.NowPlayingContentRegion.SlideDuration = Constants.SlideTimeoutSeconds * 1.5;
-            this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds *1.5;
-            this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds *1.5;
+            this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds *1.25;
+            this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds *1.25;
         }
         #endregion  
     }
