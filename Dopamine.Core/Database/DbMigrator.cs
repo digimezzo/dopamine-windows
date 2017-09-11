@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Dopamine.Core.Database
 {
-    public abstract class DbMigrator : IDbMigrator
+    public abstract class DbMigrator
     {
         #region DatabaseVersionAttribute
         protected sealed class DatabaseVersionAttribute : Attribute
@@ -1011,8 +1011,50 @@ namespace Dopamine.Core.Database
         }
         #endregion
 
-        #region IDbMigrator
-        public bool DatabaseNeedsUpgrade()
+        #region Public
+        public void Initialize()
+        {
+            try
+            {
+                if (!this.DatabaseExists())
+                {
+                    // Create the database if it doesn't exist
+                    CoreLogger.Current.Info("Creating a new database");
+                    this.CreateNewDatabase();
+                }
+                else
+                {
+                    // Upgrade the database if it is not the latest version
+                    if (this.DatabaseNeedsUpgrade())
+                    {
+                        CoreLogger.Current.Info("Creating a backup of the database");
+                        this.BackupDatabase();
+                        CoreLogger.Current.Info("Upgrading database");
+                        this.UpgradeDatabase();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CoreLogger.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
+            }
+        }
+        #endregion
+
+        #region Private
+        private bool DatabaseExists()
+        {
+            int count = 0;
+
+            using (var conn = this.factory.GetConnection())
+            {
+                count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configuration'");
+            }
+
+            return count > 0;
+        }
+
+        private bool DatabaseNeedsUpgrade()
         {
             using (var conn = this.factory.GetConnection())
             {
@@ -1032,7 +1074,7 @@ namespace Dopamine.Core.Database
             return this.userDatabaseVersion < CURRENT_VERSION;
         }
 
-        public void InitializeNewDatabase()
+        private void CreateNewDatabase()
         {
             this.CreateConfiguration();
             this.CreateTablesAndIndexes();
@@ -1040,7 +1082,7 @@ namespace Dopamine.Core.Database
             CoreLogger.Current.Info("New database created at {0}", this.factory.DatabaseFile);
         }
 
-        public virtual void UpgradeDatabase()
+        private void UpgradeDatabase()
         {
             for (int i = this.userDatabaseVersion + 1; i <= CURRENT_VERSION; i++)
             {
@@ -1058,7 +1100,7 @@ namespace Dopamine.Core.Database
         #endregion
 
         #region Abstract
-        public abstract bool DatabaseExists();
+        protected abstract void BackupDatabase();
         #endregion
     }
 }

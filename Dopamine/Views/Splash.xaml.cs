@@ -114,12 +114,6 @@ namespace Dopamine.Views
 
             if (continueInitializing)
             {
-                // Initialize the database
-                continueInitializing = await this.InitializeDatabaseAsync();
-            }
-
-            if (continueInitializing)
-            {
                 // If initializing was successful, start the application.
                 if (this.ShowProgressRing)
                 {
@@ -187,45 +181,6 @@ namespace Dopamine.Views
             catch (Exception ex)
             {
                 CoreLogger.Current.Error("There was a problem initializing the settings. Exception: {0}", ex.Message);
-                this.errorMessage = ex.Message;
-                isSuccess = false;
-            }
-
-            return isSuccess;
-        }
-
-        private async Task<bool> InitializeDatabaseAsync()
-        {
-            bool isSuccess = false;
-
-            try
-            {
-                var migrator = new DbMigrator(new SQLiteConnectionFactory());
-
-                if (!migrator.DatabaseExists())
-                {
-                    // Create the database if it doesn't exist
-                    this.ShowProgressRing = true;
-                    CoreLogger.Current.Info("Creating database");
-                    await Task.Run(() => migrator.InitializeNewDatabase());
-                }
-                else
-                {
-                    // Upgrade the database if it is not the latest version
-
-                    if (migrator.DatabaseNeedsUpgrade())
-                    {
-                        this.ShowProgressRing = true;
-                        CoreLogger.Current.Info("Upgrading database");
-                        await Task.Run(() => migrator.UpgradeDatabase());
-                    }
-                }
-
-                isSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                CoreLogger.Current.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
                 this.errorMessage = ex.Message;
                 isSuccess = false;
             }

@@ -94,7 +94,6 @@ namespace Dopamine
             Container.RegisterInstance<ICoreSettings>(settings);
             Container.RegisterInstance<IMergedSettings>(settings);
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
-            Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
 
