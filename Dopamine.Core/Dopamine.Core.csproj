@@ -50,7 +50,6 @@
     <Compile Include="Database\Entities\Track.cs" />
     <Compile Include="Database\Entities\TrackStatistic.cs" />
     <Compile Include="Database\Enums.cs" />
-    <Compile Include="Database\Entities\IDbMigrator.cs" />
     <Compile Include="Database\ISQLiteConnectionFactory.cs" />
     <Compile Include="Database\PlayableTrack.cs" />
     <Compile Include="Database\Repositories\AlbumRepository.cs" />

@@ -109,7 +109,7 @@ namespace Dopamine.UWP
                 {
                     // Create the database if it doesn't exist
                     CoreLogger.Current.Info("Creating database");
-                    migrator.InitializeNewDatabase();
+                    migrator.CreateNewDatabase();
                 }
                 else
                 {

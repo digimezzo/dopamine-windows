@@ -14,9 +14,8 @@ namespace Dopamine.Common.Database
         #endregion
 
         #region Overrides
-        public override void UpgradeDatabase()
+        protected override void BackupDatabase()
         {
-            // Create a copy of the database file
             try
             {
                 string databaseFileCopy = this.Factory.DatabaseFile + ".old";
@@ -28,13 +27,6 @@ namespace Dopamine.Common.Database
             {
                 CoreLogger.Current.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
             }
-
-            base.UpgradeDatabase();
-        }
-
-        public override bool DatabaseExists()
-        {
-            return File.Exists(this.Factory.DatabaseFile);
         }
         #endregion
     }
