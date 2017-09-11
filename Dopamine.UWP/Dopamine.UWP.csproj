@@ -120,7 +120,8 @@
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="Services\Dialog\IDialogService.cs" />
     <Compile Include="Services\Logging\LoggingService.cs" />
-    <Compile Include="Settings\SettingsClient.cs" />
+    <Compile Include="Settings\IMergedSettings.cs" />
+    <Compile Include="Settings\MergedSettings.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="ViewModels\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

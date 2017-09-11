@@ -4,6 +4,7 @@ using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
 using Dopamine.Core.Settings;
 using Dopamine.UWP.Services.Dialog;
+using Dopamine.UWP.Settings;
 using Dopamine.UWP.Views;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
@@ -58,7 +59,12 @@ namespace Dopamine.UWP
 
         private void RegisterCoreComponents()
         {
+            
             Container.RegisterSingletonType<ICoreLogger, Logging.CoreLogger>();
+            Container.RegisterInstance(new MergedSettings());
+            MergedSettings settings = Container.Resolve<MergedSettings>();
+            Container.RegisterInstance<ICoreSettings>(settings);
+            Container.RegisterInstance<IMergedSettings>(settings);
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Database.DbMigrator>();
         }

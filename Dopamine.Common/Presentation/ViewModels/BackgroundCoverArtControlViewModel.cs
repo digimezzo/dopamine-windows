@@ -9,6 +9,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     public class BackgroundCoverArtControlViewModel : CoverArtControlViewModel
     {
         #region Variables
+        private IMergedSettings settings;
         private IAppearanceService appearanceService;
         private ICacheService cacheService;
         private IMetadataService metadataService;
@@ -24,8 +25,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public BackgroundCoverArtControlViewModel(IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
+        public BackgroundCoverArtControlViewModel(IMergedSettings settings, IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
         {
+            this.settings = settings;
             this.playbackService = playbackService;
             this.appearanceService = appearanceService;
             this.cacheService = cacheService;
@@ -33,7 +35,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.appearanceService.ThemeChanged += useLightTheme => this.Opacity = useLightTheme ? 1.0 : 0.5;
 
-            this.Opacity = SettingsClient.UseLightTheme ? 1.0 : 0.5;
+            this.Opacity = this.settings.UseLightTheme ? 1.0 : 0.5;
         }
         #endregion
     }

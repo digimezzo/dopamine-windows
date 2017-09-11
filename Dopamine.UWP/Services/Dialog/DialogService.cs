@@ -7,6 +7,17 @@ namespace Dopamine.UWP.Services.Dialog
 {
     public class DialogService : IDialogService
     {
+        #region Variables
+        private IMergedSettings settings;
+        #endregion
+
+        #region Construction
+        public DialogService(IMergedSettings settings)
+        {
+            this.settings = settings;
+        }
+        #endregion
+
         #region IDialogService
         public async Task<bool> ShowContentDialogAsync(string title, object content, string primaryButtonText, string secondaryButtonText)
         {
@@ -16,7 +27,7 @@ namespace Dopamine.UWP.Services.Dialog
                 Content = content,
                 PrimaryButtonText = primaryButtonText,
                 SecondaryButtonText = secondaryButtonText,
-                RequestedTheme = SettingsClient.UseLightTheme ? Windows.UI.Xaml.ElementTheme.Light : Windows.UI.Xaml.ElementTheme.Dark
+                RequestedTheme = this.settings.UseLightTheme ? Windows.UI.Xaml.ElementTheme.Light : Windows.UI.Xaml.ElementTheme.Dark
             };
 
             var result = await dialog.ShowAsync();

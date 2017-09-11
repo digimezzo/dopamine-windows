@@ -80,7 +80,6 @@
     <Compile Include="Services\Indexing\IndexerCache.cs" />
     <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="Settings\ICoreSettings.cs" />
-    <Compile Include="Settings\MockCoreSettings.cs" />
     <Compile Include="Settings\CoreSettings.cs" />
     <Compile Include="ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>

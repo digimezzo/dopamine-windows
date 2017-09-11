@@ -1,25 +1,12 @@
 ﻿namespace Dopamine.UWP.Settings
 {
-    public class SettingsClient
+    public class MergedSettings : IMergedSettings
     {
         private Windows.Storage.ApplicationDataContainer settings;
-        private static SettingsClient instance;
-
-        private SettingsClient()
+        
+        public MergedSettings()
         {
             this.Initialize();
-        }
-
-        public static SettingsClient Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new SettingsClient();
-                }
-                return instance;
-            }
         }
 
         private void Initialize()
@@ -42,45 +29,45 @@
             }
         }
 
-        public static void Reset()
+        public void Reset()
         {
-            SettingsClient.Instance.settings.Values.Clear();
-            SettingsClient.Instance.Initialize();
+            this.settings.Values.Clear();
+            this.Initialize();
         }
 
-        public static bool UseLightTheme
+        public bool UseLightTheme
         {
             get
             {
-                return (bool)SettingsClient.Instance.settings.Values["UseLightTheme"];
+                return (bool)this.settings.Values["UseLightTheme"];
             }
             set
             {
-                SettingsClient.Instance.settings.Values["UseLightTheme"] = value;
+                this.settings.Values["UseLightTheme"] = value;
             }
         }
 
-        public static bool FollowWindowsColor
+        public bool FollowWindowsColor
         {
             get
             {
-                return (bool)SettingsClient.Instance.settings.Values["FollowWindowsColor"];
+                return (bool)this.settings.Values["FollowWindowsColor"];
             }
             set
             {
-                SettingsClient.Instance.settings.Values["FollowWindowsColor"] = value;
+                this.settings.Values["FollowWindowsColor"] = value;
             }
         }
 
-        public static string ColorScheme
+        public string ColorScheme
         {
             get
             {
-                return (string)SettingsClient.Instance.settings.Values["ColorScheme"];
+                return (string)this.settings.Values["ColorScheme"];
             }
             set
             {
-                SettingsClient.Instance.settings.Values["ColorScheme"] = value;
+                this.settings.Values["ColorScheme"] = value;
             }
         }
     }
