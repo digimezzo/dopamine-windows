@@ -27,6 +27,7 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Common.Settings;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Repositories.Interfaces;
 using Dopamine.Core.Extensions;
@@ -88,6 +89,10 @@ namespace Dopamine
         private void RegisterCoreComponents()
         {
             Container.RegisterSingletonType<ICoreLogger, Common.Logging.CoreLogger>();
+            Container.RegisterInstance(new MergedSettings());
+            MergedSettings settings = Container.Resolve<MergedSettings>();
+            Container.RegisterInstance<ICoreSettings>(settings);
+            Container.RegisterInstance<IMergedSettings>(settings);
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterSingletonType<IDbMigrator, Common.Database.DbMigrator>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());

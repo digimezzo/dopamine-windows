@@ -8,18 +8,21 @@ namespace Dopamine.UWP.Views
     {
         #region Variables
         private IAppearanceService appearanceService;
+        private IMergedSettings settings;
         #endregion
 
         #region Construction
-        public Main(IAppearanceService appearanceService)
+        public Main(IAppearanceService appearanceService, IMergedSettings settings)
         {
             this.InitializeComponent();
+
+            this.settings = settings;
 
             this.appearanceService = appearanceService;
             this.appearanceService.ThemeChanged += AppearanceService_ThemeChanged;
 
-            this.appearanceService.ApplyTheme(SettingsClient.UseLightTheme);
-            this.appearanceService.ApplyColorSchemeAsync(SettingsClient.ColorScheme, SettingsClient.FollowWindowsColor, false);
+            this.appearanceService.ApplyTheme(this.settings.UseLightTheme);
+            this.appearanceService.ApplyColorSchemeAsync(this.settings.ColorScheme, this.settings.FollowWindowsColor, false);
         }
         #endregion
 

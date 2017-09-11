@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.UWP.Database.Repositories
 {
     public class AlbumRepository : Core.Database.Repositories.AlbumRepository
     {
         #region Construction
-        public AlbumRepository(ISQLiteConnectionFactory factory) : base(factory)
+        public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
         {
         }
         #endregion
