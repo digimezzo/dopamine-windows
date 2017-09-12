@@ -59,9 +59,9 @@ namespace Dopamine
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            // Show the Splash Window
-            Window splashWin = new Splash();
-            splashWin.Show();
+            // Start the bootstrapper
+            Bootstrapper bootstrapper = new Bootstrapper();
+            bootstrapper.Run();
         }
 
         private void ProcessCommandLineArguments(bool isNewInstance)
