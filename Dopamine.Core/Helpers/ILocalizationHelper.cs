@@ -5,5 +5,7 @@
         string UnknownArtistText { get; }
         string UnknownGenreText { get; }
         string UnknownAlbumText { get; }
+        string NeteaseLyrics { get; }
+        string XiamiLyrics { get; }
     }
 }

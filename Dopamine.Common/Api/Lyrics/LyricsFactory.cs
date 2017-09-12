@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {
@@ -13,19 +14,16 @@ namespace Dopamine.Common.Api.Lyrics
         #endregion
 
         #region Construction
-        public LyricsFactory()
+        public LyricsFactory(int timeoutSeconds, string providers, ILocalizationInfo info)
         {
             lyricsApis = new List<ILyricsApi>();
-
-            int timeoutSeconds = SettingsClient.Get<int>("Lyrics", "TimeoutSeconds");
-            string providers = SettingsClient.Get<string>("Lyrics", "Providers");
 
             if (providers.ToLower().Contains("chartlyrics")) lyricsApis.Add(new ChartLyricsApi(timeoutSeconds));
             if (providers.ToLower().Contains("lololyrics")) lyricsApis.Add(new LololyricsApi(timeoutSeconds));
             if (providers.ToLower().Contains("lyricwikia")) lyricsApis.Add(new LyricWikiaApi(timeoutSeconds));
             if (providers.ToLower().Contains("metrolyrics")) lyricsApis.Add(new MetroLyricsApi(timeoutSeconds));
-            if (providers.ToLower().Contains("xiamilyrics")) lyricsApis.Add(new XiamiLyricsApi(timeoutSeconds));
-            if (providers.ToLower().Contains("neteaselyrics")) lyricsApis.Add(new NeteaseLyricsApi(timeoutSeconds));
+            if (providers.ToLower().Contains("xiamilyrics")) lyricsApis.Add(new XiamiLyricsApi(timeoutSeconds, info));
+            if (providers.ToLower().Contains("neteaselyrics")) lyricsApis.Add(new NeteaseLyricsApi(timeoutSeconds, info));
         }
         #endregion
 

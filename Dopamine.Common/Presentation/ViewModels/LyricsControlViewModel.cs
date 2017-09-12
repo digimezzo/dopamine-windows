@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Dopamine.Core.Base;
+using Dopamine.Common.Settings;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -24,6 +26,8 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         #region Variables
         private IUnityContainer container;
+        private ILocalizationInfo info;
+        private IMergedSettings settings;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
@@ -75,6 +79,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         public LyricsControlViewModel(IUnityContainer container) : base(container)
         {
             this.container = container;
+            this.info = container.Resolve<ILocalizationInfo>();
+            this.settings = container.Resolve<IMergedSettings>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
@@ -246,7 +252,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     try
                     {
-                        var factory = new LyricsFactory();
+                        var factory = new LyricsFactory(this.settings.LyricsTimeoutSeconds, this.settings.LyricsProviders, this.info);
                         lyrics = await factory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
                         lyrics.SourceType = SourceTypeEnum.Online;
                     }

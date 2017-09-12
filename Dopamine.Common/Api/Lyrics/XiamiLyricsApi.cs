@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {
@@ -14,6 +15,7 @@ namespace Dopamine.Common.Api.Lyrics
     {
         #region Variables
 
+        private ILocalizationInfo info;
         private const string apiSearchResultLimit = "1";
 
         private const string apiSearchFormat =
@@ -31,9 +33,10 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region Construction
 
-        public XiamiLyricsApi(int timeoutSeconds)
+        public XiamiLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
             this.timeoutSeconds = timeoutSeconds;
+            this.info = info;
         }
 
         #endregion
@@ -174,7 +177,7 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => ResourceUtils.GetString("Language_XiamiLyrics");
+        public string SourceName => this.info.XiamiLyrics;
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {
