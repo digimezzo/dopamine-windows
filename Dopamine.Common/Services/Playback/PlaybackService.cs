@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using Digimezzo.Utilities.Log;
 
 namespace Dopamine.Common.Services.Playback
 {
@@ -767,8 +768,8 @@ namespace Dopamine.Common.Services.Playback
             var result = await this.queueManager.ClearQueueAsync();
             if (result)
             {
-                result = (await this.AddToQueueAsync(tracks)).IsSuccess; 
-                if(result)
+                result = (await this.AddToQueueAsync(tracks)).IsSuccess;
+                if (result)
                     await this.PlayNextAsync();
             }
 
@@ -885,8 +886,26 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Private
+        private void CheckWindowsMediaFoundationAsync()
+        {
+            try
+            {
+                if (!System.IO.File.Exists(Path.Combine(Environment.SystemDirectory, "mf.dll")))
+                {
+                    LogClient.Error("Windows Media Foundation could not be found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("An error occurred while trying to locate Windows Media Foundation. Exception: {0}", ex.Message);
+            }
+        }
+
         private async void Initialize()
         {
+            // Check if Windows Media Foundation is available
+            this.CheckWindowsMediaFoundationAsync();
+
             // PlayerFactory
             this.playerFactory = new PlayerFactory();
 
@@ -900,7 +919,7 @@ namespace Dopamine.Common.Services.Playback
             this.watcher.StartWatching();
             this.watcher.AudioDevicesChanged += Watcher_AudioDevicesChanged;
 
-             // Equalizer
+            // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
 
             // Queued tracks
@@ -921,7 +940,7 @@ namespace Dopamine.Common.Services.Playback
                 TrackStatistic trackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
 
                 // If no existing statistic was found, create a new one.
-                if(trackStatistic == null)
+                if (trackStatistic == null)
                 {
                     trackStatistic = new TrackStatistic();
                 }
@@ -941,7 +960,7 @@ namespace Dopamine.Common.Services.Playback
                     {
                         if (incrementPlayCount)
                         {
-                            if(this.trackStatistics[path].PlayCount != null)
+                            if (this.trackStatistics[path].PlayCount != null)
                             {
                                 this.trackStatistics[path].PlayCount += 1;
                             }
