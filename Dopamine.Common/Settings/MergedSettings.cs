@@ -27,6 +27,17 @@ namespace Dopamine.Common.Settings
             set { Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value); }
         }
 
+        public int LyricsTimeoutSeconds
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<int>("Lyrics", "TimeoutSeconds"); }
+            set { Digimezzo.Utilities.Settings.SettingsClient.Set<int>("Lyrics", "TimeoutSeconds", value); }
+        }
+        public string LyricsProviders
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<string>("Lyrics", "Providers"); }
+            set { Digimezzo.Utilities.Settings.SettingsClient.Set<string>("Lyrics", "Providers", value); }
+        }
+
         public MergedSettings()
         {
             this.Initialize();

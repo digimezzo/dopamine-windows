@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {
@@ -12,6 +13,7 @@ namespace Dopamine.Common.Api.Lyrics
     {
         #region Variables
 
+        private ILocalizationInfo info;
         private const string apiSearchResultLimit = "1";
 
         private const string apiLyricsFormat = "song/lyric?os=pc&id={0}&lv=-1";
@@ -24,9 +26,10 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region Construction
 
-        public NeteaseLyricsApi(int timeoutSeconds)
+        public NeteaseLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
             this.timeoutSeconds = timeoutSeconds;
+            this.info = info;
 
             httpClient = new HttpClient(new HttpClientHandler() {AutomaticDecompression = DecompressionMethods.GZip})
             {
@@ -81,7 +84,7 @@ namespace Dopamine.Common.Api.Lyrics
 
         #region ILyricsApi
 
-        public string SourceName => ResourceUtils.GetString("Language_NeteaseLyrics");
+        public string SourceName => this.info.NeteaseLyrics;
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {
