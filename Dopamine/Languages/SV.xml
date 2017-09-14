@@ -29,9 +29,6 @@
   <Text Key="Help">Hjälp</Text>
   <Text Key="About">Om</Text>
   <Text Key="Version">Version</Text>
-  <Text Key="Do_You_Like_Dopamine">Gillar du Dopamine? Klicka gärna här för att donera. Tack så mycket!</Text>
-  <Text Key="Donate">Donera</Text>
-  <Text Key="Donate_With_PayPal">Donera via PayPal</Text>
   <Text Key="File_Types">Filtyper</Text>
   <Text Key="File_Types_Description">Dessa filtyper stöds: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Tangentbordsgenvägar</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">Okänd artist</Text>
   <Text Key="Unknown_Title">Okänd titel</Text>
   <Text Key="Close_Notification_Automatically_After">Stäng avisering automatiskt efter</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">Om du gillar Dopamine, överväg en donation. Du kan donera nu, eller senare i 'Om' fönstret. Tack så mycket!</Text>
   <Text Key="Save">Spara</Text>
   <Text Key="Error_Saving_Playlists">Ett fel uppstod vid sparande av spellistorna. Läs loggfilen för mer information.</Text>
   <Text Key="Error_Saving_Playlist">Ett fel uppstod vid sparande av spellistan. Läs loggfilen för mer information.</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Vill du säkert radera denna låt från disken? Du kan återställa den från Papperskorgen.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Vill du säkert radera dessa låtar från disken? Du kan återställa dem från Papperskorgen.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Ett fel uppstod vid radering av låtar från disken. Läs loggfilen för mer information.</Text>
-  <Text Key="About_Donated_People">Till dom som donerat.</Text>
   <Text Key="About_Translators">Till översättare.</Text>
   <Text Key="About_Components_Developers">Till dom begåvade utvecklarna som skapat ovannämnda komponenter.</Text>
   <Text Key="About_Neowin_Head">Till</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

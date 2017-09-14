@@ -29,9 +29,6 @@
   <Text Key="Help">帮助</Text>
   <Text Key="About">关于</Text>
   <Text Key="Version">版本</Text>
-  <Text Key="Do_You_Like_Dopamine">你喜欢 Dopamine 吗？请点击捐赠，谢谢!</Text>
-  <Text Key="Donate">捐赠</Text>
-  <Text Key="Donate_With_PayPal">使用 PayPal 捐赠</Text>
   <Text Key="File_Types">文件类型</Text>
   <Text Key="File_Types_Description">支持以下文件类型: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV</Text>
   <Text Key="Keyboard_Shortcuts">键盘快捷方式</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">艺术家未知</Text>
   <Text Key="Unknown_Title">标题未知</Text>
   <Text Key="Close_Notification_Automatically_After">消息提醒于以下时间之后自动关闭</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">如果您喜欢 Dopamine，请考虑捐赠。您可以现在捐赠，或者之后在 '相关信息 - 关于' 页面捐赠。谢谢！</Text>
   <Text Key="Save">保存</Text>
   <Text Key="Error_Saving_Playlists">在保存播放列表的时候发生了一个错误，请查看日志文件获取更多信息</Text>
   <Text Key="Error_Saving_Playlist">在保存播放列表的时候发生了一个错误，请查看日志文件获取更多信息</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">你确定要从磁盘中删除这首歌曲？稍后你可以在回收站中恢复。</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">你确定要从磁盘中删除这些歌曲？稍后你可以在回收站中恢复。</Text>
   <Text Key="Error_Removing_Songs_From_Disk">从磁盘中删除歌曲时发生了一个错误，请查看日志文件获取更多信息。</Text>
-  <Text Key="About_Donated_People">感谢所有捐助过这个项目的朋友。</Text>
   <Text Key="About_Translators">感谢所有提交翻译文本的朋友。</Text>
   <Text Key="About_Components_Developers">感谢所有开发上述组件的杰出开发者。</Text>
   <Text Key="About_Neowin_Head">感谢</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

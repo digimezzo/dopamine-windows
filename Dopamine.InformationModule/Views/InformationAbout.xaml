@@ -26,8 +26,8 @@
             <Button Margin="0,10,0,0" Content="{DynamicResource Language_License}" Style="{StaticResource MetroButton}" HorizontalAlignment="Left" Command="{Binding ShowLicenseCommand}"/>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Donate}" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Do_You_Like_Dopamine}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding DonateUrl}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_Happy_Buy_Coffee}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Buy_Me_A_Coffee}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding DonateUrl}" />
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Contact_Us}" />
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -66,7 +66,7 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Thanks}"/>
             <TextBlock Margin="0,5,0,4" TextWrapping="Wrap">
-                <Run Text="{DynamicResource Language_About_Donated_People}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Run Text="{DynamicResource Language_About_Coffee_Buyers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
                 <Run Text="{DynamicResource Language_About_Translators}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
