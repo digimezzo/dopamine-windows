@@ -171,7 +171,7 @@ namespace Dopamine.Views
                     else
                     {
                         // Position at the left of the main window
-                        left = parentLeft - Width - this.separationSize;
+                        left = parentLeft - width - this.separationSize;
                     }
                 }
                 else
