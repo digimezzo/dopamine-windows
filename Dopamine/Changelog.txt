@@ -5,6 +5,7 @@
 - [Added] Added option to use native Windows 10 notifications
 - [Fixed] "Unknown artist", "Unknown album", "Unknown genre" are not translated
 - [Fixed] Fixed multiple issues when removing songs from Now Playing
+- [Fixed] Fixed a crash when moving mini players around when the playlist window is opened
 - [Changed] Updated the German translation
 - [Changed] Removed the splash screen
 
