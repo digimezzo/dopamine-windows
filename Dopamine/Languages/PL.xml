@@ -29,9 +29,6 @@
   <Text Key="Help">Pomoc</Text>
   <Text Key="About">O programie</Text>
   <Text Key="Version">Wersja</Text>
-  <Text Key="Do_You_Like_Dopamine">Lubisz Dopamine? Kliknij aby Nas wspomóc. Dziękujemy!</Text>
-  <Text Key="Donate">Wspomóż</Text>
-  <Text Key="Donate_With_PayPal">Wspomóż przez PayPal</Text>
   <Text Key="File_Types">Typy plików</Text>
   <Text Key="File_Types_Description">Obsługiwane typy plików: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Skróty klawiszowe</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">Nieznany wykonawca</Text>
   <Text Key="Unknown_Title">Nieznany tytył</Text>
   <Text Key="Close_Notification_Automatically_After">Zamknij powiadomienie automatycznie po</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">Jeśli podoba Ci się Dopaminr, rozważ proszę darowiznę. Możesz przekazać teraz lub później na ekranie "O mnie". Dziękuję!</Text>
   <Text Key="Save">Zapisz</Text>
   <Text Key="Error_Saving_Playlists">Wystąpił błąd podczas zapisywania list odtwarzania. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Error_Saving_Playlist">Wystąpił błąd podczas zapisywania playlisty. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Czy jesteś pewien usunięcia tej piosenki z dysku?  Możesz ją później przywrócić z kosza.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Czy jesteś pewien usunięcia tych piosenek z dysku? Możesz je później przywrócić z kosza.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Podczas usuwania wystąpił błąd. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
-  <Text Key="About_Donated_People">Dla ludzi którzy nas wsparli.</Text>
   <Text Key="About_Translators">Dla tłumaczy.</Text>
   <Text Key="About_Components_Developers">Dla utalentowanych dewelopwerów którzy stworzyli dzieło powyżej.</Text>
   <Text Key="About_Neowin_Head">Dla społeczności</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

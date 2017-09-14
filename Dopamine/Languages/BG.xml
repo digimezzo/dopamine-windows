@@ -29,9 +29,6 @@
   <Text Key="Help">Помощ</Text>
   <Text Key="About">Относно</Text>
   <Text Key="Version">Версия</Text>
-  <Text Key="Do_You_Like_Dopamine">Харесвате ли Dopamine? Моля кликнете тук, за да дарите. Благодарим ви!</Text>
-  <Text Key="Donate">Дарение</Text>
-  <Text Key="Donate_With_PayPal">Дари чрез PayPal</Text>
   <Text Key="File_Types">Типове файлове</Text>
   <Text Key="File_Types_Description">Тези формати се поддържат: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Клавишни комбинации</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">Неизвестен артист</Text>
   <Text Key="Unknown_Title">Неизвестна песен</Text>
   <Text Key="Close_Notification_Automatically_After">Затвори известието автоматично след</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!</Text>
   <Text Key="Save">Save</Text>
   <Text Key="Error_Saving_Playlists">An error occured while saving the playlists. Please consult the log file for more information.</Text>
   <Text Key="Error_Saving_Playlist">An error occured while saving the playlist. Please consult the log file for more information.</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">An error occurred while removing songs from the disk. Please consult the log file for more information.</Text>
-  <Text Key="About_Donated_People">To the people who donated.</Text>
   <Text Key="About_Translators">To the translators.</Text>
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

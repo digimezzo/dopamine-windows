@@ -29,9 +29,6 @@
   <Text Key="Help">幫助</Text>
   <Text Key="About">關於</Text>
   <Text Key="Version">版本</Text>
-  <Text Key="Do_You_Like_Dopamine">喜歡Dopamine？請點擊此處捐贈。謝謝！</Text>
-  <Text Key="Donate">捐贈</Text>
-  <Text Key="Donate_With_PayPal">使用PayPal捐贈</Text>
   <Text Key="File_Types">檔案類型</Text>
   <Text Key="File_Types_Description">支援以下檔案類型：MP3，WMA，OGG，FLAC，M4A（AAC），AAC，WAV。</Text>
   <Text Key="Keyboard_Shortcuts">鍵盤快捷鍵</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">未知演出者</Text>
   <Text Key="Unknown_Title">未知標題</Text>
   <Text Key="Close_Notification_Automatically_After">在下列時間後自動關閉通知</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">如果你喜歡Dopamine，請考慮捐贈。您可以在馬上捐贈，或者之後造訪「關於」頁面。謝謝！</Text>
   <Text Key="Save">儲存</Text>
   <Text Key="Error_Saving_Playlists">儲存數個播放清單時發生錯誤。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Error_Saving_Playlist">儲存播放清單時發生錯誤。請參閱記錄檔以獲取更多信息。</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">An error occurred while removing songs from the disk. Please consult the log file for more information.</Text>
-  <Text Key="About_Donated_People">To the people who donated.</Text>
   <Text Key="About_Translators">To the translators.</Text>
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

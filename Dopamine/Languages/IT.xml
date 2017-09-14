@@ -29,9 +29,6 @@
   <Text Key="Help">Aiuto</Text>
   <Text Key="About">Riguardo Dopamine</Text>
   <Text Key="Version">Versione</Text>
-  <Text Key="Do_You_Like_Dopamine">Ti piace Dopamine? Clicca qui per donare. Grazie!</Text>
-  <Text Key="Donate">Dona</Text>
-  <Text Key="Donate_With_PayPal">Dona con PayPal</Text>
   <Text Key="File_Types">Tipi di file</Text>
   <Text Key="File_Types_Description">Questi sono i tipi di file supportati: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Scorciatoie da tastiera</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">Artista sconosciuto</Text>
   <Text Key="Unknown_Title">Titolo sconosciuto</Text>
   <Text Key="Close_Notification_Automatically_After">Chiudi la notifica automaticamente dopo</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">Se ti piace Dopamine, per favore considera l'idea di effettuare una donazione. Puoi donare adesso, oppure più tardi nella sezione "Riguardo Dopamine". Grazie!</Text>
   <Text Key="Save">Salva</Text>
   <Text Key="Error_Saving_Playlists">Si è verificato un errore durante il salvataggio delle playlist. Per favore, consulta il file di log per maggiori informazioni.</Text>
   <Text Key="Error_Saving_Playlist">Si è verificato un errore durante il salvataggio della playlist. Per favore, consulta il file di log per maggiori informazioni.</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Are you sure you want to remove this song from your disk? You can restore it from the Recycle Bin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Are you sure you want to remove these songs from your disk? You can restore them from the Recycle Bin.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">An error occurred while removing songs from the disk. Please consult the log file for more information.</Text>
-  <Text Key="About_Donated_People">To the people who donated.</Text>
   <Text Key="About_Translators">To the translators.</Text>
   <Text Key="About_Components_Developers">To the talented developers who created the components mentioned above.</Text>
   <Text Key="About_Neowin_Head">To the</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>

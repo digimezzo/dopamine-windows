@@ -29,9 +29,6 @@
   <Text Key="Help">Yardım</Text>
   <Text Key="About">Hakkında</Text>
   <Text Key="Version">Sürüm</Text>
-  <Text Key="Do_You_Like_Dopamine">Dopamine'ı beğendiniz mi? Tıklayarak bağışta bulunun. Teşekkürler!</Text>
-  <Text Key="Donate">Bağışta bulun</Text>
-  <Text Key="Donate_With_PayPal">PayPal kullanarak bağışta bulun</Text>
   <Text Key="File_Types">Dosya tipleri</Text>
   <Text Key="File_Types_Description">Desteklenen dosya türleri: MP3, WMA, OGG, FLAC, M4A (AAC), WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Klavye kısayolları</Text>
@@ -185,7 +182,6 @@
   <Text Key="Unknown_Artist">Bilinmeyen sanatçı</Text>
   <Text Key="Unknown_Title">Bilinmeyen başlık</Text>
   <Text Key="Close_Notification_Automatically_After">Bildirimi otomatik kapat</Text>
-  <Text Key="If_You_Like_Dopamine_Please_Donate">Dopamine'ı beğendiyseniz bağışta bulunmayı düşünün. İsterseniz hemen şimdi ya da daha sonra hakkında ekranından bağışta bulunabilirsiniz. Teşekkürler!</Text>
   <Text Key="Save">Kaydet</Text>
   <Text Key="Error_Saving_Playlists">Çalma listeleri kaydedilirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Error_Saving_Playlist">Çalma listesi kaydedilirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
@@ -375,7 +371,6 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Bu şarkıyı diskten silmek istediğine emin misin? Geri Dönüşüm Kutusu'ndan geri getirebilirsin.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Bu şarkıları diskten silmek istediğine emin misin? Geri Dönüşüm Kutusu'ndan geri getirebilirsin.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Şarkıları diskten silerken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
-  <Text Key="About_Donated_People">Bağış yapanlara.</Text>
   <Text Key="About_Translators">Tercümanlara.</Text>
   <Text Key="About_Components_Developers">Yukarıda bahsedilen bileşenleri oluşturmuş olan yetenekli geliştiricilere.</Text>
   <Text Key="About_Neowin_Head">Fikirleri, denemeleri ve hata raporları için</Text>
@@ -407,4 +402,8 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
+  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
+  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
+  <Text Key="Coffee">Coffee</Text>
 </Language>
