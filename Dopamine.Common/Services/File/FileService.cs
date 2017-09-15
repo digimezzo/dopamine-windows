@@ -16,12 +16,14 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Services.File
 {
     public class FileService : IFileService
     {
         #region Variables
+        private ILocalizationInfo info;
         private ICacheService cacheService;
         private ITrackStatisticRepository trackStatisticRepository;
         private IList<string> files;
@@ -32,8 +34,9 @@ namespace Dopamine.Common.Services.File
         #endregion
 
         #region Construction
-        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository)
+        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository, ILocalizationInfo info)
         {
+            this.info = info;
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
 
@@ -111,6 +114,11 @@ namespace Dopamine.Common.Services.File
             {
                 var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
                 returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
+
+                returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+                returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+                returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
+                returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
             }
             catch (Exception ex)
             {
