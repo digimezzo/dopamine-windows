@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.I18n;
 
 namespace Dopamine.Common.Services.Playback
 {
@@ -41,6 +42,7 @@ namespace Dopamine.Common.Services.Playback
 
         private bool isQueueChanged;
 
+        private II18nService i18nService;
         private IFileService fileService;
         private IEqualizerService equalizerService;
         private EqualizerPreset desiredPreset;
@@ -285,9 +287,10 @@ namespace Dopamine.Common.Services.Playback
         #endregion
 
         #region Construction
-        public PlaybackService(IFileService fileService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository)
+        public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository)
         {
             this.fileService = fileService;
+            this.i18nService = i18nService;
             this.trackRepository = trackRepository;
             this.trackStatisticRepository = trackStatisticRepository;
             this.queuedTrackRepository = queuedTrackRepository;
@@ -299,6 +302,7 @@ namespace Dopamine.Common.Services.Playback
 
             // Event handlers
             this.fileService.TracksImported += async (tracks) => await this.EnqueueAsync(tracks);
+            this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
 
             // Set up timers
             this.progressTimer.Interval = TimeSpan.FromSeconds(this.progressTimeoutSeconds).TotalMilliseconds;
@@ -1398,6 +1402,30 @@ namespace Dopamine.Common.Services.Playback
         {
             await this.SetAudioDeviceAsync();
             this.AudioDevicesChanged(this, new EventArgs());
+        }
+
+        public async Task RefreshQueueLanguageAsync()
+        {
+            List<PlayableTrack> databaseTracks = await this.trackRepository.GetTracksAsync(this.Queue.Select(t => t.Value.Path).ToList());
+
+            await Task.Run(() =>
+            {
+                foreach (KeyValuePair<string, PlayableTrack> pair in this.Queue)
+                {
+                    PlayableTrack databaseTrack = databaseTracks.Where(t => t.SafePath.Equals(pair.Value.SafePath)).FirstOrDefault();
+
+                    if (databaseTrack != null)
+                    {
+                        pair.Value.ArtistName = databaseTrack.ArtistName;
+                        pair.Value.AlbumArtist = databaseTrack.AlbumArtist;
+                        pair.Value.AlbumTitle = databaseTrack.AlbumTitle;
+                        pair.Value.GenreName = databaseTrack.GenreName;
+                    }
+                }
+            });
+
+            this.QueueChanged(this, new EventArgs());
+            this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
         }
         #endregion
     }

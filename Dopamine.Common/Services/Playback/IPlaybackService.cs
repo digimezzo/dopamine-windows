@@ -69,6 +69,7 @@ namespace Dopamine.Common.Services.Playback
         Task<EnqueueResult> AddToQueueNextAsync(IList<PlayableTrack> tracks);
         Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks);
         Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks);
+        Task RefreshQueueLanguageAsync();
         Task SaveQueuedTracksAsync();
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
