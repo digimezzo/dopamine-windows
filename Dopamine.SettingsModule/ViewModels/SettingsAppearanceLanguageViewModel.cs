@@ -85,9 +85,8 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
             });
 
-            // Only set SelectedLanguage when we are sure that it is not Nothing. Otherwise this could trigger strange 
-            // behaviour in the setter of the SelectedLanguage Property (because the "value" would be Nothing)
-            this.SelectedLanguage = tempLanguage;
+            this.selectedLanguage = tempLanguage;
+            RaisePropertyChanged(nameof(this.SelectedLanguage));
         }
         #endregion
     }

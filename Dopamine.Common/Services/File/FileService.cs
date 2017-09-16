@@ -1,12 +1,12 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
-using Dopamine.Core.Database;
+﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Core.Base;
+using Dopamine.Core.Database;
+using Dopamine.Core.Helpers;
+using Dopamine.Core.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,7 +15,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Services.File
 {
@@ -23,6 +22,7 @@ namespace Dopamine.Common.Services.File
     {
         #region Variables
         private ICacheService cacheService;
+        private ILocalizationInfo info;
         private ITrackStatisticRepository trackStatisticRepository;
         private IList<string> files;
         private object lockObject = new object();
@@ -32,10 +32,11 @@ namespace Dopamine.Common.Services.File
         #endregion
 
         #region Construction
-        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository)
+        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository, ILocalizationInfo info)
         {
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
+            this.info = info;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -111,6 +112,11 @@ namespace Dopamine.Common.Services.File
             {
                 var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
                 returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
+
+                returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+                returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+                returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
+                returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
             }
             catch (Exception ex)
             {
