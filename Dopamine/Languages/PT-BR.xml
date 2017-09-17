@@ -29,6 +29,9 @@
   <Text Key="Help">Ajuda</Text>
   <Text Key="About">Sobre</Text>
   <Text Key="Version">Versão</Text>
+  <Text Key="Do_You_Like_Dopamine">Você gostou do Dopamine? Por favor, clique aqui para doar. Obrigado!</Text>
+  <Text Key="Donate">Doar</Text>
+  <Text Key="Donate_With_PayPal">Doar com PayPal</Text>
   <Text Key="File_Types">Tipos de arquivos</Text>
   <Text Key="File_Types_Description">Estes tipos de arquivo são suportados: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Atalhos do teclado</Text>
@@ -182,6 +185,7 @@
   <Text Key="Unknown_Artist">Artista desconhecido</Text>
   <Text Key="Unknown_Title">Título desconhecido</Text>
   <Text Key="Close_Notification_Automatically_After">Fechar a notificação automaticamente após</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Se você gosta do Dopamine, por favor considere fazer uma doação. Você pode doar agora, ou mais tarde na tela "Sobre". Obrigado!</Text>
   <Text Key="Save">Salvar</Text>
   <Text Key="Error_Saving_Playlists">Ocorreu um erro ao salvar as playlists. Consulte o arquivo de 'log' para obter mais informações.</Text>
   <Text Key="Error_Saving_Playlist">Ocorreu um erro ao salvar a playlist. Consulte o arquivo de 'log' para obter mais informações.</Text>
@@ -371,6 +375,7 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Tem certeza de que deseja remover esta música do seu disco? Você pode restaurá-la da Lixeira.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Tem certeza de que deseja remover essas músicas do disco? Você pode restaurá-las da Lixeira.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Ocorreu um erro ao remover músicas do disco. Consulte o arquivo de 'log' para obter mais informações.</Text>
+  <Text Key="About_Donated_People">Para as pessoas que doaram.</Text>
   <Text Key="About_Translators">Para os tradutores.</Text>
   <Text Key="About_Components_Developers">Para os desenvolvedores talentosos que criaram os componentes mencionados acima.</Text>
   <Text Key="About_Neowin_Head">Para a comunidade</Text>
@@ -403,8 +408,4 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
-  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
-  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
-  <Text Key="Coffee">Coffee</Text>
 </Language>

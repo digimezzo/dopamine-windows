@@ -29,6 +29,9 @@
   <Text Key="Help">Hjælp</Text>
   <Text Key="About">Om</Text>
   <Text Key="Version">Version</Text>
+  <Text Key="Do_You_Like_Dopamine">Kan du lide Dopamine? Klik venligst her for at donere. Mange tak!</Text>
+  <Text Key="Donate">Doner</Text>
+  <Text Key="Donate_With_PayPal">Doner med PayPal</Text>
   <Text Key="File_Types">Filtyper</Text>
   <Text Key="File_Types_Description">Disse filtyper er understøttet: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Tastaturgenveje</Text>
@@ -182,6 +185,7 @@
   <Text Key="Unknown_Artist">Ukendt kunstner</Text>
   <Text Key="Unknown_Title">Ukendt titel</Text>
   <Text Key="Close_Notification_Automatically_After">Luk beskedvinduet automatisk efter</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Hvis du kan lide Dopamine, overvej da venligst at donere. Du kan donere allerede nu, eller senere i 'Om' vinduet. Mange tak!</Text>
   <Text Key="Save">Gem</Text>
   <Text Key="Error_Saving_Playlists">Der opstod en fejl ved gem af spillelister. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Error_Saving_Playlist">Der opstod en fejl ved gem af spillelisten. Se venligst logfilen for yderligere information.</Text>
@@ -371,6 +375,7 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Er du sikker på at du vil fjerne denne sang fra din computer? Du kan altid gendanne den fra papirkurven.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Er du sikker på at du vil fjerne disse sange fra din computer? Du kan altid gendanne dem fra papirkurven.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">En fejl opstod ved fjernelse af sange fra computeren. Se venligst logfilen for yderligere information.</Text>
+  <Text Key="About_Donated_People">Til personerne der har doneret.</Text>
   <Text Key="About_Translators">Til oversætterne.</Text>
   <Text Key="About_Components_Developers">Til de talentfulde udviklere der har skabt komponenterne nævnt ovenfor.</Text>
   <Text Key="About_Neowin_Head">Til</Text>
@@ -402,8 +407,4 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
-  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
-  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
-  <Text Key="Coffee">Coffee</Text>
 </Language>

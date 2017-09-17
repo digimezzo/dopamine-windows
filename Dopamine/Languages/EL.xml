@@ -29,6 +29,9 @@
   <Text Key="Help">Βοήθεια</Text>
   <Text Key="About">Περί</Text>
   <Text Key="Version">Έκδοση</Text>
+  <Text Key="Do_You_Like_Dopamine">Σάς αρέσει το Dopamine; Δωρείστε με ένα κλικ. Ευχαριστώ!</Text>
+  <Text Key="Donate">Δωρείστε</Text>
+  <Text Key="Donate_With_PayPal">Δωρείστε μέσω PayPal</Text>
   <Text Key="File_Types">Τύποι αρχείων</Text>
   <Text Key="File_Types_Description">Υποστηρίζονται οι ακόλουθοι τύποι αρχείων: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Συντομεύσεις πληκτρολογίου</Text>
@@ -182,6 +185,7 @@
   <Text Key="Unknown_Artist">Άγνωστος καλλιτέχνης</Text>
   <Text Key="Unknown_Title">Άγνωστος τίτλος</Text>
   <Text Key="Close_Notification_Automatically_After">Αυτόματο κλείσιμο ειδοποίησης μετά</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Αν σας αρέσει το Dopamine, σκεφτείτε μια δωρεά. Μπορείτε να δωρήσετε άμεσα ή αργότερα στην οθόνη 'Περί'. Ευχαριστώ!</Text>
   <Text Key="Save">Αποθήκευση</Text>
   <Text Key="Error_Saving_Playlists">Προέκυψε σφάλμα κατά την αποθήκευση των λιστών. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Saving_Playlist">Προέκυψε σφάλμα κατά την αποθήκευση της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
@@ -371,6 +375,7 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Είστε σίγουρος για την αφαίρεση αυτού του τραγουδιού από το δίσκο? Η επαναφορά του είναι δυνατή μέσω του κάδου ανακύκλωσης.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Είστε σίγουρος για την αφαίρεση αυτών των τραγουδιών από το δίσκο? Η επαναφορά τους είναι δυνατή μέσω του κάδου ανακύκλωσης.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Προέκυψε σφάλμα κατά την αφαίρεση τραγουδιών από το δίσκο. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="About_Donated_People">Στους δωρητές.</Text>
   <Text Key="About_Translators">Στους μεταφραστές.</Text>
   <Text Key="About_Components_Developers">Στους ταλαντούχους προγραμματιστές που ανέπτυξαν τα παραπάνω τμήματα.</Text>
   <Text Key="About_Neowin_Head">Στην κοινότητα</Text>
@@ -402,8 +407,4 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
-  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
-  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
-  <Text Key="Coffee">Coffee</Text>
 </Language>
