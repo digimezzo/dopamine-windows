@@ -150,15 +150,20 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="DopamineIcons.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource4.h" />
+    <ResourceCompile Include="Dopamine.Icons.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Dopamine.Icons4.rc" />
+    <Image Include="..\..\..\Users\rapha\Desktop\Dopamine donate.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
