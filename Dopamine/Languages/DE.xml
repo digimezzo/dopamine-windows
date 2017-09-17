@@ -29,6 +29,9 @@
   <Text Key="Help">Hilfe</Text>
   <Text Key="About">Über</Text>
   <Text Key="Version">Version</Text>
+  <Text Key="Do_You_Like_Dopamine">Gefällt dir Dopamine? Bitte klicke hier, um zu Spenden. Vielen Dank!</Text>
+  <Text Key="Donate">Spenden</Text>
+  <Text Key="Donate_With_PayPal">Über Paypal spenden</Text>
   <Text Key="File_Types">Dateitypen</Text>
   <Text Key="File_Types_Description">Die folgenden Dateitypen werden unterstützt: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Tastenkombinationen</Text>
@@ -182,6 +185,7 @@
   <Text Key="Unknown_Artist">Unbekannter Interpret</Text>
   <Text Key="Unknown_Title">Unbekannter Titel</Text>
   <Text Key="Close_Notification_Automatically_After">Benachrichtigung automatisch schließen nach</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Wenn dir Dopamine gefällt, ziehe bitte eine Spende in Betracht. Du kannst sofort oder später im "Über"-Bildschirm spenden. Vielen Dank!</Text>
   <Text Key="Save">Speichern</Text>
   <Text Key="Error_Saving_Playlists">Beim Speichern der Wiedergabelisten ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Error_Saving_Playlist">Beim Speichern der Wiedergabeliste ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
@@ -371,6 +375,7 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Möchtest du diesen Titel wirklich von deiner Festplatte entfernen? Du kannst ihn aus dem Papierkorb wiederherstellen.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Möchtest du diese Titel wirklich von deiner Festplatte entfernen? Du kannst sie aus dem Papierkorb wiederherstellen.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Beim Entfernen von Musiktiteln auf dem Datenträger ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="About_Donated_People">An die Leute, die gespendet haben.</Text>
   <Text Key="About_Translators">An die Übersetzer.</Text>
   <Text Key="About_Components_Developers">An die talentierten Entwickler, die die oben aufgezählten Komponenten entwickelt haben.</Text>
   <Text Key="About_Neowin_Head">An die</Text>
@@ -402,8 +407,4 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="If_Happy_Buy_Coffee">If this application makes you happy, please consider buying me a coffee. Thank you!</Text>
-  <Text Key="Buy_Me_A_Coffee">Buy me a coffee</Text>
-  <Text Key="About_Coffee_Buyers">To the people who bought me a coffee.</Text>
-  <Text Key="Coffee">Coffee</Text>
 </Language>

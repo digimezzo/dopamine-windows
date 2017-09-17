@@ -29,6 +29,9 @@
   <Text Key="Help">Help</Text>
   <Text Key="About">Over</Text>
   <Text Key="Version">Versie</Text>
+  <Text Key="Do_You_Like_Dopamine">Vind je Dopamine leuk? Klik hier om te doneren. Dank je!</Text>
+  <Text Key="Donate">Doneren</Text>
+  <Text Key="Donate_With_PayPal">Doneren via PayPal</Text>
   <Text Key="File_Types">Bestandsformaten</Text>
   <Text Key="File_Types_Description">Deze bestandsformaten worden ondersteund: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV.</Text>
   <Text Key="Keyboard_Shortcuts">Sneltoetsen</Text>
@@ -182,6 +185,7 @@
   <Text Key="Unknown_Artist">Onbekende artiest</Text>
   <Text Key="Unknown_Title">Onbekende titel</Text>
   <Text Key="Close_Notification_Automatically_After">Popup automatisch sluiten na</Text>
+  <Text Key="If_You_Like_Dopamine_Please_Donate">Als je Dopamine leuk vindt, overweeg een donatie. Je kan meteen doneren, of later via het 'Over' scherm. Dank je!</Text>
   <Text Key="Save">Opslaan</Text>
   <Text Key="Error_Saving_Playlists">Er is een fout opgetreden bij het opslaan van de afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Error_Saving_Playlist">Er is een fout opgetreden bij het opslaan van de afspeellijst. Raadpleeg het log bestand voor meer informatie.</Text>
@@ -371,6 +375,7 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Ben je zeker dat je dit nummer van jouw schijf wilt verwijderen? Je kan het herstellen vanuit de prullenbak.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Ben je zeker dat je deze nummers van jouw schijf wilt verwijderen? Je kan ze herstellen vanuit de prullenbak.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Er is een fout opgetreden bij het verwijderen van nummers van de schijf. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="About_Donated_People">Aan de mensen die gedoneerd hebben.</Text>
   <Text Key="About_Translators">Aan de vertalers.</Text>
   <Text Key="About_Components_Developers">Aan de getalenteerde ontwikkelaars die de hierboven genoemde componenten hebben gemaakt.</Text>
   <Text Key="About_Neowin_Head">Aan de</Text>
@@ -402,8 +407,4 @@
   <Text Key="Unknown_Album">Onbekend album</Text>
   <Text Key="Unknown_Genre">Onbekend genre</Text>
   <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>
-  <Text Key="If_Happy_Buy_Coffee">Als deze applicatie je gelukkig maakt, overweeg om me een koffie aan te bieden. Dank je!</Text>
-  <Text Key="Buy_Me_A_Coffee">Bied mij een koffie aan</Text>
-  <Text Key="About_Coffee_Buyers">Aan de mensen die me een koffie aangeboden hebben.</Text>
-  <Text Key="Coffee">Koffie</Text>
 </Language>
