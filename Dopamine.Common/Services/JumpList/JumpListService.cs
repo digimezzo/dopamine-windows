@@ -35,7 +35,7 @@ namespace Dopamine.Common.Services.JumpList
 
                     this.jumpList.JumpItems.Add(new JumpTask
                     {
-                        Title = ResourceUtils.GetString("Language_Donate_With_PayPal"),
+                        Title = ResourceUtils.GetString("Language_Donate"),
                         Arguments = "/donate " + ContactInformation.PayPalLink,
                         Description = "",
                         IconResourcePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Defaults.IconsLibrary),
