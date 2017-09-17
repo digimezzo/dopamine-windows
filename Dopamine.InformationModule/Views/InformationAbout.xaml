@@ -27,7 +27,7 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Donate}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Do_You_Like_Dopamine}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding DonateUrl}" />
+            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding DonateUrl}" />
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Contact_Us}" />
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
