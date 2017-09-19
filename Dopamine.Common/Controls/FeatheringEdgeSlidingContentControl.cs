@@ -11,6 +11,7 @@ namespace Dopamine.Common.Controls
         #region Variables
         private Window parentWindow;
         private FeatheringEffect effect;
+        private bool firstShow = false;
         #endregion
 
         #region Properties
@@ -46,8 +47,17 @@ namespace Dopamine.Common.Controls
             // Disable shader effect to optimize performance when window is maximized
             if (this.parentWindow.WindowState == WindowState.Normal)
             {
-                this.effect.TexWidth = ActualWidth;
-                this.Effect = effect;
+                // When the first time to show, not applying effect to prevent side-effect
+                // See #497
+                if (!this.firstShow)
+                {
+                    this.firstShow = true;
+                }
+                else
+                {
+                    this.effect.TexWidth = ActualWidth;
+                    this.Effect = effect;
+                }
             }
             var newContentTransform = new TranslateTransform();
             var oldContentTransform = new TranslateTransform();
