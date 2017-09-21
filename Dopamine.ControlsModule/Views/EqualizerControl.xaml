@@ -43,9 +43,9 @@
                     <utils:BindingProxy x:Key="DeleteProxy" Data="{DynamicResource Language_Delete}"/>
                     <utils:BindingProxy x:Key="SaveProxy" Data="{DynamicResource Language_Save}"/>
                 </DockPanel.Resources>
-                <Button DockPanel.Dock="Right" Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Reset}" Command="{Binding ResetCommand}"/>
-                <Button DockPanel.Dock="Right" Style="{StaticResource MetroButton}" Content="{Binding Source={StaticResource SaveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding SaveCommand}" Margin="0,0,10,0"/>
-                <Button DockPanel.Dock="Right" Style="{StaticResource MetroButton}" Content="{Binding Source={StaticResource DeleteProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding DeleteCommand}" Margin="0,0,10,0"/>
+                <Button DockPanel.Dock="Right" Style="{StaticResource RegularButton}" Content="{DynamicResource Language_Reset}" Command="{Binding ResetCommand}"/>
+                <Button DockPanel.Dock="Right" Style="{StaticResource RegularButton}" Content="{Binding Source={StaticResource SaveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding SaveCommand}" Margin="0,0,10,0"/>
+                <Button DockPanel.Dock="Right" Style="{StaticResource RegularButton}" Content="{Binding Source={StaticResource DeleteProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding DeleteCommand}" Margin="0,0,10,0"/>
                 <ComboBox Style="{StaticResource MetroComboBox}" Margin="0,0,10,0" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
             </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" IsHitTestVisible="{Binding IsEqualizerEnabled}">

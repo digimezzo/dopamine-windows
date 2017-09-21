@@ -92,24 +92,24 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">
                 <Button 
-                        Style="{StaticResource MetroButton}" 
+                        Style="{StaticResource RegularButton}" 
                         Content="{Binding Source={StaticResource ExportProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
                         ToolTip="{DynamicResource Language_Export_The_Image}"
                         Command="{Binding ExportArtworkCommand}"/>
                 <Button 
-                        Style="{StaticResource MetroButton}" 
+                        Style="{StaticResource RegularButton}" 
                         Margin="0,10,0,0" 
                         Content="{Binding Source={StaticResource ChangeProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" 
                         ToolTip="{DynamicResource Language_Change_The_Image}"
                         Command="{Binding ChangeArtworkCommand}"/>
                 <Button 
-                        Style="{StaticResource MetroButton}" 
+                        Style="{StaticResource RegularButton}" 
                         Margin="0,10,0,0" 
                         Content="{DynamicResource Language_Download}" 
                         ToolTip="{DynamicResource Language_Download_An_Image}"
                         Command="{Binding DownloadArtworkCommand}"/>
                 <Button 
-                        Style="{StaticResource MetroButton}" 
+                        Style="{StaticResource RegularButton}" 
                         Margin="0,10,0,0" 
                         Content="{DynamicResource Language_Remove}" 
                         ToolTip="{DynamicResource Language_Remove_The_Image}"
