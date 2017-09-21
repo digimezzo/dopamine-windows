@@ -60,6 +60,14 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <!-- Editing the ListBox ControlTemplate to remove the ScrollViewer is the only way to prevent scrolling -->
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsHitTestVisible" Value="False">
                 <Setter Property="Opacity" Value="0.5" />
