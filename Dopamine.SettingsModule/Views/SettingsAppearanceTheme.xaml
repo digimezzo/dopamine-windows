@@ -16,6 +16,6 @@
         <dc:Windows10ToggleSwitch x:Name="CheckBoxWindowsColor" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWindowsColorChecked}"/>
         <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Follow_Album_Cover_Color}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         <dc:Windows10ToggleSwitch x:Name="CheckBoxAlbumCoverColor" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxAlbumCoverColorChecked}"/>
-        <ListBox Margin="0,20,0,0" IsHitTestVisible="{Binding CanChooseColor}" Style="{StaticResource ColorSchemeButtons}" Name="ListBoxColorSchemes" HorizontalAlignment="Left" DockPanel.Dock="Left" Background="Transparent" ItemsSource="{Binding Path=ColorSchemes}" SelectedItem="{Binding SelectedColorScheme,Mode=TwoWay}"/>
+        <ListBox Margin="0,20,0,0" IsHitTestVisible="{Binding CanChooseColor}" HorizontalAlignment="Stretch" Style="{StaticResource ColorSchemeButtons}" Name="ListBoxColorSchemes" Background="Transparent" ItemsSource="{Binding Path=ColorSchemes}" SelectedItem="{Binding SelectedColorScheme,Mode=TwoWay}"/>
     </StackPanel>
 </UserControl>
