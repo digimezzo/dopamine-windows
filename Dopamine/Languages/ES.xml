@@ -386,7 +386,6 @@
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Estilo del ecualizador</Text>
-  <Text Key="Toggle_Spectrum_By_Click">Cambiar el estilo del ecualizador al hacer clic sobre el mismo</Text>
   <Text Key="Follow_Album_Cover_Color">Usar el patrón de color de la portada del álbum</Text>
   <Text Key="Lyrics_File">Archivo de letras</Text>
   <Text Key="Long_Jump_Backward">Retroceder 15 segundos</Text>

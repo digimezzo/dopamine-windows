@@ -386,7 +386,6 @@
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Darstellung des Spektrum Analysators</Text>
-  <Text Key="Toggle_Spectrum_By_Click">Darstellung des Spektrum Analysators durch daraufklicken ändern</Text>
   <Text Key="Follow_Album_Cover_Color">Farbe des Albumcovers verwenden</Text>
   <Text Key="Lyrics_File">Liedtext Datei</Text>
   <Text Key="Long_Jump_Backward">15 Sekunden zurückspringen</Text>

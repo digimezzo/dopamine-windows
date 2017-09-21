@@ -386,7 +386,6 @@
   <Text Key="XiamiLyrics">虾米音乐</Text>
   <Text Key="NeteaseLyrics">网易云音乐</Text>
   <Text Key="Spectrum_Style">选择频谱风格</Text>
-  <Text Key="Toggle_Spectrum_By_Click">当点击频谱时切换风格</Text>
   <Text Key="Follow_Album_Cover_Color">跟随专辑封面颜色</Text>
   <Text Key="Long_Jump_Backward">快退15秒</Text>
   <Text Key="Short_Jump_Backward">快退5秒</Text>
