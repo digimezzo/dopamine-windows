@@ -60,7 +60,7 @@
                 <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Notification_Position}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0" >
                     <ComboBox x:Name="ComboBoxNotificationPositions" Style="{StaticResource MetroComboBox}" DockPanel.Dock="Left" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding NotificationPositions}" SelectedItem="{Binding SelectedNotificationPosition}"/>
-                    <Button Style="{StaticResource MetroButton}" Content="{DynamicResource Language_Test}" Margin="10,0,0,0" Width="80" Command="{Binding ShowTestNotificationCommand}"/>
+                    <Button Style="{StaticResource RegularButton}" Content="{DynamicResource Language_Test}" Margin="10,0,0,0" Width="80" Command="{Binding ShowTestNotificationCommand}"/>
                 </DockPanel>
                 <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Close_Notification_Automatically_After}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0">

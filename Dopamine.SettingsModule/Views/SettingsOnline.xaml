@@ -21,9 +21,9 @@
                     <StackPanel.Resources>
                         <utils:BindingProxy x:Key="RemoveProxy" Data="{DynamicResource Language_Remove}"/>
                     </StackPanel.Resources>
-                    <Button Style="{StaticResource MetroButton}" MinWidth="100" Margin="0,0,0,10" Content="{DynamicResource Language_Add}" Command="{Binding AddCommand}"/>
-                    <Button Style="{StaticResource MetroButton}" MinWidth="100" Margin="0,0,0,10" Content="{DynamicResource Language_Edit}" Command="{Binding EditCommand}"/>
-                    <Button Style="{StaticResource MetroButton}" MinWidth="100" Content="{Binding Source={StaticResource RemoveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding RemoveCommand}"/>
+                    <Button Style="{StaticResource RegularButton}" MinWidth="100" Margin="0,0,0,10" Content="{DynamicResource Language_Add}" Command="{Binding AddCommand}"/>
+                    <Button Style="{StaticResource RegularButton}" MinWidth="100" Margin="0,0,0,10" Content="{DynamicResource Language_Edit}" Command="{Binding EditCommand}"/>
+                    <Button Style="{StaticResource RegularButton}" MinWidth="100" Content="{Binding Source={StaticResource RemoveProxy}, Path=Data,Converter={StaticResource AddEllipsisConverter}}" Command="{Binding RemoveCommand}"/>
                 </StackPanel>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="Last.fm" />
@@ -85,8 +85,8 @@
                             </DockPanel>
                         </Grid>
                         <Grid>
-                            <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
-                            <Button Style="{StaticResource MetroButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                            <Button Style="{StaticResource RegularButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_In}" Command="{Binding LastfmSignInCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            <Button Style="{StaticResource RegularButton}" HorizontalAlignment="Right" Content="{DynamicResource Language_Sign_Out}" Command="{Binding LastfmSignOutCommand}" Visibility="{Binding IsLastFmSignedIn, Converter={StaticResource BooleanToCollapsedConverter}}"/>
                         </Grid>
                     </StackPanel>
                     <StackPanel.Style>

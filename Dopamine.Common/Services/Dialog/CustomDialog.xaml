@@ -32,8 +32,8 @@
             </StackPanel>
             <DockPanel x:Name="Content">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,30,0,0">
-                    <Button x:Name="ButtonOK" Style="{StaticResource MetroButton}" IsDefault="True" Click="ButtonOK_Click"/>
-                    <Button x:Name="ButtonCancel" Style="{StaticResource MetroButton}" IsCancel="True" Margin="10,0,0,0" Click="ButtonCancel_Click"/>
+                    <Button x:Name="ButtonOK" Style="{StaticResource RegularButton}" IsDefault="True" Click="ButtonOK_Click"/>
+                    <Button x:Name="ButtonCancel" Style="{StaticResource RegularButton}" IsCancel="True" Margin="10,0,0,0" Click="ButtonCancel_Click"/>
                 </StackPanel>
                 <ContentControl x:Name="CustomContent"/>
             </DockPanel>

@@ -8,6 +8,6 @@
         <ResourceDictionary Source="/Resources/Styles/Geometries.xaml" />
         <ResourceDictionary Source="/Resources/Styles/ToggleSwitch.xaml" />
         <ResourceDictionary Source="/Resources/Styles/Texts.xaml" />
-        <ResourceDictionary Source="/Resources/Styles/MetroButton.xaml"/>
+        <ResourceDictionary Source="/Resources/Styles/RegularButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/Animations.xaml" />
+        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/Buttons.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ColorSchemeButtons.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenu.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ContextMenuButton.xaml" />
@@ -22,22 +23,16 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxSemanticZoom.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxSimilarArtists.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ListBoxTracks.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroCheckBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroComboBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroListBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/MetroTextBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/NowPlayingContextMenu.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/PlayerContextMenu.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SpectrumAnalyzer.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/TextButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/Texts.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/Tooltip.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/TransparentButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/TransparentToggleButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/WindowButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/ScrollBar.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SortModeButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/SpectrumAnimation.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/StackPanelConditionEnabled.xaml" />
     </ResourceDictionary.MergedDictionaries>
