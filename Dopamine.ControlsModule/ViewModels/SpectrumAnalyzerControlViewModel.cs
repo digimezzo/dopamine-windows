@@ -115,10 +115,6 @@ namespace Dopamine.ControlsModule.ViewModels
         }
         #endregion
 
-        #region Commands
-        public DelegateCommand ToggleSpectrumCommand { get; set; }
-        #endregion
-
         #region Construction
         public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService, IEventAggregator eventAggregator)
         {
@@ -130,8 +126,6 @@ namespace Dopamine.ControlsModule.ViewModels
 
             this.appearanceService.ColorSchemeChanged += (_, __) =>
             Application.Current.Dispatcher.Invoke(() => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle")));
-
-            this.ToggleSpectrumCommand = new DelegateCommand(() => this.ToggleSpectrum());
 
             this.playbackService.PlaybackFailed += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
@@ -225,29 +219,6 @@ namespace Dopamine.ControlsModule.ViewModels
             }
 
             SettingsClient.Set<int>("Playback", "SpectrumStyle", (int)style);
-        }
-
-        private void ToggleSpectrum()
-        {
-            if (!SettingsClient.Get<bool>("Playback", "ToggleSpectrumByClick")) return;
-
-            switch (this.spectrumStyle)
-            {
-                case SpectrumStyle.Flames:
-                    this.SetSpectrumStyle(SpectrumStyle.Lines);
-                    break;
-                case SpectrumStyle.Lines:
-                    this.SetSpectrumStyle(SpectrumStyle.Bars);
-                    break;
-                case SpectrumStyle.Bars:
-                    this.SetSpectrumStyle(SpectrumStyle.Stripes);
-                    break;
-                case SpectrumStyle.Stripes:
-                    this.SetSpectrumStyle(SpectrumStyle.Flames);
-                    break;
-            }
-
-            this.eventAggregator.GetEvent<SelectedSpectrumStyleChanged>().Publish("");
         }
         #endregion
     }

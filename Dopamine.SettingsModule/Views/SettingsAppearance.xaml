@@ -29,9 +29,7 @@
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Spectrum_Analyzer}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxShowSpectrumAnalyzer" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowSpectrumAnalyzerChecked}"/>
             <StackPanel Margin="0,20,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding CheckBoxShowSpectrumAnalyzerChecked}">
-                <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Toggle_Spectrum_By_Click}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxToggleSpectrumByClick" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxToggleSpectrumByClickChecked}"/>
-                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Spectrum_Style}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{DynamicResource Language_Spectrum_Style}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <ComboBox x:Name="ComboBoxSpectrumStyle" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="150" ItemsSource="{Binding SpectrumStyles}" SelectedItem="{Binding SelectedSpectrumStyle}"/>
             </StackPanel>
             <StackPanel Margin="0,20,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding IsWindows10}">
