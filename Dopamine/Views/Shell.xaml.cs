@@ -205,7 +205,7 @@ namespace Dopamine.Views
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
                 this.isMiniPlayerPositionLocked = !isMiniPlayerPositionLocked;
-                this.SetWindowPositionLocked();
+                this.SetWindowPositionLocked(isMiniPlayer);
             });
 
             Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
@@ -213,7 +213,7 @@ namespace Dopamine.Views
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
                 this.isMiniPlayerAlwaysOnTop = !this.isMiniPlayerAlwaysOnTop;
-                this.SetWindowAlwaysOnTop();
+                this.SetWindowAlwaysOnTop(this.isMiniPlayer);
             });
 
             Common.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
@@ -367,10 +367,10 @@ namespace Dopamine.Views
             }
         }
 
-        private void SetWindowPositionLocked()
+        private void SetWindowPositionLocked(bool isMiniPlayer)
         {
             // Only lock position when the mini player is active
-            if (this.isMiniPlayer)
+            if (isMiniPlayer)
             {
                 this.IsMovable = !this.isMiniPlayerPositionLocked;
             }
@@ -380,9 +380,9 @@ namespace Dopamine.Views
             }
         }
 
-        private void SetWindowAlwaysOnTop()
+        private void SetWindowAlwaysOnTop(bool isMiniPlayer)
         {
-            if (this.isMiniPlayer)
+            if (isMiniPlayer)
             {
                 this.Topmost = this.isMiniPlayerAlwaysOnTop;
             }
@@ -397,11 +397,11 @@ namespace Dopamine.Views
             // Clear the player's content for smoother Window resizing
             this.ClearPlayerContent();
 
+            // Determine if the player position is locked
+            this.SetWindowPositionLocked(isMiniPlayer);
+
             // Set the player type
             this.SetPlayerType(isMiniPlayer, miniPlayerType);
-
-            // Determine if the player position is locked
-            this.SetWindowPositionLocked();
 
             // Set the content of the player window
             this.SetPlayerContent(150);
@@ -415,8 +415,8 @@ namespace Dopamine.Views
             // Only save the Mini Player Type in the settings if the current player is set to the Mini Player
             if (isMiniPlayer) SettingsClient.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
 
-            // Set the current player type. If there are command-line arguments: start a mini player.
-            this.isMiniPlayer = isMiniPlayer | Environment.GetCommandLineArgs().Length > 1;
+            // Set the current player type
+            this.isMiniPlayer = isMiniPlayer;
             this.selectedMiniPlayerType = miniPlayerType;
 
             // Prevents saving window state and size to the Settings XML while switching players
@@ -424,7 +424,7 @@ namespace Dopamine.Views
 
             // Sets the geometry of the player
 
-            if (this.isMiniPlayer)
+            if (isMiniPlayer)
             {
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Restore");
 
@@ -585,7 +585,7 @@ namespace Dopamine.Views
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
 
-            this.SetWindowAlwaysOnTop();
+            this.SetWindowAlwaysOnTop(true);
         }
 
         private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight, bool isMiniPlayerListExpanded)
