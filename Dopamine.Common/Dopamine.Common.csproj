@@ -61,7 +61,8 @@
     <Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="Digimezzo.WPFControls">
+    <Reference Include="Digimezzo.WPFControls, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop">
