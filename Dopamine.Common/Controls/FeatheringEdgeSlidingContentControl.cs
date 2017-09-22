@@ -61,9 +61,9 @@ namespace Dopamine.Common.Controls
             }
             var newContentTransform = new TranslateTransform();
             var oldContentTransform = new TranslateTransform();
-            this.paintArea.RenderTransform = oldContentTransform;
-            this.mainContent.RenderTransform = newContentTransform;
-            this.paintArea.Visibility = Visibility.Visible;
+            this.PaintArea.RenderTransform = oldContentTransform;
+            this.MainContent.RenderTransform = newContentTransform;
+            this.PaintArea.Visibility = Visibility.Visible;
 
             switch (this.SlideDirection)
             {
@@ -72,7 +72,7 @@ namespace Dopamine.Common.Controls
                     oldContentTransform.BeginAnimation(TranslateTransform.XProperty, this.CreateSlideAnimation(0, this.ActualWidth,
                         (s, e) =>
                         {
-                            this.paintArea.Visibility = Visibility.Hidden;
+                            this.PaintArea.Visibility = Visibility.Hidden;
                             this.Effect = null;
                         }));
                     break;
@@ -80,7 +80,7 @@ namespace Dopamine.Common.Controls
                     newContentTransform.BeginAnimation(TranslateTransform.XProperty, this.CreateSlideAnimation(this.ActualWidth, 0));
                     oldContentTransform.BeginAnimation(TranslateTransform.XProperty, this.CreateSlideAnimation(0, -this.ActualWidth, (s, e) =>
                     {
-                        this.paintArea.Visibility = Visibility.Hidden;
+                        this.PaintArea.Visibility = Visibility.Hidden;
                         this.Effect = null;
                     }));
                     break;
@@ -88,7 +88,7 @@ namespace Dopamine.Common.Controls
                     newContentTransform.BeginAnimation(TranslateTransform.YProperty, this.CreateSlideAnimation(-this.ActualHeight, 0));
                     oldContentTransform.BeginAnimation(TranslateTransform.YProperty, this.CreateSlideAnimation(0, this.ActualHeight, (s, e) =>
                     {
-                        this.paintArea.Visibility = Visibility.Hidden;
+                        this.PaintArea.Visibility = Visibility.Hidden;
                         this.Effect = null;
                     }));
                     break;
@@ -96,7 +96,7 @@ namespace Dopamine.Common.Controls
                     newContentTransform.BeginAnimation(TranslateTransform.YProperty, this.CreateSlideAnimation(this.ActualHeight, 0));
                     oldContentTransform.BeginAnimation(TranslateTransform.YProperty, this.CreateSlideAnimation(0, -this.ActualHeight, (s, e) =>
                     {
-                        this.paintArea.Visibility = Visibility.Hidden;
+                        this.PaintArea.Visibility = Visibility.Hidden;
                         this.Effect = null;
                     }));
                     break;
@@ -104,8 +104,8 @@ namespace Dopamine.Common.Controls
 
             if (this.FadeOnSlide)
             {
-                this.mainContent.BeginAnimation(OpacityProperty, this.CreateFadeAnimation(0, 1, this.FadeInDuration));
-                this.paintArea.BeginAnimation(OpacityProperty, this.CreateFadeAnimation(1, 0, this.FadeOutDuration));
+                this.MainContent.BeginAnimation(OpacityProperty, this.CreateFadeAnimation(0, 1, this.FadeInDuration));
+                this.PaintArea.BeginAnimation(OpacityProperty, this.CreateFadeAnimation(1, 0, this.FadeOutDuration));
             }
         }
         #endregion
