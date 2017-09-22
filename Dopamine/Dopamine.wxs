@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.3.4.937" ?>
+<?define Version="1.4.0.940" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -320,7 +320,7 @@
         </Control>
         <Control Id="DonateHyperLink" Type="Hyperlink" X="135" Y="125" Height="40" Width="200" Transparent="yes">
           <Text>
-            <![CDATA[If you like this software, please consider donating. Thank you! <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8">Donate via PayPal</a>]]>
+            <![CDATA[If you like this software, please consider donating. Thank you! <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8">Donate</a>]]>
           </Text>
         </Control>
         <Control Id="OptionalCheckBoxText" Type="Text" X="148" Y="190" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="[WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT]">
