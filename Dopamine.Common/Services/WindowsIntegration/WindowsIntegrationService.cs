@@ -10,6 +10,14 @@ namespace Dopamine.Common.Services.WindowsIntegration
     {
         #region Private
         private ManagementEventWatcher managementEventWatcher;
+        private bool isStartedFromExplorer;
+        #endregion
+
+        #region Construction
+        public WindowsIntegrationService()
+        {
+            this.isStartedFromExplorer = Environment.GetCommandLineArgs().Length > 1;
+        }
         #endregion
 
         #region IWindowsIntegrationService
@@ -34,6 +42,16 @@ namespace Dopamine.Common.Services.WindowsIntegration
             }
         }
 
+        public bool IsStartedFromExplorer
+        {
+            get
+            {
+                // Only returns true the first time we ask for the property
+                bool returnValue = this.isStartedFromExplorer;
+                this.isStartedFromExplorer = false;
+                return returnValue;
+            }
+        }
 
         public void StartMonitoringTabletMode()
         {

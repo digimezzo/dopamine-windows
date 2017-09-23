@@ -46,17 +46,18 @@ namespace Dopamine.Views
         private IWindowsIntegrationService windowsIntegrationService;
 
         private bool canSaveWindowGeometry = false;
+        private bool isShuttingDown = false;
+        private bool mustPerformClosingTasks = true;
+
         private Storyboard backgroundAnimation;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
-        private bool isCoverPlayerListExpanded;
-        private bool isMicroPlayerListExpanded;
-        private bool isNanoPlayerListExpanded;
-        private bool isMiniPlayerPositionLocked;
         private TrayControls trayControls;
         private Playlist miniPlayerPlaylist;
-        private bool isShuttingDown;
-        private bool mustPerformClosingTasks = true;
+
+        private bool isCoverPlayerListExpanded; // TODO: remove this bool
+        private bool isMicroPlayerListExpanded; // TODO: remove this bool
+        private bool isNanoPlayerListExpanded; // TODO: remove this bool
         #endregion
 
         #region Commands
@@ -194,12 +195,11 @@ namespace Dopamine.Views
 
             // Mini Player
             // -----------
-            this.isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
-                this.isMiniPlayerPositionLocked = !isMiniPlayerPositionLocked;
-                this.SetWindowPositionLocked();
+                bool isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", !isMiniPlayerPositionLocked);
+                this.SetWindowPositionLockedFromSettings();
             });
 
             Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
@@ -313,12 +313,12 @@ namespace Dopamine.Views
             }
         }
 
-        private void SetWindowPositionLocked()
+        private void SetWindowPositionLockedFromSettings()
         {
             // Only lock position when the mini player is active
             if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
             {
-                this.IsMovable = !this.isMiniPlayerPositionLocked;
+                this.IsMovable = !SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
             }
             else
             {
@@ -356,7 +356,7 @@ namespace Dopamine.Views
             this.canSaveWindowGeometry = false;
 
             // Sets the geometry of the player
-            if (isMiniPlayer)
+            if (isMiniPlayer | (!this.windowsIntegrationService.IsTabletModeEnabled & this.windowsIntegrationService.IsStartedFromExplorer))
             {
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Restore");
 
@@ -391,7 +391,7 @@ namespace Dopamine.Views
             }
 
             // Determine if the player position is locked
-            this.SetWindowPositionLocked();
+            this.SetWindowPositionLockedFromSettings();
 
             // Delay, otherwise content is never shown (probably because regions don't exist yet at startup)
             await Task.Delay(150);
