@@ -45,7 +45,7 @@ namespace Dopamine.Views
         private IEventAggregator eventAggregator;
         private IWindowsIntegrationService windowsIntegrationService;
 
-        private bool allowSaveWindowGeometry = false;
+        private bool canSaveWindowGeometry = false;
         private Storyboard backgroundAnimation;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
@@ -53,12 +53,10 @@ namespace Dopamine.Views
         private bool isMicroPlayerListExpanded;
         private bool isNanoPlayerListExpanded;
         private bool isMiniPlayerPositionLocked;
-        private bool isMiniPlayerAlwaysOnTop;
         private TrayControls trayControls;
         private Playlist miniPlayerPlaylist;
         private bool isShuttingDown;
         private bool mustPerformClosingTasks = true;
-        private bool isStartup = true;
         #endregion
 
         #region Commands
@@ -197,7 +195,6 @@ namespace Dopamine.Views
             // Mini Player
             // -----------
             this.isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-            this.isMiniPlayerAlwaysOnTop = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
 
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
@@ -209,8 +206,9 @@ namespace Dopamine.Views
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
-                this.isMiniPlayerAlwaysOnTop = !this.isMiniPlayerAlwaysOnTop;
-                this.SetWindowAlwaysOnTop();
+                bool topmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", !topmost);
+                this.SetWindowTopmostFromSettings();
             });
 
             Common.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
@@ -280,23 +278,24 @@ namespace Dopamine.Views
             // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
             this.CloseToolTipChanged += Shell_CloseToolTipChanged;
 
-            // This makes sure the position and size of the window is correct and avoids jumping of 
-            // the window to the correct position when SetPlayer() is called later while starting up
-            this.SetPlayerType(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
-
             // Make sure the window geometry respects tablet mode at startup
             this.CheckIfTabletMode();
         }
 
         private void CheckIfTabletMode()
         {
-            // Always revert to full player when tablet mode is changed
-            this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
-
-            if (!this.windowsIntegrationService.IsTabletModeEnabled)
+            if (this.windowsIntegrationService.IsTabletModeEnabled)
             {
-                // When tablet mode is disabled, make sure the window doesn't remain full screen.
-                this.WindowState = WindowState.Normal;
+                // Always revert to full player when tablet mode is enabled. Maximizing will be done by Windows.
+                this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+            }
+            else
+            {
+                bool isMiniPlayer = SettingsClient.Get<bool>("General", "IsMiniPlayer");
+                bool isMaximized = SettingsClient.Get<bool>("FullPlayer", "IsMaximized");
+                this.WindowState = isMaximized & !isMiniPlayer ? WindowState.Maximized : WindowState.Normal;
+
+                this.SetPlayer(isMiniPlayer, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
             }
         }
 
@@ -327,35 +326,26 @@ namespace Dopamine.Views
             }
         }
 
-        private void SetWindowAlwaysOnTop()
+        private void SetWindowTopmostFromSettings()
         {
             if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
             {
-                this.Topmost = this.isMiniPlayerAlwaysOnTop;
+                this.Topmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
             }
             else
             {
+                // Full player is never topmost
                 this.Topmost = false;
             }
         }
 
-        private void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType)
+        private async void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType)
         {
-            // Clear the player's content for smoother Window resizing
-            this.ClearPlayerContent();
+            string screenName = typeof(Empty).FullName;
 
-            // Determine if the player position is locked
-            this.SetWindowPositionLocked();
+            // Clear player content
+            this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(Empty).FullName);
 
-            // Set the player type
-            this.SetPlayerType(isMiniPlayer, miniPlayerType);
-
-            // Set the content of the player window
-            this.SetPlayerContent(150);
-        }
-
-        private void SetPlayerType(bool isMiniPlayer, MiniPlayerType miniPlayerType)
-        {
             // Save the player type in the settings
             SettingsClient.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
 
@@ -363,10 +353,9 @@ namespace Dopamine.Views
             if (isMiniPlayer) SettingsClient.Set<int>("General", "MiniPlayerType", (int)miniPlayerType);
 
             // Prevents saving window state and size to the Settings XML while switching players
-            this.allowSaveWindowGeometry = false;
+            this.canSaveWindowGeometry = false;
 
             // Sets the geometry of the player
-
             if (isMiniPlayer)
             {
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Restore");
@@ -376,14 +365,17 @@ namespace Dopamine.Views
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight, this.isCoverPlayerListExpanded);
+                        screenName = typeof(CoverPlayer).FullName;
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight, this.isMicroPlayerListExpanded);
+                        screenName = typeof(MicroPlayer).FullName;
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight, this.isNanoPlayerListExpanded);
+                        screenName = typeof(NanoPlayer).FullName;
                         break;
                     default:
                         break;
@@ -395,63 +387,34 @@ namespace Dopamine.Views
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
+                screenName = typeof(FullPlayer).FullName;
             }
 
-            this.allowSaveWindowGeometry = true;
-        }
+            // Determine if the player position is locked
+            this.SetWindowPositionLocked();
 
-        private void ClearPlayerContent()
-        {
-            this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(Empty).FullName);
-        }
+            // Delay, otherwise content is never shown (probably because regions don't exist yet at startup)
+            await Task.Delay(150);
 
-        private async void SetPlayerContent(int delayMilliseconds = 0)
-        {
-            // This delay makes sure the content of the window is shown only after the specified delay
-            await Task.Delay(delayMilliseconds);
+            // Navigate to content
+            this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, screenName);
 
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
-            {
-                switch ((MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"))
-                {
-                    case MiniPlayerType.CoverPlayer:
-                        this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(CoverPlayer).FullName);
-                        break;
-                    case MiniPlayerType.MicroPlayer:
-                        this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(MicroPlayer).FullName);
-                        break;
-                    case MiniPlayerType.NanoPlayer:
-                        this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NanoPlayer).FullName);
-                        break;
-                    default:
-                        break;
-                        // Doesn't happen
-                }
-            }
-            else
-            {
-                this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer).FullName);
-            }
+            this.canSaveWindowGeometry = true;
         }
 
         private void SaveWindowState()
         {
-            if (this.allowSaveWindowGeometry)
+            // Only save window state when not in tablet mode. Tablet mode maximizes the screen. 
+            // We don't want to save that, as we want to be able to restore to the original state when leaving tablet mode.
+            if (this.canSaveWindowGeometry & !this.windowsIntegrationService.IsTabletModeEnabled)
             {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    SettingsClient.Set<bool>("FullPlayer", "IsMaximized", true);
-                }
-                else
-                {
-                    SettingsClient.Set<bool>("FullPlayer", "IsMaximized", false);
-                }
+                SettingsClient.Set<bool>("FullPlayer", "IsMaximized", this.WindowState == WindowState.Maximized ? true : false);
             }
         }
 
         private void SaveWindowSize()
         {
-            if (this.allowSaveWindowGeometry)
+            if (this.canSaveWindowGeometry)
             {
                 if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(this.WindowState == WindowState.Maximized))
                 {
@@ -463,7 +426,7 @@ namespace Dopamine.Views
 
         private void SaveWindowLocation()
         {
-            if (this.allowSaveWindowGeometry)
+            if (this.canSaveWindowGeometry)
             {
                 if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
                 {
@@ -488,14 +451,7 @@ namespace Dopamine.Views
 
             if (SettingsClient.Get<bool>("FullPlayer", "IsMaximized"))
             {
-                if (!isStartup)
-                {
-                    this.WindowState = WindowState.Maximized;
-                }
-                else
-                {
-                    isStartup = false;
-                }
+                this.WindowState = WindowState.Maximized;
             }
             else
             {
@@ -514,21 +470,7 @@ namespace Dopamine.Views
             this.MinWidth = Constants.MinShellWidth;
             this.MinHeight = Constants.MinShellHeight;
 
-            // The FullPlayer window is never TopMost
-            this.Topmost = false;
-        }
-
-        private void SetMiniPlayerDimensions()
-        {
-            this.SetGeometry(
-                SettingsClient.Get<int>("MiniPlayer", "Top"),
-                SettingsClient.Get<int>("MiniPlayer", "Left"),
-                Convert.ToInt32(this.MinWidth),
-                Convert.ToInt32(this.MinHeight),
-                Constants.DefaultShellTop,
-                Constants.DefaultShellLeft);
-
-            this.SetWindowAlwaysOnTop();
+            this.SetWindowTopmostFromSettings();
         }
 
         private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight, bool isMiniPlayerListExpanded)
@@ -554,10 +496,21 @@ namespace Dopamine.Views
                 this.MinHeight = playerHeight;
             }
 
-            this.SetMiniPlayerDimensions();
+            this.SetGeometry(
+               SettingsClient.Get<int>("MiniPlayer", "Top"),
+               SettingsClient.Get<int>("MiniPlayer", "Left"),
+               Convert.ToInt32(this.MinWidth),
+               Convert.ToInt32(this.MinHeight),
+               Constants.DefaultShellTop,
+               Constants.DefaultShellLeft);
+
+            this.SetWindowTopmostFromSettings();
 
             // Show the playlist AFTER changing window dimensions to avoid strange behaviour
             if (isMiniPlayerListExpanded) this.miniPlayerPlaylist.Show(miniPlayerType);
+
+            // Content
+
         }
 
         private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isMiniPlayerListExpanded)
@@ -606,12 +559,6 @@ namespace Dopamine.Views
         private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
-        }
-
-        private void Shell_ContentRendered(object sender, EventArgs e)
-        {
-            // Corrects size of the window (taking into account the HasBorders Property which is now set) and sets the content of the player
-            this.SetPlayer(SettingsClient.Get<bool>("General", "IsMiniPlayer"), (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
         }
 
         private void ThemeChangedHandler(bool useLightTheme)

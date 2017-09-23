@@ -15,7 +15,6 @@
         Height="600" 
         MinWidth="{x:Static base:Constants.MinShellWidth}"
         MinHeight="{x:Static base:Constants.MinShellHeight}" 
-        ContentRendered="Shell_ContentRendered"
         StateChanged="Shell_StateChanged"
         SizeChanged="Shell_SizeChanged"
         LocationChanged="Shell_LocationChanged"
