@@ -290,14 +290,15 @@ namespace Dopamine.Views
             this.CheckIfTabletMode();
         }
 
-        private async void CheckIfTabletMode()
+        private void CheckIfTabletMode()
         {
-            if (this.windowsIntegrationService.IsTabletModeEnabled)
+            // Always revert to full player when tablet mode is changed
+            this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+
+            if (!this.windowsIntegrationService.IsTabletModeEnabled)
             {
-                // Show the Full Player
-                this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
-                await Task.Delay(50);
-                this.WindowState = WindowState.Maximized;
+                // When tablet mode is disabled, make sure the window doesn't remain full screen.
+                this.WindowState = WindowState.Normal;
             }
         }
 
