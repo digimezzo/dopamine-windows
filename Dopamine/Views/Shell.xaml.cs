@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.IO;
-using Dopamine.Core.Logging;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
@@ -13,25 +12,23 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Common.Services.WindowsIntegration;
+using Dopamine.Core.Logging;
 using Dopamine.Core.Services.Appearance;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
-using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
-using System.Management;
 using System.Reflection;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
-using Dopamine.Common.Services.WindowsIntegration;
 
 namespace Dopamine.Views
 {
@@ -63,7 +60,6 @@ namespace Dopamine.Views
         private Playlist miniPlayerPlaylist;
         private bool isShuttingDown;
         private bool mustPerformClosingTasks = true;
-        private ManagementEventWatcher managementEventWatcher;
         private bool isStartup = true;
         #endregion
 
@@ -83,8 +79,8 @@ namespace Dopamine.Views
         #endregion
 
         #region Construction
-        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, 
-            IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, 
+        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService,
+            IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator,
             INotificationService notificationService, IMetadataService metadataService, IWindowsIntegrationService windowsIntegrationService)
         {
             InitializeComponent();
@@ -131,6 +127,13 @@ namespace Dopamine.Views
             // IAppearanceService
             // ------------------
             this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
+
+            // IWindowsIntegrationService
+            // --------------------------
+            this.windowsIntegrationService.TabletModeChanged += (_, __) =>
+            {
+                Application.Current.Dispatcher.Invoke(() => this.CheckIfTabletMode());
+            };
         }
 
         private void InitializePubSubEvents()
@@ -160,7 +163,7 @@ namespace Dopamine.Views
         {
             // TaskbarItemInfo
             // ---------------
-            TaskbarItemInfoPlayCommand = new DelegateCommand(async () => await this.playbackService.PlayOrPauseAsync());
+            this.TaskbarItemInfoPlayCommand = new DelegateCommand(async () => await this.playbackService.PlayOrPauseAsync());
             Common.Prism.ApplicationCommands.TaskbarItemInfoPlayCommand.RegisterCommand(this.TaskbarItemInfoPlayCommand);
 
             // Window State
@@ -173,14 +176,7 @@ namespace Dopamine.Views
 
             this.MaximizeRestoreWindowCommand = new DelegateCommand(() =>
             {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    this.WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    this.WindowState = WindowState.Maximized;
-                }
+                this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             });
 
             Common.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
@@ -196,7 +192,7 @@ namespace Dopamine.Views
             this.TogglePlayerCommand = new DelegateCommand(() =>
             {
                 // If tablet mode is enabled, we should not be able to toggle the player.
-                if (!this.IsTabletModeEnabled()) this.TogglePlayer();
+                if (!this.windowsIntegrationService.IsTabletModeEnabled) this.TogglePlayer();
             });
             Common.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
 
@@ -269,7 +265,7 @@ namespace Dopamine.Views
         private void InitializeWindow()
         {
             // Start monitoring tablet mode
-            this.StartMonitoringTabletMode();
+            this.windowsIntegrationService.StartMonitoringTabletMode();
 
             // Tray controls
             this.trayControls = this.container.Resolve<Views.TrayControls>();
@@ -294,60 +290,9 @@ namespace Dopamine.Views
             this.CheckIfTabletMode();
         }
 
-        private void StartMonitoringTabletMode()
-        {
-            try
-            {
-                var currentUser = WindowsIdentity.GetCurrent();
-                if (currentUser != null && currentUser.User != null)
-                {
-                    var wqlEventQuery = new EventQuery(string.Format(@"SELECT * FROM RegistryValueChangeEvent WHERE Hive='HKEY_USERS' AND KeyPath='{0}\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell' AND ValueName='TabletMode'", currentUser.User.Value));
-                    this.managementEventWatcher = new ManagementEventWatcher(wqlEventQuery);
-                    this.managementEventWatcher.EventArrived += this.ManagementEventWatcher_EventArrived;
-                    this.managementEventWatcher.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                CoreLogger.Current.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
-            }
-        }
-
-        private void StopMonitoringTabletMode()
-        {
-            try
-            {
-                if (this.managementEventWatcher != null)
-                {
-                    this.managementEventWatcher.Stop();
-                    this.managementEventWatcher.EventArrived -= this.ManagementEventWatcher_EventArrived;
-                }
-            }
-            catch (Exception ex)
-            {
-                CoreLogger.Current.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
-            }
-        }
-
-        private bool IsTabletModeEnabled()
-        {
-            int registryTabletMode = 0;
-
-            try
-            {
-                registryTabletMode = (int)Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell", "TabletMode", 0);
-            }
-            catch (Exception ex)
-            {
-                CoreLogger.Current.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
-            }
-
-            return registryTabletMode == 1 ? true : false;
-        }
-
         private async void CheckIfTabletMode()
         {
-            if (this.IsTabletModeEnabled())
+            if (this.windowsIntegrationService.IsTabletModeEnabled)
             {
                 // Show the Full Player
                 this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
@@ -663,11 +608,6 @@ namespace Dopamine.Views
         #endregion
 
         #region Event Handlers
-        private void ManagementEventWatcher_EventArrived(object sender, EventArrivedEventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(() => { this.CheckIfTabletMode(); });
-        }
-
         private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
@@ -892,7 +832,7 @@ namespace Dopamine.Views
         private void Shell_Closed(object sender, EventArgs e)
         {
             // Stop monitoring tablet mode
-            this.StopMonitoringTabletMode();
+            this.windowsIntegrationService.StopMonitoringTabletMode();
 
             // Make sure the Tray icon is removed from the tray
             this.trayIcon.Visible = false;
@@ -922,7 +862,7 @@ namespace Dopamine.Views
             this.ShowWindowControls = false;
             Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
 
-            this.ClosingBorder.Visibility = Visibility.Visible; 
+            this.ClosingBorder.Visibility = Visibility.Visible;
             closingAnimation.Begin();
         }
 
@@ -941,7 +881,7 @@ namespace Dopamine.Views
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
                 // [Ctrl] is pressed
-                if(e.Key == Key.L)
+                if (e.Key == Key.L)
                 {
                     e.Handled = true; // Prevents typing in the search box
 
