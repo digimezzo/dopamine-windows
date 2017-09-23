@@ -73,6 +73,7 @@ namespace Dopamine.Common.Services.Scrobbling
 
             this.playbackService.PlaybackSuccess += PlaybackService_PlaybackSuccess;
             this.playbackService.PlaybackProgressChanged += PlaybackService_PlaybackProgressChanged;
+            this.playbackService.PlaybackSkipped += PlaybackService_PlaybackSkipped;
 
             this.username = SettingsClient.Get<string>("Lastfm", "Username");
             this.password = SettingsClient.Get<string>("Lastfm", "Password");
@@ -86,6 +87,12 @@ namespace Dopamine.Common.Services.Scrobbling
             {
                 this.signInState = SignInState.SignedOut;
             }
+        }
+
+        private void PlaybackService_PlaybackSkipped(object sender, EventArgs e)
+        {
+            // When the user skips, we don't allow scrobbling.
+            this.canScrobble = false;
         }
         #endregion
 
