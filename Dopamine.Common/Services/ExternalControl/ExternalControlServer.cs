@@ -144,7 +144,7 @@ namespace Dopamine.Common.Services.ExternalControl
         public double GetProgress() => this.playbackService.Progress;
 
         [OperationBehavior]
-        public void SetProgress(double progress) => this.playbackService.Skip(progress);
+        public void SetProgress(double progress) => this.playbackService.SkipProgress(progress);
 
         [OperationBehavior]
         public PlayableTrack GetCurrenTrack() => this.playbackService.CurrentTrack.Value;

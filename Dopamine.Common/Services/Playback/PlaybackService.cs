@@ -337,6 +337,7 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler PlayingTrackArtworkChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
         public event EventHandler AudioDevicesChanged = delegate { };
+        public event EventHandler PlaybackSkipped = delegate { };
         #endregion
 
         #region IPlaybackService
@@ -572,13 +573,14 @@ namespace Dopamine.Common.Services.Playback
             this.PlaybackMuteChanged(this, new EventArgs());
         }
 
-        public void Skip(double progress)
+        public void SkipProgress(double progress)
         {
             if (this.player != null && this.player.CanStop)
             {
                 this.Progress = progress;
                 int newSeconds = Convert.ToInt32(progress * this.player.GetTotalTime().TotalSeconds);
                 this.player.Skip(newSeconds);
+                this.PlaybackSkipped(this, new EventArgs());
             }
             else
             {
@@ -588,11 +590,12 @@ namespace Dopamine.Common.Services.Playback
             this.PlaybackProgressChanged(this, new EventArgs());
         }
 
-        public void Jump(int jumpSeconds)
+        public void SkipSeconds(int seconds)
         {
             if (this.player != null && this.player.CanStop)
             {
-                this.player.Skip(Convert.ToInt32(this.GetCurrentTime.TotalSeconds + jumpSeconds));
+                this.player.Skip(Convert.ToInt32(this.GetCurrentTime.TotalSeconds + seconds));
+                this.PlaybackSkipped(this, new EventArgs());
                 this.PlaybackProgressChanged(this, new EventArgs());
             }
         }

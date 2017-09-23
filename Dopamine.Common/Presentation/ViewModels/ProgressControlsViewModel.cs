@@ -42,9 +42,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Private
-        private void SetPlayBackServiceProgress(double iProgress)
+        private void SetPlayBackServiceProgress(double progress)
         {
-            this.playBackService.Skip(iProgress);
+            this.playBackService.SkipProgress(progress);
         }
 
         protected virtual void GetPlayBackServiceProgress()

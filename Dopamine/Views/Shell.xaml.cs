@@ -902,12 +902,12 @@ namespace Dopamine.Views
                 else if (e.Key == Key.Left)
                 {
                     e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Jump(Convert.ToInt32(-5));
+                    this.playbackService.SkipSeconds(Convert.ToInt32(-5));
                 }
                 else if (e.Key == Key.Right)
                 {
                     e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Jump(Convert.ToInt32(5));
+                    this.playbackService.SkipSeconds(Convert.ToInt32(5));
                 }
             }
             else
@@ -929,13 +929,13 @@ namespace Dopamine.Views
                 {
                     if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
                     e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Jump(Convert.ToInt32(-15));
+                    this.playbackService.SkipSeconds(Convert.ToInt32(-15));
                 }
                 else if (e.Key == Key.Right)
                 {
                     if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
                     e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Jump(Convert.ToInt32(15));
+                    this.playbackService.SkipSeconds(Convert.ToInt32(15));
                 }
             }
         }
