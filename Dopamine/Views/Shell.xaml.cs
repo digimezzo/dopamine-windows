@@ -31,14 +31,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using Dopamine.Common.Services.WindowsIntegration;
 
 namespace Dopamine.Views
 {
     public partial class Shell : DopamineWindow
     {
         #region Variables
-        private bool allowSaveWindowGeometry = false;
-        private Storyboard backgroundAnimation;
         private IUnityContainer container;
         private readonly IRegionManager regionManager;
         private IAppearanceService appearanceService;
@@ -46,6 +45,11 @@ namespace Dopamine.Views
         private IWin32InputService win32InputService;
         private INotificationService notificationService;
         private IMetadataService metadataService;
+        private IEventAggregator eventAggregator;
+        private IWindowsIntegrationService windowsIntegrationService;
+
+        private bool allowSaveWindowGeometry = false;
+        private Storyboard backgroundAnimation;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private bool isMiniPlayer;
@@ -55,11 +59,10 @@ namespace Dopamine.Views
         private bool isNanoPlayerListExpanded;
         private bool isMiniPlayerPositionLocked;
         private bool isMiniPlayerAlwaysOnTop;
-        private IEventAggregator eventAggregator;
         private TrayControls trayControls;
         private Playlist miniPlayerPlaylist;
         private bool isShuttingDown;
-        private bool mustPerformClosingTasks;
+        private bool mustPerformClosingTasks = true;
         private ManagementEventWatcher managementEventWatcher;
         private bool isStartup = true;
         #endregion
@@ -80,7 +83,9 @@ namespace Dopamine.Views
         #endregion
 
         #region Construction
-        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, INotificationService notificationService, IMetadataService metadataService)
+        public Shell(IUnityContainer container, IRegionManager regionManager, IAppearanceService appearanceService, 
+            IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator, 
+            INotificationService notificationService, IMetadataService metadataService, IWindowsIntegrationService windowsIntegrationService)
         {
             InitializeComponent();
 
@@ -93,9 +98,7 @@ namespace Dopamine.Views
             this.eventAggregator = eventAggregator;
             this.notificationService = notificationService;
             this.metadataService = metadataService;
-
-            // Flags
-            this.mustPerformClosingTasks = true;
+            this.windowsIntegrationService = windowsIntegrationService;
 
             // Window
             this.InitializeWindow();

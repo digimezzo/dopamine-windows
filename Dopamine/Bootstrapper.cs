@@ -27,6 +27,7 @@ using Dopamine.Common.Services.Search;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
+using Dopamine.Common.Services.WindowsIntegration;
 using Dopamine.Common.Settings;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Repositories.Interfaces;
@@ -120,6 +121,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
             Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
             Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
+            Container.RegisterSingletonType<IWindowsIntegrationService, WindowsIntegrationService>();
         }
 
         private void InitializeServices()

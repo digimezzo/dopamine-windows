@@ -470,6 +470,8 @@
     <Compile Include="Services\Update\UpdateService.cs" />
     <Compile Include="Services\Win32Input\IWin32InputService.cs" />
     <Compile Include="Services\Win32Input\Win32InputService.cs" />
+    <Compile Include="Services\WindowsIntegration\IWindowsIntegrationService.cs" />
+    <Compile Include="Services\WindowsIntegration\WindowsIntegrationService.cs" />
     <Compile Include="Settings\IMergedSettings.cs" />
     <Compile Include="Settings\MergedSettings.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
