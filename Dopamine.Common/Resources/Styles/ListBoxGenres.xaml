@@ -65,17 +65,14 @@
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" 
                             Cursor="Hand"
-                            Height="24"
                             Margin="0,5,0,5"
                             Command="{Binding DataContext.ShowGenresZoomCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                            <Grid Width="24" Height="24" HorizontalAlignment="Left">
-                                <Viewbox Width="24" Height="24" Panel.ZIndex="0">
+                            <Grid Width="26" Height="26" HorizontalAlignment="Left">
+                                <Viewbox Width="26" Height="26" Panel.ZIndex="0">
                                     <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
                                 </Viewbox>
-                                <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                                <Viewbox Width="24" Height="24" Panel.ZIndex="2">
-                                    <Path x:Name="Overlay" Data="{DynamicResource Droplet}" Fill="{DynamicResource RG_IconGradientBrush}"/>
-                                </Viewbox>
+                                <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="16" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource RG_WhiteBrush}"/>
                             </Grid>
                         </Button>
                         <!-- Genre -->
