@@ -109,8 +109,7 @@
                         ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource AddValueConverter},ConverterParameter=4}" ScrollOffset="50"/>-->
                     <dc:VirtualizingWrapPanel 
                         ChildWidth="{Binding Path=DataContext.AlbumWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                        ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                        ScrollOffset="50"/>
+                        ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
