@@ -7,6 +7,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private string name;
         private string url;
+        private string imageUrl;
         #endregion
 
         #region Properties
@@ -20,6 +21,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.url; }
             set { SetProperty<string>(ref this.url, value); }
+        }
+
+        public string ImageUrl
+        {
+            get { return this.imageUrl; }
+            set { SetProperty<string>(ref this.imageUrl, value); }
         }
         #endregion
     }

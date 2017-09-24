@@ -138,15 +138,15 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Private
         private async Task FillSimilarArtistsAsync()
         {
-            if (lfmArtist != null && lfmArtist.SimilarArtists != null && lfmArtist.SimilarArtists.Count > 0)
+            if (this.lfmArtist != null && this.lfmArtist.SimilarArtists != null && this.lfmArtist.SimilarArtists.Count > 0)
             {
                 await Task.Run(() =>
                 {
                     var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
 
-                    foreach (Artist similarArtist in lfmArtist.SimilarArtists)
+                    foreach (Artist similarArtist in this.lfmArtist.SimilarArtists)
                     {
-                        localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url });
+                        localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url, ImageUrl = similarArtist.LargestImage() });
                     }
 
                     this.SimilarArtists = localSimilarArtists;
