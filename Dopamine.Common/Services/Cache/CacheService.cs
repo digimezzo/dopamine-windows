@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
+using Dopamine.Common.Settings;
 using Dopamine.Core.Logging;
 using System;
 using System.IO;
@@ -14,6 +15,7 @@ namespace Dopamine.Common.Services.Cache
     public class CacheService : ICacheService
     {
         #region Variables
+        private IMergedSettings settings;
         private string coverArtCacheFolderPath;
         private string temporaryCacheFolderPath;
         private Timer temporaryCacheCleanupTimer;
@@ -39,11 +41,13 @@ namespace Dopamine.Common.Services.Cache
         #endregion
 
         #region Construction
-        public CacheService()
+        public CacheService(IMergedSettings settings)
         {
-            string cacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder);
-            this.coverArtCacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
-            this.temporaryCacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
+            this.settings = settings;
+
+            string cacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder);
+            this.coverArtCacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
+            this.temporaryCacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
 
             // If it doesn't exist, create the cache folder.
             if (!Directory.Exists(cacheFolderPath)) Directory.CreateDirectory(cacheFolderPath);

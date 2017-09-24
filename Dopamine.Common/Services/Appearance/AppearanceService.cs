@@ -1,14 +1,15 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.ColorSpace;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Settings;
+using Dopamine.Core.Logging;
+using Dopamine.Core.Services.Appearance;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,8 +20,6 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
-using Digimezzo.Utilities.ColorSpace;
-using Dopamine.Core.Services.Appearance;
 
 namespace Dopamine.Common.Services.Appearance
 {
@@ -29,19 +28,22 @@ namespace Dopamine.Common.Services.Appearance
         #region Variables
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
+        private IMergedSettings settings;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
         private bool followAlbumCoverColor;
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
         private Timer applyColorSchemeTimer;
-        private string colorSchemesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
+        private string colorSchemesSubDirectory;
 
         private double colorSchemeTimeoutSeconds = 0.2;
         #endregion
 
         #region Construction
-        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService) : base()
+        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService, IMergedSettings settings) : base()
         {
+            this.settings = settings;
+
             // Services
             // --------
             this.playbackService = playbackService;
@@ -51,6 +53,8 @@ namespace Dopamine.Common.Services.Appearance
 
             // Initialize the ColorSchemes directory
             // -------------------------------------
+            this.colorSchemesSubDirectory = Path.Combine(settings.ApplicationFolder, ApplicationPaths.ColorSchemesFolder);
+
             // If the ColorSchemes subdirectory doesn't exist, create it
             if (!Directory.Exists(this.colorSchemesSubDirectory))
             {
