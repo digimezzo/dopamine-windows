@@ -8,4 +8,8 @@
     <Style x:Key="FontAwesome">
         <Setter Property="TextElement.FontFamily" Value="/Dopamine.Common;component/Resources/Fonts/#FontAwesome" />
     </Style>
+
+    <Style x:Key="Material">
+        <Setter Property="TextElement.FontFamily" Value="/Dopamine.Common;component/Resources/Fonts/#Material Icons" />
+    </Style>
 </ResourceDictionary>
