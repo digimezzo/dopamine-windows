@@ -199,7 +199,7 @@ namespace Dopamine.Common.Services.Playback
             return previousTrack;
         }
 
-        public async Task<KeyValuePair<string, PlayableTrack>> NextTrackAsync(LoopMode loopMode)
+        public async Task<KeyValuePair<string, PlayableTrack>> NextTrackAsync(LoopMode loopMode, bool returnToStart)
         {
             KeyValuePair<string, PlayableTrack> nextTrack = default(KeyValuePair<string, PlayableTrack>);
 
@@ -213,7 +213,7 @@ namespace Dopamine.Common.Services.Playback
                         {
                             int currentTrackIndex = this.playbackOrder.IndexOf(this.currentTrack.Key);
 
-                            if (loopMode == LoopMode.One)
+                            if (loopMode.Equals(LoopMode.One))
                             {
                                 // Return the current track
                                 nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex], this.queue[this.playbackOrder[currentTrackIndex]]);
@@ -225,7 +225,7 @@ namespace Dopamine.Common.Services.Playback
                                     // If we didn't reach the end of the queue, return the next track.
                                     nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex + 1], this.queue[this.playbackOrder[currentTrackIndex + 1]]);
                                 }
-                                else if (loopMode == LoopMode.All)
+                                else if (loopMode.Equals( LoopMode.All) | returnToStart)
                                 {
                                     // When LoopMode.All is enabled, when we reach the end of the queue, return the first track.
                                     nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder.First(), this.queue[this.playbackOrder.First()]);

@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>90</Value>
+      <Value>91</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -207,6 +207,9 @@
     </Setting>
     <Setting Name="EnableExternalControl">
       <Value>False</Value>
+    </Setting>
+    <Setting Name="LoopWhenShuffle">
+      <Value>True</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">

@@ -406,4 +406,5 @@
   <Text Key="Unknown_Album">Album inconnu</Text>
   <Text Key="Unknown_Genre">Genre inconnu</Text>
   <Text Key="Refresh_Collection_Automatically">Actualiser la collection automatiquement</Text>
+  <Text Key="Loop_When_Shuffle">Pendant une lecture aléatoire, retourner au début de la playlist après le dernier morceau.</Text>
 </Language>
