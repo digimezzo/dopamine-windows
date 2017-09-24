@@ -10,13 +10,13 @@
                     <Border 
                         Margin="5,-5,0,0" 
                         Background="{DynamicResource RG_AccentBrush}" 
-                        MinWidth="16" 
-                        Height="16" 
-                        CornerRadius="8,0,8,8" 
+                        MinWidth="18" 
+                        Height="18" 
+                        CornerRadius="9,0,9,9" 
                         HorizontalAlignment="Left">
                         <Label 
-                            Padding="5,0,5,0" 
-                            FontSize="11"
+                            Padding="7,0,7,0" 
+                            FontSize="12"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center" 
                             Content="{TemplateBinding Content}" 
