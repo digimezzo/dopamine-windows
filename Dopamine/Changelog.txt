@@ -1,15 +1,16 @@
-2017-09-24: Dopamine 1.4.0 Build 945 (Preview)
+2017-09-24: Dopamine 1.4.0 Build 946 (Preview)
 ----------------------------------------------
 
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
 - [Added] Added option to use native Windows 10 notifications
+- [Changed] Updated the German translation
+- [Changed] Removed the splash screen
+- [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
+- [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
 - [Fixed] "Unknown artist", "Unknown album", "Unknown genre" are not translated
 - [Fixed] Fixed multiple issues when removing songs from Now Playing
 - [Fixed] Fixed a crash when moving mini players around when the playlist window is opened
 - [Fixed] It is possible to scrobble tracks by skipping to the end of the track
-- [Changed] Updated the German translation
-- [Changed] Removed the splash screen
-- [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 
 
 2017-07-29: Dopamine 1.3.1 Build 928 (Release)

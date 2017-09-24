@@ -407,4 +407,5 @@
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
+  <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
 </Language>

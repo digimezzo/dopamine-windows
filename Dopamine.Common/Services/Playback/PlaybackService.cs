@@ -1194,7 +1194,8 @@ namespace Dopamine.Common.Services.Playback
             LoopMode loopMode = this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
 
             // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
-            KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(loopMode);
+            bool returnToStart = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle") & this.shuffle;
+            KeyValuePair<string, PlayableTrack> nextTrack = await this.queueManager.NextTrackAsync(loopMode, returnToStart);
 
             if (nextTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
             {

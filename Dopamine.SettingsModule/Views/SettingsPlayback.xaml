@@ -73,6 +73,11 @@
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Taskbar}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Audio_Progress_In_Taskbar}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxShowProgressInTaskbar" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowProgressInTaskbarChecked}"/>
+            
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Shuffle}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Loop_When_Shuffle}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <dc:Windows10ToggleSwitch x:Name="CheckBoxLoopWhenShuffle" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxLoopWhenShuffleChecked}"/>
+            
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_External_Control}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Enable_External_Control}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableExternalControl" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableExternalControlChecked}"/>

@@ -406,4 +406,5 @@
   <Text Key="Unknown_Album">Onbekend album</Text>
   <Text Key="Unknown_Genre">Onbekend genre</Text>
   <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>
+  <Text Key="Loop_When_Shuffle">Ga, tijdens gemixed afspelen, terug naar het begin van de afspeellijst na het laatste nummer.</Text>
 </Language>

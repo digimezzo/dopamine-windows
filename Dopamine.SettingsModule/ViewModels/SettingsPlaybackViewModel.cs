@@ -66,6 +66,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private bool checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked;
         private bool checkBoxEnableExternalControlChecked;
         private bool checkBoxEnableSystemNotificationChecked;
+        private bool checkBoxLoopWhenShuffleChecked;
         private ObservableCollection<NameValue> notificationPositions;
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
@@ -173,6 +174,16 @@ namespace Dopamine.SettingsModule.ViewModels
                 {
                     this.taskbarService.SetShowProgressInTaskbar(value);
                 }
+            }
+        }
+
+        public bool CheckBoxLoopWhenShuffleChecked
+        {
+            get => this.checkBoxLoopWhenShuffleChecked;
+            set
+            {
+                SettingsClient.Set<bool>("Playback", "LoopWhenShuffle", value);
+                SetProperty<bool>(ref this.checkBoxLoopWhenShuffleChecked, value);
             }
         }
 
@@ -395,18 +406,16 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                // Change the backing field, not the property. Otherwise the confirmation popup is shown when the screen is constructed.
                 this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
-                RaisePropertyChanged(nameof(this.CheckBoxWasapiExclusiveModeChecked));
-
-                this.CheckBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
-                this.CheckBoxShowNotificationWhenPausingChecked = this.notificationService.ShowNotificationWhenPausing;
-                this.CheckBoxShowNotificationWhenResumingChecked = this.notificationService.ShowNotificationWhenResuming;
-                this.CheckBoxShowNotificationControlsChecked = this.notificationService.ShowNotificationControls;
-                this.CheckBoxShowProgressInTaskbarChecked = SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar");
-                this.CheckBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
+                this.checkBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
+                this.checkBoxShowNotificationWhenPausingChecked = this.notificationService.ShowNotificationWhenPausing;
+                this.checkBoxShowNotificationWhenResumingChecked = this.notificationService.ShowNotificationWhenResuming;
+                this.checkBoxShowNotificationControlsChecked = this.notificationService.ShowNotificationControls;
+                this.checkBoxShowProgressInTaskbarChecked = SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar");
+                this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
                 this.checkBoxEnableExternalControlChecked = SettingsClient.Get<bool>("Playback", "EnableExternalControl");
-                this.CheckBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
+                this.checkBoxLoopWhenShuffleChecked = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle");
+                this.checkBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
             });
         }
 
