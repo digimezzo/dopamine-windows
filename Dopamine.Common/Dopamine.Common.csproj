@@ -482,6 +482,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <Resource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
     <Resource Include="Presentation\Effects\FeatheringEffect.ps" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
