@@ -85,7 +85,7 @@
                 <!-- Cover controls -->
                 <DockPanel x:Name="CoverControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
-                        <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_CoverMicroPlayerWindowControlsGradientBrush}"/>
+                        <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
                         <controlsmoduleviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
                     </Grid>
                 </DockPanel>

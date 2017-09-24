@@ -30,9 +30,12 @@
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="55" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                                                 </Border>
                                                 <Image Panel.ZIndex="1" Width="110" Height="110" Source="{Binding ImageUrl}"/>
-                                                <TextBlock Panel.ZIndex="2" FontSize="15" TextWrapping="Wrap" Text="{Binding Name}" 
-                                                           Foreground="{DynamicResource RG_WhiteBrush}" Padding="5,0,0,5"
+                                                <Grid Panel.ZIndex="2" VerticalAlignment="Bottom">
+                                                    <Border Panel.ZIndex="0" Background="{DynamicResource RG_BlackToTransparentBottomTopBrush}"/>
+                                                    <TextBlock Panel.ZIndex="1" TextWrapping="Wrap" Text="{Binding Name}" 
+                                                           Foreground="{DynamicResource RG_WhiteBrush}" Padding="5,5,5,5"
                                                            HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                                </Grid>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="true">
@@ -72,6 +75,14 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxSimilarArtistsItem}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <!-- Editing the ListBox ControlTemplate to remove the ScrollViewer is the only way to prevent scrolling -->
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

@@ -64,7 +64,7 @@
                     </controls:Tile>
                     <Image x:Name="CoverPicture" Panel.ZIndex="1" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <Grid x:Name="CoverControls" Panel.ZIndex="2" Opacity="0">
-                        <Border x:Name="CloseBorder" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource RG_CoverMicroPlayerWindowControlsGradientBrush}"/>
+                        <Border x:Name="CloseBorder" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
                         <Button x:Name="CloseButton" Style="{StaticResource WindowButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Height="22" Width="22" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Close}" Click="CloseButton_Click">
                             <Path Data="{StaticResource Close}"
                                 Fill="White" 
