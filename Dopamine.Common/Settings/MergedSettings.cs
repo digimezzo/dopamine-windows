@@ -4,6 +4,11 @@ namespace Dopamine.Common.Settings
 {
     public class MergedSettings : IMergedSettings
     {
+        public string ApplicationFolder
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.ApplicationFolder(); }
+        }
+
         public bool UseLightTheme
         {
             get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "EnableLightTheme"); }
@@ -36,6 +41,24 @@ namespace Dopamine.Common.Settings
         {
             get { return Digimezzo.Utilities.Settings.SettingsClient.Get<string>("Lyrics", "Providers"); }
             set { Digimezzo.Utilities.Settings.SettingsClient.Set<string>("Lyrics", "Providers", value); }
+        }
+
+        public string SelectedEqualizerPreset
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<string>("Equalizer", "SelectedPreset"); }
+            set { Digimezzo.Utilities.Settings.SettingsClient.Set<string>("Equalizer", "SelectedPreset", value); }
+        }
+
+        public string ManualEqualizerPreset
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<string>("Equalizer", "ManualPreset"); }
+            set { Digimezzo.Utilities.Settings.SettingsClient.Set<string>("Equalizer", "ManualPreset", value); }
+        }
+
+        public bool EnableExternalControl
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Playback", "EnableExternalControl"); }
+            set { Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Playback", "EnableExternalControl", value); }
         }
 
         public MergedSettings()

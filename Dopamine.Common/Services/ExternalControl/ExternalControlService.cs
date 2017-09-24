@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Settings;
+using Dopamine.Core.Base;
+using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Base;
-using Microsoft.Practices.Unity;
 
 namespace Dopamine.Common.Services.ExternalControl
 {
@@ -14,26 +13,26 @@ namespace Dopamine.Common.Services.ExternalControl
         #region Variables
         private ServiceHost svcHost;
         private ExternalControlServer svcExternalControlInstance;
-        private IFftDataServer svcFftDataInstance;
-        private readonly IUnityContainer container;
+        private IMergedSettings settings;
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
         #endregion
 
         #region Construction
-        public ExternalControlService(IUnityContainer container)
+        public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService, IMergedSettings settings)
         {
-            this.container = container;
-            this.playbackService = this.container.Resolve<IPlaybackService>();
-            this.cacheService = this.container.Resolve<ICacheService>();
+            this.settings = settings;
+            this.playbackService = playbackService;
+            this.cacheService = cacheService;
 
-            if(SettingsClient.Get<bool>("Playback", "EnableExternalControl"))
-                Start();
+            if(this.settings.EnableExternalControl)
+            {
+                this.Start();
+            }   
         }
         #endregion
 
         #region IExternalControlService
-
         public void Start()
         {
             if (this.svcExternalControlInstance == null)
@@ -68,8 +67,6 @@ namespace Dopamine.Common.Services.ExternalControl
                 MetadataExchangeBindings.CreateMexNamedPipeBinding(), "/ExternalControlService/mex");
 
             svcHost.Open();
-
-
         }
 
         public void Stop()
@@ -77,7 +74,6 @@ namespace Dopamine.Common.Services.ExternalControl
             this.svcHost.Close();
             this.svcExternalControlInstance.Close();
         }
-
 #endregion
 
 #region Private
