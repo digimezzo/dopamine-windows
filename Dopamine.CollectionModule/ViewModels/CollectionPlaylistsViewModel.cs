@@ -89,6 +89,10 @@ namespace Dopamine.CollectionModule.ViewModels
                 {
                     this.GetTracksAsync();
                 }
+                else
+                {
+                    this.ClearTracks();
+                }
             }
         }
 
@@ -441,7 +445,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
         }
 
-        public async Task GetTracksAsync()
+        private async Task GetTracksAsync()
         {
             List<PlayableTrack> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
             var orderedTracks = new OrderedDictionary<string, PlayableTrack>();
@@ -455,6 +459,11 @@ namespace Dopamine.CollectionModule.ViewModels
             });
 
             await this.GetTracksCommonAsync(orderedTracks);
+        }
+
+        private async Task ClearTracks()
+        {
+            await this.GetTracksCommonAsync(new OrderedDictionary<string, PlayableTrack>());
         }
 
         private async Task DeleteTracksFromPlaylistsAsync()
