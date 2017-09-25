@@ -1,15 +1,25 @@
 ﻿using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using System.Threading.Tasks;
+using System;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
     public class NowPlayingControlViewModel : NowPlayingViewModelBase
     {
+        #region Commands
+        public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
+        #endregion
+
         #region Construction
         public NowPlayingControlViewModel(IUnityContainer container) : base(container)
         {
+            this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
+            {
+                this.UpdateShowTrackArtAsync(showTrackArt.Value);
+            });
         }
         #endregion
 

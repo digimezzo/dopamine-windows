@@ -16,7 +16,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
-        private string artworkPath;
+        private bool showTrackArt;
+        private byte[] trackArt;
+        //private string artworkPath;
         #endregion
 
         #region Sorting
@@ -74,6 +76,34 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         #endregion
 
         #region Properties
+        public bool ShowTrackArt
+        {
+            get { return this.showTrackArt; }
+            set
+            {
+                bool oldValue = this.showTrackArt;
+                this.showTrackArt = value;
+
+                if(oldValue != value)
+                {
+                    RaisePropertyChanged(nameof(this.TrackArt));
+                }
+            }
+        }
+
+        public byte[] TrackArt
+        {
+            get
+            {
+                if (this.showTrackArt)
+                {
+                    return null; // TODO
+                }
+
+                return null;
+            }
+        }
+
         public bool HasLyrics
         {
             get
@@ -193,7 +223,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 
         public string SkipCount
         {
-            get { return this.Track.SkipCount  > 0 ? this.Track.SkipCount.ToString() : string.Empty; }
+            get { return this.Track.SkipCount > 0 ? this.Track.SkipCount.ToString() : string.Empty; }
         }
 
         public string DateLastPlayed
@@ -329,11 +359,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set { SetProperty<bool>(ref this.showTrackNumber, value); }
         }
 
-        public string ArtworkPath
-        {
-            get { return this.artworkPath; }
-            set { SetProperty<string>(ref this.artworkPath, value); }
-        }
+        //public string ArtworkPath
+        //{
+        //    get { return this.artworkPath; }
+        //    set { SetProperty<string>(ref this.artworkPath, value); }
+        //}
 
         public string FileName
         {
