@@ -32,7 +32,6 @@ namespace Dopamine.MiniPlayerModule
             this.container.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);
             this.container.RegisterType<object, MicroPlayerViewModel>(typeof(MicroPlayerViewModel).FullName);
             this.container.RegisterType<object, MiniPlayerPlaylist>(typeof(MiniPlayerPlaylist).FullName);
-            this.container.RegisterType<object, MiniPlayerPlaylistViewModel>(typeof(MiniPlayerPlaylistViewModel).FullName);
             this.container.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
             this.container.RegisterType<object, NanoPlayerViewModel>(typeof(NanoPlayerViewModel).FullName);
         }

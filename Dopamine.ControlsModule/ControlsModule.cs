@@ -30,7 +30,6 @@ namespace Dopamine.ControlsModule
             this.container.RegisterType<object, NowPlayingPlaybackControls>(typeof(NowPlayingPlaybackControls).FullName);
             this.container.RegisterType<object, NowPlayingPlaybackControlsViewModel>(typeof(NowPlayingPlaybackControlsViewModel).FullName);
             this.container.RegisterType<object, SearchControl>(typeof(SearchControl).FullName);
-            this.container.RegisterType<object, SearchControlViewModel>(typeof(SearchControlViewModel).FullName);
             this.container.RegisterType<object, SpectrumAnalyzerControl>(typeof(SpectrumAnalyzerControl).FullName);
             this.container.RegisterType<object, SpectrumAnalyzerControlViewModel>(typeof(SpectrumAnalyzerControlViewModel).FullName);
             this.container.RegisterType<object, CoverPlayerControls>(typeof(CoverPlayerControls).FullName);

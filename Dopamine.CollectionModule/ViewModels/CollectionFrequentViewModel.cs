@@ -183,7 +183,7 @@ namespace Dopamine.CollectionModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(ControlsModule.Views.SearchControl).FullName);
         }
         #endregion
     }

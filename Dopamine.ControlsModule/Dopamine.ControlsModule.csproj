@@ -113,7 +113,6 @@
     <Compile Include="ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
     <Compile Include="ViewModels\PlaybackControlsViewModelBase.cs" />
-    <Compile Include="ViewModels\SearchControlViewModel.cs" />
     <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Views\CollectionPlaybackControls.xaml.cs">
@@ -221,8 +220,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SearchControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShuffleAllControl.xaml">
       <SubType>Designer</SubType>

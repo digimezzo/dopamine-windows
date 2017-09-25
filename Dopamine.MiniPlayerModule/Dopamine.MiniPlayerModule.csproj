@@ -109,7 +109,6 @@
     <Compile Include="ViewModels\CommonMiniPlayerViewModel.cs" />
     <Compile Include="ViewModels\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MicroPlayerViewModel.cs" />
-    <Compile Include="ViewModels\MiniPlayerPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NanoPlayerViewModel.cs" />
     <Compile Include="Views\CommonMiniPlayerView.cs" />
     <Compile Include="Views\CoverPlayer.xaml.cs">

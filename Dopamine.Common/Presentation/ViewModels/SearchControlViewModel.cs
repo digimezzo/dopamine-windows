@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Services.Search;
 using Prism.Mvvm;
 
-namespace Dopamine.ControlsModule.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels
 {
     public class SearchControlViewModel : BindableBase
     {
