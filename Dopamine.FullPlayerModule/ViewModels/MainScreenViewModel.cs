@@ -92,7 +92,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
 
                 if (view != null && view.GetType() != typeof(CollectionFrequent))
                 {
-                    this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(SearchControl).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(ControlsModule.Views.SearchControl).FullName);
                 }
             }
         }

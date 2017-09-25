@@ -285,6 +285,7 @@
     <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Base\PlaylistViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\NowPlayingControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Presentation\ViewModels\ProgressControlsThinViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\SearchControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
@@ -347,6 +349,9 @@
     <Compile Include="Presentation\Views\LyricsControl.xaml.cs">
       <DependentUpon>LyricsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\NowPlayingControl.xaml.cs">
+      <DependentUpon>NowPlayingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\PlaybackControls.xaml.cs">
       <DependentUpon>PlaybackControls.xaml</DependentUpon>
     </Compile>
@@ -370,6 +375,9 @@
     </Compile>
     <Compile Include="Presentation\Views\ProgressControlsWithTime.xaml.cs">
       <DependentUpon>ProgressControlsWithTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\SearchControl.xaml.cs">
+      <DependentUpon>SearchControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
       <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
@@ -563,6 +571,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\NowPlayingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\Views\PlaybackControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -592,6 +604,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\ProgressControlsWithTime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\SearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
