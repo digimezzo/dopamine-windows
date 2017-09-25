@@ -72,7 +72,7 @@
                          BorderThickness="0"
                          SelectionMode="Extended">
                 <dc:MultiSelectListBox.InputBindings>
-                    <KeyBinding Key="Delete" Command="{Binding RemoveFromNowPlayingCommand}" />
+                    <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
                 </dc:MultiSelectListBox.InputBindings>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">

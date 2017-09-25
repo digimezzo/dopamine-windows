@@ -22,10 +22,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private IDialogService dialogService;
         #endregion
 
-        #region Commands
-        public DelegateCommand RemoveFromNowPlayingCommand { get; set; }
-        #endregion
-
         #region Construction
         public NowPlayingViewModelBase(IUnityContainer container)
            : base(container)
@@ -35,7 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.dialogService = container.Resolve<IDialogService>();
 
             // Commands
-            this.RemoveFromNowPlayingCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
+            this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
             this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
