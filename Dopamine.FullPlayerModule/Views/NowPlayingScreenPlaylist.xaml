@@ -17,14 +17,14 @@
     </UserControl.Resources>
 
     <i:Interaction.Triggers>
-      <i:EventTrigger EventName="Loaded">
-         <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-      </i:EventTrigger>
-   </i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
-   <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <!-- Cover -->
-      <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
+    <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- Cover -->
+        <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">
             <StackPanel.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.Resources>
@@ -49,14 +49,14 @@
                 </ContextMenu>
             </StackPanel.ContextMenu>
             <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="250" Margin="20">
-            <commonviews:CoverArtControl/>
-            <Border.Effect>
-               <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
-            </Border.Effect>
-         </Border>
-         <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
-      </StackPanel>
-      <!-- List -->
+                <commonviews:CoverArtControl/>
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                </Border.Effect>
+            </Border>
+            <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
+        </StackPanel>
+        <!-- List -->
         <commonviews:NowPlayingControl Margin="10,20,0,0"/>
     </DockPanel>
 </UserControl>
