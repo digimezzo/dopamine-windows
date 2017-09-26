@@ -18,7 +18,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private bool showTrackNumber;
         private bool showTrackArt;
         private byte[] trackArt;
-        //private string artworkPath;
         #endregion
 
         #region Sorting
@@ -82,11 +81,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 bool oldValue = this.showTrackArt;
-                this.showTrackArt = value;
+                SetProperty(ref this.showTrackArt, value);
 
-                if(oldValue != value)
+                if (oldValue != value && value)
                 {
-                    RaisePropertyChanged(nameof(this.TrackArt));
+                    this.GetTrackArt();
                 }
             }
         }
@@ -95,12 +94,23 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             get
             {
-                if (this.showTrackArt)
-                {
-                    return null; // TODO
-                }
+                return this.trackArt;
+            }
+            private set
+            {
+                SetProperty(ref this.trackArt, value);
+            }
+        }
 
-                return null;
+        public async void GetTrackArt()
+        {
+            try
+            {
+                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path);
+            }
+            catch (Exception)
+            {
+                // Swallow
             }
         }
 
@@ -143,7 +153,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.TrackTitle = value;
-                OnPropertyChanged(() => this.TrackTitle);
+                RaisePropertyChanged(nameof(this.TrackTitle));
             }
         }
 
@@ -178,7 +188,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.TrackNumber = Convert.ToInt64(value);
-                OnPropertyChanged(() => this.TrackNumber);
+                RaisePropertyChanged(nameof(this.TrackNumber));
             }
         }
 
@@ -212,7 +222,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.AlbumTitle = value;
-                OnPropertyChanged(() => this.AlbumTitle);
+                RaisePropertyChanged(nameof(this.AlbumTitle));
             }
         }
 
@@ -242,7 +252,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.AlbumArtist = value;
-                OnPropertyChanged(() => this.AlbumArtist);
+                RaisePropertyChanged(nameof(this.AlbumArtist));
             }
         }
 
@@ -252,7 +262,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.ArtistName = value;
-                OnPropertyChanged(() => this.ArtistName);
+                RaisePropertyChanged(nameof(this.ArtistName));
             }
         }
 
@@ -263,7 +273,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.GenreName = value;
-                OnPropertyChanged(() => this.Genre);
+                RaisePropertyChanged(nameof(this.Genre));
             }
         }
 
@@ -283,7 +293,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.Year = Convert.ToInt64(value);
-                OnPropertyChanged(() => Year);
+                RaisePropertyChanged(nameof(this.Year));
             }
         }
 
@@ -293,7 +303,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Track.Rating = (long?)value;
-                OnPropertyChanged(() => this.Rating);
+                RaisePropertyChanged(nameof(this.Rating));
 
                 this.metadataService.UpdateTrackRatingAsync(this.Track.Path, value);
             }
@@ -312,7 +322,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             // Update the UI
             this.Track.Love = love ? 1 : 0;
-            OnPropertyChanged(() => this.Love);
+            RaisePropertyChanged(nameof(this.Love));
 
             // Update Love in the database
             await this.metadataService.UpdateTrackLoveAsync(this.Track.Path, love);
@@ -359,12 +369,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set { SetProperty<bool>(ref this.showTrackNumber, value); }
         }
 
-        //public string ArtworkPath
-        //{
-        //    get { return this.artworkPath; }
-        //    set { SetProperty<string>(ref this.artworkPath, value); }
-        //}
-
         public string FileName
         {
             get { return this.Track.FileName; }
@@ -406,13 +410,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         public void UpdateVisibleRating(int rating)
         {
             this.Track.Rating = (long?)rating;
-            OnPropertyChanged(() => this.Rating);
+            RaisePropertyChanged(nameof(this.Rating));
         }
 
         public void UpdateVisibleLove(bool love)
         {
             this.Track.Love = love ? 1 : 0;
-            OnPropertyChanged(() => this.Love);
+            RaisePropertyChanged(nameof(this.Love));
         }
 
         public void UpdateVisibleCounters(TrackStatistic statistic)
@@ -420,10 +424,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             this.Track.PlayCount = statistic.PlayCount;
             this.Track.SkipCount = statistic.SkipCount;
             this.track.DateLastPlayed = statistic.DateLastPlayed;
-            OnPropertyChanged(() => this.PlayCount);
-            OnPropertyChanged(() => this.SkipCount);
-            OnPropertyChanged(() => this.DateLastPlayed);
-            OnPropertyChanged(() => this.SortDateLastPlayed);
+            RaisePropertyChanged(nameof(this.PlayCount));
+            RaisePropertyChanged(nameof(this.SkipCount));
+            RaisePropertyChanged(nameof(this.DateLastPlayed));
+            RaisePropertyChanged(nameof(this.SortDateLastPlayed));
         }
         #endregion
     }
