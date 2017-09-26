@@ -44,8 +44,8 @@
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                     <ToggleButton x:Name="ShowPicturesButton" Margin="15,0,5,0" Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                         <Grid>
-                            <TextBlock Text="&#xE251;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                            <TextBlock Text="&#xE251;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="20" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBlock Text="&#xE8D4;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="18" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                            <TextBlock Text="&#xE8D4;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="18" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Grid>
                     </ToggleButton>
                 </StackPanel>
