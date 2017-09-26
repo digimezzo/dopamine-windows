@@ -40,6 +40,11 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
         protected bool isDroppingTracks;
         private KeyValuePair<string, TrackViewModel> lastPlayingTrackVm;
+        private bool showTrackArt;
+        #endregion
+
+        #region Commands
+        public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
         #endregion
 
         #region Properties
@@ -78,6 +83,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
+            this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
+            {
+                this.showTrackArt = showTrackArt.Value;
+                this.UpdateShowTrackArtAsync(showTrackArt.Value);
+            });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
@@ -92,11 +102,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
             e.Accepted = DatabaseUtils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
         }
-      
+
         private async void CalculateSizeInformationAsync(CollectionViewSource source)
         {
             // Reset duration and size
-            this.SetSizeInformation(0,0);
+            this.SetSizeInformation(0, 0);
 
             CollectionView viewCopy = null;
 
@@ -104,8 +114,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (source != null)
                 {
-                    // Create copy of CollectionViewSource because only STA can access it
-                    viewCopy = new CollectionView(source.View);
+                // Create copy of CollectionViewSource because only STA can access it
+                viewCopy = new CollectionView(source.View);
                 }
             });
 
@@ -115,7 +125,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     try
                     {
-                        long totalDuration =0;
+                        long totalDuration = 0;
                         long totalSize = 0;
 
                         foreach (KeyValuePair<string, TrackViewModel> vm in viewCopy)
@@ -187,25 +197,44 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                // Populate CollectionViewSource
-                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+            // Populate CollectionViewSource
+            this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
                 this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
-                // Update count
-                this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
+            // Update count
+            this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
             });
 
             // Update duration and size
             this.CalculateSizeInformationAsync(this.TracksCvs);
 
+            // Show track art if required
+            this.UpdateShowTrackArtAsync(this.showTrackArt);
 
             // Show playing Track
             this.ShowPlayingTrackAsync();
         }
 
+        protected async void UpdateShowTrackArtAsync(bool showTrackArt)
+        {
+            // TODO: save to settings here
+            if (this.Tracks == null || this.Tracks.Count == 0)
+            {
+                return;
+            }
+
+            await Task.Run(() =>
+            {
+                foreach (KeyValuePair<string, TrackViewModel> trackPair in this.Tracks)
+                {
+                    trackPair.Value.ShowTrackArt = showTrackArt;
+                }
+            });
+        }
+
         protected async Task PlaySelectedAsync()
         {
-            var result = await this.playbackService.PlaySelectedAsync(this.selectedTracks.Select(t=>t.Value).ToList());
+            var result = await this.playbackService.PlaySelectedAsync(this.selectedTracks.Select(t => t.Value).ToList());
 
             if (!result)
             {
@@ -255,8 +284,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                // Tracks
-                if (this.TracksCvs != null)
+            // Tracks
+            if (this.TracksCvs != null)
                 {
                     this.TracksCvs.View.Refresh();
                     this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
@@ -277,8 +306,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                        // The UI is only updated if PropertyChanged is fired on the UI thread
-                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
+                    // The UI is only updated if PropertyChanged is fired on the UI thread
+                    Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
                     }
                 }
             });
@@ -294,8 +323,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                        // The UI is only updated if PropertyChanged is fired on the UI thread
-                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
+                    // The UI is only updated if PropertyChanged is fired on the UI thread
+                    Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
                     }
                 }
             });
@@ -358,19 +387,19 @@ namespace Dopamine.Common.Presentation.ViewModels
                     var trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     var isTrackFound = false;
 
-                    // Firstly, try to find a matching Guid. This is the most exact.
-                    var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
+                // Firstly, try to find a matching Guid. This is the most exact.
+                var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
                     if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                     {
                         isTrackFound = true;
                     }
                     else
                     {
-                        // If Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
-                        // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
-                        // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
-                        // to rely on the path of the tracks.
-                        trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
+                    // If Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                    // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
+                    // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
+                    // to rely on the path of the tracks.
+                    trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
                         if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                         {
                             isTrackFound = true;

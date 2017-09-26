@@ -43,23 +43,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             await this.GetTracksCommonAsync(this.playbackService.Queue);
         }
-
-        protected async void UpdateShowTrackArtAsync(bool showTrackArt)
-        {
-            // TODO: save to settings here
-            if(this.Tracks == null || this.Tracks.Count == 0)
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                foreach (KeyValuePair<string, TrackViewModel> trackPair in this.Tracks)
-                {
-                    trackPair.Value.ShowTrackArt = showTrackArt;
-                }
-            });
-        }
         #endregion
 
         #region Overrides

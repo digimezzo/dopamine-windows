@@ -113,14 +113,22 @@
                             </ToolTip>
                         </Border.ToolTip>
                         <DockPanel>
-                            <Border MinWidth="20" Height="38">
-                                <TextBlock 
+                            <Grid DockPanel.Dock="Left">
+                                <Grid Panel.ZIndex="0"
+                                        Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
+                                    <Border Panel.ZIndex="0" Width="38" Height="38" Background="Red"/>
+                                    <Image Panel.ZIndex="1" Width="38" Height="38" Source="{Binding Value.TrackArt}"/>
+                                </Grid>
+                                <Border Panel.ZIndex="1" MinWidth="20" Height="38" 
+                                        Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                                    <TextBlock 
                                         Text="{Binding Value.FormattedTrackNumber}" 
                                         Foreground="{Binding Foreground,ElementName=DummyLabel}" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         FontSize="13"/>
-                            </Border>
+                                </Border>
+                            </Grid>
                             <StackPanel VerticalAlignment="Center" Height="38">
                                 <DockPanel Height="19">
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
