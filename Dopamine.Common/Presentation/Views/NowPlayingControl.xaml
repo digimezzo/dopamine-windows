@@ -41,19 +41,19 @@
         </Grid>
         <DockPanel Margin="0,15,0,15">
             <DockPanel DockPanel.Dock="Bottom" Margin="15,15,15,0">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <ToggleButton x:Name="ShowPicturesButton" Margin="15,0,5,0" Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
-                        <Grid>
-                            <TextBlock Text="&#xE93C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="18" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                            <TextBlock Text="&#xE93C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="18" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
-                    </ToggleButton>
-                </StackPanel>
-                <controls:TotalsInformation 
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
-                                FontSize="13"
-                                TotalDurationInformation="{Binding TotalDurationInformation}"
-                                TotalSizeInformation="{Binding TotalSizeInformation}"/>
+                <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="15,0,5,0" 
+                              Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                    <Grid>
+                        <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </ToggleButton>
+                <controls:TotalsInformation
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
+                    FontSize="13"
+                    TotalDurationInformation="{Binding TotalDurationInformation}"
+                    TotalSizeInformation="{Binding TotalSizeInformation}"/>
             </DockPanel>
             <dc:MultiSelectListBox x:Name="ListBoxTracks"
                          dd:DragDrop.IsDragSource="True" 
