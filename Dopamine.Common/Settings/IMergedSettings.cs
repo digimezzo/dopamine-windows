@@ -1,4 +1,5 @@
 ﻿using Dopamine.Core.Settings;
+using System;
 
 namespace Dopamine.Common.Settings
 {
@@ -11,5 +12,8 @@ namespace Dopamine.Common.Settings
         string SelectedEqualizerPreset { get; set; }
         string ManualEqualizerPreset { get; set; }
         bool EnableExternalControl { get; set; }
+        bool ShowTrackArtOnPlaylists { get; set; }
+
+        event EventHandler ShowTrackArtOnPlaylistsChanged;
     }
 }
