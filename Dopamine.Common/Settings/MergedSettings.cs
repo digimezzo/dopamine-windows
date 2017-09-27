@@ -61,10 +61,21 @@ namespace Dopamine.Common.Settings
             set { Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Playback", "EnableExternalControl", value); }
         }
 
+        public bool ShowTrackArtOnPlaylists
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists"); }
+            set {
+                Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", value);
+                this.ShowTrackArtOnPlaylistsChanged(this, new EventArgs());
+            }
+        }
+
         public MergedSettings()
         {
             this.Initialize();
         }
+
+        public event EventHandler ShowTrackArtOnPlaylistsChanged = delegate { };
 
         private void Initialize()
         {

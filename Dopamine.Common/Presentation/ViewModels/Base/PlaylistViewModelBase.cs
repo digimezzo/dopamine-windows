@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using Dopamine.Common.Services.I18n;
+using Dopamine.Common.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -35,6 +36,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IDialogService dialogService;
         private IProviderService providerService;
         private II18nService i18nService;
+        private IMergedSettings settings;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
@@ -65,6 +67,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.selectedTracks; }
             set { SetProperty<IList<KeyValuePair<string, PlayableTrack>>>(ref this.selectedTracks, value); }
         }
+
+        public bool ShowTrackArt
+        {
+            get { return this.showTrackArt; }
+            set { SetProperty(ref this.showTrackArt, value); }
+        }
+
         #endregion
 
         #region Construction
@@ -78,6 +87,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = container.Resolve<IDialogService>();
             this.providerService = container.Resolve<IProviderService>();
             this.i18nService = container.Resolve<II18nService>();
+            this.settings = container.Resolve<IMergedSettings>();
 
             // Commands
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
@@ -85,14 +95,21 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
             {
-                this.showTrackArt = showTrackArt.Value;
-                this.UpdateShowTrackArtAsync(showTrackArt.Value);
+                this.settings.ShowTrackArtOnPlaylists = showTrackArt.Value;
             });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
+            this.settings.ShowTrackArtOnPlaylistsChanged += (_, __) =>
+            {
+                this.ShowTrackArt = this.settings.ShowTrackArtOnPlaylists;
+                this.UpdateShowTrackArtAsync();
+            };
+
+            // Settings
+            this.ShowTrackArt = this.settings.ShowTrackArtOnPlaylists;
         }
         #endregion
 
@@ -114,8 +131,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 if (source != null)
                 {
-                // Create copy of CollectionViewSource because only STA can access it
-                viewCopy = new CollectionView(source.View);
+                    // Create copy of CollectionViewSource because only STA can access it
+                    viewCopy = new CollectionView(source.View);
                 }
             });
 
@@ -138,7 +155,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("An error occured while setting size information. Exception: {0}", ex.Message);
+                        CoreLogger.Current.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });
@@ -197,27 +214,26 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-            // Populate CollectionViewSource
-            this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
+                // Populate CollectionViewSource
+                this.TracksCvs = new CollectionViewSource { Source = this.Tracks };
                 this.TracksCvs.Filter += new FilterEventHandler(TracksCvs_Filter);
 
-            // Update count
-            this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
+                // Update count
+                this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
             });
 
             // Update duration and size
             this.CalculateSizeInformationAsync(this.TracksCvs);
 
             // Show track art if required
-            this.UpdateShowTrackArtAsync(this.showTrackArt);
+            this.UpdateShowTrackArtAsync();
 
             // Show playing Track
             this.ShowPlayingTrackAsync();
         }
 
-        protected async void UpdateShowTrackArtAsync(bool showTrackArt)
+        protected async void UpdateShowTrackArtAsync()
         {
-            // TODO: save to settings here
             if (this.Tracks == null || this.Tracks.Count == 0)
             {
                 return;
@@ -227,7 +243,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 foreach (KeyValuePair<string, TrackViewModel> trackPair in this.Tracks)
                 {
-                    trackPair.Value.ShowTrackArt = showTrackArt;
+                    trackPair.Value.ShowTrackArt = this.showTrackArt;
                 }
             });
         }
@@ -284,8 +300,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-            // Tracks
-            if (this.TracksCvs != null)
+                // Tracks
+                if (this.TracksCvs != null)
                 {
                     this.TracksCvs.View.Refresh();
                     this.TracksCount = this.TracksCvs.View.Cast<KeyValuePair<string, TrackViewModel>>().Count();
@@ -306,8 +322,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                    // The UI is only updated if PropertyChanged is fired on the UI thread
-                    Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
                     }
                 }
             });
@@ -323,8 +339,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (vm.Value.Track.Path.Equals(e.Path))
                     {
-                    // The UI is only updated if PropertyChanged is fired on the UI thread
-                    Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
+                        // The UI is only updated if PropertyChanged is fired on the UI thread
+                        Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
                     }
                 }
             });
@@ -387,19 +403,19 @@ namespace Dopamine.Common.Presentation.ViewModels
                     var trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     var isTrackFound = false;
 
-                // Firstly, try to find a matching Guid. This is the most exact.
-                var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
+                    // Firstly, try to find a matching Guid. This is the most exact.
+                    var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
                     if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                     {
                         isTrackFound = true;
                     }
                     else
                     {
-                    // If Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
-                    // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
-                    // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
-                    // to rely on the path of the tracks.
-                    trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
+                        // If Guid is not found, try to find a matching path. Side effect: when the playlist contains multiple
+                        // entries for the same track, the playlist was enqueued, and the application was stopped and started, entries the
+                        // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
+                        // to rely on the path of the tracks.
+                        trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
                         if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                         {
                             isTrackFound = true;
