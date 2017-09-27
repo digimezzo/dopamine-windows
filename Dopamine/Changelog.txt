@@ -1,9 +1,10 @@
-2017-09-24: Dopamine 1.4.0 Build 949 (Preview)
+2017-09-27: Dopamine 1.4.0 Build 950 (Preview)
 ----------------------------------------------
 
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
 - [Added] Added option to use native Windows 10 notifications
 - [Added] The artists information screen now shows an image for similar artists
+- [Added] Added option to toggle display of song covers in playlists and Now playing
 - [Changed] Updated the German translation
 - [Changed] Removed the splash screen
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode

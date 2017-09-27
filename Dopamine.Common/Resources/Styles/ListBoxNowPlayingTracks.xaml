@@ -117,7 +117,16 @@
                                 <Grid Panel.ZIndex="0"
                                       Margin="2,0,0,0"
                                       Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
-                                    <Border Panel.ZIndex="0" Width="40" Height="40" Background="Red"/>
+                                    <controls:Tile Width="40" Height="40"
+                                             Panel.ZIndex="0"
+                                             IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
+                                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
+                                        <controls:Tile.Content>
+                                            <Viewbox>
+                                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                                            </Viewbox>
+                                        </controls:Tile.Content>
+                                    </controls:Tile>
                                     <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding Value.TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </Grid>
                                 <Border Panel.ZIndex="1" MinWidth="20" Height="40" 
