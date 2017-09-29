@@ -1,14 +1,12 @@
 ﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Base;
 using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows;
