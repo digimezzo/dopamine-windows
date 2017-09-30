@@ -115,13 +115,21 @@ namespace Dopamine
             Container.RegisterSingletonType<IFileService, FileService>();
             Container.RegisterSingletonType<ICommandService, CommandService>();
             Container.RegisterSingletonType<IMetadataService, MetadataService>();
-            Container.RegisterSingletonType<INotificationService, NotificationService>();
             Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
             Container.RegisterSingletonType<IProviderService, ProviderService>();
             Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
             Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
             Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
             Container.RegisterSingletonType<IWindowsIntegrationService, WindowsIntegrationService>();
+
+            if (Constants.IsWindows10)
+            {
+                Container.RegisterSingletonType<INotificationService, NotificationService>();
+            }
+            else
+            {
+                Container.RegisterSingletonType<INotificationService, LegacyNotificationService>();
+            }
         }
 
         private void InitializeServices()

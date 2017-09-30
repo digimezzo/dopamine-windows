@@ -1,7 +1,7 @@
-2017-09-28: Dopamine 1.4.0 Build 953 (Preview)
+2017-09-30: Dopamine 1.4.0 Build 954 (Preview)
 ----------------------------------------------
 
-Work in progress
+- [Fixed] Crash when starting on non-Windows 10 systems
 
 
 2017-09-27: Dopamine 1.4.0 Build 952 (Preview)
