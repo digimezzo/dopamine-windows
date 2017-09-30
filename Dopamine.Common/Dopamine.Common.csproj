@@ -442,6 +442,7 @@
     <Compile Include="Services\Metadata\MetadataService.cs" />
     <Compile Include="Services\Metadata\RatingChangedEventArgs.cs" />
     <Compile Include="Services\Notification\INotificationService.cs" />
+    <Compile Include="Services\Notification\LegacyNotificationService.cs" />
     <Compile Include="Services\Notification\NotificationService.cs" />
     <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
