@@ -1,7 +1,8 @@
-2017-09-30: Dopamine 1.4.0 Build 954 (Preview)
+2017-10-01: Dopamine 1.4.0 Build 955 (Preview)
 ----------------------------------------------
 
 - [Fixed] Crash when starting on non-Windows 10 systems
+- [Fixed] Missing text in Settings > Collection > Refresh
 
 
 2017-09-27: Dopamine 1.4.0 Build 952 (Preview)
