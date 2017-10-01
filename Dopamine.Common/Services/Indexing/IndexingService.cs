@@ -96,17 +96,14 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (var conn = this.factory.GetConnection())
                 {
-                    IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
-                    IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
-                    long needsIndexingCount = conn.Table<Track>().Select(t => t).Where(t => t.NeedsIndexing == 1).ToList().LongCount();
+                    long databaseNeedsIndexingCount = conn.Table<Track>().Select(t => t).ToList().Where(t => t.NeedsIndexing == 1).LongCount();
+                    long databaseLastDateFileModified = conn.Table<Track>().Select(t => t).ToList().OrderByDescending(t => t.DateFileModified).Select(t => t.DateFileModified).FirstOrDefault();
+                    long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First() : 0;
+                    long databaseTrackCount = conn.Table<Track>().Select(t => t).LongCount();
 
-                    long lastFileCount = 0;
-                    long lastDateFileModified = 0;
-
-                    if (lastFileCountStatistic != null) long.TryParse(lastFileCountStatistic.Value, out lastFileCount);
-                    if (lastDateFileModifiedStatistic != null) long.TryParse(lastDateFileModifiedStatistic.Value, out lastDateFileModified);
-
-                    if (needsIndexingCount > 0 | lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
+                    if (databaseNeedsIndexingCount > 0 |
+                        databaseTrackCount != this.allDiskPaths.Count |
+                        databaseLastDateFileModified < diskLastDateFileModified)
                     {
                         await Task.Delay(1000);
                         await this.IndexCollectionAsync(true);
@@ -132,8 +129,8 @@ namespace Dopamine.Common.Services.Indexing
 
             if (!isCheckPerformed)
             {
-                // CheckCollectionAsync already performs InitializeAsync(). 
-                // Make sure we don't execute this a second time.
+                // CheckCollectionAsync() already performs InitializeAsync(). Make sure we don't
+                // execute this a second time if we're started from CheckCollectionAsync().
                 await this.InitializeAsync();
             }
 
@@ -158,12 +155,9 @@ namespace Dopamine.Common.Services.Indexing
                 this.RefreshArtwork(this, new EventArgs());
             }
 
-            // Statistics
-            // ----------
-            await this.UpdateIndexingStatisticsAsync();
-
+            // Finalize
+            // --------
             this.isIndexing = false;
-
             this.IndexingStopped(this, new EventArgs());
         }
         #endregion
@@ -180,50 +174,6 @@ namespace Dopamine.Common.Services.Indexing
 
             // Get all files on disk which belong to a Collection Folder
             this.allDiskPaths = await this.folderRepository.GetPathsAsync();
-        }
-
-        private async Task UpdateIndexingStatisticsAsync()
-        {
-            await Task.Run(() =>
-            {
-                using (var conn = this.factory.GetConnection())
-                {
-                    try
-                    {
-                        IndexingStatistic lastFileCountStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastFileCount")).FirstOrDefault();
-                        IndexingStatistic lastDateFileModifiedStatistic = conn.Table<IndexingStatistic>().Select((t) => t).Where((t) => t.Key.Equals("LastDateFileModified")).FirstOrDefault();
-
-                        long currentDateFileModified = this.allDiskPaths.Select(t => t.Item3).OrderByDescending(t => t).FirstOrDefault();
-                        currentDateFileModified = currentDateFileModified > 0 ? currentDateFileModified : 0;
-
-                        long currentFileCount = this.allDiskPaths.Count;
-
-                        if (lastFileCountStatistic != null)
-                        {
-                            lastFileCountStatistic.Value = currentFileCount.ToString();
-                            conn.Update(lastFileCountStatistic);
-                        }
-                        else
-                        {
-                            conn.Insert(new IndexingStatistic { Key = "LastFileCount", Value = currentFileCount.ToString() });
-                        }
-
-                        if (lastDateFileModifiedStatistic != null)
-                        {
-                            lastDateFileModifiedStatistic.Value = currentDateFileModified.ToString();
-                            conn.Update(lastDateFileModifiedStatistic);
-                        }
-                        else
-                        {
-                            conn.Insert(new IndexingStatistic { Key = "LastDateFileModified", Value = currentDateFileModified.ToString() });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        CoreLogger.Current.Info("An error occurred while updating indexing statistics. Exception: {0}", ex.Message);
-                    }
-                }
-            });
         }
 
         private async Task<long> IndexArtworkAsync()

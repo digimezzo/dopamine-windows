@@ -44,7 +44,6 @@
     <Compile Include="Database\Entities\Configuration.cs" />
     <Compile Include="Database\Entities\Folder.cs" />
     <Compile Include="Database\Entities\Genre.cs" />
-    <Compile Include="Database\Entities\IndexingStatistic.cs" />
     <Compile Include="Database\Entities\QueuedTrack.cs" />
     <Compile Include="Database\Entities\RemovedTrack.cs" />
     <Compile Include="Database\Entities\Track.cs" />
