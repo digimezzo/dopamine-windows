@@ -28,7 +28,7 @@ namespace Dopamine.Core.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 20;
+        protected const int CURRENT_VERSION = 21;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -148,12 +148,6 @@ namespace Dopamine.Core.Database
                              "ProgressSeconds       INTEGER," +
                              "OrderID               INTEGER," +
                              "PRIMARY KEY(QueuedTrackID));");
-
-                conn.Execute("CREATE TABLE IndexingStatistic (" +
-                            "IndexingStatisticID    INTEGER," +
-                            "Key                    TEXT," +
-                            "Value                  TEXT," +
-                            "PRIMARY KEY(IndexingStatisticID));");
 
                 conn.Execute("CREATE TABLE TrackStatistic (" +
                              "TrackStatisticID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -1004,6 +998,22 @@ namespace Dopamine.Core.Database
                 conn.Execute($"UPDATE Album SET AlbumTitle='{Defaults.UnknownAlbumText}' WHERE AlbumTitle='Unknown Album';");
                 conn.Execute($"UPDATE Album SET AlbumArtist='{Defaults.UnknownArtistText}' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
                 conn.Execute($"UPDATE Genre SET GenreName='{Defaults.UnknownGenreText}' WHERE GenreName='Unknown Genre';");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 21
+        [DatabaseVersion(21)]
+        private void Migrate21()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("DROP TABLE IndexingStatistic;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
