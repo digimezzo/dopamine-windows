@@ -112,7 +112,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
+            this.indexingService.CheckCollectionAsync();
             this.collectionService.SaveMarkedFoldersAsync();
         }
 

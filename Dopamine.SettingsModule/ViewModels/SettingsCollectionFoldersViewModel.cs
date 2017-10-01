@@ -119,7 +119,9 @@ namespace Dopamine.SettingsModule.ViewModels
 
             // Makes sure Me.IsIndexng is set if this ViewModel is created after the Indexer has started indexing
             if (this.indexingService.IsIndexing)
+            {
                 this.IsIndexing = true;
+            }
 
             // These events handle changes of Indexer status after the ViewModel is created
             this.indexingService.IndexingStarted += (_, __) => this.IsIndexing = true;
@@ -147,7 +149,7 @@ namespace Dopamine.SettingsModule.ViewModels
                     switch (result)
                     {
                         case AddFolderResult.Success:
-                            await this.indexingService.AddFolderWatcherAsync(dlg.FileName);
+                            this.indexingService.OnFoldersChanged();
                             this.GetFoldersAsync();
                             break;
                         case AddFolderResult.Error:
@@ -204,7 +206,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 switch (result)
                 {
                     case RemoveFolderResult.Success:
-                        await this.indexingService.RemoveFolderWatcherAsync(path);
+                        this.indexingService.OnFoldersChanged();
                         this.GetFoldersAsync();
                         break;
                     case RemoveFolderResult.Error:

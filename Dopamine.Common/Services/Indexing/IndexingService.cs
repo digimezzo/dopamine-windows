@@ -1,7 +1,7 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Database.Repositories.Interfaces;
+﻿using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Common.Settings;
 using Dopamine.Core.Database;
 using Dopamine.Core.Database.Entities;
 using Dopamine.Core.Database.Repositories.Interfaces;
@@ -13,8 +13,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
 
 namespace Dopamine.Common.Services.Indexing
 {
@@ -24,12 +22,18 @@ namespace Dopamine.Common.Services.Indexing
         // Services
         private ICacheService cacheService;
 
+        // Settings
+        private IMergedSettings settings;
+
         // Repositories
         private ITrackRepository trackRepository;
         private IFolderRepository folderRepository;
         private IAlbumRepository albumRepository;
         private IArtistRepository artistRepository;
         private IGenreRepository genreRepository;
+
+        // Watcher
+        private FolderWatcher watcher = new FolderWatcher();
 
         // Paths
         private List<Tuple<long, string, long>> allDiskPaths;
@@ -46,11 +50,6 @@ namespace Dopamine.Common.Services.Indexing
 
         // Flags
         private bool isIndexing;
-        private bool needsIndexing;
-
-        // Watchers
-        private List<FileSystemWatcher> collectionFolderWatchers;
-        private Timer collectionFolderWatchersTimer;
         #endregion
 
         #region Properties
@@ -58,88 +57,38 @@ namespace Dopamine.Common.Services.Indexing
         {
             get { return this.isIndexing; }
         }
-
-        public bool NeedsIndexing
-        {
-            get { return this.needsIndexing; }
-            set { this.needsIndexing = value; }
-        }
         #endregion
 
         #region Construction
-        public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository, IFolderRepository folderRepository)
+        public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
+            IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
+            IFolderRepository folderRepository, IMergedSettings settings)
         {
-            // Initialize services
-            // -------------------
             this.cacheService = cacheService;
-
-            // Initialize factory
-            // ------------------
             this.factory = factory;
-
-            // Initialize repositories
-            // -----------------------
             this.trackRepository = trackRepository;
             this.albumRepository = albumRepository;
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
+            this.settings = settings;
 
-            // Initialize values
-            // -----------------
-            this.needsIndexing = true;
             this.isIndexing = false;
-
-            // Initialize watchers
-            this.InitializeCollectionFolderWatchersAsync();
         }
         #endregion
 
         #region IIndexingService
-        public async Task AddFolderWatcherAsync(string path)
+        public async Task CheckCollectionAsync()
         {
-            await Task.Run(async () =>
+            if (this.IsIndexing)
             {
-                if (!Directory.Exists(path))
-                {
-                    CoreLogger.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
-                    return;
-                }
-                var watcher = await CreateCollectionFolderWatcher(path);
-                this.collectionFolderWatchers.Add(watcher);
+                return;
+            }
 
-                this.StartCollectionFolderWatchersTimer();
-            });
-        }
-
-        public async Task RemoveFolderWatcherAsync(string path)
-        {
-            await Task.Run(() =>
+            if (!this.settings.RefreshCollectionAutomatically)
             {
-                if (!Directory.Exists(path))
-                {
-                    CoreLogger.Current.Error($"Cannot create FileSystemWatcher because '{path}' doesn't exist.");
-                    return;
-                }
-
-                var watcher = collectionFolderWatchers.First(w => Path.GetFullPath(w.Path).Equals(Path.GetFullPath(path)));
-                collectionFolderWatchers.Remove(watcher);
-                watcher.Dispose();
-
-                this.StartCollectionFolderWatchersTimer();
-            });
-        }
-
-        public void RefreshNow()
-        {
-            this.needsIndexing = true;
-            Application.Current.Dispatcher.BeginInvoke(new Action(async()=>await IndexCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false)));
-        }
-
-        public async Task CheckCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly)
-        {
-            if (this.IsIndexing | !this.needsIndexing) return;
-            else this.needsIndexing = false;
+                return;
+            }
 
             await this.InitializeAsync();
 
@@ -159,8 +108,8 @@ namespace Dopamine.Common.Services.Indexing
 
                     if (needsIndexingCount > 0 | lastFileCount != this.allDiskPaths.Count | (this.allDiskPaths.Count > 0 && (lastDateFileModified < this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First())))
                     {
-                        this.needsIndexing = true;
-                        await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, true);
+                        await Task.Delay(1000);
+                        await this.IndexCollectionAsync(true);
                     }
                 }
             }
@@ -170,41 +119,38 @@ namespace Dopamine.Common.Services.Indexing
             }
         }
 
-        public async Task DelayedIndexCollectionAsync(int delayMilliseconds, bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false)
+        public async Task IndexCollectionAsync(bool isCheckPerformed = false)
         {
-            await Task.Delay(delayMilliseconds);
-            await this.IndexCollectionAsync(ignoreRemovedFiles, artworkOnly, isInitialized);
-        }
-
-        public async Task IndexCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false)
-        {
-            if (this.IsIndexing | !this.needsIndexing) return;
-            else this.needsIndexing = false;
+            if (this.IsIndexing)
+            {
+                return;
+            }
 
             this.isIndexing = true;
 
             this.IndexingStarted(this, new EventArgs());
 
-            // Initialize
-            // ----------
-            if (!isInitialized) await this.InitializeAsync();
+            if (!isCheckPerformed)
+            {
+                // CheckCollectionAsync already performs InitializeAsync(). 
+                // Make sure we don't execute this a second time.
+                await this.InitializeAsync();
+            }
 
             // Tracks
             // ------
-            if (!artworkOnly)
-            {
-                bool isTracksChanged = await this.IndexTracksAsync(ignoreRemovedFiles) > 0 ? true : false;
 
-                if (isTracksChanged)
-                {
-                    CoreLogger.Current.Info("Sending event to refresh the lists");
-                    this.RefreshLists(this, new EventArgs());
-                }
+            bool isTracksChanged = await this.IndexTracksAsync(this.settings.IgnoreRemovedFiles) > 0 ? true : false;
+
+            if (isTracksChanged)
+            {
+                CoreLogger.Current.Info("Sending event to refresh the lists");
+                this.RefreshLists(this, new EventArgs());
             }
 
             // Artwork
             // -------
-            bool isArtworkChanged = await this.IndexArtworkAsync(!artworkOnly) > 0 ? true : false;
+            bool isArtworkChanged = await this.IndexArtworkAsync() > 0 ? true : false;
 
             if (isArtworkChanged)
             {
@@ -223,51 +169,6 @@ namespace Dopamine.Common.Services.Indexing
         #endregion
 
         #region Private
-        private async Task InitializeCollectionFolderWatchersAsync()
-        {
-           await Task.Run(async () =>
-            {
-                collectionFolderWatchersTimer = new Timer(2000);
-                collectionFolderWatchersTimer.Elapsed += CollectionFolderWatchersTimer_Elapsed;
-
-                this.collectionFolderWatchers = new List<FileSystemWatcher>();
-                foreach (var folder in await this.folderRepository.GetFoldersAsync())
-                {
-                    await AddFolderWatcherAsync(folder.Path);
-                }
-            });
-        }
-
-        private void CollectionFolderWatchersTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            collectionFolderWatchersTimer.Stop();
-            this.RefreshNow();
-        }
-
-        private async Task<FileSystemWatcher> CreateCollectionFolderWatcher(string folder)
-        {
-            FileSystemWatcher watcher = null;
-            await Task.Run(() =>
-            {
-                watcher = new FileSystemWatcher(folder)
-                {
-                    EnableRaisingEvents = true,
-                    IncludeSubdirectories = true
-                };
-                // Regardless sub folders or files are created/renamed/deleted, the Changed event will always be raised.
-                watcher.Changed += (_, __) => StartCollectionFolderWatchersTimer();
-            });
-
-            return watcher;
-        }
-
-        private void StartCollectionFolderWatchersTimer()
-        {
-            if(this.collectionFolderWatchersTimer.Enabled)
-                this.collectionFolderWatchersTimer.Stop();
-            this.collectionFolderWatchersTimer.Start();
-        }
-
         private async Task InitializeAsync()
         {
             // Initialize Cache
@@ -325,7 +226,7 @@ namespace Dopamine.Common.Services.Indexing
             });
         }
 
-        private async Task<long> IndexArtworkAsync(bool quickArtworkIndexing)
+        private async Task<long> IndexArtworkAsync()
         {
             CoreLogger.Current.Info("+++ STARTED INDEXING ARTWORK +++");
 
@@ -343,7 +244,7 @@ namespace Dopamine.Common.Services.Indexing
 
                 // Step 2: add new artwork to the cache
                 // -------------------------------------
-                numberUpdated = await this.AddArtworkAsync(quickArtworkIndexing);
+                numberUpdated = await this.AddArtworkAsync();
 
                 // Step 3: delete unused artwork from the cache
                 // --------------------------------------------
@@ -359,7 +260,7 @@ namespace Dopamine.Common.Services.Indexing
             return numberDeletedFromDatabase + numberDeletedFromDisk + numberUpdated;
         }
 
-        private async Task<long> AddArtworkAsync(bool quickArtworkIndexing = true)
+        private async Task<long> AddArtworkAsync()
         {
             long numberUpdated = 0;
 
@@ -373,20 +274,15 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         try
                         {
-                            // Only update artwork if QuickArtworkIndexing is enabled AND there 
-                            // is no ArtworkID set, OR when QuickArtworkIndexing is disabled.
-                            if ((quickArtworkIndexing & string.IsNullOrEmpty(alb.ArtworkID)) | !quickArtworkIndexing)
+                            Track trk = this.GetLastModifiedTrack(alb);
+
+                            alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
+
+                            if (!string.IsNullOrEmpty(alb.ArtworkID))
                             {
-                                Track trk = this.GetLastModifiedTrack(alb);
-
-                                alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
-
-                                if (!string.IsNullOrEmpty(alb.ArtworkID))
-                                {
-                                    alb.DateLastSynced = DateTime.Now.Ticks;
-                                    conn.Update(alb);
-                                    numberUpdated += 1;
-                                }
+                                alb.DateLastSynced = DateTime.Now.Ticks;
+                                conn.Update(alb);
+                                numberUpdated += 1;
                             }
                         }
                         catch (Exception ex)
@@ -808,7 +704,7 @@ namespace Dopamine.Common.Services.Indexing
             var newAlbum = new Album();
             var newArtist = new Artist();
             var newGenre = new Genre();
-            
+
             try
             {
                 MetadataUtils.SplitMetadata(track.Path, ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
@@ -867,6 +763,12 @@ namespace Dopamine.Common.Services.Indexing
             }
 
             return processingSuccessful;
+        }
+
+        public void OnFoldersChanged()
+        {
+            // TODO: take into account setting to index automatically.
+            //this.watcher.RestartWatching();
         }
         #endregion
 

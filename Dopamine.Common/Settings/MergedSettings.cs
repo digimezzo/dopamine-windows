@@ -65,8 +65,37 @@ namespace Dopamine.Common.Settings
         {
             get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists"); }
             set {
+                bool oldValue = Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
                 Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", value);
-                this.ShowTrackArtOnPlaylistsChanged(this, new EventArgs());
+
+                if (!oldValue.Equals(value))
+                {
+                    this.ShowTrackArtOnPlaylistsChanged(this, new EventArgs());
+                }
+            }
+        }
+
+        public bool RefreshCollectionAutomatically
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"); }
+            set
+            {
+                bool oldValue = Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
+                Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Indexing", "RefreshCollectionAutomatically", value);
+
+                if (!oldValue.Equals(value))
+                {
+                    this.RefreshCollectionAutomaticallyChanged(this, new EventArgs());
+                }
+            }
+        }
+
+        public bool IgnoreRemovedFiles
+        {
+            get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"); }
+            set
+            {
+                Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
             }
         }
 
@@ -76,6 +105,7 @@ namespace Dopamine.Common.Settings
         }
 
         public event EventHandler ShowTrackArtOnPlaylistsChanged = delegate { };
+        public event EventHandler RefreshCollectionAutomaticallyChanged = delegate { };
 
         private void Initialize()
         {

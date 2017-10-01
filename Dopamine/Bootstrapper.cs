@@ -206,10 +206,8 @@ namespace Dopamine
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
-                if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
-                {
-                    Container.Resolve<IIndexingService>().CheckCollectionAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
-                }
+                IMergedSettings settings = Container.Resolve<IMergedSettings>();
+                Container.Resolve<IIndexingService>().CheckCollectionAsync();
             }
         }
 

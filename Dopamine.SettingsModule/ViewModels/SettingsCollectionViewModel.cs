@@ -88,7 +88,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         private void RefreshNow()
         {
-            this.indexingService.RefreshNow();
+            this.indexingService.IndexCollectionAsync();
         }
         #endregion
 
@@ -100,11 +100,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
-            {
-                this.indexingService.DelayedIndexCollectionAsync(1000, SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles"), false);
-            }
-            
+            this.indexingService.CheckCollectionAsync();
             this.collectionService.SaveMarkedFoldersAsync();
         }
 
