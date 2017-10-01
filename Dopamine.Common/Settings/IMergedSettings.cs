@@ -13,7 +13,10 @@ namespace Dopamine.Common.Settings
         string ManualEqualizerPreset { get; set; }
         bool EnableExternalControl { get; set; }
         bool ShowTrackArtOnPlaylists { get; set; }
+        bool RefreshCollectionAutomatically { get; set; }
+        bool IgnoreRemovedFiles { get; set; }
 
         event EventHandler ShowTrackArtOnPlaylistsChanged;
+        event EventHandler RefreshCollectionAutomaticallyChanged;
     }
 }

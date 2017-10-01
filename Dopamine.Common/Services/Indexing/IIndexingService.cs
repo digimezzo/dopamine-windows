@@ -7,17 +7,13 @@ namespace Dopamine.Common.Services.Indexing
     public interface IIndexingService
     {
         bool IsIndexing { get; }
-        bool NeedsIndexing { get; set; }
-        Task CheckCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly);
-        Task DelayedIndexCollectionAsync(int delayMilliseconds, bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false);
-        Task IndexCollectionAsync(bool ignoreRemovedFiles, bool artworkOnly, bool isInitialized = false);
+        Task CheckCollectionAsync();
+        Task IndexCollectionAsync(bool artworkOnly = false);
         event EventHandler IndexingStarted;
         event EventHandler IndexingStopped;
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
         event EventHandler RefreshLists;
         event EventHandler RefreshArtwork;
-        void RefreshNow();
-        Task AddFolderWatcherAsync(string folder);
-        Task RemoveFolderWatcherAsync(string folder);
+        void OnFoldersChanged();
     }
 }
