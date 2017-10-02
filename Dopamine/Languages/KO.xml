@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="KO" Name="Korean">
+<Language Code="KO" Name="한국어">
   <Text Key="ISO639-1">KO</Text>
   <Text Key="Ok">확인</Text>
   <Text Key="Cancel">취소</Text>
@@ -46,7 +46,7 @@
   <Text Key="Supported_Media_Keys">다음 미디어 키를 지원합니다: 재생, 일시 중지, 이전, 다음.</Text>
   <Text Key="Latency">지연율</Text>
   <Text Key="Dopamine_Uses_WASAPI">소리는 윈도우 오디오 세션 API (WASAPI)를 이용해 재생됩니다.</Text>
-  <Text Key="Appearance">모양</Text>
+  <Text Key="Appearance">외형</Text>
   <Text Key="Theme">테마</Text>
   <Text Key="Choose_Theme">밝은 테마 사용</Text>
   <Text Key="Follow_Windows_Color">윈도우 색상과 동일하게</Text>
@@ -56,7 +56,7 @@
   <Text Key="Language">언어</Text>
   <Text Key="Updates">업데이트</Text>
   <Text Key="Check_For_Updates">업데이트 확인 (시작할 때와 이후 매 15분마다)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">시험판도 확인하기</Text>
+  <Text Key="Also_Check_For_Pre_Releases">프리뷰 버전도 확인</Text>
   <Text Key="New_Version_available">새 버전이 있습니다</Text>
   <Text Key="Add_More_Colors">색상 추가</Text>
   <Text Key="Show_Dopamine">도파민 보이기</Text>
@@ -103,7 +103,7 @@
   <Text Key="Ctrl_T">Ctrl+T</Text>
   <Text Key="Notification">알림</Text>
   <Text Key="Show_Notification_When_Song_Starts">재생이 시작될 때 알림 보이기</Text>
-  <Text Key="Show_Notification_Controls">알림에서 조작 버튼 보이기</Text>
+  <Text Key="Show_Notification_Controls">알림에서 재생 조작 버튼 보이기</Text>
   <Text Key="Notification_Position">알림 위치</Text>
   <Text Key="Test">테스트</Text>
   <Text Key="Bottom_Left">왼쪽 아래</Text>
@@ -122,7 +122,7 @@
   <Text Key="Show_Audio_Progress_In_Taskbar">윈도우 작업 표시줄에 재생 진행률 보이기</Text>
   <Text Key="Spectrum_Analyzer">스펙트럼 분석기</Text>
   <Text Key="Show_Spectrum_Analyzer">스펙트럼 분석기 보이기</Text>
-  <Text Key="Columns">표시할 열 선택</Text>
+  <Text Key="Columns">열</Text>
   <Text Key="Length">길이</Text>
   <Text Key="Album_Artist">앨범 아티스트</Text>
   <Text Key="Track_Number">트랙 번호</Text>
@@ -183,7 +183,6 @@
   <Text Key="Enter_Leave_Fullscreen">전체 화면 들어가거나 나가기</Text>
   <Text Key="File_Type_Not_Supported">다음 파일 형식은 지원하지 않습니다</Text>
   <Text Key="Unknown_Artist">알 수 없는 아티스트</Text>
-  <Text Key="Unknown_Album_Artist">알 수 없는 앨범 아티스트</Text>
   <Text Key="Unknown_Title">알 수 없는 제목</Text>
   <Text Key="Close_Notification_Automatically_After">다음 시간 이후 자동으로 알림 닫기</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">도파민이 맘에 드신다면 기부를 생각해보세요. 지금 기부하실 수도, 나중에 &apos;정보&apos; 화면에서 하실 수도 있습니다. 감사합니다!</Text>
@@ -216,7 +215,7 @@
   <Text Key="Show_Window_Border">창 주변에 1픽셀 테두리 보이기</Text>
   <Text Key="System_Tray">알림 영역</Text>
   <Text Key="Show_Tray_Icon">알림 영역에 아이콘 보이기</Text>
-  <Text Key="Align_Playlist_Vertically">재생 목록을 세로로 정렬</Text>
+  <Text Key="Align_Playlist_Vertically">세로로 재생 목록 정렬</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">플레이어가 보이지 않을 때만 알림 보이기</Text>
   <Text Key="Transparency">투명도</Text>
   <Text Key="Enable_Transparency">일부 요소 투명하게 만들기 (윈도우 10 전용)</Text>
@@ -304,7 +303,6 @@
   <Text Key="Light">밝음</Text>
   <Text Key="Components">구성 요소</Text>
   <Text Key="Thanks">고마운 분들</Text>
-  <Text Key="License_Information">다음 구성 요소의 라이센스는 도파민이 설치된 폴더에 있습니다.</Text>
   <Text Key="License">라이센스</Text>
   <Text Key="Wasapi_Exclusive_Mode">독점 모드 (다른 애플리케이션 음소거)</Text>
   <Text Key="Equalizer">이퀄라이저</Text>
@@ -319,7 +317,7 @@
   <Text Key="Delete_Preset_Confirmation">정말로 &apos;%preset%&apos; 설정값을 삭제할까요?</Text><Text Key="Error_While_Deleting_Preset">이 설정값을 삭제할 수 없습니다. 로그 파일에서 더 많은 정보를 알아보세요.</Text>
   <Text Key="Error_While_Deleting_Preset">이 설정값을 삭제할 수 없습니다. 로그 파일에서 더 많은 정보를 알아보세요.</Text>
   <Text Key="Exclusive_Mode">독점 모드</Text>
-  <Text Key="Exclusive_Mode_Confirmation">정말 독점 모드를 활성화 할까요? 다른 애플리케이션은 소리를 재생할 수 없게 됩니다.</Text>
+  <Text Key="Exclusive_Mode_Confirmation">정말 독점 모드를 활성화 할까요? 이제 다른 애플리케이션은 소리를 재생할 수 없습니다.</Text>
   <Text Key="Search_Online">온라인 검색</Text>
   <Text Key="Online">온라인</Text>
   <Text Key="Add_Remove_Online_Search_Providers">온라인 검색 공급자 추가 혹은 제거</Text>
@@ -346,7 +344,6 @@
   <Text Key="No_Lyrics_Found">가사를 찾지 못했습니다</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">현재 재생 중인 노래로 자동 스크롤하기</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">마우스 스크롤로 변경하는 볼륨</Text>
-  <Text Key="Refresh_Collection_On_Startup">시작할 때 컬렉션 새로 고침</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">해당 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. 컬렉션을 새로 고칠까요?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">하나 이상의 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. 컬렉션을 새로 고칠까요?</Text>
   <Text Key="Automatic_Scrolling">자동 스크롤</Text>
@@ -369,7 +366,7 @@
   <Text Key="Search_Again">다시 검색</Text>
   <Text Key="Audio_File">오디오 파일</Text>
   <Text Key="Play_Next">다음 재생</Text>
-  <Text Key="Last_Played">마지막 재생</Text>
+  <Text Key="Last_Played">마지막으로 재생</Text>
   <Text Key="Remember_Last_played_Song">마지막으로 재생한 노래와 재생 진행률 기억하기</Text>
   <Text Key="Download_Lyrics_From">여기서 가사 다운로드</Text>
   <Text Key="Lyrics_Download_Timeout">가사 다운로드 시간 초과</Text>
@@ -383,13 +380,12 @@
   <Text Key="About_Components_Developers">위 구성 요소들을 제작하신 재능 있는 개발자 분들.</Text>
   <Text Key="About_Neowin_Head">이 곳에서</Text>
   <Text Key="About_Neowin_End">아이디어를 제공하고, 테스트하고, 버그를 신고해준 커뮤니티 분들.</Text>
-  <Text Key="Frequent">자주 들은 앨범</Text>
+  <Text Key="Frequent">자주 들은 노래</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">정말로 이 노래를 &apos;%playlistname%&apos; 재생목록에서 제거할까요?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">정말로 이 노래를 &apos;%playlistname%&apos; 재생목록에서 제거할까요?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">스펙트럼 스타일</Text>
-  <Text Key="Toggle_Spectrum_By_Click">스펙트럼 분석기를 클릭해서 스펙트럼 스타일 변경하기</Text>
   <Text Key="Follow_Album_Cover_Color">앨범 커버 색상과 동일하게</Text>
   <Text Key="Lyrics_File">가사 파일</Text>
   <Text Key="Long_Jump_Backward">뒤로 15초 넘기기</Text>
@@ -402,4 +398,13 @@
   <Text Key="By_Date_Created">생성된 날짜</Text>
   <Text Key="Plays">재생횟수</Text>
   <Text Key="Skips">건너뛴 횟수</Text>
+  <Text Key="Play_Selected">선택한 항목 재생</Text>
+  <Text Key="Error_Playing_Selected_Songs">선택한 노래를 재생하는 중 오류가 발생했습니다. 로그 파일에서 더 많은 정보를 알아보세요.</Text>
+  <Text Key="External_Control">외부 조작</Text>
+  <Text Key="Enable_External_Control">외부 조작 사용</Text>
+  <Text Key="Enable_System_Notification">시스템 알림 사용 (Windows 10 전용)</Text>
+  <Text Key="Unknown_Album">알 수 없는 앨범</Text>
+  <Text Key="Unknown_Genre">알 수 없는 장르</Text>
+  <Text Key="Refresh_Collection_Automatically">자동으로 컬렉션 새로 고침</Text>
+  <Text Key="Loop_When_Shuffle">무작위 재생 중 마지막 노래가 끝나면 재생 목록 처음으로 돌아가기</Text>
 </Language>
