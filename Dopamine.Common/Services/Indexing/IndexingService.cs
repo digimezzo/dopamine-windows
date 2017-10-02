@@ -33,7 +33,7 @@ namespace Dopamine.Common.Services.Indexing
         private IGenreRepository genreRepository;
 
         // Watcher
-        private FolderWatcher watcher = new FolderWatcher();
+        private FolderWatcherManager watcherManager;
 
         // Paths
         private List<Tuple<long, string, long>> allDiskPaths;
@@ -73,11 +73,24 @@ namespace Dopamine.Common.Services.Indexing
             this.folderRepository = folderRepository;
             this.settings = settings;
 
+            this.watcherManager = new FolderWatcherManager(this.folderRepository);
+
+            this.settings.RefreshCollectionAutomaticallyChanged += Settings_RefreshCollectionAutomaticallyChanged;
+            this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
+
             this.isIndexing = false;
         }
         #endregion
 
         #region IIndexingService
+        public async void OnFoldersChanged()
+        {
+            if (this.settings.RefreshCollectionAutomatically)
+            {
+                await this.watcherManager.StartWatchingAsync();
+            }
+        }
+
         public async Task CheckCollectionAsync()
         {
             if (this.IsIndexing)
@@ -715,10 +728,21 @@ namespace Dopamine.Common.Services.Indexing
             return processingSuccessful;
         }
 
-        public void OnFoldersChanged()
+        private async void Settings_RefreshCollectionAutomaticallyChanged(bool refreshCollectionAutomatically)
         {
-            // TODO: take into account setting to index automatically.
-            //this.watcher.RestartWatching();
+            if (refreshCollectionAutomatically)
+            {
+                await this.watcherManager.StartWatchingAsync();
+            }
+            else
+            {
+                await this.watcherManager.StopWatchingAsync();
+            }
+        }
+
+        private async void WatcherManager_FoldersChanged(object sender, EventArgs e)
+        {
+            await this.IndexCollectionAsync();
         }
         #endregion
 
