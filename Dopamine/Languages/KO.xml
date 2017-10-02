@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language Code="KO" Name="한국어">
-  <Text Key="ISO639-1">KR</Text>
+  <Text Key="ISO639-1">KO</Text>
   <Text Key="Ok">확인</Text>
   <Text Key="Cancel">취소</Text>
   <Text Key="Close">닫기</Text>
