@@ -85,7 +85,7 @@ namespace Dopamine.Common.Settings
 
                 if (!oldValue.Equals(value))
                 {
-                    this.RefreshCollectionAutomaticallyChanged(this, new EventArgs());
+                    this.RefreshCollectionAutomaticallyChanged(value);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace Dopamine.Common.Settings
         }
 
         public event EventHandler ShowTrackArtOnPlaylistsChanged = delegate { };
-        public event EventHandler RefreshCollectionAutomaticallyChanged = delegate { };
+        public event RefreshCollectionAutomaticallyChangedHandler RefreshCollectionAutomaticallyChanged = delegate { };
 
         private void Initialize()
         {

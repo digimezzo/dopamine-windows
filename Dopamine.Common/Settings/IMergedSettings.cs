@@ -3,6 +3,8 @@ using System;
 
 namespace Dopamine.Common.Settings
 {
+    public delegate void RefreshCollectionAutomaticallyChangedHandler(bool refreshCollectionAutomatically);
+
     public interface IMergedSettings : ICoreSettings
     {
         string ApplicationFolder { get; }
@@ -17,6 +19,6 @@ namespace Dopamine.Common.Settings
         bool IgnoreRemovedFiles { get; set; }
 
         event EventHandler ShowTrackArtOnPlaylistsChanged;
-        event EventHandler RefreshCollectionAutomaticallyChanged;
+        event RefreshCollectionAutomaticallyChangedHandler RefreshCollectionAutomaticallyChanged;
     }
 }

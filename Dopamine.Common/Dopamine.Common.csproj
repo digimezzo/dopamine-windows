@@ -431,7 +431,7 @@
     <Compile Include="Services\I18n\I18nService.cs" />
     <Compile Include="Services\I18n\II18nService.cs" />
     <Compile Include="Services\I18n\Language.cs" />
-    <Compile Include="Services\Indexing\FolderWatcher.cs" />
+    <Compile Include="Services\Indexing\FolderWatcherManager.cs" />
     <Compile Include="Services\Indexing\IIndexingService.cs" />
     <Compile Include="Services\Indexing\IndexerUtils.cs" />
     <Compile Include="Services\Indexing\IndexingService.cs" />

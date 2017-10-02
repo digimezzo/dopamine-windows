@@ -6,6 +6,7 @@ namespace Dopamine.Common.Services.Indexing
 {
     public interface IIndexingService
     {
+        void OnFoldersChanged();
         bool IsIndexing { get; }
         Task CheckCollectionAsync();
         Task IndexCollectionAsync(bool artworkOnly = false);
@@ -14,6 +15,5 @@ namespace Dopamine.Common.Services.Indexing
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
         event EventHandler RefreshLists;
         event EventHandler RefreshArtwork;
-        void OnFoldersChanged();
     }
 }
