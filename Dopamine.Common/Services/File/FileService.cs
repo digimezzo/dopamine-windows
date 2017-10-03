@@ -112,11 +112,6 @@ namespace Dopamine.Common.Services.File
             {
                 var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
                 returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
-
-                returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-                returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-                returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
-                returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
             }
             catch (Exception ex)
             {
@@ -124,6 +119,11 @@ namespace Dopamine.Common.Services.File
                 returnTrack = PlayableTrack.CreateDefault(path);
                 CoreLogger.Current.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
             }
+
+            returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+            returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
+            returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
+            returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
 
             return returnTrack;
         }
