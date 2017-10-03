@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
 
 namespace Dopamine.Common.Services.Indexing
 {
@@ -33,7 +34,11 @@ namespace Dopamine.Common.Services.Indexing
         private void FolderWatcherTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.StopFolderWatcherTimer();
-            this.FoldersChanged(this, new EventArgs());
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.FoldersChanged(this, new EventArgs());
+            });
         }
 
         private void ResetFolderWatcherTimer()
@@ -58,6 +63,12 @@ namespace Dopamine.Common.Services.Indexing
         {
             this.ResetFolderWatcherTimer();
         }
+
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            this.ResetFolderWatcherTimer();
+        }
+
         #endregion
 
         #region Public
@@ -71,19 +82,20 @@ namespace Dopamine.Common.Services.Indexing
             {
                 var watcher = new FileSystemWatcher(fol.Path) { EnableRaisingEvents = true, IncludeSubdirectories = true };
 
-                // Changed event should be raised when files are created/renamed/deleted, including for sub folders.
                 watcher.Changed += Watcher_Changed;
+                watcher.Created += Watcher_Changed;
+                watcher.Deleted += Watcher_Changed;
+                watcher.Renamed += Watcher_Renamed;
+
                 this.watchers.Add(watcher);
             }
-
-            this.ResetFolderWatcherTimer();
         }
 
         public async Task StopWatchingAsync()
         {
             this.StopFolderWatcherTimer();
 
-            if(this.watchers.Count == 0)
+            if (this.watchers.Count == 0)
             {
                 return;
             }
@@ -93,6 +105,10 @@ namespace Dopamine.Common.Services.Indexing
                 for (int i = this.watchers.Count - 1; i >= 0; i--)
                 {
                     this.watchers[i].Changed -= Watcher_Changed;
+                    this.watchers[i].Created -= Watcher_Changed;
+                    this.watchers[i].Deleted -= Watcher_Changed;
+                    this.watchers[i].Renamed -= Watcher_Renamed;
+
                     this.watchers[i].Dispose();
                     this.watchers.RemoveAt(i);
                 }

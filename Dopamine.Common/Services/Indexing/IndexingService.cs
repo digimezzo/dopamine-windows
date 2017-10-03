@@ -49,6 +49,7 @@ namespace Dopamine.Common.Services.Indexing
         private IndexingStatusEventArgs eventArgs;
 
         // Flags
+        private bool needsCollectionCheck;
         private bool isIndexing;
         #endregion
 
@@ -78,6 +79,7 @@ namespace Dopamine.Common.Services.Indexing
             this.settings.RefreshCollectionAutomaticallyChanged += Settings_RefreshCollectionAutomaticallyChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
 
+            this.needsCollectionCheck = this.settings.RefreshCollectionAutomatically;
             this.isIndexing = false;
         }
         #endregion
@@ -87,22 +89,31 @@ namespace Dopamine.Common.Services.Indexing
         {
             if (this.settings.RefreshCollectionAutomatically)
             {
+                this.needsCollectionCheck = true;
                 await this.watcherManager.StartWatchingAsync();
             }
         }
 
         public async Task CheckCollectionAsync()
         {
-            if (this.IsIndexing)
-            {
-                return;
-            }
-
             if (!this.settings.RefreshCollectionAutomatically)
             {
                 return;
             }
 
+            if (this.IsIndexing)
+            {
+                return;
+            }
+
+            if (!this.needsCollectionCheck)
+            {
+                return;
+            }
+
+            this.needsCollectionCheck = false;
+
+            await this.watcherManager.StopWatchingAsync();
             await this.InitializeAsync();
 
             try
@@ -121,6 +132,13 @@ namespace Dopamine.Common.Services.Indexing
                         await Task.Delay(1000);
                         await this.IndexCollectionAsync(true);
                     }
+                    else
+                    {
+                        if (this.settings.RefreshCollectionAutomatically)
+                        {
+                            await this.watcherManager.StartWatchingAsync();
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -136,8 +154,9 @@ namespace Dopamine.Common.Services.Indexing
                 return;
             }
 
-            this.isIndexing = true;
+            await this.watcherManager.StopWatchingAsync();
 
+            this.isIndexing = true;
             this.IndexingStarted(this, new EventArgs());
 
             if (!isCheckPerformed)
@@ -172,6 +191,11 @@ namespace Dopamine.Common.Services.Indexing
             // --------
             this.isIndexing = false;
             this.IndexingStopped(this, new EventArgs());
+
+            if (this.settings.RefreshCollectionAutomatically)
+            {
+                await this.watcherManager.StartWatchingAsync();
+            }
         }
         #endregion
 
@@ -730,6 +754,8 @@ namespace Dopamine.Common.Services.Indexing
 
         private async void Settings_RefreshCollectionAutomaticallyChanged(bool refreshCollectionAutomatically)
         {
+            this.needsCollectionCheck = refreshCollectionAutomatically;
+
             if (refreshCollectionAutomatically)
             {
                 await this.watcherManager.StartWatchingAsync();
