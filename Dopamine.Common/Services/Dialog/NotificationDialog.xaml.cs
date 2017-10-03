@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Windows;
 
@@ -48,11 +48,11 @@ namespace Dopamine.Common.Services.Dialog
         {
             try
             {
-                Actions.TryViewInExplorer(CoreLogger.Current.Logfile());
+                Actions.TryViewInExplorer(LogClient.Logfile());
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Current.Logfile(), ex.Message);
+                LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
             }
         }
         #endregion

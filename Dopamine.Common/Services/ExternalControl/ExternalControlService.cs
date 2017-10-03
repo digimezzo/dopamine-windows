@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Settings;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -13,13 +13,13 @@ namespace Dopamine.Common.Services.ExternalControl
         #region Variables
         private ServiceHost svcHost;
         private ExternalControlServer svcExternalControlInstance;
-        private IMergedSettings settings;
+        private ISettings settings;
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
         #endregion
 
         #region Construction
-        public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService, IMergedSettings settings)
+        public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService, ISettings settings)
         {
             this.settings = settings;
             this.playbackService = playbackService;

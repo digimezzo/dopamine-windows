@@ -33,53 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Base\ContactInformation.cs" />
-    <Compile Include="Base\Defaults.cs" />
-    <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\ProductInformation.cs" />
-    <Compile Include="Database\DatabaseUtils.cs" />
-    <Compile Include="Database\DbMigrator.cs" />
-    <Compile Include="Database\Entities\Album.cs" />
-    <Compile Include="Database\Entities\Artist.cs" />
-    <Compile Include="Database\Entities\Configuration.cs" />
-    <Compile Include="Database\Entities\Folder.cs" />
-    <Compile Include="Database\Entities\Genre.cs" />
-    <Compile Include="Database\Entities\QueuedTrack.cs" />
-    <Compile Include="Database\Entities\RemovedTrack.cs" />
-    <Compile Include="Database\Entities\Track.cs" />
-    <Compile Include="Database\Entities\TrackStatistic.cs" />
-    <Compile Include="Database\Enums.cs" />
-    <Compile Include="Database\ISQLiteConnectionFactory.cs" />
-    <Compile Include="Database\PlayableTrack.cs" />
-    <Compile Include="Database\Repositories\AlbumRepository.cs" />
-    <Compile Include="Database\Repositories\ArtistRepository.cs" />
-    <Compile Include="Database\Repositories\FolderRepository.cs" />
-    <Compile Include="Database\Repositories\GenreRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IAlbumRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IArtistRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IFolderRepository.cs" />
-    <Compile Include="Database\Repositories\Interfaces\IGenreRepository.cs" />
-    <Compile Include="Database\SQLiteConnectionFactory.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\UnityExtensions.cs" />
-    <Compile Include="Helpers\ILocalizationHelper.cs" />
-    <Compile Include="Logging\ICoreLogger.cs" />
-    <Compile Include="Logging\CoreLogger.cs" />
-    <Compile Include="Logging\LogEntry.cs" />
-    <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="Logging\MockCoreLogger.cs" />
-    <Compile Include="Packaging\ExternalComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Appearance\AppearanceService.cs" />
-    <Compile Include="Services\Appearance\ColorScheme.cs" />
-    <Compile Include="Services\Appearance\IAppearanceService.cs" />
-    <Compile Include="Services\Indexing\Enums.cs" />
-    <Compile Include="Services\Indexing\IndexerCache.cs" />
-    <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
-    <Compile Include="Settings\ICoreSettings.cs" />
-    <Compile Include="Settings\CoreSettings.cs" />
-    <Compile Include="ViewModels\InformationAboutViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.Log;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -127,7 +127,7 @@ namespace Dopamine.Common.Services.Win32Input
 
                 if (this.source == null)
                 {
-                    CoreLogger.Current.Error("hWnd is NULL.");
+                    LogClient.Error("hWnd is NULL.");
                 }
 
                 this.source.AddHook(WndProc);
@@ -135,13 +135,13 @@ namespace Dopamine.Common.Services.Win32Input
 
                 if (WM_SHELLHOOKMESSAGE == 0)
                 {
-                    CoreLogger.Current.Error("RegisterWindowMessage 'SHELLHOOK' failed.");
+                    LogClient.Error("RegisterWindowMessage 'SHELLHOOK' failed.");
 
                 }
 
                 if (!RegisterShellHookWindow(this.hWnd))
                 {
-                    CoreLogger.Current.Error("RegisterShellHookWindow failed.");
+                    LogClient.Error("RegisterShellHookWindow failed.");
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace Dopamine.Common.Services.Win32Input
                 {
                     if (!DeregisterShellHookWindow(this.hWnd))
                     {
-                        CoreLogger.Current.Error("DeregisterShellHookWindow failed.");
+                        LogClient.Error("DeregisterShellHookWindow failed.");
                     }
                     this.source.Dispose();
                 }

@@ -1,6 +1,5 @@
 ﻿using Dopamine.Common.Base;
-using Dopamine.Core.Base;
-using Dopamine.Core.Extensions;
+using Dopamine.Common.Extensions;
 using System;
 using System.Linq;
 using TagLib;

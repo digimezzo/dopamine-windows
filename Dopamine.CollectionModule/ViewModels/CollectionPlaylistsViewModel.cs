@@ -1,7 +1,7 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
@@ -10,7 +10,7 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
-using Dopamine.Core.Database;
+using Digimezzo.Utilities.Log;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -22,7 +22,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Dopamine.Core.Base;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
@@ -166,7 +165,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -309,7 +308,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("An error occurred while getting Playlists. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Playlists. Exception: {0}", ex.Message);
 
                 // If loading from the database failed, create and empty Collection.
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
@@ -516,7 +515,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
             }
 
             return indexes;
@@ -549,7 +548,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
+                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
             }
 
             return false;
@@ -574,7 +573,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
             }
 
             return false;
@@ -595,7 +594,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not get the dropped tracks. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not get the dropped tracks. Exception: {0}", ex.Message);
                 }
             });
 
@@ -636,7 +635,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not add dropped tracks to hovered playlist. Exception: {0}", ex.Message);
                 }
             }
         }
@@ -653,7 +652,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
             }
 
             return filenames;
@@ -669,7 +668,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not add dropped files to selected playlist. Exception: {0}", ex.Message);
+                LogClient.Error("Could not add dropped files to selected playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -688,7 +687,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+                LogClient.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
             }
         }
 
@@ -709,7 +708,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not add dropped files to hovered playlist. Exception: {0}", ex.Message);
                 }
             }
             else if (dropInfo.TargetItem == null)
@@ -770,7 +769,7 @@ namespace Dopamine.CollectionModule.ViewModels
             catch (Exception ex)
             {
                 dropInfo.NotHandled = false;
-                CoreLogger.Current.Error("Could not drag tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not drag tracks. Exception: {0}", ex.Message);
             }
         }
 
@@ -808,7 +807,7 @@ namespace Dopamine.CollectionModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not perform drop. Exception: {0}", ex.Message);
+                LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
         }
         #endregion

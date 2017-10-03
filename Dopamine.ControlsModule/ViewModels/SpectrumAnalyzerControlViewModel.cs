@@ -3,7 +3,7 @@ using Dopamine.Common.Audio;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Services.Appearance;
+using Dopamine.Common.Services.Appearance;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

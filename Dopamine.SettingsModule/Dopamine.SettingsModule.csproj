@@ -178,10 +178,6 @@
       <Project>{839C5668-B96D-4826-9BF5-E00BF3D9B292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
-      <Project>{7e12890a-2831-4a17-a71c-9c21430c29ca}</Project>
-      <Name>Dopamine.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\SettingsOnlineAddEditSearchProvider.xaml">

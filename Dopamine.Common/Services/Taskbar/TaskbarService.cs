@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
 using Dopamine.Common.Services.Playback;
@@ -123,7 +123,7 @@ namespace Dopamine.Common.Services.Taskbar
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
+                LogClient.Error("Could not change the TaskBarItemInfo Play/Pause icon to '{0}'. Exception: {1}", ex.Message, value);
             }
         }
 

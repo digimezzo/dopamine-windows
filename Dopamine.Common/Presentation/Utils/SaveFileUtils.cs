@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 
 namespace Dopamine.Common.Presentation.Utils
@@ -52,7 +52,7 @@ namespace Dopamine.Common.Presentation.Utils
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("An error occured while saving the byte[] to a file. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occured while saving the byte[] to a file. Exception: {0}", ex.Message);
                         isSaveSuccess = false;
                     }
                 });

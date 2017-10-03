@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+﻿using Dopamine.Common.Base;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +10,27 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class GenreRepository : Core.Database.Repositories.GenreRepository
+    public class GenreRepository : IGenreRepository
     {
         #region Variables
+        private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
         #endregion
 
+        #region Properties
+        public ISQLiteConnectionFactory Factory => this.factory;
+        #endregion
+
         #region Construction
-        public GenreRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
+        public GenreRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
+            this.factory = factory;
             this.info = info;
         }
         #endregion
 
-        #region Overrides
-        public override async Task<List<Genre>> GetGenresAsync()
+        #region IGenreRepository
+        public async Task<List<Genre>> GetGenresAsync()
         {
             var genres = new List<Genre>();
 
@@ -47,20 +53,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Genres. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return genres;
         }
 
-        public override async Task<Genre> GetGenreAsync(string genreName)
+        public async Task<Genre> GetGenreAsync(string genreName)
         {
             Genre genre = null;
 
@@ -76,20 +82,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
+                            LogClient.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
+                    LogClient.Error("Could not get the Genre with GenreName='{0}'. Exception: {1}", genreName, ex.Message);
                 }
             });
 
             return genre;
         }
 
-        public override async Task<Genre> AddGenreAsync(Genre genre)
+        public async Task<Genre> AddGenreAsync(Genre genre)
         {
             await Task.Run(() =>
             {
@@ -106,17 +112,42 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             genre = null;
-                            CoreLogger.Current.Error("Could not create the Genre with GenreName='{0}'. Exception: {1}", genre.GenreName, ex.Message);
+                            LogClient.Error("Could not create the Genre with GenreName='{0}'. Exception: {1}", genre.GenreName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return genre;
+        }
+
+        public async Task DeleteOrphanedGenresAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("DELETE FROM Genre WHERE GenreID NOT IN (SELECT GenreID FROM Track);");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("There was a problem while deleting orphaned Genres. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
         }
         #endregion
     }

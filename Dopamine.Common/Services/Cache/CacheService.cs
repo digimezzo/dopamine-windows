@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Settings;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.IO;
 using System.Net;
@@ -15,7 +15,7 @@ namespace Dopamine.Common.Services.Cache
     public class CacheService : ICacheService
     {
         #region Variables
-        private IMergedSettings settings;
+        private ISettings settings;
         private string coverArtCacheFolderPath;
         private string temporaryCacheFolderPath;
         private Timer temporaryCacheCleanupTimer;
@@ -41,7 +41,7 @@ namespace Dopamine.Common.Services.Cache
         #endregion
 
         #region Construction
-        public CacheService(IMergedSettings settings)
+        public CacheService(ISettings settings)
         {
             this.settings = settings;
 
@@ -64,7 +64,7 @@ namespace Dopamine.Common.Services.Cache
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not delete the temporary cache folder. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not delete the temporary cache folder. Exception: {0}", ex.Message);
                 }
             }
 
@@ -94,7 +94,7 @@ namespace Dopamine.Common.Services.Cache
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could convert artwork byte[]to JPG. Exception: {0}", ex.Message);
+                LogClient.Error("Could convert artwork byte[]to JPG. Exception: {0}", ex.Message);
                 artworkID = string.Empty;
             }
 
@@ -130,7 +130,7 @@ namespace Dopamine.Common.Services.Cache
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not download file to temporary cache. Exception: {0}", ex.Message);
+                LogClient.Error("Could not download file to temporary cache. Exception: {0}", ex.Message);
                 return string.Empty;
             }
            
@@ -154,13 +154,13 @@ namespace Dopamine.Common.Services.Cache
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not delete the file '{0}' from temporary cache. Exception: {1}", file.FullName, ex.Message);
+                        LogClient.Error("Could not delete the file '{0}' from temporary cache. Exception: {1}", file.FullName, ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while cleaning up to temporary cache. Exception: {0}", ex.Message);
+                LogClient.Error("Error while cleaning up to temporary cache. Exception: {0}", ex.Message);
             }
 
             temporaryCacheCleanupTimer.Start();

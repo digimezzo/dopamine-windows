@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Database.Entities;
+﻿using Dopamine.Common.Database.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

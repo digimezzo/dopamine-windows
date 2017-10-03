@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+﻿using Dopamine.Common.Base;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +10,27 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class ArtistRepository : Core.Database.Repositories.ArtistRepository
+    public class ArtistRepository : IArtistRepository
     {
-        #region Private
+        #region Variables
+        private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
         #endregion
 
+        #region Properties
+        public ISQLiteConnectionFactory Factory => this.factory;
+        #endregion
+
         #region Construction
-        public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
+        public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
+            this.factory = factory;
             this.info = info;
         }
         #endregion
 
-        #region Overrides
-        public override async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
+        #region IArtistRepository
+        public async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
         {
             var artists = new List<Artist>();
 
@@ -83,20 +89,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Artists. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return artists;
         }
 
-        public override async Task<Artist> GetArtistAsync(string artistName)
+        public async Task<Artist> GetArtistAsync(string artistName)
         {
             Artist artist = null;
 
@@ -112,20 +118,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
+                            LogClient.Error("Could not get the Artist with ArtistName='{0}'. Exception: {1}", artistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return artist;
         }
 
-        public override async Task<Artist> AddArtistAsync(Artist artist)
+        public async Task<Artist> AddArtistAsync(Artist artist)
         {
             await Task.Run(() =>
             {
@@ -142,17 +148,42 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             artist = null;
-                            CoreLogger.Current.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
+                            LogClient.Error("Could not create the Artist with ArtistName='{0}'. Exception: {1}", artist.ArtistName, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return artist;
+        }
+
+        public async Task DeleteOrphanedArtistsAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("DELETE FROM Artist WHERE ArtistID NOT IN (SELECT ArtistID FROM Track);");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("There was a problem while deleting orphaned Artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
         }
         #endregion
     }

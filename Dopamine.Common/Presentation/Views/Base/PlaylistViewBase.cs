@@ -1,13 +1,12 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Playlist;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using System;
@@ -116,7 +115,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while handling action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling action. Exception: {0}", ex.Message);
             }
         }
 
@@ -138,7 +137,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
             }
         }
 
@@ -158,7 +157,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
 
@@ -176,7 +175,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
         #endregion

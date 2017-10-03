@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
@@ -114,7 +114,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling DataGrid action. Exception: {0}", ex.Message);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {1}", ex.Message);
             }
         }
 
@@ -172,7 +172,7 @@ namespace Dopamine.CollectionModule.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
         #endregion

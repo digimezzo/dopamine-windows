@@ -4,7 +4,7 @@ using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -181,7 +181,7 @@ namespace Dopamine.Common.Services.Notification
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while trying to disable the notification. Exception: {0}", ex.Message);
+                LogClient.Error("Error while trying to disable the notification. Exception: {0}", ex.Message);
             }
 
             try
@@ -208,7 +208,7 @@ namespace Dopamine.Common.Services.Notification
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
+                LogClient.Error("Error while trying to show the notification. Exception: {0}", ex.Message);
             }
         }
 

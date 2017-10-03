@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
@@ -92,7 +92,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while handling action. Exception: {0}", ex.Message);
+                LogClient.Error("Error while handling action. Exception: {0}", ex.Message);
             }
         }
 
@@ -114,7 +114,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
+                LogClient.Error("Could not scroll to the playing track. Exception: {0}", ex.Message);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Dopamine.Common.Presentation.Views.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+                LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
         #endregion

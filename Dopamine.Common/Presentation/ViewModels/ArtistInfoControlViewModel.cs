@@ -4,9 +4,9 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Api.Lastfm;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Logging;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
@@ -21,8 +21,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private Core.Database.Entities.Artist previousArtist;
-        private Core.Database.Entities.Artist artist;
+        private Common.Database.Entities.Artist previousArtist;
+        private Common.Database.Entities.Artist artist;
         private SlideDirection slideDirection;
         private bool isBusy;
         #endregion
@@ -95,7 +95,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 return;
             }
 
-            this.artist = new Core.Database.Entities.Artist
+            this.artist = new Common.Database.Entities.Artist
             {
                 ArtistName = track.ArtistName
             };
@@ -134,7 +134,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
+                LogClient.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
                 this.artist = null;
             }

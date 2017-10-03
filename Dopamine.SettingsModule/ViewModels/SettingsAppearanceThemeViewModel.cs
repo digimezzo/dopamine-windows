@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Settings;
-using Dopamine.Core.Services.Appearance;
+using Dopamine.Common.Services.Appearance;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -11,7 +11,7 @@ namespace Dopamine.SettingsModule.ViewModels
     public class SettingsAppearanceThemeViewModel : BindableBase
     {
         #region Variables
-        private IMergedSettings settings;
+        private ISettings settings;
         private IAppearanceService appearanceService;
         private ObservableCollection<string> themes = new ObservableCollection<string>();
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
@@ -136,7 +136,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Construction
-        public SettingsAppearanceThemeViewModel(IMergedSettings settings, IAppearanceService appearanceService)
+        public SettingsAppearanceThemeViewModel(ISettings settings, IAppearanceService appearanceService)
         {
             this.settings = settings;
             this.appearanceService = appearanceService;

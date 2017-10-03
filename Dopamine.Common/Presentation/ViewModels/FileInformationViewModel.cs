@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Database;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Utils;
 using Prism.Mvvm;
@@ -162,7 +162,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while getting file Metadata. Exception: {0}", ex.Message);
+                LogClient.Error("Error while getting file Metadata. Exception: {0}", ex.Message);
             }
         }
 
@@ -178,7 +178,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while getting file Information. Exception: {0}", ex.Message);
+                LogClient.Error("Error while getting file Information. Exception: {0}", ex.Message);
             }
         }
         #endregion

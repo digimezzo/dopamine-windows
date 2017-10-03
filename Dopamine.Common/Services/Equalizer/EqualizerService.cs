@@ -2,8 +2,8 @@
 using Dopamine.Common.IO;
 using Dopamine.Common.Settings;
 using Dopamine.Common.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Core.Logging;
+using Dopamine.Common.Base;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,12 +17,12 @@ namespace Dopamine.Common.Services.Equalizer
     public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private IMergedSettings settings;
+        private ISettings settings;
         private string equalizerSubDirectory;
         #endregion
 
         #region Construction
-        public EqualizerService(IMergedSettings settings)
+        public EqualizerService(ISettings settings)
         {
             this.settings = settings;
 
@@ -102,7 +102,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        LogClient.Error("Could not load built-in preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });
@@ -126,7 +126,7 @@ namespace Dopamine.Common.Services.Equalizer
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
+                        LogClient.Error("Could not load custom preset from file '{0}'. Exception: {1}", fileInfo.FullName, ex.Message);
                     }
                 }
             });

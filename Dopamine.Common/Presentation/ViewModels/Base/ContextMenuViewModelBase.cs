@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;

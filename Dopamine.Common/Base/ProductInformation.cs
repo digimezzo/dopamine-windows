@@ -1,15 +1,18 @@
-﻿using Dopamine.Core.Packaging;
+﻿using Digimezzo.Utilities.Packaging;
+using System;
 
 namespace Dopamine.Common.Base
 {
-    public sealed class ProductInformation : Core.Base.ProductInformation
+    public sealed class ProductInformation
     {
         #region About
         public static string ApplicationGuid = "75ba9e1e-9eff-4a8e-845e-125dc4318c3b";
+        public static string ApplicationName = "Dopamine";
+        public static string Copyright = "Copyright Digimezzo © 2014-" + DateTime.Now.Year;
         #endregion
 
         #region Components
-        private static readonly ExternalComponent[] specificComponents =
+        public static readonly ExternalComponent[] Components =
         {
             new ExternalComponent
             {
@@ -47,6 +50,38 @@ namespace Dopamine.Common.Base
                 Url = "https://github.com/ioctlLR/NVorbis",
                 LicenseUrl = "https://github.com/ioctlLR/NVorbis/blob/master/LICENSE"
             },
+            new ExternalComponent {
+                Name = "Prism",
+                Description = "Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms.",
+                Url = "https://github.com/PrismLibrary/Prism",
+                LicenseUrl = "https://github.com/PrismLibrary/Prism/blob/master/LICENSE"
+            },
+            new ExternalComponent {
+                Name = "Sqlite-net",
+                Description = "A minimal library to allow .NET and Mono applications to store data in SQLite 3 databases.",
+                Url = "https://github.com/praeclarum/sqlite-net",
+                LicenseUrl = "https://github.com/praeclarum/sqlite-net/blob/master/LICENSE.md"
+            },
+            new ExternalComponent {
+                Name = "TagLib#",
+                Description = "A library for reading and writing metadata in media files, including video, audio, and photo formats.",
+                Url = "https://github.com/mono/taglib-sharp",
+                LicenseUrl = "https://github.com/mono/taglib-sharp/blob/master/COPYING"
+            },
+            new ExternalComponent {
+                Name = "Unity",
+                Description = "A lightweight extensible dependency injection container with support for constructor, property, and method call injection.",
+                Url = "https://github.com/unitycontainer/unity",
+                LicenseUrl = "https://github.com/unitycontainer/unity/blob/master/LICENSE.txt"
+            },
+            new ExternalComponent
+            {
+                Name = "Unity.WCF",
+                Description =
+                    "A library that allows the simple integration of Microsoft's Unity IoC container with WCF.",
+                Url = "https://github.com/Uriil/unitywcf",
+                LicenseUrl = "https://github.com/Uriil/unitywcf/blob/master/LICENSE"
+            },
             new ExternalComponent
             {
                 Name = "WiX",
@@ -68,18 +103,8 @@ namespace Dopamine.Common.Base
                     "A collection of WPF Controls for graphically displaying data related to sound processing.",
                 Url = "http://wpfsvl.codeplex.com",
                 LicenseUrl = "http://wpfsvl.codeplex.com/license"
-            },
-            new ExternalComponent
-            {
-                Name = "Unity.WCF",
-                Description =
-                    "A library that allows the simple integration of Microsoft's Unity IoC container with WCF.",
-                Url = "https://github.com/Uriil/unitywcf",
-                LicenseUrl = "https://github.com/Uriil/unitywcf/blob/master/LICENSE"
-            },
+            }
         };
-
-        public override ExternalComponent[] SpecificComponents => specificComponents;
         #endregion
     }
 }

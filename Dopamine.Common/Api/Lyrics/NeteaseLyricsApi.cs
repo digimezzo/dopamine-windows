@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Helpers;
+using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {

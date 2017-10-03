@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Helpers;
 using System.Linq;
 
@@ -365,7 +365,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
+                LogClient.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
             }
         }
 

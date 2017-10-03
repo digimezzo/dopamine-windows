@@ -3,10 +3,10 @@ using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -117,7 +117,7 @@ namespace Dopamine.Common.Services.File
             {
                 // Make sure the file can be opened by creating a Track with some default values
                 returnTrack = PlayableTrack.CreateDefault(path);
-                CoreLogger.Current.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
+                LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
             }
 
             returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
@@ -138,7 +138,7 @@ namespace Dopamine.Common.Services.File
 
                 await Task.Run(() =>
                 {
-                    CoreLogger.Current.Info("Received commandline arguments.");
+                    LogClient.Info("Received commandline arguments.");
 
                     // Don't process index=0, as this contains the name of the executable.
                     for (int index = 1; index <= args.Length - 1; index++)
@@ -146,7 +146,7 @@ namespace Dopamine.Common.Services.File
                         lock (this.lockObject)
                         {
                             this.files.Add(args[index]);
-                            CoreLogger.Current.Info("Added file '{0}'", args[index]);
+                            LogClient.Info("Added file '{0}'", args[index]);
                         }
                     }
                 });
@@ -167,11 +167,11 @@ namespace Dopamine.Common.Services.File
 
             // Check if there is only 1 instance (this one) of the application running. If not,
             // that could mean there are other instances trying to send files to this instance.
-            if (EnvironmentUtils.IsSingleInstance(Core.Base.ProductInformation.ApplicationName))
+            if (EnvironmentUtils.IsSingleInstance(ProductInformation.ApplicationName))
             {
                 lock (this.lockObject)
                 {
-                    CoreLogger.Current.Info("Finished adding files. Number of files added = {0}", this.files.Count.ToString());
+                    LogClient.Info("Finished adding files. Number of files added = {0}", this.files.Count.ToString());
                 }
 
                 await Application.Current.Dispatcher.BeginInvoke(new Action(async () => await this.ImportFilesAsync()));
@@ -200,11 +200,11 @@ namespace Dopamine.Common.Services.File
 
             List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
 
-            CoreLogger.Current.Info("Number of tracks to play = {0}", tracks.Count.ToString());
+            LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
 
             if (tracks.Count > 0)
             {
-                CoreLogger.Current.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
+                LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
                 this.TracksImported(tracks);
             }
         }
@@ -216,7 +216,7 @@ namespace Dopamine.Common.Services.File
 
             if (!decodeResult.DecodeResult.Result)
             {
-                CoreLogger.Current.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
             }
 
             return decodeResult.Paths;
@@ -234,7 +234,7 @@ namespace Dopamine.Common.Services.File
             {
                 foreach (Exception recurseException in recurseExceptions)
                 {
-                    CoreLogger.Current.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
+                    LogClient.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
                 }
             }
 
@@ -256,7 +256,7 @@ namespace Dopamine.Common.Services.File
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("There was a problem while fetching file artwork. Exception: {0}", ex.Message);
+                    LogClient.Error("There was a problem while fetching file artwork. Exception: {0}", ex.Message);
                 }
 
                 if (artworkFiles != null && artworkFiles.Count() > 0)
@@ -274,7 +274,7 @@ namespace Dopamine.Common.Services.File
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("There was a problem while deleting cached file artwork {0}. Exception: {1}", artworkFile, ex.Message);
+                            LogClient.Error("There was a problem while deleting cached file artwork {0}. Exception: {1}", artworkFile, ex.Message);
                         }
                     }
                 }

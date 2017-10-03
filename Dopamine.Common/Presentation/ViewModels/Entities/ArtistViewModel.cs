@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Presentation.Interfaces;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
 using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels.Entities

@@ -1,8 +1,11 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Database.Repositories;
 using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
@@ -29,13 +32,7 @@ using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
 using Dopamine.Common.Settings;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Services.Appearance;
-using Dopamine.Core.Settings;
+using Dopamine.Common.Services.Appearance;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -89,11 +86,7 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ICoreLogger, Common.Logging.CoreLogger>();
-            Container.RegisterInstance(new MergedSettings());
-            MergedSettings settings = Container.Resolve<MergedSettings>();
-            Container.RegisterInstance<ICoreSettings>(settings);
-            Container.RegisterInstance<IMergedSettings>(settings);
+            Container.RegisterSingletonType<ISettings, Settings>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
@@ -197,16 +190,16 @@ namespace Dopamine
 
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
-                CoreLogger.Current.Info("Showing Oobe screen");
+                LogClient.Info("Showing Oobe screen");
                 oobeWin.Show();
             }
             else
             {
-                CoreLogger.Current.Info("Showing Main screen");
+                LogClient.Info("Showing Main screen");
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
-                IMergedSettings settings = Container.Resolve<IMergedSettings>();
+                ISettings settings = Container.Resolve<ISettings>();
                 Container.Resolve<IIndexingService>().CheckCollectionAsync();
             }
         }
@@ -221,11 +214,11 @@ namespace Dopamine
             try
             {
                 commandServicehost.Open();
-                CoreLogger.Current.Info("CommandService was started successfully");
+                LogClient.Info("CommandService was started successfully");
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not start CommandService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start CommandService. Exception: {0}", ex.Message);
             }
 
             // FileService
@@ -236,11 +229,11 @@ namespace Dopamine
             try
             {
                 fileServicehost.Open();
-                CoreLogger.Current.Info("FileService was started successfully");
+                LogClient.Info("FileService was started successfully");
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not start FileService. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
     }
