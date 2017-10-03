@@ -13,8 +13,8 @@ using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Services.Appearance;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Appearance;
 using Dopamine.FullPlayerModule.Views;
 using Dopamine.MiniPlayerModule.Views;
 using Microsoft.Practices.Unity;
@@ -601,7 +601,7 @@ namespace Dopamine.Views
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
             }
 
             // By default, the window appears in the background when showing
@@ -611,7 +611,7 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
-            CoreLogger.Current.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
             this.isShuttingDown = true;
             this.Close();
         }
@@ -637,7 +637,7 @@ namespace Dopamine.Views
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
                     }
                 }
             }
@@ -651,7 +651,7 @@ namespace Dopamine.Views
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not remove window caption. Exception: {0}", ex.Message);
+                        LogClient.Error("Could not remove window caption. Exception: {0}", ex.Message);
                     }
                 }
 
@@ -664,7 +664,7 @@ namespace Dopamine.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
                 }
             }
 
@@ -692,7 +692,7 @@ namespace Dopamine.Views
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
                 }
             }
             else
@@ -707,7 +707,7 @@ namespace Dopamine.Views
 
         private async Task PerformClosingTasksAsync()
         {
-            CoreLogger.Current.Info("Performing closing tasks");
+            LogClient.Info("Performing closing tasks");
 
             this.ShowClosingAnimation();
 
@@ -751,7 +751,7 @@ namespace Dopamine.Views
                 await this.playbackService.SavePlaybackCountersAsync();
             }
 
-            CoreLogger.Current.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
 
             this.mustPerformClosingTasks = false;
             this.Close();
@@ -829,11 +829,11 @@ namespace Dopamine.Views
 
                     try
                     {
-                        Actions.TryViewInExplorer(CoreLogger.Current.Logfile()); // View the log file
+                        Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Current.Logfile(), ex.Message);
+                        LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                     }
                 }
                 else if (e.Key == Key.OemPlus | e.Key == Key.Add)

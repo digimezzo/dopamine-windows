@@ -1,4 +1,4 @@
-﻿using Dopamine.Core.Database.Entities;
+﻿using Dopamine.Common.Database.Entities;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories.Interfaces

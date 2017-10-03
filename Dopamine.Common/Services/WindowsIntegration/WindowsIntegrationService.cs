@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Logging;
+﻿using Digimezzo.Utilities.Log;
 using Microsoft.Win32;
 using System;
 using System.Management;
@@ -35,7 +35,7 @@ namespace Dopamine.Common.Services.WindowsIntegration
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not get tablet mode from registry. Exception: {0}", ex.Message);
                 }
 
                 return registryTabletMode == 1 ? true : false;
@@ -68,7 +68,7 @@ namespace Dopamine.Common.Services.WindowsIntegration
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
+                LogClient.Error("Could not start monitoring tablet mode. Exception: {0}", ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Dopamine.Common.Services.WindowsIntegration
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
+                LogClient.Error("Could not stop monitoring tablet mode. Exception: {0}", ex.Message);
             }
         }
 

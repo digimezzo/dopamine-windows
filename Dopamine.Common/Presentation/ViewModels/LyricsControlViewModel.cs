@@ -1,13 +1,15 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Api.Lyrics;
 using Dopamine.Common.Base;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Settings;
+using Digimezzo.Utilities.Log;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -16,9 +18,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Dopamine.Core.Base;
-using Dopamine.Common.Settings;
-using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -27,7 +26,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IUnityContainer container;
         private ILocalizationInfo info;
-        private IMergedSettings settings;
+        private ISettings settings;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
@@ -80,7 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.container = container;
             this.info = container.Resolve<ILocalizationInfo>();
-            this.settings = container.Resolve<IMergedSettings>();
+            this.settings = container.Resolve<ISettings>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
@@ -258,7 +257,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
+                        LogClient.Error("Could not get lyrics online {0}. Exception: {1}", track.Path, ex.Message);
                     }
 
                     this.IsDownloadingLyrics = false;
@@ -273,7 +272,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             catch (Exception ex)
             {
                 this.IsDownloadingLyrics = false;
-                CoreLogger.Current.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
+                LogClient.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ClearLyrics();
                 return;
             }
@@ -320,7 +319,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not highlight the lyrics. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not highlight the lyrics. Exception: {0}", ex.Message);
                 }
 
             });

@@ -1,13 +1,13 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Common.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -134,7 +134,7 @@ namespace Dopamine.SettingsModule.ViewModels
         #region Private
         private async void AddFolder()
         {
-            CoreLogger.Current.Info("Adding a folder to the collection.");
+            LogClient.Info("Adding a folder to the collection.");
 
             var dlg = new WPFFolderBrowserDialog();
 
@@ -177,7 +177,7 @@ namespace Dopamine.SettingsModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Exception: {0}", ex.Message);
+                    LogClient.Error("Exception: {0}", ex.Message);
 
                     this.dialogService.ShowNotification(
                         0xe711,
@@ -216,7 +216,7 @@ namespace Dopamine.SettingsModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Exception: {0}", ex.Message);
+                LogClient.Error("Exception: {0}", ex.Message);
 
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Folder"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }

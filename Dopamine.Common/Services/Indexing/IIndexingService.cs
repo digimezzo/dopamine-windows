@@ -1,5 +1,4 @@
-﻿using Dopamine.Core.Services.Indexing;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Indexing

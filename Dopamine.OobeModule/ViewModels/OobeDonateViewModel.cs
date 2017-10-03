@@ -4,7 +4,7 @@ using Prism.Mvvm;
 using Prism.Events;
 using Prism.Regions;
 using System;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 
 namespace Dopamine.OobeModule.ViewModels
 {

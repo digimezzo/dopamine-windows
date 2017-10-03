@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
+﻿using Dopamine.Common.Helpers;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {

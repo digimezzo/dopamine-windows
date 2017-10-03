@@ -1,12 +1,10 @@
-﻿using Dopamine.Core.Database.Entities;
+﻿using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Database.Repositories
 {
@@ -40,13 +38,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get Queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
@@ -70,13 +68,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not save queued tracks. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not save queued tracks. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -97,13 +95,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the playing queued Track. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

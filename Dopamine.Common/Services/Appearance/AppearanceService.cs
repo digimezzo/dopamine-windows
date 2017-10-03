@@ -6,8 +6,7 @@ using Dopamine.Common.IO;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Settings;
-using Dopamine.Core.Logging;
-using Dopamine.Core.Services.Appearance;
+using Digimezzo.Utilities.Log;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
@@ -20,27 +19,51 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace Dopamine.Common.Services.Appearance
 {
-    public class AppearanceService : Core.Services.Appearance.AppearanceService
+    public class AppearanceService : IAppearanceService
     {
         #region Variables
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
-        private IMergedSettings settings;
+        private ISettings settings;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
         private bool followAlbumCoverColor;
         private FileSystemWatcher colorSchemeWatcher;
         private Timer colorSchemeTimer = new Timer();
         private Timer applyColorSchemeTimer;
         private string colorSchemesSubDirectory;
-
         private double colorSchemeTimeoutSeconds = 0.2;
+        private bool followWindowsColor = false;
+        private List<ColorScheme> colorSchemes = new List<ColorScheme>();
+        private ColorScheme[] builtInColorSchemes = {
+                                                        new ColorScheme {
+                                                            Name = "Blue",
+                                                            AccentColor = "#1D7DD4"
+                                                        },
+                                                        new ColorScheme {
+                                                            Name = "Green",
+                                                            AccentColor = "#7FB718"
+                                                        },
+                                                        new ColorScheme {
+                                                            Name = "Yellow",
+                                                            AccentColor = "#F09609"
+                                                        },
+                                                        new ColorScheme {
+                                                            Name = "Purple",
+                                                            AccentColor = "#A835B2"
+                                                        },
+                                                        new ColorScheme {
+                                                            Name = "Pink",
+                                                            AccentColor = "#CE0058"
+                                                        }
+                                                    };
         #endregion
 
         #region Construction
-        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService, IMergedSettings settings) : base()
+        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService, ISettings settings) : base()
         {
             this.settings = settings;
 
@@ -121,7 +144,7 @@ namespace Dopamine.Common.Services.Appearance
                 return;
             }
 
-            this.ApplyColorSchemeAsync(string.Empty, this.FollowWindowsColor, this.followAlbumCoverColor);
+            this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
         }
         #endregion
 
@@ -152,14 +175,41 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Private
+        private void GetBuiltInColorSchemes()
+        {
+            // For now, we are returning a hard-coded list of themes
+            foreach (ColorScheme cs in this.builtInColorSchemes)
+            {
+                this.colorSchemes.Add(cs);
+            }
+        }
+
+        private void AddColorScheme(ColorScheme colorScheme)
+        {
+            // We don't allow duplicate color scheme names.
+            // If already present, remove the previous color scheme which has that name.
+            // This allows custom color schemes to override built-in color schemes.
+            if (this.colorSchemes.Contains(colorScheme))
+            {
+                this.colorSchemes.Remove(colorScheme);
+            }
+
+            this.colorSchemes.Add(colorScheme);
+        }
+
+        private void ClearColorSchemes()
+        {
+            this.colorSchemes.Clear();
+        }
+
         [DebuggerHidden]
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (!this.FollowWindowsColor) return IntPtr.Zero;
+            if (!this.followWindowsColor) return IntPtr.Zero;
 
             if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
             {
-                this.ApplyColorSchemeAsync(string.Empty, this.FollowWindowsColor, this.followAlbumCoverColor);
+                this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
             }
 
             return IntPtr.Zero;
@@ -215,16 +265,14 @@ namespace Dopamine.Common.Services.Appearance
                 Application.Current.Resources.MergedDictionaries.Remove(currentThemeDict);
             }
         }
-        #endregion
 
-        #region Protected
-        protected override void GetAllColorSchemes()
+        protected void GetAllColorSchemes()
         {
             this.ClearColorSchemes();
             this.GetBuiltInColorSchemes();
             this.GetCustomColorSchemes();
         }
-
+       
         private void GetCustomColorSchemes()
         {
             var dirInfo = new DirectoryInfo(this.colorSchemesSubDirectory);
@@ -254,20 +302,24 @@ namespace Dopamine.Common.Services.Appearance
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Exception: {0}", ex.Message);
+                        LogClient.Error("Exception: {0}", ex.Message);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Exception: {0}", ex.Message);
+                    LogClient.Error("Exception: {0}", ex.Message);
                 }
             }
         }
         #endregion
 
         #region IAppearanceService
-        public override void WatchWindowsColor(object win)
+        public event ThemeChangedEventHandler ThemeChanged = delegate { };
+        public event EventHandler ColorSchemeChanged = delegate { };
+        public event EventHandler ColorSchemesChanged = delegate { };
+
+        public void WatchWindowsColor(object win)
         {
             if(win is Window)
             {
@@ -277,7 +329,7 @@ namespace Dopamine.Common.Services.Appearance
             }
         }
 
-        public override void ApplyTheme(bool useLightTheme)
+        public void ApplyTheme(bool useLightTheme)
         {
             string themeName = "Dark";
 
@@ -297,9 +349,9 @@ namespace Dopamine.Common.Services.Appearance
             this.OnThemeChanged(useLightTheme);
         }
 
-        public override async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
+        public async Task ApplyColorSchemeAsync(string selectedColorScheme, bool followWindowsColor, bool followAlbumCoverColor, bool isViewModelLoaded = false)
         {
-            this.FollowWindowsColor = followWindowsColor;
+            this.followWindowsColor = followWindowsColor;
             this.followAlbumCoverColor = followAlbumCoverColor;
 
             Color accentColor = default(Color);
@@ -395,6 +447,40 @@ namespace Dopamine.Common.Services.Appearance
                 this.ReApplyTheme();
                 this.OnColorSchemeChanged(new EventArgs());
             }
+        }
+
+        public void OnThemeChanged(bool useLightTheme)
+        {
+            this.ThemeChanged(useLightTheme);
+        }
+
+        public void OnColorSchemeChanged(EventArgs e)
+        {
+            this.ColorSchemeChanged(this, e);
+        }
+
+        public void OnColorSchemesChanged(EventArgs e)
+        {
+            this.ColorSchemesChanged(this, e);
+        }
+
+        public ColorScheme GetColorScheme(string name)
+        {
+            foreach (ColorScheme item in this.colorSchemes)
+            {
+                if (item.Name.Equals(name))
+                {
+                    return item;
+                }
+            }
+
+            // If not found by the loop, return the first color scheme.
+            return this.colorSchemes[0];
+        }
+
+        public List<ColorScheme> GetColorSchemes()
+        {
+            return this.colorSchemes.ToList();
         }
         #endregion
     }

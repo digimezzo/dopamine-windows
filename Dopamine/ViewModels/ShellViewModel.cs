@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.IO;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.Views;
@@ -92,11 +92,11 @@ namespace Dopamine.ViewModels
             {
                 try
                 {
-                    Actions.TryViewInExplorer(CoreLogger.Current.Logfile());
+                    Actions.TryViewInExplorer(LogClient.Logfile());
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not view the log file {0} in explorer. Exception: {1}", CoreLogger.Current.Logfile(), ex.Message);
+                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                 }
             });
 
@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
+                    LogClient.Error("Could not open the path {0} in Explorer. Exception: {1}", path, ex.Message);
                 }
             });
             ApplicationCommands.OpenPathCommand.RegisterCommand(this.OpenPathCommand);
@@ -121,7 +121,7 @@ namespace Dopamine.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
+                    LogClient.Error("Could not open the link {0} in Internet Explorer. Exception: {1}", link, ex.Message);
                 }
             });
             ApplicationCommands.OpenLinkCommand.RegisterCommand(this.OpenLinkCommand);

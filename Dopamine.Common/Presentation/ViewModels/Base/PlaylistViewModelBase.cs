@@ -1,7 +1,7 @@
-﻿using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Database;
+using Dopamine.Common.Database;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
@@ -36,7 +36,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IDialogService dialogService;
         private IProviderService providerService;
         private II18nService i18nService;
-        private IMergedSettings settings;
+        private ISettings settings;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
@@ -87,7 +87,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = container.Resolve<IDialogService>();
             this.providerService = container.Resolve<IProviderService>();
             this.i18nService = container.Resolve<II18nService>();
-            this.settings = container.Resolve<IMergedSettings>();
+            this.settings = container.Resolve<ISettings>();
 
             // Commands
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
@@ -155,7 +155,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occurred while setting size information. Exception: {0}", ex.Message);
                     }
 
                 });
@@ -203,7 +203,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
                 Application.Current.Dispatcher.Invoke(() =>

@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Core.Base;
+using Dopamine.Common.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

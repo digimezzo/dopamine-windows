@@ -1,5 +1,10 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
@@ -7,11 +12,6 @@ using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
-using Dopamine.Core.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
@@ -307,7 +307,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
 
                 // Failed getting Albums. Create empty ObservableCollection.
                 this.Albums = new ObservableCollection<AlbumViewModel>();

@@ -1,11 +1,11 @@
-﻿using Dopamine.Core.Logging;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
+using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.File;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Dopamine.Core.Base;
 
 namespace Dopamine.Common.Services.Playlist
 {
@@ -45,7 +44,7 @@ namespace Dopamine.Common.Services.Playlist
 
             // Initialize Playlists folder
             string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            this.playlistFolder = Path.Combine(musicFolder, Core.Base.ProductInformation.ApplicationName, "Playlists");
+            this.playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationName, "Playlists");
 
             if (!Directory.Exists(playlistFolder))
             {
@@ -55,7 +54,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not create Playlists folder. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not create Playlists folder. Exception: {0}", ex.Message);
                 }
             }
 
@@ -124,7 +123,7 @@ namespace Dopamine.Common.Services.Playlist
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
+                LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
             }
 
             return uniquePlaylist;
@@ -150,7 +149,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
+                    LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = AddPlaylistResult.Error;
                 }
             });
@@ -166,7 +165,7 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (string.IsNullOrWhiteSpace(playlistName))
             {
-                CoreLogger.Current.Error("PlaylistName is empty");
+                LogClient.Error("PlaylistName is empty");
                 return DeletePlaylistsResult.Error;
             }
 
@@ -191,7 +190,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Error while deleting playlist '{0}'. Exception: {1}", playlistName, ex.Message);
+                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlistName, ex.Message);
                     result = DeletePlaylistsResult.Error;
                 }
             });
@@ -207,19 +206,19 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (string.IsNullOrWhiteSpace(oldPlaylistName))
             {
-                CoreLogger.Current.Error("OldPlaylistName is empty");
+                LogClient.Error("OldPlaylistName is empty");
                 return RenamePlaylistResult.Error;
             }
             if (string.IsNullOrWhiteSpace(newPlaylistName))
             {
-                CoreLogger.Current.Error("NewPlaylistName is empty");
+                LogClient.Error("NewPlaylistName is empty");
                 return RenamePlaylistResult.Blank;
             }
 
             string oldFilename = this.CreatePlaylistFilename(oldPlaylistName);
             if (!System.IO.File.Exists(oldFilename))
             {
-                CoreLogger.Current.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylistName);
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylistName);
                 return RenamePlaylistResult.Error;
             }
 
@@ -239,7 +238,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylistName, newPlaylistName, ex.Message);
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylistName, newPlaylistName, ex.Message);
                     result = RenamePlaylistResult.Error;
                 }
             });
@@ -269,7 +268,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Error while getting playlist. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while getting playlist. Exception: {0}", ex.Message);
                 }
             });
 
@@ -280,7 +279,7 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
-                CoreLogger.Current.Error("FileName is empty");
+                LogClient.Error("FileName is empty");
                 return OpenPlaylistResult.Error;
             }
 
@@ -298,7 +297,7 @@ namespace Dopamine.Common.Services.Playlist
 
             if (!decodeResult.DecodeResult.Result)
             {
-                CoreLogger.Current.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
+                LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
                 return OpenPlaylistResult.Error;
             }
 
@@ -314,7 +313,7 @@ namespace Dopamine.Common.Services.Playlist
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Error while getting unique playlist filename. Exception: {0}", ex.Message);
+                LogClient.Error("Error while getting unique playlist filename. Exception: {0}", ex.Message);
                 return OpenPlaylistResult.Error;
             }
 
@@ -338,7 +337,7 @@ namespace Dopamine.Common.Services.Playlist
                             }
                             catch (Exception ex)
                             {
-                                CoreLogger.Current.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", path, playlistName, filename, ex.Message);
+                                LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", path, playlistName, filename, ex.Message);
                             }
                         }
                     }
@@ -346,7 +345,7 @@ namespace Dopamine.Common.Services.Playlist
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
+                LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                 return OpenPlaylistResult.Error;
             }
 
@@ -363,7 +362,7 @@ namespace Dopamine.Common.Services.Playlist
             // If no playlist was selected, return no tracks.
             if (string.IsNullOrEmpty(playlistName))
             {
-                CoreLogger.Current.Error("PlaylistName is empty. Returning empty list of tracks.");
+                LogClient.Error("PlaylistName is empty. Returning empty list of tracks.");
                 return new List<PlayableTrack>();
             }
 
@@ -386,7 +385,7 @@ namespace Dopamine.Common.Services.Playlist
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get track information from file. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -399,13 +398,13 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (tracks == null || tracks.Count == 0)
             {
-                CoreLogger.Current.Error("Cannot set playlist order. No tracks were provided.");
+                LogClient.Error("Cannot set playlist order. No tracks were provided.");
                 return;
             }
 
             if (string.IsNullOrEmpty(playlistName))
             {
-                CoreLogger.Current.Error("Cannot set playlist order. No playlistName was provided.");
+                LogClient.Error("Cannot set playlist order. No playlistName was provided.");
                 return;
             }
 
@@ -430,7 +429,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not set the playlist order. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not set the playlist order. Exception: {0}", ex.Message);
                 }
             });
 
@@ -441,13 +440,13 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (tracks == null || tracks.Count == 0)
             {
-                CoreLogger.Current.Error("Cannot add tracks to playlist. No tracks were provided.");
+                LogClient.Error("Cannot add tracks to playlist. No tracks were provided.");
                 return AddTracksToPlaylistResult.Error;
             }
 
             if (string.IsNullOrEmpty(playlistName))
             {
-                CoreLogger.Current.Error("Cannot add tracks to playlist. No playlistName was provided.");
+                LogClient.Error("Cannot add tracks to playlist. No playlistName was provided.");
                 return AddTracksToPlaylistResult.Error;
             }
 
@@ -475,7 +474,7 @@ namespace Dopamine.Common.Services.Playlist
                                 }
                                 catch (Exception ex)
                                 {
-                                    CoreLogger.Current.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlistName, filename, ex.Message);
+                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlistName, filename, ex.Message);
                                 }
                             }
                         }
@@ -483,7 +482,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
+                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = AddTracksToPlaylistResult.Error;
                 }
             });
@@ -523,13 +522,13 @@ namespace Dopamine.Common.Services.Playlist
         {
             if (indexes == null || indexes.Count == 0)
             {
-                CoreLogger.Current.Error("Cannot delete tracks from playlist. No indexes were provided.");
+                LogClient.Error("Cannot delete tracks from playlist. No indexes were provided.");
                 return DeleteTracksFromPlaylistResult.Error;
             }
 
             if (string.IsNullOrEmpty(playlistName))
             {
-                CoreLogger.Current.Error("Cannot delete tracks from playlist. No playlistName was provided.");
+                LogClient.Error("Cannot delete tracks from playlist. No playlistName was provided.");
                 return DeleteTracksFromPlaylistResult.Error;
             }
 
@@ -572,7 +571,7 @@ namespace Dopamine.Common.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
+                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
                     result = DeleteTracksFromPlaylistResult.Error;
                 }
             });

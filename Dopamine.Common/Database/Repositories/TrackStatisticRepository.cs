@@ -1,11 +1,10 @@
-﻿using Dopamine.Core.Logging;
-using Dopamine.Core.Database.Entities;
+﻿using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Core.Extensions;
+using Dopamine.Common.Extensions;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Core.Database;
 
 namespace Dopamine.Common.Database.Repositories
 {
@@ -50,13 +49,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not update rating for path='{0}'. Exception: {1}", ex.Message);
+                            LogClient.Error("Could not update rating for path='{0}'. Exception: {1}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -88,13 +87,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not update love for path='{0}'. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not update love for path='{0}'. Exception: {1}", path, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -125,13 +124,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not update statistics for path='{0}'. Exception: {1}", trackStatistic.Path, ex.Message);
+                            LogClient.Error("Could not update statistics for path='{0}'. Exception: {1}", trackStatistic.Path, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -152,13 +151,13 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get TrackStatistic for path='{0}'. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not get TrackStatistic for path='{0}'. Exception: {1}", path, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 

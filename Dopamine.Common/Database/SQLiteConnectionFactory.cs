@@ -1,11 +1,11 @@
-﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
+using SQLite;
 using System.IO;
 
 namespace Dopamine.Common.Database
 {
-    public class SQLiteConnectionFactory : Core.Database.SQLiteConnectionFactory
+    public class SQLiteConnectionFactory : ISQLiteConnectionFactory
     {
         #region Construction
         public SQLiteConnectionFactory()
@@ -15,8 +15,14 @@ namespace Dopamine.Common.Database
         }
         #endregion
 
-        #region Overrides
-        public override string DatabaseFile => Path.Combine(SettingsClient.ApplicationFolder(), ProductInformation.ApplicationName + ".db");
+        #region ISQLiteConnectionFactory
+        public string DatabaseFile => Path.Combine(SettingsClient.ApplicationFolder(), ProductInformation.ApplicationName + ".db");
+        public SQLiteConnection GetConnection()
+        {
+            return new SQLiteConnection(this.DatabaseFile);
+        }
+
+        
         #endregion
     }
 }

@@ -1,7 +1,7 @@
-﻿using Dopamine.Core.Logging;
+﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Extensions;
+using Dopamine.Common.Database;
+using Dopamine.Common.Extensions;
 using Dopamine.Common.Metadata;
 using System;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not update the track metadata. Exception: {0}", ex.Message);
+                LogClient.Error("Could not update the track metadata. Exception: {0}", ex.Message);
             }
 
             return isDisplayedPlaybackInfoChanged;
@@ -130,7 +130,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not get current track. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get current track. Exception: {0}", ex.Message);
             }
 
             return default(KeyValuePair<string, PlayableTrack>);
@@ -149,7 +149,7 @@ namespace Dopamine.Common.Services.Playback
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not get first track. Exception: {0}", ex.Message);
+                LogClient.Error("Could not get first track. Exception: {0}", ex.Message);
             }
 
             return firstTrack;
@@ -192,7 +192,7 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not get previous track. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not get previous track. Exception: {0}", ex.Message);
                 }
             });
 
@@ -236,7 +236,7 @@ namespace Dopamine.Common.Services.Playback
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not get next track. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not get next track. Exception: {0}", ex.Message);
                 }
             });
 
@@ -270,7 +270,7 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 result.IsSuccess = false;
-                CoreLogger.Current.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
             }
 
 
@@ -304,7 +304,7 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 result.IsSuccess = false;
-                CoreLogger.Current.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Error while enqueuing tracks. Exception: {0}", ex.Message);
             }
 
             return result;
@@ -346,7 +346,7 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 result.IsSuccess = false;
-                CoreLogger.Current.Error("Error while enqueuing tracks next. Exception: {0}", ex.Message);
+                LogClient.Error("Error while enqueuing tracks next. Exception: {0}", ex.Message);
             }
 
 
@@ -371,7 +371,7 @@ namespace Dopamine.Common.Services.Playback
                 catch (Exception ex)
                 {
                     isSuccess = false;
-                    CoreLogger.Current.Error("Error while clearing queue. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while clearing queue. Exception: {0}", ex.Message);
                 }
             });
 
@@ -472,7 +472,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            CoreLogger.Current.Error("Error while removing queued track with path='{0}'. Exception: {1}", track.Value.Path, ex.Message);
+                            LogClient.Error("Error while removing queued track with path='{0}'. Exception: {1}", track.Value.Path, ex.Message);
                         }
                     }
 
@@ -487,7 +487,7 @@ namespace Dopamine.Common.Services.Playback
                         catch (Exception ex)
                         {
                             isSuccess = false;
-                            CoreLogger.Current.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", dequeuedTrack.Value.Path, ex.Message);
+                            LogClient.Error("Error while removing shuffled track with path='{0}'. Exception: {1}", dequeuedTrack.Value.Path, ex.Message);
                         }
                     }
                 }
@@ -554,7 +554,7 @@ namespace Dopamine.Common.Services.Playback
             catch (Exception ex)
             {
                 isSuccess = false;
-                CoreLogger.Current.Error("Could update queue order. Exception: {0}", ex.Message);
+                LogClient.Error("Could update queue order. Exception: {0}", ex.Message);
             }
 
             return isSuccess;

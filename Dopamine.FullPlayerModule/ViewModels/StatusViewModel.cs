@@ -1,18 +1,17 @@
 ﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Update;
-using Dopamine.Common.Base;
-using Dopamine.Core.Logging;
+using Digimezzo.Utilities.Log;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Packaging;
-using Dopamine.Core.Services.Indexing;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
@@ -282,7 +281,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
                     this.OpenDownloadLink();
                 }
             }
@@ -312,7 +311,7 @@ namespace Dopamine.FullPlayerModule.ViewModels
             }
             catch (Exception ex)
             {
-                CoreLogger.Current.Error("Could not open the download link. Exception: {0}", ex.Message);
+                LogClient.Error("Could not open the download link. Exception: {0}", ex.Message);
             }
         }
         #endregion

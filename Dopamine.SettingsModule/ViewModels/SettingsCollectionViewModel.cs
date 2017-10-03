@@ -21,7 +21,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private ITrackRepository trackRepository;
-        private IMergedSettings settings;
+        private ISettings settings;
         #endregion
 
         #region Commands
@@ -59,7 +59,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         #region Construction
         public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService, 
-            ITrackRepository trackRepository, IMergedSettings settings)
+            ITrackRepository trackRepository, ISettings settings)
         {
             this.settings = settings;
             this.indexingService = indexingService;

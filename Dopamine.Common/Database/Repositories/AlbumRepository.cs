@@ -1,8 +1,8 @@
-﻿using Dopamine.Core.Base;
-using Dopamine.Core.Database;
-using Dopamine.Core.Database.Entities;
-using Dopamine.Core.Helpers;
-using Dopamine.Core.Logging;
+﻿using Dopamine.Common.Base;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
+using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +10,21 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Database.Repositories
 {
-    public class AlbumRepository : Core.Database.Repositories.AlbumRepository
+    public class AlbumRepository : IAlbumRepository
     {
         #region Variables
+        private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
         #endregion
 
+        #region Properties
+        public ISQLiteConnectionFactory Factory => this.factory;
+        #endregion
+
         #region Construction
-        public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info) : base(factory, info)
+        public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
+            this.factory = factory;
             this.info = info;
         }
         #endregion
@@ -33,8 +39,8 @@ namespace Dopamine.Common.Database.Repositories
         }
         #endregion
 
-        #region Overrides
-        public override async Task<List<Album>> GetAlbumsAsync()
+        #region IAlbumRepository
+        public async Task<List<Album>> GetAlbumsAsync()
         {
             var albums = new List<Album>();
 
@@ -53,20 +59,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get all the Albums. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the Albums. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return albums;
         }
 
-        public override async Task<List<Album>> GetAlbumsAsync(IList<Artist> artists)
+        public async Task<List<Album>> GetAlbumsAsync(IList<Artist> artists)
         {
             var albums = new List<Album>();
 
@@ -91,21 +97,21 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Albums for Artists. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Albums for Artists. Exception: {0}", ex.Message);
                         }
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return albums;
         }
 
-        public override async Task<List<Album>> GetAlbumsAsync(IList<Genre> genres)
+        public async Task<List<Album>> GetAlbumsAsync(IList<Genre> genres)
         {
             var albums = new List<Album>();
 
@@ -128,20 +134,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Albums for Genres. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Albums for Genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return albums;
         }
 
-        public override async Task<Album> GetAlbumAsync(string albumTitle, string albumArtist)
+        public async Task<Album> GetAlbumAsync(string albumTitle, string albumArtist)
         {
             Album album = null;
 
@@ -157,20 +163,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
+                            LogClient.Error("Could not get the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     album = null;
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
             return album;
         }
 
-        public override Album GetAlbum(long albumID)
+        public Album GetAlbum(long albumID)
         {
             Album album = null;
 
@@ -184,20 +190,20 @@ namespace Dopamine.Common.Database.Repositories
                     }
                     catch (Exception ex)
                     {
-                        CoreLogger.Current.Error("Could not get the Album with AlbumID='{0}'. Exception: {1}", albumID.ToString(), ex.Message);
+                        LogClient.Error("Could not get the Album with AlbumID='{0}'. Exception: {1}", albumID.ToString(), ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
                 album = null;
-                CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
             }
 
             return album;
         }
 
-        public override async Task<List<Album>> GetFrequentAlbumsAsync(int limit)
+        public async Task<List<Album>> GetFrequentAlbumsAsync(int limit)
         {
             var albums = new List<Album>();
 
@@ -223,20 +229,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not get the Album history. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Album history. Exception: {0}", ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return albums;
         }
 
-        public override async Task<Album> AddAlbumAsync(Album album)
+        public async Task<Album> AddAlbumAsync(Album album)
         {
             await Task.Run(() =>
             {
@@ -253,20 +259,20 @@ namespace Dopamine.Common.Database.Repositories
                         catch (Exception ex)
                         {
                             album = null;
-                            CoreLogger.Current.Error("Could not create the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                            LogClient.Error("Could not create the Album with AlbumTitle='{0}' and AlbumArtist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return album;
         }
 
-        public override async Task<bool> UpdateAlbumAsync(Album album)
+        public async Task<bool> UpdateAlbumAsync(Album album)
         {
             bool isUpdateSuccess = false;
 
@@ -283,20 +289,20 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not update the Album with Title='{0}' and Album artist = '{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                            LogClient.Error("Could not update the Album with Title='{0}' and Album artist = '{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return isUpdateSuccess;
         }
 
-        public override async Task<bool> UpdateAlbumArtworkAsync(string albumTitle, string albumArtist, string artworkID)
+        public async Task<bool> UpdateAlbumArtworkAsync(string albumTitle, string albumArtist, string artworkID)
         {
             bool isUpdateSuccess = false;
 
@@ -320,17 +326,42 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            CoreLogger.Current.Error("Could not update album artwork for album with title '{0}' and album artist '{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
+                            LogClient.Error("Could not update album artwork for album with title '{0}' and album artist '{1}'. Exception: {2}", albumTitle, albumArtist, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    CoreLogger.Current.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                 }
             });
 
             return isUpdateSuccess;
+        }
+
+        public async Task DeleteOrphanedAlbumsAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("DELETE FROM Album WHERE AlbumID NOT IN (SELECT AlbumID FROM Track);");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("There was a problem while deleting orphaned Albums. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
         }
         #endregion
     }

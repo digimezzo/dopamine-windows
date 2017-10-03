@@ -2,14 +2,14 @@
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Settings;
-using Dopamine.Core.Services.Appearance;
+using Dopamine.Common.Services.Appearance;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
     public class BackgroundCoverArtControlViewModel : CoverArtControlViewModel
     {
         #region Variables
-        private IMergedSettings settings;
+        private ISettings settings;
         private IAppearanceService appearanceService;
         private ICacheService cacheService;
         private IMetadataService metadataService;
@@ -25,7 +25,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #endregion
 
         #region Construction
-        public BackgroundCoverArtControlViewModel(IMergedSettings settings, IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
+        public BackgroundCoverArtControlViewModel(ISettings settings, IPlaybackService playbackService,ICacheService cacheService, IAppearanceService appearanceService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
         {
             this.settings = settings;
             this.playbackService = playbackService;

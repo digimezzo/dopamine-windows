@@ -3,14 +3,14 @@ using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Core.ViewModels;
 using Dopamine.InformationModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Mvvm;
 
 namespace Dopamine.InformationModule.ViewModels
 {
-    public sealed class InformationAboutViewModel : InformationAboutViewModelBase
+    public sealed class InformationAboutViewModel : BindableBase
     {
         #region Variables
         private IUnityContainer container;
@@ -29,13 +29,13 @@ namespace Dopamine.InformationModule.ViewModels
             set { SetProperty<Package>(ref this.package, value); }
         }
         
-        public override Core.Packaging.ExternalComponent[] Components
-        {
-            get {
-                return new ProductInformation().Components;
-            }
-        }
-
+        public ExternalComponent[] Components => ProductInformation.Components;
+        public string Copyright => ProductInformation.Copyright;
+        public string DonateUrl => ContactInformation.PayPalLink;
+        public string WebsiteLink => ContactInformation.WebsiteLink;
+        public string WebsiteContactLink => ContactInformation.WebsiteContactLink;
+        public string FacebookLink => ContactInformation.FacebookLink;
+        public string TwitterLink => ContactInformation.TwitterLink;
         #endregion
 
         #region Construction
