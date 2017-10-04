@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Dopamine.Common.Settings
+namespace Dopamine.Common.Services.Settings
 {
     public delegate void RefreshCollectionAutomaticallyChangedHandler(bool refreshCollectionAutomatically);
 
-    public interface ISettings
+    public interface ISettingsService
     {
         bool UseLightTheme { get; set; }
         bool FollowWindowsColor { get; set; }

@@ -503,6 +503,8 @@
     <Compile Include="Services\Scrobbling\LastfmScrobblingService.cs" />
     <Compile Include="Services\Search\ISearchService.cs" />
     <Compile Include="Services\Search\SearchService.cs" />
+    <Compile Include="Services\Settings\ISettingsService.cs" />
+    <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Services\Taskbar\ITaskbarService.cs" />
     <Compile Include="Services\Taskbar\TaskbarService.cs" />
     <Compile Include="Services\Update\IUpdateService.cs" />
@@ -511,8 +513,6 @@
     <Compile Include="Services\Win32Input\Win32InputService.cs" />
     <Compile Include="Services\WindowsIntegration\IWindowsIntegrationService.cs" />
     <Compile Include="Services\WindowsIntegration\WindowsIntegrationService.cs" />
-    <Compile Include="Settings\ISettings.cs" />
-    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

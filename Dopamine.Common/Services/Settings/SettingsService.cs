@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Dopamine.Common.Settings
+namespace Dopamine.Common.Services.Settings
 {
-    public class Settings : ISettings
+    public class SettingsService : ISettingsService
     {
         public string ApplicationFolder
         {
@@ -61,10 +61,13 @@ namespace Dopamine.Common.Settings
             set { Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Playback", "EnableExternalControl", value); }
         }
 
+        public event EventHandler ShowTrackArtOnPlaylistsChanged = delegate { };
+
         public bool ShowTrackArtOnPlaylists
         {
             get { return Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists"); }
-            set {
+            set
+            {
                 bool oldValue = Digimezzo.Utilities.Settings.SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
                 Digimezzo.Utilities.Settings.SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", value);
 
@@ -74,6 +77,8 @@ namespace Dopamine.Common.Settings
                 }
             }
         }
+
+        public event RefreshCollectionAutomaticallyChangedHandler RefreshCollectionAutomaticallyChanged = delegate { };
 
         public bool RefreshCollectionAutomatically
         {
@@ -99,13 +104,10 @@ namespace Dopamine.Common.Settings
             }
         }
 
-        public Settings()
+        public SettingsService()
         {
             this.Initialize();
         }
-
-        public event EventHandler ShowTrackArtOnPlaylistsChanged = delegate { };
-        public event RefreshCollectionAutomaticallyChangedHandler RefreshCollectionAutomaticallyChanged = delegate { };
 
         private void Initialize()
         {

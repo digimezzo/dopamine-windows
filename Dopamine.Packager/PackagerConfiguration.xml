@@ -27,7 +27,6 @@
         <File>Prism.dll</File>
         <File>Prism.Unity.Wpf.dll</File>
         <File>Prism.Wpf.dll</File>
-        <File>Dopamine.Core.dll</File>
         <File>Dopamine.Common.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.CollectionModule.dll</File>

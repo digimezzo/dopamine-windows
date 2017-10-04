@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Settings;
-using Dopamine.Common.Services.Appearance;
+﻿using Dopamine.Common.Services.Appearance;
+using Dopamine.Common.Services.Settings;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -11,7 +11,7 @@ namespace Dopamine.SettingsModule.ViewModels
     public class SettingsAppearanceThemeViewModel : BindableBase
     {
         #region Variables
-        private ISettings settings;
+        private ISettingsService settingsService;
         private IAppearanceService appearanceService;
         private ObservableCollection<string> themes = new ObservableCollection<string>();
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
@@ -34,7 +34,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxThemeChecked; }
             set
             {
-                this.settings.UseLightTheme = value;
+                this.settingsService.UseLightTheme = value;
                 Application.Current.Dispatcher.Invoke(() => this.appearanceService.ApplyTheme(value));
                 SetProperty<bool>(ref this.checkBoxThemeChecked, value);
             }
@@ -55,13 +55,13 @@ namespace Dopamine.SettingsModule.ViewModels
                 // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
-                    this.settings.ColorScheme = value.Name;
+                    this.settingsService.ColorScheme = value.Name;
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await this.appearanceService.ApplyColorSchemeAsync(
                             value.Name,
-                            this.settings.FollowWindowsColor,
-                            this.settings.FollowAlbumCoverColor,
+                            this.settingsService.FollowWindowsColor,
+                            this.settingsService.FollowAlbumCoverColor,
                             isViewModelLoaded
                             );
                         isViewModelLoaded = false;
@@ -83,12 +83,12 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.CheckBoxAlbumCoverColorChecked = false;
                 }
 
-                this.settings.FollowWindowsColor = value;
+                this.settingsService.FollowWindowsColor = value;
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                        this.settings.ColorScheme,
+                        this.settingsService.ColorScheme,
                         value,
                         false,
                         isViewModelLoaded
@@ -111,12 +111,12 @@ namespace Dopamine.SettingsModule.ViewModels
                     this.CheckBoxWindowsColorChecked = false;
                 }
 
-                this.settings.FollowAlbumCoverColor = value;
+                this.settingsService.FollowAlbumCoverColor = value;
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                          this.settings.ColorScheme,
+                          this.settingsService.ColorScheme,
                           false,
                           value,
                           isViewModelLoaded
@@ -136,9 +136,9 @@ namespace Dopamine.SettingsModule.ViewModels
         #endregion
 
         #region Construction
-        public SettingsAppearanceThemeViewModel(ISettings settings, IAppearanceService appearanceService)
+        public SettingsAppearanceThemeViewModel(ISettingsService settingsService, IAppearanceService appearanceService)
         {
-            this.settings = settings;
+            this.settingsService = settingsService;
             this.appearanceService = appearanceService;
 
             this.GetColorSchemesAsync();
@@ -163,7 +163,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
             this.ColorSchemes = localColorSchemes;
 
-            string savedColorSchemeName = this.settings.ColorScheme;
+            string savedColorSchemeName = this.settingsService.ColorScheme;
 
             if (!string.IsNullOrEmpty(savedColorSchemeName))
             {
@@ -179,13 +179,13 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.checkBoxThemeChecked = this.settings.UseLightTheme;
+                this.checkBoxThemeChecked = this.settingsService.UseLightTheme;
                 this.RaisePropertyChanged(nameof(this.CheckBoxThemeChecked));
 
-                this.checkBoxWindowsColorChecked = this.settings.FollowWindowsColor;
+                this.checkBoxWindowsColorChecked = this.settingsService.FollowWindowsColor;
                 this.RaisePropertyChanged(nameof(this.CheckBoxWindowsColorChecked));
 
-                this.checkBoxAlbumCoverColorChecked = this.settings.FollowAlbumCoverColor;
+                this.checkBoxAlbumCoverColorChecked = this.settingsService.FollowAlbumCoverColor;
                 this.RaisePropertyChanged(nameof(this.CheckBoxAlbumCoverColorChecked));
             });
         }

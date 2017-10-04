@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Api.Lyrics;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
@@ -8,8 +9,7 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Settings;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -26,7 +26,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IUnityContainer container;
         private ILocalizationInfo info;
-        private ISettings settings;
+        private ISettingsService settingsService;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
@@ -79,7 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.container = container;
             this.info = container.Resolve<ILocalizationInfo>();
-            this.settings = container.Resolve<ISettings>();
+            this.settingsService = container.Resolve<ISettingsService>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
@@ -251,7 +251,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     try
                     {
-                        var factory = new LyricsFactory(this.settings.LyricsTimeoutSeconds, this.settings.LyricsProviders, this.info);
+                        var factory = new LyricsFactory(this.settingsService.LyricsTimeoutSeconds, this.settingsService.LyricsProviders, this.info);
                         lyrics = await factory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
                         lyrics.SourceType = SourceTypeEnum.Online;
                     }

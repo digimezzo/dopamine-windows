@@ -1,9 +1,8 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
-using Dopamine.Common.Settings;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Settings;
 using System;
 using System.IO;
 using System.Net;
@@ -15,7 +14,7 @@ namespace Dopamine.Common.Services.Cache
     public class CacheService : ICacheService
     {
         #region Variables
-        private ISettings settings;
+        private ISettingsService settingsService;
         private string coverArtCacheFolderPath;
         private string temporaryCacheFolderPath;
         private Timer temporaryCacheCleanupTimer;
@@ -41,13 +40,13 @@ namespace Dopamine.Common.Services.Cache
         #endregion
 
         #region Construction
-        public CacheService(ISettings settings)
+        public CacheService(ISettingsService settingsService)
         {
-            this.settings = settings;
+            this.settingsService = settingsService;
 
-            string cacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder);
-            this.coverArtCacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
-            this.temporaryCacheFolderPath = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
+            string cacheFolderPath = Path.Combine(this.settingsService.ApplicationFolder, ApplicationPaths.CacheFolder);
+            this.coverArtCacheFolderPath = Path.Combine(this.settingsService.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.CoverArtCacheFolder);
+            this.temporaryCacheFolderPath = Path.Combine(this.settingsService.ApplicationFolder, ApplicationPaths.CacheFolder, ApplicationPaths.TemporaryCacheFolder);
 
             // If it doesn't exist, create the cache folder.
             if (!Directory.Exists(cacheFolderPath)) Directory.CreateDirectory(cacheFolderPath);

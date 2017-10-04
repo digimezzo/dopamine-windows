@@ -1,6 +1,5 @@
 ﻿using Dopamine.Common.Audio;
 using Dopamine.Common.IO;
-using Dopamine.Common.Settings;
 using Dopamine.Common.Utils;
 using Dopamine.Common.Base;
 using Digimezzo.Utilities.Log;
@@ -11,24 +10,25 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dopamine.Common.Services.Settings;
 
 namespace Dopamine.Common.Services.Equalizer
 {
     public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private ISettings settings;
+        private ISettingsService settingsService;
         private string equalizerSubDirectory;
         #endregion
 
         #region Construction
-        public EqualizerService(ISettings settings)
+        public EqualizerService(ISettingsService settingsService)
         {
-            this.settings = settings;
+            this.settingsService = settingsService;
 
             // Initialize the Equalizer directory
             // ----------------------------------
-            this.equalizerSubDirectory = Path.Combine(this.settings.ApplicationFolder, ApplicationPaths.EqualizerFolder);
+            this.equalizerSubDirectory = Path.Combine(this.settingsService.ApplicationFolder, ApplicationPaths.EqualizerFolder);
 
             // If the Equalizer subdirectory doesn't exist, create it
             if (!Directory.Exists(this.equalizerSubDirectory))
@@ -43,7 +43,7 @@ namespace Dopamine.Common.Services.Equalizer
         {
             var presets = await this.GetPresetsAsync();
 
-            string selectedPresetName = this.settings.SelectedEqualizerPreset;
+            string selectedPresetName = this.settingsService.SelectedEqualizerPreset;
             EqualizerPreset selectedPreset = presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
 
             if(selectedPreset == null)
@@ -76,7 +76,7 @@ namespace Dopamine.Common.Services.Equalizer
 
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
-            manualPreset.Load(ArrayUtils.ConvertArray(this.settings.ManualEqualizerPreset.Split(';')));
+            manualPreset.Load(ArrayUtils.ConvertArray(this.settingsService.ManualEqualizerPreset.Split(';')));
             presets.Insert(0, manualPreset);
 
             return presets;
