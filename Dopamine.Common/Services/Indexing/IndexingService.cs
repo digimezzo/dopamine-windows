@@ -567,11 +567,9 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 if (IndexerUtils.IsTrackOutdated(dbTrack) | dbTrack.NeedsIndexing == 1)
                                 {
-                                    if (this.ProcessTrack(dbTrack, conn))
-                                    {
-                                        conn.Update(dbTrack);
-                                        numberUpdatedTracks += 1;
-                                    }
+                                    this.ProcessTrack(dbTrack, conn);
+                                    conn.Update(dbTrack);
+                                    numberUpdatedTracks += 1;
                                 }
                             }
                             catch (Exception ex)
@@ -624,21 +622,14 @@ namespace Dopamine.Common.Services.Indexing
 
                         foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
                         {
-                            Track diskTrack = new Track
-                            {
-                                FolderID = newDiskPath.Item1,
-                                Path = newDiskPath.Item2,
-                                DateAdded = DateTime.Now.Ticks
-                            };
+                            Track diskTrack = Track.CreateDefault(newDiskPath.Item1, newDiskPath.Item2);
 
                             try
                             {
-                                if (this.ProcessTrack(diskTrack, conn))
-                                {
-                                    conn.Insert(diskTrack);
-                                    numberAddedTracks += 1;
-                                    unsavedItemCount += 1;
-                                }
+                                this.ProcessTrack(diskTrack, conn);
+                                conn.Insert(diskTrack);
+                                numberAddedTracks += 1;
+                                unsavedItemCount += 1;
 
                                 // Intermediate save to the database if 20% is reached
                                 if (unsavedItemCount == saveItemCount)
@@ -647,7 +638,6 @@ namespace Dopamine.Common.Services.Indexing
                                     conn.Commit(); // Intermediate save
                                     conn.BeginTransaction();
                                 }
-
                             }
                             catch (Exception ex)
                             {
@@ -679,10 +669,8 @@ namespace Dopamine.Common.Services.Indexing
             return numberAddedTracks;
         }
 
-        private bool ProcessTrack(Track track, SQLiteConnection conn)
+        private void ProcessTrack(Track track, SQLiteConnection conn)
         {
-            bool processingSuccessful = false;
-
             var newTrackStatistic = new TrackStatistic();
             var newAlbum = new Album();
             var newArtist = new Artist();
@@ -691,15 +679,15 @@ namespace Dopamine.Common.Services.Indexing
             try
             {
                 MetadataUtils.SplitMetadata(track.Path, ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
-                processingSuccessful = true;
+                track.IndexingSuccess = 1;
             }
             catch (Exception ex)
             {
-                processingSuccessful = false;
-                LogClient.Error("Error while retrieving tag information for file {0}. File not added to the database. Exception: {1}", track.Path, ex.Message);
+                track.IndexingFailureReason = ex.Message;
+                LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
             }
 
-            if (processingSuccessful)
+            if (track.IndexingSuccess == 1)
             {
                 // Check if such TrackStatistic already exists in the database
                 if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
@@ -744,8 +732,6 @@ namespace Dopamine.Common.Services.Indexing
                 track.ArtistID = newArtist.ArtistID;
                 track.GenreID = newGenre.GenreID;
             }
-
-            return processingSuccessful;
         }
 
         private async void Settings_RefreshCollectionAutomaticallyChanged(bool refreshCollectionAutomatically)

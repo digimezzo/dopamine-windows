@@ -30,7 +30,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 21;
+        protected const int CURRENT_VERSION = 22;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
         #endregion
@@ -100,31 +100,33 @@ namespace Dopamine.Common.Database
                              "ShowInCollection   INTEGER);");
 
                 conn.Execute("CREATE TABLE Track (" +
-                             "TrackID	            INTEGER," +
-                             "ArtistID	            INTEGER," +
-                             "GenreID	            INTEGER," +
-                             "AlbumID	            INTEGER," +
-                             "FolderID	            INTEGER," +
-                             "Path	                TEXT," +
-                             "SafePath	            TEXT," +
-                             "FileName	            TEXT," +
-                             "MimeType	            TEXT," +
-                             "FileSize	            INTEGER," +
-                             "BitRate	            INTEGER," +
-                             "SampleRate	        INTEGER," +
-                             "TrackTitle	        TEXT," +
-                             "TrackNumber	        INTEGER," +
-                             "TrackCount	        INTEGER," +
-                             "DiscNumber	        INTEGER," +
-                             "DiscCount	            INTEGER," +
-                             "Duration	            INTEGER," +
-                             "Year	                INTEGER," +
-                             "HasLyrics	            INTEGER," +
-                             "DateAdded  	        INTEGER," +
-                             "DateLastSynced	    INTEGER," +
-                             "DateFileModified	    INTEGER," +
-                             "MetaDataHash	        TEXT," +
-                             "NeedsIndexing 	    INTEGER," +
+                             "TrackID	                INTEGER," +
+                             "ArtistID	                INTEGER," +
+                             "GenreID	                INTEGER," +
+                             "AlbumID	                INTEGER," +
+                             "FolderID	                INTEGER," +
+                             "Path	                    TEXT," +
+                             "SafePath	                TEXT," +
+                             "FileName	                TEXT," +
+                             "MimeType	                TEXT," +
+                             "FileSize	                INTEGER," +
+                             "BitRate	                INTEGER," +
+                             "SampleRate	            INTEGER," +
+                             "TrackTitle	            TEXT," +
+                             "TrackNumber	            INTEGER," +
+                             "TrackCount	            INTEGER," +
+                             "DiscNumber	            INTEGER," +
+                             "DiscCount	                INTEGER," +
+                             "Duration	                INTEGER," +
+                             "Year	                    INTEGER," +
+                             "HasLyrics	                INTEGER," +
+                             "DateAdded  	            INTEGER," +
+                             "DateLastSynced	        INTEGER," +
+                             "DateFileModified	        INTEGER," +
+                             "MetaDataHash	            TEXT," +
+                             "NeedsIndexing 	        INTEGER," +
+                             "IndexingSuccess 	        INTEGER," +
+                             "IndexingFailureReason     TEXT," +
                              "PRIMARY KEY(TrackID));");
 
                 conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
@@ -1016,6 +1018,24 @@ namespace Dopamine.Common.Database
                 conn.Execute("BEGIN TRANSACTION;");
 
                 conn.Execute("DROP TABLE IndexingStatistic;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+        #endregion
+
+        #region Version 22
+        [DatabaseVersion(22)]
+        private void Migrate22()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("ALTER TABLE Track ADD IndexingSuccess INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD IndexingFailureReason TEXT;");
+                conn.Execute("UPDATE Track SET IndexingSuccess=1;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
