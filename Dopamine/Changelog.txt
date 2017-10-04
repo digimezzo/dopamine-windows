@@ -1,5 +1,12 @@
+2017-10-04: Dopamine 1.4 Build 959 (Preview)
+--------------------------------------------
+
+- [Fixed] Updated Spanish translation
+- [Fixed] Updated Swedish translation
+
+
 2017-10-04: Dopamine 1.4 Build 958 (Preview)
-----------------------------------------------
+--------------------------------------------
 
 - [Fixed] Crash when starting on non-Windows 10 systems
 - [Fixed] Missing text in Settings > Collection > Refresh

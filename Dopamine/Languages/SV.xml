@@ -398,13 +398,13 @@
   <Text Key="By_Date_Created">Datum skapad</Text>
   <Text Key="Plays">Spelat</Text>
   <Text Key="Skips">Skippat</Text>
-  <Text Key="Play_Selected">Play Selected</Text>
-  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
-  <Text Key="External_Control">External Control</Text>
-  <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
-  <Text Key="Unknown_Album">Unknown album</Text>
-  <Text Key="Unknown_Genre">Unknown genre</Text>
-  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
+  <Text Key="Play_Selected">Spela Valda</Text>
+  <Text Key="Error_Playing_Selected_Songs">Ett fel uppstod vid uppspelning av valda låtar. Läs loggfilen för mer information.</Text>
+  <Text Key="External_Control">Extern Kontroll</Text>
+  <Text Key="Enable_External_Control">Använd Extern Kontroll</Text>
+  <Text Key="Enable_System_Notification">Använd Systemnotifiering (endast Windows 10)</Text>
+  <Text Key="Unknown_Album">Okänt album</Text>
+  <Text Key="Unknown_Genre">Okänd genre</Text>
+  <Text Key="Refresh_Collection_Automatically">Uppdatera samlingen automatiskt</Text>
+  <Text Key="Loop_When_Shuffle">Vid blandad uppspelning, återvänd till början av spellistan efter sista låten.</Text>
 </Language>
