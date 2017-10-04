@@ -398,13 +398,13 @@
   <Text Key="By_Date_Created">Por fecha de creación</Text>
   <Text Key="Plays">Reproducciones</Text>
   <Text Key="Skips">Omisiones</Text>
-  <Text Key="Play_Selected">Play Selected</Text>
-  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
-  <Text Key="External_Control">External Control</Text>
-  <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
-  <Text Key="Unknown_Album">Unknown album</Text>
-  <Text Key="Unknown_Genre">Unknown genre</Text>
-  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
+  <Text Key="Play_Selected">Reproducción Seleccionada</Text>
+  <Text Key="Error_Playing_Selected_Songs">Se ha producido un error mientras se reproducían las canciones seleccionadas. Consulte el archivo 'log' para más información por favor.</Text>
+  <Text Key="External_Control">Control Externo</Text>
+  <Text Key="Enable_External_Control">Activar Control Externo</Text>
+  <Text Key="Enable_System_Notification">Activar el Sistema de Notificaciones (Solo para Windows 10)</Text>
+  <Text Key="Unknown_Album">Álbum desconocido</Text>
+  <Text Key="Unknown_Genre">Género desconocido</Text>
+  <Text Key="Refresh_Collection_Automatically">Actualizar la colección automáticamente</Text>
+  <Text Key="Loop_When_Shuffle">Al usar reproducción aleatoria, volver al comienzo de la lista de reproducción tras la última canción.</Text>
 </Language>
