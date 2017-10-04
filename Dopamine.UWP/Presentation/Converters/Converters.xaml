@@ -1,8 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:local="using:Dopamine.UWP.Presentation.Converters"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <local:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
-    <local:StringToLowerConverter x:Key="StringToLowerConverter"/>
-    <local:StringToUpperConverter x:Key="StringToUpperConverter"/>
-</ResourceDictionary>
