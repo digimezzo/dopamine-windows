@@ -98,7 +98,7 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
                                                              "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
-                                                             "WHERE fol.ShowInCollection=1;");
+                                                             "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
                         }
                         catch (Exception ex)
                         {
@@ -132,7 +132,7 @@ namespace Dopamine.Common.Database.Repositories
 
                             string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
-                                                     "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
+                                                     "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
 
                             tracks = conn.Query<PlayableTrack>(q);
                         }
@@ -167,7 +167,7 @@ namespace Dopamine.Common.Database.Repositories
 
                             string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
-                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(genreIDs));
+                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIDs));
 
                             tracks = conn.Query<PlayableTrack>(q);
                         }
@@ -202,7 +202,7 @@ namespace Dopamine.Common.Database.Repositories
 
                             string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
-                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1;", DatabaseUtils.ToQueryList(albumIDs));
+                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIDs));
 
                             tracks = conn.Query<PlayableTrack>(q);
                         }

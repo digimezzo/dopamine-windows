@@ -1,4 +1,6 @@
-﻿using SQLite;
+﻿using Dopamine.Common.Extensions;
+using SQLite;
+using System;
 
 namespace Dopamine.Common.Database.Entities
 {
@@ -31,6 +33,25 @@ namespace Dopamine.Common.Database.Entities
         public long DateFileModified { get; set; }
         public string MetaDataHash { get; set; }
         public long? NeedsIndexing { get; set; }
+        public long? IndexingSuccess { get; set; }
+        public string IndexingFailureReason { get; set; }
+        #endregion
+
+        #region Static
+        public static Track CreateDefault(long folderID, string path)
+        {
+            var track = new Track()
+            {
+                FolderID = folderID,
+                Path = path,
+                SafePath = path.ToSafePath(),
+                FileName = System.IO.Path.GetFileNameWithoutExtension(path),
+                IndexingSuccess = 0,
+                DateAdded = DateTime.Now.Ticks
+        };
+
+            return track;
+        }
         #endregion
 
         #region Overrides
