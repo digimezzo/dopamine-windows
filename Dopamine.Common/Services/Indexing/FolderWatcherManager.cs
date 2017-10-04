@@ -80,14 +80,17 @@ namespace Dopamine.Common.Services.Indexing
 
             foreach (Folder fol in folders)
             {
-                var watcher = new FileSystemWatcher(fol.Path) { EnableRaisingEvents = true, IncludeSubdirectories = true };
+                if (Directory.Exists(fol.Path))
+                {
+                    var watcher = new FileSystemWatcher(fol.Path) { EnableRaisingEvents = true, IncludeSubdirectories = true };
 
-                watcher.Changed += Watcher_Changed;
-                watcher.Created += Watcher_Changed;
-                watcher.Deleted += Watcher_Changed;
-                watcher.Renamed += Watcher_Renamed;
+                    watcher.Changed += Watcher_Changed;
+                    watcher.Created += Watcher_Changed;
+                    watcher.Deleted += Watcher_Changed;
+                    watcher.Renamed += Watcher_Renamed;
 
-                this.watchers.Add(watcher);
+                    this.watchers.Add(watcher);
+                }
             }
         }
 

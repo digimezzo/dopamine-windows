@@ -65,7 +65,7 @@
             <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Supported_Media_Keys}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <Separator Height="20" Background="Transparent" />
             <!-- Output device -->
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Output_Device}" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Audio_Device}" />
             <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Dopamine_Uses_WASAPI}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         </StackPanel>
     </ScrollViewer>
