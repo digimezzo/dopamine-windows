@@ -10,6 +10,7 @@ using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Command;
@@ -27,12 +28,11 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Search;
+using Dopamine.Common.Services.Settings;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
-using Dopamine.Common.Settings;
-using Dopamine.Common.Services.Appearance;
 using Dopamine.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -86,7 +86,7 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ISettings, Settings>();
+            Container.RegisterSingletonType<ISettingsService, SettingsService>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
@@ -199,7 +199,6 @@ namespace Dopamine
                 Application.Current.MainWindow.Show();
 
                 // We're not showing the OOBE screen, tell the IndexingService to start.
-                ISettings settings = Container.Resolve<ISettings>();
                 Container.Resolve<IIndexingService>().CheckCollectionAsync();
             }
         }

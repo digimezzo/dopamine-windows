@@ -2,7 +2,7 @@
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Common.Settings;
+using Dopamine.Common.Services.Settings;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -21,7 +21,7 @@ namespace Dopamine.SettingsModule.ViewModels
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private ITrackRepository trackRepository;
-        private ISettings settings;
+        private ISettingsService settingsService;
         #endregion
 
         #region Commands
@@ -51,7 +51,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxRefreshCollectionAutomaticallyChecked; }
             set
             {
-                this.settings.RefreshCollectionAutomatically = value;
+                this.settingsService.RefreshCollectionAutomatically = value;
                 SetProperty<bool>(ref this.checkBoxRefreshCollectionAutomaticallyChecked, value);
             }
         }
@@ -59,9 +59,9 @@ namespace Dopamine.SettingsModule.ViewModels
 
         #region Construction
         public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService, 
-            ITrackRepository trackRepository, ISettings settings)
+            ITrackRepository trackRepository, ISettingsService settingsService)
         {
-            this.settings = settings;
+            this.settingsService = settingsService;
             this.indexingService = indexingService;
             this.collectionService = collectionService;
             this.trackRepository = trackRepository;
@@ -81,7 +81,7 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.checkBoxRefreshCollectionAutomaticallyChecked = this.settings.RefreshCollectionAutomatically;
+                this.checkBoxRefreshCollectionAutomaticallyChecked = this.settingsService.RefreshCollectionAutomatically;
 
                 // Set the backing field of the property. This avoids executing a clear
                 // of removed tracks when loading the screen when the setting is false.

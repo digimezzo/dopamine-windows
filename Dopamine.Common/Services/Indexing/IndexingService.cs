@@ -1,10 +1,10 @@
-﻿using Dopamine.Common.Database;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Settings;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Settings;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -19,9 +19,7 @@ namespace Dopamine.Common.Services.Indexing
         #region Variables
         // Services
         private ICacheService cacheService;
-
-        // Settings
-        private ISettings settings;
+        private ISettingsService settingsService;
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -61,7 +59,7 @@ namespace Dopamine.Common.Services.Indexing
         #region Construction
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
             IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
-            IFolderRepository folderRepository, ISettings settings)
+            IFolderRepository folderRepository, ISettingsService settingsService)
         {
             this.cacheService = cacheService;
             this.factory = factory;
@@ -70,14 +68,14 @@ namespace Dopamine.Common.Services.Indexing
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
-            this.settings = settings;
+            this.settingsService = settingsService;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
 
-            this.settings.RefreshCollectionAutomaticallyChanged += Settings_RefreshCollectionAutomaticallyChanged;
+            this.settingsService.RefreshCollectionAutomaticallyChanged += Settings_RefreshCollectionAutomaticallyChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
 
-            this.needsCollectionCheck = this.settings.RefreshCollectionAutomatically;
+            this.needsCollectionCheck = this.settingsService.RefreshCollectionAutomatically;
             this.isIndexing = false;
         }
         #endregion
@@ -85,7 +83,7 @@ namespace Dopamine.Common.Services.Indexing
         #region IIndexingService
         public async void OnFoldersChanged()
         {
-            if (this.settings.RefreshCollectionAutomatically)
+            if (this.settingsService.RefreshCollectionAutomatically)
             {
                 this.needsCollectionCheck = true;
                 await this.watcherManager.StartWatchingAsync();
@@ -94,7 +92,7 @@ namespace Dopamine.Common.Services.Indexing
 
         public async Task CheckCollectionAsync()
         {
-            if (!this.settings.RefreshCollectionAutomatically)
+            if (!this.settingsService.RefreshCollectionAutomatically)
             {
                 return;
             }
@@ -132,7 +130,7 @@ namespace Dopamine.Common.Services.Indexing
                     }
                     else
                     {
-                        if (this.settings.RefreshCollectionAutomatically)
+                        if (this.settingsService.RefreshCollectionAutomatically)
                         {
                             await this.watcherManager.StartWatchingAsync();
                         }
@@ -167,7 +165,7 @@ namespace Dopamine.Common.Services.Indexing
             // Tracks
             // ------
 
-            bool isTracksChanged = await this.IndexTracksAsync(this.settings.IgnoreRemovedFiles) > 0 ? true : false;
+            bool isTracksChanged = await this.IndexTracksAsync(this.settingsService.IgnoreRemovedFiles) > 0 ? true : false;
 
             if (isTracksChanged)
             {
@@ -190,7 +188,7 @@ namespace Dopamine.Common.Services.Indexing
             this.isIndexing = false;
             this.IndexingStopped(this, new EventArgs());
 
-            if (this.settings.RefreshCollectionAutomatically)
+            if (this.settingsService.RefreshCollectionAutomatically)
             {
                 await this.watcherManager.StartWatchingAsync();
             }

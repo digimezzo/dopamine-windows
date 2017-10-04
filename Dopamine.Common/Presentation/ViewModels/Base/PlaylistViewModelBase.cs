@@ -7,10 +7,12 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
+using Dopamine.Common.Services.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -21,8 +23,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Services.I18n;
-using Dopamine.Common.Settings;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -36,7 +36,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IDialogService dialogService;
         private IProviderService providerService;
         private II18nService i18nService;
-        private ISettings settings;
+        private ISettingsService settingsService;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
@@ -87,7 +87,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = container.Resolve<IDialogService>();
             this.providerService = container.Resolve<IProviderService>();
             this.i18nService = container.Resolve<II18nService>();
-            this.settings = container.Resolve<ISettings>();
+            this.settingsService = container.Resolve<ISettingsService>();
 
             // Commands
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
@@ -95,21 +95,21 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
             {
-                this.settings.ShowTrackArtOnPlaylists = showTrackArt.Value;
+                this.settingsService.ShowTrackArtOnPlaylists = showTrackArt.Value;
             });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
-            this.settings.ShowTrackArtOnPlaylistsChanged += (_, __) =>
+            this.settingsService.ShowTrackArtOnPlaylistsChanged += (_, __) =>
             {
-                this.ShowTrackArt = this.settings.ShowTrackArtOnPlaylists;
+                this.ShowTrackArt = this.settingsService.ShowTrackArtOnPlaylists;
                 this.UpdateShowTrackArtAsync();
             };
 
             // Settings
-            this.ShowTrackArt = this.settings.ShowTrackArtOnPlaylists;
+            this.ShowTrackArt = this.settingsService.ShowTrackArtOnPlaylists;
         }
         #endregion
 
