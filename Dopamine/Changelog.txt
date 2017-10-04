@@ -1,13 +1,15 @@
-2017-10-04: Dopamine 1.4.0 Build 957 (Preview)
+2017-10-04: Dopamine 1.4 Build 958 (Preview)
 ----------------------------------------------
 
 - [Fixed] Crash when starting on non-Windows 10 systems
 - [Fixed] Missing text in Settings > Collection > Refresh
+- [Fixed] Missing text in Information > Help
 - [Fixed] Indexer starts even when disabled in the settings
+- [Fixed] Indexer starts too often due to corrupt or unreadable files
 
 
-2017-09-27: Dopamine 1.4.0 Build 952 (Preview)
-----------------------------------------------
+2017-09-27: Dopamine 1.4 Build 952 (Preview)
+--------------------------------------------
 
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
 - [Added] Added option to use native Windows 10 notifications
