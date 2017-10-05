@@ -398,13 +398,13 @@
   <Text Key="By_Date_Created">按创建日期</Text>
   <Text Key="Plays">播放次数</Text>
   <Text Key="Skips">跳过次数</Text>
-  <Text Key="Play_Selected">Play Selected</Text>
-  <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
-  <Text Key="External_Control">External Control</Text>
-  <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
-  <Text Key="Unknown_Album">Unknown album</Text>
-  <Text Key="Unknown_Genre">Unknown genre</Text>
-  <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
-  <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
+  <Text Key="Play_Selected">播放选中项</Text>
+  <Text Key="Error_Playing_Selected_Songs"> 播放所选歌曲时发生错误！请通过日志文件查看更多信息。</Text>
+  <Text Key="External_Control">外部控制</Text>
+  <Text Key="Enable_External_Control">启用外部控制</Text>
+  <Text Key="Enable_System_Notification">启用系统通知（仅限win10）</Text>
+  <Text Key="Unknown_Album">未知专辑</Text>
+  <Text Key="Unknown_Genre">未知流派</Text>
+  <Text Key="Refresh_Collection_Automatically">自动更新音乐库</Text>
+  <Text Key="Loop_When_Shuffle"> 在随机播放模式中，在最后一首歌曲播放结束后返回播放列表的开头。During shuffled playback, return to the start of the playlist after the last song.</Text>
 </Language>
