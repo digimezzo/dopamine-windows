@@ -252,8 +252,8 @@ namespace Dopamine.Views
             string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
             this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
 
-            this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(TrayIcon_MouseClick);
-            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(TrayIcon_MouseDoubleClick);
+            this.trayIcon.MouseClick += TrayIcon_MouseClick;
+            this.trayIcon.MouseDoubleClick += (_, __) => TrayIconContextMenuAppName_Click(null, null);
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
         }
@@ -583,11 +583,6 @@ namespace Dopamine.Views
                 // See: http://copycodetheory.blogspot.be/2012/07/notify-icon-in-wpf-applications.html
                 this.Activate();
             }
-        }
-
-        private void TrayIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            this.ActivateNow();
         }
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
