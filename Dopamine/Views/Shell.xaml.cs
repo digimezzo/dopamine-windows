@@ -235,7 +235,7 @@ namespace Dopamine.Views
 
             // Application
             // -----------
-            this.ShowMainWindowCommand = new DelegateCommand(() => TrayIconContextMenuAppName_Click(null, null));
+            this.ShowMainWindowCommand = new DelegateCommand(() => this.ShowWindowInForeground());
             Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
         }
 
@@ -253,7 +253,7 @@ namespace Dopamine.Views
             this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
 
             this.trayIcon.MouseClick += TrayIcon_MouseClick;
-            this.trayIcon.MouseDoubleClick += (_, __) => TrayIconContextMenuAppName_Click(null, null);
+            this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
         }
@@ -586,6 +586,11 @@ namespace Dopamine.Views
         }
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
+        {
+            this.ShowWindowInForeground();
+        }
+
+        private void ShowWindowInForeground()
         {
             // When restored, show this window in Taskbar and ALT-TAB menu.
             this.ShowInTaskbar = true;
