@@ -28,7 +28,6 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Search;
-using Dopamine.Common.Services.Settings;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
@@ -86,7 +85,6 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ISettingsService, SettingsService>();
             Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }

@@ -503,8 +503,6 @@
     <Compile Include="Services\Scrobbling\LastfmScrobblingService.cs" />
     <Compile Include="Services\Search\ISearchService.cs" />
     <Compile Include="Services\Search\SearchService.cs" />
-    <Compile Include="Services\Settings\ISettingsService.cs" />
-    <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Services\Taskbar\ITaskbarService.cs" />
     <Compile Include="Services\Taskbar\TaskbarService.cs" />
     <Compile Include="Services\Update\IUpdateService.cs" />

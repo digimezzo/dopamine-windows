@@ -12,7 +12,6 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
-using Dopamine.Common.Services.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -36,7 +35,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private IDialogService dialogService;
         private IProviderService providerService;
         private II18nService i18nService;
-        private ISettingsService settingsService;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
         private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
@@ -87,7 +85,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = container.Resolve<IDialogService>();
             this.providerService = container.Resolve<IProviderService>();
             this.i18nService = container.Resolve<II18nService>();
-            this.settingsService = container.Resolve<ISettingsService>();
 
             // Commands
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
@@ -95,21 +92,25 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
             {
-                this.settingsService.ShowTrackArtOnPlaylists = showTrackArt.Value;
+                SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", showTrackArt.Value, true);
             });
 
             // Events
             this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
             this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
-            this.settingsService.ShowTrackArtOnPlaylistsChanged += (_, __) =>
+            
+            SettingsClient.SettingChanged += (_,e) => 
             {
-                this.ShowTrackArt = this.settingsService.ShowTrackArtOnPlaylists;
-                this.UpdateShowTrackArtAsync();
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowTrackArtOnPlaylists"))
+                {
+                    this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
+                    this.UpdateShowTrackArtAsync();
+                }
             };
 
             // Settings
-            this.ShowTrackArt = this.settingsService.ShowTrackArtOnPlaylists;
+            this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
         }
         #endregion
 
