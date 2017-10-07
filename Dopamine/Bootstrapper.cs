@@ -85,7 +85,7 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ISQLiteConnectionFactory, Common.Database.SQLiteConnectionFactory>();
+            Container.RegisterSingletonType<SQLiteConnectionFactory, SQLiteConnectionFactory>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
 
