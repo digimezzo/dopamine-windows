@@ -406,5 +406,5 @@
   <Text Key="Unknown_Album">未知专辑</Text>
   <Text Key="Unknown_Genre">未知流派</Text>
   <Text Key="Refresh_Collection_Automatically">自动更新音乐库</Text>
-  <Text Key="Loop_When_Shuffle"> 在随机播放模式中，在最后一首歌曲播放结束后返回播放列表的开头。During shuffled playback, return to the start of the playlist after the last song.</Text>
+  <Text Key="Loop_When_Shuffle">在随机播放模式中，在最后一首歌曲播放结束后返回播放列表的开头。</Text>
 </Language>
