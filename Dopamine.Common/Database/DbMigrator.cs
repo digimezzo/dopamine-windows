@@ -1127,7 +1127,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("UPDATE Configuration SET Value = ? WHERE Key = 'DatabaseVersion'", CURRENT_VERSION);
             }
 
-            LogClient.Info("Migrated from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
+            LogClient.Info("Upgraded from database version {0} to {1}", this.userDatabaseVersion.ToString(), CURRENT_VERSION.ToString());
         }
       
         private void BackupDatabase()
