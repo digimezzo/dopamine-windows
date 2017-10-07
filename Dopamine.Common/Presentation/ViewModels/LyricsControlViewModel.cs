@@ -9,7 +9,6 @@ using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -26,7 +25,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         #region Variables
         private IUnityContainer container;
         private ILocalizationInfo info;
-        private ISettingsService settingsService;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
         private LyricsViewModel lyricsViewModel;
@@ -79,7 +77,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             this.container = container;
             this.info = container.Resolve<ILocalizationInfo>();
-            this.settingsService = container.Resolve<ISettingsService>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
@@ -251,7 +248,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
                     try
                     {
-                        var factory = new LyricsFactory(this.settingsService.LyricsTimeoutSeconds, this.settingsService.LyricsProviders, this.info);
+                        var factory = new LyricsFactory(SettingsClient.Get<int>("Lyrics", "TimeoutSeconds"), SettingsClient.Get<string>("Lyrics", "Providers"), this.info);
                         lyrics = await factory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
                         lyrics.SourceType = SourceTypeEnum.Online;
                     }

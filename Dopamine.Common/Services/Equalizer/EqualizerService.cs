@@ -10,25 +10,22 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Dopamine.Common.Services.Settings;
+using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Services.Equalizer
 {
     public class EqualizerService : IEqualizerService
     {
         #region Variables
-        private ISettingsService settingsService;
         private string equalizerSubDirectory;
         #endregion
 
         #region Construction
-        public EqualizerService(ISettingsService settingsService)
+        public EqualizerService()
         {
-            this.settingsService = settingsService;
-
             // Initialize the Equalizer directory
             // ----------------------------------
-            this.equalizerSubDirectory = Path.Combine(this.settingsService.ApplicationFolder, ApplicationPaths.EqualizerFolder);
+            this.equalizerSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.EqualizerFolder);
 
             // If the Equalizer subdirectory doesn't exist, create it
             if (!Directory.Exists(this.equalizerSubDirectory))
@@ -43,7 +40,7 @@ namespace Dopamine.Common.Services.Equalizer
         {
             var presets = await this.GetPresetsAsync();
 
-            string selectedPresetName = this.settingsService.SelectedEqualizerPreset;
+            string selectedPresetName = SettingsClient.Get<string>("Equalizer", "SelectedPreset");
             EqualizerPreset selectedPreset = presets.Select((p) => p).Where((p) => p.Name == selectedPresetName).FirstOrDefault();
 
             if(selectedPreset == null)
@@ -76,7 +73,7 @@ namespace Dopamine.Common.Services.Equalizer
 
             // Insert manual preset in first position
             var manualPreset = new EqualizerPreset(Defaults.ManualPresetName, false);
-            manualPreset.Load(ArrayUtils.ConvertArray(this.settingsService.ManualEqualizerPreset.Split(';')));
+            manualPreset.Load(ArrayUtils.ConvertArray(SettingsClient.Get<string>("Equalizer", "ManualPreset").Split(';')));
             presets.Insert(0, manualPreset);
 
             return presets;

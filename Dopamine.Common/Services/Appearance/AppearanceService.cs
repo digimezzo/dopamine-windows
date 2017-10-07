@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Utilities.ColorSpace;
 using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Settings;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,6 @@ namespace Dopamine.Common.Services.Appearance
         #region Variables
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
-        private ISettingsService settingsService;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
         private bool followAlbumCoverColor;
         private FileSystemWatcher colorSchemeWatcher;
@@ -63,10 +62,8 @@ namespace Dopamine.Common.Services.Appearance
         #endregion
 
         #region Construction
-        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService, ISettingsService settingsService) : base()
+        public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService) : base()
         {
-            this.settingsService = settingsService;
-
             // Services
             // --------
             this.playbackService = playbackService;
@@ -76,7 +73,7 @@ namespace Dopamine.Common.Services.Appearance
 
             // Initialize the ColorSchemes directory
             // -------------------------------------
-            this.colorSchemesSubDirectory = Path.Combine(settingsService.ApplicationFolder, ApplicationPaths.ColorSchemesFolder);
+            this.colorSchemesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
 
             // If the ColorSchemes subdirectory doesn't exist, create it
             if (!Directory.Exists(this.colorSchemesSubDirectory))

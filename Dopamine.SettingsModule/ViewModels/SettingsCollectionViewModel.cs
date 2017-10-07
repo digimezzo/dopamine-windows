@@ -2,7 +2,6 @@
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Common.Services.Settings;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -21,7 +20,6 @@ namespace Dopamine.SettingsModule.ViewModels
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private ITrackRepository trackRepository;
-        private ISettingsService settingsService;
         #endregion
 
         #region Commands
@@ -51,7 +49,7 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxRefreshCollectionAutomaticallyChecked; }
             set
             {
-                this.settingsService.RefreshCollectionAutomatically = value;
+                SettingsClient.Set<bool>("Indexing", "RefreshCollectionAutomatically", value, true);
                 SetProperty<bool>(ref this.checkBoxRefreshCollectionAutomaticallyChecked, value);
             }
         }
@@ -59,9 +57,8 @@ namespace Dopamine.SettingsModule.ViewModels
 
         #region Construction
         public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService, 
-            ITrackRepository trackRepository, ISettingsService settingsService)
+            ITrackRepository trackRepository)
         {
-            this.settingsService = settingsService;
             this.indexingService = indexingService;
             this.collectionService = collectionService;
             this.trackRepository = trackRepository;
@@ -81,7 +78,7 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.checkBoxRefreshCollectionAutomaticallyChecked = this.settingsService.RefreshCollectionAutomatically;
+                this.checkBoxRefreshCollectionAutomaticallyChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
 
                 // Set the backing field of the property. This avoids executing a clear
                 // of removed tracks when loading the screen when the setting is false.

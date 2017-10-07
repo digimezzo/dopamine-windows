@@ -1,7 +1,7 @@
-﻿using Dopamine.Common.Base;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Settings;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -13,19 +13,17 @@ namespace Dopamine.Common.Services.ExternalControl
         #region Variables
         private ServiceHost svcHost;
         private ExternalControlServer svcExternalControlInstance;
-        private ISettingsService settingsService;
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
         #endregion
 
         #region Construction
-        public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService, ISettingsService settingsService)
+        public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService)
         {
-            this.settingsService = settingsService;
             this.playbackService = playbackService;
             this.cacheService = cacheService;
 
-            if(this.settingsService.EnableExternalControl)
+            if(SettingsClient.Get<bool>("Playback", "EnableExternalControl"))
             {
                 this.Start();
             }   

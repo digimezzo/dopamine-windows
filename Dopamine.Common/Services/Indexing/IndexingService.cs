@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Settings;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,6 @@ namespace Dopamine.Common.Services.Indexing
         #region Variables
         // Services
         private ICacheService cacheService;
-        private ISettingsService settingsService;
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -59,7 +58,7 @@ namespace Dopamine.Common.Services.Indexing
         #region Construction
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
             IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
-            IFolderRepository folderRepository, ISettingsService settingsService)
+            IFolderRepository folderRepository)
         {
             this.cacheService = cacheService;
             this.factory = factory;
@@ -68,22 +67,38 @@ namespace Dopamine.Common.Services.Indexing
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
-            this.settingsService = settingsService;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
 
-            this.settingsService.RefreshCollectionAutomaticallyChanged += Settings_RefreshCollectionAutomaticallyChanged;
+            SettingsClient.SettingChanged += SettingsClient_SettingChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
 
-            this.needsCollectionCheck = this.settingsService.RefreshCollectionAutomatically;
+            this.needsCollectionCheck = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
             this.isIndexing = false;
+        }
+
+        private async void SettingsClient_SettingChanged(object sender, SettingChangedEventArgs e)
+        {
+            if (SettingsClient.IsSettingChanged(e, "Indexing", "RefreshCollectionAutomatically"))
+            {
+                this.needsCollectionCheck = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
+
+                if (this.needsCollectionCheck)
+                {
+                    await this.watcherManager.StartWatchingAsync();
+                }
+                else
+                {
+                    await this.watcherManager.StopWatchingAsync();
+                }
+            }
         }
         #endregion
 
         #region IIndexingService
         public async void OnFoldersChanged()
         {
-            if (this.settingsService.RefreshCollectionAutomatically)
+            if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 this.needsCollectionCheck = true;
                 await this.watcherManager.StartWatchingAsync();
@@ -92,7 +107,7 @@ namespace Dopamine.Common.Services.Indexing
 
         public async Task CheckCollectionAsync()
         {
-            if (!this.settingsService.RefreshCollectionAutomatically)
+            if (!SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 return;
             }
@@ -130,7 +145,7 @@ namespace Dopamine.Common.Services.Indexing
                     }
                     else
                     {
-                        if (this.settingsService.RefreshCollectionAutomatically)
+                        if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
                         {
                             await this.watcherManager.StartWatchingAsync();
                         }
@@ -165,7 +180,7 @@ namespace Dopamine.Common.Services.Indexing
             // Tracks
             // ------
 
-            bool isTracksChanged = await this.IndexTracksAsync(this.settingsService.IgnoreRemovedFiles) > 0 ? true : false;
+            bool isTracksChanged = await this.IndexTracksAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0 ? true : false;
 
             if (isTracksChanged)
             {
@@ -188,7 +203,7 @@ namespace Dopamine.Common.Services.Indexing
             this.isIndexing = false;
             this.IndexingStopped(this, new EventArgs());
 
-            if (this.settingsService.RefreshCollectionAutomatically)
+            if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 await this.watcherManager.StartWatchingAsync();
             }
@@ -731,20 +746,6 @@ namespace Dopamine.Common.Services.Indexing
                 track.AlbumID = newAlbum.AlbumID;
                 track.ArtistID = newArtist.ArtistID;
                 track.GenreID = newGenre.GenreID;
-            }
-        }
-
-        private async void Settings_RefreshCollectionAutomaticallyChanged(bool refreshCollectionAutomatically)
-        {
-            this.needsCollectionCheck = refreshCollectionAutomatically;
-
-            if (refreshCollectionAutomatically)
-            {
-                await this.watcherManager.StartWatchingAsync();
-            }
-            else
-            {
-                await this.watcherManager.StopWatchingAsync();
             }
         }
 
