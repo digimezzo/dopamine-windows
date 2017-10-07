@@ -1,9 +1,10 @@
-2017-10-04: Dopamine 1.4 Build 959 (Preview)
+2017-10-07: Dopamine 1.4 Build 959 (Preview)
 --------------------------------------------
 
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Swedish translation
 - [Changed] Updated the Chinese (Simplified)
+- [Fixed] Media keys don't work correctly when the System notification is enabled
 
 
 2017-10-04: Dopamine 1.4 Build 958 (Preview)
