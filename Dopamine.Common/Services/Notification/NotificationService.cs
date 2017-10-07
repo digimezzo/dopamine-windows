@@ -60,29 +60,6 @@ namespace Dopamine.Common.Services.Notification
         #endregion
 
         #region Private
-        private async void SMCButtonPressed(SystemMediaTransportControls sender,
-            SystemMediaTransportControlsButtonPressedEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case SystemMediaTransportControlsButton.Previous:
-                    await this.PlaybackService.PlayPreviousAsync();
-                    break;
-                case SystemMediaTransportControlsButton.Next:
-                    await this.PlaybackService.PlayNextAsync();
-                    break;
-                case SystemMediaTransportControlsButton.Pause:
-                    await this.PlaybackService.PlayOrPauseAsync();
-                    break;
-                case SystemMediaTransportControlsButton.Play:
-                    await this.PlaybackService.PlayOrPauseAsync();
-                    break;
-                default:
-                    // Never happens
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private void PlaybackResumedSystemNotificationHandler(object _, EventArgs __)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
@@ -112,6 +89,7 @@ namespace Dopamine.Common.Services.Notification
         {
             await Task.Run(() =>
             {
+                // Do not add event handler to ButtonPressed, it has been dealt with Shell.xaml.cs
                 if (systemNotificationIsEnabled)
                 {
                     // We can safely unsubscribe event handlers before subscribing them
@@ -132,7 +110,6 @@ namespace Dopamine.Common.Services.Notification
                         systemMediaControls.IsFastForwardEnabled = false;
                         systemMediaControls.IsRecordEnabled = false;
                         systemMediaControls.IsStopEnabled = false;
-                        systemMediaControls.ButtonPressed += SMCButtonPressed;
 
                         this.PlaybackService.PlaybackSuccess += this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused += this.PlaybackPausedSystemNotificationHandler;
@@ -148,7 +125,6 @@ namespace Dopamine.Common.Services.Notification
                     if (Constants.IsWindows10)
                     {
                         systemMediaControls.IsEnabled = false;
-                        systemMediaControls.ButtonPressed -= SMCButtonPressed;
 
                         this.PlaybackService.PlaybackSuccess -= this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused -= this.PlaybackPausedSystemNotificationHandler;
