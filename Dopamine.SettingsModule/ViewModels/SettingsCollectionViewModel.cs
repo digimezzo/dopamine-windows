@@ -89,7 +89,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         private void RefreshNow()
         {
-            this.indexingService.IndexCollectionAsync();
+            this.indexingService.QuickCheckCollectionAsync();
         }
         #endregion
 
@@ -101,7 +101,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.CheckCollectionAsync();
+            this.indexingService.AutoCheckCollectionAsync();
             this.collectionService.SaveMarkedFoldersAsync();
         }
 

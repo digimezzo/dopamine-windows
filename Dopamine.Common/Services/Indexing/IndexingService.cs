@@ -44,7 +44,6 @@ namespace Dopamine.Common.Services.Indexing
         private IndexingStatusEventArgs eventArgs;
 
         // Flags
-        private bool needsCollectionCheck;
         private bool isIndexing;
         #endregion
 
@@ -73,7 +72,6 @@ namespace Dopamine.Common.Services.Indexing
             SettingsClient.SettingChanged += SettingsClient_SettingChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
 
-            this.needsCollectionCheck = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
             this.isIndexing = false;
         }
 
@@ -81,9 +79,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             if (SettingsClient.IsSettingChanged(e, "Indexing", "RefreshCollectionAutomatically"))
             {
-                this.needsCollectionCheck = (bool)e.SettingValue;
-
-                if (this.needsCollectionCheck)
+                if ((bool)e.SettingValue)
                 {
                     await this.watcherManager.StartWatchingAsync();
                 }
@@ -100,29 +96,51 @@ namespace Dopamine.Common.Services.Indexing
         {
             if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
-                this.needsCollectionCheck = true;
                 await this.watcherManager.StartWatchingAsync();
             }
         }
 
         public async Task CheckCollectionAsync()
         {
+            await this.CheckCollectionAsync(false);
+        }
+
+        public async Task AutoCheckCollectionAsync()
+        {
             if (!SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 return;
             }
 
+            await this.CheckCollectionAsync();
+        }
+
+        public async Task QuickCheckCollectionAsync()
+        {
+            await this.CheckCollectionAsync(true);
+        }
+        #endregion
+
+        #region Private
+        private async Task InitializeAsync()
+        {
+            // Initialize Cache
+            this.cache = new IndexerCache(this.factory);
+
+            // IndexingEventArgs
+            this.eventArgs = new IndexingStatusEventArgs();
+            this.eventArgs.IndexingAction = IndexingAction.Idle;
+
+            // Get all files on disk which belong to a Collection Folder
+            this.allDiskPaths = await this.folderRepository.GetPathsAsync();
+        }
+
+        private async Task CheckCollectionAsync(bool forceIndexing)
+        {
             if (this.IsIndexing)
             {
                 return;
             }
-
-            if (!this.needsCollectionCheck)
-            {
-                return;
-            }
-
-            this.needsCollectionCheck = false;
 
             await this.watcherManager.StopWatchingAsync();
             await this.InitializeAsync();
@@ -131,17 +149,28 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (var conn = this.factory.GetConnection())
                 {
-                    long databaseNeedsIndexingCount = conn.Table<Track>().Select(t => t).ToList().Where(t => t.NeedsIndexing == 1).LongCount();
-                    long databaseLastDateFileModified = conn.Table<Track>().Select(t => t).ToList().OrderByDescending(t => t.DateFileModified).Select(t => t.DateFileModified).FirstOrDefault();
-                    long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First() : 0;
-                    long databaseTrackCount = conn.Table<Track>().Select(t => t).LongCount();
+                    bool performIndexing = false;
 
-                    if (databaseNeedsIndexingCount > 0 |
-                        databaseTrackCount != this.allDiskPaths.Count |
-                        databaseLastDateFileModified < diskLastDateFileModified)
+                    if (forceIndexing)
+                    {
+                        performIndexing = true;
+                    }
+                    else
+                    {
+                        long databaseNeedsIndexingCount = conn.Table<Track>().Select(t => t).ToList().Where(t => t.NeedsIndexing == 1).LongCount();
+                        long databaseLastDateFileModified = conn.Table<Track>().Select(t => t).ToList().OrderByDescending(t => t.DateFileModified).Select(t => t.DateFileModified).FirstOrDefault();
+                        long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First() : 0;
+                        long databaseTrackCount = conn.Table<Track>().Select(t => t).LongCount();
+
+                        performIndexing = databaseNeedsIndexingCount > 0 |
+                                          databaseTrackCount != this.allDiskPaths.Count |
+                                          databaseLastDateFileModified < diskLastDateFileModified;
+                    }
+
+                    if (performIndexing)
                     {
                         await Task.Delay(1000);
-                        await this.IndexCollectionAsync(true);
+                        await this.IndexCollectionAsync();
                     }
                     else
                     {
@@ -154,32 +183,22 @@ namespace Dopamine.Common.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not get indexing statistics from database. Exception: {0}", ex.Message);
+                LogClient.Error("Could not check the collection. Exception: {0}", ex.Message);
             }
         }
 
-        public async Task IndexCollectionAsync(bool isCheckPerformed = false)
+        private async Task IndexCollectionAsync()
         {
             if (this.IsIndexing)
             {
                 return;
             }
 
-            await this.watcherManager.StopWatchingAsync();
-
             this.isIndexing = true;
             this.IndexingStarted(this, new EventArgs());
 
-            if (!isCheckPerformed)
-            {
-                // CheckCollectionAsync() already performs InitializeAsync(). Make sure we don't
-                // execute this a second time if we're started from CheckCollectionAsync().
-                await this.InitializeAsync();
-            }
-
             // Tracks
             // ------
-
             bool isTracksChanged = await this.IndexTracksAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0 ? true : false;
 
             if (isTracksChanged)
@@ -207,21 +226,6 @@ namespace Dopamine.Common.Services.Indexing
             {
                 await this.watcherManager.StartWatchingAsync();
             }
-        }
-        #endregion
-
-        #region Private
-        private async Task InitializeAsync()
-        {
-            // Initialize Cache
-            this.cache = new IndexerCache(this.factory);
-
-            // IndexingEventArgs
-            this.eventArgs = new IndexingStatusEventArgs();
-            this.eventArgs.IndexingAction = IndexingAction.Idle;
-
-            // Get all files on disk which belong to a Collection Folder
-            this.allDiskPaths = await this.folderRepository.GetPathsAsync();
         }
 
         private async Task<long> IndexArtworkAsync()
@@ -751,7 +755,7 @@ namespace Dopamine.Common.Services.Indexing
 
         private async void WatcherManager_FoldersChanged(object sender, EventArgs e)
         {
-            await this.IndexCollectionAsync();
+            await this.AutoCheckCollectionAsync();
         }
         #endregion
 

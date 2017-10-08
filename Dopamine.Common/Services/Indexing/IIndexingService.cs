@@ -8,7 +8,8 @@ namespace Dopamine.Common.Services.Indexing
         void OnFoldersChanged();
         bool IsIndexing { get; }
         Task CheckCollectionAsync();
-        Task IndexCollectionAsync(bool artworkOnly = false);
+        Task AutoCheckCollectionAsync();
+        Task QuickCheckCollectionAsync();
         event EventHandler IndexingStarted;
         event EventHandler IndexingStopped;
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
