@@ -112,7 +112,7 @@ namespace Dopamine.SettingsModule.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.indexingService.CheckCollectionAsync();
+            this.indexingService.AutoCheckCollectionAsync();
             this.collectionService.SaveMarkedFoldersAsync();
         }
 

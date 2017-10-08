@@ -217,7 +217,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
                 if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Refresh"), message, ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
                 {
-                    this.indexingService.IndexCollectionAsync();
+                    this.indexingService.QuickCheckCollectionAsync();
                 }
             }
 
