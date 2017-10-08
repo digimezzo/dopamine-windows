@@ -97,14 +97,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
-            // PubSub Events
-            this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Subscribe((_) => OnPropertyChanged(() => this.ShowRemoveFromDisk));
+            // Settings
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowRemoveFromDisk"))
+                {
+                    RaisePropertyChanged(nameof(this.ShowRemoveFromDisk));
+                }
+            };
 
             // Events
             this.i18nService.LanguageChanged += (_, __) =>
             {
-                OnPropertyChanged(() => this.TotalDurationInformation);
-                OnPropertyChanged(() => this.TotalSizeInformation);
+                RaisePropertyChanged(nameof(this.TotalDurationInformation));
+                RaisePropertyChanged(nameof(this.TotalSizeInformation));
                 this.RefreshLanguage();
             };
 
@@ -351,8 +357,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 });
             }
 
-            OnPropertyChanged(() => this.TotalDurationInformation);
-            OnPropertyChanged(() => this.TotalSizeInformation);
+            RaisePropertyChanged(nameof(this.TotalDurationInformation));
+            RaisePropertyChanged(nameof(this.TotalSizeInformation));
         }
 
         protected async Task PlaySelectedAsync()
@@ -420,7 +426,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         }
 
         protected override async Task ShowPlayingTrackAsync()
-        {          
+        {
             await Task.Run(() =>
             {
                 if (lastPlayingTrackVm != null)
@@ -433,7 +439,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
                 if (this.Tracks == null) return;
                 {
-                    var safePath = this.playbackService.CurrentTrack.Value.SafePath;              
+                    var safePath = this.playbackService.CurrentTrack.Value.SafePath;
 
                     TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
 

@@ -81,7 +81,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             if (SettingsClient.IsSettingChanged(e, "Indexing", "RefreshCollectionAutomatically"))
             {
-                this.needsCollectionCheck = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
+                this.needsCollectionCheck = (bool)e.SettingValue;
 
                 if (this.needsCollectionCheck)
                 {

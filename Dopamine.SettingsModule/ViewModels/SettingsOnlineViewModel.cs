@@ -165,9 +165,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxDownloadLyricsChecked; }
             set
             {
-                SettingsClient.Set<bool>("Lyrics", "DownloadLyrics", value);
+                SettingsClient.Set<bool>("Lyrics", "DownloadLyrics", value, true);
                 SetProperty<bool>(ref this.checkBoxDownloadLyricsChecked, value);
-                this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Publish(value);
             }
         }
 

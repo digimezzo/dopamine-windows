@@ -1,5 +1,4 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Enums;
 using Prism.Events;
 
 namespace Dopamine.Common.Prism
@@ -36,22 +35,6 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class SettingShowWindowBorderChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class SettingShowTrayIconChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class SettingShowRemoveFromDiskChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class SettingSpectrumStyleChanged : PubSubEvent<SpectrumStyle>
-    {
-    }
-
     public class SelectedSpectrumStyleChanged : PubSubEvent<string>
     {
     }
@@ -61,18 +44,6 @@ namespace Dopamine.Common.Prism
     }
 
     public class ShellMouseUp : PubSubEvent<string>
-    {
-    }
-
-    public class SettingEnableRatingChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class SettingEnableLoveChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class SettingDownloadLyricsChanged : PubSubEvent<bool>
     {
     }
 

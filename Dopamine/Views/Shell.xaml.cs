@@ -135,10 +135,6 @@ namespace Dopamine.Views
 
         private void InitializePubSubEvents()
         {
-            // Window border
-            // -------------
-            this.eventAggregator.GetEvent<SettingShowWindowBorderChanged>().Subscribe(showWindowBorder => this.SetWindowBorder(showWindowBorder));
-
             // Cover Player
             // ------------
             this.eventAggregator.GetEvent<CoverPlayerPlaylistButtonClicked>().Subscribe(isPlaylistButtonChecked => this.ToggleMiniPlayerPlaylist(MiniPlayerType.CoverPlayer, isPlaylistButtonChecked));
@@ -150,10 +146,6 @@ namespace Dopamine.Views
             // Nano Player
             // -----------
             this.eventAggregator.GetEvent<NanoPlayerPlaylistButtonClicked>().Subscribe(isPlaylistButtonChecked => this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked));
-
-            // Tray icon
-            // ---------
-            this.eventAggregator.GetEvent<SettingShowTrayIconChanged>().Subscribe(showTrayIcon => this.trayIcon.Visible = showTrayIcon);
         }
 
         private void InitializeCommands()
@@ -272,11 +264,25 @@ namespace Dopamine.Views
 
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
 
-            // Handler
+            // Restored handler
             this.Restored += Shell_Restored;
 
             // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
             this.CloseToolTipChanged += Shell_CloseToolTipChanged;
+
+            // Settings changed
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
+                {
+                    this.SetWindowBorder((bool) e.SettingValue);
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowTrayIcon"))
+                {
+                    this.trayIcon.Visible = (bool) e.SettingValue;
+                }
+            };
 
             // Make sure the window geometry respects tablet mode at startup
             this.CheckIfTabletMode();

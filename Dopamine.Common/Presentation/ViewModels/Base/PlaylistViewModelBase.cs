@@ -95,16 +95,28 @@ namespace Dopamine.Common.Presentation.ViewModels
                 SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", showTrackArt.Value, true);
             });
 
+            // Settings
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                }
+            };
+
             // Events
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) => this.EnableRating = enableRating);
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) => this.EnableLove = enableLove);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
             
             SettingsClient.SettingChanged += (_,e) => 
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowTrackArtOnPlaylists"))
                 {
-                    this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
+                    this.ShowTrackArt = (bool) e.SettingValue;
                     this.UpdateShowTrackArtAsync();
                 }
             };

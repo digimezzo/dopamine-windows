@@ -1,17 +1,14 @@
-﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Playback;
+﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Playback;
 using Prism.Events;
 using Prism.Mvvm;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Collections.ObjectModel;
-using Dopamine.Common.Enums;
-using Digimezzo.Utilities.Helpers;
 using System.Linq;
-using Dopamine.Common.Base;
+using System.Threading.Tasks;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
@@ -35,9 +32,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxCheckBoxShowWindowBorderChecked; }
             set
             {
-                SettingsClient.Set<bool>("Appearance", "ShowWindowBorder", value);
+                SettingsClient.Set<bool>("Appearance", "ShowWindowBorder", value, true);
                 SetProperty<bool>(ref this.checkBoxCheckBoxShowWindowBorderChecked, value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowWindowBorderChanged>().Publish(value));
             }
         }
 
@@ -76,8 +72,7 @@ namespace Dopamine.SettingsModule.ViewModels
             set
             {
                 SetProperty<NameValue>(ref this.selectedSpectrumStyle, value);
-                SettingsClient.Set<int>("Playback", "SpectrumStyle", value.Value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingSpectrumStyleChanged>().Publish((SpectrumStyle)value.Value));
+                SettingsClient.Set<int>("Playback", "SpectrumStyle", value.Value, true);
             }
         }
         #endregion
@@ -102,9 +97,9 @@ namespace Dopamine.SettingsModule.ViewModels
         {
             await Task.Run(() =>
             {
-                this.CheckBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
-                this.CheckBoxCheckBoxShowWindowBorderChecked = SettingsClient.Get<bool>("Appearance", "ShowWindowBorder");
-                this.CheckBoxEnableTransparencyChecked = SettingsClient.Get<bool>("Appearance", "EnableTransparency");
+                this.checkBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
+                this.checkBoxCheckBoxShowWindowBorderChecked = SettingsClient.Get<bool>("Appearance", "ShowWindowBorder");
+                this.checkBoxEnableTransparencyChecked = SettingsClient.Get<bool>("Appearance", "EnableTransparency");
             });
         }
 
