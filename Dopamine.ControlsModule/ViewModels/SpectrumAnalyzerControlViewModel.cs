@@ -133,7 +133,13 @@ namespace Dopamine.ControlsModule.ViewModels
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
             this.playbackService.PlaybackSuccess += (_) => this.IsPlaying = true;
 
-            this.eventAggregator.GetEvent<SettingSpectrumStyleChanged>().Subscribe((spectrumStyle) => this.SetSpectrumStyle(spectrumStyle));
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Playback", "SpectrumStyle"))
+                {
+                    this.SetSpectrumStyle((SpectrumStyle)e.SettingValue);
+                }
+            };
 
             this.ShowSpectrumAnalyzer = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 

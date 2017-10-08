@@ -186,23 +186,27 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
             this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedArtists, true, false));
 
+            // Settings
+            SettingsClient.SettingChanged += async (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                    this.SetTrackOrder("ArtistsTrackOrder");
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                    this.SetTrackOrder("ArtistsTrackOrder");
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+                }
+            };
+
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
-
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
-            {
-                this.EnableRating = enableRating;
-                this.SetTrackOrder("ArtistsTrackOrder");
-                await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
-            });
-
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
-            {
-                this.EnableLove = enableLove;
-                this.SetTrackOrder("ArtistsTrackOrder");
-                await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
-            });
 
             // Set the initial ArtistOrder		
             this.ArtistOrder = (ArtistOrder)SettingsClient.Get<int>("Ordering", "ArtistsArtistOrder");

@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
@@ -140,22 +141,26 @@ namespace Dopamine.CollectionModule.ViewModels
             this.metadataService = container.Resolve<IMetadataService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
+            // Settings
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                    this.GetVisibleColumns();
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                    this.GetVisibleColumns();
+                }
+            };
+
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe((enableRating) =>
-            {
-                this.EnableRating = enableRating;
-                this.GetVisibleColumns();
-            });
-
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe((enableLove) =>
-            {
-                this.EnableLove = enableLove;
-                this.GetVisibleColumns();
-            });
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;

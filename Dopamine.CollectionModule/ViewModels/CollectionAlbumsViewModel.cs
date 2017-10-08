@@ -48,23 +48,27 @@ namespace Dopamine.CollectionModule.ViewModels
             this.metadataService = container.Resolve<IMetadataService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
+            // Settings
+            SettingsClient.SettingChanged += async(_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                    this.SetTrackOrder("AlbumsTrackOrder");
+                    await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                    this.SetTrackOrder("AlbumsTrackOrder");
+                    await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
+                }
+            };
+
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
-
-            this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Subscribe(async (enableRating) =>
-            {
-                this.EnableRating = enableRating;
-                this.SetTrackOrder("AlbumsTrackOrder");
-                await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
-            });
-
-            this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Subscribe(async (enableLove) =>
-            {
-                this.EnableLove = enableLove;
-                this.SetTrackOrder("AlbumsTrackOrder");
-                await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
-            });
 
             //  Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());

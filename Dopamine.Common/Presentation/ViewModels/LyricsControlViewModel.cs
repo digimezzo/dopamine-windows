@@ -95,14 +95,20 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.metadataService.MetadataChanged += (_) => this.RestartRefreshTimer();
 
-            this.eventAggregator.GetEvent<SettingDownloadLyricsChanged>().Subscribe(isDownloadLyricsEnabled =>
+            SettingsClient.SettingChanged += (_, e) =>
             {
-                if (isDownloadLyricsEnabled) this.RestartRefreshTimer();
-            });
+                if (SettingsClient.IsSettingChanged(e, "Lyrics", "DownloadLyrics"))
+                {
+                    if ((bool)e.SettingValue)
+                    {
+                        this.RestartRefreshTimer();
+                    }
+                }
+            };
 
             this.eventAggregator.GetEvent<NowPlayingIsSelectedChanged>().Subscribe(nowPlayingIsSelected =>
             {
-                this.nowPlayingIsSelected = nowPlayingIsSelected; 
+                this.nowPlayingIsSelected = nowPlayingIsSelected;
                 this.RestartRefreshTimer();
             });
 

@@ -33,9 +33,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowTrayIconChecked; }
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowTrayIcon", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowTrayIcon", value, true);
                 SetProperty<bool>(ref this.checkBoxShowTrayIconChecked, value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowTrayIconChanged>().Publish(value));
             }
         }
 
@@ -74,9 +73,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxEnableRatingChecked; }
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "EnableRating", value);
+                SettingsClient.Set<bool>("Behaviour", "EnableRating", value, true);
                 SetProperty<bool>(ref this.checkBoxEnableRatingChecked, value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingEnableRatingChanged>().Publish(value));
             }
         }
 
@@ -85,9 +83,8 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxEnableLoveChecked; }
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "EnableLove", value);
+                SettingsClient.Set<bool>("Behaviour", "EnableLove", value, true);
                 SetProperty<bool>(ref this.checkBoxEnableLoveChecked, value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingEnableLoveChanged>().Publish(value));
             }
         }
 
@@ -106,13 +103,12 @@ namespace Dopamine.SettingsModule.ViewModels
             get { return this.checkBoxShowRemoveFromDiskChecked; }
             set
             {
-                SettingsClient.Set<bool>("Behaviour", "ShowRemoveFromDisk", value);
+                SettingsClient.Set<bool>("Behaviour", "ShowRemoveFromDisk", value, true);
                 SetProperty<bool>(ref this.checkBoxShowRemoveFromDiskChecked, value);
-                Application.Current.Dispatcher.Invoke(() => this.eventAggregator.GetEvent<SettingShowRemoveFromDiskChanged>().Publish(value));
             }
         }
 
-    public ObservableCollection<NameValue> ScrollVolumePercentages
+        public ObservableCollection<NameValue> ScrollVolumePercentages
         {
             get { return this.scrollVolumePercentages; }
             set { SetProperty<ObservableCollection<NameValue>>(ref this.scrollVolumePercentages, value); }
