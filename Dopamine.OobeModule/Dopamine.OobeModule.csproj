@@ -99,25 +99,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\OobeAppearanceViewModel.cs" />
-    <Compile Include="ViewModels\OobeAppNameViewModel.cs" />
-    <Compile Include="ViewModels\OobeCollectionViewModel.cs" />
-    <Compile Include="ViewModels\OobeControlsViewModel.cs" />
-    <Compile Include="ViewModels\OobeDonateViewModel.cs" />
-    <Compile Include="ViewModels\OobeFinishViewModel.cs" />
-    <Compile Include="ViewModels\OobeLanguageViewModel.cs" />
-    <Compile Include="ViewModels\OobeWelcomeViewModel.cs" />
     <Compile Include="Views\OobeAppearance.xaml.cs">
       <DependentUpon>OobeAppearance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OobeAppName.xaml.cs">
-      <DependentUpon>OobeAppName.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\OobeCollection.xaml.cs">
       <DependentUpon>OobeCollection.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OobeControls.xaml.cs">
-      <DependentUpon>OobeControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OobeDonate.xaml.cs">
       <DependentUpon>OobeDonate.xaml</DependentUpon>
@@ -145,7 +131,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
@@ -161,15 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OobeAppName.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\OobeCollection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OobeControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

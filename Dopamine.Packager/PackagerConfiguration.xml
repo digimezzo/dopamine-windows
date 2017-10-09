@@ -34,7 +34,6 @@
         <File>Dopamine.FullPlayerModule.dll</File>
         <File>Dopamine.InformationModule.dll</File>
         <File>Dopamine.MiniPlayerModule.dll</File>
-        <File>Dopamine.OobeModule.dll</File>
         <File>Dopamine.SettingsModule.dll</File>
         <File>CSCore.dll</File>
         <File>Ionic.Zip.dll</File>
