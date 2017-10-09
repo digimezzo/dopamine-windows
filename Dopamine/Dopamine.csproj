@@ -402,10 +402,6 @@
       <Project>{669136A2-1AC0-4377-900D-AA2C4AB1AA40}</Project>
       <Name>Dopamine.MiniPlayerModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.OobeModule\Dopamine.OobeModule.csproj">
-      <Project>{8D430586-2B69-41EE-9C9E-D0BF7067FF38}</Project>
-      <Name>Dopamine.OobeModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Packager\Dopamine.Packager.csproj">
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>

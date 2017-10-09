@@ -1,13 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Controls;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Appearance;
-using Dopamine.OobeModule.Views;
-using Prism.Events;
-using Prism.Regions;
+using Dopamine.Common.Services.Indexing;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 
@@ -16,24 +11,18 @@ namespace Dopamine.Views
     public partial class Oobe : DopamineWindow
     {
         #region Variables
-        private IEventAggregator eventAggregator;
         private IAppearanceService appearanceService;
         private Storyboard backgroundAnimation;
         private IIndexingService indexingService;
-        private IRegionManager regionManager;
         #endregion
 
         #region Construction
-        public Oobe(IEventAggregator eventAggregator, IAppearanceService appearanceService, IIndexingService indexingService, IRegionManager regionManager)
+        public Oobe(IAppearanceService appearanceService, IIndexingService indexingService)
         {
             InitializeComponent();
 
-            this.eventAggregator = eventAggregator;
             this.appearanceService = appearanceService;
             this.indexingService = indexingService;
-            this.regionManager = regionManager;
-
-            this.eventAggregator.GetEvent<CloseOobeEvent>().Subscribe((_) => { this.Close(); });
 
             this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
         }
@@ -53,7 +42,6 @@ namespace Dopamine.Views
             }
         }
 
-
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             // Prevent the Oobe window from appearing the next time the application is started
@@ -70,30 +58,11 @@ namespace Dopamine.Views
         {
             this.backgroundAnimation?.Begin();
         }
-
-        private void BorderlessWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.ShowWelcome();
-        }
         #endregion
 
-        #region Private
-
-        private async void ShowWelcome()
+        private void ButtonFinish_Click(object sender, RoutedEventArgs e)
         {
-            // Make sure that the regions are initialized
-            while (this.regionManager.Regions[RegionNames.OobeAppNameRegion] == null)
-            {
-                await Task.Delay(100);
-            }
-
-            await Task.Delay(500);
-            this.regionManager.RequestNavigate(RegionNames.OobeAppNameRegion, typeof(OobeAppName).FullName);
-            await Task.Delay(500);
-            this.regionManager.RequestNavigate(RegionNames.OobeContentRegion, typeof(OobeWelcome).FullName);
-            await Task.Delay(500);
-            this.regionManager.RequestNavigate(RegionNames.OobeControlsRegion, typeof(OobeControls).FullName);
+            this.Close();
         }
-        #endregion
     }
 }

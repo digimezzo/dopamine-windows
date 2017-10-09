@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Dopamine.Common.Presentation.Converters">
 
+    <local:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
     <local:InvertingBooleanConverter x:Key="InvertingBooleanConverter"/>
     <local:StringToLowerConverter x:Key="StringToLowerConverter"/>
     <local:StringToUpperConverter x:Key="StringToUpperConverter"/>
