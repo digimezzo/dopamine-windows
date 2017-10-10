@@ -79,24 +79,24 @@
                 </Grid>
             </DockPanel>
             <!-- Wizard -->
-            <DockPanel Margin="30">
+            <DockPanel Margin="0,30,0,30">
                 <Border x:Name="proxyborder" DockPanel.Dock="Top" Background="{DynamicResource RG_AccentBrush}" Visibility="Collapsed"/>
                 <dc:PageIndicator DockPanel.Dock="Bottom" ItemSize="8" ItemSpacing="10" 
                                   ItemFill="{Binding Path=Background,ElementName=proxyborder,Converter={StaticResource BrushOpacityConverter},ConverterParameter=0.3}" 
                                   SelectedItemFill="{DynamicResource RG_AccentBrush}" Margin="10"
                                   NumberOfItems="6" ActiveItem="{Binding SelectedIndex,ElementName=oobewizard}"/>
                 <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePageIndex,Mode=OneWay}" 
-                          DisableTabKey="True" AnimationType="Slide">
+                          DisableTabKey="True" AnimationType="Slide" FeatheringRadius="24">
                     <!-- Welcome -->
                     <dc:PivotItem Height="0">
-                        <StackPanel>
+                        <StackPanel Margin="30,0,30,0">
                             <TextBlock Text="Hi!" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="Welcome to Dopamine, you'll love it! First, let's set things up." Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Language -->
                     <dc:PivotItem Height="0">
-                        <StackPanel>
+                        <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Language}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="{DynamicResource Language_Pick_Your_Language}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                             <settingsmoduleviews:SettingsAppearanceLanguage Margin="0,15,0,0"/>
@@ -104,7 +104,7 @@
                     </dc:PivotItem>
                     <!-- Appearance -->
                     <dc:PivotItem Height="0">
-                        <StackPanel>
+                        <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Appearance}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_What_Will_Your_Dopamine_Look_Like}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                             <settingsmoduleviews:SettingsAppearanceTheme Margin="0,15,0,0"/>
@@ -112,7 +112,7 @@
                     </dc:PivotItem>
                     <!-- Collection -->
                     <dc:PivotItem Height="0">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer  Margin="30,0,30,0" VerticalScrollBarVisibility="Auto">
                             <StackPanel Background="#00000000">
                                 <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                                 <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
@@ -122,7 +122,7 @@
                     </dc:PivotItem>
                     <!-- Donate -->
                     <dc:PivotItem Height="0">
-                        <StackPanel>
+                        <StackPanel  Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_You_Like_Dopamine_Please_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                             <Button Style="{StaticResource LinkButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.PayPalLink}" />
@@ -130,7 +130,7 @@
                     </dc:PivotItem>
                     <!-- Finish -->
                     <dc:PivotItem Height="0">
-                        <StackPanel>
+                        <StackPanel  Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Done}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="{DynamicResource Language_We_Are_Done}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
