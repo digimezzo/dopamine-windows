@@ -3,7 +3,7 @@ using Microsoft.Practices.ServiceLocation;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Dopamine.ControlsModule.Views
+namespace Dopamine.Common.Presentation.Views
 {
     /// <summary>
     /// Interaction logic for SizingTimeControl.xaml
