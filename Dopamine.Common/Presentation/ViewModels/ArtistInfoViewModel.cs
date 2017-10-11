@@ -1,10 +1,11 @@
 ﻿using Dopamine.Common.Api.Lastfm;
-using Prism.Mvvm;
-using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
+using Dopamine.Common.Presentation.Entities.ViewModels;
 using Dopamine.Common.Services.Cache;
-using System.Threading.Tasks;
+using Prism.Mvvm;
 using System;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

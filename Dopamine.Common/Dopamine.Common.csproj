@@ -320,7 +320,7 @@
     <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SearchControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SemanticZoomSelectorViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\SimilarArtistViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\Entities\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
