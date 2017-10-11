@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.ControlsModule.Views;
 using Dopamine.Common.Prism;
 using Dopamine.FullPlayerModule.ViewModels;
 using Dopamine.FullPlayerModule.Views;
@@ -48,8 +47,6 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenLyricsViewModel>(typeof(NowPlayingScreenLyricsViewModel).FullName);
 
             // Default View for dynamic Regions
-            this.regionManager.RegisterViewWithRegion(RegionNames.FullPlayerSearchRegion, typeof(SearchControl));
-
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
                 if (SettingsClient.Get<bool>("FullPlayer", "IsNowPlayingSelected")){

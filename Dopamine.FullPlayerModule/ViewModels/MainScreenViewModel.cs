@@ -1,11 +1,7 @@
-﻿using Dopamine.CollectionModule.Views;
-using Dopamine.Common.Presentation.Views;
-using Dopamine.ControlsModule.Views;
-using Dopamine.Common.Prism;
+﻿using Dopamine.Common.Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Linq;
 
 namespace Dopamine.FullPlayerModule.ViewModels
 {
@@ -71,29 +67,18 @@ namespace Dopamine.FullPlayerModule.ViewModels
                 // Settings
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(SettingsModule.Views.Settings).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(SettingsModule.Views.SettingsSubMenu).FullName);
-
-                this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else if (index == 3)
             {
                 // Information
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(InformationModule.Views.Information).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(InformationModule.Views.InformationSubMenu).FullName);
-
-                this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
             }
             else
             {
                 // Collection
                 this.regionManager.RequestNavigate(RegionNames.ContentRegion, typeof(CollectionModule.Views.Collection).FullName);
                 this.regionManager.RequestNavigate(RegionNames.SubMenuRegion, typeof(CollectionModule.Views.CollectionSubMenu).FullName);
-
-                var view = this.regionManager.Regions[RegionNames.CollectionRegion].ActiveViews.FirstOrDefault();
-
-                if (view != null && view.GetType() != typeof(CollectionFrequent))
-                {
-                    this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(ControlsModule.Views.SearchControl).FullName);
-                }
             }
         }
         #endregion

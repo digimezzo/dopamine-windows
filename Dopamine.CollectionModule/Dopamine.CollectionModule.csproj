@@ -146,6 +146,9 @@
     <Compile Include="Views\CollectionTracksColumns.xaml.cs">
       <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SearchControl.xaml.cs">
+      <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -164,10 +167,6 @@
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.ControlsModule\Dopamine.ControlsModule.csproj">
-      <Project>{7C852F68-0E22-4A26-BA7F-962A8B3B2AD0}</Project>
-      <Name>Dopamine.ControlsModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +205,10 @@
     <Page Include="Views\CollectionTracksColumns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

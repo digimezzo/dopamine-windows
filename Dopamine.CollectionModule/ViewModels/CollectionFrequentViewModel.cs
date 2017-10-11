@@ -3,8 +3,6 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
@@ -18,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.CollectionModule.ViewModels
 {
-    public class CollectionFrequentViewModel : BindableBase, INavigationAware
+    public class CollectionFrequentViewModel : BindableBase
     {
         #region Variables
         private IAlbumRepository albumRepository;
@@ -148,7 +146,7 @@ namespace Dopamine.CollectionModule.ViewModels
                 };
             }
 
-            OnPropertyChanged("AlbumViewModel" + number.ToString());
+            RaisePropertyChanged("AlbumViewModel" + number.ToString());
             System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
         }
 
@@ -165,23 +163,6 @@ namespace Dopamine.CollectionModule.ViewModels
                 this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
                 this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
             });
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(Empty).FullName);
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.regionManager.RequestNavigate(RegionNames.FullPlayerSearchRegion, typeof(ControlsModule.Views.SearchControl).FullName);
         }
         #endregion
     }

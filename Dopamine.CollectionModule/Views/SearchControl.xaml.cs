@@ -1,11 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Dopamine.ControlsModule.Views
+namespace Dopamine.CollectionModule.Views
 {
-    public partial class PlayAllControl : UserControl
+    public partial class SearchControl : UserControl
     {
         #region Construction
-        public PlayAllControl()
+        public SearchControl()
         {
             InitializeComponent();
         }

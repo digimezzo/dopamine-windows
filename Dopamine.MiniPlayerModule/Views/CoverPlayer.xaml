@@ -6,7 +6,6 @@
                               xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
                               xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                               xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-                              xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
                               xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"

@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Enums;
-using Dopamine.Common.Services.Playback;
-using Dopamine.ControlsModule.Views;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Playback;
 using Dopamine.FullPlayerModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;

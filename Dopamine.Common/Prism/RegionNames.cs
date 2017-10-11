@@ -10,7 +10,6 @@
         public const string InformationRegion = "InformationRegion";
         public const string SubMenuRegion = "SubMenuRegion";
 
-        public const string FullPlayerSearchRegion = "FullPlayerSearchRegion";
         public const string MiniPlayerPlaylistRegion = "MiniPlayerPlaylistRegion";
         public const string NowPlayingContentRegion = "NowPlayingContentRegion";
     }

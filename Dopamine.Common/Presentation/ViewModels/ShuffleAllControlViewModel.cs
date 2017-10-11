@@ -2,7 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace Dopamine.ControlsModule.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels
 {
     public class ShuffleAllControlViewModel : BindableBase
     {

@@ -107,20 +107,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
-    <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
-    <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
-    <Compile Include="Views\NothingPlayingControl.xaml.cs">
-      <DependentUpon>NothingPlayingControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PlayAllControl.xaml.cs">
-      <DependentUpon>PlayAllControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ShuffleAllControl.xaml.cs">
-      <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -137,21 +125,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\NothingPlayingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlayAllControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SearchControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ShuffleAllControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +136,7 @@
       <Name>Dopamine.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
