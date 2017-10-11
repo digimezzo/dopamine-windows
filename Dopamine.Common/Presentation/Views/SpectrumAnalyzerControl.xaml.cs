@@ -2,10 +2,11 @@
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
 using Dopamine.Common.Enums;
+using System.Windows.Controls;
 
-namespace Dopamine.ControlsModule.Views
+namespace Dopamine.Common.Presentation.Views
 {
-    public partial class SpectrumAnalyzerControl
+    public partial class SpectrumAnalyzerControl : UserControl
     {
         #region Variables
         private IPlaybackService playbackService;

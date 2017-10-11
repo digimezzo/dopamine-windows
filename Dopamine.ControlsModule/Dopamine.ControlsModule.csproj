@@ -110,21 +110,11 @@
     <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
     <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
     <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
-    <Compile Include="ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Views\CoverPictureWindowControls.xaml.cs">
       <DependentUpon>CoverPictureWindowControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CoverPlayerControls.xaml.cs">
-      <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CoverPlayerWindowControls.xaml.cs">
       <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MicroPlayerControls.xaml.cs">
-      <DependentUpon>MicroPlayerControls.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NanoPlayerControls.xaml.cs">
-      <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NanoPlayerWindowControls.xaml.cs">
       <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
@@ -140,9 +130,6 @@
     </Compile>
     <Compile Include="Views\ShuffleAllControl.xaml.cs">
       <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SpectrumAnalyzerControl.xaml.cs">
-      <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -163,19 +150,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CoverPlayerControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\CoverPlayerWindowControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MicroPlayerControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NanoPlayerControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,10 +171,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShuffleAllControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SpectrumAnalyzerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

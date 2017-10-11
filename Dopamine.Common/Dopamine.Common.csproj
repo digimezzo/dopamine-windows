@@ -327,6 +327,7 @@
     <Compile Include="Presentation\ViewModels\Entities\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
@@ -350,6 +351,9 @@
     </Compile>
     <Compile Include="Presentation\Views\CoverPlaybackInfoControl.xaml.cs">
       <DependentUpon>CoverPlaybackInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\CoverPlayerControls.xaml.cs">
+      <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\EditAlbum.xaml.cs">
       <DependentUpon>EditAlbum.xaml</DependentUpon>
@@ -380,6 +384,12 @@
     </Compile>
     <Compile Include="Presentation\Views\LyricsControl.xaml.cs">
       <DependentUpon>LyricsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\MicroPlayerControls.xaml.cs">
+      <DependentUpon>MicroPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\NanoPlayerControls.xaml.cs">
+      <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\NowPlayingControl.xaml.cs">
       <DependentUpon>NowPlayingControl.xaml</DependentUpon>
@@ -416,6 +426,9 @@
     </Compile>
     <Compile Include="Presentation\Views\SizingTimeControl.xaml.cs">
       <DependentUpon>SizingTimeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\SpectrumAnalyzerControl.xaml.cs">
+      <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
       <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
@@ -581,6 +594,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\CoverPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\EditAlbum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -620,6 +637,14 @@
     <Page Include="Presentation\Views\LyricsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\MicroPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\NanoPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\NowPlayingControl.xaml">
       <SubType>Designer</SubType>
@@ -666,6 +691,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\SizingTimeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\SpectrumAnalyzerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

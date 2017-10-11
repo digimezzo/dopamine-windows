@@ -26,11 +26,6 @@ namespace Dopamine.ControlsModule
         {
             // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, SearchControl>(typeof(SearchControl).FullName);
-            this.container.RegisterType<object, SpectrumAnalyzerControl>(typeof(SpectrumAnalyzerControl).FullName);
-            this.container.RegisterType<object, SpectrumAnalyzerControlViewModel>(typeof(SpectrumAnalyzerControlViewModel).FullName);
-            this.container.RegisterType<object, CoverPlayerControls>(typeof(CoverPlayerControls).FullName);
-            this.container.RegisterType<object, MicroPlayerControls>(typeof(MicroPlayerControls).FullName);
-            this.container.RegisterType<object, NanoPlayerControls>(typeof(NanoPlayerControls).FullName);
             this.container.RegisterType<object, PlayAllControl>(typeof(PlayAllControl).FullName);
             this.container.RegisterType<object, PlayAllControlViewModel>(typeof(PlayAllControlViewModel).FullName);
             this.container.RegisterType<object, ShuffleAllControl>(typeof(ShuffleAllControl).FullName);
