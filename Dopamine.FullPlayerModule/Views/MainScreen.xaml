@@ -13,7 +13,7 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel>
-        <DockPanel x:Name="MenuPanel" DockPanel.Dock="Top" Margin="15" HorizontalAlignment="Left">
+        <DockPanel x:Name="MenuPanel" DockPanel.Dock="Top" Margin="15,15,0,15" HorizontalAlignment="Stretch">
             <Grid Width="56" Height="56">
                 <Viewbox Width="56" Height="56" Panel.ZIndex="0">
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
