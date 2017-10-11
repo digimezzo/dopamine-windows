@@ -1,10 +1,8 @@
-﻿using Dopamine.ControlsModule.Views;
-using Dopamine.Common.Prism;
-using Dopamine.MiniPlayerModule.ViewModels;
+﻿using Dopamine.MiniPlayerModule.ViewModels;
 using Dopamine.MiniPlayerModule.Views;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using Microsoft.Practices.Unity;
 
 namespace Dopamine.MiniPlayerModule
 {

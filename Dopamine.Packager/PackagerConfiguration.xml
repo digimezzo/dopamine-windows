@@ -30,7 +30,6 @@
         <File>Dopamine.Common.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.CollectionModule.dll</File>
-        <File>Dopamine.ControlsModule.dll</File>
         <File>Dopamine.FullPlayerModule.dll</File>
         <File>Dopamine.InformationModule.dll</File>
         <File>Dopamine.MiniPlayerModule.dll</File>

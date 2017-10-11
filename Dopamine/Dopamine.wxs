@@ -152,7 +152,6 @@
             <File Source="Dopamine.Common.dll" />
             <File Source="Dopamine.Icons.dll" />
             <File Source="Dopamine.CollectionModule.dll" />
-            <File Source="Dopamine.ControlsModule.dll" />
             <File Source="Dopamine.FullPlayerModule.dll" />
             <File Source="Dopamine.InformationModule.dll" />
             <File Source="Dopamine.MiniPlayerModule.dll" />

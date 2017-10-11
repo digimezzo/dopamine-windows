@@ -1,8 +1,7 @@
-﻿using Dopamine.ControlsModule.ViewModels;
-using Dopamine.ControlsModule.Views;
+﻿using Dopamine.ControlsModule.Views;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using Microsoft.Practices.Unity;
 
 namespace Dopamine.ControlsModule
 {
@@ -26,12 +25,6 @@ namespace Dopamine.ControlsModule
         {
             // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, SearchControl>(typeof(SearchControl).FullName);
-            this.container.RegisterType<object, PlayAllControl>(typeof(PlayAllControl).FullName);
-            this.container.RegisterType<object, PlayAllControlViewModel>(typeof(PlayAllControlViewModel).FullName);
-            this.container.RegisterType<object, ShuffleAllControl>(typeof(ShuffleAllControl).FullName);
-            this.container.RegisterType<object, ShuffleAllControlViewModel>(typeof(ShuffleAllControlViewModel).FullName);
-            this.container.RegisterType<object, NothingPlayingControl>(typeof(NothingPlayingControl).FullName);
-            this.container.RegisterType<object, NothingPlayingControlViewModel>(typeof(NothingPlayingControlViewModel).FullName);
         }
         #endregion
     }

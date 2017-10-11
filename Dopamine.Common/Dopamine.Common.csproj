@@ -310,8 +310,10 @@
     <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Base\PlaylistViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\NothingPlayingControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\NowPlayingControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\PlayAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
@@ -327,6 +329,7 @@
     <Compile Include="Presentation\ViewModels\Entities\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
@@ -400,11 +403,17 @@
     <Compile Include="Presentation\Views\NanoPlayerWindowControls.xaml.cs">
       <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\NothingPlayingControl.xaml.cs">
+      <DependentUpon>NothingPlayingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\NowPlayingControl.xaml.cs">
       <DependentUpon>NowPlayingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\NowPlayingPlaybackControls.xaml.cs">
       <DependentUpon>NowPlayingPlaybackControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\PlayAllControl.xaml.cs">
+      <DependentUpon>PlayAllControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\PlaybackControls.xaml.cs">
       <DependentUpon>PlaybackControls.xaml</DependentUpon>
@@ -432,6 +441,9 @@
     </Compile>
     <Compile Include="Presentation\Views\SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\ShuffleAllControl.xaml.cs">
+      <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\SizingTimeControl.xaml.cs">
       <DependentUpon>SizingTimeControl.xaml</DependentUpon>
@@ -667,11 +679,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Presentation\Views\NothingPlayingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\NowPlayingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\NowPlayingPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\PlayAllControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -710,6 +730,10 @@
     <Page Include="Presentation\Views\SearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\ShuffleAllControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\SizingTimeControl.xaml">
       <Generator>MSBuild:Compile</Generator>

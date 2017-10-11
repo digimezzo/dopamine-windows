@@ -51,7 +51,6 @@ namespace Dopamine
             base.ConfigureModuleCatalog();
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
 
-            moduleCatalog.AddModule(typeof(ControlsModule.ControlsModule));
             moduleCatalog.AddModule(typeof(CollectionModule.CollectionModule));
             moduleCatalog.AddModule(typeof(InformationModule.InformationModule));
             moduleCatalog.AddModule(typeof(SettingsModule.SettingsModule));

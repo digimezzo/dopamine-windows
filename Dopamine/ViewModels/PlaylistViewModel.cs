@@ -1,6 +1,6 @@
-﻿using Dopamine.Common.Services.Playback;
-using Dopamine.ControlsModule.Views;
+﻿using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Playback;
 using Dopamine.MiniPlayerModule.Views;
 using Prism.Commands;
 using Prism.Mvvm;
