@@ -193,15 +193,6 @@ namespace Dopamine.Views
 
             return new Tuple<double, double>(top, left);
         }
-
-        private async void PlaylistWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Duration is set after 1/2 second
-            await Task.Delay(500);
-            this.MiniPlayerPlaylistRegion.SlideDuration = Constants.SlideTimeoutSeconds;
-            this.MiniPlayerPlaylistRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds;
-            this.MiniPlayerPlaylistRegion.FadeInDuration = Constants.FadeInTimeoutSeconds;
-        }
         #endregion
     }
 }

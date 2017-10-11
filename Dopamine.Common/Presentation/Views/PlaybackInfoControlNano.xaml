@@ -34,9 +34,6 @@
         SlideDirection="{Binding SlideDirection}" 
         Width="{Binding ActualWidth,ElementName=ThisControl}" 
         EasingAmplitude="0" 
-        FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}"
-        FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}"
-        FadeOnSlide="True"
-        Content="{Binding PlaybackInfoViewModel}"
-        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+        SlideFadeIn="True"
+        Content="{Binding PlaybackInfoViewModel}"/>
 </UserControl>

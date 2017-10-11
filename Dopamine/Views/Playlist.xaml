@@ -1,25 +1,23 @@
 ﻿<controls:DopamineWindow x:Class="Dopamine.Views.Playlist"
                          x:Name="PlaylistWindow"
                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:local="clr-namespace:Dopamine.Views"
-                         mc:Ignorable="d"
-                         Title="Playlist" 
-                         xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-                         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:prism="http://www.codeplex.com/prism"
+                         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+                         xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         mc:Ignorable="d"
+                         Title="Playlist"
                          Height="300" 
                          Width="300"
                          Accent="{DynamicResource RG_AccentBrush}"
                          IsMovable="False"
                          ShowWindowControls="False"
                          ShowInTaskbar="False"
-                         Loaded="PlaylistWindow_Loaded"
                          ResizeMode="NoResize"
                          prismMvvm:ViewModelLocator.AutoWireViewModel="True">        
 
@@ -32,7 +30,14 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:SlidingContentControl x:Name="MiniPlayerPlaylistRegion" Panel.ZIndex="1" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="RightToLeft" FadeOutDuration="0" FadeInDuration="0" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>
+        <dc:SlidingContentControl 
+            x:Name="MiniPlayerPlaylistRegion" 
+            Panel.ZIndex="1" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch" 
+            SlideDirection="RightToLeft" 
+            SlideFadeIn="True" 
+            prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>
     </Grid>
 </controls:DopamineWindow>
 

@@ -32,6 +32,5 @@
         Height="{Binding ActualHeight,ElementName=ThisControl}" 
         EasingAmplitude="0" 
         SlideDirection="{Binding SlideDirection}" 
-        Content="{Binding CoverArtViewModel}"
-        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+        Content="{Binding CoverArtViewModel}"/>
 </UserControl>
