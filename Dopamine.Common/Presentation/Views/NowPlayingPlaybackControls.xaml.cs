@@ -1,7 +1,6 @@
-﻿using Prism.Mvvm;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Dopamine.ControlsModule.Views
+namespace Dopamine.Common.Presentation.Views
 {
     public partial class NowPlayingPlaybackControls : UserControl
     {

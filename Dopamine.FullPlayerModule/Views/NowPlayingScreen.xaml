@@ -83,8 +83,8 @@
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
                     <controlsModuleViews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
-                    <controlsModuleViews:NowPlayingPlaybackControls>
-                        <controlsModuleViews:NowPlayingPlaybackControls.Style>
+                    <commonviews:NowPlayingPlaybackControls>
+                        <commonviews:NowPlayingPlaybackControls.Style>
                             <Style>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=ShowControls,ElementName=NowPlayingScreenName}" Value="True">
@@ -109,8 +109,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </controlsModuleViews:NowPlayingPlaybackControls.Style>
-                    </controlsModuleViews:NowPlayingPlaybackControls>
+                        </commonviews:NowPlayingPlaybackControls.Style>
+                    </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
                 <dc:SlidingContentControl 

@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="Dopamine.ControlsModule.Views.SizingTimeControl"
+﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.SizingTimeControl"
              x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Dopamine.ControlsModule.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 

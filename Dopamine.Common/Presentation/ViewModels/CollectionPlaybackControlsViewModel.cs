@@ -1,6 +1,7 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Dopamine.Common.Presentation.ViewModels.Base;
+using Microsoft.Practices.Unity;
 
-namespace Dopamine.ControlsModule.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels
 {
     public class CollectionPlaybackControlsViewModel : PlaybackControlsViewModelBase
     {

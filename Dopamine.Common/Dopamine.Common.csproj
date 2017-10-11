@@ -288,6 +288,8 @@
     <Compile Include="Presentation\Utils\SlidingContentControlRegionAdapter.cs" />
     <Compile Include="Presentation\ViewModels\Base\ContextMenuViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\CommonViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\Base\PlaybackControlsViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\CollectionPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\AlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\ArtistInfoViewModel.cs" />
@@ -308,6 +310,7 @@
     <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Base\PlaylistViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\NowPlayingControlViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
@@ -335,6 +338,9 @@
     <Compile Include="Presentation\Views\Base\PlaylistViewBase.cs" />
     <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
     <Compile Include="Presentation\Views\Base\VolumeControlViewBase.cs" />
+    <Compile Include="Presentation\Views\CollectionPlaybackControls.xaml.cs">
+      <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\CompactPlaybackControls.xaml.cs">
       <DependentUpon>CompactPlaybackControls.xaml</DependentUpon>
     </Compile>
@@ -374,6 +380,9 @@
     <Compile Include="Presentation\Views\NowPlayingControl.xaml.cs">
       <DependentUpon>NowPlayingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\NowPlayingPlaybackControls.xaml.cs">
+      <DependentUpon>NowPlayingPlaybackControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\PlaybackControls.xaml.cs">
       <DependentUpon>PlaybackControls.xaml</DependentUpon>
     </Compile>
@@ -400,6 +409,9 @@
     </Compile>
     <Compile Include="Presentation\Views\SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\SizingTimeControl.xaml.cs">
+      <DependentUpon>SizingTimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
       <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
@@ -549,6 +561,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\CollectionPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\CompactPlaybackControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -601,6 +617,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\NowPlayingPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\PlaybackControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -636,6 +656,10 @@
     <Page Include="Presentation\Views\SearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\SizingTimeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\VerticalVolumeControls.xaml">
       <SubType>Designer</SubType>

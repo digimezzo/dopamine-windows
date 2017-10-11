@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Microsoft.Practices.Unity;
 
-namespace Dopamine.ControlsModule.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels
 {
     public class NowPlayingPlaybackControlsViewModel : PlaybackControlsViewModelBase
     {
