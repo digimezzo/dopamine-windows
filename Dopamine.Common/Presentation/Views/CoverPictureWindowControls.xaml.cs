@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Dopamine.ControlsModule.Views
+namespace Dopamine.Common.Presentation.Views
 {
     public partial class CoverPictureWindowControls : UserControl
     {

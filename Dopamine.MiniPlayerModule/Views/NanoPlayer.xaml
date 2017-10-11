@@ -7,7 +7,6 @@
                               xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
                               xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                               xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-                              xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
                               xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"
@@ -77,7 +76,7 @@
                 <DockPanel x:Name="PlaybackInfoControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
                         <Border Panel.ZIndex="0" Height="44" Width="66" HorizontalAlignment="Right" Background="{DynamicResource RG_NanoPlayerWindowControlsGradientBrush}"/>
-                        <controlsmoduleviews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        <commonviews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     </Grid>
                 </DockPanel>
                 <commonviews:PlaybackInfoControlNano Panel.ZIndex="0" Width="220" Margin="15,0,15,0" HorizontalAlignment="Left"/>
