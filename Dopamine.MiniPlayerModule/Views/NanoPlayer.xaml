@@ -71,7 +71,7 @@
     
     <Grid x:Name="PlayerPanel" Width="{x:Static corebase:Constants.NanoPlayerWidth}" Height="{x:Static corebase:Constants.NanoPlayerHeight}">
         <StackPanel Orientation="Horizontal" Panel.ZIndex="0" Height="44" VerticalAlignment="Top">
-            <controlsmoduleviews:NanoPlayerControls Margin="10,1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <commonviews:NanoPlayerControls Margin="10,1,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <Grid>
                 <!-- PlaybackInfo controls -->
                 <DockPanel x:Name="PlaybackInfoControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
