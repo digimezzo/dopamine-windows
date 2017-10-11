@@ -107,7 +107,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\EqualizerControlViewModel.cs" />
     <Compile Include="ViewModels\NothingPlayingControlViewModel.cs" />
     <Compile Include="ViewModels\PlayAllControlViewModel.cs" />
     <Compile Include="ViewModels\ShuffleAllControlViewModel.cs" />
@@ -120,9 +119,6 @@
     </Compile>
     <Compile Include="Views\CoverPlayerWindowControls.xaml.cs">
       <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EqualizerControl.xaml.cs">
-      <DependentUpon>EqualizerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MicroPlayerControls.xaml.cs">
       <DependentUpon>MicroPlayerControls.xaml</DependentUpon>
@@ -172,10 +168,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CoverPlayerWindowControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EqualizerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
