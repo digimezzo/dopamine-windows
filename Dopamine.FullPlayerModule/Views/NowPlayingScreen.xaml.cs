@@ -103,19 +103,6 @@ namespace Dopamine.FullPlayerModule.Views
         {
             this.AlignSpectrumAnalyzer();
         }
-
-        private async void NowPlaying_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Duration is set after 1/2 second so the now playing info screen doesn't 
-            // slide in from the left the first time the now playing screen is loaded.
-            // Slide in from left combined with slide in from bottom for the cover picture,
-            // gives as combined effect a slide in from bottom left for the cover picture.
-            // That doesn't look so good.
-            await Task.Delay(500);
-            this.NowPlayingContentRegion.SlideDuration = Constants.SlideTimeoutSeconds * 1.5;
-            this.NowPlayingContentRegion.FadeInDuration = Constants.FadeInTimeoutSeconds *1.25;
-            this.NowPlayingContentRegion.FadeOutDuration = Constants.FadeOutTimeoutSeconds *2;
-        }
         #endregion  
     }
 }

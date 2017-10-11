@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="Dopamine.Common.Presentation.Views.CoverPlaybackInfoControl" 
              x:Name="ThisControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:viewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
-             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:viewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -25,9 +24,6 @@
         Width="{Binding ActualWidth,ElementName=ThisControl}" 
         Height="{Binding ActualHeight,ElementName=ThisControl}" 
         EasingAmplitude="0"
-        FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}"
-        FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}"
-        FadeOnSlide="True"
-        Content="{Binding PlaybackInfoViewModel}"
-        SlideDuration="{x:Static base:Constants.SlideTimeoutSeconds}"/>
+        SlideFadeIn="True"
+        Content="{Binding PlaybackInfoViewModel}"/>
 </UserControl>

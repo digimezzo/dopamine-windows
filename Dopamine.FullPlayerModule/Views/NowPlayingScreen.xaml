@@ -16,7 +16,6 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True"
              MouseMove="NowPlaying_MouseMove" 
-             Loaded="NowPlaying_Loaded"
              Background="Transparent" 
              SizeChanged="NowPlaying_SizeChanged">
 
@@ -114,7 +113,15 @@
                     </controlsModuleViews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:SlidingContentControl x:Name="NowPlayingContentRegion" FeatheringRadius="24" Margin="100,90,100,120" SlideDuration="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" EasingAmplitude="0" SlideDirection="{Binding SlideDirection}" FadeOutDuration="{x:Static base:Constants.FadeOutTimeoutSeconds}" FadeInDuration="{x:Static base:Constants.FadeInTimeoutSeconds}" FadeOnSlide="True" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>
+                <dc:SlidingContentControl 
+                    x:Name="NowPlayingContentRegion" 
+                    FeatheringRadius="24" 
+                    Margin="100,90,100,120" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    SlideDirection="{Binding SlideDirection}" 
+                    SlideFadeIn="True" 
+                    prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.NowPlayingContentRegion}"/>
             </Grid>
         </DockPanel>
     </Grid>

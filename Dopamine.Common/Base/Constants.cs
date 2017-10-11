@@ -76,9 +76,6 @@ namespace Dopamine.Common.Base
         public static readonly int UpdateCheckIntervalSeconds = 900; // 900 seconds = 15 minutes
         public static readonly double SearchTimeoutSeconds = 0.4;
         public static readonly double ScrollToPlayingTrackTimeoutSeconds = 0.4;
-        public static readonly double SlideTimeoutSeconds = 0.5;
-        public static readonly double FadeOutTimeoutSeconds = 0.2;
-        public static readonly double FadeInTimeoutSeconds = 0.8;
 
         // Delays
         public static readonly int ClosingFadeOutDelay = 500;
