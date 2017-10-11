@@ -303,6 +303,7 @@
     <Compile Include="Presentation\ViewModels\CoverPlaybackInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\EditAlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\EditTrackViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\EqualizerControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\FileInformationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\GenreViewModel.cs" />
     <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
@@ -364,6 +365,9 @@
     </Compile>
     <Compile Include="Presentation\Views\Empty.xaml.cs">
       <DependentUpon>Empty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\EqualizerControl.xaml.cs">
+      <DependentUpon>EqualizerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\EqualizerIcon.xaml.cs">
       <DependentUpon>EqualizerIcon.xaml</DependentUpon>
@@ -596,6 +600,10 @@
     <Page Include="Presentation\Views\Empty.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\EqualizerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\EqualizerIcon.xaml">
       <SubType>Designer</SubType>

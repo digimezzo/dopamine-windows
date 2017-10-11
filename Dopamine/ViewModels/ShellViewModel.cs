@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
+using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
@@ -11,8 +11,6 @@ using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Taskbar;
-using Dopamine.ControlsModule.ViewModels;
-using Dopamine.ControlsModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
