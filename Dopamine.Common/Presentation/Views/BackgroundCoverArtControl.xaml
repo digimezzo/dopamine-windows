@@ -5,14 +5,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True" SizeChanged="UserControl_SizeChanged">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type commonviewmodels:CoverArtViewModel}">
+        <DataTemplate DataType="{x:Type entityviewmodels:CoverArtViewModel}">
             <Image Source="{Binding CoverArt, Converter={StaticResource NullImageConverter}}" RenderOptions.BitmapScalingMode="LowQuality" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </DataTemplate>
     </UserControl.Resources>

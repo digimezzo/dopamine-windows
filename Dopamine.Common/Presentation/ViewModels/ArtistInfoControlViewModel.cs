@@ -1,12 +1,13 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Services.I18n;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Services.I18n;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;

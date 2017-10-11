@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

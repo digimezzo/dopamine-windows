@@ -6,13 +6,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-             xmlns:viewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
+             xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type viewmodels:PlaybackInfoViewModel}">
+        <DataTemplate DataType="{x:Type entityviewmodels:PlaybackInfoViewModel}">
             <StackPanel>
                 <controls:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
                 <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" Margin="0,-2,0,0"  FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
