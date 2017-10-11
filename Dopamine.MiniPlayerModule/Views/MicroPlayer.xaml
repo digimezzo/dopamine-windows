@@ -7,7 +7,6 @@
                               xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
                               xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                               xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-                              xmlns:controlsmoduleviews="clr-namespace:Dopamine.ControlsModule.Views;assembly=Dopamine.ControlsModule"
                               xmlns:myViews="clr-namespace:Dopamine.MiniPlayerModule.Views"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"
@@ -86,7 +85,7 @@
                 <DockPanel x:Name="CoverControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
                         <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
-                        <controlsmoduleviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
+                        <commonviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
                     </Grid>
                 </DockPanel>
             </Grid>

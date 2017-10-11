@@ -349,11 +349,17 @@
     <Compile Include="Presentation\Views\CoverArtControl.xaml.cs">
       <DependentUpon>CoverArtControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Views\CoverPictureWindowControls.xaml.cs">
+      <DependentUpon>CoverPictureWindowControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Views\CoverPlaybackInfoControl.xaml.cs">
       <DependentUpon>CoverPlaybackInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\CoverPlayerControls.xaml.cs">
       <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\CoverPlayerWindowControls.xaml.cs">
+      <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\EditAlbum.xaml.cs">
       <DependentUpon>EditAlbum.xaml</DependentUpon>
@@ -390,6 +396,9 @@
     </Compile>
     <Compile Include="Presentation\Views\NanoPlayerControls.xaml.cs">
       <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\NanoPlayerWindowControls.xaml.cs">
+      <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\NowPlayingControl.xaml.cs">
       <DependentUpon>NowPlayingControl.xaml</DependentUpon>
@@ -590,11 +599,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\CoverPictureWindowControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\CoverPlaybackInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\CoverPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\CoverPlayerWindowControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -643,6 +660,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\NanoPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\NanoPlayerWindowControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
