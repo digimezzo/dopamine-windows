@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Presentation.ViewModels.Base;
+﻿using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;

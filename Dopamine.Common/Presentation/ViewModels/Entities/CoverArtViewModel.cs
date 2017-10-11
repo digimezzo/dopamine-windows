@@ -1,7 +1,6 @@
 ﻿using Prism.Mvvm;
-using System.Windows.Controls;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class CoverArtViewModel : BindableBase
     {

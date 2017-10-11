@@ -1,5 +1,4 @@
 ﻿using Dopamine.Common.Api.Lastfm;
-using Dopamine.Common.Presentation.Entities.ViewModels;
 using Dopamine.Common.Services.Cache;
 using Prism.Mvvm;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Presentation.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class ArtistInfoViewModel : BindableBase
     {

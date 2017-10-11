@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Dopamine.Common.Presentation.Entities.ViewModels
+namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class SimilarArtistViewModel : BindableBase
     {

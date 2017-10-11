@@ -1,7 +1,8 @@
-﻿using Dopamine.Common.Presentation.Interfaces;
-using Dopamine.Common.Presentation.ViewModels;
+﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
+using Dopamine.Common.Database;
+using Dopamine.Common.Presentation.Interfaces;
+using Dopamine.Common.Presentation.ViewModels.Entities;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Dopamine.Common.Database;
 
 namespace Dopamine.Common.Presentation.Utils
 {
