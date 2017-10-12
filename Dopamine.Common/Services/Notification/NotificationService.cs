@@ -76,7 +76,6 @@ namespace Dopamine.Common.Services.Notification
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             var track = this.PlaybackService.CurrentTrack.Value;
-            musicProperties.AlbumArtist = track.AlbumArtist;
             musicProperties.AlbumTitle = track.AlbumTitle;
             musicProperties.Artist = track.ArtistName;
             musicProperties.Title = track.TrackTitle;
