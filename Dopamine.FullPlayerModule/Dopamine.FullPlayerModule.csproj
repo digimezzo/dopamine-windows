@@ -109,7 +109,6 @@
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MainScreenViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenArtistInformationViewModel.cs" />
-    <Compile Include="ViewModels\NowPlayingScreenLyricsViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenShowcaseViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingScreenViewModel.cs" />

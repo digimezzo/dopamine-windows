@@ -1,6 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
@@ -13,18 +12,15 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
 using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class CommonViewModelBase : ContextMenuViewModelBase, INavigationAware, IActiveAware
+    public abstract class CommonViewModelBase : ContextMenuViewModelBase
     {
         #region Variables
         private IUnityContainer container;
@@ -102,12 +98,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.UpdateTrackOrderText(value);
             }
         }
-
-        public bool IsActive
-        {
-            get { return this.isActive; }
-            set { SetProperty<bool>(ref this.isActive, value); }
-        }
         #endregion
 
         #region Construction
@@ -142,7 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
             this.indexingService.IndexingStopped += (_, __) => this.SetEditCommands();
-            this.searchService.DoSearch += (searchText) => { if (this.IsActive) this.FilterLists(); };
+            this.searchService.DoSearch += (searchText) => this.FilterLists();
             this.metadataService.RatingChanged += MetadataService_RatingChangedAsync;
             this.metadataService.LoveChanged += MetadataService_LoveChangedAsync;
 
@@ -270,35 +260,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     ResourceUtils.GetString("Language_Cancel"),
                 ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
             }
-        }
-        #endregion
-
-        #region IActiveAware
-        private bool isActive;
-        public event EventHandler IsActiveChanged;
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.searchTextBeforeInactivate = this.searchService.SearchText;
-        }
-
-        public async void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            // Only refresh the Tracks if the search term was changed since the last time this screen was visited
-            if (!this.searchTextBeforeInactivate.Equals(this.searchService.SearchText))
-            {
-                await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
-                this.FilterLists();
-            }
-
-            this.ConditionalScrollToPlayingTrack();
         }
         #endregion
 

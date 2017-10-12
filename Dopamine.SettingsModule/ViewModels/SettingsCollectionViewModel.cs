@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
-    public class SettingsCollectionViewModel : BindableBase, IActiveAware, INavigationAware
+    public class SettingsCollectionViewModel : BindableBase
     {
         #region Variables
         private bool isActive;
@@ -69,10 +69,6 @@ namespace Dopamine.SettingsModule.ViewModels
         }
         #endregion
 
-        #region IActiveAware
-        public event EventHandler IsActiveChanged;
-        #endregion
-
         #region Private
         private async void GetCheckBoxesAsync()
         {
@@ -92,23 +88,5 @@ namespace Dopamine.SettingsModule.ViewModels
             this.indexingService.QuickCheckCollectionAsync();
         }
         #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.indexingService.AutoCheckCollectionAsync();
-            this.collectionService.SaveMarkedFoldersAsync();
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-        }
-        #endregion
-
     }
 }

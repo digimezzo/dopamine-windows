@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Windows;
 
 namespace Dopamine.Common.Services.Collection
 {
@@ -25,6 +27,7 @@ namespace Dopamine.Common.Services.Collection
         private ICacheService cacheService;
         private IPlaybackService playbackService;
         private List<Folder> markedFolders;
+        private Timer saveMarkedFoldersTimer = new Timer(2000);
         #endregion
 
         #region Construction
@@ -38,11 +41,42 @@ namespace Dopamine.Common.Services.Collection
             this.cacheService = cacheService;
             this.playbackService = playbackService;
             this.markedFolders = new List<Folder>();
+
+            this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
         }
         #endregion
 
         #region Events
         public event EventHandler CollectionChanged = delegate { };
+        #endregion
+
+        #region Private
+        private async Task SaveMarkedFoldersAsync()
+        {
+            bool isCollectionChanged = false;
+
+            try
+            {
+                isCollectionChanged = this.markedFolders.Count > 0;
+                await this.folderRepository.UpdateFoldersAsync(this.markedFolders);
+                this.markedFolders.Clear();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Error updating folders. Exception: {0}", ex.Message);
+            }
+
+            if (isCollectionChanged)
+            {
+                // Execute on Dispatcher as this will cause a refresh of the lists
+                Application.Current.Dispatcher.Invoke(() => this.CollectionChanged(this, new EventArgs()));
+            }
+        }
+
+        private async void SaveMarkedFoldersTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            await this.SaveMarkedFoldersAsync();
+        }
         #endregion
 
         #region ICollectionService
@@ -163,6 +197,8 @@ namespace Dopamine.Common.Services.Collection
 
         public async Task MarkFolderAsync(Folder fol)
         {
+            this.saveMarkedFoldersTimer.Stop();
+
             await Task.Run(() =>
             {
                 try
@@ -178,30 +214,14 @@ namespace Dopamine.Common.Services.Collection
                             this.markedFolders.Add(fol);
                         }
                     }
+
+                    this.saveMarkedFoldersTimer.Start();
                 }
                 catch (Exception ex)
                 {
                     LogClient.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
                 }
             });
-        }
-
-        public async Task SaveMarkedFoldersAsync()
-        {
-            bool isCollectionChanged = false;
-
-            try
-            {
-                isCollectionChanged = this.markedFolders.Count > 0;
-                await this.folderRepository.UpdateFoldersAsync(this.markedFolders);
-                this.markedFolders.Clear();
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Error updating folders. Exception: {0}", ex.Message);
-            }
-
-            if (isCollectionChanged) this.CollectionChanged(this, new EventArgs());
         }
         #endregion
     }

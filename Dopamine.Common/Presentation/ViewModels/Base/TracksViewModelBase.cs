@@ -17,10 +17,8 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
 using Microsoft.Practices.Unity;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +30,7 @@ using System.Windows.Data;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
-    public abstract class TracksViewModelBase : CommonViewModelBase, INavigationAware, IActiveAware
+    public abstract class TracksViewModelBase : CommonViewModelBase
     {
         #region Variables
         private IUnityContainer container;

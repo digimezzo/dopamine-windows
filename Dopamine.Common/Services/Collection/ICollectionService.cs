@@ -16,7 +16,6 @@ namespace Dopamine.Common.Services.Collection
         Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds);
         Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels);
         Task MarkFolderAsync(Folder folder);
-        Task SaveMarkedFoldersAsync();
         event EventHandler CollectionChanged;
     }
 }
