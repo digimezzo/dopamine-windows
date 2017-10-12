@@ -137,9 +137,6 @@
     <Compile Include="Views\CollectionPlaylists.xaml.cs">
       <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CollectionSubMenu.xaml.cs">
-      <DependentUpon>CollectionSubMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CollectionTracks.xaml.cs">
       <DependentUpon>CollectionTracks.xaml</DependentUpon>
     </Compile>
@@ -188,10 +185,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CollectionPlaylists.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CollectionSubMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

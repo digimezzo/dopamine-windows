@@ -30,7 +30,6 @@ namespace Dopamine.CollectionModule
             // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, CollectionViewModel>(typeof(CollectionViewModel).FullName);
             this.container.RegisterType<object, Collection>(typeof(Collection).FullName);
-            this.container.RegisterType<object, CollectionSubMenu>(typeof(CollectionSubMenu).FullName);
             this.container.RegisterType<object, CollectionAlbumsViewModel>(typeof(CollectionAlbumsViewModel).FullName);
             this.container.RegisterType<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
             this.container.RegisterType<object, CollectionArtistsViewModel>(typeof(CollectionArtistsViewModel).FullName);
@@ -47,7 +46,6 @@ namespace Dopamine.CollectionModule
             this.container.RegisterType<object, CollectionTracksColumns>(typeof(CollectionTracksColumns).FullName);
 
             // Default View for dynamic Regions
-            this.regionManager.RegisterViewWithRegion(RegionNames.SubMenuRegion, typeof(CollectionSubMenu));
             this.regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Collection));
 
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))

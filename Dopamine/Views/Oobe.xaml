@@ -11,7 +11,7 @@
                          xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
                          mc:Ignorable="d"
                          Title="Dopamine"
-                         Height="600"
+                         Height="550"
                          Width="400"
                          ResizeMode="NoResize"
                          WindowStartupLocation="CenterScreen"
@@ -86,16 +86,16 @@
                                   SelectedItemFill="{DynamicResource RG_AccentBrush}" Margin="10"
                                   NumberOfItems="6" ActiveItem="{Binding SelectedIndex,ElementName=oobewizard}"/>
                 <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePageIndex,Mode=OneWay}" 
-                          DisableTabKey="True" AnimationType="Slide" FeatheringRadius="24">
+                          DisableTabKey="True" AnimationType="Slide" FeatheringRadius="24" HeadersVisibility="Collapsed">
                     <!-- Welcome -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
                             <TextBlock Text="Hi!" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="Welcome to Dopamine, you'll love it! First, let's set things up." Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Language -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Language}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="{DynamicResource Language_Pick_Your_Language}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
@@ -103,15 +103,15 @@
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Appearance -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Appearance}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_What_Will_Your_Dopamine_Look_Like}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
-                            <commonviews:AppearanceTheme Margin="0,15,0,0"/>
+                            <commonviews:AppearanceTheme Margin="0,15,0,0" ShowFollowAlbumCoverColor="False"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Collection -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <ScrollViewer  Margin="30,0,30,0" VerticalScrollBarVisibility="Auto">
                             <StackPanel Background="#00000000">
                                 <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
@@ -121,7 +121,7 @@
                         </ScrollViewer>
                     </dc:PivotItem>
                     <!-- Donate -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <StackPanel  Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_You_Like_Dopamine_Please_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
@@ -129,7 +129,7 @@
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Finish -->
-                    <dc:PivotItem Height="0">
+                    <dc:PivotItem>
                         <StackPanel  Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Done}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="{DynamicResource Language_We_Are_Done}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
