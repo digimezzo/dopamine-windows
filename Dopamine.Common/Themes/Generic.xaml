@@ -11,10 +11,8 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/DopamineWindow.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/ListCheckBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/LoveButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/MainMenuButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/RatingButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SearchBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/SubMenuButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SyncRing.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/Tile.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/TotalsInformation.xaml" />

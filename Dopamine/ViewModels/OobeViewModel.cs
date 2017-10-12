@@ -58,7 +58,7 @@ namespace Dopamine.ViewModels
         {
             get
             {
-                if (this.selectedOobePage.Equals(OobePage.Welcome))
+                if (this.selectedOobePage.Equals(OobePage.Welcome) || this.selectedOobePage.Equals(OobePage.Language))
                 {
                     return false;
                 }

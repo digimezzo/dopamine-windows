@@ -32,7 +32,6 @@ namespace Dopamine.InformationModule
             this.container.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);
             this.container.RegisterType<object, InformationHelpViewModel>(typeof(InformationHelpViewModel).FullName);
             this.container.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
-            this.container.RegisterType<object, InformationSubMenu>(typeof(InformationSubMenu).FullName);
             this.container.RegisterType<object, InformationAboutLicense>(typeof(InformationAboutLicense).FullName);
 
             // Default View for dynamic Regions

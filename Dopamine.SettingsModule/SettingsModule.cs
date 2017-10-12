@@ -28,7 +28,6 @@ namespace Dopamine.SettingsModule
             // Register Views and ViewModels with UnityContainer
             this.container.RegisterType<object, SettingsViewModel>(typeof(SettingsViewModel).FullName);
             this.container.RegisterType<object, Settings>(typeof(Settings).FullName);
-            this.container.RegisterType<object, SettingsSubMenu>(typeof(SettingsSubMenu).FullName);
             this.container.RegisterType<object, SettingsCollectionFoldersViewModel>(typeof(SettingsCollectionFoldersViewModel).FullName);
             this.container.RegisterType<object, SettingsCollectionFolders>(typeof(SettingsCollectionFolders).FullName);
             this.container.RegisterType<object, SettingsCollectionViewModel>(typeof(SettingsCollectionViewModel).FullName);
