@@ -21,7 +21,6 @@ namespace Dopamine.ViewModels.Common
 {
     public class CollectionFoldersViewModel : BindableBase
     {
-        #region Variables
         private IIndexingService indexingService;
         private IDialogService dialogService;
         private ICollectionService collectionservice;
@@ -30,15 +29,10 @@ namespace Dopamine.ViewModels.Common
         private bool isLoadingFolders;
         private bool showAllFoldersInCollection;
         private bool isIndexing;
-        #endregion
 
-        #region Commands
         public DelegateCommand<string> AddFolderCommand { get; set; }
         public DelegateCommand<string> RemoveFolderCommand { get; set; }
         public DelegateCommand<string> ShowInCollectionChangedCommand { get; set; }
-        #endregion
-
-        #region Properties
         public bool IsBusy
         {
             get { return this.IsIndexing | this.IsLoadingFolders; }
@@ -50,7 +44,7 @@ namespace Dopamine.ViewModels.Common
             set
             {
                 SetProperty<bool>(ref this.isIndexing, value);
-                OnPropertyChanged(() => this.IsBusy);
+                RaisePropertyChanged(nameof(this.IsBusy));
             }
         }
 
@@ -66,7 +60,7 @@ namespace Dopamine.ViewModels.Common
             set
             {
                 SetProperty<bool>(ref this.isLoadingFolders, value);
-                OnPropertyChanged(() => this.IsBusy);
+                RaisePropertyChanged(nameof(this.IsBusy));
             }
         }
 
@@ -85,9 +79,7 @@ namespace Dopamine.ViewModels.Common
                 SettingsClient.Set<bool>("Indexing", "ShowAllFoldersInCollection", value);
             }
         }
-        #endregion
 
-        #region Construction
         public CollectionFoldersViewModel(IIndexingService indexingService, IDialogService dialogService, ICollectionService collectionservice, IFolderRepository folderRepository)
         {
             this.indexingService = indexingService;
@@ -129,9 +121,7 @@ namespace Dopamine.ViewModels.Common
 
             this.GetFoldersAsync();
         }
-        #endregion
 
-        #region Private
         private async void AddFolder()
         {
             LogClient.Info("Adding a folder to the collection.");
@@ -263,6 +253,5 @@ namespace Dopamine.ViewModels.Common
                 }
             });
         }
-        #endregion
     }
 }

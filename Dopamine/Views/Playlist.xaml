@@ -19,7 +19,7 @@
                          ShowWindowControls="False"
                          ShowInTaskbar="False"
                          ResizeMode="NoResize"
-                         prismMvvm:ViewModelLocator.AutoWireViewModel="True">        
+                         prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -30,14 +30,13 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:SlidingContentControl 
+        <!--<dc:SlidingContentControl 
             x:Name="MiniPlayerPlaylistRegion" 
             Panel.ZIndex="1" 
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch" 
             SlideDirection="RightToLeft" 
             SlideFadeIn="True" 
-            prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>
+            prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>-->
     </Grid>
 </controls:DopamineWindow>
-

@@ -143,7 +143,6 @@
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\FolderViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
-    <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\Common\AppearanceLanguage.xaml.cs">
       <DependentUpon>AppearanceLanguage.xaml</DependentUpon>
@@ -165,6 +164,9 @@
     </Compile>
     <Compile Include="Views\MiniPlayer\NanoPlayerScreen.xaml.cs">
       <DependentUpon>NanoPlayerScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NowPlaying\NowPlayingScreen.xaml.cs">
+      <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
@@ -444,6 +446,10 @@
     <Page Include="Views\MiniPlayer\NanoPlayerScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NowPlaying\NowPlayingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Oobe.xaml">
       <SubType>Designer</SubType>

@@ -1,15 +1,14 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Base;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Playback;
 using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace Dopamine.Views
@@ -137,7 +136,7 @@ namespace Dopamine.Views
                     break;
                 default:
                     break;
-                // Doesn't happen
+                    // Doesn't happen
             }
 
             var tal = await this.GetTopAndLeft(this.Width, this.Height, this.parent.Top, this.parent.Left,

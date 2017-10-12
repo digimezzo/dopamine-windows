@@ -10,13 +10,10 @@ namespace Dopamine.Views
 {
     public partial class Oobe : DopamineWindow
     {
-        #region Variables
         private IAppearanceService appearanceService;
         private Storyboard backgroundAnimation;
         private IIndexingService indexingService;
-        #endregion
 
-        #region Construction
         public Oobe(IAppearanceService appearanceService, IIndexingService indexingService)
         {
             InitializeComponent();
@@ -26,9 +23,7 @@ namespace Dopamine.Views
 
             this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
         }
-        #endregion
 
-        #region Event handlers
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -58,7 +53,6 @@ namespace Dopamine.Views
         {
             this.backgroundAnimation?.Begin();
         }
-        #endregion
 
         private void ButtonFinish_Click(object sender, RoutedEventArgs e)
         {

@@ -137,7 +137,6 @@ namespace Dopamine
         protected void RegisterViews()
         {
             Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
-            Container.RegisterType<object, Playlist>(typeof(Playlist).FullName);
             Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
             Container.RegisterType<object, Shell>(typeof(Views.Shell).FullName);
             Container.RegisterType<object, Empty>(typeof(Empty).FullName);
@@ -149,8 +148,8 @@ namespace Dopamine
 
         protected void RegisterViewModels()
         {
-            Container.RegisterType<object, ViewModels.OobeViewModel>(typeof(ViewModels.OobeViewModel).FullName);
-            Container.RegisterType<object, ViewModels.ShellViewModel>(typeof(ViewModels.ShellViewModel).FullName);
+            //Container.RegisterType<object, ViewModels.OobeViewModel>(typeof(ViewModels.OobeViewModel).FullName);
+            //Container.RegisterType<object, ViewModels.ShellViewModel>(typeof(ViewModels.ShellViewModel).FullName);
         }
 
         protected override DependencyObject CreateShell()

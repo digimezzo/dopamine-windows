@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock FontSize="20" Text="Cover player"/>
+        <TextBlock FontSize="20" Text="Cover player" Foreground="LightGreen"/>
     </Grid>
 </UserControl>

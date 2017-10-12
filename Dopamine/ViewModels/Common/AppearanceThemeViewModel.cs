@@ -10,7 +10,6 @@ namespace Dopamine.ViewModels.Common
 {
     public class AppearanceThemeViewModel : BindableBase
     {
-        #region Variables
         private IAppearanceService appearanceService;
         private ObservableCollection<string> themes = new ObservableCollection<string>();
         private ObservableCollection<ColorScheme> colorSchemes = new ObservableCollection<ColorScheme>();
@@ -18,10 +17,8 @@ namespace Dopamine.ViewModels.Common
         private bool checkBoxWindowsColorChecked;
         private bool checkBoxAlbumCoverColorChecked;
         private bool checkBoxThemeChecked;
-        private bool isViewModelLoaded = true;
-        #endregion
+        private bool isViewModelLoaded = true; // TODO: get rid of this variable
 
-        #region Properties
         public ObservableCollection<string> Themes
         {
             get { return this.themes; }
@@ -133,9 +130,6 @@ namespace Dopamine.ViewModels.Common
             get { return !this.CheckBoxWindowsColorChecked & !this.CheckBoxAlbumCoverColorChecked; }
         }
 
-        #endregion
-
-        #region Construction
         public AppearanceThemeViewModel(IAppearanceService appearanceService)
         {
             this.appearanceService = appearanceService;
@@ -145,9 +139,7 @@ namespace Dopamine.ViewModels.Common
 
             this.appearanceService.ColorSchemesChanged += ColorSchemesChangedHandler;
         }
-        #endregion
 
-        #region Private
         private async void GetColorSchemesAsync()
         {
             ObservableCollection<ColorScheme> localColorSchemes = new ObservableCollection<ColorScheme>();
@@ -188,13 +180,10 @@ namespace Dopamine.ViewModels.Common
                 this.RaisePropertyChanged(nameof(this.CheckBoxAlbumCoverColorChecked));
             });
         }
-        #endregion
 
-        #region Event handlers
         private void ColorSchemesChangedHandler(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() => this.GetColorSchemesAsync());
         }
-        #endregion
     }
 }
