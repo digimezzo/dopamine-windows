@@ -6,7 +6,7 @@
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                          xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
                          xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-                         xmlns:settingsmoduleviews="clr-namespace:Dopamine.SettingsModule.Views;assembly=Dopamine.SettingsModule"
+                         xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
                          xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
                          xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
                          mc:Ignorable="d"
@@ -99,7 +99,7 @@
                         <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Language}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Text="{DynamicResource Language_Pick_Your_Language}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
-                            <settingsmoduleviews:SettingsAppearanceLanguage Margin="0,15,0,0"/>
+                            <commonviews:AppearanceLanguage Margin="0,15,0,0"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Appearance -->
@@ -107,7 +107,7 @@
                         <StackPanel Margin="30,0,30,0">
                             <Label Padding="0" Content="{DynamicResource Language_Appearance}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_What_Will_Your_Dopamine_Look_Like}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
-                            <settingsmoduleviews:SettingsAppearanceTheme Margin="0,15,0,0"/>
+                            <commonviews:AppearanceTheme Margin="0,15,0,0"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Collection -->
@@ -116,7 +116,7 @@
                             <StackPanel Background="#00000000">
                                 <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
                                 <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
-                                <settingsmoduleviews:SettingsCollectionFolders Margin="0,15,0,0" ShowControls="False"/>
+                                <commonviews:CollectionFolders Margin="0,15,0,0" ShowControls="False"/>
                             </StackPanel>
                         </ScrollViewer>
                     </dc:PivotItem>

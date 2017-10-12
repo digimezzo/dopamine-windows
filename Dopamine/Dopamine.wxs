@@ -151,11 +151,6 @@
             <File Source="Prism.Wpf.dll" />
             <File Source="Dopamine.Common.dll" />
             <File Source="Dopamine.Icons.dll" />
-            <File Source="Dopamine.CollectionModule.dll" />
-            <File Source="Dopamine.FullPlayerModule.dll" />
-            <File Source="Dopamine.InformationModule.dll" />
-            <File Source="Dopamine.MiniPlayerModule.dll" />
-            <File Source="Dopamine.SettingsModule.dll" />
             <File Source="CSCore.dll" />
             <File Source="GongSolutions.WPF.DragDrop.dll" />
             <File Source="Ionic.Zip.dll" />

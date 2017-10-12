@@ -1,7 +1,4 @@
-﻿using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Playback;
-using Dopamine.MiniPlayerModule.Views;
+﻿using Dopamine.Common.Services.Playback;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -37,11 +34,12 @@ namespace Dopamine.ViewModels
         {
             if (this.playbackService.Queue.Count > 0)
             {
-                this.regionManager.RequestNavigate(RegionNames.MiniPlayerPlaylistRegion, typeof(MiniPlayerPlaylist).FullName);
+                //TODO: remove region manager
+                //this.regionManager.RequestNavigate(RegionNames.MiniPlayerPlaylistRegion, typeof(MiniPlayerPlaylist).FullName);
             }
             else
             {
-                this.regionManager.RequestNavigate(RegionNames.MiniPlayerPlaylistRegion, typeof(NothingPlayingControl).FullName);
+                //this.regionManager.RequestNavigate(RegionNames.MiniPlayerPlaylistRegion, typeof(NothingPlayingControl).FullName);
             }
         }
         #endregion
