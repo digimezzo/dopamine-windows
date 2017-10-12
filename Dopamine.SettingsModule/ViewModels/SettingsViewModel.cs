@@ -1,8 +1,6 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
-using Dopamine.Common.Prism;
-using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -10,7 +8,7 @@ using System;
 
 namespace Dopamine.SettingsModule.ViewModels
 {
-    public class SettingsViewModel : BindableBase, IActiveAware, INavigationAware
+    public class SettingsViewModel : BindableBase
     {
         #region Variables
         private readonly IRegionManager regionManager;
@@ -44,10 +42,6 @@ namespace Dopamine.SettingsModule.ViewModels
             ApplicationCommands.NavigateBetweenSettingsCommand.RegisterCommand(this.NavigateBetweenSettingsCommand);
             this.SlideInFrom = 30;
         }
-        #endregion
-
-        #region IActiveAware
-        public event EventHandler IsActiveChanged;
         #endregion
 
         #region Private
@@ -101,23 +95,6 @@ namespace Dopamine.SettingsModule.ViewModels
             }
 
             return page;
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.indexingService.AutoCheckCollectionAsync();
-            this.collectionService.SaveMarkedFoldersAsync();
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
         }
         #endregion
     }

@@ -1,13 +1,9 @@
 ﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
-using Prism.Events;
-using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +12,7 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionGenres : TracksViewBase, INavigationAware
+    public partial class CollectionGenres : TracksViewBase
     {
         #region Construction
         public CollectionGenres()
@@ -124,22 +120,6 @@ namespace Dopamine.CollectionModule.Views
         private void AlbumsButton_Click(object sender, RoutedEventArgs e)
         {
             this.ListBoxAlbums.SelectedItem = null;
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Genres);
         }
         #endregion
     }

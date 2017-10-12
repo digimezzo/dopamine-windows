@@ -1,16 +1,12 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
-using Prism.Events;
-using Prism.Regions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +16,7 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionTracks : CommonViewBase, INavigationAware
+    public partial class CollectionTracks : CommonViewBase
     {
         #region Construction
         public CollectionTracks()
@@ -63,22 +59,6 @@ namespace Dopamine.CollectionModule.Views
                 DataGrid dg = (DataGrid)sender;
                 await this.playbackService.EnqueueAsync(dg.Items.OfType<TrackViewModel>().ToList().Select(vm => vm.Track).ToList(), ((TrackViewModel)dg.SelectedItem).Track);
             }
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Tracks);
         }
         #endregion
 

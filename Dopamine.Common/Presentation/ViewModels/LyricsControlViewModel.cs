@@ -40,8 +40,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool canHighlight;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 500;
-        private bool lyricsScreenIsActive;
-        private bool nowPlayingIsSelected;
         #endregion
 
         #region Commands
@@ -106,19 +104,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             };
 
-            this.eventAggregator.GetEvent<NowPlayingIsSelectedChanged>().Subscribe(nowPlayingIsSelected =>
-            {
-                this.nowPlayingIsSelected = nowPlayingIsSelected;
-                this.RestartRefreshTimer();
-            });
-
-            this.eventAggregator.GetEvent<LyricsScreenIsActiveChanged>().Subscribe(lyricsScreenIsActive =>
-            {
-                this.lyricsScreenIsActive = lyricsScreenIsActive;
-                this.nowPlayingIsSelected = true; // When the lyrics screen is active, we're also sure that now playing is selected.
-                this.RestartRefreshTimer();
-            });
-
             this.RefreshLyricsCommand = new DelegateCommand(() => this.RestartRefreshTimer(), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
@@ -177,7 +162,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void RefreshLyricsAsync(PlayableTrack track)
         {
-            if (!this.nowPlayingIsSelected || !this.lyricsScreenIsActive) return;
             if (track == null) return;
             if (this.previousTrack != null && this.previousTrack.Equals(track)) return;
 

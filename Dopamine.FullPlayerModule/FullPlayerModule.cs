@@ -44,7 +44,6 @@ namespace Dopamine.FullPlayerModule
             this.container.RegisterType<object, NowPlayingScreenArtistInformation>(typeof(NowPlayingScreenArtistInformation).FullName);
             this.container.RegisterType<object, NowPlayingScreenArtistInformationViewModel>(typeof(NowPlayingScreenArtistInformationViewModel).FullName);
             this.container.RegisterType<object, NowPlayingScreenLyrics>(typeof(NowPlayingScreenLyrics).FullName);
-            this.container.RegisterType<object, NowPlayingScreenLyricsViewModel>(typeof(NowPlayingScreenLyricsViewModel).FullName);
 
             // Default View for dynamic Regions
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))

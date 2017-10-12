@@ -1,15 +1,12 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Enums;
-using Dopamine.Common.Presentation.Views.Base;
+﻿using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
-using Prism.Regions;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionAlbums : TracksViewBase, INavigationAware
+    public partial class CollectionAlbums : TracksViewBase
     {
         #region Construction
         public CollectionAlbums()
@@ -60,22 +57,6 @@ namespace Dopamine.CollectionModule.Views
         private async void AlbumsButton_Click(object sender, RoutedEventArgs e)
         {
             this.ListBoxAlbums.SelectedItem = null;
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Albums);
         }
         #endregion
     }

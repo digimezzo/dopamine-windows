@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Dopamine.CollectionModule.Views
 {
-    public partial class CollectionPlaylists : PlaylistViewBase, INavigationAware
+    public partial class CollectionPlaylists : PlaylistViewBase
     {
         #region Construction
         public CollectionPlaylists() : base()
@@ -73,22 +73,6 @@ namespace Dopamine.CollectionModule.Views
                     this.ViewPlaylistInExplorer(this.ListBoxPlaylists);
                 }
             }
-        }
-        #endregion
-
-        #region INavigationAware
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Playlists);
         }
         #endregion
     }

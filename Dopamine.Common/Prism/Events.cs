@@ -38,12 +38,4 @@ namespace Dopamine.Common.Prism
     public class PerformSemanticJump : PubSubEvent<Tuple<string, string>>
     {
     }
-
-    public class LyricsScreenIsActiveChanged : PubSubEvent<bool>
-    {
-    }
-
-    public class NowPlayingIsSelectedChanged : PubSubEvent<bool>
-    {
-    }
 }
