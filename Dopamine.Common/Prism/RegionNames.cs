@@ -2,7 +2,6 @@
 {
     public sealed class RegionNames
     {
-        public const string PlayerTypeRegion = "PlayerTypeRegion";
         public const string ScreenTypeRegion = "ScreenTypeRegion";
         public const string ContentRegion = "ContentRegion";
         public const string CollectionRegion = "CollectionRegion";

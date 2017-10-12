@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.CollectionFolders"
+             x:Name="Me"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeIn">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0.5" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="FadeOut">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0.5" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+    </UserControl.Resources>
+    <StackPanel DockPanel.Dock="Top">
+        <controls:IconTextButton 
+            Glyph="&#xE710;" 
+            GlyphSize="13" 
+            Margin="0,0,0,20" 
+            HorizontalAlignment="Left" 
+            Content="{DynamicResource Language_Add_A_Folder}" 
+            Foreground="{DynamicResource RG_AccentBrush}" 
+            Command="{Binding Path=AddFolderCommand}"
+            IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}"/>
+        <Grid>
+            <StackPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">
+                <StackPanel.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard ="{StaticResource FadeOut}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard ="{StaticResource FadeIn}"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <CheckBox IsChecked="{Binding ShowAllFoldersInCollection}" Visibility="{Binding ShowControls,Converter={StaticResource BooleanToCollapsedConverter},ElementName=Me}" DockPanel.Dock="Top" Style="{StaticResource MetroCheckBox}" Margin="11,0,0,20" Padding="12,0,0,0" Content="{DynamicResource Language_Show_All_Folders_In_Collection}"/>
+                <ListBox x:Name="ListBoxFolders" Style="{StaticResource ListBoxFolders}" ItemsSource="{Binding Folders}"/>
+            </StackPanel>
+            <Viewbox Panel.ZIndex="1" Width="48" Height="48" Visibility="{Binding IsLoadingFolders,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" HorizontalAlignment="Center" IsActive="{Binding IsLoadingFolders}"/>
+            </Viewbox>
+            <DockPanel Panel.ZIndex="1" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <controls:SyncRing DockPanel.Dock="Left" Width="24" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </DockPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>
+

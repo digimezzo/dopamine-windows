@@ -123,6 +123,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, PublicKeyToken=6437333e9e99153e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\WPFFolderBrowser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -134,9 +138,34 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
+    <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
+    <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
+    <Compile Include="ViewModels\Common\FolderViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\Common\AppearanceLanguage.xaml.cs">
+      <DependentUpon>AppearanceLanguage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\AppearanceTheme.xaml.cs">
+      <DependentUpon>AppearanceTheme.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CollectionFolders.xaml.cs">
+      <DependentUpon>CollectionFolders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\FullPlayerScreen.xaml.cs">
+      <DependentUpon>FullPlayerScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MiniPlayer\CoverPlayerScreen.xaml.cs">
+      <DependentUpon>CoverPlayerScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MiniPlayer\MicroPlayerScreen.xaml.cs">
+      <DependentUpon>MicroPlayerScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MiniPlayer\NanoPlayerScreen.xaml.cs">
+      <DependentUpon>NanoPlayerScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
     </Compile>
@@ -378,36 +407,44 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.CollectionModule\Dopamine.CollectionModule.csproj">
-      <Project>{C54F9EF5-11D0-4D83-96FC-CF32F44F024D}</Project>
-      <Name>Dopamine.CollectionModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.FullPlayerModule\Dopamine.FullPlayerModule.csproj">
-      <Project>{0032CFAA-6E3B-4BB3-875D-89A5D33262AC}</Project>
-      <Name>Dopamine.FullPlayerModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.InformationModule\Dopamine.InformationModule.csproj">
-      <Project>{DE00539C-306F-4C30-8993-88A500AC0084}</Project>
-      <Name>Dopamine.InformationModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dopamine.MiniPlayerModule\Dopamine.MiniPlayerModule.csproj">
-      <Project>{669136A2-1AC0-4377-900D-AA2C4AB1AA40}</Project>
-      <Name>Dopamine.MiniPlayerModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Packager\Dopamine.Packager.csproj">
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.SettingsModule\Dopamine.SettingsModule.csproj">
-      <Project>{91BF5D58-4C30-4A76-8BEA-437994E529E7}</Project>
-      <Name>Dopamine.SettingsModule</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Common\AppearanceLanguage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\AppearanceTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CollectionFolders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FullPlayer\FullPlayerScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MiniPlayer\CoverPlayerScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MiniPlayer\MicroPlayerScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MiniPlayer\NanoPlayerScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Oobe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -29,11 +29,6 @@
         <File>Prism.Wpf.dll</File>
         <File>Dopamine.Common.dll</File>
         <File>Dopamine.Icons.dll</File>
-        <File>Dopamine.CollectionModule.dll</File>
-        <File>Dopamine.FullPlayerModule.dll</File>
-        <File>Dopamine.InformationModule.dll</File>
-        <File>Dopamine.MiniPlayerModule.dll</File>
-        <File>Dopamine.SettingsModule.dll</File>
         <File>CSCore.dll</File>
         <File>Ionic.Zip.dll</File>
         <File>NVorbis.dll</File>

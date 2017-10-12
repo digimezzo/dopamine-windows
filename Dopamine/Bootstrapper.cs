@@ -46,18 +46,6 @@ namespace Dopamine
 {
     public class Bootstrapper : UnityBootstrapper
     {
-        protected override void ConfigureModuleCatalog()
-        {
-            base.ConfigureModuleCatalog();
-            ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
-
-            moduleCatalog.AddModule(typeof(CollectionModule.CollectionModule));
-            moduleCatalog.AddModule(typeof(InformationModule.InformationModule));
-            moduleCatalog.AddModule(typeof(SettingsModule.SettingsModule));
-            moduleCatalog.AddModule(typeof(FullPlayerModule.FullPlayerModule));
-            moduleCatalog.AddModule(typeof(MiniPlayerModule.MiniPlayerModule));
-        }
-
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
@@ -148,11 +136,15 @@ namespace Dopamine
 
         protected void RegisterViews()
         {
-            Container.RegisterType<object, Views.Oobe>(typeof(Views.Oobe).FullName);
-            Container.RegisterType<object, Views.Playlist>(typeof(Views.Playlist).FullName);
-            Container.RegisterType<object, Views.TrayControls>(typeof(Views.TrayControls).FullName);
-            Container.RegisterType<object, Views.Shell>(typeof(Views.Shell).FullName);
+            Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
+            Container.RegisterType<object, Playlist>(typeof(Playlist).FullName);
+            Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
+            Container.RegisterType<object, Shell>(typeof(Views.Shell).FullName);
             Container.RegisterType<object, Empty>(typeof(Empty).FullName);
+            Container.RegisterType<object, Views.FullPlayer.FullPlayerScreen>(typeof(Views.FullPlayer.FullPlayerScreen).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.CoverPlayerScreen>(typeof(Views.MiniPlayer.CoverPlayerScreen).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.MicroPlayerScreen>(typeof(Views.MiniPlayer.MicroPlayerScreen).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.NanoPlayerScreen>(typeof(Views.MiniPlayer.NanoPlayerScreen).FullName);
         }
 
         protected void RegisterViewModels()
