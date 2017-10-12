@@ -8,221 +8,108 @@ using Dopamine.Common.Enums;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Appearance;
-using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
-using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
 using Microsoft.Practices.Unity;
-using Prism.Commands;
-using Prism.Events;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
     public partial class Shell : DopamineWindow
     {
-        #region Variables
         private IUnityContainer container;
-        private IAppearanceService appearanceService;
-        private IPlaybackService playbackService;
-        private IWin32InputService win32InputService;
-        private INotificationService notificationService;
-        private IMetadataService metadataService;
-        private IEventAggregator eventAggregator;
         private IWindowsIntegrationService windowsIntegrationService;
-
-        private bool canSaveWindowGeometry = false;
-        private bool isShuttingDown = false;
-        private bool mustPerformClosingTasks = true;
-
-        private Storyboard backgroundAnimation;
+        private INotificationService notificationService;
+        private IWin32InputService win32InputService;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private TrayControls trayControls;
         private Playlist miniPlayerPlaylist;
+        private bool canSaveWindowGeometry = false;
 
-        private bool isCoverPlayerListExpanded; // TODO: remove this boolean
-        private bool isMicroPlayerListExpanded; // TODO: remove this boolean
-        private bool isNanoPlayerListExpanded; // TODO: remove this boolean
-        #endregion
-
-        #region Commands
-        public DelegateCommand RestoreWindowCommand { get; set; }
-        public DelegateCommand MinimizeWindowCommand { get; set; }
-        public DelegateCommand MaximizeRestoreWindowCommand { get; set; }
-        public DelegateCommand CloseWindowCommand { get; set; }
-        public DelegateCommand<string> ChangePlayerTypeCommand { get; set; }
-        public DelegateCommand ToggleMiniPlayerPositionLockedCommand { get; set; }
-        public DelegateCommand ToggleMiniPlayerAlwaysOnTopCommand { get; set; }
-        public DelegateCommand TaskbarItemInfoPlayCommand { get; set; }
-        public DelegateCommand NavigateToMainScreenCommand { get; set; }
-        public DelegateCommand NavigateToNowPlayingScreenCommand { get; set; }
-        public DelegateCommand TogglePlayerCommand { get; set; }
-        public DelegateCommand ShowMainWindowCommand { get; set; }
-        #endregion
-
-        #region Construction
-        public Shell(IUnityContainer container, IAppearanceService appearanceService, IMetadataService metadataService,
-            IPlaybackService playbackService, IWin32InputService win32InputService, IEventAggregator eventAggregator,
-            INotificationService notificationService, IWindowsIntegrationService windowsIntegrationService)
+        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, INotificationService notificationService,
+            IWin32InputService win32InputService)
         {
             InitializeComponent();
 
-            // Dependency injection
             this.container = container;
-            this.appearanceService = appearanceService;
-            this.playbackService = playbackService;
-            this.win32InputService = win32InputService;
-            this.eventAggregator = eventAggregator;
-            this.notificationService = notificationService;
-            this.metadataService = metadataService;
             this.windowsIntegrationService = windowsIntegrationService;
+            this.notificationService = notificationService;
+            this.win32InputService = win32InputService;
 
-            // Window
-            this.InitializeWindow();
-
-            // Services
-            this.InitializeServicesAsync();
-
-            // PubSub Events
-            this.InitializePubSubEvents();
-
-            // Commands
-            this.InitializeCommands();
-
-            // Tray icon
+            this.InitializeShellWindow();
             this.InitializeTrayIcon();
-
         }
-        #endregion
 
-        #region Private
-        private async void InitializeServicesAsync()
+        private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
         {
-            // IWin32InputService
-            // ------------------
-            this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // listen to media keys
-            this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
-            this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();
-            this.win32InputService.MediaKeyPlayPressed += async (_, __) => await this.playbackService.PlayOrPauseAsync();
+            this.ShowWindowInForeground();
+        }
 
-            // IAppearanceService
-            // ------------------
-            this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
+        private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 
-            // IWindowsIntegrationService
-            // --------------------------
-            this.windowsIntegrationService.TabletModeChanged += (_, __) =>
+        private void ShellWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion());
+        }
+
+        private void ShowWindowInForeground()
+        {
+            // When restored, show this window in Taskbar and ALT-TAB menu.
+            this.ShowInTaskbar = true;
+
+            try
             {
-                Application.Current.Dispatcher.Invoke(() => this.CheckIfTabletMode());
+                WindowUtils.ShowWindowInAltTab(this);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+            }
+
+            // By default, the window appears in the background when showing
+            // from the tray menu. We force it on the foreground here.
+            this.ActivateNow();
+        }
+
+        private void InitializeShellWindow()
+        {
+            // Start monitoring tablet mode
+            this.windowsIntegrationService.StartMonitoringTabletMode();
+
+            // Tray controls
+            this.trayControls = this.container.Resolve<Views.TrayControls>();
+
+            // Create the Mini Player playlist
+            this.miniPlayerPlaylist = this.container.Resolve<Views.Playlist>(new DependencyOverride(typeof(DopamineWindow), this));
+
+            // NotificationService needs to know about the application windows
+            this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
+
+            // Settings changed
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
+                {
+                    this.SetWindowBorder((bool)e.SettingValue);
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowTrayIcon"))
+                {
+                    this.trayIcon.Visible = (bool)e.SettingValue;
+                }
             };
-        }
 
-        private void InitializePubSubEvents()
-        {
-            // Cover Player
-            // ------------
-            this.eventAggregator.GetEvent<CoverPlayerPlaylistButtonClicked>().Subscribe(isPlaylistButtonChecked => this.ToggleMiniPlayerPlaylist(MiniPlayerType.CoverPlayer, isPlaylistButtonChecked));
-
-            // Micro Player
-            // ------------
-            this.eventAggregator.GetEvent<MicroPlayerPlaylistButtonClicked>().Subscribe(isPlaylistButtonChecked => this.ToggleMiniPlayerPlaylist(MiniPlayerType.MicroPlayer, isPlaylistButtonChecked));
-
-            // Nano Player
-            // -----------
-            this.eventAggregator.GetEvent<NanoPlayerPlaylistButtonClicked>().Subscribe(isPlaylistButtonChecked => this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked));
-        }
-
-        private void InitializeCommands()
-        {
-            // TaskbarItemInfo
-            // ---------------
-            this.TaskbarItemInfoPlayCommand = new DelegateCommand(async () => await this.playbackService.PlayOrPauseAsync());
-            //Common.Prism.ApplicationCommands.TaskbarItemInfoPlayCommand.RegisterCommand(this.TaskbarItemInfoPlayCommand); // TODO
-
-            // Window State
-            // ------------
-            this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
-            // Common.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand); // TODO
-
-            this.RestoreWindowCommand = new DelegateCommand(() => this.SetPlayer(false, MiniPlayerType.CoverPlayer));
-            // Common.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand); // TODO
-
-            this.MaximizeRestoreWindowCommand = new DelegateCommand(() =>
-            {
-                this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            });
-
-            //Common.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand); //TODO
-
-            this.CloseWindowCommand = new DelegateCommand(() => this.Close());
-            //Common.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand); //TODO
-
-            // Player type
-            // -----------
-            this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) => this.SetPlayer(true, (MiniPlayerType)Convert.ToInt32(miniPlayerType)));
-            //Common.Prism.ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand); //TODO
-
-            this.TogglePlayerCommand = new DelegateCommand(() =>
-            {
-                // If tablet mode is enabled, we should not be able to toggle the player.
-                if (!this.windowsIntegrationService.IsTabletModeEnabled) this.TogglePlayer();
-            });
-            //Common.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand); // TODO
-
-            // Mini Player
-            // -----------
-            this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
-            {
-                bool isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-                SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", !isMiniPlayerPositionLocked);
-                this.SetWindowPositionLockedFromSettings();
-            });
-
-            // TODO
-            // Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
-
-            this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
-            {
-                bool topmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
-                SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", !topmost);
-                this.SetWindowTopmostFromSettings();
-            });
-            // TODO
-            //Common.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
-
-            // Screens
-            // -------
-            this.NavigateToMainScreenCommand = new DelegateCommand(() =>
-            {
-                this.ShellFrame.Navigate(this.container.Resolve<FullPlayer.FullPlayerScreen>());
-                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
-            });
-            // TODO
-            //Common.Prism.ApplicationCommands.NavigateToMainScreenCommand.RegisterCommand(this.NavigateToMainScreenCommand);
-
-            this.NavigateToNowPlayingScreenCommand = new DelegateCommand(() =>
-            {
-                this.ShellFrame.Navigate(this.container.Resolve<FullPlayer.FullPlayerScreen>()); // TODO: this should go to now playing screen
-                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
-            });
-            // TODO
-            //Common.Prism.ApplicationCommands.NavigateToNowPlayingScreenCommand.RegisterCommand(this.NavigateToNowPlayingScreenCommand);
-
-            // Application
-            // -----------
-            this.ShowMainWindowCommand = new DelegateCommand(() => this.ShowWindowInForeground());
-            //Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand); // TODO
+            // Make sure the window geometry respects tablet mode at startup
+            this.CheckIfTabletMode();
         }
 
         private void InitializeTrayIcon()
@@ -242,41 +129,85 @@ namespace Dopamine.Views
             this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
+
+            this.trayControls = this.container.Resolve<TrayControls>();
         }
 
-        private void InitializeWindow()
+        private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            // Start monitoring tablet mode
-            this.windowsIntegrationService.StartMonitoringTabletMode();
-
-            // Tray controls
-            this.trayControls = this.container.Resolve<Views.TrayControls>();
-
-            this.miniPlayerPlaylist = this.container.Resolve<Views.Playlist>(new DependencyOverride(typeof(DopamineWindow), this));
-            this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
-
-            // Restored handler
-            this.Restored += Shell_Restored;
-
-            // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
-            this.CloseToolTipChanged += Shell_CloseToolTipChanged;
-
-            // Settings changed
-            SettingsClient.SettingChanged += (_, e) =>
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
-                {
-                    this.SetWindowBorder((bool) e.SettingValue);
-                }
+                this.trayControls.Topmost = true; // Make sure this appears above the Windows Tray pop-up
+                this.trayControls.Show();
+            }
 
-                if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowTrayIcon"))
-                {
-                    this.trayIcon.Visible = (bool) e.SettingValue;
-                }
-            };
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                // Open the Notify icon context menu
+                this.trayIconContextMenu.IsOpen = true;
 
-            // Make sure the window geometry respects tablet mode at startup
-            this.CheckIfTabletMode();
+                // Required to close the Tray icon when Deactivated is called
+                // See: http://copycodetheory.blogspot.be/2012/07/notify-icon-in-wpf-applications.html
+                this.Activate();
+            }
+        }
+
+        private void ShellWindow_Deactivated(object sender, EventArgs e)
+        {
+            this.trayIconContextMenu.IsOpen = false;
+        }
+
+        private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This call is not in the constructor, because we want to show the tray icon only
+            // when the main window has been shown by explicitly calling Show(). This prevents 
+            // showing the tray icon when the OOBE window is displayed.
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon"))
+            {
+                this.trayIcon.Visible = true;
+            }
+        }
+
+        private void ShellWindow_Closed(object sender, EventArgs e)
+        {
+            // Stop monitoring tablet mode
+            this.windowsIntegrationService.StopMonitoringTabletMode();
+
+            // Make sure the Tray icon is removed from the tray
+            this.trayIcon.Visible = false;
+
+            // Stop listening to keyboard outside the application
+            this.win32InputService.UnhookKeyboard();
+
+            // This makes sure the application doesn't keep running when the main window is closed.
+            // Extra windows created by the main window can keep a WPF application running even when
+            // the main window is closed, because the default ShutDownMode of a WPF application is
+            // OnLastWindowClose. This was happening here because of the Mini Player Playlist.
+            Application.Current.Shutdown();
+        }
+
+        private void ShellWindow_Restored(object sender, EventArgs e)
+        {
+            // This workaround is needed because when executing the following 
+            // sequence, the window is restored to the Restore Position of 
+            // the Mini Player: Maximize, Mini Player, Full Player, Restore.
+            // That's because the property RestoreBounds of this window is updated
+            // with the coordinates of the Mini Player when switching to the Mini
+            // Player. Returning to the full player doesn't update RestoreBounds,
+            // because the full player is still maximized at that point.
+            this.SetGeometry(
+                SettingsClient.Get<int>("FullPlayer", "Top"),
+                SettingsClient.Get<int>("FullPlayer", "Left"),
+                SettingsClient.Get<int>("FullPlayer", "Width"),
+                SettingsClient.Get<int>("FullPlayer", "Height"),
+                Constants.DefaultShellTop,
+                Constants.DefaultShellLeft);
+        }
+
+        private void ShellWindow_CloseToolTipChanged(object sender, EventArgs e)
+        {
+            // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
+            this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
         }
 
         private void CheckIfTabletMode()
@@ -296,43 +227,29 @@ namespace Dopamine.Views
             }
         }
 
-        private void TogglePlayer()
+        private void ShellWindow_LocationChanged(object sender, EventArgs e)
         {
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
-            {
-                // Show the Full Player
-                this.SetPlayer(false, MiniPlayerType.CoverPlayer);
-            }
-            else
-            {
-                // Show the Mini Player, with the player type which is saved in the settings
-                this.SetPlayer(true, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
-            }
+            // We need to put SaveWindowLocation() in the queue of the Dispatcher.
+            // SaveWindowLocation() needs to be executed after LocationChanged was 
+            // handled, when the WindowState has been updated otherwise we get 
+            // incorrect values for Left and Top (both -7 last I checked).
+            this.Dispatcher.BeginInvoke(new Action(() => this.SaveWindowLocation()));
         }
 
-        private void SetWindowPositionLockedFromSettings()
+        private void SaveWindowLocation()
         {
-            // Only lock position when the mini player is active
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+            if (this.canSaveWindowGeometry)
             {
-                this.IsMovable = !SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
-            }
-            else
-            {
-                this.IsMovable = true;
-            }
-        }
-
-        private void SetWindowTopmostFromSettings()
-        {
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
-            {
-                this.Topmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
-            }
-            else
-            {
-                // Full player is never topmost
-                this.Topmost = false;
+                if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+                {
+                    SettingsClient.Set<int>("MiniPlayer", "Top", Convert.ToInt32(this.Top));
+                    SettingsClient.Set<int>("MiniPlayer", "Left", Convert.ToInt32(this.Left));
+                }
+                else if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(this.WindowState == WindowState.Maximized))
+                {
+                    SettingsClient.Set<int>("FullPlayer", "Top", Convert.ToInt32(this.Top));
+                    SettingsClient.Set<int>("FullPlayer", "Left", Convert.ToInt32(this.Left));
+                }
             }
         }
 
@@ -361,17 +278,17 @@ namespace Dopamine.Views
                 {
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight, this.isCoverPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight);
                         screen = this.container.Resolve<MiniPlayer.CoverPlayerScreen>();
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight, this.isMicroPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight);
                         screen = this.container.Resolve<MiniPlayer.MicroPlayerScreen>();
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight, this.isNanoPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight);
                         screen = this.container.Resolve<MiniPlayer.NanoPlayerScreen>();
                         break;
                     default:
@@ -397,45 +314,6 @@ namespace Dopamine.Views
             this.ShellFrame.Navigate(screen);
 
             this.canSaveWindowGeometry = true;
-        }
-
-        private void SaveWindowState()
-        {
-            // Only save window state when not in tablet mode. Tablet mode maximizes the screen. 
-            // We don't want to save that, as we want to be able to restore to the original state when leaving tablet mode.
-            if (this.canSaveWindowGeometry & !this.windowsIntegrationService.IsTabletModeEnabled)
-            {
-                SettingsClient.Set<bool>("FullPlayer", "IsMaximized", this.WindowState == WindowState.Maximized ? true : false);
-            }
-        }
-
-        private void SaveWindowSize()
-        {
-            if (this.canSaveWindowGeometry)
-            {
-                if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(this.WindowState == WindowState.Maximized))
-                {
-                    SettingsClient.Set<int>("FullPlayer", "Width", Convert.ToInt32(this.ActualWidth));
-                    SettingsClient.Set<int>("FullPlayer", "Height", Convert.ToInt32(this.ActualHeight));
-                }
-            }
-        }
-
-        private void SaveWindowLocation()
-        {
-            if (this.canSaveWindowGeometry)
-            {
-                if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
-                {
-                    SettingsClient.Set<int>("MiniPlayer", "Top", Convert.ToInt32(this.Top));
-                    SettingsClient.Set<int>("MiniPlayer", "Left", Convert.ToInt32(this.Left));
-                }
-                else if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(this.WindowState == WindowState.Maximized))
-                {
-                    SettingsClient.Set<int>("FullPlayer", "Top", Convert.ToInt32(this.Top));
-                    SettingsClient.Set<int>("FullPlayer", "Left", Convert.ToInt32(this.Left));
-                }
-            }
         }
 
         private void SetFullPlayer()
@@ -470,9 +348,9 @@ namespace Dopamine.Views
             this.SetWindowTopmostFromSettings();
         }
 
-        private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight, bool isMiniPlayerListExpanded)
+        private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight)
         {
-            // Hide the playlist BEFORE changing window dimensions to avoid strange behaviour
+            // Hide the playlist before changing window dimensions to avoid strange behaviour
             this.miniPlayerPlaylist.Hide();
 
             this.WindowState = WindowState.Normal;
@@ -502,420 +380,32 @@ namespace Dopamine.Views
                Constants.DefaultShellLeft);
 
             this.SetWindowTopmostFromSettings();
-
-            // Show the playlist AFTER changing window dimensions to avoid strange behaviour
-            if (isMiniPlayerListExpanded) this.miniPlayerPlaylist.Show(miniPlayerType);
-
         }
 
-        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isMiniPlayerListExpanded)
+        private void SetWindowTopmostFromSettings()
         {
-            switch (miniPlayerType)
+            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
             {
-                case MiniPlayerType.CoverPlayer:
-                    this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
-                    break;
-                case MiniPlayerType.MicroPlayer:
-                    this.isMicroPlayerListExpanded = isMiniPlayerListExpanded;
-                    break;
-                case MiniPlayerType.NanoPlayer:
-                    this.isNanoPlayerListExpanded = isMiniPlayerListExpanded;
-                    break;
-                default:
-                    break;
-                    // Shouldn't happen
-            }
-
-            if (isMiniPlayerListExpanded)
-            {
-                this.miniPlayerPlaylist.Show(miniPlayerType);
+                this.Topmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop");
             }
             else
             {
-                this.miniPlayerPlaylist.Hide();
+                // Full player is never topmost
+                this.Topmost = false;
             }
         }
 
-        private void Shell_Deactivated(object sender, EventArgs e)
+        private void SetWindowPositionLockedFromSettings()
         {
-            this.trayIconContextMenu.IsOpen = false;
-        }
-
-        private void Shell_Loaded(object sender, RoutedEventArgs e)
-        {
-            // This call is not in the constructor, because we want to show the tray icon only
-            // when the main window has been shown by explicitly calling Show(). This prevents 
-            // showing the tray icon when the OOBE window is displayed.
-            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon")) this.trayIcon.Visible = true;
-        }
-        #endregion
-
-        #region Event Handlers
-        private void Shell_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
-        }
-
-        private void ThemeChangedHandler(bool useLightTheme)
-        {
-            Application.Current.Dispatcher.Invoke(() => { if (this.backgroundAnimation != null) this.backgroundAnimation.Begin(); });
-        }
-
-        private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            // Only lock position when the mini player is active
+            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
             {
-                this.trayControls.Topmost = true; // Make sure this appears above the Windows Tray pop-up
-                this.trayControls.Show();
-            }
-
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                // Open the Notify icon context menu
-                this.trayIconContextMenu.IsOpen = true;
-
-                // Required to close the Tray icon when Deactivated is called
-                // See: http://copycodetheory.blogspot.be/2012/07/notify-icon-in-wpf-applications.html
-                this.Activate();
-            }
-        }
-
-        private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
-        {
-            this.ShowWindowInForeground();
-        }
-
-        private void ShowWindowInForeground()
-        {
-            // When restored, show this window in Taskbar and ALT-TAB menu.
-            this.ShowInTaskbar = true;
-
-            try
-            {
-                WindowUtils.ShowWindowInAltTab(this);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
-            }
-
-            // By default, the window appears in the background when showing
-            // from the tray menu. We force it on the foreground here.
-            this.ActivateNow();
-        }
-
-        private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
-        {
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
-            this.isShuttingDown = true;
-            this.Close();
-        }
-
-        private void Shell_SourceInitialized(object sender, EventArgs e)
-        {
-            this.appearanceService.WatchWindowsColor(this);
-        }
-
-        private void Shell_StateChanged(object sender, EventArgs e)
-        {
-            if (this.WindowState == WindowState.Minimized)
-            {
-                if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
-                    SettingsClient.Get<bool>("Behaviour", "MinimizeToTray"))
-                {
-                    // When minimizing to tray, hide this window from Taskbar and ALT-TAB menu.
-                    this.ShowInTaskbar = false;
-
-                    try
-                    {
-                        WindowUtils.HideWindowFromAltTab(this);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
-                    }
-                }
+                this.IsMovable = !SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
             }
             else
             {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    try
-                    {
-                        WindowUtils.RemoveWindowCaption(this);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not remove window caption. Exception: {0}", ex.Message);
-                    }
-                }
-
-                // When restored, show this window in Taskbar and ALT-TAB menu.
-                this.ShowInTaskbar = true;
-
-                try
-                {
-                    WindowUtils.ShowWindowInAltTab(this);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
-                }
-            }
-
-            this.SaveWindowState();
-        }
-
-        private void Shell_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
-                                  SettingsClient.Get<bool>("Behaviour", "CloseToTray") &
-                                  !this.isShuttingDown)
-            {
-                e.Cancel = true;
-
-                // Minimize first, then hide from Taskbar. Otherwise a small window
-                // remains visible in the lower left corner of the screen.
-                this.WindowState = WindowState.Minimized;
-
-                // When closing to tray, hide this window from Taskbar and ALT-TAB menu.
-                this.ShowInTaskbar = false;
-
-                try
-                {
-                    WindowUtils.HideWindowFromAltTab(this);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
-                }
-            }
-            else
-            {
-                if (this.mustPerformClosingTasks)
-                {
-                    e.Cancel = true;
-                    this.PerformClosingTasksAsync();
-                }
+                this.IsMovable = true;
             }
         }
-
-        private async Task PerformClosingTasksAsync()
-        {
-            LogClient.Info("Performing closing tasks");
-
-            this.ShowClosingAnimation();
-
-            // Write the settings
-            // ------------------
-            SettingsClient.Write();
-
-            // Save queued tracks
-            // ------------------
-            if (this.playbackService.IsSavingQueuedTracks)
-            {
-                while (this.playbackService.IsSavingQueuedTracks)
-                {
-                    await Task.Delay(50);
-                }
-            }
-            else
-            {
-                await this.playbackService.SaveQueuedTracksAsync();
-            }
-
-            // Stop playing
-            // ------------
-            this.playbackService.Stop();
-
-            // Update file metadata
-            // --------------------
-            await this.metadataService.SafeUpdateFileMetadataAsync();
-
-            // Save track statistics
-            // ---------------------
-            if (this.playbackService.IsSavingPlaybackCounters)
-            {
-                while (this.playbackService.IsSavingPlaybackCounters)
-                {
-                    await Task.Delay(50);
-                }
-            }
-            else
-            {
-                await this.playbackService.SavePlaybackCountersAsync();
-            }
-
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
-
-            this.mustPerformClosingTasks = false;
-            this.Close();
-        }
-
-        private void Shell_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.SaveWindowSize();
-        }
-
-        private void Shell_LocationChanged(object sender, EventArgs e)
-        {
-            // We need to put SaveWindowLocation() in the queue of the Dispatcher.
-            // SaveWindowLocation() needs to be executed after LocationChanged was 
-            // handled, when the WindowState has been updated otherwise we get 
-            // incorrect values for Left and Top (both -7 last I checked).
-            this.Dispatcher.BeginInvoke(new Action(() => this.SaveWindowLocation()));
-        }
-
-        private void Shell_Closed(object sender, EventArgs e)
-        {
-            // Stop monitoring tablet mode
-            this.windowsIntegrationService.StopMonitoringTabletMode();
-
-            // Make sure the Tray icon is removed from the tray
-            this.trayIcon.Visible = false;
-
-            // Stop listening to keyboard outside the application
-            this.win32InputService.UnhookKeyboard();
-
-            // This makes sure the application doesn't keep running when the main window is closed.
-            // Extra windows created by the main window can keep a WPF application running even when
-            // the main window is closed, because the default ShutDownMode of a WPF application is
-            // OnLastWindowClose. This was happening here because of the Mini Player Playlist.
-            Application.Current.Shutdown();
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            // Retrieve BackgroundAnimation storyboard
-            // ---------------------------------------
-            this.backgroundAnimation = this.WindowBorder.Resources["BackgroundAnimation"] as Storyboard;
-            if (this.backgroundAnimation != null) this.backgroundAnimation.Begin();
-        }
-
-        private void ShowClosingAnimation()
-        {
-            this.ShowWindowControls = false;
-            Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
-
-            this.ClosingBorder.Visibility = Visibility.Visible;
-            closingAnimation.Begin();
-        }
-
-        private void Shell_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-            {
-                if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                e.Handled = true; // Prevents typing in the search box
-                this.playbackService.PlayOrPauseAsync();
-            }
-        }
-
-        private void Shell_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                // [Ctrl] is pressed
-                if (e.Key == Key.L)
-                {
-                    e.Handled = true; // Prevents typing in the search box
-
-                    try
-                    {
-                        Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
-                    }
-                }
-                else if (e.Key == Key.OemPlus | e.Key == Key.Add)
-                {
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.01);
-                }
-                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
-                {
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.01);
-                }
-                else if (e.Key == Key.Left)
-                {
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.SkipSeconds(Convert.ToInt32(-5));
-                }
-                else if (e.Key == Key.Right)
-                {
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.SkipSeconds(Convert.ToInt32(5));
-                }
-            }
-            else
-            {
-                // [Ctrl] is not pressed
-                if (e.Key == Key.OemPlus | e.Key == Key.Add)
-                {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.05);
-                }
-                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
-                {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.05);
-                }
-                else if (e.Key == Key.Left)
-                {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.SkipSeconds(Convert.ToInt32(-15));
-                }
-                else if (e.Key == Key.Right)
-                {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
-                    this.playbackService.SkipSeconds(Convert.ToInt32(15));
-                }
-            }
-        }
-
-        private async void Shell_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.XButton1)
-            {
-                await playbackService.PlayPreviousAsync();
-            }
-            else if (e.ChangedButton == MouseButton.XButton2)
-            {
-                await playbackService.PlayNextAsync();
-            }
-        }
-
-        private void Shell_Restored(object sender, EventArgs e)
-        {
-            // This workaround is needed because when executing the following 
-            // sequence, the window is restored to the Restore Position of 
-            // the Mini Player: Maximize, Mini Player, Full Player, Restore.
-            // That's because the property RestoreBounds of this window is updated
-            // with the coordinates of the Mini Player when switching to the Mini
-            // Player. Returning to the full player doesn't update RestoreBounds,
-            // because the full player is still maximized at that point.
-            this.SetGeometry(
-                SettingsClient.Get<int>("FullPlayer", "Top"),
-                SettingsClient.Get<int>("FullPlayer", "Left"),
-                SettingsClient.Get<int>("FullPlayer", "Width"),
-                SettingsClient.Get<int>("FullPlayer", "Height"),
-                Constants.DefaultShellTop,
-                Constants.DefaultShellLeft);
-        }
-
-        private void Shell_CloseToolTipChanged(object sender, EventArgs e)
-        {
-            this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
-        }
-        #endregion
     }
 }

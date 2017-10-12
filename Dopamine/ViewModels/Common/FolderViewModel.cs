@@ -5,19 +5,16 @@ namespace Dopamine.ViewModels.Common
 {
     public class FolderViewModel : BindableBase
     {
-        #region Variables
         private Folder folder;
-        #endregion
 
-        #region Properties
         public Folder Folder
         {
             get { return this.folder; }
             set
             {
                 SetProperty<Folder>(ref this.folder, value);
-                OnPropertyChanged(() => this.Path);
-                OnPropertyChanged(() => this.Directory);
+                RaisePropertyChanged(nameof(this.Path));
+                RaisePropertyChanged(nameof(this.Directory));
             }
         }
 
@@ -46,9 +43,8 @@ namespace Dopamine.ViewModels.Common
                     this.Folder.ShowInCollection = 0;
                 }
 
-                OnPropertyChanged(() => this.ShowInCollection);
+                RaisePropertyChanged(nameof(this.ShowInCollection));
             }
         }
-        #endregion
     }
 }

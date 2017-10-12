@@ -10,13 +10,10 @@ namespace Dopamine.ViewModels.Common
 {
     public class AppearanceLanguageViewModel : BindableBase
     {
-        #region Variables
         private II18nService i18nService;
         private ObservableCollection<Language> languages;
         private Language selectedLanguage;
-        #endregion
 
-        #region Properties
         public ObservableCollection<Language> Languages
         {
             get { return this.languages; }
@@ -38,9 +35,7 @@ namespace Dopamine.ViewModels.Common
 
             }
         }
-        #endregion
 
-        #region Construction
         public AppearanceLanguageViewModel(II18nService i18nService)
         {
             this.i18nService = i18nService;
@@ -49,9 +44,7 @@ namespace Dopamine.ViewModels.Common
 
             this.i18nService.LanguagesChanged += (_, __) => this.GetLanguagesAsync();
         }
-        #endregion
 
-        #region Private
         private async void GetLanguagesAsync()
         {
             List<Language> languagesList = this.i18nService.GetLanguages();
@@ -88,6 +81,5 @@ namespace Dopamine.ViewModels.Common
             this.selectedLanguage = tempLanguage;
             RaisePropertyChanged(nameof(this.SelectedLanguage));
         }
-        #endregion
     }
 }

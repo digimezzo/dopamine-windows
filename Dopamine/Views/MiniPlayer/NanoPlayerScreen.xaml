@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock FontSize="20" Text="Nano player"/>
+        <TextBlock FontSize="20" Text="Nano player" Foreground="LightGreen"/>
     </Grid>
 </UserControl>

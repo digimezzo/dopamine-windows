@@ -7,7 +7,6 @@ namespace Dopamine.ViewModels
 {
     public class OobeViewModel : BindableBase
     {
-        #region Variables
         private bool isOverlayVisible;
         private bool showButtonGoBack;
         private bool showButtonFinish;
@@ -23,14 +22,10 @@ namespace Dopamine.ViewModels
         }
 
         private OobePage selectedOobePage;
-        #endregion
 
-        #region Commands
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand GoForwardCommand { get; set; }
-        #endregion
 
-        #region Properties
         public bool IsOverlayVisible
         {
             get { return this.isOverlayVisible; }
@@ -79,9 +74,7 @@ namespace Dopamine.ViewModels
                 return false;
             }
         }
-        #endregion
 
-        #region Construction
         public OobeViewModel(IDialogService dialogService)
         {
             dialogService.DialogVisibleChanged += (isDialogVisible) => { this.IsOverlayVisible = isDialogVisible; };
@@ -89,9 +82,7 @@ namespace Dopamine.ViewModels
             this.GoBackCommand = new DelegateCommand(() => this.GoBack());
             this.GoForwardCommand = new DelegateCommand(() => this.GoForward());
         }
-        #endregion
 
-        #region Functions
         private void SetSelectedOobePage(OobePage page)
         {
             this.selectedOobePage = page;
@@ -157,6 +148,5 @@ namespace Dopamine.ViewModels
             RaisePropertyChanged(nameof(this.CanGoBack));
             RaisePropertyChanged(nameof(this.CanFinish));
         }
-        #endregion
     }
 }
