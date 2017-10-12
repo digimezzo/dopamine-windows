@@ -12,10 +12,6 @@ namespace Dopamine.CollectionModule.Views
 {
     public partial class CollectionPlaylists : PlaylistViewBase, INavigationAware
     {
-        #region Variables
-        private SubscriptionToken scrollToPlayingTrackToken;
-        #endregion
-
         #region Construction
         public CollectionPlaylists() : base()
         {
@@ -26,8 +22,8 @@ namespace Dopamine.CollectionModule.Views
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(() => this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
 
-            // Events and Commands
-            this.Subscribe();
+            // PubSub Events
+            this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
         }
         #endregion
 
@@ -68,21 +64,6 @@ namespace Dopamine.CollectionModule.Views
             this.ListBoxPlaylists.SelectedItem = null;
         }
 
-        private void Unsubscribe()
-        {
-            // Events
-            this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Unsubscribe(this.scrollToPlayingTrackToken);
-        }
-
-        private void Subscribe()
-        {
-            // Prevents subscribing twice
-            this.Unsubscribe();
-
-            // Events
-            this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (s) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
-        }
-
         private void ListBoxPlaylists_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
@@ -103,12 +84,10 @@ namespace Dopamine.CollectionModule.Views
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.Unsubscribe();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            this.Subscribe();
             SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)SelectedPage.Playlists);
         }
         #endregion
