@@ -286,14 +286,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            this.Unsubscribe();
             this.searchTextBeforeInactivate = this.searchService.SearchText;
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            this.Subscribe();
-
             // Only refresh the Tracks if the search term was changed since the last time this screen was visited
             if (!this.searchTextBeforeInactivate.Equals(this.searchService.SearchText))
             {
@@ -316,8 +313,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         #endregion
 
         #region Abstract
-        protected abstract void Subscribe();
-        protected abstract void Unsubscribe();
         protected abstract Task ShowPlayingTrackAsync();
         protected abstract Task FillListsAsync();
         protected abstract void FilterLists();

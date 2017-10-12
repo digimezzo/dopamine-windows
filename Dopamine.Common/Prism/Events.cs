@@ -1,5 +1,5 @@
-﻿using Digimezzo.WPFControls.Enums;
-using Prism.Events;
+﻿using Prism.Events;
+using System;
 
 namespace Dopamine.Common.Prism
 {
@@ -32,6 +32,10 @@ namespace Dopamine.Common.Prism
     }
 
     public class ShellMouseUp : PubSubEvent<string>
+    {
+    }
+
+    public class PerformSemanticJump : PubSubEvent<Tuple<string, string>>
     {
     }
 

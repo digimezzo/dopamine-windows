@@ -2,7 +2,6 @@
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Metadata;
@@ -82,15 +81,11 @@ namespace Dopamine.CollectionModule.ViewModels
             // Set the initial TrackOrder
             this.SetTrackOrder("AlbumsTrackOrder");
 
-            // Subscribe to Events and Commands on creation
-            this.Subscribe();
-
             // Set width of the panels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "AlbumsLeftPaneWidthPercent");
 
             // Cover size
             this.SetCoversizeAsync((CoverSizeType)SettingsClient.Get<int>("CoverSizes", "AlbumsCoverSize"));
-
         }
         #endregion
 
@@ -142,23 +137,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
             this.SetTrackOrder("AlbumsTrackOrder");
             await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
-        }
-
-        protected override void Unsubscribe()
-        {
-            // Commands
-            ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
-            ApplicationCommands.AddAlbumsToPlaylistCommand.UnregisterCommand(this.AddAlbumsToPlaylistCommand);
-        }
-
-        protected override void Subscribe()
-        {
-            // Prevents subscribing twice
-            this.Unsubscribe();
-
-            // Commands
-            ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
-            ApplicationCommands.AddAlbumsToPlaylistCommand.RegisterCommand(this.AddAlbumsToPlaylistCommand);
         }
 
         protected override void RefreshLanguage()

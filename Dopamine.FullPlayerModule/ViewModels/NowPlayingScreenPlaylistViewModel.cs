@@ -20,16 +20,6 @@ namespace Dopamine.FullPlayerModule.ViewModels
             await Task.Delay(Constants.NowPlayingListLoadDelay);  // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
         }
-
-        protected override void Subscribe()
-        {
-            // Not required here
-        }
-
-        protected override void Unsubscribe()
-        {
-            // Not required here
-        }
         #endregion
     }
 }

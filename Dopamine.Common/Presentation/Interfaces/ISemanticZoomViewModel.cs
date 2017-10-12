@@ -9,7 +9,7 @@ namespace Dopamine.Common.Presentation.Interfaces
         ObservableCollection<ISemanticZoomable> SemanticZoomables { get; set; }
         ObservableCollection<ISemanticZoomSelector> SemanticZoomSelectors { get; set; }
 
-        DelegateCommand SemanticJumpCommand { get; set; }
+        DelegateCommand<string> SemanticJumpCommand { get; set; }
         Task ShowSemanticZoomAsync();
 
         void HideSemanticZoom();
