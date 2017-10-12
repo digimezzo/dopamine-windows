@@ -3,7 +3,6 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.CollectionModule.Views;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Microsoft.Practices.Unity;
@@ -167,9 +166,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
             // Show only the columns which are visible
             this.GetVisibleColumns();
-
-            // Subscribe to Events and Commands on creation
-            this.Subscribe();
         }
         #endregion
 
@@ -250,21 +246,6 @@ namespace Dopamine.CollectionModule.ViewModels
         protected async override Task FillListsAsync()
         {
             await this.GetTracksAsync(null, null, null, TrackOrder.ByAlbum);
-        }
-
-        protected override void Unsubscribe()
-        {
-            // Commands
-            ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
-        }
-
-        protected override void Subscribe()
-        {
-            // Prevents subscribing twice
-            this.Unsubscribe();
-
-            // Commands
-            ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
         }
 
         protected override void RefreshLanguage()

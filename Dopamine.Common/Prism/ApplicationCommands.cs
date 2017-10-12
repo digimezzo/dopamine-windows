@@ -30,13 +30,8 @@ namespace Dopamine.Common.Prism
         public static CompositeCommand ToggleAlwaysShowPlaybackInfoCommand = new CompositeCommand();
         public static CompositeCommand ToggleAlignPlaylistVerticallyCommand = new CompositeCommand();
         public static CompositeCommand TogglePlayerCommand = new CompositeCommand();
-        public static CompositeCommand SemanticJumpCommand = new CompositeCommand();
         public static CompositeCommand ShowMainWindowCommand = new CompositeCommand();
         public static CompositeCommand ShowEqualizerCommand = new CompositeCommand();
-        public static CompositeCommand AddTracksToPlaylistCommand = new CompositeCommand();
-        public static CompositeCommand AddAlbumsToPlaylistCommand = new CompositeCommand();
-        public static CompositeCommand AddArtistsToPlaylistCommand = new CompositeCommand();
-        public static CompositeCommand AddGenresToPlaylistCommand = new CompositeCommand();
         public static CompositeCommand RefreshLyricsCommand = new CompositeCommand();
     }
 }

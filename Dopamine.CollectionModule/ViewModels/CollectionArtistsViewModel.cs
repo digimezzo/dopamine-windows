@@ -49,7 +49,6 @@ namespace Dopamine.CollectionModule.ViewModels
         private ObservableCollection<ISemanticZoomSelector> artistsZoomSelectors;
         private bool isArtistsZoomVisible;
         private long artistsCount;
-        private SubscriptionToken shellMouseUpToken;
         private double leftPaneWidthPercent;
         private double rightPaneWidthPercent;
         private ArtistOrder artistOrder;
@@ -60,7 +59,7 @@ namespace Dopamine.CollectionModule.ViewModels
         public DelegateCommand<string> AddArtistsToPlaylistCommand { get; set; }
         public DelegateCommand<object> SelectedArtistsCommand { get; set; }
         public DelegateCommand ShowArtistsZoomCommand { get; set; }
-        public DelegateCommand SemanticJumpCommand { get; set; }
+        public DelegateCommand<string> SemanticJumpCommand { get; set; }
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
         public DelegateCommand ToggleArtistOrderCommand { get; set; }
         public DelegateCommand ShuffleSelectedArtistsCommand { get; set; }
@@ -182,9 +181,14 @@ namespace Dopamine.CollectionModule.ViewModels
             this.AddArtistsToPlaylistCommand = new DelegateCommand<string>(async (iPlaylistName) => await this.AddArtistsToPlaylistAsync(this.SelectedArtists, iPlaylistName));
             this.SelectedArtistsCommand = new DelegateCommand<object>(async (iParameter) => await this.SelectedArtistsHandlerAsync(iParameter));
             this.ShowArtistsZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
-            this.SemanticJumpCommand = new DelegateCommand(() => this.HideSemanticZoom());
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
             this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedArtists, true, false));
+
+            this.SemanticJumpCommand = new DelegateCommand<string>((header) =>
+            {
+                this.HideSemanticZoom();
+                this.eventAggregator.GetEvent<PerformSemanticJump>().Publish(new Tuple<string, string>("Artists", header));
+            });
 
             // Settings
             SettingsClient.SettingChanged += async (_, e) =>
@@ -204,6 +208,9 @@ namespace Dopamine.CollectionModule.ViewModels
                 }
             };
 
+            // PubSub Events
+            this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
+
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.RefreshArtwork += async (_, __) => await this.collectionService.RefreshArtworkAsync(this.Albums);
@@ -216,9 +223,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
             // Set the initial TrackOrder
             this.SetTrackOrder("ArtistsTrackOrder");
-
-            // Subscribe to Events and Commands on creation
-            this.Subscribe();
 
             // Set width of the panels
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "ArtistsLeftPaneWidthPercent");
@@ -528,36 +532,6 @@ namespace Dopamine.CollectionModule.ViewModels
 
             this.SetTrackOrder("ArtistsTrackOrder");
             await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
-        }
-
-        protected override void Unsubscribe()
-        {
-            // Commands
-            ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
-            ApplicationCommands.AddTracksToPlaylistCommand.UnregisterCommand(this.AddTracksToPlaylistCommand);
-            ApplicationCommands.AddAlbumsToPlaylistCommand.UnregisterCommand(this.AddAlbumsToPlaylistCommand);
-            ApplicationCommands.AddArtistsToPlaylistCommand.UnregisterCommand(this.AddArtistsToPlaylistCommand);
-
-            // Events
-            this.eventAggregator.GetEvent<ShellMouseUp>().Unsubscribe(this.shellMouseUpToken);
-
-            // Other
-            this.IsArtistsZoomVisible = false;
-        }
-
-        protected override void Subscribe()
-        {
-            // Prevents subscribing twice
-            this.Unsubscribe();
-
-            // Commands
-            ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
-            ApplicationCommands.AddTracksToPlaylistCommand.RegisterCommand(this.AddTracksToPlaylistCommand);
-            ApplicationCommands.AddAlbumsToPlaylistCommand.RegisterCommand(this.AddAlbumsToPlaylistCommand);
-            ApplicationCommands.AddArtistsToPlaylistCommand.RegisterCommand(this.AddArtistsToPlaylistCommand);
-
-            // Events
-            this.shellMouseUpToken = this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
         }
 
         protected override void RefreshLanguage()

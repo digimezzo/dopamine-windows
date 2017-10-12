@@ -138,7 +138,7 @@ namespace Dopamine.Common.Database.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get the Tracks for Genres. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get the Tracks for Artists. Exception: {0}", ex.Message);
                         }
                     }
                 }

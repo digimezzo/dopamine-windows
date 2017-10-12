@@ -38,7 +38,7 @@
                             Cursor="Hand"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            Command="{x:Static prism:ApplicationCommands.SemanticJumpCommand}"
+                            Command="{Binding DataContext.SemanticJumpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                             CommandParameter="{Binding Header}">
                             <Grid Width="34" Height="34" HorizontalAlignment="Left">
                                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">

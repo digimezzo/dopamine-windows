@@ -20,10 +20,6 @@ namespace Dopamine.CollectionModule.Views
         private SubscriptionToken scrollToPlayingTrackToken;
         #endregion
 
-        #region Commands
-        public DelegateCommand<string> SemanticJumpCommand { get; set; }
-        #endregion
-
         #region Construction
         public CollectionArtists()
         {
@@ -32,20 +28,21 @@ namespace Dopamine.CollectionModule.Views
             // Commands
             this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
             this.JumpToPlayingTrackCommand = new DelegateCommand(async () => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
-            this.SemanticJumpCommand = new DelegateCommand<string>(async (header) =>
-            {
+         
+            // PubSub Events
+            this.eventAggregator.GetEvent<PerformSemanticJump>().Subscribe(async(data) => {
                 try
                 {
-                    await SemanticZoomUtils.SemanticScrollAsync(this.ListBoxArtists, header);
+                    if (data.Item1.Equals("Artists"))
+                    {
+                        await SemanticZoomUtils.SemanticScrollAsync(this.ListBoxArtists, data.Item2);
+                    }
                 }
                 catch (Exception ex)
                 {
                     LogClient.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
                 }
             });
-
-            // Events and Commands
-            this.Subscribe();
         }
         #endregion
 
@@ -106,9 +103,6 @@ namespace Dopamine.CollectionModule.Views
 
         private void Unsubscribe()
         {
-            // Commands
-            Common.Prism.ApplicationCommands.SemanticJumpCommand.UnregisterCommand(this.SemanticJumpCommand);
-
             // Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Unsubscribe(this.scrollToPlayingTrackToken);
         }
@@ -117,9 +111,6 @@ namespace Dopamine.CollectionModule.Views
         {
             // Prevents subscribing twice
             this.Unsubscribe();
-
-            // Commands
-            Common.Prism.ApplicationCommands.SemanticJumpCommand.RegisterCommand(this.SemanticJumpCommand);
 
             // Events
             this.scrollToPlayingTrackToken = this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (s) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
