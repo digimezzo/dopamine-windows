@@ -181,6 +181,9 @@
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
+    <Compile Include="Controls\Logo.xaml.cs">
+      <DependentUpon>Logo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SourceChangedImage.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
@@ -584,6 +587,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\FullLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Logo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

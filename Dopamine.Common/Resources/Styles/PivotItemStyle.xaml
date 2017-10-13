@@ -3,14 +3,22 @@
                     xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls">
 
     <Style x:Key="MainMenuPivotItemStyle" TargetType="{x:Type dc:PivotItem}">
-        <!--<Setter Property="Padding" Value="20,8,20,8"/>-->
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="HeaderFontSize" Value="11"/>
+        <Setter Property="Padding" Value="0,0,15,0"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="SelectedFontWeight" Value="Bold"/>
+        <Setter Property="HeaderFontSize" Value="12"/>
+        <Setter Property="HeaderTextCase" Value="UpperCase"/>
+        <Setter Property="Foreground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
+        <Setter Property="SelectedForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
     </Style>
 
     <Style x:Key="SubMenuPivotItemStyle" TargetType="{x:Type dc:PivotItem}">
-        <!--<Setter Property="Padding" Value="20,8,20,8"/>-->
+        <Setter Property="Padding" Value="0,0,15,0"/>
         <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="SelectedFontWeight" Value="Light"/>
         <Setter Property="HeaderFontSize" Value="24"/>
+        <Setter Property="HeaderTextCase" Value="LowerCase"/>
+        <Setter Property="Foreground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
+        <Setter Property="SelectedForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
     </Style>
 </ResourceDictionary>

@@ -1,16 +1,15 @@
-﻿<UserControl x:Class="Dopamine.Common.Controls.FullLogo"
+﻿<UserControl x:Class="Dopamine.Common.Controls.Logo"
              x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:base="clr-namespace:Dopamine.Common.Base"
-             mc:Ignorable="d">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
 
-    <StackPanel Orientation="Horizontal">
         <Grid>
             <Viewbox Width="56" Height="56" Panel.ZIndex="0">
-                <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{Binding Accent, ElementName=This}"/>
+            <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{Binding Accent, ElementName=This}"/>
             </Viewbox>
             <Viewbox Width="40" Height="40" Panel.ZIndex="1">
                 <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
@@ -26,6 +25,4 @@
                 </Path>
             </Viewbox>
         </Grid>
-        <Label Margin="15,-4,0,0" Padding="0" Content="{Binding ApplicationName,ElementName=This,Converter={StaticResource StringToLowerConverter}}" Foreground="{Binding Foreground,ElementName=This}" FontFamily="/Dopamine.Common;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="{Binding Source={x:Static base:Constants.SplashAppNameFontSize}}"/>
-    </StackPanel>
 </UserControl>

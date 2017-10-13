@@ -153,14 +153,23 @@
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\FullPlayerScreen.xaml.cs">
-      <DependentUpon>FullPlayerScreen.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
+      <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\CoverPlayerScreen.xaml.cs">
-      <DependentUpon>CoverPlayerScreen.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
+      <DependentUpon>FullPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\MicroPlayerScreen.xaml.cs">
-      <DependentUpon>MicroPlayerScreen.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\Information\Information.xaml.cs">
+      <DependentUpon>Information.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MiniPlayer\CoverPlayer.xaml.cs">
+      <DependentUpon>CoverPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MiniPlayer\MicroPlayer.xaml.cs">
+      <DependentUpon>MicroPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MiniPlayer\NanoPlayerScreen.xaml.cs">
       <DependentUpon>NanoPlayerScreen.xaml</DependentUpon>
@@ -431,15 +440,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FullPlayer\FullPlayerScreen.xaml">
+    <Page Include="Views\FullPlayer\Collection\Collection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\FullPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\CoverPlayerScreen.xaml">
+    <Page Include="Views\FullPlayer\Information\Information.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MiniPlayer\CoverPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\MicroPlayerScreen.xaml">
+    <Page Include="Views\MiniPlayer\MicroPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
