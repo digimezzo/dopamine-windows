@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -143,7 +147,14 @@
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\FolderViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\Utils.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
@@ -168,8 +179,26 @@
     <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
       <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionAlbums.xaml.cs">
+      <DependentUpon>CollectionAlbums.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionArtists.xaml.cs">
       <DependentUpon>CollectionArtists.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionFrequent.xaml.cs">
+      <DependentUpon>CollectionFrequent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionGenres.xaml.cs">
+      <DependentUpon>CollectionGenres.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
+      <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionTracks.xaml.cs">
+      <DependentUpon>CollectionTracks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml.cs">
+      <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
       <DependentUpon>FullPlayer.xaml</DependentUpon>
@@ -489,7 +518,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionAlbums.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionArtists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionFrequent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionGenres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionTracks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

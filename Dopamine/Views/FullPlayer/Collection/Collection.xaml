@@ -20,19 +20,19 @@
                 <collectionviews:CollectionArtists Margin="0,20,0,10"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+                <collectionviews:CollectionGenres Margin="0,20,0,10"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+                <collectionviews:CollectionAlbums Margin="0,20,0,10"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+                <collectionviews:CollectionTracks Margin="0,20,0,10"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+                <collectionviews:CollectionPlaylists Margin="0,20,0,10"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+                <collectionviews:CollectionFrequent Margin="0,20,0,10"/>
             </dc:PivotItem>
         </dc:Pivot>
     </DockPanel>
