@@ -30,7 +30,7 @@ namespace Dopamine.ViewModels.Common
                 if (value != null)
                 {
                     SettingsClient.Set<string>("Appearance", "Language", value.Code);
-                    Application.Current.Dispatcher.Invoke(() => i18nService.ApplyLanguageAsync(value.Code));
+                    Application.Current.Dispatcher.Invoke(() => i18nService.ApplyLanguageAsync(value.Code, true));
                 }
 
             }
