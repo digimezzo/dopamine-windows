@@ -4,15 +4,8 @@ namespace Dopamine.Common.Prism
 {
     public sealed class ApplicationCommands
     {
-        public static CompositeCommand NavigateToMainScreenCommand = new CompositeCommand();
         public static CompositeCommand NavigateToNowPlayingScreenCommand = new CompositeCommand();
-        public static CompositeCommand NavigateBetweenCollectionCommand = new CompositeCommand();
-        public static CompositeCommand NavigateBetweenSettingsCommand = new CompositeCommand();
-        public static CompositeCommand NavigateBetweenInformationCommand = new CompositeCommand();
-        public static CompositeCommand NavigateBetweenMainCommand = new CompositeCommand();
         public static CompositeCommand OpenLinkCommand = new CompositeCommand();
-        public static CompositeCommand OpenPathCommand = new CompositeCommand();
-        public static CompositeCommand TaskbarItemInfoPlayCommand = new CompositeCommand();
         public static CompositeCommand RestoreWindowCommand = new CompositeCommand();
         public static CompositeCommand MinimizeWindowCommand = new CompositeCommand();
         public static CompositeCommand MaximizeRestoreWindowCommand = new CompositeCommand();

@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
@@ -9,6 +10,7 @@ using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -17,7 +19,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class ArtistInfoControlViewModel : BindableBase
     {
-        #region Variables
         private IUnityContainer container;
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
@@ -26,9 +27,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Common.Database.Entities.Artist artist;
         private SlideDirection slideDirection;
         private bool isBusy;
-        #endregion
 
-        #region Properties
+        public DelegateCommand<string> OpenLinkCommand { get; set; }
+
         public SlideDirection SlideDirection
         {
             get { return this.slideDirection; }
@@ -47,14 +48,23 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<bool>(ref this.isBusy, value); }
         }
 
-        #endregion
-
-        #region Construction
         public ArtistInfoControlViewModel(IUnityContainer container, IPlaybackService playbackService, II18nService i18nService)
         {
             this.container = container;
             this.playbackService = playbackService;
             this.i18nService = i18nService;
+
+            this.OpenLinkCommand = new DelegateCommand<string>((url) =>
+            {
+                try
+                {
+                    Actions.TryOpenLink(url);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not open link {0}. Exception: {1}", url, ex.Message);
+                }
+            });
 
             this.playbackService.PlaybackSuccess += async (isPlayingPreviousTrack) =>
             {
@@ -68,12 +78,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             // Defaults
-            this.SlideDirection = SlideDirection.LeftToRight; 
+            this.SlideDirection = SlideDirection.LeftToRight;
             this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
         }
-        #endregion
 
-        #region Private
         private async Task ShowArtistInfoAsync(PlayableTrack track, bool forceReload)
         {
             this.previousArtist = this.artist;
@@ -142,6 +150,5 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.IsBusy = false;
         }
-        #endregion
     }
 }
