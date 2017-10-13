@@ -130,14 +130,14 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
-                this.CheckBoxShowTrayIconChecked = SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon");
-                this.CheckBoxMinimizeToTrayChecked = SettingsClient.Get<bool>("Behaviour", "MinimizeToTray");
-                this.CheckBoxCloseToTrayChecked = SettingsClient.Get<bool>("Behaviour", "CloseToTray");
-                this.CheckBoxFollowTrackChecked = SettingsClient.Get<bool>("Behaviour", "FollowTrack");
-                this.CheckBoxEnableRatingChecked = SettingsClient.Get<bool>("Behaviour", "EnableRating");
-                this.CheckBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
-                this.CheckBoxShowRemoveFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
-                this.CheckBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
+                this.checkBoxShowTrayIconChecked = SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon");
+                this.checkBoxMinimizeToTrayChecked = SettingsClient.Get<bool>("Behaviour", "MinimizeToTray");
+                this.checkBoxCloseToTrayChecked = SettingsClient.Get<bool>("Behaviour", "CloseToTray");
+                this.checkBoxFollowTrackChecked = SettingsClient.Get<bool>("Behaviour", "FollowTrack");
+                this.checkBoxEnableRatingChecked = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+                this.checkBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
+                this.checkBoxShowRemoveFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+                this.checkBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
             });
         }
 

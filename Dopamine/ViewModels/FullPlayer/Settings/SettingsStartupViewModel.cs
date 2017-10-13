@@ -129,10 +129,10 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
-                this.CheckBoxCheckForUpdatesChecked = SettingsClient.Get<bool>("Updates", "CheckForUpdates");
-                this.CheckBoxAlsoCheckForPreReleasesChecked = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
-                this.CheckBoxStartupPageChecked = SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage");
-                this.CheckBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
+                this.checkBoxCheckForUpdatesChecked = SettingsClient.Get<bool>("Updates", "CheckForUpdates");
+                this.checkBoxAlsoCheckForPreReleasesChecked = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
+                this.checkBoxStartupPageChecked = SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage");
+                this.checkBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
             });
         }
         #endregion
