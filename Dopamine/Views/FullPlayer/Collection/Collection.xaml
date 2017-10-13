@@ -4,27 +4,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:collectionviews="clr-namespace:Dopamine.Views.FullPlayer.Collection"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <dc:Pivot HeaderMargin="85,0,0,0">
-        <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}">
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
+            <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        </Grid>
+        <dc:Pivot HeaderMargin="85,0,0,0">
+            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}">
+                <collectionviews:CollectionArtists Margin="0,20,0,10"/>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}">
 
-        </dc:PivotItem>
-        <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}">
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}">
 
-        </dc:PivotItem>
-        <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}">
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}">
 
-        </dc:PivotItem>
-        <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}">
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}">
 
-        </dc:PivotItem>
-        <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}">
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}">
 
-        </dc:PivotItem>
-        <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}">
-
-        </dc:PivotItem>
-    </dc:Pivot>
+            </dc:PivotItem>
+        </dc:Pivot>
+    </DockPanel>
 </UserControl>
