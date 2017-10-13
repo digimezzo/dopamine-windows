@@ -4,15 +4,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:informationviews="clr-namespace:Dopamine.Views.FullPlayer.Information"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <dc:Pivot HeaderMargin="85,0,0,0">
         <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+            <informationviews:InformationHelp/>
         </dc:PivotItem>
         <dc:PivotItem Header="{DynamicResource Language_About}" Style="{StaticResource SubMenuPivotItemStyle}">
-
+            <informationviews:InformationAbout/>
         </dc:PivotItem>
     </dc:Pivot>
 </UserControl>

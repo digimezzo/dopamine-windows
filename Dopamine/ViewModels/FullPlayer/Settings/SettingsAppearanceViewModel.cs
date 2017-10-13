@@ -1,11 +1,15 @@
 ﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +25,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private IEventAggregator eventAggregator;
         private ObservableCollection<NameValue> spectrumStyles;
         private NameValue selectedSpectrumStyle;
+
+        public DelegateCommand<string> OpenColorSchemesDirectoryCommand { get; set; }
 
         public string ColorSchemesDirectory { get; set; }
 
@@ -79,6 +85,18 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.eventAggregator = eventAggregator;
 
             this.ColorSchemesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.ColorSchemesFolder);
+
+            this.OpenColorSchemesDirectoryCommand = new DelegateCommand<string>((colorSchemesDirectory) =>
+            {
+                try
+                {
+                    Actions.TryOpenPath(colorSchemesDirectory);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not open the ColorSchemes directory. Exception: {0}", ex.Message);
+                }
+            });
 
             this.eventAggregator.GetEvent<SelectedSpectrumStyleChanged>().Subscribe((_) => this.SetSelectedSpectrumStyle());
 

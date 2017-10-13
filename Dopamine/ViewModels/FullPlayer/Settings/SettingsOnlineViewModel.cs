@@ -219,7 +219,17 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             });
             this.LastfmSignOutCommand = new DelegateCommand(() => this.scrobblingService.SignOut());
-            this.CreateLastFmAccountCommand = new DelegateCommand(() => Actions.TryOpenLink(Constants.LastFmJoinLink));
+            this.CreateLastFmAccountCommand = new DelegateCommand(() =>
+            {
+                try
+                {
+                    Actions.TryOpenLink(Constants.LastFmJoinLink);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not open the Last.fm web page. Exception: {0}", ex.Message);
+                }
+            });
 
             this.GetSearchProvidersAsync();
 
