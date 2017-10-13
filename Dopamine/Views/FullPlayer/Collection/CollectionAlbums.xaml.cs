@@ -1,17 +1,14 @@
-﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.Views.Base;
+﻿using Dopamine.Common.Presentation.Views.Base;
 using Dopamine.Common.Prism;
 using Prism.Commands;
-using System;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {
-    public partial class CollectionArtists : TracksViewBase
+    public partial class CollectionAlbums : TracksViewBase
     {
-        public CollectionArtists() : base()
+        public CollectionAlbums() : base()
         {
             InitializeComponent();
 
@@ -21,33 +18,6 @@ namespace Dopamine.Views.FullPlayer.Collection
 
             // PubSub Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
-
-            this.eventAggregator.GetEvent<PerformSemanticJump>().Subscribe(async (data) => {
-                try
-                {
-                    if (data.Item1.Equals("Artists"))
-                    {
-                        await SemanticZoomUtils.SemanticScrollAsync(this.ListBoxArtists, data.Item2);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not perform semantic zoom on Artists. Exception: {0}", ex.Message);
-                }
-            });
-        }
-
-        private async void ListBoxArtists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
-        }
-
-        private async void ListBoxArtists_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
-            }
         }
 
         private async void ListBoxAlbums_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -68,11 +38,6 @@ namespace Dopamine.Views.FullPlayer.Collection
             await this.ActionHandler(sender, e.OriginalSource as DependencyObject, true);
         }
 
-        private async void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
-        {
-            await this.KeyUpHandlerAsync(sender, e);
-        }
-
         private async void ListBoxTracks_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -81,12 +46,12 @@ namespace Dopamine.Views.FullPlayer.Collection
             }
         }
 
-        private void ArtistsButton_Click(object sender, RoutedEventArgs e)
+        private async void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
         {
-            this.ListBoxArtists.SelectedItem = null;
+            await this.KeyUpHandlerAsync(sender, e);
         }
 
-        private void AlbumsButton_Click(object sender, RoutedEventArgs e)
+        private async void AlbumsButton_Click(object sender, RoutedEventArgs e)
         {
             this.ListBoxAlbums.SelectedItem = null;
         }
