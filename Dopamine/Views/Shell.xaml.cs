@@ -42,8 +42,8 @@ namespace Dopamine.Views
             this.notificationService = notificationService;
             this.win32InputService = win32InputService;
 
-            this.InitializeShellWindow();
             this.InitializeTrayIcon();
+            this.InitializeShellWindow();
         }
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)

@@ -2,9 +2,9 @@
 
 namespace Dopamine.Views.FullPlayer.Settings
 {
-    public partial class Settings : UserControl
+    public partial class SettingsPlayback : UserControl
     {
-        public Settings()
+        public SettingsPlayback()
         {
             InitializeComponent();
         }

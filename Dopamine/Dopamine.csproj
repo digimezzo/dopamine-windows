@@ -45,6 +45,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSCore, Version=1.2.1.1, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL" />
     <Reference Include="Digimezzo.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Digimezzo.WPFControls, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -142,6 +143,13 @@
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\FolderViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineAddEditSearchProviderViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\Common\AppearanceLanguage.xaml.cs">
@@ -164,6 +172,27 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsAppearance.xaml.cs">
+      <DependentUpon>SettingsAppearance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsBehaviour.xaml.cs">
+      <DependentUpon>SettingsBehaviour.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsCollection.xaml.cs">
+      <DependentUpon>SettingsCollection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsOnline.xaml.cs">
+      <DependentUpon>SettingsOnline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsOnlineAddEditSearchProvider.xaml.cs">
+      <DependentUpon>SettingsOnlineAddEditSearchProvider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsPlayback.xaml.cs">
+      <DependentUpon>SettingsPlayback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsStartup.xaml.cs">
+      <DependentUpon>SettingsStartup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MiniPlayer\CoverPlayer.xaml.cs">
       <DependentUpon>CoverPlayer.xaml</DependentUpon>
@@ -453,6 +482,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Settings\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsAppearance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsBehaviour.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsCollection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsOnline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsOnlineAddEditSearchProvider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsPlayback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsStartup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
