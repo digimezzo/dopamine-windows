@@ -77,7 +77,7 @@
                 VerticalContentAlignment="Center" 
                 VerticalAlignment="Center" 
                 ToolTip="{DynamicResource Language_Equalizer}" 
-                Command="{x:Static commonprism:ApplicationCommands.ShowEqualizerCommand}">
+                Command="{Binding ShowEqualizerCommand}">
                 <ToggleButton.Content>
                     <commonviews:EqualizerIcon/>
                 </ToggleButton.Content>

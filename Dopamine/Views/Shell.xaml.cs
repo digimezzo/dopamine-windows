@@ -8,7 +8,9 @@ using Dopamine.Common.Enums;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
+using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
 using Microsoft.Practices.Unity;
@@ -17,6 +19,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
@@ -26,14 +29,18 @@ namespace Dopamine.Views
         private IWindowsIntegrationService windowsIntegrationService;
         private INotificationService notificationService;
         private IWin32InputService win32InputService;
+        private IPlaybackService playbackService;
+        private IMetadataService metadataService;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private TrayControls trayControls;
         private Playlist miniPlayerPlaylist;
         private bool canSaveWindowGeometry = false;
+        private bool mustPerformClosingTasks = true;
+        private bool isShuttingDown = false;
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, INotificationService notificationService,
-            IWin32InputService win32InputService)
+            IWin32InputService win32InputService, IPlaybackService playbackService, IMetadataService metadataService)
         {
             InitializeComponent();
 
@@ -41,6 +48,8 @@ namespace Dopamine.Views
             this.windowsIntegrationService = windowsIntegrationService;
             this.notificationService = notificationService;
             this.win32InputService = win32InputService;
+            this.playbackService = playbackService;
+            this.metadataService = metadataService;
 
             this.InitializeTrayIcon();
             this.InitializeShellWindow();
@@ -53,12 +62,103 @@ namespace Dopamine.Views
 
         private void TrayIconContextMenuExit_Click(object sender, RoutedEventArgs e)
         {
+            this.isShuttingDown = true;
             this.Close();
         }
 
         private void ShellWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion());
+            if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
+                                  SettingsClient.Get<bool>("Behaviour", "CloseToTray") &
+                                  !this.isShuttingDown)
+            {
+                e.Cancel = true;
+
+                // Minimize first, then hide from Taskbar. Otherwise a small window
+                // remains visible in the lower left corner of the screen.
+                this.WindowState = WindowState.Minimized;
+
+                // When closing to tray, hide this window from Taskbar and ALT-TAB menu.
+                this.ShowInTaskbar = false;
+
+                try
+                {
+                    WindowUtils.HideWindowFromAltTab(this);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                }
+            }
+            else
+            {
+                if (this.mustPerformClosingTasks)
+                {
+                    e.Cancel = true;
+                    this.PerformClosingTasksAsync();
+                }
+            }
+        }
+
+        private async Task PerformClosingTasksAsync()
+        {
+            LogClient.Info("Performing closing tasks");
+
+            this.ShowClosingAnimation();
+
+            // Write the settings
+            // ------------------
+            SettingsClient.Write();
+
+            // Save queued tracks
+            // ------------------
+            if (this.playbackService.IsSavingQueuedTracks)
+            {
+                while (this.playbackService.IsSavingQueuedTracks)
+                {
+                    await Task.Delay(50);
+                }
+            }
+            else
+            {
+                await this.playbackService.SaveQueuedTracksAsync();
+            }
+
+            // Stop playing
+            // ------------
+            this.playbackService.Stop();
+
+            // Update file metadata
+            // --------------------
+            await this.metadataService.SafeUpdateFileMetadataAsync();
+
+            // Save track statistics
+            // ---------------------
+            if (this.playbackService.IsSavingPlaybackCounters)
+            {
+                while (this.playbackService.IsSavingPlaybackCounters)
+                {
+                    await Task.Delay(50);
+                }
+            }
+            else
+            {
+                await this.playbackService.SavePlaybackCountersAsync();
+            }
+
+            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+
+            this.mustPerformClosingTasks = false;
+            this.Close();
+        }
+
+        private void ShowClosingAnimation()
+        {
+            this.ShowWindowControls = false;
+            Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
+
+            this.ClosingBorder.Visibility = Visibility.Visible;
+            closingAnimation.Begin();
         }
 
         private void ShowWindowInForeground()
