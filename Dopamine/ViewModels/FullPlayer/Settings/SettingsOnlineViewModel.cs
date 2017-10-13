@@ -322,25 +322,17 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
-                this.CheckBoxDownloadArtistInformationChecked = SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation");
-                this.CheckBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
+                this.checkBoxDownloadArtistInformationChecked = SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.checkBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
 
                 string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
 
-                // Set the backing field to avoid saving into the settings
                 this.checkBoxChartLyricsChecked = lyricsProviders.ToLower().Contains("chartlyrics");
                 this.checkBoxLoloLyricsChecked = lyricsProviders.ToLower().Contains("lololyrics");
                 this.checkBoxLyricWikiaChecked = lyricsProviders.ToLower().Contains("lyricwikia");
                 this.checkBoxMetroLyricsChecked = lyricsProviders.ToLower().Contains("metrolyrics");
                 this.checkBoxXiamiLyricsChecked = lyricsProviders.ToLower().Contains("xiamilyrics");
                 this.checkBoxNeteaseLyricsChecked = lyricsProviders.ToLower().Contains("neteaselyrics");
-
-                RaisePropertyChanged(nameof(this.CheckBoxChartLyricsChecked));
-                RaisePropertyChanged(nameof(this.CheckBoxLoloLyricsChecked));
-                RaisePropertyChanged(nameof(this.CheckBoxLyricWikiaChecked));
-                RaisePropertyChanged(nameof(this.CheckBoxMetroLyricsChecked));
-                RaisePropertyChanged(nameof(this.CheckBoxXiamiLyricsChecked));
-                RaisePropertyChanged(nameof(this.CheckBoxNeteaseLyricsChecked));
             });
         }
 

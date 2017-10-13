@@ -63,11 +63,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             await Task.Run(() =>
             {
                 this.checkBoxRefreshCollectionAutomaticallyChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
-
-                // Set the backing field of the property. This avoids executing a clear
-                // of removed tracks when loading the screen when the setting is false.
                 this.checkBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
-                RaisePropertyChanged(nameof(this.CheckBoxIgnoreRemovedFilesChecked));
             });
         }
 
