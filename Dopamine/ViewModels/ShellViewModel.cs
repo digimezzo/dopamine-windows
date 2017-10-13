@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
 using Prism.Commands;
@@ -10,16 +11,28 @@ namespace Dopamine.ViewModels
 {
     public class ShellViewModel : BindableBase
     {
+        private IDialogService dialogService;
+        private bool isOverlayVisible;
+
         public ITaskbarService TaskbarService { get; }
+
+        public bool IsOverlayVisible
+        {
+            get { return this.isOverlayVisible; }
+            set { SetProperty<bool>(ref this.isOverlayVisible, value); }
+        }
 
         public DelegateCommand PlayPreviousCommand { get; set; }
         public DelegateCommand PlayNextCommand { get; set; }
         public DelegateCommand PlayOrPauseCommand { get; set; }
         public DelegateCommand ShowLogfileCommand { get; set; }
 
-        public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService)
+        public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, IDialogService dialogService)
         {
             this.TaskbarService = taskbarService;
+            this.dialogService = dialogService;
+
+            this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
             this.PlayPreviousCommand = new DelegateCommand(async () => await playbackService.PlayPreviousAsync());
             this.PlayNextCommand = new DelegateCommand(async () => await playbackService.PlayNextAsync());

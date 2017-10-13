@@ -2,9 +2,9 @@
 
 namespace Dopamine.Views.FullPlayer.Information
 {
-    public partial class Information : UserControl
+    public partial class InformationAbout : UserControl
     {
-        public Information()
+        public InformationAbout()
         {
             InitializeComponent();
         }

@@ -143,6 +143,9 @@
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\FolderViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
@@ -169,6 +172,15 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Information\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Information\InformationAbout.xaml.cs">
+      <DependentUpon>InformationAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Information\InformationAboutLicense.xaml.cs">
+      <DependentUpon>InformationAboutLicense.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Information\InformationHelp.xaml.cs">
+      <DependentUpon>InformationHelp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -478,6 +490,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FullPlayer\Information\Information.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Information\InformationAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Information\InformationAboutLicense.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Information\InformationHelp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
