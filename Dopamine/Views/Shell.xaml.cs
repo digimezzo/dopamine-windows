@@ -279,17 +279,17 @@ namespace Dopamine.Views
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.CoverPlayerScreen>();
+                        screen = this.container.Resolve<MiniPlayer.CoverPlayer>();
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.MicroPlayerScreen>();
+                        screen = this.container.Resolve<MiniPlayer.MicroPlayer>();
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.NanoPlayerScreen>();
+                        screen = this.container.Resolve<MiniPlayer.NanoPlayer>();
                         break;
                     default:
                         break;
@@ -301,7 +301,7 @@ namespace Dopamine.Views
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
-                screen = this.container.Resolve<FullPlayer.FullPlayerScreen>();
+                screen = this.container.Resolve<FullPlayer.FullPlayer>();
             }
 
             // Determine if the player position is locked

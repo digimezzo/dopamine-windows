@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Dopamine.Views.MiniPlayer
+namespace Dopamine.Views.FullPlayer.Settings
 {
     /// <summary>
-    /// Interaction logic for MicroPlayerScreen.xaml
+    /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class MicroPlayerScreen : UserControl
+    public partial class Settings : UserControl
     {
-        public MicroPlayerScreen()
+        public Settings()
         {
             InitializeComponent();
         }

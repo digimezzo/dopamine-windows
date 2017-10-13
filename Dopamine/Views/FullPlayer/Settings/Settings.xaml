@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Settings.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <dc:Pivot HeaderMargin="85,0,0,0">
+        <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+        <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+        <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+        <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+        <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+        <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource SubMenuPivotItemStyle}">
+
+        </dc:PivotItem>
+    </dc:Pivot>
+</UserControl>

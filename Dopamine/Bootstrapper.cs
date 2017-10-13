@@ -140,10 +140,10 @@ namespace Dopamine
             Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
             Container.RegisterType<object, Shell>(typeof(Views.Shell).FullName);
             Container.RegisterType<object, Empty>(typeof(Empty).FullName);
-            Container.RegisterType<object, Views.FullPlayer.FullPlayerScreen>(typeof(Views.FullPlayer.FullPlayerScreen).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.CoverPlayerScreen>(typeof(Views.MiniPlayer.CoverPlayerScreen).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.MicroPlayerScreen>(typeof(Views.MiniPlayer.MicroPlayerScreen).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.NanoPlayerScreen>(typeof(Views.MiniPlayer.NanoPlayerScreen).FullName);
+            Container.RegisterType<object, Views.FullPlayer.FullPlayer>(typeof(Views.FullPlayer.FullPlayer).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.CoverPlayer>(typeof(Views.MiniPlayer.CoverPlayer).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.MicroPlayer>(typeof(Views.MiniPlayer.MicroPlayer).FullName);
+            Container.RegisterType<object, Views.MiniPlayer.NanoPlayer>(typeof(Views.MiniPlayer.NanoPlayer).FullName);
         }
 
         protected void RegisterViewModels()
