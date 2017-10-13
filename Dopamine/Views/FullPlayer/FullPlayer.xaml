@@ -8,8 +8,10 @@
              xmlns:collectionviews="clr-namespace:Dopamine.Views.FullPlayer.Collection"
              xmlns:settingsviews="clr-namespace:Dopamine.Views.FullPlayer.Settings"
              xmlns:informationviews="clr-namespace:Dopamine.Views.FullPlayer.Information"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="false">
 
     <Grid>
         <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>

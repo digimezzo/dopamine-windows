@@ -4,21 +4,21 @@
 
     <Style x:Key="MainMenuPivotItemStyle" TargetType="{x:Type dc:PivotItem}">
         <Setter Property="Padding" Value="0,0,15,0"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="SelectedFontWeight" Value="Bold"/>
+        <Setter Property="HeaderFontWeight" Value="Normal"/>
+        <Setter Property="SelectedHeaderFontWeight" Value="Bold"/>
         <Setter Property="HeaderFontSize" Value="12"/>
         <Setter Property="HeaderTextCase" Value="UpperCase"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
-        <Setter Property="SelectedForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
+        <Setter Property="HeaderForeground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
+        <Setter Property="SelectedHeaderForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
     </Style>
 
     <Style x:Key="SubMenuPivotItemStyle" TargetType="{x:Type dc:PivotItem}">
         <Setter Property="Padding" Value="0,0,15,0"/>
-        <Setter Property="FontWeight" Value="Light"/>
-        <Setter Property="SelectedFontWeight" Value="Light"/>
+        <Setter Property="HeaderFontWeight" Value="Light"/>
+        <Setter Property="SelectedHeaderFontWeight" Value="Light"/>
         <Setter Property="HeaderFontSize" Value="24"/>
         <Setter Property="HeaderTextCase" Value="LowerCase"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
-        <Setter Property="SelectedForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
+        <Setter Property="HeaderForeground" Value="{DynamicResource RG_InactiveForegroundBrush}"/>
+        <Setter Property="SelectedHeaderForeground" Value="{DynamicResource RG_ForegroundBrush}"/>
     </Style>
 </ResourceDictionary>
