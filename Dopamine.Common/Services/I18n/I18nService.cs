@@ -57,7 +57,7 @@ namespace Dopamine.Common.Services.I18n
         #endregion
 
         #region II18nService
-        public async Task ApplyLanguageAsync(string code)
+        public async Task ApplyLanguageAsync(string code, bool raiseEvent = false)
         {
             await Task.Run(() =>
             {
@@ -75,7 +75,10 @@ namespace Dopamine.Common.Services.I18n
 
             });
 
-            this.LanguageChanged(this, new EventArgs());
+            if (raiseEvent)
+            {
+                this.LanguageChanged(this, new EventArgs());
+            }
         }
 
         public List<Language> GetLanguages()

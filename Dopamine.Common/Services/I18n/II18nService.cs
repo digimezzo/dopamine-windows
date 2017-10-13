@@ -9,7 +9,7 @@ namespace Dopamine.Common.Services.I18n
         List<Language> GetLanguages();
         Language GetLanguage(string code);
         Language GetDefaultLanguage();
-        Task ApplyLanguageAsync(string code);
+        Task ApplyLanguageAsync(string code, bool raiseEvent = false);
         event EventHandler LanguagesChanged;
         event EventHandler LanguageChanged;
     }
