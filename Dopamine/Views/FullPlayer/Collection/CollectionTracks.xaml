@@ -45,15 +45,20 @@
             </controls:DataGridEx.Resources>
             <controls:DataGridEx.Columns>
                 <DataGridTextColumn x:Name="SongsColumn" Width="3*" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackTitle}" Visibility="Visible">
-                    <DataGridTextColumn.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
-                            </Button>
-                            <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}"/>
-                            <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
-                        </StackPanel>
-                    </DataGridTextColumn.Header>
+                    <!-- Using HeaderTemplate instead of Header to resolve the UserControls DataContext.
+                    Doing this directly on the Header property will not work because it cannot be resolved 
+                    in-place as the column is an abstract object not appearing in the tree. -->
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                                </Button>
+                                <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}"/>
+                                <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTemplateColumn Width="40" IsReadOnly="True" Visibility="Visible">
                     <DataGridTemplateColumn.CellTemplate>
