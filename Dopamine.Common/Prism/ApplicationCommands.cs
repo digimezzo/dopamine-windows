@@ -12,10 +12,6 @@ namespace Dopamine.Common.Prism
         public static CompositeCommand MinimizeWindowCommand = new CompositeCommand();
         public static CompositeCommand MaximizeRestoreWindowCommand = new CompositeCommand();
         public static CompositeCommand CloseWindowCommand = new CompositeCommand();
-        public static CompositeCommand NowPlayingScreenPlaylistButtonCommand = new CompositeCommand();
-        public static CompositeCommand NowPlayingScreenShowcaseButtonCommand = new CompositeCommand();
-        public static CompositeCommand NowPlayingScreenArtistInformationButtonCommand = new CompositeCommand();
-        public static CompositeCommand NowPlayingScreenLyricsButtonCommand = new CompositeCommand();
         public static CompositeCommand CoverPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand MicroPlayerPlaylistButtonCommand = new CompositeCommand();
         public static CompositeCommand NanoPlayerPlaylistButtonCommand = new CompositeCommand();
@@ -26,7 +22,6 @@ namespace Dopamine.Common.Prism
         public static CompositeCommand ToggleAlignPlaylistVerticallyCommand = new CompositeCommand();
         public static CompositeCommand TogglePlayerCommand = new CompositeCommand();
         public static CompositeCommand ShowMainWindowCommand = new CompositeCommand();
-        public static CompositeCommand ShowEqualizerCommand = new CompositeCommand();
         public static CompositeCommand RefreshLyricsCommand = new CompositeCommand();
     }
 }

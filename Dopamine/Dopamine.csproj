@@ -251,6 +251,9 @@
     <Compile Include="Views\NowPlaying\NowPlayingPage.xaml.cs">
       <DependentUpon>NowPlayingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NowPlaying\NowPlayingShowcase.xaml.cs">
+      <DependentUpon>NowPlayingShowcase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
     </Compile>
@@ -611,6 +614,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\NowPlaying\NowPlayingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NowPlaying\NowPlayingShowcase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

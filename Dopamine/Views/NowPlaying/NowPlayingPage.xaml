@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:nowplayingviews="clr-namespace:Dopamine.Views.NowPlaying"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -102,9 +103,11 @@
                     </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingItemIndex,ElementName=NowPlayingPlaybackControls}">
+                <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingItemIndex,ElementName=NowPlayingPlaybackControls}"
+                          HeaderVisibility="Collapsed" FeatheringRadius="24" Margin="100,90,100,120" AnimationType="Slide"
+                          SlideFadeIn="True">
                     <dc:PivotItem>
-                        <TextBlock FontSize="20" Foreground="Red" Text="1"/>
+                        <nowplayingviews:NowPlayingShowcase/>
                     </dc:PivotItem>
                     <dc:PivotItem>
                         <TextBlock FontSize="20" Foreground="Red" Text="2"/>
