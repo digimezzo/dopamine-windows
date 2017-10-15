@@ -165,6 +165,7 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
+    <Compile Include="ViewModels\NowPlaying\NowPlayingPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingShowcaseViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -251,6 +252,9 @@
     </Compile>
     <Compile Include="Views\NowPlaying\NowPlayingPage.xaml.cs">
       <DependentUpon>NowPlayingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NowPlaying\NowPlayingPlaylist.xaml.cs">
+      <DependentUpon>NowPlayingPlaylist.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlaying\NowPlayingShowcase.xaml.cs">
       <DependentUpon>NowPlayingShowcase.xaml</DependentUpon>
@@ -615,6 +619,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\NowPlaying\NowPlayingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NowPlaying\NowPlayingPlaylist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
