@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              MouseMove="NowPlaying_MouseMove"
+             SizeChanged="NowPlaying_SizeChanged"
              Background="#00000000">
     
     <Grid>
@@ -65,7 +66,43 @@
                     </Style>
                 </Border.Style>
             </Border>
-            <ContentControl></ContentControl>
+            <!-- Window -->
+            <Grid>
+                <!-- Playback controls + spectrum -->
+                <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
+                    <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
+                    <commonviews:NowPlayingPlaybackControls>
+                        <commonviews:NowPlayingPlaybackControls.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CanShowControls,ElementName=This}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="Opacity">
+                                                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.75" Storyboard.TargetProperty="Opacity">
+                                                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </commonviews:NowPlayingPlaybackControls.Style>
+                    </commonviews:NowPlayingPlaybackControls>
+                </Grid>
+                <!-- Content -->
+                <ContentControl></ContentControl>
+            </Grid>
         </DockPanel>
     </Grid>
 </UserControl>
