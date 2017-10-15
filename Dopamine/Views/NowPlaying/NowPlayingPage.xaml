@@ -110,7 +110,7 @@
                         <nowplayingviews:NowPlayingShowcase/>
                     </dc:PivotItem>
                     <dc:PivotItem>
-                        <TextBlock FontSize="20" Foreground="Red" Text="2"/>
+                        <nowplayingviews:NowPlayingPlaylist/>
                     </dc:PivotItem>
                     <dc:PivotItem>
                         <TextBlock FontSize="20" Foreground="Red" Text="3"/>
