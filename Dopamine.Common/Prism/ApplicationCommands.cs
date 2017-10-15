@@ -4,8 +4,10 @@ namespace Dopamine.Common.Prism
 {
     public sealed class ApplicationCommands
     {
-        public static CompositeCommand NavigateToNowPlayingScreenCommand = new CompositeCommand();
-        public static CompositeCommand OpenLinkCommand = new CompositeCommand();
+        public static CompositeCommand ShowNowPlayingCommand = new CompositeCommand();
+        public static CompositeCommand ShowFullPlayerCommand = new CompositeCommand();
+        
+
         public static CompositeCommand RestoreWindowCommand = new CompositeCommand();
         public static CompositeCommand MinimizeWindowCommand = new CompositeCommand();
         public static CompositeCommand MaximizeRestoreWindowCommand = new CompositeCommand();

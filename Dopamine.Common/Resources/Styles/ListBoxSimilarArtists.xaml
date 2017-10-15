@@ -19,7 +19,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Button Command="{x:Static commonprism:ApplicationCommands.OpenLinkCommand}" CommandParameter="{Binding Path=Url}">
+                    <Button Command="{Binding DataContext.OpenLinkCommand,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                            CommandParameter="{Binding Path=Url}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Template">
