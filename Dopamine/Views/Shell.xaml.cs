@@ -14,6 +14,9 @@ using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
+using Dopamine.Views.FullPlayer;
+using Dopamine.Views.MiniPlayer;
+using Dopamine.Views.NowPlaying;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
@@ -22,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 
 namespace Dopamine.Views
 {
@@ -56,9 +60,9 @@ namespace Dopamine.Views
             this.playbackService = playbackService;
             this.metadataService = metadataService;
 
-            this.ShowNowPlayingCommand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<NowPlaying.NowPlaying>()));
+            this.ShowNowPlayingCommand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<NowPlayingPage>()));
             ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
-            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<FullPlayer.FullPlayer>()));
+            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<FullPlayerPage>()));
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 
             this.InitializeTrayIcon();
@@ -365,10 +369,10 @@ namespace Dopamine.Views
 
         private async void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType)
         {
-            UserControl screen = null;
+            Page page = null;
 
             // Clear player content
-            this.ShellFrame.Navigate(this.container.Resolve<Empty>());
+            //this.ShellFrame.Navigate(this.container.Resolve<Empty>());
 
             // Save the player type in the settings
             SettingsClient.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
@@ -389,17 +393,17 @@ namespace Dopamine.Views
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.CoverPlayer>();
+                        page = this.container.Resolve<CoverPlayerPage>();
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.MicroPlayer>();
+                        page = this.container.Resolve<MicroPlayerPage>();
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight);
-                        screen = this.container.Resolve<MiniPlayer.NanoPlayer>();
+                        page = this.container.Resolve<NanoPlayerPage>();
                         break;
                     default:
                         break;
@@ -411,7 +415,7 @@ namespace Dopamine.Views
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
-                screen = this.container.Resolve<FullPlayer.FullPlayer>();
+                page = this.container.Resolve<FullPlayerPage>();
             }
 
             // Determine if the player position is locked
@@ -421,7 +425,7 @@ namespace Dopamine.Views
             await Task.Delay(150);
 
             // Navigate to content
-            this.ShellFrame.Navigate(screen);
+            this.ShellFrame.Navigate(page);
 
             this.canSaveWindowGeometry = true;
         }
@@ -516,6 +520,16 @@ namespace Dopamine.Views
             {
                 this.IsMovable = true;
             }
+        }
+
+        private void ShellFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            var da = new DoubleAnimation();
+            da.Duration = TimeSpan.FromSeconds(0.5);
+            //da.DecelerationRatio = 0.7;
+            da.From = 0.0;
+            da.To = 1.0;
+            (e.Content as Page).BeginAnimation(OpacityProperty, da);
         }
     }
 }

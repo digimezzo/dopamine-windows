@@ -33,6 +33,8 @@ using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
 using Dopamine.Views;
+using Dopamine.Views.FullPlayer;
+using Dopamine.Views.MiniPlayer;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -139,11 +141,11 @@ namespace Dopamine
             Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
             Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
             Container.RegisterType<object, Shell>(typeof(Views.Shell).FullName);
-            Container.RegisterType<object, Empty>(typeof(Empty).FullName);
-            Container.RegisterType<object, Views.FullPlayer.FullPlayer>(typeof(Views.FullPlayer.FullPlayer).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.CoverPlayer>(typeof(Views.MiniPlayer.CoverPlayer).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.MicroPlayer>(typeof(Views.MiniPlayer.MicroPlayer).FullName);
-            Container.RegisterType<object, Views.MiniPlayer.NanoPlayer>(typeof(Views.MiniPlayer.NanoPlayer).FullName);
+            //Container.RegisterType<object, Empty>(typeof(Empty).FullName);
+            Container.RegisterType<object, FullPlayerPage>(typeof(FullPlayerPage).FullName);
+            Container.RegisterType<object, CoverPlayerPage>(typeof(CoverPlayerPage).FullName);
+            Container.RegisterType<object, MicroPlayerPage>(typeof(MicroPlayerPage).FullName);
+            Container.RegisterType<object, NanoPlayerPage>(typeof(NanoPlayerPage).FullName);
         }
 
         protected void RegisterViewModels()

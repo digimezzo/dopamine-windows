@@ -200,8 +200,8 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml.cs">
       <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
-      <DependentUpon>FullPlayer.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\FullPlayerPage.xaml.cs">
+      <DependentUpon>FullPlayerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Information\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>
@@ -239,17 +239,17 @@
     <Compile Include="Views\FullPlayer\Settings\SettingsStartup.xaml.cs">
       <DependentUpon>SettingsStartup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\CoverPlayer.xaml.cs">
-      <DependentUpon>CoverPlayer.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\CoverPlayerPage.xaml.cs">
+      <DependentUpon>CoverPlayerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\MicroPlayer.xaml.cs">
-      <DependentUpon>MicroPlayer.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\MicroPlayerPage.xaml.cs">
+      <DependentUpon>MicroPlayerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\NanoPlayerScreen.xaml.cs">
-      <DependentUpon>NanoPlayerScreen.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\NanoPlayerScreenPage.xaml.cs">
+      <DependentUpon>NanoPlayerScreenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlaying\NowPlaying.xaml.cs">
-      <DependentUpon>NowPlaying.xaml</DependentUpon>
+    <Compile Include="Views\NowPlaying\NowPlayingPage.xaml.cs">
+      <DependentUpon>NowPlayingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
@@ -546,7 +546,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\FullPlayer.xaml">
+    <Page Include="Views\FullPlayer\FullPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -598,19 +598,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MiniPlayer\CoverPlayer.xaml">
+    <Page Include="Views\MiniPlayer\CoverPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\MicroPlayer.xaml">
+    <Page Include="Views\MiniPlayer\MicroPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\NanoPlayerScreen.xaml">
+    <Page Include="Views\MiniPlayer\NanoPlayerScreenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NowPlaying\NowPlaying.xaml">
+    <Page Include="Views\NowPlaying\NowPlayingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

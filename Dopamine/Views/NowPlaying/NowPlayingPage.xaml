@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Dopamine.Views.NowPlaying.NowPlaying"
+﻿<Page x:Class="Dopamine.Views.NowPlaying.NowPlayingPage"
              x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
              MouseMove="NowPlaying_MouseMove"
              SizeChanged="NowPlaying_SizeChanged"
              Background="#00000000">
-    
+
     <Grid>
         <!-- Background -->
         <commonviews:BackgroundCoverArtControl Panel.ZIndex="0"/>
@@ -105,4 +105,4 @@
             </Grid>
         </DockPanel>
     </Grid>
-</UserControl>
+</Page>
