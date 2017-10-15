@@ -7,14 +7,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class NowPlayingPlaybackControlsViewModel : PlaybackControlsViewModelBase
     {
-        #region Variables
         private bool isShowCaseSelected;
         private bool isPlaylistSelected;
         private bool isLyricsSelected;
         private bool isArtistInformationSelected;
-        #endregion
 
-        #region Properties
         public bool IsShowCaseSelected
         {
             get { return this.isShowCaseSelected; }
@@ -41,26 +38,21 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public bool HasPlaybackQueue
         {
-            get { return this.playbackService.Queue.Count > 0; }
+            get { return this.PlaybackService.Queue.Count > 0; }
         }
 
-        #endregion
-
-        #region Construction
         public NowPlayingPlaybackControlsViewModel(IUnityContainer container) : base(container)
         {
-            this.playbackService.PlaybackSuccess += (_) => OnPropertyChanged(() => this.HasPlaybackQueue);
+            this.PlaybackService.PlaybackSuccess += (_) => RaisePropertyChanged(nameof(this.HasPlaybackQueue));
 
-            this.playbackService.PlaybackStopped += (_, __) =>
+            this.PlaybackService.PlaybackStopped += (_, __) =>
             {
                 this.Reset();
             };
 
             this.SelectMenuItem();
         }
-        #endregion
 
-        #region Private
         private void SelectMenuItem()
         {
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
@@ -88,6 +80,5 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.IsPlaylistSelected = true;
             }
         }
-        #endregion
     }
 }

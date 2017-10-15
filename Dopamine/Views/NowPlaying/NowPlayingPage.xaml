@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              MouseMove="NowPlaying_MouseMove"
@@ -71,7 +72,7 @@
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
                     <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
-                    <commonviews:NowPlayingPlaybackControls>
+                    <commonviews:NowPlayingPlaybackControls x:Name="NowPlayingPlaybackControls">
                         <commonviews:NowPlayingPlaybackControls.Style>
                             <Style>
                                 <Style.Triggers>
@@ -101,7 +102,20 @@
                     </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <ContentControl></ContentControl>
+                <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingItemIndex,ElementName=NowPlayingPlaybackControls}">
+                    <dc:PivotItem>
+                        <TextBlock FontSize="20" Foreground="Red" Text="1"/>
+                    </dc:PivotItem>
+                    <dc:PivotItem>
+                        <TextBlock FontSize="20" Foreground="Red" Text="2"/>
+                    </dc:PivotItem>
+                    <dc:PivotItem>
+                        <TextBlock FontSize="20" Foreground="Red" Text="3"/>
+                    </dc:PivotItem>
+                    <dc:PivotItem>
+                        <TextBlock FontSize="20" Foreground="Red" Text="4"/>
+                    </dc:PivotItem>
+                </dc:Pivot>
             </Grid>
         </DockPanel>
     </Grid>
