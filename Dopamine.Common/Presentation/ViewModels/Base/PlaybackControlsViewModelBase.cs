@@ -1,41 +1,63 @@
-﻿using Dopamine.Common.Presentation.ViewModels.Entities;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Presentation.ViewModels.Entities;
+using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Utils;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public class PlaybackControlsViewModelBase : ContextMenuViewModelBase
     {
-        #region Variables
-        protected PlaybackInfoViewModel playbackInfoViewModel;
-        protected IPlaybackService playbackService;
-        #endregion
+        private PlaybackInfoViewModel playbackInfoViewModel;
 
-        #region Properties
+        public DelegateCommand ShowEqualizerCommand { get; set; }
+
+        public IPlaybackService PlaybackService { get; }
+        public IDialogService DialogService { get; }
+
         public PlaybackInfoViewModel PlaybackInfoViewModel
         {
             get { return this.playbackInfoViewModel; }
             set { SetProperty<PlaybackInfoViewModel>(ref this.playbackInfoViewModel, value); }
         }
-        #endregion
 
-        #region Construction
         public PlaybackControlsViewModelBase(IUnityContainer container) : base(container)
         {
-            this.playbackService = container.Resolve<IPlaybackService>();
+            this.PlaybackService = container.Resolve<IPlaybackService>();
+            this.DialogService = container.Resolve<IDialogService>();
+            this.PlaybackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
 
-            this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
+            this.ShowEqualizerCommand = new DelegateCommand(() =>
+            {
+                EqualizerControl view = container.Resolve<EqualizerControl>();
+                view.DataContext = container.Resolve<EqualizerControlViewModel>();
+
+                this.DialogService.ShowCustomDialog(
+                     new EqualizerIcon() { IsDialogIcon = true },
+                     0,
+                     ResourceUtils.GetString("Language_Equalizer"),
+                     view,
+                     570,
+                     0,
+                     false,
+                     true,
+                     true,
+                     false,
+                     ResourceUtils.GetString("Language_Close"),
+                     string.Empty,
+                     null);
+            });
 
             this.Reset();
         }
-        #endregion
 
-        #region Private
         protected void UpdateTime()
         {
-            this.PlaybackInfoViewModel.CurrentTime = FormatUtils.FormatTime(this.playbackService.GetCurrentTime);
-            this.PlaybackInfoViewModel.TotalTime = " / " + FormatUtils.FormatTime(this.playbackService.GetTotalTime);
+            this.PlaybackInfoViewModel.CurrentTime = FormatUtils.FormatTime(this.PlaybackService.GetCurrentTime);
+            this.PlaybackInfoViewModel.TotalTime = " / " + FormatUtils.FormatTime(this.PlaybackService.GetTotalTime);
         }
 
         protected void Reset()
@@ -55,6 +77,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             // No implementation required here
         }
-        #endregion
     }
 }
