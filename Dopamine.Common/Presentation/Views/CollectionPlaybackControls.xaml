@@ -56,7 +56,7 @@
                 </DockPanel.ContextMenu>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{x:Static commonprism:ApplicationCommands.NavigateToNowPlayingScreenCommand}" />
+                        <i:InvokeCommandAction Command="{x:Static commonprism:ApplicationCommands.ShowNowPlayingCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="50" Height="50" Margin="0,0,10,0"/>

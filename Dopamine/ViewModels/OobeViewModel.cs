@@ -1,4 +1,6 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Services.Dialog;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -25,6 +27,7 @@ namespace Dopamine.ViewModels
 
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand GoForwardCommand { get; set; }
+        public DelegateCommand<string> OpenLinkCommand { get; set; }
 
         public bool IsOverlayVisible
         {
@@ -81,6 +84,18 @@ namespace Dopamine.ViewModels
 
             this.GoBackCommand = new DelegateCommand(() => this.GoBack());
             this.GoForwardCommand = new DelegateCommand(() => this.GoForward());
+
+            this.OpenLinkCommand = new DelegateCommand<string>((url) =>
+            {
+                try
+                {
+                    Actions.TryOpenLink(url);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not open link {0}. Exception: {1}", url, ex.Message);
+                }
+            });
         }
 
         private void SetSelectedOobePage(OobePage page)

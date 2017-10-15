@@ -248,8 +248,8 @@
     <Compile Include="Views\MiniPlayer\NanoPlayerScreen.xaml.cs">
       <DependentUpon>NanoPlayerScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlaying\NowPlayingScreen.xaml.cs">
-      <DependentUpon>NowPlayingScreen.xaml</DependentUpon>
+    <Compile Include="Views\NowPlaying\NowPlaying.xaml.cs">
+      <DependentUpon>NowPlaying.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
@@ -610,7 +610,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NowPlaying\NowPlayingScreen.xaml">
+    <Page Include="Views\NowPlaying\NowPlaying.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,12 +8,14 @@ using Dopamine.Common.Enums;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -39,6 +41,9 @@ namespace Dopamine.Views
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
 
+        public DelegateCommand ShowNowPlayingCommand { get; set; }
+        public DelegateCommand ShowFullPlayerCommmand { get; set; }
+
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, INotificationService notificationService,
             IWin32InputService win32InputService, IPlaybackService playbackService, IMetadataService metadataService)
         {
@@ -50,6 +55,11 @@ namespace Dopamine.Views
             this.win32InputService = win32InputService;
             this.playbackService = playbackService;
             this.metadataService = metadataService;
+
+            this.ShowNowPlayingCommand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<NowPlaying.NowPlaying>()));
+            ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
+            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<FullPlayer.FullPlayer>()));
+            ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 
             this.InitializeTrayIcon();
             this.InitializeShellWindow();
