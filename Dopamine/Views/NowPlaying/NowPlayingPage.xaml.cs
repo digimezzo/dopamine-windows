@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Dopamine.Views.NowPlaying
 {
-    public partial class NowPlaying : UserControl
+    public partial class NowPlayingPage : Page
     {
         private Timer hideControlsTimer = new Timer();
 
@@ -16,9 +16,9 @@ namespace Dopamine.Views.NowPlaying
         }
 
         public static readonly DependencyProperty CanShowControlsProperty =
-            DependencyProperty.Register(nameof(CanShowControls), typeof(bool), typeof(NowPlaying), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CanShowControls), typeof(bool), typeof(NowPlayingPage), new PropertyMetadata(null));
 
-        public NowPlaying()
+        public NowPlayingPage()
         {
             InitializeComponent();
 

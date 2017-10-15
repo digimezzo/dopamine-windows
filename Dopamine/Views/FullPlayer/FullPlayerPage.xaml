@@ -1,0 +1,30 @@
+﻿<Page x:Class="Dopamine.Views.FullPlayer.FullPlayerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+      xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+      xmlns:collectionviews="clr-namespace:Dopamine.Views.FullPlayer.Collection"
+      xmlns:settingsviews="clr-namespace:Dopamine.Views.FullPlayer.Settings"
+      xmlns:informationviews="clr-namespace:Dopamine.Views.FullPlayer.Information"
+      xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      prismMvvm:ViewModelLocator.AutoWireViewModel="false">
+
+    <Grid>
+        <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
+        <dc:Pivot HeaderMargin="85,0,0,0" Margin="0,20,0,0">
+            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MainMenuPivotItemStyle}">
+                <collectionviews:Collection/>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Settings}" Style="{StaticResource MainMenuPivotItemStyle}">
+                <settingsviews:Settings/>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Information}" Style="{StaticResource MainMenuPivotItemStyle}">
+                <informationviews:Information/>
+            </dc:PivotItem>
+        </dc:Pivot>
+    </Grid>
+</Page>
