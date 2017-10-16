@@ -5,10 +5,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:informationviews="clr-namespace:Dopamine.Views.FullPlayer.Information"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <dc:Pivot HeaderMargin="85,0,0,0">
+        <dc:Pivot.CommonContent>
+            <commonviews:Status/>
+        </dc:Pivot.CommonContent>
         <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource SubMenuPivotItemStyle}">
             <informationviews:InformationHelp/>
         </dc:PivotItem>

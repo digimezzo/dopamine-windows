@@ -18,6 +18,9 @@
                 <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </Grid>
             <dc:Pivot HeaderMargin="85,0,215,0">
+                <dc:Pivot.CommonContent>
+                    <commonviews:Status/>
+                </dc:Pivot.CommonContent>
                 <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}">
                     <collectionviews:CollectionArtists Margin="0,20,0,10"/>
                 </dc:PivotItem>
