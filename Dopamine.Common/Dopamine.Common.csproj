@@ -334,6 +334,7 @@
     <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\StatusViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
@@ -453,6 +454,9 @@
     </Compile>
     <Compile Include="Presentation\Views\SpectrumAnalyzerControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\Status.xaml.cs">
+      <DependentUpon>Status.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
       <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
@@ -749,6 +753,10 @@
     <Page Include="Presentation\Views\SpectrumAnalyzerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\Status.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\VerticalVolumeControls.xaml">
       <SubType>Designer</SubType>
