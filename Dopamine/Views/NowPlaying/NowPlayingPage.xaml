@@ -1,14 +1,14 @@
 ﻿<Page x:Class="Dopamine.Views.NowPlaying.NowPlayingPage"
              x:Name="This"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
-             xmlns:nowplayingviews="clr-namespace:Dopamine.Views.NowPlaying"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             mc:Ignorable="d" 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+      xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+      xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+      xmlns:nowplayingviews="clr-namespace:Dopamine.Views.NowPlaying"
+      mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              MouseMove="NowPlaying_MouseMove"
              SizeChanged="NowPlaying_SizeChanged"
@@ -113,10 +113,10 @@
                         <nowplayingviews:NowPlayingPlaylist/>
                     </dc:PivotItem>
                     <dc:PivotItem>
-                        <TextBlock FontSize="20" Foreground="Red" Text="3"/>
+                        <nowplayingviews:NowPlayingLyrics/>
                     </dc:PivotItem>
                     <dc:PivotItem>
-                        <TextBlock FontSize="20" Foreground="Red" Text="4"/>
+                        <nowplayingviews:NowPlayingArtistInformation/>
                     </dc:PivotItem>
                 </dc:Pivot>
             </Grid>
