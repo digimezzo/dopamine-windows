@@ -2,9 +2,9 @@
 
 namespace Dopamine.Views.FullPlayer
 {
-    public partial class FullPlayerPage : Page
+    public partial class FullPlayer : UserControl
     {
-        public FullPlayerPage()
+        public FullPlayer()
         {
             InitializeComponent();
         }

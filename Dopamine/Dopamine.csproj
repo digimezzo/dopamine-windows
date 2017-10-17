@@ -178,6 +178,9 @@
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Common\Empty.xaml.cs">
+      <DependentUpon>Empty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
       <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
@@ -202,8 +205,8 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml.cs">
       <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\FullPlayerPage.xaml.cs">
-      <DependentUpon>FullPlayerPage.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
+      <DependentUpon>FullPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Information\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>
@@ -241,14 +244,14 @@
     <Compile Include="Views\FullPlayer\Settings\SettingsStartup.xaml.cs">
       <DependentUpon>SettingsStartup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\CoverPlayerPage.xaml.cs">
-      <DependentUpon>CoverPlayerPage.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\CoverPlayer.xaml.cs">
+      <DependentUpon>CoverPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\MicroPlayerPage.xaml.cs">
-      <DependentUpon>MicroPlayerPage.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\MicroPlayer.xaml.cs">
+      <DependentUpon>MicroPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MiniPlayer\NanoPlayerScreenPage.xaml.cs">
-      <DependentUpon>NanoPlayerScreenPage.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\NanoPlayer.xaml.cs">
+      <DependentUpon>NanoPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlaying\NowPlayingArtistInformation.xaml.cs">
       <DependentUpon>NowPlayingArtistInformation.xaml</DependentUpon>
@@ -256,8 +259,8 @@
     <Compile Include="Views\NowPlaying\NowPlayingLyrics.xaml.cs">
       <DependentUpon>NowPlayingLyrics.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NowPlaying\NowPlayingPage.xaml.cs">
-      <DependentUpon>NowPlayingPage.xaml</DependentUpon>
+    <Compile Include="Views\NowPlaying\NowPlaying.xaml.cs">
+      <DependentUpon>NowPlaying.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NowPlaying\NowPlayingPlaylist.xaml.cs">
       <DependentUpon>NowPlayingPlaylist.xaml</DependentUpon>
@@ -268,13 +271,13 @@
     <Compile Include="Views\Oobe.xaml.cs">
       <DependentUpon>Oobe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Playlist.xaml.cs">
-      <DependentUpon>Playlist.xaml</DependentUpon>
+    <Compile Include="Views\MiniPlayer\MiniPlayerPlaylist.xaml.cs">
+      <DependentUpon>MiniPlayerPlaylist.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TrayControls.xaml.cs">
+    <Compile Include="Views\Common\TrayControls.xaml.cs">
       <DependentUpon>TrayControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfServiceFactory.cs" />
@@ -461,6 +464,7 @@
     <Content Include="Languages\IT.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Languages\KO.xml" />
     <Content Include="Languages\NL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -528,6 +532,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Common\Empty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\FullPlayer\Collection\Collection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -560,7 +568,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\FullPlayerPage.xaml">
+    <Page Include="Views\FullPlayer\FullPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -612,15 +620,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MiniPlayer\CoverPlayerPage.xaml">
+    <Page Include="Views\MiniPlayer\CoverPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\MicroPlayerPage.xaml">
+    <Page Include="Views\MiniPlayer\MicroPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MiniPlayer\NanoPlayerScreenPage.xaml">
+    <Page Include="Views\MiniPlayer\NanoPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -632,7 +640,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NowPlaying\NowPlayingPage.xaml">
+    <Page Include="Views\NowPlaying\NowPlaying.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -648,7 +656,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Playlist.xaml">
+    <Page Include="Views\MiniPlayer\MiniPlayerPlaylist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -656,7 +664,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TrayControls.xaml">
+    <Page Include="Views\Common\TrayControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

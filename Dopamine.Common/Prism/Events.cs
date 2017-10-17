@@ -3,7 +3,16 @@ using System;
 
 namespace Dopamine.Common.Prism
 {
+    // Used after refactoring
     public class ScrollToPlayingTrack : PubSubEvent<object>
+    {
+    }
+
+    public class PerformSemanticJump : PubSubEvent<Tuple<string, string>>
+    {
+    }
+
+    public class ShellMouseUp : PubSubEvent<string>
     {
     }
 
@@ -11,6 +20,7 @@ namespace Dopamine.Common.Prism
     {
     }
 
+    // To be verified
     public class CoverPlayerPlaylistButtonClicked : PubSubEvent<bool>
     {
     }
@@ -23,19 +33,7 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class SelectedSpectrumStyleChanged : PubSubEvent<string>
-    {
-    }
-
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
-    {
-    }
-
-    public class ShellMouseUp : PubSubEvent<string>
-    {
-    }
-
-    public class PerformSemanticJump : PubSubEvent<Tuple<string, string>>
     {
     }
 }

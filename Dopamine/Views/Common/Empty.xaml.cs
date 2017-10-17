@@ -1,17 +1,12 @@
 ﻿using System.Windows.Controls;
 
-namespace Dopamine.Common.Presentation.Views
+namespace Dopamine.Views.Common
 {
-    /// <summary>
-    /// Interaction logic for Empty.xaml
-    /// </summary>
     public partial class Empty : UserControl
     {
-        #region Construction
         public Empty()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }

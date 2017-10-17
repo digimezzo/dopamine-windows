@@ -7,18 +7,18 @@ using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
-using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
-using Dopamine.Views.FullPlayer;
+using Dopamine.Views.Common;
 using Dopamine.Views.MiniPlayer;
-using Dopamine.Views.NowPlaying;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -37,19 +37,24 @@ namespace Dopamine.Views
         private IWin32InputService win32InputService;
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
+        private IRegionManager regionManager;
+        private IEventAggregator eventAggregator;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private TrayControls trayControls;
-        private Playlist miniPlayerPlaylist;
+        private MiniPlayerPlaylist miniPlayerPlaylist;
         private bool canSaveWindowGeometry = false;
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
 
         public DelegateCommand ShowNowPlayingCommand { get; set; }
         public DelegateCommand ShowFullPlayerCommmand { get; set; }
+        public DelegateCommand TogglePlayerCommand { get; set; }
 
-        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, INotificationService notificationService,
-            IWin32InputService win32InputService, IPlaybackService playbackService, IMetadataService metadataService)
+        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, 
+            INotificationService notificationService, IWin32InputService win32InputService, 
+            IPlaybackService playbackService, IMetadataService metadataService, IRegionManager regionManager, 
+            IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
@@ -59,14 +64,42 @@ namespace Dopamine.Views
             this.win32InputService = win32InputService;
             this.playbackService = playbackService;
             this.metadataService = metadataService;
+            this.regionManager = regionManager;
+            this.eventAggregator = eventAggregator;
 
-            this.ShowNowPlayingCommand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<NowPlayingPage>()));
+            this.ShowNowPlayingCommand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName));
             ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
-            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.ShellFrame.Navigate(this.container.Resolve<FullPlayerPage>()));
+            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName));
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
+
+            
+
+            this.TogglePlayerCommand = new DelegateCommand(() =>
+            {
+                // If tablet mode is enabled, we should not be able to toggle the player.
+                if (!this.windowsIntegrationService.IsTabletModeEnabled)
+                {
+                    this.TogglePlayer();
+                }
+            });
+            ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
 
             this.InitializeTrayIcon();
             this.InitializeShellWindow();
+        }
+
+        private void TogglePlayer()
+        {
+            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+            {
+                // Show the Full Player
+                this.SetPlayer(false, MiniPlayerType.CoverPlayer);
+            }
+            else
+            {
+                // Show the Mini Player, with the player type which is saved in the settings
+                this.SetPlayer(true, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+            }
         }
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
@@ -200,10 +233,10 @@ namespace Dopamine.Views
             this.windowsIntegrationService.StartMonitoringTabletMode();
 
             // Tray controls
-            this.trayControls = this.container.Resolve<Views.TrayControls>();
+            this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
-            this.miniPlayerPlaylist = this.container.Resolve<Views.Playlist>(new DependencyOverride(typeof(DopamineWindow), this));
+            this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(DopamineWindow), this));
 
             // NotificationService needs to know about the application windows
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
@@ -369,10 +402,10 @@ namespace Dopamine.Views
 
         private async void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType)
         {
-            Page page = null;
+            string screenName = typeof(Empty).FullName;
 
             // Clear player content
-            //this.ShellFrame.Navigate(this.container.Resolve<Empty>());
+            this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(Empty).FullName);
 
             // Save the player type in the settings
             SettingsClient.Set<bool>("General", "IsMiniPlayer", isMiniPlayer);
@@ -393,17 +426,17 @@ namespace Dopamine.Views
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight);
-                        page = this.container.Resolve<CoverPlayerPage>();
+                        screenName = typeof(CoverPlayer).FullName;
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight);
-                        page = this.container.Resolve<MicroPlayerPage>();
+                        screenName = typeof(MicroPlayer).FullName;
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight);
-                        page = this.container.Resolve<NanoPlayerPage>();
+                        screenName = typeof(NanoPlayer).FullName;
                         break;
                     default:
                         break;
@@ -415,7 +448,7 @@ namespace Dopamine.Views
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
-                page = this.container.Resolve<FullPlayerPage>();
+                screenName = typeof(FullPlayer.FullPlayer).FullName;
             }
 
             // Determine if the player position is locked
@@ -425,7 +458,7 @@ namespace Dopamine.Views
             await Task.Delay(150);
 
             // Navigate to content
-            this.ShellFrame.Navigate(page);
+            this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, screenName);
 
             this.canSaveWindowGeometry = true;
         }
@@ -530,6 +563,11 @@ namespace Dopamine.Views
             da.From = 0.0;
             da.To = 1.0;
             (e.Content as Page).BeginAnimation(OpacityProperty, da);
+        }
+
+        private void ShellWindow_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
         }
     }
 }

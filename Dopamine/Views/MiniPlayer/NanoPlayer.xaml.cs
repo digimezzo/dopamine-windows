@@ -2,9 +2,9 @@
 
 namespace Dopamine.Views.MiniPlayer
 {
-    public partial class MicroPlayerPage : Page
+    public partial class NanoPlayer : UserControl
     {
-        public MicroPlayerPage()
+        public NanoPlayer()
         {
             InitializeComponent();
         }
