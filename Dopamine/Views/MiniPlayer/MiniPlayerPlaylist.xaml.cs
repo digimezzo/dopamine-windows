@@ -11,11 +11,10 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Interop;
 
-namespace Dopamine.Views
+namespace Dopamine.Views.MiniPlayer
 {
-    public partial class Playlist : DopamineWindow
+    public partial class MiniPlayerPlaylist : DopamineWindow
     {
-        #region Variables
         private DopamineWindow parent;
         private IPlaybackService playbackService;
         private IRegionManager regionManager;
@@ -24,10 +23,8 @@ namespace Dopamine.Views
         private double separationSize = 5;
         private bool alignCoverPlayerPlaylistVertically;
         private IntPtr windowHandle;
-        #endregion
 
-        #region Construction
-        public Playlist(DopamineWindow parent, IPlaybackService playbackService, IRegionManager regionManager, IEventAggregator eventAggregator)
+        public MiniPlayerPlaylist(DopamineWindow parent, IPlaybackService playbackService, IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
@@ -43,23 +40,17 @@ namespace Dopamine.Views
                     await this.SetGeometry();
             });
         }
-        #endregion
 
-        #region Parent Handlers
         private async void Parent_LocationChanged(object sender, EventArgs e)
         {
             await this.SetGeometry();
         }
-        #endregion
 
-        #region Handlers
         protected override async void OnActivated(EventArgs e)
         {
             await this.SetGeometry();
         }
-        #endregion
 
-        #region Public
         public async Task Show(MiniPlayerType miniPlayerType)
         {
             this.miniPlayerType = miniPlayerType;
@@ -74,7 +65,7 @@ namespace Dopamine.Views
             this.alignCoverPlayerPlaylistVertically = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
             this.SetWindowBorder(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"));
 
-            // Makes sure the playlist doesn't appear briefly at the topleft 
+            // Makes sure the playlist doesn't appear briefly at the top left 
             // of the screen just before it is positioned by Me.SetGeometry()
             this.Top = this.parent.Top;
             this.Left = this.parent.Left;
@@ -93,9 +84,7 @@ namespace Dopamine.Views
 
             base.Hide();
         }
-        #endregion
 
-        #region Private
         private void SetTransparency()
         {
             if (EnvironmentUtils.IsWindows10() && SettingsClient.Get<bool>("Appearance", "EnableTransparency"))
@@ -192,6 +181,5 @@ namespace Dopamine.Views
 
             return new Tuple<double, double>(top, left);
         }
-        #endregion
     }
 }

@@ -380,9 +380,6 @@
     <Compile Include="Presentation\Views\EditTrackTagsControl.xaml.cs">
       <DependentUpon>EditTrackTagsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\Empty.xaml.cs">
-      <DependentUpon>Empty.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Views\EqualizerControl.xaml.cs">
       <DependentUpon>EqualizerControl.xaml</DependentUpon>
     </Compile>
@@ -651,10 +648,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Views\EditTrackTagsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Views\Empty.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

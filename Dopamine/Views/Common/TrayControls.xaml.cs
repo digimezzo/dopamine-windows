@@ -5,27 +5,21 @@ using Digimezzo.Utilities.Win32;
 using Dopamine.Common.Base;
 using Dopamine.Common.Services.Notification;
 using System;
-using System.Drawing;
 using System.Windows;
 
-namespace Dopamine.Views
+namespace Dopamine.Views.Common
 {
     public partial class TrayControls : Window
     {
-        #region Variables
         private INotificationService notificationService;
-        #endregion
 
-        #region Construction
         public TrayControls(INotificationService notificationService)
         {
             InitializeComponent();
 
             this.notificationService = notificationService;
         }
-        #endregion
 
-        #region Public
         public void Show()
         {
             LogClient.Info("Showing tray controls");
@@ -40,13 +34,11 @@ namespace Dopamine.Views
 
 
             // This is important so Deactivated is called even when the window was never clicked
-            // (When a maual activate is not triggered, Deactivated doesn't get called when
+            // (When a manual activate is not triggered, Deactivated doesn't get called when
             // clicking outside the window)
             this.Activate();
         }
-        #endregion
 
-        #region Private
         private void Window_Deactivated(object sender, EventArgs e)
         {
             // Closes this window when the mouse is clicked outside it
@@ -98,6 +90,5 @@ namespace Dopamine.Views
 
             LogClient.Info("Tray controls position: Taskbar position = {0}, Left = {1}px, Top = {2}px", taskbar.Position.ToString(), this.Left.ToString(), this.Top.ToString());
         }
-        #endregion
     }
 }

@@ -98,8 +98,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 }
             });
 
-            this.eventAggregator.GetEvent<SelectedSpectrumStyleChanged>().Subscribe((_) => this.SetSelectedSpectrumStyle());
-
             this.GetCheckBoxesAsync();
             this.GetSpectrumStylesAsync();
         }
@@ -128,11 +126,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             this.SpectrumStyles = localSpectrumStyles;
 
-            this.SetSelectedSpectrumStyle();
-        }
-
-        private async void SetSelectedSpectrumStyle()
-        {
             NameValue localSelectedSpectrumStyle = null;
             await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
             this.SelectedSpectrumStyle = localSelectedSpectrumStyle;
