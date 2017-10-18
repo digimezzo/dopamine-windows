@@ -25,7 +25,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using System.Windows.Navigation;
 
 namespace Dopamine.Views
 {
@@ -47,9 +46,7 @@ namespace Dopamine.Views
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
 
-        private bool isCoverPlayerListExpanded;
-        private bool isMicroPlayerListExpanded;
-        private bool isNanoPlayerListExpanded;
+        private ActiveMiniPlayerPlaylist activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.None;
 
         public DelegateCommand ShowNowPlayingCommand { get; set; }
         public DelegateCommand ShowFullPlayerCommmand { get; set; }
@@ -495,17 +492,17 @@ namespace Dopamine.Views
                 {
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight, this.isCoverPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.CoverPlayer);
                         screenName = typeof(CoverPlayer).FullName;
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight, this.isMicroPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.MicroPlayer);
                         screenName = typeof(MicroPlayer).FullName;
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight, this.isNanoPlayerListExpanded);
+                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.NanoPlayer);
                         screenName = typeof(NanoPlayer).FullName;
                         break;
                     default:
@@ -565,7 +562,7 @@ namespace Dopamine.Views
             this.SetWindowTopmostFromSettings();
         }
 
-        private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight, bool isMiniPlayerListExpanded)
+        private void SetMiniPlayer(MiniPlayerType miniPlayerType, bool openPlaylist)
         {
             // Hide the playlist BEFORE changing window dimensions to avoid strange behaviour
             this.miniPlayerPlaylist.Hide();
@@ -574,18 +571,40 @@ namespace Dopamine.Views
             this.ResizeMode = ResizeMode.CanMinimize;
             this.ShowWindowControls = false;
 
+            double width = 0;
+            double height = 0;
+
+            switch (miniPlayerType)
+            {
+                case MiniPlayerType.CoverPlayer:
+                    width = Constants.CoverPlayerWidth;
+                    height = Constants.CoverPlayerHeight;
+                    break;
+                case MiniPlayerType.MicroPlayer:
+                    width = Constants.MicroPlayerWidth;
+                    height = Constants.MicroPlayerHeight;
+                    break;
+                case MiniPlayerType.NanoPlayer:
+                    width = Constants.NanoPlayerWidth;
+                    height = Constants.NanoPlayerHeight;
+                    break;
+                default:
+                    // Can't happen
+                    break;
+            }
+
             // Set MinWidth and MinHeight BEFORE SetMiniPlayerDimensions(). This prevents flicker.
             if (this.HasBorder)
             {
                 // Correction to take into account the window border, otherwise the content 
                 // misses 2px horizontally and vertically when displaying the window border
-                this.MinWidth = playerWidth + 2;
-                this.MinHeight = playerHeight + 2;
+                this.MinWidth = width + 2;
+                this.MinHeight = height + 2;
             }
             else
             {
-                this.MinWidth = playerWidth;
-                this.MinHeight = playerHeight;
+                this.MinWidth = width;
+                this.MinHeight = height;
             }
 
             this.SetGeometry(
@@ -599,7 +618,7 @@ namespace Dopamine.Views
             this.SetWindowTopmostFromSettings();
 
             // Show the playlist AFTER changing window dimensions to avoid strange behaviour
-            if (isMiniPlayerListExpanded)
+            if (openPlaylist)
             {
                 this.miniPlayerPlaylist.Show(miniPlayerType);
             }
@@ -631,40 +650,30 @@ namespace Dopamine.Views
             }
         }
 
-        private void ShellFrame_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-            var da = new DoubleAnimation();
-            da.Duration = TimeSpan.FromSeconds(0.5);
-            //da.DecelerationRatio = 0.7;
-            da.From = 0.0;
-            da.To = 1.0;
-            (e.Content as Page).BeginAnimation(OpacityProperty, da);
-        }
-
         private void ShellWindow_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
         }
 
-        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isMiniPlayerListExpanded)
+        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool openPlaylist)
         {
             switch (miniPlayerType)
             {
                 case MiniPlayerType.CoverPlayer:
-                    this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
+                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.CoverPlayer;
                     break;
                 case MiniPlayerType.MicroPlayer:
-                    this.isMicroPlayerListExpanded = isMiniPlayerListExpanded;
+                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.MicroPlayer;
                     break;
                 case MiniPlayerType.NanoPlayer:
-                    this.isNanoPlayerListExpanded = isMiniPlayerListExpanded;
+                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.NanoPlayer;
                     break;
                 default:
                     break;
                     // Shouldn't happen
             }
 
-            if (isMiniPlayerListExpanded)
+            if (openPlaylist)
             {
                 this.miniPlayerPlaylist.Show(miniPlayerType);
             }
