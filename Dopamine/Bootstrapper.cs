@@ -35,6 +35,7 @@ using Dopamine.Views;
 using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
 using Dopamine.Views.MiniPlayer;
+using Dopamine.Views.NowPlaying;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -145,12 +146,11 @@ namespace Dopamine
             Container.RegisterType<object, CoverPlayer>(typeof(CoverPlayer).FullName);
             Container.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);
             Container.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
+            Container.RegisterType<object, NowPlaying>(typeof(NowPlaying).FullName);
         }
 
         protected void RegisterViewModels()
         {
-            //Container.RegisterType<object, ViewModels.OobeViewModel>(typeof(ViewModels.OobeViewModel).FullName);
-            //Container.RegisterType<object, ViewModels.ShellViewModel>(typeof(ViewModels.ShellViewModel).FullName);
         }
 
         protected override DependencyObject CreateShell()
