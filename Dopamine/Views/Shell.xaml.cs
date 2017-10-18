@@ -50,6 +50,11 @@ namespace Dopamine.Views
         public DelegateCommand ShowNowPlayingCommand { get; set; }
         public DelegateCommand ShowFullPlayerCommmand { get; set; }
         public DelegateCommand TogglePlayerCommand { get; set; }
+        public DelegateCommand<string> ChangePlayerTypeCommand { get; set; }
+        public DelegateCommand RestoreWindowCommand { get; set; }
+        public DelegateCommand MinimizeWindowCommand { get; set; }
+        public DelegateCommand MaximizeRestoreWindowCommand { get; set; }
+        public DelegateCommand CloseWindowCommand { get; set; }
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, 
             INotificationService notificationService, IWin32InputService win32InputService, 
@@ -67,25 +72,9 @@ namespace Dopamine.Views
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            this.ShowNowPlayingCommand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName));
-            ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
-            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName));
-            ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
-
-            
-
-            this.TogglePlayerCommand = new DelegateCommand(() =>
-            {
-                // If tablet mode is enabled, we should not be able to toggle the player.
-                if (!this.windowsIntegrationService.IsTabletModeEnabled)
-                {
-                    this.TogglePlayer();
-                }
-            });
-            ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
-
             this.InitializeTrayIcon();
             this.InitializeShellWindow();
+            this.InitializeCommands();
         }
 
         private void TogglePlayer()
@@ -227,6 +216,27 @@ namespace Dopamine.Views
             this.ActivateNow();
         }
 
+        private void InitializeTrayIcon()
+        {
+            this.trayIcon = new System.Windows.Forms.NotifyIcon();
+            this.trayIcon.Visible = false;
+            this.trayIcon.Text = ProductInformation.ApplicationName;
+
+            // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
+            // without specifying the full path, the application fails to find the Tray icon and crashes here
+            string iconFile = EnvironmentUtils.IsWindows10() ? "Tray.ico" : "Legacy tray.ico";
+
+            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
+            this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
+
+            this.trayIcon.MouseClick += TrayIcon_MouseClick;
+            this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
+
+            this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
+
+            this.trayControls = this.container.Resolve<TrayControls>();
+        }
+
         private void InitializeShellWindow()
         {
             // Start monitoring tablet mode
@@ -259,25 +269,40 @@ namespace Dopamine.Views
             this.CheckIfTabletMode();
         }
 
-        private void InitializeTrayIcon()
+        private void InitializeCommands()
         {
-            this.trayIcon = new System.Windows.Forms.NotifyIcon();
-            this.trayIcon.Visible = false;
-            this.trayIcon.Text = ProductInformation.ApplicationName;
+            // Window State
+            this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
+            ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
 
-            // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
-            // without specifying the full path, the application fails to find the Tray icon and crashes here
-            string iconFile = EnvironmentUtils.IsWindows10() ? "Tray.ico" : "Legacy tray.ico";
+            this.RestoreWindowCommand = new DelegateCommand(() => this.SetPlayer(false, MiniPlayerType.CoverPlayer));
+            ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
 
-            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
-            this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
+            this.MaximizeRestoreWindowCommand = new DelegateCommand(() => this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
+            ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
 
-            this.trayIcon.MouseClick += TrayIcon_MouseClick;
-            this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
+            this.CloseWindowCommand = new DelegateCommand(() => this.Close());
+            ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
 
-            this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
+            this.ShowNowPlayingCommand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName));
+            ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
 
-            this.trayControls = this.container.Resolve<TrayControls>();
+            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName));
+            ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
+
+            // Player type
+            this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) => this.SetPlayer(true, (MiniPlayerType)Convert.ToInt32(miniPlayerType)));
+            ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
+
+            this.TogglePlayerCommand = new DelegateCommand(() =>
+            {
+                // If tablet mode is enabled, we should not be able to toggle the player.
+                if (!this.windowsIntegrationService.IsTabletModeEnabled)
+                {
+                    this.TogglePlayer();
+                }
+            });
+            ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)

@@ -165,6 +165,9 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
+    <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
+    <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
+    <Compile Include="ViewModels\MiniPlayer\NanoPlayerViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingShowcaseViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
