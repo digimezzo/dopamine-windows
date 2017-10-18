@@ -35,15 +35,16 @@ namespace Dopamine.ViewModels.MiniPlayer
 
             this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
-                this.eventAggregator.GetEvent<CoverPlayerPlaylistButtonClicked>().Publish(isPlaylistButtonChecked.Value);
                 this.IsPlaylistVisible = isPlaylistButtonChecked.Value;
             });
+            ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
 
             this.ToggleAlwaysShowPlaybackInfoCommand = new DelegateCommand(() =>
             {
                 this.AlwaysShowPlaybackInfo = !this.AlwaysShowPlaybackInfo;
                 SettingsClient.Set<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo", this.AlwaysShowPlaybackInfo);
             });
+            ApplicationCommands.ToggleAlwaysShowPlaybackInfoCommand.RegisterCommand(this.ToggleAlwaysShowPlaybackInfoCommand);
 
             this.ToggleAlignPlaylistVerticallyCommand = new DelegateCommand(() =>
             {
@@ -51,10 +52,7 @@ namespace Dopamine.ViewModels.MiniPlayer
                 SettingsClient.Set<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically", this.AlignPlaylistVertically);
                 this.eventAggregator.GetEvent<ToggledCoverPlayerAlignPlaylistVertically>().Publish(this.AlignPlaylistVertically);
             });
-
-            ApplicationCommands.ToggleAlwaysShowPlaybackInfoCommand.RegisterCommand(this.ToggleAlwaysShowPlaybackInfoCommand);
             ApplicationCommands.ToggleAlignPlaylistVerticallyCommand.RegisterCommand(this.ToggleAlignPlaylistVerticallyCommand);
-            ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
 
             this.AlwaysShowPlaybackInfo = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlwaysShowPlaybackInfo");
             this.AlignPlaylistVertically = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");

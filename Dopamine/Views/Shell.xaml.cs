@@ -47,6 +47,10 @@ namespace Dopamine.Views
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
 
+        private bool isCoverPlayerListExpanded;
+        private bool isMicroPlayerListExpanded;
+        private bool isNanoPlayerListExpanded;
+
         public DelegateCommand ShowNowPlayingCommand { get; set; }
         public DelegateCommand ShowFullPlayerCommmand { get; set; }
         public DelegateCommand TogglePlayerCommand { get; set; }
@@ -55,10 +59,13 @@ namespace Dopamine.Views
         public DelegateCommand MinimizeWindowCommand { get; set; }
         public DelegateCommand MaximizeRestoreWindowCommand { get; set; }
         public DelegateCommand CloseWindowCommand { get; set; }
+        public DelegateCommand<bool?> CoverPlayerPlaylistButtonCommand { get; set; }
+        public DelegateCommand<bool?> MicroPlayerPlaylistButtonCommand { get; set; }
+        public DelegateCommand<bool?> NanoPlayerPlaylistButtonCommand { get; set; }
 
-        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, 
-            INotificationService notificationService, IWin32InputService win32InputService, 
-            IPlaybackService playbackService, IMetadataService metadataService, IRegionManager regionManager, 
+        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
+            INotificationService notificationService, IWin32InputService win32InputService,
+            IPlaybackService playbackService, IMetadataService metadataService, IRegionManager regionManager,
             IEventAggregator eventAggregator)
         {
             InitializeComponent();
@@ -303,6 +310,25 @@ namespace Dopamine.Views
                 }
             });
             ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
+
+            // Mini Player Playlist
+            this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
+            {
+                this.ToggleMiniPlayerPlaylist(MiniPlayerType.CoverPlayer, isPlaylistButtonChecked.Value);
+            });
+            ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
+
+            this.MicroPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
+            {
+                this.ToggleMiniPlayerPlaylist(MiniPlayerType.MicroPlayer, isPlaylistButtonChecked.Value);
+            });
+            ApplicationCommands.MicroPlayerPlaylistButtonCommand.RegisterCommand(this.MicroPlayerPlaylistButtonCommand);
+
+            this.NanoPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
+            {
+                this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked.Value);
+            });
+            ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -450,17 +476,17 @@ namespace Dopamine.Views
                 {
                     case MiniPlayerType.CoverPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight);
+                        this.SetMiniPlayer(MiniPlayerType.CoverPlayer, Constants.CoverPlayerWidth, Constants.CoverPlayerHeight, this.isCoverPlayerListExpanded);
                         screenName = typeof(CoverPlayer).FullName;
                         break;
                     case MiniPlayerType.MicroPlayer:
                         this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight);
+                        this.SetMiniPlayer(MiniPlayerType.MicroPlayer, Constants.MicroPlayerWidth, Constants.MicroPlayerHeight, this.isMicroPlayerListExpanded);
                         screenName = typeof(MicroPlayer).FullName;
                         break;
                     case MiniPlayerType.NanoPlayer:
                         this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
-                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight);
+                        this.SetMiniPlayer(MiniPlayerType.NanoPlayer, Constants.NanoPlayerWidth, Constants.NanoPlayerHeight, this.isNanoPlayerListExpanded);
                         screenName = typeof(NanoPlayer).FullName;
                         break;
                     default:
@@ -520,9 +546,9 @@ namespace Dopamine.Views
             this.SetWindowTopmostFromSettings();
         }
 
-        private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight)
+        private void SetMiniPlayer(MiniPlayerType miniPlayerType, double playerWidth, double playerHeight, bool isMiniPlayerListExpanded)
         {
-            // Hide the playlist before changing window dimensions to avoid strange behaviour
+            // Hide the playlist BEFORE changing window dimensions to avoid strange behaviour
             this.miniPlayerPlaylist.Hide();
 
             this.WindowState = WindowState.Normal;
@@ -552,6 +578,12 @@ namespace Dopamine.Views
                Constants.DefaultShellLeft);
 
             this.SetWindowTopmostFromSettings();
+
+            // Show the playlist AFTER changing window dimensions to avoid strange behaviour
+            if (isMiniPlayerListExpanded)
+            {
+                this.miniPlayerPlaylist.Show(miniPlayerType);
+            }
         }
 
         private void SetWindowTopmostFromSettings()
@@ -593,6 +625,34 @@ namespace Dopamine.Views
         private void ShellWindow_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
+        }
+
+        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isMiniPlayerListExpanded)
+        {
+            switch (miniPlayerType)
+            {
+                case MiniPlayerType.CoverPlayer:
+                    this.isCoverPlayerListExpanded = isMiniPlayerListExpanded;
+                    break;
+                case MiniPlayerType.MicroPlayer:
+                    this.isMicroPlayerListExpanded = isMiniPlayerListExpanded;
+                    break;
+                case MiniPlayerType.NanoPlayer:
+                    this.isNanoPlayerListExpanded = isMiniPlayerListExpanded;
+                    break;
+                default:
+                    break;
+                    // Shouldn't happen
+            }
+
+            if (isMiniPlayerListExpanded)
+            {
+                this.miniPlayerPlaylist.Show(miniPlayerType);
+            }
+            else
+            {
+                this.miniPlayerPlaylist.Hide();
+            }
         }
     }
 }
