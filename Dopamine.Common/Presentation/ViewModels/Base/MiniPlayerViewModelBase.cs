@@ -59,23 +59,20 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             // Commands
             this.ChangePlayerTypeCommand = new DelegateCommand<string>(miniPlayerType => this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)(int.Parse(miniPlayerType))));
+            ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
 
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
             {
                 IsMiniPlayerPositionLocked = !IsMiniPlayerPositionLocked;
                 SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", IsMiniPlayerPositionLocked);
             });
+            ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
-                IsMiniPlayerAlwaysOnTop = !IsMiniPlayerAlwaysOnTop;
-                SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", IsMiniPlayerAlwaysOnTop);
+                this.IsMiniPlayerAlwaysOnTop = !this.IsMiniPlayerAlwaysOnTop;
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", this.IsMiniPlayerAlwaysOnTop);
             });
-
-            // Register Commands: all 3 Mini Players need to listen to these Commands, even if 
-            // their Views are not active. That is why we don't use Subscribe and Unsubscribe.
-            ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
-            ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
             ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
 
             //Initialize

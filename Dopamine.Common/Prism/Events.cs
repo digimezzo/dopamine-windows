@@ -3,7 +3,6 @@ using System;
 
 namespace Dopamine.Common.Prism
 {
-    // Used after refactoring
     public class ScrollToPlayingTrack : PubSubEvent<object>
     {
     }
@@ -19,19 +18,6 @@ namespace Dopamine.Common.Prism
     public class ScrollToHighlightedLyricsLine : PubSubEvent<object>
     {
     }
-
-    // To be verified
-    //public class CoverPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    //{
-    //}
-
-    //public class MicroPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    //{
-    //}
-
-    //public class NanoPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    //{
-    //}
 
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
