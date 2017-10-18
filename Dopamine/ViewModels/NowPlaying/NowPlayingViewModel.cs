@@ -1,15 +1,12 @@
-﻿using Prism.Mvvm;
+﻿using Dopamine.Common.Presentation.ViewModels.Base;
+using Dopamine.Common.Services.Playback;
 
 namespace Dopamine.ViewModels.NowPlaying
 {
-    public class NowPlayingViewModel : BindableBase
+    public class NowPlayingViewModel : NowPlayingViewModelBase
     {
-        private int nowPlayingSelectedPageIndex;
-
-        public int NowPlayingSelectedPageIndex
+        public NowPlayingViewModel(IPlaybackService playbackService) : base(playbackService)
         {
-            get { return nowPlayingSelectedPageIndex; }
-            set { SetProperty<int>(ref this.nowPlayingSelectedPageIndex, value); }
         }
     }
 }
