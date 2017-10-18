@@ -257,6 +257,7 @@
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
     <Compile Include="Presentation\Utils\UriUtils.cs" />
+    <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
@@ -344,6 +345,7 @@
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\Base\CommonViewBase.cs" />
+    <Compile Include="Presentation\Views\Base\MiniPlayerViewBase.cs" />
     <Compile Include="Presentation\Views\Base\PlaylistViewBase.cs" />
     <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
     <Compile Include="Presentation\Views\Base\VolumeControlViewBase.cs" />

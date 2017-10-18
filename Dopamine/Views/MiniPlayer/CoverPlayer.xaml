@@ -1,12 +1,125 @@
-﻿<UserControl x:Class="Dopamine.Views.MiniPlayer.CoverPlayer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<baseviews:MiniPlayerViewBase x:Class="Dopamine.Views.MiniPlayer.CoverPlayer"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
+                              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+                              xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
+                              xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+                              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+                              mc:Ignorable="d"
+                              d:DesignHeight="300" d:DesignWidth="300"
+                              Loaded="CommonMiniPlayerView_Loaded"
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <Grid>
-        <TextBlock FontSize="20" Text="Cover player" Foreground="LightGreen"/>
-    </Grid>
-</UserControl>
+    <baseviews:MiniPlayerViewBase.Resources>
+        <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Storyboard x:Key="ShowPlaybackInfo">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="HidePlaybackInfo">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="ShowCoverControls">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="CoverControls" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="HideCoverControls">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="CoverControls" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.15" />
+            </Storyboard>
+        </Storyboard>
+    </baseviews:MiniPlayerViewBase.Resources>
+
+    <baseviews:MiniPlayerViewBase.ContextMenu>
+        <ContextMenu>
+            <ContextMenu.Resources>
+                <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+            </ContextMenu.Resources>
+            <MenuItem Header="{DynamicResource Language_Always_On_Top}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerAlwaysOnTop,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Lock_Position}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerPositionLockedCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerPositionLocked,Mode=OneWay}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Language_Cover_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding IsCoverPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Micro_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding IsMicroPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Nano_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding IsNanoPlayerChecked,Mode=OneWay}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Language_Always_Show_Playback_Info}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleAlwaysShowPlaybackInfoCommand}" IsCheckable="True" IsChecked="{Binding AlwaysShowPlaybackInfo,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Align_Playlist_Vertically}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleAlignPlaylistVerticallyCommand}" IsCheckable="True" IsChecked="{Binding AlignPlaylistVertically,Mode=OneWay}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                        <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        <Setter Property="CommandParameter" Value="{Binding Name}"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemsSource>
+                    <CompositeCollection>
+                        <MenuItem Header="{Binding Source={StaticResource NewPlaylistProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}"/>
+                        <Separator/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}"/>
+                    </CompositeCollection>
+                </MenuItem.ItemsSource>
+            </MenuItem>
+        </ContextMenu>
+    </baseviews:MiniPlayerViewBase.ContextMenu>
+
+    <StackPanel>
+        <!-- Covert art -->
+        <Grid x:Name="CoverGrid" Cursor="Hand" MouseLeftButtonDown="CoverGrid_MouseLeftButtonDown">
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Grid.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ShowCoverControls}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Grid.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource HideCoverControls}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            <commonviews:CoverArtControl x:Name="CoverArt" Panel.ZIndex="0" Width="350" Height="350"/>
+            <!-- Cover controls -->
+            <DockPanel x:Name="CoverControls" Panel.ZIndex="2" Opacity="0" VerticalAlignment="Top">
+                <Grid>
+                    <Border Panel.ZIndex="0" Height="29" HorizontalAlignment="Stretch" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
+                    <commonviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
+                </Grid>
+            </DockPanel>
+            <!-- Playback info -->
+            <Grid x:Name="PlaybackInfo" Panel.ZIndex="1">
+                <commonviews:CoverPlaybackInfoControl Panel.ZIndex="1" ArtistFontSize="15" TitleFontSize="30" Margin="30,270,30,0"/>
+                <Border Panel.ZIndex="0" VerticalAlignment="Bottom" Background="{DynamicResource RG_BlackToTransparentBottomTopBrush}" Width="350" Height="100"/>
+                <Grid.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsMouseOver, ElementName=CoverGrid}" Value="False"/>
+                                    <Condition Binding="{Binding Path=AlwaysShowPlaybackInfo}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HidePlaybackInfo}"/>
+                                </MultiDataTrigger.EnterActions>
+                                <MultiDataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ShowPlaybackInfo}"/>
+                                </MultiDataTrigger.ExitActions>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+        </Grid>
+        <!-- Progress bar -->
+        <commonviews:ProgressControls Height="14" Margin="0,-6,0,0"/>
+        <!-- Controls -->
+        <Grid>
+            <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom"  HorizontalAlignment="Left"/>
+            <commonviews:CoverPlayerControls Panel.ZIndex="1" Margin="0,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+    </StackPanel>
+</baseviews:MiniPlayerViewBase>
