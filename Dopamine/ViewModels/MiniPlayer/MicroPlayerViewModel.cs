@@ -19,10 +19,8 @@ namespace Dopamine.ViewModels.MiniPlayer
 
             this.MicroPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
-                this.eventAggregator.GetEvent<MicroPlayerPlaylistButtonClicked>().Publish(isPlaylistButtonChecked.Value);
                 this.IsPlaylistVisible = isPlaylistButtonChecked.Value;
             });
-
             ApplicationCommands.MicroPlayerPlaylistButtonCommand.RegisterCommand(this.MicroPlayerPlaylistButtonCommand);
 
         }

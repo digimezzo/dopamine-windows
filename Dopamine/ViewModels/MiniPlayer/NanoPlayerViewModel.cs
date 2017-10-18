@@ -18,10 +18,8 @@ namespace Dopamine.ViewModels.MiniPlayer
 
             this.NanoPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(iIsPlaylistButtonChecked =>
             {
-                this.eventAggregator.GetEvent<NanoPlayerPlaylistButtonClicked>().Publish(iIsPlaylistButtonChecked.Value);
                 this.IsPlaylistVisible = iIsPlaylistButtonChecked.Value;
             });
-
             ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
         }
     }

@@ -21,17 +21,17 @@ namespace Dopamine.Common.Prism
     }
 
     // To be verified
-    public class CoverPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    {
-    }
+    //public class CoverPlayerPlaylistButtonClicked : PubSubEvent<bool>
+    //{
+    //}
 
-    public class MicroPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    {
-    }
+    //public class MicroPlayerPlaylistButtonClicked : PubSubEvent<bool>
+    //{
+    //}
 
-    public class NanoPlayerPlaylistButtonClicked : PubSubEvent<bool>
-    {
-    }
+    //public class NanoPlayerPlaylistButtonClicked : PubSubEvent<bool>
+    //{
+    //}
 
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
