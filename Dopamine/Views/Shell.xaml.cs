@@ -491,17 +491,14 @@ namespace Dopamine.Views
                 switch (miniPlayerType)
                 {
                     case MiniPlayerType.CoverPlayer:
-                        this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.CoverPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.CoverPlayer);
                         screenName = typeof(CoverPlayer).FullName;
                         break;
                     case MiniPlayerType.MicroPlayer:
-                        this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.MicroPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.MicroPlayer);
                         screenName = typeof(MicroPlayer).FullName;
                         break;
                     case MiniPlayerType.NanoPlayer:
-                        this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                         this.SetMiniPlayer(MiniPlayerType.NanoPlayer, this.activeMiniPlayerPlaylist == ActiveMiniPlayerPlaylist.NanoPlayer);
                         screenName = typeof(NanoPlayer).FullName;
                         break;
@@ -577,14 +574,17 @@ namespace Dopamine.Views
             switch (miniPlayerType)
             {
                 case MiniPlayerType.CoverPlayer:
+                    this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                     width = Constants.CoverPlayerWidth;
                     height = Constants.CoverPlayerHeight;
                     break;
                 case MiniPlayerType.MicroPlayer:
+                    this.ClosingText.FontSize = Constants.MediumBackgroundFontSize;
                     width = Constants.MicroPlayerWidth;
                     height = Constants.MicroPlayerHeight;
                     break;
                 case MiniPlayerType.NanoPlayer:
+                    this.ClosingText.FontSize = Constants.SmallBackgroundFontSize;
                     width = Constants.NanoPlayerWidth;
                     height = Constants.NanoPlayerHeight;
                     break;

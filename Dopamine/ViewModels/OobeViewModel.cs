@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Dialog;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,16 +13,6 @@ namespace Dopamine.ViewModels
         private bool isOverlayVisible;
         private bool showButtonGoBack;
         private bool showButtonFinish;
-
-        private enum OobePage
-        {
-            Welcome = 0,
-            Language = 1,
-            Appearance = 2,
-            Collection = 3,
-            Donate = 4,
-            Finish = 5
-        }
 
         private OobePage selectedOobePage;
 
