@@ -29,7 +29,7 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:Pivot Panel.ZIndex="1" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+        <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding NowPlayingSelectedPageIndex}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
             <dc:PivotItem>
                 <!-- Displayed when no tracks are queued -->
                 <commonviews:NothingPlayingControl/>
