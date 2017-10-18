@@ -4,12 +4,11 @@
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:prism="http://www.codeplex.com/prism"
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                          xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-                         xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
                          xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                          mc:Ignorable="d"
                          Title="Playlist"
                          Height="300" 
@@ -30,13 +29,15 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <!--<dc:SlidingContentControl 
-            x:Name="MiniPlayerPlaylistRegion" 
-            Panel.ZIndex="1" 
-            HorizontalAlignment="Stretch" 
-            VerticalAlignment="Stretch" 
-            SlideDirection="RightToLeft" 
-            SlideFadeIn="True" 
-            prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.MiniPlayerPlaylistRegion}"/>-->
+        <dc:Pivot Panel.ZIndex="1" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+            <dc:PivotItem>
+                <!-- Displayed when no tracks are queued -->
+                <commonviews:NothingPlayingControl/>
+            </dc:PivotItem>
+            <dc:PivotItem>
+                <!-- Displayed when tracks are queued -->
+                <commonviews:NowPlayingControl/>
+            </dc:PivotItem>
+        </dc:Pivot>
     </Grid>
 </controls:DopamineWindow>

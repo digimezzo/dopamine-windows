@@ -103,20 +103,29 @@
                     </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingItemIndex,ElementName=NowPlayingPlaybackControls}"
-                          HeaderVisibility="Collapsed" FeatheringRadius="24" Margin="100,90,100,120" AnimationType="Slide"
+                <dc:Pivot HeaderVisibility="Collapsed" FeatheringRadius="24" Margin="100,90,100,120" AnimationType="Slide" SlideFadeIn="True">
+                    <dc:PivotItem>
+                        <!-- Displayed when no tracks are queued -->
+                        <commonviews:NothingPlayingControl/>
+                    </dc:PivotItem>
+                    <dc:PivotItem>
+                        <!-- Displayed when tracks are queued -->
+                        <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingItemIndex,ElementName=NowPlayingPlaybackControls}"
+                          HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide"
                           SlideFadeIn="True">
-                    <dc:PivotItem>
-                        <nowplayingviews:NowPlayingShowcase/>
-                    </dc:PivotItem>
-                    <dc:PivotItem>
-                        <nowplayingviews:NowPlayingPlaylist/>
-                    </dc:PivotItem>
-                    <dc:PivotItem>
-                        <nowplayingviews:NowPlayingLyrics/>
-                    </dc:PivotItem>
-                    <dc:PivotItem>
-                        <nowplayingviews:NowPlayingArtistInformation/>
+                            <dc:PivotItem>
+                                <nowplayingviews:NowPlayingShowcase/>
+                            </dc:PivotItem>
+                            <dc:PivotItem>
+                                <nowplayingviews:NowPlayingPlaylist/>
+                            </dc:PivotItem>
+                            <dc:PivotItem>
+                                <nowplayingviews:NowPlayingLyrics/>
+                            </dc:PivotItem>
+                            <dc:PivotItem>
+                                <nowplayingviews:NowPlayingArtistInformation/>
+                            </dc:PivotItem>
+                        </dc:Pivot>
                     </dc:PivotItem>
                 </dc:Pivot>
             </Grid>
