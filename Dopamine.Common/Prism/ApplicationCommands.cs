@@ -4,7 +4,6 @@ namespace Dopamine.Common.Prism
 {
     public sealed class ApplicationCommands
     {
-        // Used after refactoring
         public static CompositeCommand ShowNowPlayingCommand = new CompositeCommand();
         public static CompositeCommand ShowFullPlayerCommand = new CompositeCommand();
         public static CompositeCommand TogglePlayerCommand = new CompositeCommand();
@@ -20,8 +19,6 @@ namespace Dopamine.Common.Prism
         public static CompositeCommand RefreshLyricsCommand = new CompositeCommand();
         public static CompositeCommand ToggleAlignPlaylistVerticallyCommand = new CompositeCommand();
         public static CompositeCommand ToggleMiniPlayerPositionLockedCommand = new CompositeCommand();
-
-        // To be verified
         public static CompositeCommand ToggleMiniPlayerAlwaysOnTopCommand = new CompositeCommand();
         public static CompositeCommand ToggleAlwaysShowPlaybackInfoCommand = new CompositeCommand();
     }
