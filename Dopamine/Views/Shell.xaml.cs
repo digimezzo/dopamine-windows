@@ -62,6 +62,7 @@ namespace Dopamine.Views
         public DelegateCommand<bool?> CoverPlayerPlaylistButtonCommand { get; set; }
         public DelegateCommand<bool?> MicroPlayerPlaylistButtonCommand { get; set; }
         public DelegateCommand<bool?> NanoPlayerPlaylistButtonCommand { get; set; }
+        public DelegateCommand ToggleMiniPlayerPositionLockedCommand { get; set; }
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
             INotificationService notificationService, IWin32InputService win32InputService,
@@ -329,6 +330,15 @@ namespace Dopamine.Views
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked.Value);
             });
             ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
+
+            // Mini Player
+            this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
+            {
+                bool isMiniPlayerPositionLocked = SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked");
+                SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", !isMiniPlayerPositionLocked);
+                this.SetWindowPositionLockedFromSettings();
+            });
+            ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
