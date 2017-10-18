@@ -1,20 +1,20 @@
 ﻿namespace Dopamine.Common.Enums
 {
-    public enum SelectedNowPlayingPage
+    public enum OobePage
     {
-        ShowCase = 1,
-        Playlist = 2,
-        Lyrics = 3,
-        ArtistInformation = 4,
+        Welcome = 0,
+        Language = 1,
+        Appearance = 2,
+        Collection = 3,
+        Donate = 4,
+        Finish = 5
     }
 
-    public enum SelectedPage
-    {
-        Artists = 1,
-        Genres = 2,
-        Albums = 3,
-        Tracks = 4,
-        Playlists = 5,
-        Recent = 6
-    }
+    //public enum SelectedNowPlayingSubPage
+    //{
+    //    ShowCase = 1,
+    //    Playlist = 2,
+    //    Lyrics = 3,
+    //    ArtistInformation = 4,
+    //}
 }
