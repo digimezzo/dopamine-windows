@@ -167,9 +167,11 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
+    <Compile Include="ViewModels\MiniPlayer\MiniPlayerPlaylistViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\NanoPlayerViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingShowcaseViewModel.cs" />
+    <Compile Include="ViewModels\NowPlaying\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\Common\AppearanceLanguage.xaml.cs">
