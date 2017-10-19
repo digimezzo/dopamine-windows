@@ -10,6 +10,12 @@
         Finish = 5
     }
 
+    public enum NowPlayingPage
+    {
+        NothingPlaying = 0,
+        NowPlaying = 1,
+    }
+
     //public enum SelectedNowPlayingSubPage
     //{
     //    ShowCase = 1,

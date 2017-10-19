@@ -105,7 +105,7 @@
                     </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:Pivot HeaderVisibility="Collapsed" SelectedIndex="{Binding NowPlayingSelectedPageIndex}" 
+                <dc:Pivot HeaderVisibility="Collapsed" SelectedIndex="{Binding SelectedNowPlayingPageIndex,Mode=OneWay}" 
                           FeatheringRadius="24" Margin="100,90,100,120" AnimationType="Slide" SlideFadeIn="True">
                     <dc:PivotItem>
                         <!-- Displayed when no tracks are queued -->
