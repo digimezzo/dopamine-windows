@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>92</Value>
+      <Value>93</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -35,11 +35,11 @@
     <Setting Name="Left">
       <Value>50</Value>
     </Setting>
-    <Setting Name="SelectedPage">
-      <Value>1</Value>
+    <Setting Name="SelectedCollectionPage">
+      <Value>0</Value>
     </Setting>
-    <Setting Name="SelectedNowPlayingPage">
-      <Value>2</Value>
+    <Setting Name="SelectedNowPlayingSubPage">
+      <Value>0</Value>
     </Setting>
     <Setting Name="IsNowPlayingSelected">
       <Value>False</Value>
