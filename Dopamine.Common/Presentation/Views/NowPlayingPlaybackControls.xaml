@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
+             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -28,7 +29,7 @@
             <local:SizingTimeControl Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25,0,0,0" TimeHorizontalAlignment="Left"/>
             <!-- Buttons -->
             <dc:Pivot Grid.Column="1" Visibility="{Binding HasPlaybackQueue,Converter={StaticResource BooleanToCollapsedConverter}}"
-                      VerticalAlignment="Center" SelectedIndex="{Binding SelectedNowPlayingSubPageIndex, ElementName=This}">
+                      VerticalAlignment="Center" SelectedIndex="{Binding SelectedNowPlayingSubPage,Mode=TwoWay,ElementName=This,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingSubPage}}">
                 <!-- Showcase button -->
                 <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
                               SelectedHeaderForeground="{DynamicResource RG_AccentBrush}">

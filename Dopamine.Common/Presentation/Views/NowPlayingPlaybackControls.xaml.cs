@@ -1,28 +1,37 @@
-﻿using System.Windows;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Enums;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
     public partial class NowPlayingPlaybackControls : UserControl
     {
-        public int SelectedNowPlayingSubPageIndex
+        public NowPlayingSubPage SelectedNowPlayingSubPage
         {
-            get { return (int)GetValue(SelectedNowPlayingSubPageIndexProperty); }
-            set { SetValue(SelectedNowPlayingSubPageIndexProperty, value); }
+            get { return (NowPlayingSubPage)GetValue(SelectedNowPlayingSubPageProperty); }
+            set { SetValue(SelectedNowPlayingSubPageProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedNowPlayingSubPageIndexProperty =
-            DependencyProperty.Register(nameof(SelectedNowPlayingSubPageIndex), typeof(int), typeof(NowPlayingPlaybackControls), new PropertyMetadata(0, new PropertyChangedCallback(SelectedNowPlayingSubPageIndexPropertyChanged)));
+        public static readonly DependencyProperty SelectedNowPlayingSubPageProperty =
+            DependencyProperty.Register(
+                nameof(SelectedNowPlayingSubPage), 
+                typeof(NowPlayingSubPage), 
+                typeof(NowPlayingPlaybackControls), 
+                new PropertyMetadata(NowPlayingSubPage.ShowCase, new PropertyChangedCallback(SelectedNowPlayingSubPagePropertyChanged)));
 
-        private static void SelectedNowPlayingSubPageIndexPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void SelectedNowPlayingSubPagePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            // TODO: save setting
+            if(d is NowPlayingPlaybackControls)
+            {
+                SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingSubPage", (int)((NowPlayingPlaybackControls)d).SelectedNowPlayingSubPage);
+            }
         }
 
         public NowPlayingPlaybackControls()
         {
             InitializeComponent();
-            // TODO: load from setting
+            this.SelectedNowPlayingSubPage = (NowPlayingSubPage)SettingsClient.Get<int>("FullPlayer", "SelectedNowPlayingSubPage");
         }
     }
 }

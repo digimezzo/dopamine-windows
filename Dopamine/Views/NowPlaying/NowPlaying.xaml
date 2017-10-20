@@ -114,7 +114,7 @@
                     </dc:PivotItem>
                     <dc:PivotItem>
                         <!-- Displayed when tracks are queued -->
-                        <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingSubPageIndex,ElementName=NowPlayingPlaybackControls}"
+                        <dc:Pivot SelectedIndex="{Binding SelectedNowPlayingSubPage,ElementName=NowPlayingPlaybackControls,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingSubPage}}"
                           HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide"
                           SlideFadeIn="True">
                             <dc:PivotItem>
