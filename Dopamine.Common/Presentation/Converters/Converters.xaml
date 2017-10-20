@@ -18,4 +18,5 @@
     <local:AddEllipsisConverter x:Key="AddEllipsisConverter"/>
     <local:SpectrumStyleEllipseConverter x:Key="SpectrumStyleEllipseConverter"/>
     <local:LyricSourceVisibilityConverter x:Key="LyricSourceVisibilityConverter"/>
+    <local:EnumConverter x:Key="EnumConverter"/>
 </ResourceDictionary>

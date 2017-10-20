@@ -252,6 +252,7 @@
     <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
+    <Compile Include="Presentation\Converters\EnumConverter.cs" />
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />

@@ -9,6 +9,7 @@
                          xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                          xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+                         xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
                          mc:Ignorable="d"
                          Title="Playlist"
                          Height="300" 
@@ -29,7 +30,7 @@
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
     <Grid>
         <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPageIndex, Mode=OneWay}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+        <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
             <dc:PivotItem>
                 <!-- Displayed when no tracks are queued -->
                 <commonviews:NothingPlayingControl/>
