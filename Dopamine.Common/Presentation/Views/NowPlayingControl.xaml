@@ -45,8 +45,12 @@
                               IsChecked="{Binding ShowTrackArt}"
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
-                        <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                        <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Border ToolTip="{DynamicResource Language_Hide_Song_Covers}" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24"/>
+                        </Border>
+                        <Border ToolTip="{DynamicResource Language_Show_Song_Covers}" Visibility="{Binding IsChecked,ElementName=ShowPicturesButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
+                            <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24"/>
+                        </Border>
                     </Grid>
                 </ToggleButton>
                 <controls:TotalsInformation

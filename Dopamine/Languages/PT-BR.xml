@@ -408,4 +408,6 @@
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
+  <Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Hide_Song_Covers">Hide song covers</Text>
 </Language>
