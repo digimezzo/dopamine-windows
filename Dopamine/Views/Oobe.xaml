@@ -4,11 +4,11 @@
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-                         xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
                          xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
-                         xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+                         xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+                         xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
+                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          mc:Ignorable="d"
                          Title="Dopamine"
                          Height="550"
@@ -85,7 +85,7 @@
                                   ItemFill="{Binding Path=Background,ElementName=proxyborder,Converter={StaticResource BrushOpacityConverter},ConverterParameter=0.3}" 
                                   SelectedItemFill="{DynamicResource RG_AccentBrush}" Margin="10"
                                   NumberOfItems="6" ActiveItem="{Binding SelectedIndex,ElementName=oobewizard}"/>
-                <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePageIndex,Mode=OneWay}" 
+                <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePage,Mode=TwoWay,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:OobePage}}" 
                           DisableTabKey="True" AnimationType="Slide" FeatheringRadius="24" HeaderVisibility="Collapsed">
                     <!-- Welcome -->
                     <dc:PivotItem>

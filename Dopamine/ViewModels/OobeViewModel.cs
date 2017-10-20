@@ -38,9 +38,10 @@ namespace Dopamine.ViewModels
             set { SetProperty<bool>(ref this.showButtonFinish, value); }
         }
 
-        public Int32 SelectedOobePageIndex
+        public OobePage SelectedOobePage
         {
-            get { return (Int32)this.selectedOobePage; }
+            get { return (OobePage)this.selectedOobePage; }
+            set { SetProperty<OobePage>(ref this.selectedOobePage, value); }
         }
 
         public bool CanGoBack
@@ -89,12 +90,6 @@ namespace Dopamine.ViewModels
             });
         }
 
-        private void SetSelectedOobePage(OobePage page)
-        {
-            this.selectedOobePage = page;
-            RaisePropertyChanged(nameof(this.SelectedOobePageIndex));
-        }
-
         private void GoBack()
         {
             switch (this.selectedOobePage)
@@ -103,19 +98,19 @@ namespace Dopamine.ViewModels
                     // Do nothing
                     break;
                 case OobePage.Language:
-                    this.SetSelectedOobePage(OobePage.Welcome);
+                    this.SelectedOobePage = OobePage.Welcome;
                     break;
                 case OobePage.Appearance:
-                    this.SetSelectedOobePage(OobePage.Language);
+                    this.SelectedOobePage = OobePage.Language;
                     break;
                 case OobePage.Collection:
-                    this.SetSelectedOobePage(OobePage.Appearance);
+                    this.SelectedOobePage = OobePage.Appearance;
                     break;
                 case OobePage.Donate:
-                    this.SetSelectedOobePage(OobePage.Collection);
+                    this.SelectedOobePage = OobePage.Collection;
                     break;
                 case OobePage.Finish:
-                    this.SetSelectedOobePage(OobePage.Donate);
+                    this.SelectedOobePage = OobePage.Donate;
                     break;
                 default:
                     break;
@@ -130,19 +125,19 @@ namespace Dopamine.ViewModels
             switch (this.selectedOobePage)
             {
                 case OobePage.Welcome:
-                    this.SetSelectedOobePage(OobePage.Language);
+                    this.SelectedOobePage = OobePage.Language;
                     break;
                 case OobePage.Language:
-                    this.SetSelectedOobePage(OobePage.Appearance);
+                    this.SelectedOobePage = OobePage.Appearance;
                     break;
                 case OobePage.Appearance:
-                    this.SetSelectedOobePage(OobePage.Collection);
+                    this.SelectedOobePage = OobePage.Collection;
                     break;
                 case OobePage.Collection:
-                    this.SetSelectedOobePage(OobePage.Donate);
+                    this.SelectedOobePage = OobePage.Donate;
                     break;
                 case OobePage.Donate:
-                    this.SetSelectedOobePage(OobePage.Finish);
+                    this.SelectedOobePage = OobePage.Finish;
                     break;
                 case OobePage.Finish:
                     // Do nothing

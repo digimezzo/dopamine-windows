@@ -16,11 +16,11 @@
         NowPlaying = 1,
     }
 
-    //public enum SelectedNowPlayingSubPage
-    //{
-    //    ShowCase = 1,
-    //    Playlist = 2,
-    //    Lyrics = 3,
-    //    ArtistInformation = 4,
-    //}
+    public enum NowPlayingSubPage
+    {
+        ShowCase = 0,
+        Playlist = 1,
+        Lyrics = 2,
+        ArtistInformation = 3,
+    }
 }

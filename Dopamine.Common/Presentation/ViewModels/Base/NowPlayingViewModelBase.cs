@@ -1,7 +1,6 @@
 ﻿using Dopamine.Common.Enums;
 using Dopamine.Common.Services.Playback;
 using Prism.Mvvm;
-using System;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
@@ -9,11 +8,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
     {
         private IPlaybackService playbackService;
         private NowPlayingPage selectedNowPlayingPage;
-        private int nowPlayingSelectedPageIndex;
 
-        public Int32 SelectedNowPlayingPageIndex
+        public NowPlayingPage SelectedNowPlayingPage
         {
-            get { return (Int32)this.selectedNowPlayingPage; }
+            get { return selectedNowPlayingPage; }
+            set { SetProperty<NowPlayingPage>(ref this.selectedNowPlayingPage, value); }
         }
 
         public NowPlayingViewModelBase(IPlaybackService playbackService)
@@ -25,14 +24,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         private void SetNowPlaying()
         {
-            NowPlayingPage page = this.playbackService.Queue.Count > 0 ? NowPlayingPage.NowPlaying : NowPlayingPage.NothingPlaying;
-            this.SetSelectedNowPlayingPage(page);
-        }
-
-        private void SetSelectedNowPlayingPage(NowPlayingPage page)
-        {
-            this.selectedNowPlayingPage = page;
-            RaisePropertyChanged(nameof(this.SelectedNowPlayingPageIndex));
+            this.SelectedNowPlayingPage = this.playbackService.Queue.Count > 0 ? NowPlayingPage.NowPlaying : NowPlayingPage.NothingPlaying;
         }
     }
 }
