@@ -407,4 +407,6 @@
   <Text Key="Unknown_Genre">Género desconocido</Text>
   <Text Key="Refresh_Collection_Automatically">Actualizar la colección automáticamente</Text>
   <Text Key="Loop_When_Shuffle">Al usar reproducción aleatoria, volver al comienzo de la lista de reproducción tras la última canción.</Text>
+  <Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Hide_Song_Covers">Hide song covers</Text>
 </Language>

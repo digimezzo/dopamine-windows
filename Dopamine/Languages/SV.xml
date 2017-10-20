@@ -407,4 +407,6 @@
   <Text Key="Unknown_Genre">Okänd genre</Text>
   <Text Key="Refresh_Collection_Automatically">Uppdatera samlingen automatiskt</Text>
   <Text Key="Loop_When_Shuffle">Vid blandad uppspelning, återvänd till början av spellistan efter sista låten.</Text>
+  <Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Hide_Song_Covers">Hide song covers</Text>
 </Language>

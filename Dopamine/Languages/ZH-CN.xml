@@ -407,4 +407,6 @@
   <Text Key="Unknown_Genre">未知流派</Text>
   <Text Key="Refresh_Collection_Automatically">自动更新音乐库</Text>
   <Text Key="Loop_When_Shuffle">在随机播放模式中，在最后一首歌曲播放结束后返回播放列表的开头。</Text>
+<Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Hide_Song_Covers">Hide song covers</Text>
 </Language>

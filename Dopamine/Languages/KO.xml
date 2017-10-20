@@ -407,4 +407,6 @@
   <Text Key="Unknown_Genre">알 수 없는 장르</Text>
   <Text Key="Refresh_Collection_Automatically">자동으로 컬렉션 새로 고침</Text>
   <Text Key="Loop_When_Shuffle">무작위 재생 중 마지막 노래가 끝나면 재생 목록 처음으로 돌아가기</Text>
+  <Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Hide_Song_Covers">Hide song covers</Text>
 </Language>
