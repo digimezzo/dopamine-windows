@@ -6,9 +6,12 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:collectionviews="clr-namespace:Dopamine.Views.FullPlayer.Collection"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
         <commonviews:SearchControl Margin="0,5,15,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right"/>
@@ -17,7 +20,7 @@
                 <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
                 <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             </Grid>
-            <dc:Pivot HeaderMargin="85,0,215,0">
+            <dc:Pivot HeaderMargin="85,0,215,0" SelectedIndex="{Binding SelectedCollectionPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
                 <dc:Pivot.CommonContent>
                     <commonviews:Status/>
                 </dc:Pivot.CommonContent>

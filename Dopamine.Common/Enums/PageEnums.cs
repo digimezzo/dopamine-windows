@@ -23,4 +23,14 @@
         Lyrics = 2,
         ArtistInformation = 3,
     }
+
+    public enum CollectionPage
+    {
+        Artists = 0,
+        Genres = 1,
+        Albums = 2,
+        Songs = 3,
+        Playlists = 4,
+        Frequent = 5
+    }
 }
