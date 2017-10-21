@@ -20,7 +20,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public CollectionViewModel()
         {
-            this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
+            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
+            {
+                this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
+            }
+            else
+            {
+                this.SelectedCollectionPage = CollectionPage.Artists;
+            }
         }
     }
 }
