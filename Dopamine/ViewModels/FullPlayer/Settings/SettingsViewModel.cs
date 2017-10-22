@@ -17,7 +17,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
                 if(value != SettingsPage.Collection)
                 {
-                    this.indexingService.AutoCheckCollectionIfFoldersChangedAsync();
+                    this.indexingService.RefreshCollectionIfFoldersChangedAsync();
                 }
             }
         }
