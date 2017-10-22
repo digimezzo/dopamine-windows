@@ -33,4 +33,21 @@
         Playlists = 4,
         Frequent = 5
     }
+
+    public enum SettingsPage
+    {
+        Collection = 0,
+        Appearance = 1,
+        Behaviour = 2,
+        Playback = 3,
+        Startup = 4,
+        Online = 5
+    }
+
+    public enum FullPlayerPage
+    {
+        Collection = 0,
+        Settings = 1,
+        Information = 2,
+    }
 }
