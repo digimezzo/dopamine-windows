@@ -1,6 +1,7 @@
-2017-10-07: Dopamine 1.4 Build 959 (Preview)
+2017-10-22: Dopamine 1.4 Build 960 (Preview)
 --------------------------------------------
 
+- [Changed] Updated the Russian translation
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Swedish translation
 - [Changed] Updated the Chinese (Simplified)
