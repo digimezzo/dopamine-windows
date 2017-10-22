@@ -103,32 +103,27 @@ namespace Dopamine.Common.Services.Indexing
             }
         }
 
-        public async Task CheckCollectionAsync()
-        {
-            await this.CheckCollectionAsync(false);
-        }
-
-        public async Task AutoCheckCollectionAsync()
+        public async Task RefreshCollectionAsync()
         {
             if (!SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 return;
             }
 
-            await this.CheckCollectionAsync();
+            await this.CheckCollectionAsync(false);
         }
 
-        public async Task AutoCheckCollectionIfFoldersChangedAsync()
+        public async Task RefreshCollectionIfFoldersChangedAsync()
         {
             if (!this.isFoldersChanged)
             {
                 return;
             }
 
-            await this.AutoCheckCollectionAsync();
+            await this.RefreshCollectionAsync();
         }
 
-        public async Task QuickCheckCollectionAsync()
+        public async Task RefreshCollectionImmediatelyAsync()
         {
             await this.CheckCollectionAsync(true);
         }
@@ -768,7 +763,7 @@ namespace Dopamine.Common.Services.Indexing
 
         private async void WatcherManager_FoldersChanged(object sender, EventArgs e)
         {
-            await this.AutoCheckCollectionAsync();
+            await this.RefreshCollectionAsync();
         }
         #endregion
 

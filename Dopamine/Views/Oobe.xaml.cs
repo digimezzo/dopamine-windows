@@ -46,7 +46,7 @@ namespace Dopamine.Views
             Application.Current.MainWindow.Show();
 
             // We're closing the OOBE screen, tell the IndexingService to start checking the collection.
-            this.indexingService.QuickCheckCollectionAsync();
+            this.indexingService.RefreshCollectionImmediatelyAsync();
         }
 
         private void ThemeChangedHandler(bool useLightTheme)

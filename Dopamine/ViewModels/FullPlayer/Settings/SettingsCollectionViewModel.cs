@@ -69,7 +69,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         private void RefreshNow()
         {
-            this.indexingService.QuickCheckCollectionAsync();
+            this.indexingService.RefreshCollectionImmediatelyAsync();
         }
     }
 }

@@ -7,10 +7,9 @@ namespace Dopamine.Common.Services.Indexing
     {
         void OnFoldersChanged();
         bool IsIndexing { get; }
-        Task CheckCollectionAsync();
-        Task AutoCheckCollectionAsync();
-        Task AutoCheckCollectionIfFoldersChangedAsync();
-        Task QuickCheckCollectionAsync();
+        Task RefreshCollectionAsync();
+        Task RefreshCollectionIfFoldersChangedAsync();
+        Task RefreshCollectionImmediatelyAsync();
         event EventHandler IndexingStarted;
         event EventHandler IndexingStopped;
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
