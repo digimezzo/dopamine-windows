@@ -45,6 +45,7 @@ namespace Dopamine.Common.Services.Indexing
 
         // Flags
         private bool isIndexing;
+        private bool isFoldersChanged;
         #endregion
 
         #region Properties
@@ -94,6 +95,8 @@ namespace Dopamine.Common.Services.Indexing
         #region IIndexingService
         public async void OnFoldersChanged()
         {
+            this.isFoldersChanged = true;
+
             if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
                 await this.watcherManager.StartWatchingAsync();
@@ -113,6 +116,16 @@ namespace Dopamine.Common.Services.Indexing
             }
 
             await this.CheckCollectionAsync();
+        }
+
+        public async Task AutoCheckCollectionIfFoldersChangedAsync()
+        {
+            if (!this.isFoldersChanged)
+            {
+                return;
+            }
+
+            await this.AutoCheckCollectionAsync();
         }
 
         public async Task QuickCheckCollectionAsync()

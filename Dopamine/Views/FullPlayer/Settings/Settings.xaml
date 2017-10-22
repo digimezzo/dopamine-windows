@@ -4,14 +4,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:settingsviews="clr-namespace:Dopamine.Views.FullPlayer.Settings"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             prismMvvm:ViewModelLocator.AutoWireViewModel="false">
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <dc:Pivot HeaderMargin="85,0,0,0">
+    <dc:Pivot HeaderMargin="85,0,0,0" SelectedIndex="{Binding SelectedSettingsPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:SettingsPage}}">
         <dc:Pivot.CommonContent>
             <commonviews:Status/>
         </dc:Pivot.CommonContent>

@@ -156,6 +156,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\Utils.cs" />
+    <Compile Include="ViewModels\FullPlayer\FullPlayerViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MiniPlayerPlaylistViewModel.cs" />
