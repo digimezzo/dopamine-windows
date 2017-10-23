@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
@@ -83,8 +84,9 @@ namespace Dopamine.Views
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
+            this.InitializeWindow();
+            this.InitializeServicesAsync();
             this.InitializeTrayIcon();
-            this.InitializeShellWindow();
             this.InitializeCommands();
         }
 
@@ -94,7 +96,11 @@ namespace Dopamine.Views
 
             // Retrieve BackgroundAnimation storyboard
             this.backgroundAnimation = this.WindowBorder.Resources["BackgroundAnimation"] as Storyboard;
-            if (this.backgroundAnimation != null) this.backgroundAnimation.Begin();
+
+            if (this.backgroundAnimation != null)
+            {
+                this.backgroundAnimation.Begin();
+            }
         }
 
         private void TogglePlayer()
@@ -257,13 +263,10 @@ namespace Dopamine.Views
             this.trayControls = this.container.Resolve<TrayControls>();
         }
 
-        private void InitializeShellWindow()
+        private void InitializeWindow()
         {
             // Start monitoring tablet mode
             this.windowsIntegrationService.StartMonitoringTabletMode();
-
-            // Tray controls
-            this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
             this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(DopamineWindow), this));
@@ -293,16 +296,16 @@ namespace Dopamine.Views
         {
             // Window State
             this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
-            ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
+            Dopamine.Common.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
 
             this.RestoreWindowCommand = new DelegateCommand(() => this.SetPlayer(false, MiniPlayerType.CoverPlayer));
-            ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
+            Dopamine.Common.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
 
             this.MaximizeRestoreWindowCommand = new DelegateCommand(() => this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
-            ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
+            Dopamine.Common.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
 
             this.CloseWindowCommand = new DelegateCommand(() => this.Close());
-            ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
+            Dopamine.Common.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
 
             this.ShowNowPlayingCommand = new DelegateCommand(() =>
             {
@@ -310,7 +313,7 @@ namespace Dopamine.Views
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
                 this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(true);
             });
-            ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
+            Dopamine.Common.Prism.ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
 
             this.ShowFullPlayerCommmand = new DelegateCommand(() =>
             {
@@ -318,11 +321,11 @@ namespace Dopamine.Views
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
                 this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(false);
             });
-            ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
+            Dopamine.Common.Prism.ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 
             // Player type
             this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) => this.SetPlayer(true, (MiniPlayerType)Convert.ToInt32(miniPlayerType)));
-            ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
+            Dopamine.Common.Prism.ApplicationCommands.ChangePlayerTypeCommand.RegisterCommand(this.ChangePlayerTypeCommand);
 
             this.TogglePlayerCommand = new DelegateCommand(() =>
             {
@@ -332,26 +335,26 @@ namespace Dopamine.Views
                     this.TogglePlayer();
                 }
             });
-            ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
+            Dopamine.Common.Prism.ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
 
             // Mini Player Playlist
             this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.CoverPlayer, isPlaylistButtonChecked.Value);
             });
-            ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
+            Dopamine.Common.Prism.ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
 
             this.MicroPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.MicroPlayer, isPlaylistButtonChecked.Value);
             });
-            ApplicationCommands.MicroPlayerPlaylistButtonCommand.RegisterCommand(this.MicroPlayerPlaylistButtonCommand);
+            Dopamine.Common.Prism.ApplicationCommands.MicroPlayerPlaylistButtonCommand.RegisterCommand(this.MicroPlayerPlaylistButtonCommand);
 
             this.NanoPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked.Value);
             });
-            ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
+            Dopamine.Common.Prism.ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
 
             // Mini Player
             this.ToggleMiniPlayerPositionLockedCommand = new DelegateCommand(() =>
@@ -360,7 +363,7 @@ namespace Dopamine.Views
                 SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", !isMiniPlayerPositionLocked);
                 this.SetWindowPositionLockedFromSettings();
             });
-            ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
+            Dopamine.Common.Prism.ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
             {
@@ -368,7 +371,7 @@ namespace Dopamine.Views
                 SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", !topmost);
                 this.SetWindowTopmostFromSettings();
             });
-            ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
+            Dopamine.Common.Prism.ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
         }
 
         private async void InitializeServicesAsync()
@@ -745,6 +748,179 @@ namespace Dopamine.Views
             else
             {
                 this.miniPlayerPlaylist.Hide();
+            }
+        }
+
+        private void SaveWindowSize()
+        {
+            if (this.canSaveWindowGeometry)
+            {
+                if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(this.WindowState == WindowState.Maximized))
+                {
+                    SettingsClient.Set<int>("FullPlayer", "Width", Convert.ToInt32(this.ActualWidth));
+                    SettingsClient.Set<int>("FullPlayer", "Height", Convert.ToInt32(this.ActualHeight));
+                }
+            }
+        }
+
+        private void ShellWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.SaveWindowSize();
+        }
+
+        private void ShellWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            this.appearanceService.WatchWindowsColor(this);
+        }
+
+        private void ShellWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
+                    SettingsClient.Get<bool>("Behaviour", "MinimizeToTray"))
+                {
+                    // When minimizing to tray, hide this window from Taskbar and ALT-TAB menu.
+                    this.ShowInTaskbar = false;
+
+                    try
+                    {
+                        WindowUtils.HideWindowFromAltTab(this);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not hide main window from ALT-TAB menu. Exception: {0}", ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    try
+                    {
+                        WindowUtils.RemoveWindowCaption(this);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not remove window caption. Exception: {0}", ex.Message);
+                    }
+                }
+
+                // When restored, show this window in Taskbar and ALT-TAB menu.
+                this.ShowInTaskbar = true;
+
+                try
+                {
+                    WindowUtils.ShowWindowInAltTab(this);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not show main window in ALT-TAB menu. Exception: {0}", ex.Message);
+                }
+            }
+
+            this.SaveWindowState();
+        }
+
+        private void ShellWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                // [Ctrl] is pressed
+                if (e.Key == Key.L)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+
+                    try
+                    {
+                        Actions.TryViewInExplorer(LogClient.Logfile()); // View the log file
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
+                    }
+                }
+                else if (e.Key == Key.OemPlus | e.Key == Key.Add)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.01);
+                }
+                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.01);
+                }
+                else if (e.Key == Key.Left)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.SkipSeconds(Convert.ToInt32(-5));
+                }
+                else if (e.Key == Key.Right)
+                {
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.SkipSeconds(Convert.ToInt32(5));
+                }
+            }
+            else
+            {
+                // [Ctrl] is not pressed
+                if (e.Key == Key.OemPlus | e.Key == Key.Add)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.05);
+                }
+                else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.05);
+                }
+                else if (e.Key == Key.Left)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.SkipSeconds(Convert.ToInt32(-15));
+                }
+                else if (e.Key == Key.Right)
+                {
+                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                    e.Handled = true; // Prevents typing in the search box
+                    this.playbackService.SkipSeconds(Convert.ToInt32(15));
+                }
+            }
+        }
+
+        private void ShellWindow_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
+                e.Handled = true; // Prevents typing in the search box
+                this.playbackService.PlayOrPauseAsync();
+            }
+        }
+
+        private async void ShellWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1)
+            {
+                await playbackService.PlayPreviousAsync();
+            }
+            else if (e.ChangedButton == MouseButton.XButton2)
+            {
+                await playbackService.PlayNextAsync();
+            }
+        }
+
+        private void SaveWindowState()
+        {
+            // Only save window state when not in tablet mode. Tablet mode maximizes the screen. 
+            // We don't want to save that, as we want to be able to restore to the original state when leaving tablet mode.
+            if (this.canSaveWindowGeometry & !this.windowsIntegrationService.IsTabletModeEnabled)
+            {
+                SettingsClient.Set<bool>("FullPlayer", "IsMaximized", this.WindowState == WindowState.Maximized ? true : false);
             }
         }
     }
