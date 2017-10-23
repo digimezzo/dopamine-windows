@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Api.Lyrics;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
+using Dopamine.Common.Enums;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
@@ -40,6 +41,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool canHighlight;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 500;
+        private bool isNowPlayingPageActive;
+        private bool isNowPlayingLyricsPageActive;
         #endregion
 
         #region Commands
@@ -104,6 +107,21 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             };
 
+            this.isNowPlayingPageActive = SettingsClient.Get<bool>("FullPlayer", "IsNowPlayingSelected");
+            this.isNowPlayingLyricsPageActive = ((NowPlayingSubPage)SettingsClient.Get<int>("FullPlayer", "SelectedNowPlayingSubPage")) == NowPlayingSubPage.Lyrics;
+
+            this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Subscribe(isNowPlayingPageActive =>
+            {
+                this.isNowPlayingPageActive = isNowPlayingPageActive;
+                this.RestartRefreshTimer();
+            });
+
+            this.eventAggregator.GetEvent<IsNowPlayingLyricsPageActiveChanged>().Subscribe(isLyricsPageActive =>
+            {
+                this.isNowPlayingLyricsPageActive = isLyricsPageActive;
+                this.RestartRefreshTimer();
+            });
+
             this.RefreshLyricsCommand = new DelegateCommand(() => this.RestartRefreshTimer(), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
@@ -162,6 +180,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async void RefreshLyricsAsync(PlayableTrack track)
         {
+            if (!this.isNowPlayingPageActive || !this.isNowPlayingLyricsPageActive) return;
             if (track == null) return;
             if (this.previousTrack != null && this.previousTrack.Equals(track)) return;
 
