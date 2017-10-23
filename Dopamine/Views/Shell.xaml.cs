@@ -308,7 +308,7 @@ namespace Dopamine.Views
             {
                 this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName);
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
-                //this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(true);
+                this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(true);
             });
             ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
 
@@ -316,7 +316,7 @@ namespace Dopamine.Views
             {
                 this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName);
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
-                //this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(false);
+                this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(false);
             });
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 

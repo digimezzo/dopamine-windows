@@ -22,4 +22,12 @@ namespace Dopamine.Common.Prism
     public class ToggledCoverPlayerAlignPlaylistVertically : PubSubEvent<bool>
     {
     }
+
+    public class IsNowPlayingPageActiveChanged : PubSubEvent<bool>
+    {
+    }
+
+    public class IsNowPlayingLyricsPageActiveChanged : PubSubEvent<bool>
+    {
+    }
 }

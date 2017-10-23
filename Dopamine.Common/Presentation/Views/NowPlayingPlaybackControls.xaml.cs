@@ -1,5 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Prism;
+using Microsoft.Practices.ServiceLocation;
+using Prism.Events;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,7 +27,10 @@ namespace Dopamine.Common.Presentation.Views
         {
             if(d is NowPlayingPlaybackControls)
             {
-                SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingSubPage", (int)((NowPlayingPlaybackControls)d).SelectedNowPlayingSubPage);
+                NowPlayingSubPage selectedPage = (NowPlayingSubPage)((NowPlayingPlaybackControls)d).SelectedNowPlayingSubPage;
+                SettingsClient.Set<int>("FullPlayer", "SelectedNowPlayingSubPage", (int)selectedPage);
+                IEventAggregator eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+                eventAggregator.GetEvent<IsNowPlayingLyricsPageActiveChanged>().Publish(selectedPage == NowPlayingSubPage.Lyrics);
             }
         }
 
