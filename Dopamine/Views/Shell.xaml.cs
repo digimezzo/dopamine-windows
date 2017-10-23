@@ -8,6 +8,7 @@ using Dopamine.Common.Enums;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Prism;
+using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
@@ -24,6 +25,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
@@ -36,6 +38,7 @@ namespace Dopamine.Views
         private IWin32InputService win32InputService;
         private IPlaybackService playbackService;
         private IMetadataService metadataService;
+        private IAppearanceService appearanceService;
         private IRegionManager regionManager;
         private IEventAggregator eventAggregator;
         private System.Windows.Forms.NotifyIcon trayIcon;
@@ -45,6 +48,7 @@ namespace Dopamine.Views
         private bool canSaveWindowGeometry = false;
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
+        private Storyboard backgroundAnimation;
 
         private ActiveMiniPlayerPlaylist activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.None;
 
@@ -63,7 +67,7 @@ namespace Dopamine.Views
         public DelegateCommand ToggleMiniPlayerAlwaysOnTopCommand { get; set; }
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
-            INotificationService notificationService, IWin32InputService win32InputService,
+            INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
             IPlaybackService playbackService, IMetadataService metadataService, IRegionManager regionManager,
             IEventAggregator eventAggregator)
         {
@@ -75,12 +79,22 @@ namespace Dopamine.Views
             this.win32InputService = win32InputService;
             this.playbackService = playbackService;
             this.metadataService = metadataService;
+            this.appearanceService = appearanceService;
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
             this.InitializeTrayIcon();
             this.InitializeShellWindow();
             this.InitializeCommands();
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Retrieve BackgroundAnimation storyboard
+            this.backgroundAnimation = this.WindowBorder.Resources["BackgroundAnimation"] as Storyboard;
+            if (this.backgroundAnimation != null) this.backgroundAnimation.Begin();
         }
 
         private void TogglePlayer()
@@ -272,7 +286,7 @@ namespace Dopamine.Views
             };
 
             // Make sure the window geometry respects tablet mode at startup
-            this.CheckIfTabletMode();
+            this.CheckIfTabletMode(true);
         }
 
         private void InitializeCommands()
@@ -290,10 +304,20 @@ namespace Dopamine.Views
             this.CloseWindowCommand = new DelegateCommand(() => this.Close());
             ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
 
-            this.ShowNowPlayingCommand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName));
+            this.ShowNowPlayingCommand = new DelegateCommand(() =>
+            {
+                this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(NowPlaying.NowPlaying).FullName);
+                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
+                //this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(true);
+            });
             ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
 
-            this.ShowFullPlayerCommmand = new DelegateCommand(() => this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName));
+            this.ShowFullPlayerCommmand = new DelegateCommand(() =>
+            {
+                this.regionManager.RequestNavigate(RegionNames.PlayerTypeRegion, typeof(FullPlayer.FullPlayer).FullName);
+                SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
+                //this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(false);
+            });
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 
             // Player type
@@ -345,6 +369,29 @@ namespace Dopamine.Views
                 this.SetWindowTopmostFromSettings();
             });
             ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
+        }
+
+        private async void InitializeServicesAsync()
+        {
+            // IWin32InputService
+            this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // listen to media keys
+            this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
+            this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();
+            this.win32InputService.MediaKeyPlayPressed += async (_, __) => await this.playbackService.PlayOrPauseAsync();
+
+            // IAppearanceService
+            this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
+
+            // IWindowsIntegrationService
+            this.windowsIntegrationService.TabletModeChanged += (_, __) =>
+            {
+                Application.Current.Dispatcher.Invoke(() => this.CheckIfTabletMode(false));
+            };
+        }
+
+        private void ThemeChangedHandler(bool useLightTheme)
+        {
+            Application.Current.Dispatcher.Invoke(() => { if (this.backgroundAnimation != null) this.backgroundAnimation.Begin(); });
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -424,12 +471,12 @@ namespace Dopamine.Views
             this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
         }
 
-        private void CheckIfTabletMode()
+        private void CheckIfTabletMode(bool isInitializing)
         {
             if (this.windowsIntegrationService.IsTabletModeEnabled)
             {
                 // Always revert to full player when tablet mode is enabled. Maximizing will be done by Windows.
-                this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+                this.SetPlayer(false, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"), isInitializing);
             }
             else
             {
@@ -437,7 +484,7 @@ namespace Dopamine.Views
                 bool isMaximized = SettingsClient.Get<bool>("FullPlayer", "IsMaximized");
                 this.WindowState = isMaximized & !isMiniPlayer ? WindowState.Maximized : WindowState.Normal;
 
-                this.SetPlayer(isMiniPlayer, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"));
+                this.SetPlayer(isMiniPlayer, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"), isInitializing);
             }
         }
 
@@ -467,7 +514,7 @@ namespace Dopamine.Views
             }
         }
 
-        private async void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType)
+        private async void SetPlayer(bool isMiniPlayer, MiniPlayerType miniPlayerType, bool isInitializing = false)
         {
             string screenName = typeof(Empty).FullName;
 
@@ -512,7 +559,25 @@ namespace Dopamine.Views
                 this.ClosingText.FontSize = Constants.LargeBackgroundFontSize;
                 PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
                 this.SetFullPlayer();
+
+                // Default case
                 screenName = typeof(FullPlayer.FullPlayer).FullName;
+
+                // Special cases
+                if (SettingsClient.Get<bool>("FullPlayer", "IsNowPlayingSelected"))
+                {
+                    if (isInitializing)
+                    {
+                        if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
+                        {
+                            screenName = typeof(NowPlaying.NowPlaying).FullName;
+                        }
+                    }
+                    else
+                    {
+                        screenName = typeof(NowPlaying.NowPlaying).FullName;
+                    }
+                }
             }
 
             // Determine if the player position is locked
