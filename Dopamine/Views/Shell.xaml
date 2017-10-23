@@ -33,7 +33,13 @@
                          Restored="ShellWindow_Restored"
                          CloseToolTipChanged="ShellWindow_CloseToolTipChanged"
                          LocationChanged="ShellWindow_LocationChanged"
-                         MouseUp="ShellWindow_MouseUp">
+                         MouseUp="ShellWindow_MouseUp"
+                         SizeChanged="ShellWindow_SizeChanged"
+                         SourceInitialized="ShellWindow_SourceInitialized"
+                         StateChanged="ShellWindow_StateChanged"
+                         KeyDown="ShellWindow_KeyDown"
+                         PreviewKeyDown="ShellWindow_PreviewKeyDown"
+                         MouseDown="ShellWindow_MouseDown">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
