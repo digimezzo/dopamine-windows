@@ -7,7 +7,6 @@ namespace Dopamine.Common.Controls
 {
     public class RatingButton : Control
     {
-        #region Variables
         private Button ratingButton;
         private StackPanel ratingStars;
         private StackPanel adjustmentStars;
@@ -17,30 +16,20 @@ namespace Dopamine.Common.Controls
         private TextBlock adjustmentStar3;
         private TextBlock adjustmentStar4;
         private TextBlock adjustmentStar5;
-        #endregion
 
-        #region Properties
         public int Rating
         {
             get { return Convert.ToInt32(GetValue(RatingProperty)); }
             set { SetValue(RatingProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty RatingProperty = DependencyProperty.Register("Rating", typeof(int), typeof(RatingButton), new PropertyMetadata(null));
-        #endregion
 
-        #region Construction
         static RatingButton()
         {
-            //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
-            //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(RatingButton), new FrameworkPropertyMetadata(typeof(RatingButton)));
         }
-        #endregion
 
-        #region Overrides
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -98,9 +87,7 @@ namespace Dopamine.Common.Controls
             this.ratingStars.Visibility = Visibility.Visible;
             this.adjustmentStars.Visibility = Visibility.Collapsed;
         }
-        #endregion
 
-        #region Event Handlers
         private void RatingButton_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // This prevents other double click actions while rating, like playing the selected song.
@@ -156,7 +143,6 @@ namespace Dopamine.Common.Controls
             this.adjustmentStar5.Opacity = 0.2;
         }
 
-
         private void AdjustmentStar1_MouseEnter(object sender, MouseEventArgs e)
         {
             this.adjustmentStar1.Opacity = 1.0;
@@ -201,6 +187,5 @@ namespace Dopamine.Common.Controls
             this.adjustmentStar4.Opacity = 1.0;
             this.adjustmentStar5.Opacity = 1.0;
         }
-        #endregion
     }
 }

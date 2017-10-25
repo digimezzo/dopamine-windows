@@ -7,18 +7,13 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class VolumeControlsViewModel : BindableBase
     {
-        #region Variables
         private IPlaybackService playBackService;
         private float volumeValue;
         private bool mute;
-        #endregion
-
-        #region Commands
+  
         public DelegateCommand MuteCommand { get; set; }
         public DelegateCommand UnmuteCommand { get; set; }
-        #endregion
-
-        #region Properties
+     
         public float VolumeValue
         {
             get { return this.volumeValue; }
@@ -43,9 +38,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 // Empty on purpose. OnPropertyChanged is fired in GetPlaybackServiceMute.
             }
         }
-        #endregion
-
-        #region Construction
+    
         public VolumeControlsViewModel(IPlaybackService playBackService)
         {
             this.playBackService = playBackService;
@@ -64,9 +57,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // ----------------
             this.GetPlaybackServiceMute();
         }
-        #endregion
-
-        #region Private
+     
         private void SetPlayBackServiceVolume(float iVolume)
         {
             this.playBackService.Volume = iVolume;
@@ -77,8 +68,8 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Important: set volumeValue directly, not the VolumeValue 
             // Property, because the VolumeValue Property Setter is empty!
             this.volumeValue = this.playBackService.Volume;
-            OnPropertyChanged(() => this.VolumeValue);
-            OnPropertyChanged(() => this.VolumeValuePercent);
+            RaisePropertyChanged(nameof(this.VolumeValue));
+            RaisePropertyChanged(nameof(this.VolumeValuePercent));
         }
 
         private void SetPlayBackServiceMute(bool iMute)
@@ -92,8 +83,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Important: set mute directly, not the Mute 
             // Property, because the Mute Property Setter is empty!
             this.mute = this.playBackService.Mute;
-            OnPropertyChanged(() => this.Mute);
+            RaisePropertyChanged(nameof(this.Mute));
         }
-        #endregion
     }
 }

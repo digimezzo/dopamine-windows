@@ -6,7 +6,6 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class CoverPictureWindowControls : UserControl
     {
-        #region Properties
         public double ButtonWidth
         {
             get { return Convert.ToDouble(GetValue(ButtonWidthProperty)); }
@@ -20,18 +19,13 @@ namespace Dopamine.Common.Presentation.Views
 
             set { SetValue(ButtonHeightProperty, value); }
         }
-        #endregion
-
-        #region Dependency Properties
+ 
         public static readonly DependencyProperty ButtonWidthProperty = DependencyProperty.Register("ButtonWidth", typeof(double), typeof(CoverPictureWindowControls), new PropertyMetadata(null));
         public static readonly DependencyProperty ButtonHeightProperty = DependencyProperty.Register("ButtonHeight", typeof(double), typeof(CoverPictureWindowControls), new PropertyMetadata(null));
-        #endregion
-
-        #region Construction
+ 
         public CoverPictureWindowControls()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }

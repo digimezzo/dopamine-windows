@@ -17,21 +17,16 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public abstract class ContextMenuViewModelBase : BindableBase
     {
-        #region Variables
         private IProviderService providerService;
         private IPlaylistService playlistService;
         private IPlaybackService playbackService;
         private IDialogService dialogService;
         private ObservableCollection<SearchProvider> contextMenuSearchProviders;
         private ObservableCollection<PlaylistViewModel> contextMenuPlaylists;
-        #endregion
 
-        #region Commands
         public DelegateCommand<string> SearchOnlineCommand { get; set; }
         public DelegateCommand<string> AddPlayingTrackToPlaylistCommand { get; set; }
-        #endregion
 
-        #region Properties
         public bool HasContextMenuPlaylists => this.ContextMenuPlaylists != null && this.ContextMenuPlaylists.Count > 0;
 
         public ObservableCollection<SearchProvider> ContextMenuSearchProviders
@@ -40,7 +35,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             set
             {
                 SetProperty<ObservableCollection<SearchProvider>>(ref this.contextMenuSearchProviders, value);
-                OnPropertyChanged(() => this.HasContextMenuSearchProviders);
+                RaisePropertyChanged(nameof(this.HasContextMenuSearchProviders));
             }
         }
 
@@ -50,12 +45,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             set
             {
                 SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.contextMenuPlaylists, value);
-                OnPropertyChanged(() => this.HasContextMenuPlaylists);
+                RaisePropertyChanged(nameof(this.HasContextMenuPlaylists));
             }
         }
-        #endregion
 
-        #region Construction
         public ContextMenuViewModelBase(IUnityContainer container)
         {
             // Dependency injection
@@ -96,9 +89,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             var playingTrack = new List<PlayableTrack>() { this.playbackService.CurrentTrack.Value };
             await this.AddTracksToPlaylistAsync(playlistName, playingTrack);
         }
-        #endregion
 
-        #region Private
         private async void GetSearchProvidersAsync()
         {
             this.ContextMenuSearchProviders = null;
@@ -148,9 +139,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.ContextMenuPlaylists = new ObservableCollection<PlaylistViewModel>();
             }
         }
-        #endregion
 
-        #region Protected
         protected bool HasContextMenuSearchProviders => this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0;
 
         protected async Task AddTracksToPlaylistAsync(string playlistName, IList<PlayableTrack> tracks)
@@ -217,10 +206,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
         }
-        #endregion
 
-        #region Abstract
         protected abstract void SearchOnline(string id);
-        #endregion
     }
 }

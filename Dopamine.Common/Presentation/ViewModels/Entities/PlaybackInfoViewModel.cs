@@ -4,16 +4,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class PlaybackInfoViewModel : BindableBase
     {
-        #region Variables
         private string title;
         private string artist;
         private string album;
         private string year;
         private string currentTime;
         private string totalTime;
-        #endregion
-
-        #region Properties
         public string Title
         {
             get { return this.title; }
@@ -49,6 +45,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.totalTime; }
             set { SetProperty<string>(ref this.totalTime, value); }
         }
-        #endregion
     }
 }

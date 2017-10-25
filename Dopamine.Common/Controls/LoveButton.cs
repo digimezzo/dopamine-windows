@@ -7,34 +7,23 @@ namespace Dopamine.Common.Controls
 {
     public class LoveButton : Control
     {
-        #region Variables
         private Button loveButton;
         private TextBlock heartFill;
         private TextBlock heart;
-        #endregion
 
-        #region Properties
         public bool Love
         {
             get { return Convert.ToBoolean(GetValue(LoveProperty)); }
             set { SetValue(LoveProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty LoveProperty = DependencyProperty.Register("Love", typeof(bool), typeof(LoveButton), new PropertyMetadata(false));
-        #endregion
 
-        #region Construction
         static LoveButton()
         {
-            //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
-            //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LoveButton), new FrameworkPropertyMetadata(typeof(LoveButton)));
         }
-        #endregion
 
-        #region Overrides
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -81,9 +70,7 @@ namespace Dopamine.Common.Controls
         {
             this.heartFill.Text = char.ConvertFromUtf32(0xE0A5);
         }
-        #endregion
 
-        #region Event Handlers
         private void LoveButton_Click(object sender, RoutedEventArgs e)
         {
             this.Love = !this.Love;
@@ -94,6 +81,5 @@ namespace Dopamine.Common.Controls
             // This prevents other double click actions while rating, like playing the selected song.
             e.Handled = true;
         }
-        #endregion
     }
 }

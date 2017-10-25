@@ -20,7 +20,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class EditTrackViewModel : BindableBase
     {
-        #region Variables
         private bool isBusy;
         private IList<string> paths;
         private IMetadataService metadataService;
@@ -50,17 +49,13 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int previousIndex = 0;
         private int contentSlideInFrom;
         private UserControl editTrackContent;
-        #endregion
-
-        #region Commands
+      
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
-        #endregion
-
-        #region Readonly Properties
+     
         public string DialogTitle
         {
             get
@@ -84,9 +79,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return Artwork?.Value != null; }
         }
-        #endregion
-
-        #region Properties
+     
         public int ContentSlideInFrom
         {
             get { return this.contentSlideInFrom; }
@@ -212,9 +205,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.updateAlbumArtwork; }
             set { SetProperty<bool>(ref this.updateAlbumArtwork, value); }
         }
-        #endregion
-
-        #region Construction
+    
         public EditTrackViewModel(IList<string> paths, IMetadataService metadataService, IDialogService dialogService)
         {
             this.multipleValuesText = "<"+ ResourceUtils.GetString("Language_Multiple_Values")+">";
@@ -270,9 +261,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.Navigate("1"); // Make sure something is displayed when the screen is shown
         }
-        #endregion
-
-        #region Private
+    
         private void Navigate(string indexString)
         {
             if (string.IsNullOrWhiteSpace(indexString))
@@ -449,7 +438,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ArtworkSize = string.Empty;
             }
 
-            OnPropertyChanged(() => this.HasArtwork);
+            RaisePropertyChanged(nameof(this.HasArtwork));
         }
 
         private void ShowArtwork(byte[] imageData)
@@ -475,9 +464,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Artwork is updated. Multiple artwork is now impossible.
             this.HasMultipleArtwork = false;
         }
-        #endregion
-
-        #region Public
+     
         public async Task<bool> SaveTracksAsync()
         {
             if (!this.AllEntriesValid()) return false;
@@ -524,6 +511,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.IsBusy = false;
             return true;
         }
-        #endregion
     }
 }

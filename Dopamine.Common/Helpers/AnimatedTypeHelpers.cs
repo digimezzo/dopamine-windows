@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace Dopamine.Common.Helpers
 {
     /// <summary>
-    /// as same as MS.Internal.PresentationCore
+    /// Same as MS.Internal.PresentationCore
     /// </summary>
     [DebuggerStepThrough]
     public static class AnimatedTypeHelpers

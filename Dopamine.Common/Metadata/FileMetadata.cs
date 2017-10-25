@@ -8,7 +8,6 @@ namespace Dopamine.Common.Metadata
 {
     public class FileMetadata
     {
-        #region Variables
         private TagLib.File file;
         private MetadataValue title;
         private MetadataValue album;
@@ -25,17 +24,12 @@ namespace Dopamine.Common.Metadata
         private MetadataRatingValue rating;
         private MetadataArtworkValue artworkData;
         private MetadataValue lyrics;
-        #endregion
 
-        #region Construction
         public FileMetadata(string filePath)
         {
             ByteVector.UseBrokenLatin1Behavior = true; // Otherwise Latin1 is used as default, which causes characters in various languages being displayed wrong.
             this.file = TagLib.File.Create(filePath);
         }
-        #endregion
-
-        #region ReadOnly Properties
         public string Path
         {
             get { return this.file.Name; }
@@ -76,9 +70,7 @@ namespace Dopamine.Common.Metadata
         {
             get { return this.file.MimeType; }
         }
-        #endregion
-
-        #region Properties
+       
         public MetadataValue Title
         {
             get
@@ -351,9 +343,7 @@ namespace Dopamine.Common.Metadata
                 this.file.Tag.Lyrics = value.Value;
             }
         }
-        #endregion
-
-        #region Public
+     
         public void Save()
         {
             try
@@ -365,9 +355,7 @@ namespace Dopamine.Common.Metadata
                 throw;
             }
         }
-        #endregion
-
-        #region Overrides
+ 
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -382,6 +370,5 @@ namespace Dopamine.Common.Metadata
         {
             return new { this.SafePath }.GetHashCode();
         }
-        #endregion
     }
 }

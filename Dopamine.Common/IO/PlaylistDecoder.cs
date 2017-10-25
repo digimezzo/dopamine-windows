@@ -18,7 +18,6 @@ namespace Dopamine.Common.IO
 
     public class PlaylistDecoder
     {
-        #region Public
         public DecodePlaylistResult DecodePlaylist(string fileName)
         {
             OperationResult decodeResult = new OperationResult { Result = false };
@@ -42,9 +41,7 @@ namespace Dopamine.Common.IO
                 Paths = paths
             };
         }
-        #endregion
-
-        #region Private
+    
         private string GenerateFullTrackPath(string playlistPath, string trackPath)
         {
             var fullPath = string.Empty;
@@ -179,6 +176,5 @@ namespace Dopamine.Common.IO
 
             return op;
         }
-        #endregion
     }
 }

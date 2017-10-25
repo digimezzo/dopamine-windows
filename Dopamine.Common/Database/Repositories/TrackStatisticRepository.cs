@@ -10,16 +10,12 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class TrackStatisticRepository : ITrackStatisticRepository
     {
-        #region Variables
         private SQLiteConnectionFactory factory;
-        #endregion
 
-        #region Construction
         public TrackStatisticRepository()
         {
             this.factory = new SQLiteConnectionFactory();
         }
-        #endregion
 
         public async Task UpdateRatingAsync(string path, int rating)
         {

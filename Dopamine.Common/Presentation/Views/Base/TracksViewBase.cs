@@ -16,7 +16,6 @@ namespace Dopamine.Common.Presentation.Views.Base
 {
     public abstract class TracksViewBase : CommonViewBase
     {
-        #region Overrides
         protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
         {
             ListBox lb = (ListBox)sender;
@@ -132,6 +131,5 @@ namespace Dopamine.Common.Presentation.Views.Base
                 LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
-        #endregion
     }
 }

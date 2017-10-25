@@ -21,7 +21,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class LyricsViewModel : ContextMenuViewModelBase
     {
-        #region Variables
         private PlayableTrack track;
         private Lyrics lyrics;
         private Lyrics uneditedLyrics;
@@ -31,18 +30,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool isEditing;
         private IMetadataService metadataService;
         private IProviderService providerService;
-        #endregion
 
-        #region Commands
         public DelegateCommand DecreaseFontSizeCommand { get; set; }
         public DelegateCommand IncreaseFontSizeCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand CancelEditCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand SaveIfNotEmptyCommand { get; set; }
-        #endregion
 
-        #region Properties
         public bool HasSource
         {
             get { return this.lyrics != null ? this.lyrics.HasSource : false; }
@@ -66,7 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<bool>(ref this.isEditing, value);
-                OnPropertyChanged(() => this.IsNoLyricsTextVisible);
+                RaisePropertyChanged(nameof(this.IsNoLyricsTextVisible));
             }
         }
 
@@ -77,7 +72,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             {
                 SetProperty<double>(ref this.fontSize, value);
                 SettingsClient.Set<int>("Lyrics", "FontSize", (int)value);
-                OnPropertyChanged(() => this.FontSizePixels);
+                RaisePropertyChanged(nameof(this.FontSizePixels));
             }
         }
 
@@ -102,9 +97,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<Lyrics>(ref this.lyrics, value);
-                OnPropertyChanged(() => this.IsNoLyricsTextVisible);
-                OnPropertyChanged(() => this.ShowSource);
-                OnPropertyChanged(() => this.HasSource);
+                RaisePropertyChanged(nameof(this.IsNoLyricsTextVisible));
+                RaisePropertyChanged(nameof(this.ShowSource));
+                RaisePropertyChanged(nameof(this.HasSource));
             }
         }
 
@@ -112,9 +107,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return this.lyricsLines; }
         }
-        #endregion
 
-        #region Construction
         public LyricsViewModel(IUnityContainer container, PlayableTrack track) : base(container)
         {
             this.track = track;
@@ -161,18 +154,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         public LyricsViewModel(IUnityContainer container) : base(container)
         {
         }
-        #endregion
 
-        #region Public
         public void SetLyrics(Lyrics lyrics)
         {
             this.Lyrics = lyrics;
             this.uneditedLyrics = lyrics;
             this.ParseLyrics(lyrics);
         }
-        #endregion
 
-        #region Private
         private void ParseLyrics(Lyrics lyrics)
         {
             Application.Current.Dispatcher.Invoke(() => this.lyricsLines = null);
@@ -228,16 +217,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             Application.Current.Dispatcher.Invoke(() =>
             {
                 this.lyricsLines = localLyricsLines;
-                OnPropertyChanged(() => this.LyricsLines);
+                RaisePropertyChanged(nameof(this.LyricsLines));
             });
         }
-        #endregion
 
-        #region Overrides
         protected override void SearchOnline(string id)
         {
             this.providerService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
         }
-        #endregion
     }
 }

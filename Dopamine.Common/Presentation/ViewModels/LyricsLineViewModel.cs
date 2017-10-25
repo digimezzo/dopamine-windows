@@ -5,14 +5,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class LyricsLineViewModel : BindableBase
     {
-        #region Variables
         private TimeSpan time;
         private string text;
         private bool isTimed;
         private bool isHighlighted;
-        #endregion
-
-        #region Properties
+      
         public TimeSpan Time
         {
             get { return this.time; }
@@ -33,9 +30,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.isTimed & this.isHighlighted; }
             set { SetProperty<bool>(ref this.isHighlighted, value); }
         }
-        #endregion
-
-        #region Construction
+     
         public LyricsLineViewModel(TimeSpan time, string text)
         {
             this.time = time;
@@ -51,6 +46,5 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.isTimed = false;
         }
-        #endregion
     }
 }

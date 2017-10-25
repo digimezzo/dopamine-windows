@@ -5,29 +5,19 @@ using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    /// <summary>
-    /// Interaction logic for SizingTimeControl.xaml
-    /// </summary>
     public partial class SizingTimeControl : UserControl
     {
-        #region Variables
         private IPlaybackService playbackService;
         private bool isVisible;
-        #endregion
 
-         #region Properties
         public HorizontalAlignment TimeHorizontalAlignment
         {
             get { return (HorizontalAlignment)GetValue(TimeHorizontalAlignmentProperty); }
             set { SetValue(TimeHorizontalAlignmentProperty, value); }
         }
-        #endregion
-
-        #region Dependency Properties
+     
         public static readonly DependencyProperty TimeHorizontalAlignmentProperty = DependencyProperty.Register("TimeHorizontalAlignment", typeof(HorizontalAlignment), typeof(SizingTimeControl), new PropertyMetadata(HorizontalAlignment.Left));
-        #endregion
-
-        #region Construction
+    
         public SizingTimeControl()
         {
             InitializeComponent();
@@ -41,9 +31,7 @@ namespace Dopamine.Common.Presentation.Views
             this.TotalTime.Visibility = Visibility.Collapsed;
             this.isVisible = false;
         }
-        #endregion
-
-        #region Private
+   
         private void SetTotalTimeVisibility()
         {
             if (this.TimeInnerBorder.ActualWidth >= this.TimeOuterBorder.ActualWidth)
@@ -57,9 +45,7 @@ namespace Dopamine.Common.Presentation.Views
                 this.isVisible = true;
             }
         }
-        #endregion
-
-        #region Event handlers
+      
         private void TimeOuterBorder_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.SetTotalTimeVisibility();
@@ -69,6 +55,5 @@ namespace Dopamine.Common.Presentation.Views
         {
             this.SetTotalTimeVisibility();
         }
-        #endregion
     }
 }

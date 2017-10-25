@@ -1,12 +1,12 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -20,18 +20,15 @@ namespace Dopamine.Common.Services.File
 {
     public class FileService : IFileService
     {
-        #region Variables
         private ICacheService cacheService;
         private ILocalizationInfo info;
         private ITrackStatisticRepository trackStatisticRepository;
         private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
-        private int addFilesTimeout = 250; // milliseconds
+        private int addFilesMilliseconds = 250;
         private string instanceGuid;
-        #endregion
-
-        #region Construction
+   
         public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository, ILocalizationInfo info)
         {
             this.cacheService = cacheService;
@@ -44,13 +41,11 @@ namespace Dopamine.Common.Services.File
 
             this.files = new List<string>();
             this.addFilesTimer = new Timer();
-            this.addFilesTimer.Interval = this.addFilesTimeout;
+            this.addFilesTimer.Interval = this.addFilesMilliseconds;
             this.addFilesTimer.Elapsed += AddFilesTimerElapsedHandler;
             this.DeleteFileArtworkFromCacheAsync(this.instanceGuid);
         }
-        #endregion
 
-        #region IFileService
         public event TracksImportedHandler TracksImported = delegate { };
 
         public async Task<List<PlayableTrack>> ProcessFilesAsync(List<string> filenames)
@@ -127,9 +122,7 @@ namespace Dopamine.Common.Services.File
 
             return returnTrack;
         }
-        #endregion
-
-        #region Private
+    
         private async Task ProcessArgumentsAsync(string[] args)
         {
             if (args.Length > 1)
@@ -280,6 +273,5 @@ namespace Dopamine.Common.Services.File
                 }
             });
         }
-        #endregion
     }
 }

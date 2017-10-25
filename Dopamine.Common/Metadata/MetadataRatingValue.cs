@@ -4,19 +4,15 @@ namespace Dopamine.Common.Metadata
 {
     public class MetadataRatingValue : BindableBase
     {
-        #region Private
         private int value;
         private bool isValueChanged;
-        #endregion
 
-        #region Readonly Properties
+
         public bool IsValueChanged
         {
             get { return this.isValueChanged; }
         }
-        #endregion
-
-        #region Properties
+  
         public int Value
         {
             get { return this.value; }
@@ -28,9 +24,6 @@ namespace Dopamine.Common.Metadata
                 this.OnPropertiesChanged();
             }
         }
-        #endregion
-
-        #region Construction
         public MetadataRatingValue()
         {
         }
@@ -40,14 +33,10 @@ namespace Dopamine.Common.Metadata
             this.value = value;
             this.OnPropertiesChanged();
         }
-        #endregion
-
-        #region Private
         private void OnPropertiesChanged()
         {
-            OnPropertyChanged(() => this.Value);
-            OnPropertyChanged(() => this.IsValueChanged);
+            RaisePropertyChanged(nameof(this.Value));
+            RaisePropertyChanged(nameof(this.IsValueChanged));
         }
-        #endregion
     }
 }

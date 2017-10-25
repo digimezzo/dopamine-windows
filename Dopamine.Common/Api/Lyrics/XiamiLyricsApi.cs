@@ -10,8 +10,6 @@ namespace Dopamine.Common.Api.Lyrics
 {
     public class XiamiLyricsApi : ILyricsApi
     {
-        #region Variables
-
         private ILocalizationInfo info;
         private const string apiSearchResultLimit = "1";
 
@@ -26,19 +24,11 @@ namespace Dopamine.Common.Api.Lyrics
         private int timeoutSeconds;
         private HttpClient httpClient;
 
-        #endregion
-
-        #region Construction
-
         public XiamiLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
             this.timeoutSeconds = timeoutSeconds;
             this.info = info;
         }
-
-        #endregion
-
-        #region Private
 
         private async Task<string> ParseTrackIdAsync(string artist, string title)
         {
@@ -170,10 +160,6 @@ namespace Dopamine.Common.Api.Lyrics
             return result;
         }
 
-        #endregion
-
-        #region ILyricsApi
-
         public string SourceName => this.info.XiamiLyrics;
 
         public async Task<string> GetLyricsAsync(string artist, string title)
@@ -184,7 +170,5 @@ namespace Dopamine.Common.Api.Lyrics
             if (result.Item1 == false) throw new Exception("No Xiami Lyrics.");
             return result.Item2;
         }
-
-        #endregion
     }
 }

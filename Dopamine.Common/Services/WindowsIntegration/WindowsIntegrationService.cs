@@ -8,19 +8,14 @@ namespace Dopamine.Common.Services.WindowsIntegration
 {
     public class WindowsIntegrationService : IWindowsIntegrationService
     {
-        #region Private
         private ManagementEventWatcher managementEventWatcher;
         private bool isStartedFromExplorer;
-        #endregion
-
-        #region Construction
+    
         public WindowsIntegrationService()
         {
             this.isStartedFromExplorer = Environment.GetCommandLineArgs().Length > 1;
         }
-        #endregion
-
-        #region IWindowsIntegrationService
+       
         public event EventHandler TabletModeChanged = delegate { };
 
         public bool IsTabletModeEnabled
@@ -92,6 +87,5 @@ namespace Dopamine.Common.Services.WindowsIntegration
         {
             this.TabletModeChanged(this, new EventArgs());
         }
-        #endregion
     }
 }

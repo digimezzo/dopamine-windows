@@ -5,21 +5,16 @@ namespace Dopamine.Common.Database.Entities
 {
     public class Genre
     {
-        #region Properties
         [PrimaryKey()]
         public long GenreID { get; set; }
         public string GenreName { get; set; }
-        #endregion
 
-        #region ReadOnly Properties
         [Ignore()]
         public string GenreNameTrim
         {
             get { return GenreName.Trim(); }
         }
-        #endregion
 
-        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -34,9 +29,7 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.GenreNameTrim }.GetHashCode();
         }
-        #endregion
-
-        #region Public
+       
         public IList<Genre> ToList()
         {
             List<Genre> l = new List<Genre>();
@@ -44,6 +37,5 @@ namespace Dopamine.Common.Database.Entities
 
             return l;
         }
-        #endregion
     }
 }

@@ -12,17 +12,12 @@ namespace Dopamine.Common.Presentation.Views.Base
 {
     public abstract class CommonViewBase : UserControl
     {
-        #region Variables
         protected IEventAggregator eventAggregator;
         protected IPlaybackService playbackService;
-        #endregion
-
-        #region Commands
+    
         public DelegateCommand ViewInExplorerCommand { get; set; }
         public DelegateCommand JumpToPlayingTrackCommand { get; set; }
-        #endregion
-
-        #region Construction
+       
         public CommonViewBase()
         {
             // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
@@ -30,13 +25,10 @@ namespace Dopamine.Common.Presentation.Views.Base
             this.eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
         }
-        #endregion
-
-        #region Abstract
+     
         protected abstract Task KeyUpHandlerAsync(object sender, KeyEventArgs e);
         protected abstract Task ActionHandler(Object sender, DependencyObject source, bool enqueue);
         protected abstract Task ScrollToPlayingTrackAsync(Object sender);
         protected abstract void ViewInExplorer(Object sender);
-        #endregion
     }
 }

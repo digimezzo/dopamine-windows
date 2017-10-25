@@ -11,26 +11,19 @@ namespace Dopamine.Common.Services.Indexing
 {
     public class FolderWatcherManager
     {
-        #region Variables
         private IFolderRepository folderRepository;
         private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         private Timer folderWatcherTimer;
-        #endregion
-
-        #region Events
+       
         public event EventHandler FoldersChanged = delegate { };
-        #endregion
-
-        #region Construction
+      
         public FolderWatcherManager(IFolderRepository folderRepository)
         {
             this.folderRepository = folderRepository;
             folderWatcherTimer = new Timer(2000);
             folderWatcherTimer.Elapsed += FolderWatcherTimer_Elapsed;
         }
-        #endregion
-
-        #region Private
+     
         private void FolderWatcherTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.StopFolderWatcherTimer();
@@ -69,9 +62,6 @@ namespace Dopamine.Common.Services.Indexing
             this.ResetFolderWatcherTimer();
         }
 
-        #endregion
-
-        #region Public
         public async Task StartWatchingAsync()
         {
             await this.StopWatchingAsync();
@@ -117,6 +107,5 @@ namespace Dopamine.Common.Services.Indexing
                 }
             });
         }
-        #endregion
     }
 }

@@ -1,6 +1,5 @@
-﻿using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Base;
 using System;
 using System.IO;
 using System.Reflection;
@@ -9,7 +8,6 @@ namespace Dopamine.Common.Database
 {
     public class DbMigrator
     {
-        #region DatabaseVersionAttribute
         protected sealed class DatabaseVersionAttribute : Attribute
         {
             private int version;
@@ -24,29 +22,21 @@ namespace Dopamine.Common.Database
                 get { return this.version; }
             }
         }
-        #endregion
-
-        #region Variables
+      
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
         protected const int CURRENT_VERSION = 22;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
-        #endregion
 
-        #region Construction
         public DbMigrator(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
         }
-        #endregion
 
-        #region Properties
         public ISQLiteConnectionFactory Factory => this.factory;
-        #endregion
 
-        #region Fresh database setup
         private void CreateConfiguration()
         {
             using (var conn = this.factory.GetConnection())
@@ -166,9 +156,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON Track(SafePath);");
             }
         }
-        #endregion
 
-        #region Version 1
         [DatabaseVersion(1)]
         private void Migrate1()
         {
@@ -235,9 +223,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
 
-        #region Version 2
         [DatabaseVersion(2)]
         private void Migrate2()
         {
@@ -285,9 +271,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
 
-        #region Version 3
         [DatabaseVersion(3)]
         private void Migrate3()
         {
@@ -426,9 +410,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 4
+       
         [DatabaseVersion(4)]
         private void Migrate4()
         {
@@ -565,9 +547,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE INDEX GenresIndex ON Genres(GenreName);");
             }
         }
-        #endregion
-
-        #region Version 5
+      
         [DatabaseVersion(5)]
         private void Migrate5()
         {
@@ -577,9 +557,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE INDEX IF NOT EXISTS AlbumsYearIndex ON Albums(Year);");
             }
         }
-        #endregion
-
-        #region Version 6
+   
         [DatabaseVersion(6)]
         private void Migrate6()
         {
@@ -591,9 +569,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE INDEX IF NOT EXISTS TracksFolderIDIndex ON Tracks(FolderID);");
             }
         }
-        #endregion
-
-        #region Version 7
+    
         [DatabaseVersion(7)]
         private void Migrate7()
         {
@@ -603,9 +579,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("UPDATE Folders SET ShowInCollection=1;");
             }
         }
-        #endregion
-
-        #region Version 8
+     
         [DatabaseVersion(8)]
         private void Migrate8()
         {
@@ -618,9 +592,7 @@ namespace Dopamine.Common.Database
                              "PRIMARY KEY(QueuedTrackID));");
             }
         }
-        #endregion
-
-        #region Version 9
+       
         [DatabaseVersion(9)]
         private void Migrate9()
         {
@@ -633,9 +605,7 @@ namespace Dopamine.Common.Database
                              "PRIMARY KEY(IndexingStatisticID));");
             }
         }
-        #endregion
-
-        #region Version 10
+     
         [DatabaseVersion(10)]
         private void Migrate10()
         {
@@ -667,9 +637,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 11
+   
         [DatabaseVersion(11)]
         private void Migrate11()
         {
@@ -713,9 +681,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 12
+   
         [DatabaseVersion(12)]
         private void Migrate12()
         {
@@ -741,9 +707,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 13
+       
         [DatabaseVersion(13)]
         private void Migrate13()
         {
@@ -758,9 +722,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 14
+   
         [DatabaseVersion(14)]
         private void Migrate14()
         {
@@ -775,9 +737,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 15
+   
         [DatabaseVersion(15)]
         private void Migrate15()
         {
@@ -794,9 +754,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 16
+  
         [DatabaseVersion(16)]
         private void Migrate16()
         {
@@ -937,9 +895,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 17
+ 
         [DatabaseVersion(17)]
         private void Migrate17()
         {
@@ -954,9 +910,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 18
+       
         [DatabaseVersion(18)]
         private void Migrate18()
         {
@@ -971,9 +925,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 19
+   
         [DatabaseVersion(19)]
         private void Migrate19()
         {
@@ -989,9 +941,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 20
+       
         [DatabaseVersion(20)]
         private void Migrate20()
         {
@@ -1007,9 +957,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 21
+    
         [DatabaseVersion(21)]
         private void Migrate21()
         {
@@ -1023,9 +971,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Version 22
+    
         [DatabaseVersion(22)]
         private void Migrate22()
         {
@@ -1041,9 +987,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-        #endregion
-
-        #region Public
+  
         public void Initialize()
         {
             try
@@ -1071,9 +1015,7 @@ namespace Dopamine.Common.Database
                 LogClient.Error("There was a problem initializing the database. Exception: {0}", ex.Message);
             }
         }
-        #endregion
-
-        #region Private
+  
         private bool DatabaseExists()
         {
             int count = 0;
@@ -1144,6 +1086,5 @@ namespace Dopamine.Common.Database
                 LogClient.Info("Could not create a copy of the database file. Exception: {0}", ex.Message);
             }
         }
-        #endregion
     }
 }

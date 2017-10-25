@@ -8,19 +8,14 @@ namespace Dopamine.Common.Api.Lyrics
 {
     public class LololyricsApi : ILyricsApi
     {
-        #region Variables
         private const string apiRootFormat = "http://api.lololyrics.com/0.5/getLyric?artist={0}&track={1}";
         private int timeoutSeconds;
-        #endregion
 
-        #region Construction
         public LololyricsApi(int timeoutSeconds)
         {
             this.timeoutSeconds = timeoutSeconds;
         }
-        #endregion
 
-        #region Private
         public async Task<string> ParseResultAsync(string result)
         {
             string lyrics = string.Empty;
@@ -46,9 +41,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
 
-        #region ILyricsApi
         public string SourceName
         {
             get
@@ -81,6 +74,5 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
     }
 }

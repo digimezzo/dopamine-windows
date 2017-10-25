@@ -1,25 +1,20 @@
-﻿using Dopamine.Common.Services.Playback;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Common.Presentation.Views.Base;
+using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Dopamine.Common.Presentation.Views.Base;
 
 namespace Dopamine.Common.Presentation.Views
 {
     public partial class HorizontalVolumeControls : VolumeControlViewBase
     {
-        #region Variables
         private IPlaybackService playBackService;
-        #endregion
-
-        #region Dependency Properties
+      
         public static readonly DependencyProperty ShowPercentProperty = DependencyProperty.Register("ShowPercent", typeof(bool), typeof(HorizontalVolumeControls), new PropertyMetadata(true));
         public static readonly DependencyProperty SliderLengthProperty = DependencyProperty.Register("SliderLength", typeof(double), typeof(HorizontalVolumeControls), new PropertyMetadata(100.0));
-        #endregion
-
-        #region Properties
+    
         public bool ShowPercent
         {
             get { return Convert.ToBoolean(GetValue(ShowPercentProperty)); }
@@ -33,9 +28,7 @@ namespace Dopamine.Common.Presentation.Views
 
             set { SetValue(SliderLengthProperty, value); }
         }
-        #endregion
-
-        #region Construction
+   
         public HorizontalVolumeControls()
         {
             InitializeComponent();
@@ -44,9 +37,7 @@ namespace Dopamine.Common.Presentation.Views
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
             this.playBackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
         }
-        #endregion
 
-        #region Private
         private void StackPanel_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             try
@@ -58,7 +49,5 @@ namespace Dopamine.Common.Presentation.Views
                 LogClient.Error("There was a problem changing the volume by mouse scroll. Exception: {0}", ex.Message);
             }
         }
-        #endregion
-
     }
 }

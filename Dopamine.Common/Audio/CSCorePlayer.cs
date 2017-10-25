@@ -17,7 +17,6 @@ namespace Dopamine.Common.Audio
 {
     public class CSCorePlayer : IPlayer, IDisposable
     {
-        #region Variables
         // Singleton
         private static CSCorePlayer instance;
 
@@ -45,9 +44,7 @@ namespace Dopamine.Common.Audio
 
         // Flags
         private bool isPlaying;
-        #endregion
 
-        #region Construction
         public CSCorePlayer()
         {
             // Register the NVorbis new codec
@@ -69,9 +66,7 @@ namespace Dopamine.Common.Audio
                 return instance;
             }
         }
-        #endregion
 
-        #region ReadOnly Properties
         public string Filename
         {
             get { return this.filename; }
@@ -91,15 +86,11 @@ namespace Dopamine.Common.Audio
         {
             get { return this.canStop; }
         }
-        #endregion
 
-        #region Events
         public event EventHandler PlaybackFinished = delegate { };
         public event PlaybackInterruptedEventHandler PlaybackInterrupted = delegate { };
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        #endregion
 
-        #region Public
         public void SwitchOutputDevice(MMDevice outputDevice)
         {
             this.outputDevice = outputDevice;
@@ -325,9 +316,7 @@ namespace Dopamine.Common.Audio
                 this.canStop = false;
             }
         }
-        #endregion
 
-        #region Private
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // Create SoundOut
@@ -429,9 +418,7 @@ namespace Dopamine.Common.Audio
             }
             return equalizer;
         }
-        #endregion
 
-        #region ISpectrumPlayer
         public bool IsPlaying
         {
             get { return this.isPlaying; }
@@ -547,9 +534,7 @@ namespace Dopamine.Common.Audio
                 }
             }
         }
-        #endregion
 
-        #region Event Handlers
         public void SoundOutStoppedHandler(object sender, PlaybackStoppedEventArgs e)
         {
             try
@@ -574,9 +559,7 @@ namespace Dopamine.Common.Audio
                 // Do nothing. It might be that we get in this handler when the application is closed.
             }
         }
-        #endregion
 
-        #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -610,6 +593,5 @@ namespace Dopamine.Common.Audio
             // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
-        #endregion
     }
 }

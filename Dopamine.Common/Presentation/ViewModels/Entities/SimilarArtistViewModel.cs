@@ -4,13 +4,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class SimilarArtistViewModel : BindableBase
     {
-        #region Private
         private string name;
         private string url;
         private string imageUrl;
-        #endregion
-
-        #region Properties
+   
         public string Name
         {
             get { return this.name; }
@@ -28,6 +25,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.imageUrl; }
             set { SetProperty<string>(ref this.imageUrl, value); }
         }
-        #endregion
     }
 }

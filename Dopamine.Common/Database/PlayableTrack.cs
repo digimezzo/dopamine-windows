@@ -7,29 +7,17 @@ namespace Dopamine.Common.Database
 {
     public class PlayableTrack : Track
     {
-        #region TrackStastistic
         public long? Rating { get; set; }
         public long? Love { get; set; }
         public long? PlayCount { get; set; }
         public long? SkipCount { get; set; }
         public long? DateLastPlayed { get; set; }
-        #endregion
-
-        #region Artist
         public string ArtistName { get; set; }
-        #endregion
-
-        #region Genre
         public string GenreName { get; set; }
-        #endregion
-
-        #region Album
         public string AlbumTitle { get; set; }
         public string AlbumArtist { get; set; }
         public long? AlbumYear { get; set; }
-        #endregion
 
-        #region Static
         public static PlayableTrack CreateDefault(string path)
         {
             var track = new PlayableTrack();
@@ -44,9 +32,7 @@ namespace Dopamine.Common.Database
 
             return track;
         }
-        #endregion
 
-        #region Public
         public List<PlayableTrack> ToList()
         {
             List<PlayableTrack> l = new List<PlayableTrack>();
@@ -54,6 +40,5 @@ namespace Dopamine.Common.Database
 
             return l;
         }
-        #endregion
     }
 }

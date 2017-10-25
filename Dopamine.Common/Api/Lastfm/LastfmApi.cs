@@ -13,7 +13,6 @@ namespace Dopamine.Common.Api.Lastfm
     {
         private const string apiRootFormat = "{0}://ws.audioscrobbler.com/2.0/?method={1}";
 
-        #region Private
         /// <summary>
         /// Performs a POST request over HTTP or HTTPS
         /// </summary>
@@ -96,9 +95,7 @@ namespace Dopamine.Common.Api.Lastfm
             // Create MD5 hash and return that
             return CryptographyUtils.MD5Hash(signature);
         }
-        #endregion
 
-        #region Public
         /// <summary>
         /// Requests authorization from the user by sending a POST request over HTTPS
         /// </summary>
@@ -471,6 +468,5 @@ namespace Dopamine.Common.Api.Lastfm
 
             return isSuccess;
         }
-        #endregion
     }
 }

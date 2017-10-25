@@ -11,21 +11,16 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class PlaybackControlsWithPlaylistNotificationViewModel : BindableBase
     {
-        #region Private
         private ICollectionService collectionService;
         private IPlaybackService playbackService;
         private IPlaylistService playlistService;
         private string addedTracksToPlaylistText;
         private bool showAddedTracksToPlaylistText;
         private Timer showAddedTracksToPlaylistTextTimer;
-        private int showAddedTracksToPlaylistTextTimeout = 2; // seconds
-        #endregion
-
-        #region Commands
+        private int showAddedTracksToPlaylistTextSeconds = 2;
+    
         public DelegateCommand PlaylistNotificationMouseEnterCommand { get; set; }
-        #endregion
-
-        #region Public
+      
         public string AddedTracksToPlaylistText
         {
             get { return this.addedTracksToPlaylistText; }
@@ -46,9 +41,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             }
         }
-        #endregion
-
-        #region Construction
+      
         public PlaybackControlsWithPlaylistNotificationViewModel(ICollectionService collectionService, IPlaybackService playbackService,IPlaylistService playlistService)
         {
             this.collectionService = collectionService;
@@ -86,12 +79,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             };
 
             this.showAddedTracksToPlaylistTextTimer = new Timer();
-            this.showAddedTracksToPlaylistTextTimer.Interval = TimeSpan.FromSeconds(this.showAddedTracksToPlaylistTextTimeout).TotalMilliseconds;
+            this.showAddedTracksToPlaylistTextTimer.Interval = TimeSpan.FromSeconds(this.showAddedTracksToPlaylistTextSeconds).TotalMilliseconds;
             this.showAddedTracksToPlaylistTextTimer.Elapsed += ShowAddedTracksToPlaylistTextTimerElapsedHandler;
         }
-        #endregion
-
-        #region Private
+     
         private void ShowAddedTracksToPlaylistTextTimerElapsedHandler(object sender, ElapsedEventArgs e)
         {
             this.HideText();
@@ -102,6 +93,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.showAddedTracksToPlaylistTextTimer.Stop();
             this.ShowAddedTracksToPlaylistText = false;
         }
-        #endregion
     }
 }

@@ -10,31 +10,22 @@ namespace Dopamine.Common.Controls
 {
     public class CrossFadeContentControl : ContentControl
     {
-        #region Variables
         private ContentPresenter PART_MainContent;
         private Shape PART_PaintArea;
-        #endregion
 
-        #region Properties
         public double Duration
         {
             get { return Convert.ToDouble(GetValue(DurationProperty)); }
             set { SetValue(DurationProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty DurationProperty = DependencyProperty.Register("Duration", typeof(double), typeof(CrossFadeContentControl), new PropertyMetadata(0.5));
-        #endregion
 
-        #region Construction
         static CrossFadeContentControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CrossFadeContentControl), new FrameworkPropertyMetadata(typeof(CrossFadeContentControl)));
         }
-        #endregion
 
-        #region Overrides
         public override void OnApplyTemplate()
         {
             this.PART_MainContent = (ContentPresenter)GetTemplateChild("PART_MainContent");
@@ -59,9 +50,7 @@ namespace Dopamine.Common.Controls
             {
             }
         }
-        #endregion
 
-        #region Private
         private Brush CreateBrushFromVisual(Visual iVisual)
         {
 
@@ -100,6 +89,5 @@ namespace Dopamine.Common.Controls
             PART_PaintArea.BeginAnimation(OpacityProperty, fadeOutAnimation);
             PART_MainContent.BeginAnimation(OpacityProperty, fadeInAnimation);
         }
-        #endregion
     }
 }

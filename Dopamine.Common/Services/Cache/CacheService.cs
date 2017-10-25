@@ -13,14 +13,11 @@ namespace Dopamine.Common.Services.Cache
 {
     public class CacheService : ICacheService
     {
-        #region Variables
         private string coverArtCacheFolderPath;
         private string temporaryCacheFolderPath;
         private Timer temporaryCacheCleanupTimer;
         private int temporaryCacheCleanupTimeout = 300000; // 300000 milliseconds = 5 minutes
-        #endregion
-
-        #region Properties
+    
         public string CoverArtCacheFolderPath
         {
             get
@@ -36,9 +33,7 @@ namespace Dopamine.Common.Services.Cache
                 return this.temporaryCacheFolderPath;
             }
         }
-        #endregion
-
-        #region Construction
+    
         public CacheService()
         { 
             string cacheFolderPath = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CacheFolder);
@@ -72,9 +67,7 @@ namespace Dopamine.Common.Services.Cache
             temporaryCacheCleanupTimer.Elapsed += TemporaryCacheCleanupTimer_Elapsed;
             temporaryCacheCleanupTimer.Start();
         }
-        #endregion
-
-        #region ICacheService
+      
         public async Task<string> CacheArtworkAsync(byte[] artwork)
         {
             if (artwork == null) return string.Empty;
@@ -131,9 +124,7 @@ namespace Dopamine.Common.Services.Cache
             }
            
         }
-        #endregion
-
-        #region Private
+      
         private void TemporaryCacheCleanupTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             temporaryCacheCleanupTimer.Stop();
@@ -161,6 +152,5 @@ namespace Dopamine.Common.Services.Cache
 
             temporaryCacheCleanupTimer.Start();
         }
-        #endregion
     }
 }

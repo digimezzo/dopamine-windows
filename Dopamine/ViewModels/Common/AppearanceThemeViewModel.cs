@@ -17,7 +17,6 @@ namespace Dopamine.ViewModels.Common
         private bool checkBoxWindowsColorChecked;
         private bool checkBoxAlbumCoverColorChecked;
         private bool checkBoxThemeChecked;
-        private bool isViewModelLoaded = true; // TODO: get rid of this variable
 
         public ObservableCollection<string> Themes
         {
@@ -48,7 +47,7 @@ namespace Dopamine.ViewModels.Common
 
             set
             {
-                // value can be Nothing when a ColorScheme is removed from the ColorSchemes directory
+                // value can be null when a ColorScheme is removed from the ColorSchemes directory
                 if (value != null)
                 {
                     SettingsClient.Set<string>("Appearance", "ColorScheme", value.Name);
@@ -58,10 +57,8 @@ namespace Dopamine.ViewModels.Common
                         await this.appearanceService.ApplyColorSchemeAsync(
                             value.Name,
                             SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
-                            SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
-                            isViewModelLoaded
+                            SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor")
                             );
-                        isViewModelLoaded = false;
                     });
                 }
 
@@ -84,12 +81,7 @@ namespace Dopamine.ViewModels.Common
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await this.appearanceService.ApplyColorSchemeAsync(
-                        SettingsClient.Get<string>("Appearance", "ColorScheme"),
-                        value,
-                        false,
-                        isViewModelLoaded
-                        );
+                    await this.appearanceService.ApplyColorSchemeAsync(SettingsClient.Get<string>("Appearance", "ColorScheme"), value, false);
                 });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
@@ -113,11 +105,7 @@ namespace Dopamine.ViewModels.Common
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                          SettingsClient.Get<string>("Appearance", "ColorScheme"),
-                          false,
-                          value,
-                          isViewModelLoaded
-                          );
+                          SettingsClient.Get<string>("Appearance", "ColorScheme"), false, value);
                 });
 
                 SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);

@@ -7,20 +7,15 @@ namespace Dopamine.Common.Controls
 {
     public class ZoomInContentControl : ContentControl
     {
-        #region Properties
         public double Duration
         {
             get { return Convert.ToDouble(GetValue(DurationProperty)); }
 
             set { SetValue(DurationProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty DurationProperty = DependencyProperty.Register("Duration", typeof(double), typeof(ZoomInContentControl), new PropertyMetadata(0.5));
-        #endregion
 
-        #region Overrides
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             if (newContent != null)
@@ -28,9 +23,7 @@ namespace Dopamine.Common.Controls
                 this.DoAnimation();
             }
         }
-        #endregion
 
-        #region Private
         private void DoAnimation()
         {
             var ta = new ThicknessAnimation();
@@ -39,6 +32,5 @@ namespace Dopamine.Common.Controls
             ta.Duration = new Duration(TimeSpan.FromSeconds(this.Duration));
             this.BeginAnimation(MarginProperty, ta);
         }
-        #endregion
     }
 }

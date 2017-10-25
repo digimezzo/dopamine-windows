@@ -4,7 +4,6 @@ namespace Dopamine.Common.Database.Entities
 {
     public class TrackStatistic
     {
-        #region Properties
         [PrimaryKey(), AutoIncrement()]
         public long TrackStatisticID { get; set; }
         public string Path { get; set; }
@@ -14,9 +13,7 @@ namespace Dopamine.Common.Database.Entities
         public long? PlayCount { get; set; }
         public long? SkipCount { get; set; }
         public long? DateLastPlayed { get; set; }
-        #endregion
 
-        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -31,6 +28,5 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.SafePath }.GetHashCode();
         }
-        #endregion
     }
 }

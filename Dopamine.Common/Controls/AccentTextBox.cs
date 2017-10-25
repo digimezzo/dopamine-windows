@@ -6,7 +6,6 @@ namespace Dopamine.Common.Controls
 {
     public class AccentTextBox : TextBox
     {
-        #region Properties
         public bool ShowIcon
         {
             get { return Convert.ToBoolean(GetValue(ShowIconProperty)); }
@@ -34,22 +33,17 @@ namespace Dopamine.Common.Controls
 
             set { SetValue(ShowAccentProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register("ShowIcon", typeof(bool), typeof(AccentTextBox), new PropertyMetadata(null));
         public static readonly DependencyProperty IconGlyphProperty = DependencyProperty.Register("IconGlyph", typeof(string), typeof(AccentTextBox), new PropertyMetadata(null));
         public static readonly DependencyProperty IconToolTipProperty = DependencyProperty.Register("IconToolTip", typeof(string), typeof(AccentTextBox), new PropertyMetadata(null));
         public static readonly DependencyProperty ShowAccentProperty = DependencyProperty.Register("ShowAccent", typeof(bool), typeof(AccentTextBox), new PropertyMetadata(null));
-        #endregion
 
-        #region Construction
         static AccentTextBox()
         {
             //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
             //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AccentTextBox), new FrameworkPropertyMetadata(typeof(AccentTextBox)));
         }
-        #endregion
     }
 }

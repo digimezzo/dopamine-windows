@@ -8,11 +8,8 @@ namespace Dopamine.Common.Controls
 {
     public class TransitioningContentControl : ContentControl
     {
-        #region Variables
         private Timer timer;
-        #endregion
-        
-        #region Dependency Properties
+
         public static readonly DependencyProperty FadeInProperty = DependencyProperty.Register("FadeIn", typeof(bool), typeof(TransitioningContentControl), new PropertyMetadata(null));
         public static readonly DependencyProperty FadeInTimeoutProperty = DependencyProperty.Register("FadeInTimeout", typeof(double), typeof(TransitioningContentControl), new PropertyMetadata(null));
         public static readonly DependencyProperty SlideInProperty = DependencyProperty.Register("SlideIn", typeof(bool), typeof(TransitioningContentControl), new PropertyMetadata(null));
@@ -20,9 +17,7 @@ namespace Dopamine.Common.Controls
         public static readonly DependencyProperty SlideInFromProperty = DependencyProperty.Register("SlideInFrom", typeof(int), typeof(TransitioningContentControl), new PropertyMetadata(null));
         public static readonly DependencyProperty SlideInToProperty = DependencyProperty.Register("SlideInTo", typeof(int), typeof(TransitioningContentControl), new PropertyMetadata(null));
         public static readonly DependencyProperty RightToLeftProperty = DependencyProperty.Register("RightToLeft", typeof(bool), typeof(TransitioningContentControl), new PropertyMetadata(null));
-        #endregion
 
-        #region Routed Events
         public static readonly RoutedEvent ContentChangedEvent = EventManager.RegisterRoutedEvent("ContentChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TransitioningContentControl));
         
         public event RoutedEventHandler ContentChanged
@@ -38,9 +33,7 @@ namespace Dopamine.Common.Controls
             RoutedEventArgs newEventArgs = new RoutedEventArgs(TransitioningContentControl.ContentChangedEvent);
             base.RaiseEvent(newEventArgs);
         }
-        #endregion
 
-        #region Properties
         public bool FadeIn
         {
             get { return Convert.ToBoolean(GetValue(FadeInProperty)); }
@@ -89,16 +82,12 @@ namespace Dopamine.Common.Controls
 
             set { SetValue(RightToLeftProperty, value); }
         }
-        #endregion
 
-        #region Overrides
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             this.DoAnimation();
         }
-        #endregion
 
-        #region Private
         private void DoAnimation()
         {
             if (this.FadeInTimeout != null && this.FadeIn)
@@ -165,6 +154,5 @@ namespace Dopamine.Common.Controls
             {
             }
         }
-        #endregion
     }
 }

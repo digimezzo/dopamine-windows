@@ -1,12 +1,11 @@
 ﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Playlist;
-using Digimezzo.Utilities.Log;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using System;
@@ -23,24 +22,17 @@ namespace Dopamine.Common.Presentation.Views.Base
 {
     public abstract class PlaylistViewBase : CommonViewBase
     {
-        #region Variables
         protected IPlaylistService playlistService;
-        #endregion
 
-        #region Commands
         public DelegateCommand ViewPlaylistInExplorerCommand { get; set; }
-        #endregion
-
-        #region Construction
+     
         public PlaylistViewBase()
         {
             // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
             this.playlistService = ServiceLocator.Current.GetInstance<IPlaylistService>();
         }
-        #endregion
-
-        #region Overrides
+  
         protected override async Task KeyUpHandlerAsync(object sender, KeyEventArgs e)
         {
             ListBox lb = (ListBox)sender;
@@ -178,6 +170,5 @@ namespace Dopamine.Common.Presentation.Views.Base
                 LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
-        #endregion
     }
 }

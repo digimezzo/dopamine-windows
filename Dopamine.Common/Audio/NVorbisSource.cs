@@ -7,14 +7,11 @@ namespace Dopamine.Common.Audio
 {
     public class NVorbisSource : ISampleSource
     {
-        #region Variables
         private readonly Stream stream;
         private readonly VorbisReader vorbisReader;
         private readonly WaveFormat waveFormat;
         private bool disposed;
-        #endregion
 
-        #region Constructor
         public NVorbisSource(Stream stream)
         {
             if (stream == null)
@@ -31,9 +28,7 @@ namespace Dopamine.Common.Audio
             this.vorbisReader = new VorbisReader(stream, false);
             this.waveFormat = new WaveFormat(this.vorbisReader.SampleRate, 32, this.vorbisReader.Channels, AudioEncoding.IeeeFloat);
         }
-        #endregion
 
-        #region ISampleSource
         public bool CanSeek
         {
             get
@@ -87,13 +82,8 @@ namespace Dopamine.Common.Audio
             {
                 this.vorbisReader.Dispose();
             }
-            //else
-            //{
-            //    throw new ObjectDisposedException("NVorbisSource");
-            //}
 
             this.disposed = true;
         }
-        #endregion
     }
 }

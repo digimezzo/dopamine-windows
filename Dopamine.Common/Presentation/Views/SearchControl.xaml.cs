@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    /// <summary>
-    /// Interaction logic for SearchControl.xaml
-    /// </summary>
     public partial class SearchControl : UserControl
     {
         public SearchControl()

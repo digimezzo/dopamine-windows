@@ -9,12 +9,9 @@
 
     public class Lyrics
     {
-        #region Variables
         private string text;
         private string source;
-        #endregion
 
-        #region Properties
         public string Text
         {
             get { return this.text; }
@@ -37,14 +34,11 @@
         }
 
         public SourceTypeEnum SourceType { get; set; }
-        #endregion
 
-        #region Construction
         public Lyrics(string text, string source)
         {
             this.text = text;
             this.source = source;
         }
-        #endregion
     }
 }

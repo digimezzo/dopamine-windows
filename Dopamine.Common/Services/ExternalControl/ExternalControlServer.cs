@@ -23,7 +23,6 @@ namespace Dopamine.Common.Services.ExternalControl
     {
         private const int FftDataLength = 256 * 4;
 
-        #region Variables
         private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
         private readonly DispatcherTimer fftProviderDataTimer;
         private bool haveAddedInputStream;
@@ -41,9 +40,7 @@ namespace Dopamine.Common.Services.ExternalControl
 
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
-        #endregion
-
-        #region Constructor
+   
         public ExternalControlServer(IPlaybackService playbackService, ICacheService cacheService)
         {
             this.playbackService = playbackService;
@@ -58,9 +55,7 @@ namespace Dopamine.Common.Services.ExternalControl
             fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
             fftDataMemoryMappedFileMutex.ReleaseMutex();
         }
-        #endregion
-
-        #region IDisposable
+    
         private bool m_disposed = false;
 
         public void Dispose()
@@ -87,9 +82,7 @@ namespace Dopamine.Common.Services.ExternalControl
         {
             Dispose(false);
         }
-        #endregion
-
-        #region IExternalControlServer
+       
         [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.None)]
         public string RegisterClient()
         {
@@ -149,10 +142,7 @@ namespace Dopamine.Common.Services.ExternalControl
 
         [OperationBehavior]
         public string GetCurrentTrackArtworkPath(string artworkId) => this.cacheService.GetCachedArtworkPath(artworkId);
-        #endregion
-
-        #region IFftDataServer
-
+     
         [OperationBehavior]
         public int GetFftDataSize() => FftDataLength;
 
@@ -174,9 +164,7 @@ namespace Dopamine.Common.Services.ExternalControl
                 fftDataMemoryMappedFileMutex.ReleaseMutex();
             });
         }
-        #endregion
-
-        #region Internal
+       
         internal void Open()
         {
             this.playbackService.PlaybackSuccess += PlaybackSuccessCallback;
@@ -202,9 +190,7 @@ namespace Dopamine.Common.Services.ExternalControl
             this.playbackService.PlayingTrackPlaybackInfoChanged -= PlayingTrackPlaybackInfoChangedCallback;
             this.playbackService.PlayingTrackArtworkChanged -= PlayingTrackArtworkChangedCallBack;
         }
-        #endregion
-
-        #region Private
+   
         private void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
         {
             ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChangedAsync));
@@ -311,6 +297,5 @@ namespace Dopamine.Common.Services.ExternalControl
             this.fftProviderDataTimer.Stop();
             TryRemoveInputStreamHandler();
         }
-        #endregion
     }
 }

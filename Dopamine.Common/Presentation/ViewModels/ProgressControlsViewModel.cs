@@ -5,13 +5,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class ProgressControlsViewModel : BindableBase
     {
-        #region Variables
         protected IPlaybackService playBackService;
         private double progressValue;
         private bool canReportProgress;
-        #endregion
-
-        #region Properties
         public double ProgressValue
         {
             get { return this.progressValue; }
@@ -27,9 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.canReportProgress; }
             set { SetProperty<bool>(ref this.canReportProgress, value); }
         }
-        #endregion
-
-        #region Construction
+   
         public ProgressControlsViewModel(IPlaybackService playBackService)
         {
             this.playBackService = playBackService;
@@ -39,9 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playBackService.PlaybackStopped += (_, __) => this.GetPlayBackServiceProgress();
             this.playBackService.PlaybackSuccess += (_) => this.GetPlayBackServiceProgress();
         }
-        #endregion
-
-        #region Private
+        
         private void SetPlayBackServiceProgress(double progress)
         {
             this.playBackService.SkipProgress(progress);
@@ -52,7 +44,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Important: set ProgressValue directly, not the ProgressValue 
             // Property, because the ProgressValue Property Setter is empty!
             this.progressValue = this.playBackService.Progress;
-            OnPropertyChanged(() => this.ProgressValue);
+            RaisePropertyChanged(nameof(this.ProgressValue));
 
             // This makes sure the progress bar is not clickable when the player is not playing
             if (!this.playBackService.IsStopped)
@@ -64,6 +56,5 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.CanReportProgress = false;
             }
         }
-        #endregion
     }
 }

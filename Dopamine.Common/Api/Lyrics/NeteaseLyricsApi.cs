@@ -1,18 +1,15 @@
-﻿using System;
+﻿using Dopamine.Common.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Api.Lyrics
 {
     // API from http://moonlib.com/606.html
     public class NeteaseLyricsApi : ILyricsApi
     {
-        #region Variables
-
         private ILocalizationInfo info;
         private const string apiSearchResultLimit = "1";
 
@@ -21,10 +18,6 @@ namespace Dopamine.Common.Api.Lyrics
         private const string apiRootUrl = "http://music.163.com/api/";
         private int timeoutSeconds;
         private HttpClient httpClient;
-
-        #endregion
-
-        #region Construction
 
         public NeteaseLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
@@ -45,10 +38,6 @@ namespace Dopamine.Common.Api.Lyrics
             httpClient.DefaultRequestHeaders.Add("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         }
-
-        #endregion
-
-        #region Private
 
         private async Task<string> ParseTrackIdAsync(string artist, string title)
         {
@@ -80,10 +69,6 @@ namespace Dopamine.Common.Api.Lyrics
             return response.Substring(start, end - start).Replace("\\n","\n");
         }
 
-        #endregion
-
-        #region ILyricsApi
-
         public string SourceName => this.info.NeteaseLyrics;
 
         public async Task<string> GetLyricsAsync(string artist, string title)
@@ -93,7 +78,5 @@ namespace Dopamine.Common.Api.Lyrics
 
             return result;
         }
-
-        #endregion
     }
 }

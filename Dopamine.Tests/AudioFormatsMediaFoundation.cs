@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Dopamine.Common.Audio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dopamine.Common.Audio;
+using System;
 
 namespace Dopamine.Tests
 {
     [TestClass]
     public class AudioFormatsMediaFoundation
     {
-        #region Private
         private int PlayFile(string audioFile, bool wasapiEventMode, bool wasapiExclusiveMode, float volume, int skipSeconds = 0)
         {
             IPlayer player = CSCorePlayer.Instance;
@@ -18,9 +17,7 @@ namespace Dopamine.Tests
 
             return Convert.ToInt32(player.GetCurrentTime().TotalSeconds);
         }
-        #endregion
 
-        #region MP3
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void Mp3Basic()
         {
@@ -85,9 +82,7 @@ namespace Dopamine.Tests
         //    this.PlayFile(@"Files\AudioFormats\test4.mp3", false, false, 0.3f);
         //    System.Threading.Thread.Sleep(5000);
         //}
-        #endregion
 
-        #region WMA
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void WmaBasic()
         {
@@ -108,9 +103,7 @@ namespace Dopamine.Tests
             int currentSeconds = this.PlayFile(@"Files\AudioFormats\test.wma", false, false, 0.0f, skipSeconds);
             Assert.IsTrue(currentSeconds == skipSeconds);
         }
-        #endregion
 
-        #region FLAC
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void FlacBasic()
         {
@@ -131,9 +124,7 @@ namespace Dopamine.Tests
             int currentSeconds = this.PlayFile(@"Files\AudioFormats\test.flac", false, false, 0.0f, skipSeconds);
             Assert.IsTrue(currentSeconds == skipSeconds);
         }
-        #endregion
 
-        #region OGG
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void OggBasic()
         {
@@ -194,9 +185,7 @@ namespace Dopamine.Tests
             this.PlayFile(@"Files\AudioFormats\test3.ogg", false, false, 0.3f);
             System.Threading.Thread.Sleep(5000);
         }
-        #endregion
 
-        #region M4A
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void M4aBasicTest()
         {
@@ -217,9 +206,7 @@ namespace Dopamine.Tests
             int currentSeconds = this.PlayFile(@"Files\AudioFormats\test.m4a", false, false, 0.0f, skipSeconds);
             Assert.IsTrue(currentSeconds == skipSeconds);
         }
-        #endregion
 
-        #region WASAPI Exclusive Mode
         [TestMethod(), TestCategory(TestCategories.AudioFormatsMediaFoundation)]
         public void WasapiExclusiveModeBasic()
         {
@@ -232,6 +219,5 @@ namespace Dopamine.Tests
             this.PlayFile(@"Files\AudioFormats\test.mp3", false, true, 0.3f);
             System.Threading.Thread.Sleep(5000);
         }
-        #endregion
     }
 }

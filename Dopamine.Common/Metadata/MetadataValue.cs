@@ -5,13 +5,10 @@ namespace Dopamine.Common.Metadata
 {
     public class MetadataValue : BindableBase
     {
-        #region Private
         private string value;
         private string[] values;
         private bool isValueChanged;
-        #endregion
-
-        #region Readonly Properties
+       
         public bool IsValueChanged
         {
             get { return this.isValueChanged; }
@@ -25,9 +22,7 @@ namespace Dopamine.Common.Metadata
                 return this.IsValueChanged & !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
             }
         }
-        #endregion
-
-        #region Properties
+    
         public string Value
         {
             get { return this.value; }
@@ -53,9 +48,7 @@ namespace Dopamine.Common.Metadata
                 this.OnPropertiesChanged();
             }
         }
-        #endregion
-
-        #region Construction
+       
         public MetadataValue()
         {
         }
@@ -80,15 +73,13 @@ namespace Dopamine.Common.Metadata
             this.value = ConvertToValue(values);
             this.OnPropertiesChanged();
         }
-        #endregion
-
-        #region Private
+   
         private void OnPropertiesChanged()
         {
-            OnPropertyChanged(() => this.Value);
-            OnPropertyChanged(() => this.Values);
-            OnPropertyChanged(() => this.IsValueChanged);
-            OnPropertyChanged(() => this.IsNumeric);
+            RaisePropertyChanged(nameof(this.Value));
+            RaisePropertyChanged(nameof(this.Values));
+            RaisePropertyChanged(nameof(this.IsValueChanged));
+            RaisePropertyChanged(nameof(this.IsNumeric));
         }
 
         private string[] ConvertToValues(string value)
@@ -102,6 +93,5 @@ namespace Dopamine.Common.Metadata
             if (values != null && values.Count() > 0) return string.Join(";", values);
             return string.Empty;
         }
-        #endregion
     }
 }

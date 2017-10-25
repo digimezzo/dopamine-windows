@@ -18,22 +18,17 @@ namespace Dopamine.Common.Services.Playlist
 {
     public class PlaylistService : IPlaylistService
     {
-        #region Variables
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private string playlistFolder;
         private FileSystemWatcher watcher = new FileSystemWatcher();
         private Timer playlistFolderChangedTimer = new Timer();
-        #endregion
-
-        #region Properties
+     
         public string PlaylistFolder
         {
             get { return this.playlistFolder; }
         }
-        #endregion
-
-        #region Construction
+     
         public PlaylistService(IFileService fileService, ITrackRepository trackRepository)
         {
             // Services
@@ -81,25 +76,19 @@ namespace Dopamine.Common.Services.Playlist
             playlistFolderChangedTimer.Elapsed += PlaylistsChangedTimer_Elapsed;
             playlistFolderChangedTimer.Start();
         }
-        #endregion
-
-        #region Events
+     
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
         public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
         public event EventHandler PlaylistFolderChanged = delegate { };
-        #endregion
-
-        #region Private
+    
         private string CreatePlaylistFilename(string playlist)
         {
             return Path.Combine(this.playlistFolder, playlist + FileFormats.M3U);
         }
-        #endregion
-
-        #region IPlaylistService
+    
         public async Task<string> GetUniquePlaylistAsync(string proposedPlaylistName)
         {
             string uniquePlaylist = proposedPlaylistName;
@@ -585,9 +574,7 @@ namespace Dopamine.Common.Services.Playlist
 
             return result;
         }
-        #endregion
-
-        #region Event handlers
+   
         private void PlaylistsChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             playlistFolderChangedTimer.Stop();
@@ -605,6 +592,5 @@ namespace Dopamine.Common.Services.Playlist
             playlistFolderChangedTimer.Stop();
             playlistFolderChangedTimer.Start();
         }
-        #endregion
     }
 }

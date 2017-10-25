@@ -16,22 +16,15 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class FolderRepository : IFolderRepository
     {
-        #region Variables
         private ISQLiteConnectionFactory factory;
-        #endregion
 
-        #region Properties
         public ISQLiteConnectionFactory Factory => this.factory;
-        #endregion
 
-        #region Construction
         public FolderRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
         }
-        #endregion
 
-        #region IFolderRepository
         public async Task<AddFolderResult> AddFolderAsync(string path)
         {
             AddFolderResult result = AddFolderResult.Success;
@@ -227,6 +220,5 @@ namespace Dopamine.Common.Database.Repositories
                 }
             });
         }
-        #endregion
     }
 }

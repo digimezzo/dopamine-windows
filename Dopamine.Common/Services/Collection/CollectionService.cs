@@ -18,7 +18,6 @@ namespace Dopamine.Common.Services.Collection
 {
     public class CollectionService : ICollectionService
     {
-        #region Variables
         private IAlbumRepository albumRepository;
         private IArtistRepository artistRepository;
         private ITrackRepository trackRepository;
@@ -28,9 +27,7 @@ namespace Dopamine.Common.Services.Collection
         private IPlaybackService playbackService;
         private List<Folder> markedFolders;
         private Timer saveMarkedFoldersTimer = new Timer(2000);
-        #endregion
-
-        #region Construction
+    
         public CollectionService(IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
         {
             this.albumRepository = albumRepository;
@@ -44,13 +41,9 @@ namespace Dopamine.Common.Services.Collection
 
             this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
         }
-        #endregion
-
-        #region Events
+   
         public event EventHandler CollectionChanged = delegate { };
-        #endregion
-
-        #region Private
+  
         private async Task SaveMarkedFoldersAsync()
         {
             bool isCollectionChanged = false;
@@ -77,9 +70,7 @@ namespace Dopamine.Common.Services.Collection
         {
             await this.SaveMarkedFoldersAsync();
         }
-        #endregion
 
-        #region ICollectionService
         public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
         {
             RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
@@ -223,6 +214,5 @@ namespace Dopamine.Common.Services.Collection
                 }
             });
         }
-        #endregion
     }
 }

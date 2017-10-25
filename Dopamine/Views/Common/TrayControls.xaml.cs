@@ -34,8 +34,7 @@ namespace Dopamine.Views.Common
 
 
             // This is important so Deactivated is called even when the window was never clicked
-            // (When a manual activate is not triggered, Deactivated doesn't get called when
-            // clicking outside the window)
+            // (When a manual activate is not triggered, Deactivated doesn't get called when clicking outside the window)
             this.Activate();
         }
 

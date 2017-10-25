@@ -109,13 +109,13 @@ namespace Dopamine.ViewModels.Common
 
             this.ShowAllFoldersInCollection = SettingsClient.Get<bool>("Indexing", "ShowAllFoldersInCollection");
 
-            // Makes sure Me.IsIndexng is set if this ViewModel is created after the Indexer has started indexing
+            // Makes sure IsIndexng is set if this ViewModel is created after the indexer has started indexing
             if (this.indexingService.IsIndexing)
             {
                 this.IsIndexing = true;
             }
 
-            // These events handle changes of Indexer status after the ViewModel is created
+            // These events handle changes of indexer status after the ViewModel is created
             this.indexingService.IndexingStarted += (_, __) => this.IsIndexing = true;
             this.indexingService.IndexingStopped += (_, __) => this.IsIndexing = false;
 

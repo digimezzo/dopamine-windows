@@ -12,24 +12,17 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class ArtistRepository : IArtistRepository
     {
-        #region Variables
         private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
-        #endregion
 
-        #region Properties
         public ISQLiteConnectionFactory Factory => this.factory;
-        #endregion
 
-        #region Construction
         public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
             this.info = info;
         }
-        #endregion
 
-        #region IArtistRepository
         public async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
         {
             var artists = new List<Artist>();
@@ -185,6 +178,5 @@ namespace Dopamine.Common.Database.Repositories
                 }
             });
         }
-        #endregion
     }
 }

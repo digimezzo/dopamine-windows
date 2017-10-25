@@ -22,7 +22,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public abstract class CommonViewModelBase : ContextMenuViewModelBase
     {
-        #region Variables
         private IUnityContainer container;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
@@ -43,9 +42,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private TrackOrder trackOrder;
         private string trackOrderText;
         private string searchTextBeforeInactivate = string.Empty;
-        #endregion
 
-        #region Commands
         public DelegateCommand ToggleTrackOrderCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
@@ -58,9 +55,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
         public DelegateCommand ShuffleAllCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
-        #endregion
 
-        #region Properties
         public string TotalSizeInformation => this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty;
         public string TotalDurationInformation => this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty;
         public string TrackOrderText => this.trackOrderText;
@@ -98,9 +93,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.UpdateTrackOrderText(value);
             }
         }
-        #endregion
 
-        #region Construction
         public CommonViewModelBase(IUnityContainer container) : base(container)
         {
             // Dependency injection
@@ -145,9 +138,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             // IndexingService.IndexerStarted event.
             this.SetEditCommands();
         }
-        #endregion
 
-        #region Protected
         protected bool IsFirstLoad()
         {
             bool originalIsFirstLoad = this.isFirstLoad;
@@ -184,7 +175,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
 
-            OnPropertyChanged(() => this.TrackOrderText);
+            RaisePropertyChanged(nameof(this.TrackOrderText));
         }
 
         protected bool CheckAllSelectedFilesExist(List<string> paths)
@@ -261,9 +252,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 ((EditTrackViewModel)view.DataContext).SaveTracksAsync);
             }
         }
-        #endregion
 
-        #region Virtual
         protected virtual void SetEditCommands()
         {
             this.IsIndexing = this.indexingService.IsIndexing;
@@ -271,9 +260,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             if (this.EditTracksCommand != null) this.EditTracksCommand.RaiseCanExecuteChanged();
             if (this.RemoveSelectedTracksCommand != null) this.RemoveSelectedTracksCommand.RaiseCanExecuteChanged();
         }
-        #endregion
 
-        #region Abstract
         protected abstract Task ShowPlayingTrackAsync();
         protected abstract Task FillListsAsync();
         protected abstract void FilterLists();
@@ -284,6 +271,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         protected abstract Task LoadedCommandAsync();
         protected abstract void EditSelectedTracks();
         protected abstract void SelectedTracksHandler(object parameter);
-        #endregion
     }
 }

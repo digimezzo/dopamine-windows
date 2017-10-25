@@ -27,7 +27,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public abstract class PlaylistViewModelBase : CommonViewModelBase
     {
-        #region Variables
         private IUnityContainer container;
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
@@ -41,13 +40,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         protected bool isDroppingTracks;
         private KeyValuePair<string, TrackViewModel> lastPlayingTrackVm;
         private bool showTrackArt;
-        #endregion
 
-        #region Commands
         public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
-        #endregion
 
-        #region Properties
         public ObservableCollection<KeyValuePair<string, TrackViewModel>> Tracks
         {
             get { return this.tracks; }
@@ -72,9 +67,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty(ref this.showTrackArt, value); }
         }
 
-        #endregion
-
-        #region Construction
         public PlaylistViewModelBase(IUnityContainer container) : base(container)
         {
             // Dependency injection
@@ -124,9 +116,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Settings
             this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
         }
-        #endregion
 
-        #region Private
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
@@ -174,8 +164,8 @@ namespace Dopamine.Common.Presentation.ViewModels
                 });
             }
 
-            OnPropertyChanged(() => this.TotalDurationInformation);
-            OnPropertyChanged(() => this.TotalSizeInformation);
+            RaisePropertyChanged(nameof(this.TotalDurationInformation));
+            RaisePropertyChanged(nameof(this.TotalSizeInformation));
         }
 
         private void RefreshLanguage()
@@ -183,9 +173,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Make sure that unknown artist, genre and album are translated correctly.
             this.FillListsAsync();
         }
-        #endregion
 
-        #region Protected
         protected async Task GetTracksCommonAsync(OrderedDictionary<string, PlayableTrack> tracks)
         {
             try
@@ -294,9 +282,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
-        #endregion
 
-        #region Overrides
         protected override void ConditionalScrollToPlayingTrack()
         {
             // Trigger ScrollToPlayingTrack only if set in the settings
@@ -447,6 +433,5 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.ConditionalScrollToPlayingTrack();
         }
-        #endregion
     }
 }

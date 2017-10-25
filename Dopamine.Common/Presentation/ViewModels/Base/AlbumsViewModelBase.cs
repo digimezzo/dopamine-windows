@@ -27,7 +27,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public abstract class AlbumsViewModelBase : TracksViewModelBase
     {
-        #region Variables
         private IUnityContainer container;
         private ICollectionService collectionService;
         private IPlaybackService playbackService;
@@ -46,9 +45,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private double albumWidth;
         private double albumHeight;
         private CoverSizeType selectedCoverSize;
-        #endregion
 
-        #region Commands
         public DelegateCommand ToggleAlbumOrderCommand { get; set; }
         public DelegateCommand<string> AddAlbumsToPlaylistCommand { get; set; }
         public DelegateCommand<object> SelectedAlbumsCommand { get; set; }
@@ -57,9 +54,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         public DelegateCommand<string> SetCoverSizeCommand { get; set; }
         public DelegateCommand DelaySelectedAlbumsCommand { get; set; }
         public DelegateCommand ShuffleSelectedAlbumsCommand { get; set; }
-        #endregion
 
-        #region Properties
         public bool IsMultipleAlbumsSelected
         {
             get
@@ -111,7 +106,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             set
             {
                 SetProperty<IList<Album>>(ref this.selectedAlbums, value);
-                OnPropertyChanged(() => this.CanOrderByAlbum);
+                RaisePropertyChanged(nameof(this.CanOrderByAlbum));
             }
         }
 
@@ -131,9 +126,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.UpdateAlbumOrderText(value);
             }
         }
-        #endregion
 
-        #region Construction
         public AlbumsViewModelBase(IUnityContainer container) : base(container)
         {
             // Dependency injection
@@ -169,9 +162,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 }
             });
         }
-        #endregion
 
-        #region Private
         private void EditSelectedAlbum()
         {
             if (this.SelectedAlbums == null || this.SelectedAlbums.Count == 0) return;
@@ -200,9 +191,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             AlbumViewModel avm = e.Item as AlbumViewModel;
             e.Accepted = DatabaseUtils.FilterAlbums(avm.Album, this.searchService.SearchText);
         }
-        #endregion
 
-        #region Protected
         protected void UpdateAlbumOrderText(AlbumOrder albumOrder)
         {
             switch (albumOrder)
@@ -228,7 +217,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
 
-            OnPropertyChanged(() => this.AlbumOrderText);
+            RaisePropertyChanged(nameof(this.AlbumOrderText));
         }
 
         protected async Task GetAlbumsAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, AlbumOrder albumOrder)
@@ -412,12 +401,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     this.SelectedAlbums.Add(item.Album);
                 }
 
-                OnPropertyChanged(() => this.IsMultipleAlbumsSelected);
+                RaisePropertyChanged(nameof(this.IsMultipleAlbumsSelected));
             }
         }
-        #endregion
 
-        #region Overrides
         protected override void SetEditCommands()
         {
             base.SetEditCommands();
@@ -442,9 +429,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             base.FilterLists();
         }
-        #endregion
-
-        #region Virtual
+     
         protected virtual async Task SetCoversizeAsync(CoverSizeType coverSize)
         {
             await Task.Run(() =>
@@ -471,13 +456,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
                 this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
 
-                OnPropertyChanged(() => this.CoverSize);
-                OnPropertyChanged(() => this.AlbumWidth);
-                OnPropertyChanged(() => this.AlbumHeight);
-                OnPropertyChanged(() => this.UpscaledCoverSize);
-                OnPropertyChanged(() => this.IsSmallCoverSizeSelected);
-                OnPropertyChanged(() => this.IsMediumCoverSizeSelected);
-                OnPropertyChanged(() => this.IsLargeCoverSizeSelected);
+                RaisePropertyChanged(nameof(this.CoverSize));
+                RaisePropertyChanged(nameof(this.AlbumWidth));
+                RaisePropertyChanged(nameof(this.AlbumHeight));
+                RaisePropertyChanged(nameof(this.UpscaledCoverSize));
+                RaisePropertyChanged(nameof(this.IsSmallCoverSizeSelected));
+                RaisePropertyChanged(nameof(this.IsMediumCoverSizeSelected));
+                RaisePropertyChanged(nameof(this.IsLargeCoverSizeSelected));
             });
         }
 
@@ -506,8 +491,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
 
-            OnPropertyChanged(() => this.OrderedByYear);
+            RaisePropertyChanged(nameof(this.OrderedByYear));
         }
-        #endregion
     }
 }

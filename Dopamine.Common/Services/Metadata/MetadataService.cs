@@ -21,7 +21,6 @@ namespace Dopamine.Common.Services.Metadata
 {
     public class MetadataService : IMetadataService
     {
-        #region Variables
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
         private IAlbumRepository albumRepository;
@@ -38,22 +37,16 @@ namespace Dopamine.Common.Services.Metadata
         private int updateFileMetadataLongTimeout = 15000; // 15 seconds
         private Tuple<string, byte[]> cachedArtwork;
         private object cachedArtworkLock = new object();
-        #endregion
-
-        #region ReadOnly Property
+     
         public bool IsUpdatingDatabaseMetadata
         {
             get { return this.isUpdatingDatabaseMetadata; }
         }
-        #endregion
-
-        #region Events
+   
         public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
-        #endregion
-
-        #region Construction
+      
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
         {
             this.cacheService = cacheService;
@@ -75,9 +68,7 @@ namespace Dopamine.Common.Services.Metadata
             this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync();
             this.playbackService.PlaybackSuccess += async (_) => await this.UpdateFileMetadataAsync();
         }
-        #endregion
-
-        #region IMetadataService
+    
         public FileMetadata GetFileMetadata(string path)
         {
             bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
@@ -277,9 +268,6 @@ namespace Dopamine.Common.Services.Metadata
             await this.UpdateFileMetadataAsync();
         }
 
-        #endregion
-
-        #region Private
         private async Task QueueUpdateFileMetadata(List<FileMetadata> fileMetadatas)
         {
             this.updateFileMetadataTimer.Stop();
@@ -467,6 +455,5 @@ namespace Dopamine.Common.Services.Metadata
 
             this.isUpdatingDatabaseMetadata = false;
         }
-        #endregion
     }
 }

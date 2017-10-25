@@ -7,12 +7,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class GenreViewModel : BindableBase, ISemanticZoomable
     {
-        #region Variables
         private Genre genre;
         private bool isHeader;
-        #endregion
-
-        #region Properties
         public Genre Genre
         {
             get { return this.genre; }
@@ -24,7 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.Genre.GenreName; }
             set {
                 this.Genre.GenreName = value;
-                OnPropertyChanged(() => this.GenreName);
+                RaisePropertyChanged(nameof(this.GenreName));
             }
         }
 
@@ -38,9 +34,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.isHeader; }
             set { SetProperty<bool>(ref this.isHeader, value); }
         }
-        #endregion
-
-        #region Public
+     
         public override string ToString()
         {
 
@@ -61,7 +55,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             return this.Genre.GetHashCode();
         }
-        #endregion
     }
-
 }

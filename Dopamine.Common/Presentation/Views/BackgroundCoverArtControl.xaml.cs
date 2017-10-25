@@ -1,18 +1,14 @@
-﻿using Prism.Mvvm;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views
 {
     public partial class BackgroundCoverArtControl : UserControl
     {
-        #region Construction
         public BackgroundCoverArtControl()
         {
             InitializeComponent();
         }
-        #endregion
-
-        #region Event Handlers
+   
         private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
             if (this.ActualWidth == 0 | this.ActualHeight == 0) return;
@@ -28,6 +24,5 @@ namespace Dopamine.Common.Presentation.Views
                 this.CoverImage.Height = this.ActualHeight;
             }
         }
-        #endregion
     }
 }

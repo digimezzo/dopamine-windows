@@ -4,13 +4,10 @@ namespace Dopamine.Common.Services.I18n
 {
     public class Language
     {
-        #region Variables
         private string code;
         private string name;
         private Dictionary<string, string> texts;
-        #endregion
-
-        #region Properties
+   
         public string Code
         {
             get { return this.code; }
@@ -28,9 +25,7 @@ namespace Dopamine.Common.Services.I18n
             get { return this.texts; }
             set { this.texts = value; }
         }
-        #endregion
-
-        #region Overrides
+   
         public override string ToString()
         {
             return this.Name;
@@ -50,6 +45,5 @@ namespace Dopamine.Common.Services.I18n
         {
             return this.Code.GetHashCode();
         }
-        #endregion
     }
 }

@@ -11,7 +11,6 @@ namespace Dopamine.Common.Services.Scrobbling
 {
     public class LastFmScrobblingService : IScrobblingService
     {
-        #region Private
         private SignInState signInState;
         private string username;
         private string password;
@@ -19,13 +18,9 @@ namespace Dopamine.Common.Services.Scrobbling
         private IPlaybackService playbackService;
         private DateTime trackStartTime;
         private bool canScrobble;
-        #endregion
-
-        #region Events
+      
         public event Action<SignInState> SignInStateChanged = delegate { };
-        #endregion
-
-        #region Properties
+    
         public SignInState SignInState
         {
             get
@@ -64,9 +59,7 @@ namespace Dopamine.Common.Services.Scrobbling
                 this.password = value;
             }
         }
-        #endregion
-
-        #region Construction
+    
         public LastFmScrobblingService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -94,9 +87,7 @@ namespace Dopamine.Common.Services.Scrobbling
             // When the user skips, we don't allow scrobbling.
             this.canScrobble = false;
         }
-        #endregion
-
-        #region Private
+      
         private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
         {
             if (this.SignInState == SignInState.SignedIn)
@@ -176,9 +167,7 @@ namespace Dopamine.Common.Services.Scrobbling
                 }
             }
         }
-        #endregion
-
-        #region Public
+     
         public async Task SignIn()
         {
             try
@@ -254,6 +243,5 @@ namespace Dopamine.Common.Services.Scrobbling
 
             return isSuccess;
         }
-        #endregion
     }
 }

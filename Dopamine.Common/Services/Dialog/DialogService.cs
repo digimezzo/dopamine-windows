@@ -9,19 +9,13 @@ namespace Dopamine.Common.Services.Dialog
 {
     public class DialogService : IDialogService
     {
-        #region Variables
         private List<DopamineWindow> openDialogs;
-        #endregion
-
-
-        #region Construction
+     
         public DialogService()
         {
             this.openDialogs = new List<DopamineWindow>();
         }
-        #endregion
-
-        #region Private
+ 
         private void ShowDialog(DopamineWindow win)
         {
             foreach (DopamineWindow dlg in this.openDialogs)
@@ -41,9 +35,7 @@ namespace Dopamine.Common.Services.Dialog
                 dlg.IsOverlayVisible = false;
             }
         }
-        #endregion
-
-        #region Public
+     
         public bool ShowConfirmation(int iconCharCode, int iconSize, string title, string content, string okText, string cancelText)
         {
             bool returnValue = false;
@@ -162,10 +154,7 @@ namespace Dopamine.Common.Services.Dialog
 
             return returnValue;
         }
-        #endregion
-
-        #region Events
+     
         public event Action<bool> DialogVisibleChanged = delegate { };
-        #endregion
     }
 }

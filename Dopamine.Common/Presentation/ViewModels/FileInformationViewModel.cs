@@ -1,20 +1,16 @@
-﻿using Digimezzo.Utilities.IO;
+﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Utils;
 using Prism.Mvvm;
 using System;
 using System.Globalization;
-using System.Windows;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
     public class FileInformationViewModel : BindableBase
     {
-        #region Variables
         private IMetadataService metaDataService;
 
         // Song
@@ -37,9 +33,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private string audioType;
         private string audioSampleRate;
         private string audioBitrate;
-        #endregion
 
-        #region Properties
         public string SongTitle
         {
             get { return this.songTitle; }
@@ -130,9 +124,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.audioBitrate; }
             set { SetProperty<string>(ref this.audioBitrate, value); }
         }
-        #endregion
-
-        #region Construction
+        
         public FileInformationViewModel(IMetadataService metaDataService, string path)
         {
             this.metaDataService = metaDataService;
@@ -140,9 +132,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.GetFileMetadata(path);
             this.GetFileInformation(path);
         }
-        #endregion
-
-        #region Private
+    
         private void GetFileMetadata(string path)
         {
             try
@@ -181,6 +171,5 @@ namespace Dopamine.Common.Presentation.ViewModels
                 LogClient.Error("Error while getting file Information. Exception: {0}", ex.Message);
             }
         }
-        #endregion
     }
 }

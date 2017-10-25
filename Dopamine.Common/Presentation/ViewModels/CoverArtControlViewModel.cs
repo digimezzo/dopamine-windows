@@ -14,7 +14,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class CoverArtControlViewModel : BindableBase
     {
-        #region Variables
         protected CoverArtViewModel coverArtViewModel;
         protected IPlaybackService playbackService;
         private ICacheService cacheService;
@@ -24,9 +23,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private byte[] artwork;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
-        #endregion
-
-        #region Properties
+      
         public CoverArtViewModel CoverArtViewModel
         {
             get { return this.coverArtViewModel; }
@@ -38,17 +35,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.slideDirection; }
             set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
         }
-        #endregion
-
-        #region Private
+     
         private void ClearArtwork()
         {
             this.CoverArtViewModel = new CoverArtViewModel { CoverArt = null };
             this.artwork = null;
         }
-        #endregion
-
-        #region Construction
+     
         public CoverArtControlViewModel(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.playbackService = playbackService;
@@ -77,9 +70,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.refreshTimer.Stop();
             this.RefreshCoverArtAsync(this.playbackService.CurrentTrack.Value);
         }
-        #endregion
-
-        #region Virtual
+   
         protected async virtual void RefreshCoverArtAsync(PlayableTrack track)
         {
             await Task.Run(async () =>
@@ -139,5 +130,4 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
         }
     }
-    #endregion
 }
