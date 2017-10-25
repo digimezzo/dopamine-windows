@@ -139,14 +139,17 @@
                     <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" BeginTime="0:0:0.5" Duration="0:0:0.3" />
                 </Storyboard>
             </Border.Resources>
-            <TextBlock 
+            <Viewbox StretchDirection="DownOnly" Margin="10">
+                <TextBlock 
                 x:Name="ClosingText"
                 Text="{DynamicResource Language_See_You_Later}" 
                 Foreground="{DynamicResource RG_ForegroundBrush}" 
                 FontWeight="Light"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                TextWrapping="Wrap"/>
+                TextWrapping="Wrap"
+                FontSize="30"/>
+            </Viewbox>
         </Border>
         <Border x:Name="WindowBorder" Panel.ZIndex="0">
             <Border.Background>

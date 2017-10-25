@@ -9,6 +9,7 @@ using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Collection;
@@ -27,6 +28,7 @@ using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Scrobbling;
 using Dopamine.Common.Services.Search;
+using Dopamine.Common.Services.Shell;
 using Dopamine.Common.Services.Taskbar;
 using Dopamine.Common.Services.Update;
 using Dopamine.Common.Services.Win32Input;
@@ -100,9 +102,11 @@ namespace Dopamine
             Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
             Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
             Container.RegisterSingletonType<IWindowsIntegrationService, WindowsIntegrationService>();
+            Container.RegisterSingletonType<IShellService, ShellService>();
 
             if (Constants.IsWindows10)
             {
+                // NotificationService contains code that is not supported on older versions of Windows
                 Container.RegisterSingletonType<INotificationService, NotificationService>();
             }
             else
