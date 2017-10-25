@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Base;
-using System;
+﻿using System;
 using System.Windows;
 
 namespace Dopamine.Common.Extensions
@@ -13,12 +12,12 @@ namespace Dopamine.Common.Extensions
                 (SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth) <= left ||
                 (SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight) <= top)
             {
-                top = Convert.ToInt32(topFallback);
-                left = Convert.ToInt32(leftFallback);
+                top = topFallback;
+                left = leftFallback;
             }
 
-            win.Top = top;
-            win.Left = left;
+            win.Top = Convert.ToInt32(top);
+            win.Left = Convert.ToInt32(left);
             win.Width = width;
             win.Height = height;
         }

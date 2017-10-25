@@ -185,9 +185,6 @@
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Common\Empty.xaml.cs">
-      <DependentUpon>Empty.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
       <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
@@ -536,10 +533,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Common\CollectionFolders.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Common\Empty.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

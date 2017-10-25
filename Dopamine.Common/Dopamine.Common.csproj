@@ -256,6 +256,9 @@
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
+    <Compile Include="Presentation\Views\Empty.xaml.cs">
+      <DependentUpon>Empty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
     <Compile Include="Presentation\Utils\UriUtils.cs" />
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
@@ -553,6 +556,9 @@
     <Compile Include="Services\Scrobbling\LastfmScrobblingService.cs" />
     <Compile Include="Services\Search\ISearchService.cs" />
     <Compile Include="Services\Search\SearchService.cs" />
+    <Compile Include="Services\Shell\IShellService.cs" />
+    <Compile Include="Services\Shell\EventArgs.cs" />
+    <Compile Include="Services\Shell\ShellService.cs" />
     <Compile Include="Services\Taskbar\ITaskbarService.cs" />
     <Compile Include="Services\Taskbar\TaskbarService.cs" />
     <Compile Include="Services\Update\IUpdateService.cs" />
@@ -598,6 +604,10 @@
     <Page Include="Presentation\Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\Empty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\ArtistInfoControl.xaml">
       <SubType>Designer</SubType>

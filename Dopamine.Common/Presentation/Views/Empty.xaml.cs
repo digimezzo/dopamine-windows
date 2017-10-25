@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Dopamine.Views.Common
+namespace Dopamine.Common.Presentation.Views
 {
     public partial class Empty : UserControl
     {

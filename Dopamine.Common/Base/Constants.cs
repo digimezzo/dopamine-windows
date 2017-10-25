@@ -25,9 +25,6 @@ namespace Dopamine.Common.Base
         public static double OobeTextFontSize = 18;
         public static double NowPlayingHeaderFontSize = 36;
         public static int AboutAppNameFontSize = 44;
-        public static double LargeBackgroundFontSize = 30;
-        public static double MediumBackgroundFontSize = 24;
-        public static double SmallBackgroundFontSize = 16;
 
         // Covers
         public static double CoverSmallSize = 120;
