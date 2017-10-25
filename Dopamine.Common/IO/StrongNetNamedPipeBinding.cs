@@ -6,7 +6,6 @@ namespace Dopamine.Common.IO
 {
     public class StrongNetNamedPipeBinding : NetNamedPipeBinding
     {
-        #region Construction
         public StrongNetNamedPipeBinding() : base(NetNamedPipeSecurityMode.None)
         {
             var bindingReaderQuotas = new XmlDictionaryReaderQuotas
@@ -26,6 +25,5 @@ namespace Dopamine.Common.IO
             this.MaxBufferSize = 2000000000;
             this.ReaderQuotas = bindingReaderQuotas;
         }
-        #endregion
     }
 }

@@ -16,11 +16,8 @@ namespace Dopamine.Common.Services.Equalizer
 {
     public class EqualizerService : IEqualizerService
     {
-        #region Variables
         private string equalizerSubDirectory;
-        #endregion
 
-        #region Construction
         public EqualizerService()
         {
             // Initialize the Equalizer directory
@@ -33,9 +30,7 @@ namespace Dopamine.Common.Services.Equalizer
                 Directory.CreateDirectory(Path.Combine(this.equalizerSubDirectory));
             }
         }
-        #endregion
-
-        #region IEqualizerService
+     
         public async Task<EqualizerPreset> GetSelectedPresetAsync()
         {
             var presets = await this.GetPresetsAsync();
@@ -78,9 +73,7 @@ namespace Dopamine.Common.Services.Equalizer
 
             return presets;
         }
-        #endregion
-
-        #region Private
+      
         private async Task<List<EqualizerPreset>> GetBuiltInPresetsAsync()
         {
             var builtinEqualizerPresets = new List<EqualizerPreset>();
@@ -151,6 +144,5 @@ namespace Dopamine.Common.Services.Equalizer
 
             return preset;
         }
-        #endregion
     }
 }

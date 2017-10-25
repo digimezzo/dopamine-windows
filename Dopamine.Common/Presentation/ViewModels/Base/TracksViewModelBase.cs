@@ -32,7 +32,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 {
     public abstract class TracksViewModelBase : CommonViewModelBase
     {
-        #region Variables
         private IUnityContainer container;
         private IDialogService dialogService;
         private ITrackRepository trackRepository;
@@ -47,9 +46,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private CollectionViewSource tracksCvs;
         private IList<PlayableTrack> selectedTracks;
         private TrackViewModel lastPlayingTrackVm;
-        #endregion
 
-        #region Properties
         public abstract bool CanOrderByAlbum { get; }
 
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
@@ -71,9 +68,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             get { return this.selectedTracks; }
             set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
         }
-        #endregion
 
-        #region Construction
         public TracksViewModelBase(IUnityContainer container) : base(container)
         {
             // Dependency injection
@@ -145,9 +140,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 }
             });
         }
-        #endregion
 
-        #region Protected
         protected void SetTrackOrder(string settingName)
         {
             TrackOrder savedTrackOrder = (TrackOrder)SettingsClient.Get<int>("Ordering", settingName);
@@ -392,9 +385,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
         }
-        #endregion
 
-        #region Overrides
         protected override void FilterLists()
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -529,9 +520,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 this.providerService.SearchOnline(id, new string[] { this.SelectedTracks.First().ArtistName, this.SelectedTracks.First().TrackTitle });
             }
         }
-        #endregion
 
-        #region Virtual
         protected virtual void ToggleTrackOrder()
         {
             switch (this.TrackOrder)
@@ -569,14 +558,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                     break;
             }
         }
-        #endregion
 
-        #region Virtual
         protected virtual void RefreshLanguage()
         {
             // Make sure that unknown artist, genre and album are translated correctly.
             this.FillListsAsync();
         }
-        #endregion
     }
 }

@@ -4,11 +4,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class PlaylistViewModel : BindableBase
     {
-        #region Variables
         private string name;
-        #endregion
 
-        #region Properties
         public string Name
         {
             get { return name; }
@@ -19,9 +16,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
            get { return name.ToLowerInvariant(); }
         }
-        #endregion
-
-        #region Public
+     
         public override string ToString()
         {
             return this.Name;
@@ -41,6 +36,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             return this.Name.GetHashCode();
         }
-        #endregion
     }
 }

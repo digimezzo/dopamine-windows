@@ -10,14 +10,11 @@ namespace Dopamine.Common.Services.ExternalControl
 {
     public class ExternalControlService : IExternalControlService
     {
-        #region Variables
         private ServiceHost svcHost;
         private ExternalControlServer svcExternalControlInstance;
         private readonly IPlaybackService playbackService;
         private readonly ICacheService cacheService;
-        #endregion
-
-        #region Construction
+     
         public ExternalControlService(IPlaybackService playbackService, ICacheService cacheService)
         {
             this.playbackService = playbackService;
@@ -28,9 +25,7 @@ namespace Dopamine.Common.Services.ExternalControl
                 this.Start();
             }   
         }
-        #endregion
-
-        #region IExternalControlService
+       
         public void Start()
         {
             if (this.svcExternalControlInstance == null)
@@ -72,12 +67,5 @@ namespace Dopamine.Common.Services.ExternalControl
             this.svcHost.Close();
             this.svcExternalControlInstance.Close();
         }
-#endregion
-
-#region Private
-
-
-
-#endregion
     }
 }

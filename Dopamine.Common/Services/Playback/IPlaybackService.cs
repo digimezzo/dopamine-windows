@@ -16,7 +16,6 @@ namespace Dopamine.Common.Services.Playback
 
     public interface IPlaybackService
     {
-        #region ReadOnly Properties
         IPlayer Player { get; }
         KeyValuePair<string, PlayableTrack> CurrentTrack { get; }
         bool HasCurrentTrack { get; }
@@ -29,9 +28,7 @@ namespace Dopamine.Common.Services.Playback
         bool IsPlaying { get; }
         TimeSpan GetCurrentTime { get; }
         TimeSpan GetTotalTime { get; }
-        #endregion
 
-        #region Properties
         double Progress { get; set; }
         float Volume { get; set; }
         LoopMode LoopMode { get; set; }
@@ -39,9 +36,7 @@ namespace Dopamine.Common.Services.Playback
         bool EventMode { get; set; }
         bool ExclusiveMode { get; set; }
         bool IsSpectrumVisible { get; set; }
-        #endregion
 
-        #region Functions
         void Stop();
         void SkipProgress(double progress);
         void SkipSeconds(int jumpSeconds);
@@ -79,9 +74,7 @@ namespace Dopamine.Common.Services.Playback
         Task<IList<MMDevice>> GetAllOutputDevicesAsync();
         Task SwitchOutputDeviceAsync(MMDevice outputDevice);
         Task<MMDevice> GetSavedAudioDeviceAsync();
-        #endregion
 
-        #region Events
         event Action<bool> PlaybackSuccess;
         event PlaybackFailedEventHandler PlaybackFailed;
         event EventHandler PlaybackSkipped;
@@ -101,6 +94,5 @@ namespace Dopamine.Common.Services.Playback
         event EventHandler PlayingTrackArtworkChanged;
         event EventHandler QueueChanged;
         event EventHandler AudioDevicesChanged;
-        #endregion
-        }
+    }
 }

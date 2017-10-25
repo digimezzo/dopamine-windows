@@ -2,12 +2,9 @@
 {
     public class ColorScheme
     {
-        #region Properties
         public string Name { get; set; }
         public string AccentColor { get; set; }
-        #endregion
-
-        #region Overrides
+   
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -22,6 +19,5 @@
         {
             return this.Name.GetHashCode();
         }
-        #endregion
     }
 }

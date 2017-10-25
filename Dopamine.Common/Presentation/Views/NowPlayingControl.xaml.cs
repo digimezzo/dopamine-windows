@@ -8,7 +8,6 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class NowPlayingControl : PlaylistViewBase
     {
-        #region Construction
         public NowPlayingControl()
         {
             InitializeComponent();
@@ -19,9 +18,7 @@ namespace Dopamine.Common.Presentation.Views
             // PubSub Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
         }
-        #endregion
-
-        #region Private
+      
         private async void ListBoxTracks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             await this.ActionHandler(sender, e.OriginalSource as DependencyObject, false);
@@ -39,6 +36,5 @@ namespace Dopamine.Common.Presentation.Views
                 this.ActionHandler(sender, e.OriginalSource as DependencyObject, false);
             }
         }
-        #endregion
     }
 }

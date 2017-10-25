@@ -5,21 +5,16 @@ namespace Dopamine.Common.Database.Entities
 {
     public class Artist
     {
-        #region Properties
         [PrimaryKey()]
         public long ArtistID { get; set; }
         public string ArtistName { get; set; }
-        #endregion
 
-        #region ReadOnly Properties
         [Ignore()]
         public string ArtistNameTrim
         {
             get { return ArtistName.Trim(); }
         }
-        #endregion
 
-        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -34,9 +29,7 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.ArtistNameTrim }.GetHashCode();
         }
-        #endregion
 
-        #region Public
         public IList<Artist> ToList()
         {
             List<Artist> l = new List<Artist>();
@@ -44,6 +37,5 @@ namespace Dopamine.Common.Database.Entities
 
             return l;
         }
-        #endregion
     }
 }

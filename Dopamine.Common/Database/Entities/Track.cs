@@ -6,7 +6,6 @@ namespace Dopamine.Common.Database.Entities
 {
     public class Track
     {
-        #region Properties
         [PrimaryKey(), AutoIncrement()]
         public long TrackID { get; set; }
         public long ArtistID { get; set; }
@@ -35,9 +34,7 @@ namespace Dopamine.Common.Database.Entities
         public long? NeedsIndexing { get; set; }
         public long? IndexingSuccess { get; set; }
         public string IndexingFailureReason { get; set; }
-        #endregion
-
-        #region Static
+ 
         public static Track CreateDefault(long folderID, string path)
         {
             var track = new Track()
@@ -52,9 +49,7 @@ namespace Dopamine.Common.Database.Entities
 
             return track;
         }
-        #endregion
 
-        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -69,6 +64,5 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.SafePath }.GetHashCode();
         }
-        #endregion
     }
 }

@@ -9,7 +9,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class TrackViewModel : BindableBase
     {
-        #region Variables
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
         private PlayableTrack track;
@@ -18,9 +17,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private bool showTrackNumber;
         private bool showTrackArt;
         private byte[] trackArt;
-        #endregion
-
-        #region Sorting
+ 
         // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
         public long SortDuration
         {
@@ -72,9 +69,6 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             }
         }
 
-        #endregion
-
-        #region Properties
         public bool ShowTrackArt
         {
             get { return this.showTrackArt; }
@@ -374,17 +368,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.Track.FileName; }
         }
 
-        #endregion
-
-        #region Construction
         public TrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
         {
             this.metadataService = metadataService;
             this.scrobblingService = scrobblingService;
         }
-        #endregion
-
-        #region Overrides
+    
         public override string ToString()
         {
             return this.TrackTitle;
@@ -404,9 +393,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             return this.Track.GetHashCode();
         }
-        #endregion
-
-        #region Public
+     
         public void UpdateVisibleRating(int rating)
         {
             this.Track.Rating = (long?)rating;
@@ -429,6 +416,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             RaisePropertyChanged(nameof(this.DateLastPlayed));
             RaisePropertyChanged(nameof(this.SortDateLastPlayed));
         }
-        #endregion
     }
 }

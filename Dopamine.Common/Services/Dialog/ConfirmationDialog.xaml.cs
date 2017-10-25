@@ -7,7 +7,6 @@ namespace Dopamine.Common.Services.Dialog
 {
     public partial class ConfirmationDialog : DopamineWindow
     {
-        #region Construction
         public ConfirmationDialog(int iconCharCode, int iconSize, string title, string content, string okText, string cancelText) : base()
 {
             InitializeComponent();
@@ -23,9 +22,7 @@ namespace Dopamine.Common.Services.Dialog
 
             WindowUtils.CenterWindow(this);
         }
-        #endregion
-
-        #region Event Handlers
+  
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -35,6 +32,5 @@ namespace Dopamine.Common.Services.Dialog
         {
             this.DialogResult = false;
         }
-        #endregion
     }
 }

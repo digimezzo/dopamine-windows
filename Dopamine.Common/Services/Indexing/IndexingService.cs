@@ -16,7 +16,6 @@ namespace Dopamine.Common.Services.Indexing
 {
     public class IndexingService : IIndexingService
     {
-        #region Variables
         // Services
         private ICacheService cacheService;
 
@@ -46,16 +45,12 @@ namespace Dopamine.Common.Services.Indexing
         // Flags
         private bool isIndexing;
         private bool isFoldersChanged;
-        #endregion
-
-        #region Properties
+       
         public bool IsIndexing
         {
             get { return this.isIndexing; }
         }
-        #endregion
-
-        #region Construction
+      
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
             IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
             IFolderRepository folderRepository)
@@ -90,9 +85,7 @@ namespace Dopamine.Common.Services.Indexing
                 }
             }
         }
-        #endregion
-
-        #region IIndexingService
+      
         public async void OnFoldersChanged()
         {
             this.isFoldersChanged = true;
@@ -127,9 +120,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             await this.CheckCollectionAsync(true);
         }
-        #endregion
-
-        #region Private
+       
         private async Task InitializeAsync()
         {
             // Initialize Cache
@@ -765,14 +756,11 @@ namespace Dopamine.Common.Services.Indexing
         {
             await this.RefreshCollectionAsync();
         }
-        #endregion
-
-        #region Events
+      
         public event EventHandler IndexingStopped = delegate { };
         public event EventHandler IndexingStarted = delegate { };
         public event Action<IndexingStatusEventArgs> IndexingStatusChanged = delegate { };
         public event EventHandler RefreshLists = delegate { };
         public event EventHandler RefreshArtwork = delegate { };
-        #endregion
     }
 }

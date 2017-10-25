@@ -10,7 +10,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class PlaybackControlsViewModel : BindableBase
     {
-        #region Variables
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private bool showPause;
@@ -18,18 +17,14 @@ namespace Dopamine.Common.Presentation.ViewModels
         private bool shuffle;
         private bool isLoadingTrack;
         private Timer isLoadingTrackTimer = new Timer();
-        #endregion
-
-        #region Commands
+   
         public DelegateCommand PauseCommand { get; set; }
         public DelegateCommand PreviousCommand { get; set; }
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand LoopCommand { get; set; }
         public DelegateCommand ShuffleCommand { get; set; }
         public DelegateCommand PlayCommand { get; set; }
-        #endregion
-
-        #region Properties
+       
         public bool ShowPause
         {
             get { return this.showPause; }
@@ -66,9 +61,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.isLoadingTrack; }
             set { SetProperty<bool>(ref this.isLoadingTrack, value); }
         }
-        #endregion
-
-        #region Construction
+    
         public PlaybackControlsViewModel(IPlaybackService playbackService, IEventAggregator eventAggregator)
         {
             // Injection
@@ -124,16 +117,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ShowPause = false;
             }
         }
-        #endregion
-
-        #region Event Handlers
+    
         private void IsLoadingTrackTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.IsLoadingTrack = true;
         }
-        #endregion
-
-        #region Private
+    
         private void SetPlayBackServiceLoop()
         {
             switch (this.loopMode)
@@ -164,9 +153,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             // because there is no Loop Property Setter!
             this.loopMode = this.playbackService.LoopMode;
 
-            OnPropertyChanged(() => this.ShowLoopNone);
-            OnPropertyChanged(() => this.ShowLoopOne);
-            OnPropertyChanged(() => this.ShowLoopAll);
+            RaisePropertyChanged(nameof(this.ShowLoopNone));
+            RaisePropertyChanged(nameof(this.ShowLoopOne));
+            RaisePropertyChanged(nameof(this.ShowLoopAll));
 
             // Save the Loop status in the Settings
             SettingsClient.Set<int>("Playback", "LoopMode", (int)this.loopMode);
@@ -178,11 +167,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             // because there is no Shuffle Property Setter!
             this.shuffle = this.playbackService.Shuffle;
 
-            OnPropertyChanged(() => this.Shuffle);
+            RaisePropertyChanged(nameof(this.Shuffle));
 
             // Save the Shuffle status in the Settings
             SettingsClient.Set<bool>("Playback", "Shuffle", this.shuffle);
         }
-        #endregion
     }
 }

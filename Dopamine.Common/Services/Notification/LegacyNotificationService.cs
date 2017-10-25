@@ -14,7 +14,6 @@ namespace Dopamine.Common.Services.Notification
 {
     public class LegacyNotificationService : INotificationService
     {
-        #region Variables
         private NotificationWindow notification;
         private IPlaybackService playbackService;
         private ICacheService cacheService;
@@ -26,9 +25,7 @@ namespace Dopamine.Common.Services.Notification
         private bool showNotificationWhenPausing;
         private bool showNotificationWhenResuming;
         private bool showNotificationControls;
-        #endregion
-
-        #region Properties
+    
         public IPlaybackService PlaybackService => this.playbackService;
         public IMetadataService MetadataService => this.metadataService;
 
@@ -79,9 +76,7 @@ namespace Dopamine.Common.Services.Notification
             {
             }
         }
-        #endregion
-
-        #region Construction
+   
         public LegacyNotificationService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.playbackService = playbackService;
@@ -97,9 +92,7 @@ namespace Dopamine.Common.Services.Notification
             this.playbackService.PlaybackPaused += this.PlaybackPausedHandler;
             this.playbackService.PlaybackResumed += this.PlaybackResumedHandler;
         }
-        #endregion
-
-        #region protected
+    
         protected async void PlaybackResumedHandler(object _, EventArgs __)
         {
             if (this.showNotificationWhenResuming) await this.ShowNotificationIfAllowedAsync();
@@ -124,9 +117,7 @@ namespace Dopamine.Common.Services.Notification
 
             return true;
         }
-        #endregion
-
-        #region Private
+     
         private void ShowMainWindow(Object sender, EventArgs e)
         {
             if (this.mainWindow != null)
@@ -165,9 +156,7 @@ namespace Dopamine.Common.Services.Notification
                     throw new ArgumentOutOfRangeException();
             }
         }
-        #endregion
-
-        #region INotificationService
+       
         public async Task ShowNotificationAsync()
         {
             if (this.notification != null)
@@ -235,6 +224,5 @@ namespace Dopamine.Common.Services.Notification
                 this.trayControlsWindow = trayControlsWindow;
             }
         }
-        #endregion
     }
 }

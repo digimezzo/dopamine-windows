@@ -19,7 +19,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class EqualizerControlViewModel : BindableBase
     {
-        #region Variables
         private IPlaybackService playbackService;
         private IEqualizerService equalizerService;
         private IDialogService dialogService;
@@ -40,22 +39,18 @@ namespace Dopamine.Common.Presentation.ViewModels
         private double band7;
         private double band8;
         private double band9;
-        #endregion
-
-        #region Commands
+     
         public DelegateCommand ResetCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
-        #endregion
-
-        #region Properties
+      
         public double Band0
         {
             get { return this.band0; }
             set
             {
                 SetProperty<double>(ref this.band0, Math.Round( value,1));
-                OnPropertyChanged(() => this.Band0Label);
+                RaisePropertyChanged(nameof(this.Band0Label));
                 this.ApplyManualPreset();
             }
         }
@@ -71,7 +66,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band1, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band1Label);
+                RaisePropertyChanged(nameof(this.Band1Label));
                 this.ApplyManualPreset();
             }
         }
@@ -87,7 +82,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band2, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band2Label);
+                RaisePropertyChanged(nameof(this.Band2Label));
                 this.ApplyManualPreset();
             }
         }
@@ -103,7 +98,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band3, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band3Label);
+                RaisePropertyChanged(nameof(this.Band3Label));
                 this.ApplyManualPreset();
             }
         }
@@ -119,7 +114,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band4, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band4Label);
+                RaisePropertyChanged(nameof(this.Band4Label));
                 this.ApplyManualPreset();
             }
         }
@@ -135,7 +130,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band5, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band5Label);
+                RaisePropertyChanged(nameof(this.Band5Label));
                 this.ApplyManualPreset();
             }
         }
@@ -151,7 +146,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band6, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band6Label);
+                RaisePropertyChanged(nameof(this.Band6Label));
                 this.ApplyManualPreset();
             }
         }
@@ -167,7 +162,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band7, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band7Label);
+                RaisePropertyChanged(nameof(this.Band7Label));
                 this.ApplyManualPreset();
             }
         }
@@ -183,7 +178,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band8, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band8Label);
+                RaisePropertyChanged(nameof(this.Band8Label));
                 this.ApplyManualPreset();
             }
         }
@@ -199,7 +194,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.band9, Math.Round(value, 1));
-                OnPropertyChanged(() => this.Band9Label);
+                RaisePropertyChanged(nameof(this.Band9Label));
                 this.ApplyManualPreset();
             }
         }
@@ -241,9 +236,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 SettingsClient.Set<bool>("Equalizer", "IsEnabled",value);
             }
         }
-        #endregion
-
-        #region Construction
+    
         public EqualizerControlViewModel(IPlaybackService playbackService, IEqualizerService equalizerService, IDialogService dialogService)
         {
             // Variables
@@ -280,9 +273,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Initialize
             this.InitializeAsync();
         }
-        #endregion
-
-        #region Private
+   
         private void ApplySelectedPreset()
         {
             SettingsClient.Set<string>("Equalizer", "SelectedPreset", this.SelectedPreset.Name);
@@ -447,6 +438,5 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             }
         }
-        #endregion
     }
 }

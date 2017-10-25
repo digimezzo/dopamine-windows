@@ -5,12 +5,9 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class SearchControlViewModel : BindableBase
     {
-        #region Variables
         private string searchText;
         private ISearchService searchService;
-        #endregion
-
-        #region Properties
+      
         public string SearchText
         {
             get { return this.searchText; }
@@ -20,9 +17,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.searchService.SearchText = value;
             }
         }
-        #endregion
-
-        #region Construction
+      
         public SearchControlViewModel(ISearchService searchService)
         {
             this.searchService = searchService;
@@ -31,14 +26,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.UpdateSearchText();
         }
-        #endregion
-
-        #region Private
+   
         private void UpdateSearchText()
         {
             this.searchText = this.searchService.SearchText;
-            OnPropertyChanged(() => this.SearchText);
+            RaisePropertyChanged(nameof(this.SearchText));
         }
-        #endregion
     }
 }

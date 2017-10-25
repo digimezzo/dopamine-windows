@@ -5,14 +5,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class AlbumViewModel : BindableBase
     {
-        #region Variables
         private Album album;
         private string artworkPath;
         private string mainHeader;
         private string subHeader;
-        #endregion
 
-        #region Properties
         public double Opacity { get; set; }
 
         public bool HasCover
@@ -46,7 +43,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.Album.AlbumTitle; }
             set {
                 this.Album.AlbumTitle = value;
-                OnPropertyChanged(() => this.AlbumTitle);
+                RaisePropertyChanged(nameof(this.AlbumTitle));
             }
         }
 
@@ -55,7 +52,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.Album.AlbumArtist; }
             set {
                 this.Album.AlbumArtist = value;
-                OnPropertyChanged(() => this.AlbumArtist);
+                RaisePropertyChanged(nameof(this.AlbumArtist));
             }
         }
 
@@ -65,7 +62,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 SetProperty<string>(ref this.artworkPath, value);
-                OnPropertyChanged(() => this.HasCover);
+                RaisePropertyChanged(nameof(this.HasCover));
             }
         }
 
@@ -80,9 +77,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.subHeader; }
             set { SetProperty<string>(ref this.subHeader, value); }
         }
-        #endregion
-
-        #region Overrides
+    
         public override string ToString()
         {
             return this.Album.AlbumTitle;
@@ -102,6 +97,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             return this.Album.GetHashCode();
         }
-        #endregion
     }
 }

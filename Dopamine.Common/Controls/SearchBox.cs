@@ -8,13 +8,10 @@ namespace Dopamine.Common.Controls
 {
     public class SearchBox : TextBox
     {
-        #region Variables
         private TextBlock searchIconCross;
         private TextBlock searchIconGlass;
         private Border searchBorder;
-        #endregion
 
-        #region Properties
         public bool HasText
         {
             get { return Convert.ToBoolean(GetValue(HasTextProperty)); }
@@ -49,26 +46,18 @@ namespace Dopamine.Common.Controls
 
             set { SetValue(VisibleBackgroundProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty HasTextProperty = DependencyProperty.Register("HasText", typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
         public static readonly DependencyProperty HasFocusProperty = DependencyProperty.Register("HasFocus", typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
         public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
         public static readonly DependencyProperty SearchGlassForegroundProperty = DependencyProperty.Register("SearchGlassForeground", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
         public static readonly DependencyProperty VisibleBackgroundProperty = DependencyProperty.Register("VisibleBackground", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
-        #endregion
 
-        #region Construction
         static SearchBox()
         {
-            //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
-            //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchBox), new FrameworkPropertyMetadata(typeof(SearchBox)));
         }
-        #endregion
 
-        #region Functions
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -103,9 +92,7 @@ namespace Dopamine.Common.Controls
                 }
             }
         }
-        #endregion
 
-        #region Event handlers
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
@@ -121,6 +108,5 @@ namespace Dopamine.Common.Controls
             }
             this.SetButtonState();
         }
-        #endregion
     }
 }

@@ -15,15 +15,12 @@ namespace Dopamine.Common.Services.Notification
 {
     public class NotificationService : LegacyNotificationService
     {
-        #region Variables
         private bool systemNotificationIsEnabled;
         private SystemMediaTransportControls systemMediaControls;
         private SystemMediaTransportControlsDisplayUpdater displayUpdater;
         private MusicDisplayProperties musicProperties;
         private InMemoryRandomAccessStream artworkStream;
-        #endregion
-
-        #region Properties
+   
         public override bool SystemNotificationIsEnabled
         {
             get => this.systemNotificationIsEnabled;
@@ -34,9 +31,7 @@ namespace Dopamine.Common.Services.Notification
                 Application.Current.Dispatcher.InvokeAsync(async () => await SwitchNotificationHandlerAsync(value));
             }
         }
-        #endregion
-
-        #region Construction
+    
         public NotificationService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
         {
             // Pay attention to UPPERCASE property
@@ -49,17 +44,13 @@ namespace Dopamine.Common.Services.Notification
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Closed;
             displayUpdater.Update();
         }
-        #endregion
-
-        #region Overrides
+     
         protected override bool CanShowNotification()
         {
             if (this.systemNotificationIsEnabled) return false;
             return base.CanShowNotification();
         }
-        #endregion
-
-        #region Private
+  
         private void PlaybackResumedSystemNotificationHandler(object _, EventArgs __)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
@@ -148,6 +139,5 @@ namespace Dopamine.Common.Services.Notification
                 displayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(artworkStream);
             }
         }
-        #endregion
     }
 }

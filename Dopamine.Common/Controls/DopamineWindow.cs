@@ -9,12 +9,9 @@ namespace Dopamine.Common.Controls
 {
     public class DopamineWindow : BorderlessWindows8Window
     {
-        #region Variables
         private bool oldTopMost;
         private bool hasBorder;
-        #endregion
 
-        #region Properties
         public Brush Accent
         {
             get { return (Brush)GetValue(AccentProperty); }
@@ -26,22 +23,14 @@ namespace Dopamine.Common.Controls
         {
             get { return this.hasBorder; }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(DopamineWindow), new PropertyMetadata(null));
-        #endregion
 
-        #region Construction
         static DopamineWindow()
         {
-            //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
-            //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DopamineWindow), new FrameworkPropertyMetadata(typeof(DopamineWindow)));
         }
-        #endregion
 
-        #region Overrides
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -67,9 +56,7 @@ namespace Dopamine.Common.Controls
         {
             base.BorderlessWindowBase_SizeChanged(sender, e);
         }
-        #endregion
-
-        #region Event Handlers
+     
         private void BorderlessWindowBase_MinimizeToolTipChanged(object sender, EventArgs e)
         {
             this.minimizeButton.ToolTip = this.MinimizeToolTip;
@@ -91,9 +78,7 @@ namespace Dopamine.Common.Controls
         {
             this.closeButton.ToolTip = this.CloseToolTip;
         }
-        #endregion
 
-        #region Public
         /// <summary>
         /// Custom Activate function because the real Activate function doesn't always bring the window on top.
         /// </summary>
@@ -131,9 +116,7 @@ namespace Dopamine.Common.Controls
             this.SetBorderThickness(
                 new Thickness(this.WindowState == WindowState.Maximized ? 6 : this.HasBorder ? 1 : 0));
         }
-        #endregion
 
-        #region Private
         private void SetBorderThickness(Thickness borderThickness)
         {
             this.windowBorder.BorderThickness = borderThickness;
@@ -150,6 +133,5 @@ namespace Dopamine.Common.Controls
             Application.Current.Dispatcher.Invoke(() => this.Topmost = this.oldTopMost);
             System.Threading.Thread.CurrentThread.Abort();
         }
-        #endregion
     }
 }

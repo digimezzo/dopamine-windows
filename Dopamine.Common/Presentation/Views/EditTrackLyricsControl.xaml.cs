@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    /// <summary>
-    /// Interaction logic for EditTrackLyricsControl.xaml
-    /// </summary>
     public partial class EditTrackLyricsControl : UserControl
     {
         public EditTrackLyricsControl()

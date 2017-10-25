@@ -12,19 +12,13 @@ namespace Dopamine.Common.Services.Notification
 {
     public partial class NotificationWindow : Window
     {
-        #region Variables
         private DispatcherTimer hideTimer = new DispatcherTimer();
         private DispatcherTimer closeTimer = new DispatcherTimer();
         private int maxSecondsVisible = 5;
         private int hideTimerValue = 1;
-        private bool isMouseOver = false;
-        private bool draggingVolume;
-        private float initialVolume;
         private int notificationShadowSize = 10;
         private int notificationMarginFromScreen = 0;
-        #endregion
-
-        #region Construction
+       
         public NotificationWindow(PlayableTrack track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
         {
             this.InitializeComponent();
@@ -127,9 +121,7 @@ namespace Dopamine.Common.Services.Notification
             this.hideTimer.Tick += new EventHandler(HideTimer_Tick);
             this.closeTimer.Tick += new EventHandler(CloseTimer_Tick);
         }
-        #endregion
-
-        #region Event Handlers
+    
         private void HideTimer_Tick(object sender, EventArgs e)
         {
 
@@ -187,9 +179,7 @@ namespace Dopamine.Common.Services.Notification
                 this.DoubleClicked(this, new EventArgs());
             }
         }
-        #endregion
-
-        #region Public
+    
         public new void Show()
         {
             base.Show();
@@ -201,10 +191,7 @@ namespace Dopamine.Common.Services.Notification
             this.IsEnabled = false; // This activates fade-out
             this.closeTimer.Start(); // Only close 1 second after fade-out was activated
         }
-        #endregion
-
-        #region Events
+      
         public event EventHandler DoubleClicked = delegate { };
-        #endregion
     }
 }

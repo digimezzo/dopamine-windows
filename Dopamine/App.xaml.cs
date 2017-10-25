@@ -21,11 +21,8 @@ namespace Dopamine
 {
     public partial class App : Application
     {
-        #region Variables
         private Mutex instanceMutex = null;
-        #endregion
 
-        #region Functions
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -224,6 +221,5 @@ namespace Dopamine
 
             Application.Current.Shutdown();
         }
-        #endregion
     }
 }

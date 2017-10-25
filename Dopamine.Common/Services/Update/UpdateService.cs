@@ -19,23 +19,14 @@ namespace Dopamine.Common.Services.Update
 {
     public class UpdateService : IUpdateService
     {
-        #region Variables
-        // Directory
         private string updatesSubDirectory;
-        // Flags
         private bool canCheckForUpdates;
         private bool checkingForUpdates;
         private bool checkForPreReleases;
         private bool automaticDownload;
-
-        // Timer
         private Timer checkNewVersionTimer = new Timer();
-
-        // WebClient
         private WebClient downloadClient;
-        #endregion
 
-        #region Construction
         public UpdateService()
         {
             this.checkNewVersionTimer.Elapsed += new ElapsedEventHandler(this.CheckNewVersionTimerHandler);
@@ -43,9 +34,7 @@ namespace Dopamine.Common.Services.Update
             this.updatesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.UpdatesFolder);
             this.canCheckForUpdates = false;
         }
-        #endregion
-
-        #region Private
+       
         private Package CreateDummyPackage()
         {
             return new Package(ProductInformation.ApplicationName, new Version("0.0.0.0"), Configuration.Debug);
@@ -449,9 +438,7 @@ namespace Dopamine.Common.Services.Update
             // ----------------------------------------------------
             this.checkNewVersionTimer.Start();
         }
-        #endregion
-
-        #region IUpdateService
+   
         public void EnableUpdateCheck()
         {
             // Log that we start checking for updates
@@ -478,21 +465,16 @@ namespace Dopamine.Common.Services.Update
 
             this.UpdateCheckDisabled(this, null);
         }
-        #endregion
-
-        #region Events
+     
         public event Action<Package, string> NewDownloadedVersionAvailable = delegate { };
         public event Action<Package> NewOnlineVersionAvailable = delegate { };
         public event Action<Package> NoNewVersionAvailable = delegate { };
         public event EventHandler UpdateCheckDisabled = delegate { };
-        #endregion
-
-        #region Event Handlers
+    
         public void CheckNewVersionTimerHandler(object sender, ElapsedEventArgs e)
         {
             // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
             if (!this.checkingForUpdates) this.CheckForUpdatesAsync();
         }
-        #endregion
     }
 }

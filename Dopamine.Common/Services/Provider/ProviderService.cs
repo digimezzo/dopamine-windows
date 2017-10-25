@@ -12,12 +12,9 @@ namespace Dopamine.Common.Services.Provider
 {
     public class ProviderService : IProviderService
     {
-        #region Variables
         private string providersXmlPath;
         private XDocument providersDocument;
-        #endregion
-
-        #region Construction
+    
         public ProviderService()
         {
             this.providersXmlPath = Path.Combine(SettingsClient.ApplicationFolder(), "Providers.xml");
@@ -28,13 +25,9 @@ namespace Dopamine.Common.Services.Provider
             // Load the XML containing the Providers
             this.LoadProvidersXml();
         }
-        #endregion
-
-        #region Events
+    
         public event EventHandler SearchProvidersChanged = delegate { };
-        #endregion
-
-        #region Private
+      
         private void CreateProvidersXml()
         {
             // Only create this file if it doesn't yet exist. That allows the user to provide 
@@ -85,9 +78,7 @@ namespace Dopamine.Common.Services.Provider
 
             }
         }
-        #endregion
 
-        #region IProviderService
         public async Task<List<SearchProvider>> GetSearchProvidersAsync()
         {
             var providers = new List<SearchProvider>();
@@ -247,6 +238,5 @@ namespace Dopamine.Common.Services.Provider
 
             return UpdateSearchProviderResult.Failure;
         }
-        #endregion
     }
 }

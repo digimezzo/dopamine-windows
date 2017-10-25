@@ -32,7 +32,6 @@ namespace Dopamine.ViewModels.Common
                     SettingsClient.Set<string>("Appearance", "Language", value.Code);
                     Application.Current.Dispatcher.Invoke(() => i18nService.ApplyLanguageAsync(value.Code, true));
                 }
-
             }
         }
 
@@ -70,8 +69,7 @@ namespace Dopamine.ViewModels.Common
                     tempLanguage = this.i18nService.GetLanguage(savedLanguageCode);
                 }
 
-                // If, for some reason, SelectedLanguage is Nothing (e.g. when the user 
-                // deleted a previously existing language file), select the default language.
+                // If SelectedLanguage is null (e.g. when the user deletes a language file), select the default language.
                 if (tempLanguage == null)
                 {
                     tempLanguage = this.i18nService.GetDefaultLanguage();

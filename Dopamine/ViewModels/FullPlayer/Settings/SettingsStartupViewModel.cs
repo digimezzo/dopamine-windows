@@ -7,7 +7,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 {
     public class SettingsStartupViewModel : BindableBase
     {
-        #region Variables
         private bool checkBoxCheckForUpdatesChecked;
         private bool checkBoxAlsoCheckForPreReleasesChecked;
         private bool checkBoxInstallUpdatesAutomaticallyChecked;
@@ -15,9 +14,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxRembemberLastPlayedTrackChecked;
         private IUpdateService updateService;
         private bool isportable;
-        #endregion
 
-        #region Properties
         public bool CheckBoxCheckForUpdatesChecked
         {
             get { return this.checkBoxCheckForUpdatesChecked; }
@@ -100,9 +97,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get { return this.isportable; }
             set { SetProperty<bool>(ref this.isportable, value); }
         }
-        #endregion
 
-        #region Construction
         public SettingsStartupViewModel(IUpdateService updateService)
         {
             this.updateService = updateService;
@@ -122,9 +117,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.CheckBoxInstallUpdatesAutomaticallyChecked = false;
             }
         }
-        #endregion
 
-        #region Private
         private async void GetCheckBoxesAsync()
         {
             await Task.Run(() =>
@@ -135,6 +128,5 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
             });
         }
-        #endregion
     }
 }

@@ -12,19 +12,14 @@ namespace Dopamine.Common.Api.Lyrics
     /// </summary>
     public class LyricWikiaApi : ILyricsApi
     {
-        #region Variables
         private const string apiRootFormat = "http://lyrics.wikia.com/wiki/{0}:{1}?action=edit";
         private int timeoutSeconds;
-        #endregion
 
-        #region Construction
         public LyricWikiaApi(int timeoutSeconds)
         {
             this.timeoutSeconds = timeoutSeconds;
         }
-        #endregion
 
-        #region Private
         /// <summary>
         /// The url must have the format: http://lyrics.wikia.com/wiki/Massive_Attack:Teardrop?action=edit
         /// Capitalization of the first letter of all words is important. It doesn't find lyrics without it.
@@ -102,9 +97,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
 
-        #region ILyricsApi
         public string SourceName
         {
             get
@@ -137,6 +130,5 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
     }
 }

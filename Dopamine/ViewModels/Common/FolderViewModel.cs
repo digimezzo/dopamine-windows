@@ -34,15 +34,7 @@ namespace Dopamine.ViewModels.Common
 
             set
             {
-                if (value)
-                {
-                    this.Folder.ShowInCollection = 1;
-                }
-                else
-                {
-                    this.Folder.ShowInCollection = 0;
-                }
-
+                this.Folder.ShowInCollection = value ? 1 : 0;
                 RaisePropertyChanged(nameof(this.ShowInCollection));
             }
         }

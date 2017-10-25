@@ -7,24 +7,17 @@ namespace Dopamine.Common.Controls
 {
     public class SelectionChangedComboBox : ComboBox
     {
-        #region Variables
         bool mouseWasDown = false;
-        #endregion
 
-        #region Properties
         public Brush SelectionChangedForeground
         {
             get { return (Brush)GetValue(SelectionChangedForegroundProperty); }
 
             set { SetValue(SelectionChangedForegroundProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty SelectionChangedForegroundProperty = DependencyProperty.Register("SelectionChangedForeground", typeof(Brush), typeof(SelectionChangedComboBox), new PropertyMetadata(null));
-        #endregion
 
-        #region Event Handlers
         private void Me_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (mouseWasDown)
@@ -37,6 +30,5 @@ namespace Dopamine.Common.Controls
         {
             mouseWasDown = true;
         }
-        #endregion
     }
 }

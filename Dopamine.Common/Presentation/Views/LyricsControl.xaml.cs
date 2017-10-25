@@ -14,14 +14,11 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class LyricsControl : UserControl
     {
-        #region Variables
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private ListBox lyricsListBox;
         private TextBox lyricsTextBox;
-        #endregion
-
-        #region Contruction
+       
         public LyricsControl()
         {
             InitializeComponent();
@@ -30,9 +27,7 @@ namespace Dopamine.Common.Presentation.Views
             this.eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Subscribe((_) => this.ScrollToHighlightedLyricsLineAsync());
         }
-        #endregion
-
-        #region Private
+    
         private void LyricsListBox_Loaded(object sender, RoutedEventArgs e)
         {
             // This is a workaround to be able to access the LyricsListBox which is in the DataTemplate.
@@ -87,7 +82,6 @@ namespace Dopamine.Common.Presentation.Views
                 LogClient.Error("Could not scroll to the highlighted lyrics line. Exception: {0}", ex.Message);
             }
         }
-        #endregion
 
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {

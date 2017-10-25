@@ -17,7 +17,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class EditAlbumViewModel : BindableBase
     {
-        #region Variables
         private bool isBusy;
         private Common.Database.Entities.Album album;
         private IMetadataService metadataService;
@@ -27,16 +26,12 @@ namespace Dopamine.Common.Presentation.ViewModels
         private string artworkSize;
         private BitmapImage artworkThumbnail;
         private bool updateFileArtwork;
-        #endregion
-
-        #region ReadOnly Properties
+      
         public bool HasArtwork
         {
             get { return Artwork?.Value != null; }
         }
-        #endregion
-
-        #region Properties
+   
         public bool IsBusy
         {
             get { return this.isBusy; }
@@ -72,17 +67,13 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.artworkSize; }
             set { SetProperty<string>(ref this.artworkSize, value); }
         }
-        #endregion
-
-        #region Commands
+    
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
         public DelegateCommand DownloadArtworkCommand { get; set; }
-        #endregion
-
-        #region Construction
+    
         public EditAlbumViewModel(Common.Database.Entities.Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
         {
             this.Album = album;
@@ -112,9 +103,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
             this.DownloadArtworkCommand = new DelegateCommand(() => this.DownloadArtworkAsync(), () => this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText);
         }
-        #endregion
-
-        #region Private
+      
         private async Task GetAlbumArtworkAsync()
         {
             await Task.Run(() =>
@@ -156,7 +145,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.ArtworkSize = string.Empty;
             }
 
-            OnPropertyChanged(() => this.HasArtwork);
+            RaisePropertyChanged(nameof(this.HasArtwork));
         }
 
         private void UpdateArtwork(byte[] imageData)
@@ -194,9 +183,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.IsBusy = false;
         }
-        #endregion
-
-        #region Public
+     
         public async Task<bool> SaveAlbumAsync()
         {
             this.IsBusy = true;
@@ -213,6 +200,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.IsBusy = false;
             return true;
         }
-        #endregion
     }
 }

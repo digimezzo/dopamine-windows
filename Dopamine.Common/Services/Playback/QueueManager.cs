@@ -13,21 +13,16 @@ namespace Dopamine.Common.Services.Playback
 {
     internal class QueueManager
     {
-        #region Variables
         private KeyValuePair<string, PlayableTrack> currentTrack;
         private object queueLock = new object();
         private OrderedDictionary<string, PlayableTrack> queue = new OrderedDictionary<string, PlayableTrack>(); // Queued tracks in original order
         private List<string> playbackOrder = new List<string>(); // Playback order of queued tracks
-        #endregion
-
-        #region Properties
+      
         public OrderedDictionary<string, PlayableTrack> Queue
         {
             get { return this.queue; }
         }
-        #endregion
-
-        #region Private
+    
         private bool UpdateTrackPlaybackInfo(PlayableTrack track, FileMetadata fileMetadata)
         {
             bool isDisplayedPlaybackInfoChanged = false;
@@ -71,9 +66,7 @@ namespace Dopamine.Common.Services.Playback
 
             return isDisplayedPlaybackInfoChanged;
         }
-        #endregion
-
-        #region public
+    
         public async Task ShuffleAsync()
         {
             await Task.Run(() =>
@@ -601,6 +594,5 @@ namespace Dopamine.Common.Services.Playback
 
             return result;
         }
-        #endregion
     }
 }

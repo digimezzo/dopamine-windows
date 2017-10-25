@@ -8,14 +8,11 @@ namespace Dopamine.Common.Audio
 
     public interface IPlayer
     {
-        #region ReadOnly Properties
         bool CanPlay { get; }
         bool CanPause { get; }
         bool CanStop { get; }
         string Filename { get; }
-        #endregion
 
-        #region Functions
         void Stop();
         void Play(string filename);
         void Play(string filename, MMDevice outputDevice);
@@ -32,11 +29,8 @@ namespace Dopamine.Common.Audio
         void ApplyFilter(double[] filterValues);
         ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel);
         void SwitchOutputDevice(MMDevice outputDevice);
-        #endregion
 
-        #region Events
         event EventHandler PlaybackFinished;
         event PlaybackInterruptedEventHandler PlaybackInterrupted;
-        #endregion
     }
 }

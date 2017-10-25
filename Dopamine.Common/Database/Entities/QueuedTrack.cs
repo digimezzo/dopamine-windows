@@ -4,7 +4,6 @@ namespace Dopamine.Common.Database.Entities
 {
     public class QueuedTrack
     {
-        #region Properties
         [PrimaryKey(), AutoIncrement()]
         public long QueuedTrackID { get; set; }
         public string QueueID { get; set; }
@@ -13,9 +12,7 @@ namespace Dopamine.Common.Database.Entities
         public long IsPlaying { get; set; }
         public long ProgressSeconds { get; set; }
         public long OrderID { get; set; }
-        #endregion
-
-        #region Overrides
+      
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -30,6 +27,5 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.QueuedTrackID }.GetHashCode();
         }
-        #endregion
     }
 }

@@ -4,7 +4,6 @@ namespace Dopamine.Common.Api.Lastfm
 {
     public class Artist
     {
-        #region Properties
         public string Name { get; set; }
         public string Url { get; set; }
         public string ImageSmall { get; set; }
@@ -14,9 +13,7 @@ namespace Dopamine.Common.Api.Lastfm
         public string ImageMega { get; set; }
         public List<Artist> SimilarArtists { get; set; }
         public Biography Biography { get; set; }
-        #endregion
 
-        #region Public
         public string LargestImage()
         {
             if (!string.IsNullOrEmpty(this.ImageMega))
@@ -44,6 +41,5 @@ namespace Dopamine.Common.Api.Lastfm
                 return string.Empty;
             }
         }
-        #endregion
     }
 }

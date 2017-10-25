@@ -12,24 +12,17 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class GenreRepository : IGenreRepository
     {
-        #region Variables
         private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
-        #endregion
 
-        #region Properties
         public ISQLiteConnectionFactory Factory => this.factory;
-        #endregion
 
-        #region Construction
         public GenreRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
             this.info = info;
         }
-        #endregion
 
-        #region IGenreRepository
         public async Task<List<Genre>> GetGenresAsync()
         {
             var genres = new List<Genre>();
@@ -149,6 +142,5 @@ namespace Dopamine.Common.Database.Repositories
                 }
             });
         }
-        #endregion
     }
 }

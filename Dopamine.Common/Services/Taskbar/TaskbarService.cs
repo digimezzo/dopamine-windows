@@ -12,16 +12,13 @@ namespace Dopamine.Common.Services.Taskbar
 {
     public class TaskbarService : BindableBase, ITaskbarService
     {
-        #region Variables
         private IPlaybackService playbackService;
         private string description;
         private TaskbarItemProgressState progressState;
         private double progressValue;
         private string playPauseText;
         private ImageSource playPauseIcon;
-        #endregion
-
-        #region Properties
+     
         public string Description
         {
             get { return this.description; }
@@ -51,9 +48,7 @@ namespace Dopamine.Common.Services.Taskbar
             get { return this.playPauseIcon; }
             private set { SetProperty<ImageSource>(ref this.playPauseIcon, value); }
         }
-        #endregion
-
-        #region Construction
+      
         public TaskbarService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -103,9 +98,7 @@ namespace Dopamine.Common.Services.Taskbar
 
             this.playbackService.PlaybackProgressChanged += (_, __) => { this.ProgressValue = this.playbackService.Progress; };
         }
-        #endregion
-
-        #region Private
+      
         private void ShowTaskBarItemInfoPause(bool showPause)
         {
             string value = "Play";
@@ -146,13 +139,10 @@ namespace Dopamine.Common.Services.Taskbar
                 this.ProgressState = TaskbarItemProgressState.None;
             }
         }
-        #endregion
-
-        #region ITaskbarService
+    
         public void SetShowProgressInTaskbar(bool showProgressInTaskbar)
         {
             this.SetTaskbarProgressState(showProgressInTaskbar, this.playbackService.IsPlaying);
         }
-        #endregion
     }
 }

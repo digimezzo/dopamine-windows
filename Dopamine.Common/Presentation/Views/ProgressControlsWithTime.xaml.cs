@@ -6,11 +6,8 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class ProgressControlsWithTime : UserControl
     {
-        #region Dependency Properties
         public static readonly DependencyProperty SliderLengthProperty = DependencyProperty.Register("SliderLength", typeof(double), typeof(ProgressControlsWithTime), new PropertyMetadata(100.0));
-        #endregion
-
-        #region Properties
+    
         public new object DataContext
         {
             get { return base.DataContext; }
@@ -23,13 +20,10 @@ namespace Dopamine.Common.Presentation.Views
 
             set { SetValue(SliderLengthProperty, value); }
         }
-        #endregion
-
-        #region Construction
+    
         public ProgressControlsWithTime()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }

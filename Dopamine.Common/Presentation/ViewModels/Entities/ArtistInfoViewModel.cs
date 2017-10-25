@@ -10,14 +10,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class ArtistInfoViewModel : BindableBase
     {
-        #region Variables
         private Artist lfmArtist;
         private ObservableCollection<SimilarArtistViewModel> similarArtists;
         private ICacheService cacheService;
         private string image;
-        #endregion
-
-        #region Properties
+       
         public bool HasBiography
         {
             get
@@ -46,12 +43,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             this.lfmArtist = lfmArtist;
 
-            OnPropertyChanged(() => this.ArtistName);
-            OnPropertyChanged(() => this.Biography);
-            OnPropertyChanged(() => this.HasBiography);
-            OnPropertyChanged(() => this.CleanedBiographyContent);
-            OnPropertyChanged(() => this.Url);
-            OnPropertyChanged(() => this.UrlText);
+            RaisePropertyChanged(nameof(this.ArtistName));
+            RaisePropertyChanged(nameof(this.Biography));
+            RaisePropertyChanged(nameof(this.HasBiography));
+            RaisePropertyChanged(nameof(this.CleanedBiographyContent));
+            RaisePropertyChanged(nameof(this.Url));
+            RaisePropertyChanged(nameof(this.UrlText));
 
             await this.FillSimilarArtistsAsync();
             await this.FillImageAsync();
@@ -126,16 +123,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
                 return cleanedBiography;
             }
         }
-        #endregion
 
-        #region Construction
         public ArtistInfoViewModel(ICacheService cacheService)
         {
             this.cacheService = cacheService;
         }
-        #endregion
 
-        #region Private
         private async Task FillSimilarArtistsAsync()
         {
             if (this.lfmArtist != null && this.lfmArtist.SimilarArtists != null && this.lfmArtist.SimilarArtists.Count > 0)
@@ -153,8 +146,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
                 });
             }
 
-            OnPropertyChanged(() => this.SimilarArtists);
-            OnPropertyChanged(() => this.HasSimilarArtists);
+            RaisePropertyChanged(nameof(this.SimilarArtists));
+            RaisePropertyChanged(nameof(this.HasSimilarArtists));
         }
 
         private async Task FillImageAsync()
@@ -163,9 +156,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 
             this.image = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(this.lfmArtist.LargestImage()));
 
-            OnPropertyChanged(() => this.Image);
-            OnPropertyChanged(() => this.HasImage);
+            RaisePropertyChanged(nameof(this.Image));
+            RaisePropertyChanged(nameof(this.HasImage));
         }
-        #endregion
     }
 }

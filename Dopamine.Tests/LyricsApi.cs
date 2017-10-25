@@ -6,7 +6,6 @@ namespace Dopamine.Tests
     [TestClass]
     public class LyricsApi
     {
-        #region LyricWikia
         [TestMethod(), TestCategory(TestCategories.LyricsApi)]
         public async Task LyricWikiaApiGetNormalLyrics()
         {
@@ -33,6 +32,5 @@ namespace Dopamine.Tests
 
             Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
         }
-        #endregion
     }
 }

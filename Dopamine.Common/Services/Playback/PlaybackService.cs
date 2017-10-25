@@ -24,7 +24,6 @@ namespace Dopamine.Common.Services.Playback
 {
     public class PlaybackService : IPlaybackService
     {
-        #region Variables
         private QueueManager queueManager;
         private System.Timers.Timer progressTimer = new System.Timers.Timer();
         private double progressTimeoutSeconds = 0.5;
@@ -73,9 +72,7 @@ namespace Dopamine.Common.Services.Playback
 
         private MMDevice outputDevice;
         private AudioDevicesWatcher watcher = new AudioDevicesWatcher();
-        #endregion
-
-        #region Properties
+      
         public bool IsSavingQueuedTracks
         {
             get { return this.isSavingQueuedTracks; }
@@ -284,9 +281,7 @@ namespace Dopamine.Common.Services.Playback
         {
             get { return this.player; }
         }
-        #endregion
-
-        #region Construction
+     
         public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository)
         {
             this.fileService = fileService;
@@ -316,9 +311,7 @@ namespace Dopamine.Common.Services.Playback
 
             this.Initialize();
         }
-        #endregion
-
-        #region Events
+     
         public event PlaybackFailedEventHandler PlaybackFailed = delegate { };
         public event EventHandler PlaybackPaused = delegate { };
         public event EventHandler PlaybackProgressChanged = delegate { };
@@ -338,9 +331,7 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler QueueChanged = delegate { };
         public event EventHandler AudioDevicesChanged = delegate { };
         public event EventHandler PlaybackSkipped = delegate { };
-        #endregion
-
-        #region IPlaybackService
+       
         public async Task<MMDevice> GetSavedAudioDeviceAsync()
         {
             string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
@@ -890,9 +881,7 @@ namespace Dopamine.Common.Services.Playback
             List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
-        #endregion
-
-        #region Private
+        
         private void CheckWindowsMediaFoundationAsync()
         {
             try
@@ -1431,6 +1420,5 @@ namespace Dopamine.Common.Services.Playback
             this.QueueChanged(this, new EventArgs());
             this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
         }
-        #endregion
     }
 }

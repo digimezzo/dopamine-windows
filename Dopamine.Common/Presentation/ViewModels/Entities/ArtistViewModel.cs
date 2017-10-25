@@ -8,12 +8,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class ArtistViewModel : BindableBase, ISemanticZoomable
     {
-        #region Variables
         private Artist artist;
         private bool isHeader;
-        #endregion
-
-        #region Properties
         public Artist Artist
         {
             get { return this.artist; }
@@ -26,7 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             set
             {
                 this.Artist.ArtistName = value;
-                OnPropertyChanged(() => this.ArtistName);
+                RaisePropertyChanged(nameof(this.ArtistName));
             }
         }
 
@@ -45,9 +41,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.isHeader; }
             set { SetProperty<bool>(ref this.isHeader, value); }
         }
-        #endregion
-
-        #region Overrides
+       
         public override string ToString()
         {
             return this.ArtistName;
@@ -67,6 +61,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         {
             return this.Artist.GetHashCode();
         }
-        #endregion
     }
 }

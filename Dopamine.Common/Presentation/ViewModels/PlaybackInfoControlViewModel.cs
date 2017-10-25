@@ -13,7 +13,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class PlaybackInfoControlViewModel : BindableBase
     {
-        #region Variables
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
         private SlideDirection slideDirection;
@@ -21,9 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private PlayableTrack track;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
-        #endregion
 
-        #region Properties
         public PlaybackInfoViewModel PlaybackInfoViewModel
         {
             get { return this.playbackInfoViewModel; }
@@ -35,9 +32,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.slideDirection; }
             set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
         }
-        #endregion
-
-        #region Construction
+     
         public PlaybackInfoControlViewModel(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -65,9 +60,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.refreshTimer.Stop();
             this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
         }
-        #endregion
-
-        #region Private
+  
         private void ClearPlaybackInfo()
         {
             this.PlaybackInfoViewModel = new PlaybackInfoViewModel
@@ -136,6 +129,5 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.PlaybackInfoViewModel.CurrentTime = FormatUtils.FormatTime(this.playbackService.GetCurrentTime);
             this.PlaybackInfoViewModel.TotalTime = " / " + FormatUtils.FormatTime(this.playbackService.GetTotalTime);
         }
-        #endregion
     }
 }

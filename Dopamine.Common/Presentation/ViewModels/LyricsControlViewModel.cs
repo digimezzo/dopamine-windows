@@ -23,7 +23,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class LyricsControlViewModel : ContextMenuViewModelBase
     {
-        #region Variables
         private IUnityContainer container;
         private ILocalizationInfo info;
         private IMetadataService metadataService;
@@ -43,13 +42,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int refreshTimerIntervalMilliseconds = 500;
         private bool isNowPlayingPageActive;
         private bool isNowPlayingLyricsPageActive;
-        #endregion
-
-        #region Commands
+        
         public DelegateCommand RefreshLyricsCommand { get; set; }
-        #endregion
-
-        #region Properties
+     
         public int ContentSlideInFrom
         {
             get { return this.contentSlideInFrom; }
@@ -71,9 +66,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.RefreshLyricsCommand.RaiseCanExecuteChanged();
             }
         }
-        #endregion
-
-        #region Construction
+    
         public LyricsControlViewModel(IUnityContainer container) : base(container)
         {
             this.container = container;
@@ -152,9 +145,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             await HighlightLyricsLineAsync();
             this.highlightTimer.Start();
         }
-        #endregion
-
-        #region Private
+       
         private void RestartRefreshTimer()
         {
             this.refreshTimer.Stop();
@@ -330,13 +321,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             });
         }
-        #endregion
-
-        #region Overrides
+     
         protected override void SearchOnline(string id)
         {
             // No implementation required here
         }
-        #endregion
     }
 }

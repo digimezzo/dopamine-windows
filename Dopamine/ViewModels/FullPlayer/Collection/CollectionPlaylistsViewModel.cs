@@ -22,7 +22,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
     public class CollectionPlaylistsViewModel : PlaylistViewModelBase, IDropTarget

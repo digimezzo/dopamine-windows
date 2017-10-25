@@ -9,27 +9,19 @@ using System.Windows.Input;
 
 namespace Dopamine.Common.Presentation.Views
 {
-    /// <summary>
-    /// Interaction logic for PopupVolumeControls.xaml
-    /// </summary>
     public partial class PopupVolumeControls : VolumeControlViewBase
     {
-        #region Variables
         private IPlaybackService playBackService;
         private Timer mouseWheelTimer;
         private double mouseWheelTimeout = 0.5;
         private bool keepOpenAfterScrolling;
-        #endregion
-
-        #region Properties
+     
         public new object DataContext
         {
             get { return base.DataContext; }
             set { base.DataContext = value; }
         }
-        #endregion
-
-        #region Construction
+      
         public PopupVolumeControls()
         {
             InitializeComponent();
@@ -47,9 +39,7 @@ namespace Dopamine.Common.Presentation.Views
             this.VolumeButton.Width = this.Width;
             this.VolumeButton.Height = this.Height;
         }
-        #endregion
-
-        #region Private
+    
         private void VolumeButton_Click(object sender, RoutedEventArgs e)
         {
             this.keepOpenAfterScrolling = true;
@@ -97,6 +87,5 @@ namespace Dopamine.Common.Presentation.Views
         {
             this.mouseWheelTimer.Start();
         }
-        #endregion
     }
 }

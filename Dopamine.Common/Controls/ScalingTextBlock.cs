@@ -2,7 +2,6 @@
 using Dopamine.Common.Base;
 using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,7 +9,6 @@ namespace Dopamine.Common.Controls
 {
     public class ScalingTextBlock : TextBlock
     {
-        #region Properties
         public double MinFontSize
         {
             get { return Convert.ToDouble(GetValue(MinFontSizeProperty)); }
@@ -22,23 +20,15 @@ namespace Dopamine.Common.Controls
             get { return Convert.ToDouble(GetValue(MaxFontSizeProperty)); }
             set { SetValue(MaxFontSizeProperty, value); }
         }
-        #endregion
 
-        #region Dependency Properties
         public static readonly DependencyProperty MinFontSizeProperty = DependencyProperty.Register("MinFontSize", typeof(double), typeof(ScalingTextBlock), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty MaxFontSizeProperty = DependencyProperty.Register("MaxFontSize", typeof(double), typeof(ScalingTextBlock), new PropertyMetadata(Constants.GlobalFontSize * 2));
-        #endregion
 
-        #region Construction
         static ScalingTextBlock()
         {
-            //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
-            //This style is defined in themes\generic.xaml
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ScalingTextBlock), new FrameworkPropertyMetadata(typeof(ScalingTextBlock)));
         }
-        #endregion
 
-        #region Overrides
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -67,9 +57,7 @@ namespace Dopamine.Common.Controls
             base.OnRenderSizeChanged(sizeInfo);
             this.SetFontSize();
         }
-        #endregion
 
-        #region Private
         private void SetFontSize()
         {
             this.Visibility = Visibility.Hidden;
@@ -110,6 +98,5 @@ namespace Dopamine.Common.Controls
 
             return this.ActualWidth < this.DesiredSize.Width;
         }
-        #endregion
     }
 }

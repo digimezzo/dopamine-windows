@@ -119,8 +119,7 @@ namespace Dopamine
             Container.Resolve<IAppearanceService>().ApplyColorSchemeAsync(
                 SettingsClient.Get<string>("Appearance", "ColorScheme"),
                 SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
-                SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor"),
-                true
+                SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor")
             );
             Container.Resolve<IExternalControlService>();
         }

@@ -8,19 +8,14 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class SpectrumAnalyzerControl : UserControl
     {
-        #region Variables
         private IPlaybackService playbackService;
-        #endregion
-
-        #region Properties
+       
         public new object DataContext
         {
             get { return base.DataContext; }
             set { base.DataContext = value; }
         }
-        #endregion
-
-        #region Construction
+      
         public SpectrumAnalyzerControl()
         {
             InitializeComponent();
@@ -31,9 +26,7 @@ namespace Dopamine.Common.Presentation.Views
             // Just in case we switched Views after the playBackService.PlaybackSuccess was triggered
             this.RegisterPlayer();
         }
-        #endregion
-
-        #region Private
+       
         private void RegisterPlayer()
         {
             if(this.playbackService.Player != null)
@@ -42,6 +35,5 @@ namespace Dopamine.Common.Presentation.Views
                 Application.Current.Dispatcher.Invoke(() => { this.RightSpectrumAnalyzer.RegisterSoundPlayer(this.playbackService.Player.GetWrapperSpectrumPlayer(SpectrumChannel.Right)); });
             }
         }
-        #endregion
     }
 }

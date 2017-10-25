@@ -10,18 +10,13 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class QueuedTrackRepository : IQueuedTrackRepository
     {
-        #region Variables
         private SQLiteConnectionFactory factory;
-        #endregion
 
-        #region Construction
         public QueuedTrackRepository()
         {
             this.factory = new SQLiteConnectionFactory();
         }
-        #endregion
 
-        #region IQueuedTrackRepository
         public async Task<List<QueuedTrack>> GetSavedQueuedTracksAsync()
         {
             var tracks = new List<QueuedTrack>();
@@ -107,7 +102,5 @@ namespace Dopamine.Common.Database.Repositories
 
             return track;
         }
-
-        #endregion
     }
 }

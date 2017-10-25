@@ -9,13 +9,10 @@ namespace Dopamine.Common.Audio
 
     public class EqualizerPreset
     {
-        #region Variables
         private double[] bands;
         private string name;
         private bool isRemovable;
-        #endregion
 
-        #region Properties
         public double[] Bands
         {
             get { return this.bands; }
@@ -45,9 +42,7 @@ namespace Dopamine.Common.Audio
                 this.displayName = value;
             }
         }
-        #endregion
 
-        #region Construction
         public EqualizerPreset(string name, bool isRemovable)
         {
             this.name = name;
@@ -63,9 +58,7 @@ namespace Dopamine.Common.Audio
             this.isRemovable = false;
             this.Initialize();
         }
-        #endregion
 
-        #region Private
         private void Initialize()
         {
             var bandsList = new List<double>();
@@ -77,9 +70,7 @@ namespace Dopamine.Common.Audio
 
             this.Bands = bandsList.ToArray();
         }
-        #endregion
 
-        #region Public
         public void Load(double[] values)
         {
             for (int i = 0; i < values.Count(); i++)
@@ -106,9 +97,7 @@ namespace Dopamine.Common.Audio
         {
             return string.Join(";", Array.ConvertAll<double, string>(this.Bands, s => s.ToString(CultureInfo.InvariantCulture)));
         }
-        #endregion
 
-        #region Overrides
         public override string ToString()
         {
             return this.DisplayName;
@@ -128,6 +117,5 @@ namespace Dopamine.Common.Audio
         {
             return new { this.name }.GetHashCode();
         }
-        #endregion
     }
 }

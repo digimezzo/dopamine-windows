@@ -5,7 +5,6 @@ namespace Dopamine.Common.Database.Entities
 {
     public class Album
     {
-        #region Properties
         [PrimaryKey()]
         public long AlbumID { get; set; }
         public string AlbumTitle { get; set; }
@@ -15,9 +14,7 @@ namespace Dopamine.Common.Database.Entities
         public long DateLastSynced { get; set; }
         public long DateAdded { get; set; }
         public long DateCreated { get; set; }
-        #endregion
 
-        #region ReadOnly Properties
         [Ignore()]
         public string AlbumTitleTrim
         {
@@ -29,9 +26,7 @@ namespace Dopamine.Common.Database.Entities
         {
             get { return AlbumArtist.Trim(); }
         }
-        #endregion
 
-        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null || !GetType().Equals(obj.GetType()))
@@ -46,9 +41,7 @@ namespace Dopamine.Common.Database.Entities
         {
             return new { this.AlbumTitleTrim, this.AlbumArtistTrim }.GetHashCode();
         }
-        #endregion
 
-        #region Public
         public IList<Album> ToList()
         {
             List<Album> l = new List<Album>();
@@ -56,6 +49,5 @@ namespace Dopamine.Common.Database.Entities
 
             return l;
         }
-        #endregion
     }
 }

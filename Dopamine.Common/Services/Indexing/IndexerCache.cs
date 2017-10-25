@@ -10,7 +10,6 @@ namespace Dopamine.Common.Services.Indexing
 {
     public class IndexerCache
     {
-        #region Variables
         private HashSet<string> trackStatisticHashSet;
         private Dictionary<long, int> albumsDictionary;
         private Dictionary<long, int> artistsDictionary;
@@ -21,17 +20,13 @@ namespace Dopamine.Common.Services.Indexing
         private long maxGenreID;
 
         private ISQLiteConnectionFactory factory;
-        #endregion
-
-        #region Construction
+     
         public IndexerCache(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
             this.Initialize();
         }
-        #endregion
-
-        #region Public
+      
         public bool HasCachedTrackStatistic(TrackStatistic trackStatistic)
         {
             if (trackStatisticHashSet.Contains(trackStatistic.SafePath))
@@ -137,9 +132,7 @@ namespace Dopamine.Common.Services.Indexing
 
             return isCachedAlbum;
         }
-        #endregion
-
-        #region Private
+    
         private void Initialize()
         {
             // Comparing new and existing object will happen in a Dictionary cache. This should improve performance.
@@ -156,6 +149,5 @@ namespace Dopamine.Common.Services.Indexing
             this.maxArtistID = this.artistsDictionary.Keys.OrderByDescending(key => key).Select(key => key).FirstOrDefault();
             this.maxGenreID = this.genresDictionary.Keys.OrderByDescending(key => key).Select(key => key).FirstOrDefault();
         }
-        #endregion
     }
 }

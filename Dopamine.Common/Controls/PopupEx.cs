@@ -11,11 +11,8 @@ namespace Dopamine.Common.Controls
 {
     public class PopupEx : Popup
     {
-        #region Variables
         private static FieldInfo fi = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-        #endregion
 
-        #region Public
         public void Open()
         {
             if (SystemParameters.MenuDropAlignment)
@@ -34,6 +31,5 @@ namespace Dopamine.Common.Controls
         {
             this.IsOpen = false;
         }
-        #endregion
     }
 }

@@ -14,20 +14,15 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class TrackRepository : ITrackRepository
     {
-        #region Variables
         private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
-        #endregion
 
-        #region Construction
         public TrackRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
             this.info = info;
         }
-        #endregion
 
-        #region Private
         private string SelectQueryPart()
         {
             return "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
@@ -47,9 +42,7 @@ namespace Dopamine.Common.Database.Repositories
                    "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
                    "INNER JOIN TrackStatistic ts ON tra.SafePath=ts.SafePath ";
         }
-        #endregion
 
-        #region ITrackRepository
         public async Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths)
         {
             var tracks = new List<PlayableTrack>();
@@ -400,6 +393,5 @@ namespace Dopamine.Common.Database.Repositories
 
             return updateSuccess;
         }
-        #endregion
     }
 }

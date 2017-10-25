@@ -8,19 +8,14 @@ namespace Dopamine.Common.Api.Lyrics
 {
     public class MetroLyricsApi : ILyricsApi
     {
-        #region Variables
         private const string apiRootFormat = "http://www.metrolyrics.com/{0}-lyrics-{1}.html";
         private int timeoutSeconds;
-        #endregion
 
-        #region Construction
         public MetroLyricsApi(int timeoutSeconds)
         {
             this.timeoutSeconds = timeoutSeconds;
         }
-        #endregion
 
-        #region Private
         /// <summary>
         /// The url must have the format: http://www.metrolyrics.com/teardrop-lyrics-massive-attack.html
         /// All parts must be lowercase and split by "-"
@@ -65,9 +60,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
 
-        #region ILyricsApi
         public string SourceName
         {
             get
@@ -100,6 +93,5 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
     }
 }

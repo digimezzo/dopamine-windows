@@ -181,11 +181,11 @@
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
+    <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\Logo.xaml.cs">
       <DependentUpon>Logo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SourceChangedImage.cs" />
-    <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
     <Compile Include="Controls\DataGridEx.cs" />
     <Compile Include="Controls\DopamineWindow.cs" />
@@ -544,12 +544,6 @@
     <Compile Include="Services\Playlist\Enums.cs" />
     <Compile Include="Services\Playlist\IPlaylistService.cs" />
     <Compile Include="Services\Playlist\PlaylistService.cs" />
-    <Compile Include="Services\Playlist\Predicate.cs" />
-    <Compile Include="Services\Playlist\PredicateField.cs" />
-    <Compile Include="Services\Playlist\PredicateFieldType.cs" />
-    <Compile Include="Services\Playlist\PredicateOperator.cs" />
-    <Compile Include="Services\Playlist\PredicateOperatorType.cs" />
-    <Compile Include="Services\Playlist\SmartPlaylist.cs" />
     <Compile Include="Services\Provider\Enums.cs" />
     <Compile Include="Services\Provider\IProviderService.cs" />
     <Compile Include="Services\Provider\ProviderService.cs" />
@@ -563,7 +557,10 @@
     <Compile Include="Services\Taskbar\TaskbarService.cs" />
     <Compile Include="Services\Update\IUpdateService.cs" />
     <Compile Include="Services\Update\UpdateService.cs" />
+    <Compile Include="Services\Win32Input\AppCommandKeyboardHookManager.cs" />
+    <Compile Include="Services\Win32Input\IKeyboardHookManager.cs" />
     <Compile Include="Services\Win32Input\IWin32InputService.cs" />
+    <Compile Include="Services\Win32Input\LowLevelKeyboardHookManager.cs" />
     <Compile Include="Services\Win32Input\Win32InputService.cs" />
     <Compile Include="Services\WindowsIntegration\IWindowsIntegrationService.cs" />
     <Compile Include="Services\WindowsIntegration\WindowsIntegrationService.cs" />

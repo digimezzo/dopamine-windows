@@ -12,24 +12,17 @@ namespace Dopamine.Common.Database.Repositories
 {
     public class AlbumRepository : IAlbumRepository
     {
-        #region Variables
         private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
-        #endregion
 
-        #region Properties
         public ISQLiteConnectionFactory Factory => this.factory;
-        #endregion
 
-        #region Construction
         public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
             this.info = info;
         }
-        #endregion
-
-        #region Private
+ 
         private string SelectQueryPart()
         {
             return "SELECT DISTINCT alb.AlbumID, " +
@@ -37,9 +30,7 @@ namespace Dopamine.Common.Database.Repositories
                    $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                    "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb ";
         }
-        #endregion
 
-        #region IAlbumRepository
         public async Task<List<Album>> GetAlbumsAsync()
         {
             var albums = new List<Album>();
@@ -363,6 +354,5 @@ namespace Dopamine.Common.Database.Repositories
                 }
             });
         }
-        #endregion
     }
 }

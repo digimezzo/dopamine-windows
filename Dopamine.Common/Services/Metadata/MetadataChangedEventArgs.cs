@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Dopamine.Common.Services.Metadata
 {
     public class MetadataChangedEventArgs : EventArgs
     {
-        #region Properties
         public bool IsArtistChanged { get; set; }
         public bool IsGenreChanged { get; set; }
         public bool IsAlbumChanged { get; set; }
@@ -16,9 +14,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             get { return this.IsArtistChanged | this.IsGenreChanged | this.IsAlbumChanged | this.IsTrackChanged | this.IsArtworkChanged; }
         }
-        #endregion
-
-        #region Construction
+     
         public MetadataChangedEventArgs()
         {
             this.IsArtistChanged = false;
@@ -27,7 +23,6 @@ namespace Dopamine.Common.Services.Metadata
             this.IsTrackChanged = false;
             this.IsArtworkChanged = false;
         }
-        #endregion
     }
 
 }

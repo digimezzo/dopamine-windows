@@ -5,12 +5,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 {
     public class SemanticZoomSelectorViewModel : BindableBase, ISemanticZoomSelector
     {
-        #region Variables
         private string header;
         private bool canZoom;
-        #endregion
 
-        #region Properties
         public string Header
         {
             get { return this.header; }
@@ -23,9 +20,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
             get { return this.canZoom; }
             set { SetProperty<bool>(ref this.canZoom, value); }
         }
-        #endregion
-
-        #region Overrides
+   
         public override string ToString()
         {
 
@@ -41,6 +36,5 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
 
             return this.Header.ToLower().Equals(((SemanticZoomSelectorViewModel)obj).Header.ToLower());
         }
-        #endregion
     }
 }

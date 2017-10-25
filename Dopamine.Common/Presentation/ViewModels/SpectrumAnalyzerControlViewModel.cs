@@ -12,7 +12,6 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class SpectrumAnalyzerControlViewModel : BindableBase
     {
-        #region Variables
         private IPlaybackService playbackService;
         private IAppearanceService appearanceService;
         private IEventAggregator eventAggregator;
@@ -28,9 +27,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         private SpectrumAnimationStyle animationStyle;
         private Brush spectrumBarBackground;
         private SpectrumStyle spectrumStyle;
-        #endregion
-
-        #region Properties
+      
         public bool ShowSpectrumAnalyzer
         {
             get { return this.showSpectrumAnalyzer; }
@@ -111,9 +108,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.spectrumStyle; }
             set { SetProperty<SpectrumStyle>(ref this.spectrumStyle, value); }
         }
-        #endregion
-
-        #region Construction
+      
         public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService, IEventAggregator eventAggregator)
         {
             this.playbackService = playbackService;
@@ -154,9 +149,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Default spectrum
             this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
         }
-        #endregion
-
-        #region Private
+     
         private void SetSpectrumStyle(SpectrumStyle style)
         {
             switch (style)
@@ -224,6 +217,5 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             SettingsClient.Set<int>("Playback", "SpectrumStyle", (int)style);
         }
-        #endregion
     }
 }

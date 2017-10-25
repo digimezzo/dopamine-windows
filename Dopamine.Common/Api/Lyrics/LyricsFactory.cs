@@ -8,11 +8,8 @@ namespace Dopamine.Common.Api.Lyrics
 {
     public class LyricsFactory
     {
-        #region Variables
         private List<ILyricsApi> lyricsApis;
-        #endregion
 
-        #region Construction
         public LyricsFactory(int timeoutSeconds, string providers, ILocalizationInfo info)
         {
             lyricsApis = new List<ILyricsApi>();
@@ -24,9 +21,7 @@ namespace Dopamine.Common.Api.Lyrics
             if (providers.ToLower().Contains("xiamilyrics")) lyricsApis.Add(new XiamiLyricsApi(timeoutSeconds, info));
             if (providers.ToLower().Contains("neteaselyrics")) lyricsApis.Add(new NeteaseLyricsApi(timeoutSeconds, info));
         }
-        #endregion
 
-        #region Public
         public async Task<Lyrics> GetLyricsAsync(string artist, string title)
         {
             Lyrics lyrics = null;
@@ -48,9 +43,7 @@ namespace Dopamine.Common.Api.Lyrics
 
             return lyrics;
         }
-        #endregion
 
-        #region Private
         private ILyricsApi GetRandomApi()
         {
             ILyricsApi api = null;
@@ -65,6 +58,5 @@ namespace Dopamine.Common.Api.Lyrics
 
             return api;
         }
-        #endregion
     }
 }

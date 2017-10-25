@@ -7,7 +7,6 @@ namespace Dopamine.Common.Presentation.Views
 {
     public partial class PlaybackInfoControl : UserControl
     {
-        #region Dependency Properties
         public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register("TextAlignment", typeof(TextAlignment), typeof(PlaybackInfoControl), new PropertyMetadata(TextAlignment.Left));
         public static readonly DependencyProperty TitleFontSizeProperty = DependencyProperty.Register("TitleFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty TitleFontWeightProperty = DependencyProperty.Register("TitleFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
@@ -20,9 +19,7 @@ namespace Dopamine.Common.Presentation.Views
         public static readonly DependencyProperty TimeFontSizeProperty = DependencyProperty.Register("TimeFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty ShowAlbumInfoProperty = DependencyProperty.Register("ShowAlbumInfo", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
         public static readonly DependencyProperty IsTopAlignedProperty = DependencyProperty.Register("IsTopAligned", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
-        #endregion
-
-        #region Properties
+    
         public new object DataContext
         {
             get { return base.DataContext; }
@@ -112,13 +109,10 @@ namespace Dopamine.Common.Presentation.Views
 
             set { SetValue(IsTopAlignedProperty, value); }
         }
-        #endregion
-
-        #region Construction
+     
         public PlaybackInfoControl()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }

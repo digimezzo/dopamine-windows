@@ -37,14 +37,11 @@ namespace Dopamine.Common.Audio
 
     public class SpectrumAnalyzer : Control
     {
-        #region Constants
         private const double minDBValue = -90;
         private const double maxDBValue = 0;
         private const double dbScale = (maxDBValue - minDBValue);
         private const int defaultRefreshInterval = 25;
-        #endregion
 
-        #region Variables
         private readonly DispatcherTimer animationTimer;
         private Canvas spectrumCanvas;
         private ISpectrumPlayer soundPlayer;
@@ -60,10 +57,7 @@ namespace Dopamine.Common.Audio
         private int[] barIndexMax;
         private int[] barLogScaleIndexMax;
         private int peakFallDelay = 10;
-        #endregion
 
-        #region Dependency Properties
-        #region AnimationStyle
         public static readonly DependencyProperty AnimationStyleProperty = DependencyProperty.Register("AnimationStyle", typeof(SpectrumAnimationStyle), typeof(SpectrumAnalyzer), new PropertyMetadata(SpectrumAnimationStyle.Nervous, null));
 
         public SpectrumAnimationStyle AnimationStyle
@@ -77,9 +71,7 @@ namespace Dopamine.Common.Audio
                 SetValue(AnimationStyleProperty, value);
             }
         }
-        #endregion
 
-        #region BarBackground
         public static readonly DependencyProperty BarBackgroundProperty = DependencyProperty.Register("BarBackground", typeof(Brush), typeof(SpectrumAnalyzer), new PropertyMetadata(Brushes.White, OnBarBackgroundChanged));
 
         private static void OnBarBackgroundChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -106,9 +98,7 @@ namespace Dopamine.Common.Audio
                 SetValue(BarBackgroundProperty, value);
             }
         }
-        #endregion
 
-        #region BarWidth
         public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0, OnBarWidthChanged, OnCoerceBarWidth));
 
         private static object OnCoerceBarWidth(DependencyObject o, object value)
@@ -140,9 +130,7 @@ namespace Dopamine.Common.Audio
                 SetValue(BarWidthProperty, value);
             }
         }
-        #endregion
 
-        #region BarCount
         public static readonly DependencyProperty BarCountProperty = DependencyProperty.Register("BarCount", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(32, OnBarCountChanged, OnCoerceBarCount));
 
         private static object OnCoerceBarCount(DependencyObject o, object value)
@@ -180,9 +168,7 @@ namespace Dopamine.Common.Audio
                 SetValue(BarCountProperty, value);
             }
         }
-        #endregion
 
-        #region BarSpacing
         public static readonly DependencyProperty BarSpacingProperty = DependencyProperty.Register("BarSpacing", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(5.0d, OnBarSpacingChanged, OnCoerceBarSpacing));
 
         private static object OnCoerceBarSpacing(DependencyObject o, object value)
@@ -221,9 +207,7 @@ namespace Dopamine.Common.Audio
                 SetValue(BarSpacingProperty, value);
             }
         }
-        #endregion
 
-        #region RefreshInterval
         public static readonly DependencyProperty RefreshIntervalProperty = DependencyProperty.Register("RefreshInterval", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(defaultRefreshInterval, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
 
         private static object OnCoerceRefreshInterval(DependencyObject o, object value)
@@ -261,10 +245,7 @@ namespace Dopamine.Common.Audio
                 SetValue(RefreshIntervalProperty, value);
             }
         }
-        #endregion
-        #endregion
 
-        #region Construction
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumAnalyzer), new FrameworkPropertyMetadata(typeof(SpectrumAnalyzer)));
@@ -279,9 +260,7 @@ namespace Dopamine.Common.Audio
 
             this.animationTimer.Tick += animationTimer_Tick;
         }
-        #endregion
 
-        #region Overrides
         public override void OnApplyTemplate()
         {
             this.spectrumCanvas = (Canvas)GetTemplateChild("PART_SpectrumCanvas");
@@ -308,9 +287,7 @@ namespace Dopamine.Common.Audio
             this.UpdateBarLayout();
             this.UpdateSpectrum();
         }
-        #endregion
 
-        #region Public
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
             this.soundPlayer = soundPlayer;
@@ -318,9 +295,7 @@ namespace Dopamine.Common.Audio
             this.UpdateBarLayout();
             this.animationTimer.Start();
         }
-        #endregion
 
-        #region Private
         private void UpdateSpectrum()
         {
             if (this.soundPlayer == null || this.spectrumCanvas == null || this.spectrumCanvas.RenderSize.Width < 1 || this.spectrumCanvas.RenderSize.Height < 1) return;
@@ -475,9 +450,7 @@ namespace Dopamine.Common.Audio
 
             foreach (Shape shape in barShapes) this.spectrumCanvas.Children.Add(shape);
         }
-        #endregion
 
-        #region Event Handlers
         private void soundPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -497,6 +470,5 @@ namespace Dopamine.Common.Audio
         {
             this.UpdateBarLayout();
         }
-        #endregion
     }
 }

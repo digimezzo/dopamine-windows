@@ -14,7 +14,6 @@ namespace Dopamine.Common.Services.I18n
 {
     public class I18nService : II18nService
     {
-        #region Variables
         private string builtinLanguagesDirectory = System.IO.Path.Combine(ApplicationPaths.ExecutionFolder, ApplicationPaths.BuiltinLanguagesFolder);
         private string customLanguagesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CustomLanguagesFolder);
         private List<Language> languages;
@@ -22,9 +21,7 @@ namespace Dopamine.Common.Services.I18n
         private FileSystemWatcher languageWatcher;
         private Timer languageTimer = new Timer();
         private double languageTimeoutSeconds = 0.2;
-        #endregion
-
-        #region Construction
+   
         public I18nService()
         {
             // Initialize the CustomLanguages directory
@@ -54,9 +51,7 @@ namespace Dopamine.Common.Services.I18n
             this.languageWatcher.Created += new FileSystemEventHandler(WatcherChangedHandler);
             this.languageWatcher.Renamed += new RenamedEventHandler(WatcherRenamedHandler);
         }
-        #endregion
-
-        #region II18nService
+    
         public async Task ApplyLanguageAsync(string code, bool raiseEvent = false)
         {
             await Task.Run(() =>
@@ -97,9 +92,7 @@ namespace Dopamine.Common.Services.I18n
 
             return this.defaultLanguage;
         }
-        #endregion
-
-        #region Private
+    
         private Language CreateLanguage(string languageFile)
         {
             XDocument xdoc = XDocument.Load(languageFile);
@@ -196,14 +189,10 @@ namespace Dopamine.Common.Services.I18n
                 return this.defaultLanguage.Texts[key];
             }
         }
-        #endregion
-
-        #region Events
+     
         public event EventHandler LanguagesChanged = delegate { };
         public event EventHandler LanguageChanged = delegate { };
-        #endregion
-
-        #region Event Handlers
+       
         private void WatcherChangedHandler(object sender, FileSystemEventArgs e)
         {
             // Using a Timer here prevents that consecutive WatcherChanged events trigger multiple CustomLanguagesChanged events
@@ -227,6 +216,5 @@ namespace Dopamine.Common.Services.I18n
                 this.LanguagesChanged(this, new EventArgs());
             });
         }
-        #endregion
     }
 }
