@@ -13,7 +13,6 @@ namespace Dopamine.Common.Services.Shell
 
     public interface IShellService
     {
-        void SetPlayerPages(string nowPlayingPage, string fullPlayerPage, string coverPlayerPage, string microplayerPage, string nanoPlayerPage);
         void CheckIfTabletMode(bool isInitializing);
         void ForceFullPlayer();
         void SaveWindowLocation(double top, double left, WindowState state);

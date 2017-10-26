@@ -56,8 +56,7 @@ namespace Dopamine.Views
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
             INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
-            IPlaybackService playbackService, IMetadataService metadataService, IShellService shellService,
-            IEventAggregator eventAggregator)
+            IPlaybackService playbackService, IMetadataService metadataService, IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
@@ -68,8 +67,15 @@ namespace Dopamine.Views
             this.playbackService = playbackService;
             this.metadataService = metadataService;
             this.appearanceService = appearanceService;
-            this.shellService = shellService;
             this.eventAggregator = eventAggregator;
+
+            this.shellService = container.Resolve<IShellService>(
+                new ParameterOverride("nowPlayingPage", typeof(NowPlaying.NowPlaying).FullName),
+                new ParameterOverride("fullPlayerPage", typeof(FullPlayer.FullPlayer).FullName),
+                new ParameterOverride("coverPlayerPage", typeof(CoverPlayer).FullName),
+                new ParameterOverride("microplayerPage", typeof(MicroPlayer).FullName),
+                new ParameterOverride("nanoPlayerPage", typeof(NanoPlayer).FullName)
+                );
 
             this.InitializeServices();
             this.InitializeWindow();
@@ -318,14 +324,6 @@ namespace Dopamine.Views
 
         private void InitializeServices()
         {
-            // IShellService
-            this.shellService.SetPlayerPages(
-                typeof(NowPlaying.NowPlaying).FullName,
-                typeof(FullPlayer.FullPlayer).FullName,
-                typeof(CoverPlayer).FullName,
-                typeof(MicroPlayer).FullName,
-                typeof(NanoPlayer).FullName);
-
             // IWin32InputService
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
             this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();

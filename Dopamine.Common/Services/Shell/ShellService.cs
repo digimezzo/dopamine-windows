@@ -45,12 +45,17 @@ namespace Dopamine.Common.Services.Shell
         public DelegateCommand ToggleMiniPlayerPositionLockedCommand { get; set; }
         public DelegateCommand ToggleMiniPlayerAlwaysOnTopCommand { get; set; }
 
-        public ShellService(IRegionManager regionManager, IWindowsIntegrationService windowsIntegrationService,
-            IEventAggregator eventAggregator)
+        public ShellService(IRegionManager regionManager, IWindowsIntegrationService windowsIntegrationService, IEventAggregator eventAggregator,
+            string nowPlayingPage, string fullPlayerPage, string coverPlayerPage, string microplayerPage, string nanoPlayerPage)
         {
             this.regionManager = regionManager;
             this.windowsIntegrationService = windowsIntegrationService;
             this.eventAggregator = eventAggregator;
+             this.nowPlayingPage = nowPlayingPage;
+            this.fullPlayerPage = fullPlayerPage;
+            this.coverPlayerPage = coverPlayerPage;
+            this.microplayerPage = microplayerPage;
+            this.nanoPlayerPage = nanoPlayerPage;
 
             this.ShowNowPlayingCommand = new DelegateCommand(() =>
             {
@@ -118,15 +123,6 @@ namespace Dopamine.Common.Services.Shell
                 this.SetWindowTopmostFromSettings();
             });
             ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
-        }
-
-        public void SetPlayerPages(string nowPlayingPage, string fullPlayerPage, string coverPlayerPage, string microplayerPage, string nanoPlayerPage)
-        {
-            this.nowPlayingPage = nowPlayingPage;
-            this.fullPlayerPage = fullPlayerPage;
-            this.coverPlayerPage = coverPlayerPage;
-            this.microplayerPage = microplayerPage;
-            this.nanoPlayerPage = nanoPlayerPage;
         }
 
         private void TogglePlayer()
