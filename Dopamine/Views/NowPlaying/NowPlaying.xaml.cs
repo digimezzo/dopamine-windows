@@ -58,6 +58,7 @@ namespace Dopamine.Views.NowPlaying
         private void NowPlaying_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.AlignSpectrumAnalyzer();
+            this.AlignBackgroundCoverArt();
         }
 
         private void AlignSpectrumAnalyzer()
@@ -68,6 +69,18 @@ namespace Dopamine.Views.NowPlaying
             try
             {
                 this.SpectrumAnalyzer.Margin = new Thickness(Convert.ToInt32(this.ActualWidth / 2) - Convert.ToInt32(this.SpectrumAnalyzer.ActualWidth / 2), 0, 0, 0);
+            }
+            catch (Exception)
+            {
+                // Swallow this exception
+            }
+        }
+
+        private void AlignBackgroundCoverArt()
+        {
+            try
+            {
+                this.BackgroundCoverArtControl.Margin = new Thickness(0, -Convert.ToInt32(this.ActualHeight / 2), 0, 0);
             }
             catch (Exception)
             {

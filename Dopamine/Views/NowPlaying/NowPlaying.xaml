@@ -19,7 +19,7 @@
 
     <Grid>
         <!-- Background -->
-        <commonviews:BackgroundCoverArtControl Panel.ZIndex="0"/>
+        <commonviews:BackgroundCoverArtControl x:Name="BackgroundCoverArtControl" Panel.ZIndex="0"/>
         <DockPanel Panel.ZIndex="1">
             <!-- Titlebar -->
             <Border DockPanel.Dock="Top" HorizontalAlignment="Stretch">
