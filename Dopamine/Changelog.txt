@@ -1,49 +1,34 @@
 2017-10-26: Dopamine 1.4.1
 --------------------------
 
-- [Changed] Updated the Russian translation
-- [Changed] Updated the Spanish translation
-- [Changed] Updated the Swedish translation
-- [Changed] Updated the Chinese (Simplified)
-- [Fixed] Media keys don't work correctly when the System notification is enabled
-- [Fixed] Window is restored behind the task bar when double clicking tray icon
-
-
-2017-10-04: Dopamine 1.4 Build 958 (Preview)
---------------------------------------------
-
-- [Fixed] Crash when starting on non-Windows 10 systems
-- [Fixed] Missing text in Settings > Collection > Refresh
-- [Fixed] Missing text in Information > Help
-- [Fixed] Indexer starts even when disabled in the settings
-- [Fixed] Indexer starts too often due to corrupt or unreadable files
-
-
-2017-09-27: Dopamine 1.4 Build 952 (Preview)
---------------------------------------------
-
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
 - [Added] Added option to use native Windows 10 notifications
 - [Added] The artists information screen now shows an image for similar artists
 - [Added] Added option to toggle display of song covers in playlists and Now playing
 - [Added] Added an external control API (Remote control can be enabled in Settings > Playback > External control). 
           For developers, see https://github.com/Magentaize/Dopamine-ExternalControl-Support
+- [Changed] Updated the Russian translation
+- [Changed] Updated the Spanish translation
+- [Changed] Updated the Swedish translation
+- [Changed] Updated the Chinese (Simplified)
 - [Changed] Updated the German translation
 - [Changed] Removed the splash screen
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 - [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
+- [Fixed] Indexer starts even when disabled in the settings
+- [Fixed] Indexer starts too often due to corrupt or unreadable files
+- [Fixed] Window is restored behind the task bar when double clicking tray icon
 - [Fixed] "Unknown artist", "Unknown album", "Unknown genre" are not translated
 - [Fixed] Fixed multiple issues when removing songs from Now Playing
 - [Fixed] Fixed a crash when moving mini players around when the playlist window is opened
 - [Fixed] It is possible to scrobble tracks by skipping to the end of the track
 - [Fixed] Tracks on the playlists screen are not cleared when the last playlist is deleted
 - [Fixed] Unable to type underscore in Last.fm user field
-- [Fixed] Window resizes behind Windows Task bar
 - [Fixed] Crash when attempting to jump to albums using key presses
 
 
-2017-07-07: Dopamine 1.3 Build 927 (Release)
---------------------------------------------
+2017-07-07: Dopamine 1.3
+------------------------
 
 Disclaimer:  
 
@@ -100,22 +85,22 @@ playlists after upgrading to this version.
 - [Fixed] Play next doesn't work correctly when shuffle is enabled
 
 
-2017-01-03: Dopamine 1.2.4 Build 862 (Release)
-----------------------------------------------
+2017-01-03: Dopamine 1.2.4
+--------------------------
 
 - [Fixed] Artists are not sorted alphabetically
 - [Fixed] "Shuffle all" doesn't shuffle
 
 
-2017-01-01: Dopamine 1.2.3 Build 860 (Release)
-----------------------------------------------
+2017-01-01: Dopamine 1.2.3
+--------------------------
 
 - [Fixed] Instability on 32-bit Windows versions
 - [Fixed] Fixed a bug in the Artists sorting
 
 
-2016-12-30: Dopamine 1.2.2 Build 857 (Release)
-----------------------------------------------
+2016-12-30: Dopamine 1.2.2
+--------------------------
 
 Disclaimer: 
 
@@ -131,14 +116,14 @@ That is expected, and caused by changes to the installer, see (*). Please don't 
 - [Fixed] (*) Hopefully fixed an issue with the installer, which caused missing files on some computers (I hate Windows installer).
 
 
-2016-12-24: Dopamine 1.2.1 Build 846 (Release)
-----------------------------------------------
+2016-12-24: Dopamine 1.2.1
+--------------------------
 
 - [Fixed] A bug where the installer fails to upgrade from a previous version
 
 
-2016-12-24: Dopamine 1.2 Build 845 (Release)
---------------------------------------------
+2016-12-24: Dopamine 1.2
+------------------------
 
 - [Added] The last played song and its progress is now optionally remembered on next start
 - [Added] Added "Play next" feature
@@ -198,15 +183,15 @@ That is expected, and caused by changes to the installer, see (*). Please don't 
 - [Fixed] Windows case insensitivity for files and folder names isn't respected
 
 
-2016-09-11: Dopamine 1.1.1 Build 711 (Release)
-----------------------------------------------
+2016-09-11: Dopamine 1.1.1
+--------------------------
 
 - [Changed] Updated the Portuguese translation
 - [Fixed] Dopamine is not running as a 64 bit application on 64 bit systems
 
 
-2016-09-09: Dopamine 1.1 Build 710 (Release)
---------------------------------------------
+2016-09-09: Dopamine 1.1
+------------------------
 
 - [Changed] Dopamine was translated from VB.NET to C# and is now Open Source Software! Source code: https://github.com/digimezzo/Dopamine
 - [Changed] This version requires .NET Framework 4.6.1
@@ -237,8 +222,8 @@ That is expected, and caused by changes to the installer, see (*). Please don't 
 - [Fixed] Bluetooth headset play/pause button not detected
 
 
-2016-06-29: Dopamine 1.0 Build 660 (Release)
---------------------------------------------
+2016-06-29: Dopamine 1.0
+------------------------
 
 - Final 1.0 release!
 - Modern design with dynamic User Interface
