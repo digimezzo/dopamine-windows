@@ -10,16 +10,7 @@ namespace Dopamine.Packager
         {
             Assembly asm = Assembly.GetEntryAssembly();
             AssemblyName an = asm.GetName();
-
-            Configuration config;
-
-#if DEBUG
-            config = Configuration.Debug;
-#else
-		   config = Configuration.Release;
-#endif
-
-            var worker = new PackageCreator(ProductInformation.ApplicationName, an.Version, config);
+            var worker = new PackageCreator(ProductInformation.ApplicationName, an.Version, Configuration.Release);
             worker.Execute();
         }
     }

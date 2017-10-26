@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>93</Value>
+      <Value>94</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -165,9 +165,6 @@
   </Namespace>
   <Namespace Name="Updates">
     <Setting Name="CheckForUpdates">
-      <Value>False</Value>
-    </Setting>
-    <Setting Name="AlsoCheckForPreReleases">
       <Value>False</Value>
     </Setting>
     <Setting Name="AutomaticDownload">

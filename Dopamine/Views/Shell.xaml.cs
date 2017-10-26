@@ -25,7 +25,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
@@ -281,7 +280,7 @@ namespace Dopamine.Views
             this.shellService.ShowWindowControlsChanged += (_, e) => this.ShowWindowControls = e.ShowWindowControls;
 
             this.shellService.GeometryChanged += (_, e) => this.SetGeometry(
-                e.Top, e.Left, e.Size.Width, e.Size.Height, 
+                e.Top, e.Left, e.Size.Width, e.Size.Height,
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
 
@@ -325,7 +324,10 @@ namespace Dopamine.Views
         private void InitializeServices()
         {
             // IWin32InputService
+#if !DEBUG
+            // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
+#endif
             this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
             this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();
             this.win32InputService.MediaKeyPlayPressed += async (_, __) => await this.playbackService.PlayOrPauseAsync();
@@ -389,7 +391,10 @@ namespace Dopamine.Views
             this.trayIcon.Visible = false;
 
             // Stop listening to keyboard outside the application
+#if !DEBUG
+            // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
             this.win32InputService.UnhookKeyboard();
+#endif
 
             // This makes sure the application doesn't keep running when the main window is closed.
             // Extra windows created by the main window can keep a WPF application running even when
