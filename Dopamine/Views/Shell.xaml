@@ -60,30 +60,8 @@
     </controls:DopamineWindow.Resources>
 
     <controls:DopamineWindow.WindowCommands>
-        <StackPanel Orientation="Horizontal">
-            <!-- Log file -->
-            <Button 
-                x:Name="PART_LogfileButton" 
-                Style="{StaticResource WindowButton}" 
-                Width="{x:Static base:Constants.DefaultWindowButtonWidth}" 
-                Height="{x:Static base:Constants.DefaultWindowButtonHeight}" 
-                BorderBrush="{x:Null}" 
-                BorderThickness="0" 
-                Background="{x:Null}" 
-                ToolTip="{DynamicResource Language_Log_File}" 
-                Command="{Binding ShowLogfileCommand}"
-                Visibility="{Binding IsPreview,Converter={StaticResource BooleanToCollapsedConverter}}">
-                <Button.Content>
-                    <TextBlock 
-                        Style="{StaticResource FontAwesome}" 
-                        Text="&#xf188;"
-                        FontSize="16" 
-                        HorizontalAlignment="center" 
-                        VerticalAlignment="Center"/>
-                </Button.Content>
-            </Button>
-            <!-- Mini Player switch button -->
-            <Button 
+        <!-- Mini Player switch button -->
+        <Button 
                 x:Name="PART_MiniPlayerButton" 
                 Style="{StaticResource WindowButton}" 
                 Width="{x:Static base:Constants.DefaultWindowButtonWidth}" 
@@ -93,14 +71,13 @@
                 Background="{x:Null}" 
                 ToolTip="{DynamicResource Language_Mini_Player}" 
                 Command="{x:Static commonprism:ApplicationCommands.TogglePlayerCommand}">
-                <Path x:Name="Icon" Data="{StaticResource MiniPlayer}"
+            <Path x:Name="Icon" Data="{StaticResource MiniPlayer}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
                                 VerticalAlignment="Center"
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
-            </Button>
-        </StackPanel>
+        </Button>
     </controls:DopamineWindow.WindowCommands>
 
     <!--  TaskbarItemInfo -->

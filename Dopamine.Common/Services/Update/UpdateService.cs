@@ -22,7 +22,6 @@ namespace Dopamine.Common.Services.Update
         private string updatesSubDirectory;
         private bool canCheckForUpdates;
         private bool checkingForUpdates;
-        private bool checkForPreReleases;
         private bool automaticDownload;
         private Timer checkNewVersionTimer = new Timer();
         private WebClient downloadClient;
@@ -34,7 +33,7 @@ namespace Dopamine.Common.Services.Update
             this.updatesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.UpdatesFolder);
             this.canCheckForUpdates = false;
         }
-       
+
         private Package CreateDummyPackage()
         {
             return new Package(ProductInformation.ApplicationName, new Version("0.0.0.0"), Configuration.Debug);
@@ -75,7 +74,7 @@ namespace Dopamine.Common.Services.Update
         private async Task<Package> GetLatestOnlineVersionAsync()
         {
             // Dummy package. If the version remains 0.0.0.0, there is no update available
-            var onlineVersion = this.CreateDummyPackage();
+            var lastestVersion = this.CreateDummyPackage();
 
             await Task.Run(() =>
             {
@@ -99,67 +98,18 @@ namespace Dopamine.Common.Services.Update
                                             orderby v.Value
                                             select v).ToList();
 
-                    var foundPreReleases = new List<Package>();
-                    var foundReleases = new List<Package>();
+                    var foundVersions = new List<Package>();
 
-                    // Make lists of all found PreReleases and Releases
+                    // Iterate over all versions to find the latest version
                     foreach (XElement el in versionXElements)
                     {
                         Package pa = this.XElement2Package(el);
 
-                        if (this.IsValidVersion(pa.Version))
+                        if (this.IsValidVersion(pa.Version) && lastestVersion.IsOlder(pa))
                         {
-                            if (pa.Configuration == Configuration.Debug)
-                            {
-                                foundPreReleases.Add(pa);
-                            }
-                            else if (pa.Configuration == Configuration.Release)
-                            {
-                                foundReleases.Add(pa);
-                            }
+                            lastestVersion = pa;
                         }
                     }
-
-                    // Create 2 dummy versions to compare during the first round
-                    var lastestPreRelease = this.CreateDummyPackage();
-                    var lastestRelease = this.CreateDummyPackage();
-
-                    // Find the latest PreRelease
-                    foreach (Package foundPreRelease in foundPreReleases)
-                    {
-                        if (lastestPreRelease.IsOlder(foundPreRelease))
-                        {
-                            lastestPreRelease = foundPreRelease;
-                        }
-                    }
-
-                    // Find the latest Release
-                    foreach (Package foundRelease in foundReleases)
-                    {
-                        if (lastestRelease.IsOlder(foundRelease))
-                        {
-                            lastestRelease = foundRelease;
-                        }
-                    }
-
-                    // Then only check for new PreReleases if the user specified to check for PreReleases
-
-                    if (this.checkForPreReleases)
-                    {
-                        if (lastestPreRelease.IsOlder(lastestRelease))
-                        {
-                            onlineVersion = lastestRelease;
-                        }
-                        else
-                        {
-                            onlineVersion = lastestPreRelease;
-                        }
-                    }
-                    else
-                    {
-                        onlineVersion = lastestRelease;
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -167,7 +117,7 @@ namespace Dopamine.Common.Services.Update
                 }
             });
 
-            return onlineVersion;
+            return lastestVersion;
         }
 
         private async Task<bool> TryCreateUpdatesSubDirectoryAsync()
@@ -438,11 +388,11 @@ namespace Dopamine.Common.Services.Update
             // ----------------------------------------------------
             this.checkNewVersionTimer.Start();
         }
-   
+
         public void EnableUpdateCheck()
         {
             // Log that we start checking for updates
-            LogClient.Info("Update check: checking for updates. AlsoCheckForPreReleases = {0}", this.checkForPreReleases.ToString());
+            LogClient.Info("Update check: checking for updates.");
 
             // We can check for updates
             this.canCheckForUpdates = true;
@@ -452,7 +402,6 @@ namespace Dopamine.Common.Services.Update
 
             // Set flags based on update settings
             this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Configuration", "IsPortable");
-            this.checkForPreReleases = SettingsClient.Get<bool>("Updates", "AlsoCheckForPreReleases");
 
             // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
             if (!this.checkingForUpdates) this.CheckForUpdatesAsync();
@@ -465,12 +414,12 @@ namespace Dopamine.Common.Services.Update
 
             this.UpdateCheckDisabled(this, null);
         }
-     
+
         public event Action<Package, string> NewDownloadedVersionAvailable = delegate { };
         public event Action<Package> NewOnlineVersionAvailable = delegate { };
         public event Action<Package> NoNewVersionAvailable = delegate { };
         public event EventHandler UpdateCheckDisabled = delegate { };
-    
+
         public void CheckNewVersionTimerHandler(object sender, ElapsedEventArgs e)
         {
             // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
