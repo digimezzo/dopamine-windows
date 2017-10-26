@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Presentation.Views;
@@ -83,6 +82,7 @@ namespace Dopamine.Common.Services.Shell
                 }
             });
             ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
+            
             // Mini Player Playlist
             this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
