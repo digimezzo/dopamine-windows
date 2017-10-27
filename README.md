@@ -10,6 +10,10 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 [![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
+## IMPORTANT ##
+
+This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a>
+
 ## How to correctly report a bug? ##
 
 Some bugs are very subtle and occur only after a specific sequence of events. So, when reporting a bug, it is important that you describe the sequence of events which led to the bug. It's simple: a bug that cannot be reproduced, cannot be fixed.
