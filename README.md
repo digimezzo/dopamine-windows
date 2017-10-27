@@ -10,7 +10,7 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 [![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
-## IMPORTANT ##
+## Important ##
 
 This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a>
 
