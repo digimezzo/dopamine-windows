@@ -12,7 +12,9 @@
         <Directory>Languages</Directory>
         <Directory>x64</Directory>
         <Directory>x86</Directory>
-        <Directory>FFmpeg</Directory>
+        <Directory>FFmpeg\bin\windows\x64</Directory>
+        <Directory>FFmpeg\bin\windows\x86</Directory>
+        <Directory>FFmpeg\src</Directory>
       </Directories>
       <Files>
         <File>Dopamine.exe</File>
