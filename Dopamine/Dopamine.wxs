@@ -55,6 +55,29 @@
       <!-- Program Files -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLFOLDER" Name="$(var.Product)">
+          <!-- Ffmpeg -->
+          <Directory Id="FFMPEGFOLDER" Name="FFmpeg">
+            <Directory Id="FFMPEGBINFOLDER" Name="bin">
+              <Directory Id="FFMPEGBINWINDOWSFOLDER" Name="windows">
+                <Directory Id="FFMPEGBINWINDOWSX64FOLDER" Name="x64">
+                  <Component Id="FFMPEGX64CMP" DiskId="1" Guid="A212950C-30F5-4130-9BC0-431DE13E9A40">
+                    <File Id="AVCODECX64" Source="FFmpeg\bin\windows\x64\avcodec-57.dll" />
+                    <File Id="AVFORMATX64" Source="FFmpeg\bin\windows\x64\avformat-57.dll" />
+                    <File Id="AVUTILX64" Source="FFmpeg\bin\windows\x64\avutil-55.dll" />
+                    <File Id="SWRESAMPLEX64" Source="FFmpeg\bin\windows\x64\swresample-2.dll" />
+                  </Component>
+                </Directory>
+                <Directory Id="FFMPEGBINWINDOWSX86FOLDER" Name="x86">
+                  <Component Id="FFMPEGX86CMP" DiskId="1" Guid="DCB59B57-7456-4F78-A919-5F0B9D35FF1C">
+                    <File Id="AVCODECX86" Source="FFmpeg\bin\windows\x86\avcodec-57.dll" />
+                    <File Id="AVFORMATX86" Source="FFmpeg\bin\windows\x86\avformat-57.dll" />
+                    <File Id="AVUTILX86" Source="FFmpeg\bin\windows\x86\avutil-55.dll" />
+                    <File Id="SWRESAMPLEX86" Source="FFmpeg\bin\windows\x86\swresample-2.dll" />
+                  </Component>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
           <!-- SQLite -->
           <Directory Id="X64FOLDER" Name="x64">
             <Component Id="X64CMP" DiskId="1" Guid="89332F0B-AF41-49AC-9B8D-D1E8AD9E50F1">
@@ -66,6 +89,7 @@
               <File Id="ESQLITEX86" Source="x86\esqlite3.dll" />
             </Component>
           </Directory>
+          <!-- Icons -->
           <Directory Id="ICONSFOLDER" Name="Icons">
             <Component Id="ICONSCMP" DiskId="1" Guid="69CA5CE5-F8DF-45E3-A6A1-837785389740">
               <File Source="Icons\Dopamine.ico" />
@@ -152,6 +176,7 @@
             <File Source="Dopamine.Common.dll" />
             <File Source="Dopamine.Icons.dll" />
             <File Source="CSCore.dll" />
+            <File Source="CSCore.Ffmpeg.dll" />
             <File Source="GongSolutions.WPF.DragDrop.dll" />
             <File Source="Ionic.Zip.dll" />
             <File Source="NVorbis.dll" />
@@ -233,6 +258,8 @@
     <!-- Components to add -->
     <!-- ================= -->
     <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+      <ComponentRef Id="FFMPEGX64CMP" />
+      <ComponentRef Id="FFMPEGX86CMP" />
       <ComponentRef Id="ICONSCMP" />
       <ComponentRef Id="LANGUAGESCMP" />
       <ComponentRef Id="EQUALIZERCMP" />

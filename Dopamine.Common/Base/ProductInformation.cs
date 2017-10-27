@@ -28,6 +28,13 @@ namespace Dopamine.Common.Base
             },
             new ExternalComponent
             {
+                Name = "FFmpeg",
+                Description = "A complete, cross-platform solution to record, convert and stream audio and video.",
+                Url = "https://www.ffmpeg.org/",
+                LicenseUrl = "https://www.ffmpeg.org/legal.html"
+            },
+            new ExternalComponent
+            {
                 Name = "Font Awesome",
                 Description = "Font Awesome by Dave Gandy.",
                 Url = "http://fontawesome.io",

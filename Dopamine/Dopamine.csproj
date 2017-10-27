@@ -46,7 +46,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
-      <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="CSCore.Ffmpeg, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\CSCore.Ffmpeg.dll</HintPath>
     </Reference>
     <Reference Include="Digimezzo.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Digimezzo.WPFControls, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -390,6 +395,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="FFmpeg\bin\windows\x64\avcodec-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x64\avformat-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x64\avutil-55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x64\swresample-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x86\avcodec-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x86\avformat-57.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x86\avutil-55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FFmpeg\bin\windows\x86\swresample-2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\Dopamine - White.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -502,6 +531,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Libraries\CSCore.dll" />
+    <Content Include="Libraries\CSCore.Ffmpeg.dll" />
     <Content Include="Libraries\Digimezzo.Utilities.dll" />
     <Content Include="Libraries\Digimezzo.WPFControls.dll" />
     <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
