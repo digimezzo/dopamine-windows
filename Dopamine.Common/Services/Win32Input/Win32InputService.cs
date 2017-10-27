@@ -22,6 +22,10 @@ namespace Dopamine.Common.Services.Win32Input
 
         public void SetKeyboardHook(IntPtr hWnd)
         {
+#if DEBUG
+            // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
+            return;
+#endif
             if (this.lowLevelManager == null)
             {
                 this.lowLevelManager = new LowLevelKeyboardHookManager();
@@ -75,6 +79,10 @@ namespace Dopamine.Common.Services.Win32Input
 
         public void UnhookKeyboard()
         {
+#if DEBUG
+            // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
+            return;
+#endif
             this.lowLevelManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
             this.lowLevelManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
             this.lowLevelManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
