@@ -20,6 +20,13 @@ namespace Dopamine.Common.Base
             },
             new ExternalComponent
             {
+                Name = "CSCore.Ffmpeg",
+                Description = "A free .NET audio library which is completely written in C#.",
+                Url = "https://github.com/filoe/cscore/tree/master/CSCore.Ffmpeg",
+                LicenseUrl = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
+            },
+            new ExternalComponent
+            {
                 Name = "DotNetZip",
                 Description =
                     "A FAST, FREE class library and toolset for manipulating zip files. Use VB, C# or any .NET language to easily create, extract, or update zip files.",

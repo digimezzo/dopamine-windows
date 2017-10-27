@@ -77,6 +77,11 @@
                 </Directory>
               </Directory>
             </Directory>
+            <Directory Id="FFMPEGSRCFOLDER" Name="src">
+              <Component Id="FFMPEGSRCCMP" DiskId="1" Guid="E9069F72-392F-48F8-BCD4-6383582CA259">
+                <File Id="FFMPEGSOURCE" Source="FFmpeg\src\ffmpeg-source.zip" />
+              </Component>
+            </Directory>
           </Directory>
           <!-- SQLite -->
           <Directory Id="X64FOLDER" Name="x64">
@@ -258,6 +263,7 @@
     <!-- Components to add -->
     <!-- ================= -->
     <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+      <ComponentRef Id="FFMPEGSRCCMP" />
       <ComponentRef Id="FFMPEGX64CMP" />
       <ComponentRef Id="FFMPEGX86CMP" />
       <ComponentRef Id="ICONSCMP" />
