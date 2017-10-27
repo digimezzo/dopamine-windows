@@ -1,4 +1,5 @@
 ﻿using CSCore;
+using CSCore.Ffmpeg;
 using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
@@ -244,18 +245,8 @@ namespace Dopamine.Common.Audio
         {
             IWaveSource waveSource;
 
-            if (System.IO.Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
-            {
-                // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
-                // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
-                // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
-                waveSource = new MediaFoundationDecoder(this.filename);
-            }
-            else
-            {
-                // Other file formats are using the default decoders
-                waveSource = CodecFactory.Instance.GetCodec(this.filename);
-            }
+            //waveSource = this.GetMediaFoundationDecoder(this.filename);
+            waveSource = this.GetFfmpegDecoder(this.filename);
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
             // The sample rate has to be bigger than 2 * frequency.
@@ -265,6 +256,25 @@ namespace Dopamine.Common.Audio
                 .ToSampleSource()
                 .AppendSource(this.Create10BandEqualizer, out this.equalizer)
                 .ToWaveSource();
+        }
+
+        private IWaveSource GetMediaFoundationDecoder(string filename)
+        {
+            if (System.IO.Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
+            {
+                // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
+                // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
+                // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
+                return new MediaFoundationDecoder(this.filename);
+            }
+
+            // Other file formats are using the default decoders
+            return CodecFactory.Instance.GetCodec(this.filename);
+        }
+
+        private IWaveSource GetFfmpegDecoder(string filename)
+        {
+            return new FfmpegDecoder(this.filename);
         }
 
         public void SetVolume(float volume)
