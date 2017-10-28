@@ -92,7 +92,6 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AudioFormatsMediaFoundation.cs" />
     <Compile Include="LastfmApi.cs" />
     <Compile Include="LyricsApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,24 +105,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\AudioFormats\test.m4a">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test4.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Files\AudioFormats\test.ogg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test2.ogg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test3.ogg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Files\PlaylistDecoder\Test.zpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -134,21 +118,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Files\AudioFormats\test.flac">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test.wma">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test2.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Files\AudioFormats\test3.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Files\PlaylistDecoder\Test.m3u">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

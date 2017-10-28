@@ -540,7 +540,6 @@
     <Content Include="Libraries\Digimezzo.WPFControls.dll" />
     <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
     <Content Include="Libraries\Ionic.Zip.dll" />
-    <Content Include="Libraries\NVorbis.dll" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />
     <Content Include="Libraries\WPFFolderBrowser.dll" />
     <Content Include="License.txt">

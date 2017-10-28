@@ -91,10 +91,6 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NVorbis, Version=0.8.4.0, Culture=neutral, PublicKeyToken=e7dadb4589580e40, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dopamine\Libraries\NVorbis.dll</HintPath>
-    </Reference>
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
@@ -172,7 +168,6 @@
     <Compile Include="Audio\IPlayer.cs" />
     <Compile Include="Audio\IPlayerFactory.cs" />
     <Compile Include="Audio\ISpectrumPlayer.cs" />
-    <Compile Include="Audio\NVorbisSource.cs" />
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
     <Compile Include="Audio\SpectrumAnalyzer.cs" />
