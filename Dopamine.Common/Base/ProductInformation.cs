@@ -36,9 +36,9 @@ namespace Dopamine.Common.Base
             new ExternalComponent
             {
                 Name = "FFmpeg",
-                Description = "A complete, cross-platform solution to record, convert and stream audio and video.",
-                Url = "https://www.ffmpeg.org/",
-                LicenseUrl = "https://www.ffmpeg.org/legal.html"
+                Description = "A collection of libraries and tools to process multimedia content such as audio, video, subtitles and related metadata.",
+                Url = "https://github.com/FFmpeg/FFmpeg",
+                LicenseUrl = "https://github.com/FFmpeg/FFmpeg/blob/master/LICENSE.md"
             },
             new ExternalComponent
             {
