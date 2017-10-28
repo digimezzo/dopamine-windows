@@ -7,7 +7,7 @@
 - [Added] Added option to toggle display of song covers in playlists and Now playing
 - [Added] Added an external control API (Remote control can be enabled in Settings > Playback > External control). 
           For developers, see https://github.com/Magentaize/Dopamine-ExternalControl-Support
-- [Changed] Updated audio engine to CSCore 1.2.1.2. Audio decoding is now done by FFmpeg.
+- [Changed] Updated audio engine to CSCore 1.2.1.2 and changed the audio decoder.
 - [Changed] Updated the Russian translation
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Swedish translation
