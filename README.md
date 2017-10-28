@@ -12,7 +12,7 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 
 ## Important ##
 
-This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a>
+This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a> and <a href="https://github.com/digimezzo/Dopamine/tree/master/Dopamine/FFmpeg/src">here</a>
 
 ## How to correctly report a bug? ##
 
