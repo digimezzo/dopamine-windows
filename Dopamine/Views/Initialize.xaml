@@ -1,4 +1,4 @@
-﻿<controls:DopamineWindow x:Class="Dopamine.Views.Update"
+﻿<controls:DopamineWindow x:Class="Dopamine.Views.Initialize"
                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,7 @@
                          ShowWindowControls="False"
                          Loaded="Window_Loaded"
                          WindowStartupLocation="CenterScreen"
-                         prismMvvm:ViewModelLocator.AutoWireViewModel="False">
+                         prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel HorizontalAlignment="Center">
         <dc:ProgressRing Panel.ZIndex="1" 
@@ -22,6 +22,6 @@
                          Foreground="#1D7DD4" 
                          IsActive="{Binding IsBusy}" 
                          Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-        <TextBlock Text="Updating Dopamine" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="22" FontWeight="Light" Foreground="White"/>
+        <TextBlock Text="{Binding InitializeText}" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="22" FontWeight="Light" Foreground="White"/>
     </DockPanel>
 </controls:DopamineWindow>

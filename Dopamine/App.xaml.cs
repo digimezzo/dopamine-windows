@@ -60,8 +60,8 @@ namespace Dopamine
             if (this.IsUpdateNeeded())
             {
                 // Show the Update Window
-                Window updateWin = new Update();
-                updateWin.Show();
+                Window initWin = new Initialize();
+                initWin.Show();
             }
             else
             {
