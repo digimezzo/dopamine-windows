@@ -291,6 +291,9 @@
     <Compile Include="Views\Common\TrayControls.xaml.cs">
       <DependentUpon>TrayControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Update.xaml.cs">
+      <DependentUpon>Update.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WcfServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -699,6 +702,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Common\TrayControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Update.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

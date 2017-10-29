@@ -37,15 +37,15 @@ namespace Dopamine.Views
             }
         }
 
-        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            // Prevent the Oobe window from appearing the next time the application is started
+            // Prevent the OOBE window from appearing the next time the application is started
             SettingsClient.Set<bool>("General", "ShowOobe", false);
 
-            // Closing the Oobe windows, must show the main window
+            // Closing the OOBE window, must show the main window.
             Application.Current.MainWindow.Show();
 
-            // We're closing the OOBE screen, tell the IndexingService to start checking the collection.
+            // We're closing the OOBE window, tell the IndexingService to start checking the collection.
             this.indexingService.RefreshCollectionImmediatelyAsync();
         }
 

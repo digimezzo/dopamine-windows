@@ -988,7 +988,7 @@ namespace Dopamine.Common.Database
             }
         }
   
-        public void Initialize()
+        public void Migrate()
         {
             try
             {
@@ -996,17 +996,17 @@ namespace Dopamine.Common.Database
                 {
                     // Create the database if it doesn't exist
                     LogClient.Info("Creating a new database");
-                    this.CreateNewDatabase();
+                    this.CreateDatabase();
                 }
                 else
                 {
                     // Upgrade the database if it is not the latest version
-                    if (this.DatabaseNeedsUpgrade())
+                    if (this.IsMigrationNeeded())
                     {
                         LogClient.Info("Creating a backup of the database");
                         this.BackupDatabase();
                         LogClient.Info("Upgrading database");
-                        this.UpgradeDatabase();
+                        this.MigrateDatabase();
                     }
                 }
             }
@@ -1028,7 +1028,7 @@ namespace Dopamine.Common.Database
             return count > 0;
         }
 
-        private bool DatabaseNeedsUpgrade()
+        public bool IsMigrationNeeded()
         {
             using (var conn = this.factory.GetConnection())
             {
@@ -1048,7 +1048,7 @@ namespace Dopamine.Common.Database
             return this.userDatabaseVersion < CURRENT_VERSION;
         }
 
-        private void CreateNewDatabase()
+        private void CreateDatabase()
         {
             this.CreateConfiguration();
             this.CreateTablesAndIndexes();
@@ -1056,7 +1056,7 @@ namespace Dopamine.Common.Database
             LogClient.Info("New database created at {0}", this.factory.DatabaseFile);
         }
 
-        private void UpgradeDatabase()
+        private void MigrateDatabase()
         {
             for (int i = this.userDatabaseVersion + 1; i <= CURRENT_VERSION; i++)
             {
