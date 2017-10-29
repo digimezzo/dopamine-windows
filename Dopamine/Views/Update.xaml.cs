@@ -27,6 +27,9 @@ namespace Dopamine.Views
             // Migrate database
             await this.MigrateDatabaseAsync();
 
+            // Small delay so the user has time to see what is going on
+            await Task.Delay(2000);
+
             // Start the bootstrapper
             Bootstrapper bootstrapper = new Bootstrapper();
             bootstrapper.Run();
