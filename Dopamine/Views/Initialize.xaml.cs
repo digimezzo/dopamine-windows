@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Views
 {
-    public partial class Update : DopamineWindow
+    public partial class Initialize : DopamineWindow
     {
-        public Update()
+        public Initialize()
         {
             InitializeComponent();
         }
@@ -27,8 +27,8 @@ namespace Dopamine.Views
             // Migrate database
             await this.MigrateDatabaseAsync();
 
-            // Small delay so the user has time to see what is going on
-            await Task.Delay(2000);
+            // Small delay
+            await Task.Delay(1000);
 
             // Start the bootstrapper
             Bootstrapper bootstrapper = new Bootstrapper();
