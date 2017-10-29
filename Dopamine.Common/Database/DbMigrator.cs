@@ -1022,7 +1022,15 @@ namespace Dopamine.Common.Database
 
             using (var conn = this.factory.GetConnection())
             {
-                count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configuration'");
+                // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
+                // At some later point in time, this try catch can be removed.
+                count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configurations'");
+
+                if(count == 0)
+                {
+                    count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configuration'");
+                }
             }
 
             return count > 0;
