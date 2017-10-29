@@ -992,7 +992,7 @@ namespace Dopamine.Common.Database
         {
             try
             {
-                if (!this.DatabaseExists())
+                if (!this.IsDatabaseValid())
                 {
                     // Create the database if it doesn't exist
                     LogClient.Info("Creating a new database");
@@ -1016,7 +1016,7 @@ namespace Dopamine.Common.Database
             }
         }
   
-        private bool DatabaseExists()
+        private bool IsDatabaseValid()
         {
             int count = 0;
 
@@ -1038,6 +1038,11 @@ namespace Dopamine.Common.Database
 
         public bool IsMigrationNeeded()
         {
+            if (!this.IsDatabaseValid())
+            {
+                return true;
+            }
+
             using (var conn = this.factory.GetConnection())
             {
                 try
