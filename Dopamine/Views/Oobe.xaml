@@ -15,7 +15,7 @@
                          Width="400"
                          ResizeMode="NoResize"
                          WindowStartupLocation="CenterScreen"
-                         Closing="MetroWindow_Closing"
+                         Closing="Window_Closing"
                          OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
                          IsOverlayVisible="{Binding Path=IsOverlayVisible}"
                          Background="Transparent"

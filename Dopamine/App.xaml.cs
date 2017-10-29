@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Database;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.File;
@@ -56,9 +57,28 @@ namespace Dopamine
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            // Start the bootstrapper
-            Bootstrapper bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
+            if (this.IsUpdateNeeded())
+            {
+                // Show the Update Window
+                Window updateWin = new Update();
+                updateWin.Show();
+            }
+            else
+            {
+                // Start the bootstrapper
+                Bootstrapper bootstrapper = new Bootstrapper();
+                bootstrapper.Run();
+            }
+        }
+
+        private bool IsUpdateNeeded()
+        {
+            var migrator = new DbMigrator(new SQLiteConnectionFactory());
+
+            bool issettingsMigrationNeeded = SettingsClient.IsMigrationNeeded();
+            bool isDatabaseMigrationNeeded = migrator.IsMigrationNeeded();
+            
+            return issettingsMigrationNeeded | isDatabaseMigrationNeeded;
         }
 
         private void ProcessCommandLineArguments(bool isNewInstance)

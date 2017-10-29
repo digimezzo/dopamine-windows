@@ -1,0 +1,27 @@
+﻿<controls:DopamineWindow x:Class="Dopamine.Views.Update"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+                         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                         mc:Ignorable="d"
+                         Title="Updating" Height="75" Width="350"
+                         Background="#0B0B0B"
+                         ShowWindowControls="False"
+                         Loaded="Window_Loaded"
+                         WindowStartupLocation="CenterScreen"
+                         prismMvvm:ViewModelLocator.AutoWireViewModel="False">
+
+    <DockPanel HorizontalAlignment="Center">
+        <dc:ProgressRing Panel.ZIndex="1" 
+                         Width="30" 
+                         Height="30" 
+                         VerticalAlignment="Center"
+                         Foreground="#1D7DD4" 
+                         IsActive="{Binding IsBusy}" 
+                         Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+        <TextBlock Text="Updating Dopamine" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="22" FontWeight="Light" Foreground="White"/>
+    </DockPanel>
+</controls:DopamineWindow>
