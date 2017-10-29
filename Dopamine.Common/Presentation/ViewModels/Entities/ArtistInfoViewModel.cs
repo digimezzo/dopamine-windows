@@ -1,5 +1,8 @@
-﻿using Dopamine.Common.Api.Lastfm;
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
+using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Services.Cache;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -14,6 +17,8 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         private ObservableCollection<SimilarArtistViewModel> similarArtists;
         private ICacheService cacheService;
         private string image;
+
+        public DelegateCommand<string> OpenLinkCommand { get; set; }
        
         public bool HasBiography
         {
@@ -127,6 +132,18 @@ namespace Dopamine.Common.Presentation.ViewModels.Entities
         public ArtistInfoViewModel(ICacheService cacheService)
         {
             this.cacheService = cacheService;
+
+            this.OpenLinkCommand = new DelegateCommand<string>((url) =>
+            {
+                try
+                {
+                    Actions.TryOpenLink(url);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not open link {0}. Exception: {1}", url, ex.Message);
+                }
+            });
         }
 
         private async Task FillSimilarArtistsAsync()
