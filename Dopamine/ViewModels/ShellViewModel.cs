@@ -1,6 +1,6 @@
-﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Services.Dialog;
+﻿using Dopamine.Common.Services.Dialog;
+using Dopamine.Common.Services.File;
+using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
 using Prism.Commands;
@@ -12,6 +12,8 @@ namespace Dopamine.ViewModels
     public class ShellViewModel : BindableBase
     {
         private IDialogService dialogService;
+        private IFileService fileService;
+        private IJumpListService jumpListService;
         private bool isOverlayVisible;
 
         public ITaskbarService TaskbarService { get; }
@@ -25,12 +27,15 @@ namespace Dopamine.ViewModels
         public DelegateCommand PlayPreviousCommand { get; set; }
         public DelegateCommand PlayNextCommand { get; set; }
         public DelegateCommand PlayOrPauseCommand { get; set; }
-        public DelegateCommand ShowLogfileCommand { get; set; }
+        public DelegateCommand LoadedCommand { get; set; }
 
-        public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, IDialogService dialogService)
+        public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, IDialogService dialogService,
+            IJumpListService jumpListService, IFileService fileService)
         {
             this.TaskbarService = taskbarService;
             this.dialogService = dialogService;
+            this.jumpListService = jumpListService;
+            this.fileService = fileService;
 
             this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
@@ -38,17 +43,10 @@ namespace Dopamine.ViewModels
             this.PlayNextCommand = new DelegateCommand(async () => await playbackService.PlayNextAsync());
             this.PlayOrPauseCommand = new DelegateCommand(async () => await playbackService.PlayOrPauseAsync());
 
-            this.ShowLogfileCommand = new DelegateCommand(() =>
-            {
-                try
-                {
-                    Actions.TryViewInExplorer(LogClient.Logfile());
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
-                }
-            });
+            this.LoadedCommand = new DelegateCommand(() => this.fileService.ProcessArguments(Environment.GetCommandLineArgs()));
+
+            // Populate the JumpList
+            this.jumpListService.PopulateJumpListAsync();
         }
     }
 }
