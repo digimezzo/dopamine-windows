@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
@@ -19,22 +20,26 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
+        public DelegateCommand LoadedCommand { get; set; }
+
         public bool CanSearch
         {
             get { return this.selectedCollectionPage != CollectionPage.Frequent; }
         }
 
-
         public CollectionViewModel()
         {
-            if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
+            this.LoadedCommand = new DelegateCommand(() =>
             {
-                this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
-            }
-            else
-            {
-                this.SelectedCollectionPage = CollectionPage.Artists;
-            }
+                if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
+                {
+                    this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
+                }
+                else
+                {
+                    this.SelectedCollectionPage = CollectionPage.Artists;
+                }
+            });
         }
     }
 }

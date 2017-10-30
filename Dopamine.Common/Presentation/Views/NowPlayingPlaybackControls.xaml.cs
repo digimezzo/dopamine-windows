@@ -37,7 +37,10 @@ namespace Dopamine.Common.Presentation.Views
         public NowPlayingPlaybackControls()
         {
             InitializeComponent();
+        }
 
+        private void This_Loaded(object sender, RoutedEventArgs e)
+        {
             if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
             {
                 this.SelectedNowPlayingSubPage = (NowPlayingSubPage)SettingsClient.Get<int>("FullPlayer", "SelectedNowPlayingSubPage");
