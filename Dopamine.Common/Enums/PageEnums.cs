@@ -13,7 +13,7 @@
     public enum NowPlayingPage
     {
         NothingPlaying = 0,
-        NowPlaying = 1,
+        NowPlaying = 1
     }
 
     public enum NowPlayingSubPage
@@ -21,7 +21,7 @@
         ShowCase = 0,
         Playlist = 1,
         Lyrics = 2,
-        ArtistInformation = 3,
+        ArtistInformation = 3
     }
 
     public enum CollectionPage
@@ -48,6 +48,6 @@
     {
         Collection = 0,
         Settings = 1,
-        Information = 2,
+        Information = 2
     }
 }
