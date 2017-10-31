@@ -1,4 +1,4 @@
-2017-10-28: Dopamine 1.4.1
+2017-10-31: Dopamine 1.4.1
 --------------------------
 
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
@@ -13,6 +13,7 @@
 - [Changed] Updated the Swedish translation
 - [Changed] Updated the Chinese (Simplified)
 - [Changed] Updated the German translation
+- [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Removed the splash screen
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 - [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
