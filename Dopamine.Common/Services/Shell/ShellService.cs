@@ -364,26 +364,33 @@ namespace Dopamine.Common.Services.Shell
             }
         }
 
-        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool openPlaylist)
+        private void ToggleMiniPlayerPlaylist(MiniPlayerType miniPlayerType, bool isPlaylistVisible)
         {
-            switch (miniPlayerType)
+            if (isPlaylistVisible)
             {
-                case MiniPlayerType.CoverPlayer:
-                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.CoverPlayer;
-                    break;
-                case MiniPlayerType.MicroPlayer:
-                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.MicroPlayer;
-                    break;
-                case MiniPlayerType.NanoPlayer:
-                    this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.NanoPlayer;
-                    break;
-                default:
-                    break;
-                    // Shouldn't happen
+                switch (miniPlayerType)
+                {
+                    case MiniPlayerType.CoverPlayer:
+                        this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.CoverPlayer;
+                        break;
+                    case MiniPlayerType.MicroPlayer:
+                        this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.MicroPlayer;
+                        break;
+                    case MiniPlayerType.NanoPlayer:
+                        this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.NanoPlayer;
+                        break;
+                    default:
+                        break;
+                        // Shouldn't happen
+                }
+            }
+            else
+            {
+                this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.None;
             }
 
             this.PlaylistVisibilityChanged(this,
-                new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = openPlaylist, MiniPlayerType = miniPlayerType });
+                new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = isPlaylistVisible, MiniPlayerType = miniPlayerType });
         }
 
         public void ForceFullPlayer()
