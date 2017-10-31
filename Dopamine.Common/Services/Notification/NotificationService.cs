@@ -79,15 +79,17 @@ namespace Dopamine.Common.Services.Notification
         {
             await Task.Run(() =>
             {
+                // We can safely unsubscribe event handlers before subscribing them
+                // See https://msdn.microsoft.com/en-us/library/system.delegate.remove.aspx
+                // The constructor of LegacyNotificationService already hooks these handlers. 
+                // Unhooking them here makes sure they don't get hooked a 2nd time further down.
+                this.PlaybackService.PlaybackSuccess -= this.PlaybackSuccessHandler;
+                this.PlaybackService.PlaybackPaused -= this.PlaybackPausedHandler;
+                this.PlaybackService.PlaybackResumed -= this.PlaybackResumedHandler;
+
                 // Do not add event handler to ButtonPressed, it has been dealt with Shell.xaml.cs
                 if (systemNotificationIsEnabled)
                 {
-                    // We can safely unsubscribe event handlers before subscribing them
-                    // See https://msdn.microsoft.com/en-us/library/system.delegate.remove.aspx
-                    this.PlaybackService.PlaybackSuccess -= this.PlaybackSuccessHandler;
-                    this.PlaybackService.PlaybackPaused -= this.PlaybackPausedHandler;
-                    this.PlaybackService.PlaybackResumed -= this.PlaybackResumedHandler;
-
                     if (Constants.IsWindows10)
                     {
                         systemMediaControls.IsEnabled = true;
