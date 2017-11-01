@@ -400,7 +400,7 @@ namespace Dopamine.Common.Services.Appearance
         private async void InterpolateAccentColorAsync(Color accentColor)
         {
             int loop = 0;
-            int loopMax = 15;
+            int loopMax = 10;
             var oldColor = (Color)Application.Current.Resources["RG_AccentColor"];
 
             while (loop < loopMax)
@@ -415,7 +415,7 @@ namespace Dopamine.Common.Services.Appearance
 
                 Application.Current.Resources["RG_AccentColor"] = color;
                 Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
-                await Task.Delay(7);
+                await Task.Delay(10);
             }
 
             this.ReApplyTheme();
