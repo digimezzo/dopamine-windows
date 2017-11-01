@@ -420,7 +420,7 @@ namespace Dopamine.Common.Services.Appearance
 
                 Application.Current.Resources["RG_AccentColor"] = color;
                 Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
-                await Task.Delay(10);
+                await Task.Delay(20);
             }
 
             // Re-apply theme to ensure brushes referencing AccentColor are updated
