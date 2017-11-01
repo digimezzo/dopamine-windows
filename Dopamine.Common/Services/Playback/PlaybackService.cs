@@ -988,14 +988,14 @@ namespace Dopamine.Common.Services.Playback
             this.ResetSaveTrackStatisticsTimer();
         }
 
-        private async Task PauseAsync()
+        private async Task PauseAsync(bool isSilent = false)
         {
             try
             {
                 if (this.player != null)
                 {
                     await Task.Run(() => this.player.Pause());
-                    this.PlaybackPaused(this, new PlaybackPausedEventArgs() { IsSilent = false });
+                    this.PlaybackPaused(this, new PlaybackPausedEventArgs() { IsSilent = isSilent });
                 }
             }
             catch (Exception ex)
@@ -1080,7 +1080,7 @@ namespace Dopamine.Common.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(KeyValuePair<string, PlayableTrack> trackPair, bool silent = false)
+        private async Task<bool> TryPlayAsync(KeyValuePair<string, PlayableTrack> trackPair, bool isSilent = false)
         {
             if (trackPair.Value == null) return false;
             if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
@@ -1101,13 +1101,13 @@ namespace Dopamine.Common.Services.Playback
                 }
 
                 // Start playing
-                await this.StartPlaybackAsync(trackPair, silent);
+                await this.StartPlaybackAsync(trackPair, isSilent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this, new PlaybackSuccessEventArgs()
                 {
                     IsPlayingPreviousTrack = this.isPlayingPreviousTrack,
-                    IsSilent = false
+                    IsSilent = isSilent
                 });
 
                 // Set this to false again after raising the event. It is important to have a correct slide 
@@ -1304,7 +1304,7 @@ namespace Dopamine.Common.Services.Playback
         {
             if (await this.TryPlayAsync(track, true))
             {
-                await this.PauseAsync();
+                await this.PauseAsync(true);
                 if (!this.mute) this.player.SetVolume(this.Volume);
                 this.player.Skip(progressSeconds);
                 PlaybackProgressChanged(this, new EventArgs());
