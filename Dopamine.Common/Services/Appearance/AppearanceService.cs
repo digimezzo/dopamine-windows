@@ -58,7 +58,7 @@ namespace Dopamine.Common.Services.Appearance
                                                             AccentColor = "#CE0058"
                                                         }
                                                     };
-       
+
         public AppearanceService(IPlaybackService playbackService, IMetadataService metadataService) : base()
         {
             // Services
@@ -140,7 +140,7 @@ namespace Dopamine.Common.Services.Appearance
 
             this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
         }
-   
+
         private void WatcherChangedHandler(object sender, FileSystemEventArgs e)
         {
             // Using a Timer here prevents that consecutive WatcherChanged events trigger multiple ColorSchemesChanged events
@@ -164,7 +164,7 @@ namespace Dopamine.Common.Services.Appearance
                 this.OnColorSchemesChanged(new EventArgs());
             });
         }
-    
+
         private void GetBuiltInColorSchemes()
         {
             // For now, we are returning a hard-coded list of themes
@@ -302,7 +302,7 @@ namespace Dopamine.Common.Services.Appearance
                 }
             }
         }
-       
+
         public event ThemeChangedEventHandler ThemeChanged = delegate { };
         public event EventHandler ColorSchemeChanged = delegate { };
         public event EventHandler ColorSchemesChanged = delegate { };
@@ -395,14 +395,19 @@ namespace Dopamine.Common.Services.Appearance
                 return;
             }
 
+            this.InterpolateAccentColorAsync(accentColor);
+        }
+
+        private async void InterpolateAccentColorAsync(Color accentColor)
+        {
             await Task.Run(() =>
             {
                 int loop = 0;
-                    // TODO:
-                    // System.Timers.Timer cannot work in actual time, it's much slower
-                    // than DispatcherTimer, if we can find some way to fix time by not 
-                    // using DispatcherTimer, loopMax should be set to 30 to enhance gradient
-                    int loopMax = 30;
+                // TODO:
+                // System.Timers.Timer cannot work in actual time, it's much slower
+                // than DispatcherTimer, if we can find some way to fix time by not 
+                // using DispatcherTimer, loopMax should be set to 30 to enhance gradient
+                int loopMax = 30;
                 var oldColor = (Color)Application.Current.Resources["RG_AccentColor"];
                 if (applyColorSchemeTimer != null)
                 {
@@ -419,6 +424,7 @@ namespace Dopamine.Common.Services.Appearance
                     var color = AnimatedTypeHelpers.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
                     Application.Current.Resources["RG_AccentColor"] = color;
                     Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
+
                     if (loop == loopMax)
                     {
                         if (applyColorSchemeTimer != null)
@@ -427,8 +433,8 @@ namespace Dopamine.Common.Services.Appearance
                             applyColorSchemeTimer = null;
                         }
 
-                            // Re-apply theme to ensure brushes referencing AccentColor are updated
-                            this.ReApplyTheme();
+                        // Re-apply theme to ensure brushes referencing AccentColor are updated
+                        this.ReApplyTheme();
                         this.OnColorSchemeChanged(new EventArgs());
                     }
                 };
