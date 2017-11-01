@@ -93,19 +93,28 @@ namespace Dopamine.Common.Services.Notification
             this.playbackService.PlaybackResumed += this.PlaybackResumedHandler;
         }
     
-        protected async void PlaybackResumedHandler(object _, EventArgs __)
+        protected async void PlaybackResumedHandler(object sender, EventArgs e)
         {
-            if (this.showNotificationWhenResuming) await this.ShowNotificationIfAllowedAsync();
+            if (this.showNotificationWhenResuming)
+            {
+                await this.ShowNotificationIfAllowedAsync();
+            }
         }
 
-        protected async void PlaybackPausedHandler(object _, EventArgs __)
+        protected async void PlaybackPausedHandler(object sender, PlaybackPausedEventArgs e)
         {
-            if (this.showNotificationWhenPausing) await this.ShowNotificationIfAllowedAsync();
+            if (this.showNotificationWhenPausing && !e.IsSilent)
+            {
+                await this.ShowNotificationIfAllowedAsync();
+            }
         }
 
         protected async void PlaybackSuccessHandler(object sender, PlaybackSuccessEventArgs e)
         {
-            if (this.showNotificationWhenPlaying) await this.ShowNotificationIfAllowedAsync();
+            if (this.showNotificationWhenPlaying && !e.IsSilent)
+            {
+                await this.ShowNotificationIfAllowedAsync();
+            }
         }
 
         protected virtual bool CanShowNotification()
