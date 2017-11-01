@@ -14,6 +14,7 @@
 - [Changed] Updated the Chinese (Simplified)
 - [Changed] Updated the German translation
 - [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Korean translation
 - [Changed] Removed the splash screen
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 - [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
