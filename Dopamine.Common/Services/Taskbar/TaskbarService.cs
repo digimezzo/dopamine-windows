@@ -18,7 +18,7 @@ namespace Dopamine.Common.Services.Taskbar
         private double progressValue;
         private string playPauseText;
         private ImageSource playPauseIcon;
-     
+
         public string Description
         {
             get { return this.description; }
@@ -48,7 +48,7 @@ namespace Dopamine.Common.Services.Taskbar
             get { return this.playPauseIcon; }
             private set { SetProperty<ImageSource>(ref this.playPauseIcon, value); }
         }
-      
+
         public TaskbarService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -81,7 +81,7 @@ namespace Dopamine.Common.Services.Taskbar
                 this.ShowTaskBarItemInfoPause(false);
             };
 
-            this.playbackService.PlaybackSuccess += (_) =>
+            this.playbackService.PlaybackSuccess += (_, __) =>
             {
                 if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.TrackTitle))
                 {
@@ -98,7 +98,7 @@ namespace Dopamine.Common.Services.Taskbar
 
             this.playbackService.PlaybackProgressChanged += (_, __) => { this.ProgressValue = this.playbackService.Progress; };
         }
-      
+
         private void ShowTaskBarItemInfoPause(bool showPause)
         {
             string value = "Play";
@@ -139,7 +139,7 @@ namespace Dopamine.Common.Services.Taskbar
                 this.ProgressState = TaskbarItemProgressState.None;
             }
         }
-    
+
         public void SetShowProgressInTaskbar(bool showProgressInTaskbar)
         {
             this.SetTaskbarProgressState(showProgressInTaskbar, this.playbackService.IsPlaying);

@@ -32,7 +32,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.slideDirection; }
             set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
         }
-     
+
         public PlaybackInfoControlViewModel(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -40,9 +40,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.refreshTimer.Interval = this.refreshTimerIntervalMilliseconds;
             this.refreshTimer.Elapsed += RefreshTimer_Elapsed;
 
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
+            this.playbackService.PlaybackSuccess += (_, e) =>
             {
-                this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
+                this.SlideDirection = e.IsPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
                 this.refreshTimer.Stop();
                 this.refreshTimer.Start();
             };
@@ -60,7 +60,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.refreshTimer.Stop();
             this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
         }
-  
+
         private void ClearPlaybackInfo()
         {
             this.PlaybackInfoViewModel = new PlaybackInfoViewModel

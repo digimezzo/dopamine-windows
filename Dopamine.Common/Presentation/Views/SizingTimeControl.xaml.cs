@@ -24,7 +24,7 @@ namespace Dopamine.Common.Presentation.Views
 
             this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
             this.playbackService.PlaybackProgressChanged += (_, __) => this.SetTotalTimeVisibility();
-            this.playbackService.PlaybackSuccess += (_) => this.SetTotalTimeVisibility();
+            this.playbackService.PlaybackSuccess += (_,__) => this.SetTotalTimeVisibility();
             this.playbackService.PlaybackStopped += (_, __) => this.SetTotalTimeVisibility();
 
             // Default is collapsed

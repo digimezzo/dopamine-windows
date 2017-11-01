@@ -131,7 +131,7 @@ namespace Dopamine.Common.Services.Appearance
             this.GetAllColorSchemes();
         }
 
-        private void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
+        private void PlaybackService_PlaybackSuccess(object sender, PlaybackSuccessEventArgs e)
         {
             if (!this.followAlbumCoverColor)
             {

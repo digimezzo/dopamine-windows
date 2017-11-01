@@ -66,7 +66,7 @@ namespace Dopamine.Common.Services.Metadata
 
             this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFileMetadataAsync();
             this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync();
-            this.playbackService.PlaybackSuccess += async (_) => await this.UpdateFileMetadataAsync();
+            this.playbackService.PlaybackSuccess += async (_,__) => await this.UpdateFileMetadataAsync();
         }
     
         public FileMetadata GetFileMetadata(string path)

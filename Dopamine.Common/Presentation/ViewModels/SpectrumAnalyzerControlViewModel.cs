@@ -124,7 +124,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackPaused += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
-            this.playbackService.PlaybackSuccess += (_) => this.IsPlaying = true;
+            this.playbackService.PlaybackSuccess += (_,__) => this.IsPlaying = true;
 
             SettingsClient.SettingChanged += (_, e) =>
             {

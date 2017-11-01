@@ -42,9 +42,9 @@ namespace Dopamine.Common.Presentation.ViewModels
         private int refreshTimerIntervalMilliseconds = 500;
         private bool isNowPlayingPageActive;
         private bool isNowPlayingLyricsPageActive;
-        
+
         public DelegateCommand RefreshLyricsCommand { get; set; }
-     
+
         public int ContentSlideInFrom
         {
             get { return this.contentSlideInFrom; }
@@ -66,7 +66,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.RefreshLyricsCommand.RaiseCanExecuteChanged();
             }
         }
-    
+
         public LyricsControlViewModel(IUnityContainer container) : base(container)
         {
             this.container = container;
@@ -118,9 +118,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.RefreshLyricsCommand = new DelegateCommand(() => this.RestartRefreshTimer(), () => !this.IsDownloadingLyrics);
             ApplicationCommands.RefreshLyricsCommand.RegisterCommand(this.RefreshLyricsCommand);
 
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) =>
+            this.playbackService.PlaybackSuccess += (_, e) =>
             {
-                this.ContentSlideInFrom = isPlayingPreviousTrack ? -30 : 30;
+                this.ContentSlideInFrom = e.IsPlayingPreviousTrack ? -30 : 30;
                 this.RestartRefreshTimer();
             };
 
@@ -145,7 +145,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             await HighlightLyricsLineAsync();
             this.highlightTimer.Start();
         }
-       
+
         private void RestartRefreshTimer()
         {
             this.refreshTimer.Stop();
@@ -321,7 +321,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             });
         }
-     
+
         protected override void SearchOnline(string id)
         {
             // No implementation required here

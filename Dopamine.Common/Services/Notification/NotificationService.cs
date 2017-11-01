@@ -63,7 +63,7 @@ namespace Dopamine.Common.Services.Notification
             displayUpdater.Update();
         }
 
-        private async void PlaybackSuccessSystemNotificationHandler(bool _)
+        private async void PlaybackSuccessSystemNotificationHandler(object sender, PlaybackSuccessEventArgs e)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             var track = this.PlaybackService.CurrentTrack.Value;

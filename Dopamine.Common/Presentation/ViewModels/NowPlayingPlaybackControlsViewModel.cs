@@ -12,7 +12,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public NowPlayingPlaybackControlsViewModel(IUnityContainer container) : base(container)
         {
-            this.PlaybackService.PlaybackSuccess += (_) => RaisePropertyChanged(nameof(this.HasPlaybackQueue));
+            this.PlaybackService.PlaybackSuccess += (_,__) => RaisePropertyChanged(nameof(this.HasPlaybackQueue));
             this.PlaybackService.PlaybackStopped += (_, __) => this.Reset();
         }
     }

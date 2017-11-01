@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 namespace Dopamine.Common.Services.Playback
 {
     public delegate void PlaybackFailedEventHandler(object sender, PlaybackFailedEventArgs e);
+    public delegate void PlaybackSuccessEventHandler(object sender, PlaybackSuccessEventArgs e);
+    public delegate void PlaybackPausedEventHandler(object sender, PlaybackPausedEventArgs e);
     public delegate void TrackStatisticsChangedEventHandler(IList<TrackStatistic> statistics);
 
     public interface IPlaybackService
@@ -75,11 +77,11 @@ namespace Dopamine.Common.Services.Playback
         Task SwitchOutputDeviceAsync(MMDevice outputDevice);
         Task<MMDevice> GetSavedAudioDeviceAsync();
 
-        event Action<bool> PlaybackSuccess;
+        event PlaybackSuccessEventHandler PlaybackSuccess;
         event PlaybackFailedEventHandler PlaybackFailed;
+        event PlaybackPausedEventHandler PlaybackPaused;
         event EventHandler PlaybackSkipped;
         event EventHandler PlaybackStopped;
-        event EventHandler PlaybackPaused;
         event EventHandler PlaybackResumed;
         event EventHandler PlaybackProgressChanged;
         event EventHandler PlaybackVolumeChanged;
