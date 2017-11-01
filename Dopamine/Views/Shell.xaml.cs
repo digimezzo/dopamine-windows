@@ -144,15 +144,16 @@ namespace Dopamine.Views
         private async Task PerformClosingTasksAsync()
         {
             LogClient.Info("Performing closing tasks");
-
             this.ShowClosingAnimation();
 
             // Write the settings
             // ------------------
+            LogClient.Info("Writing settings");
             SettingsClient.Write();
 
             // Save queued tracks
             // ------------------
+            LogClient.Info("Saving queued tracks");
             if (this.playbackService.IsSavingQueuedTracks)
             {
                 while (this.playbackService.IsSavingQueuedTracks)
@@ -167,14 +168,17 @@ namespace Dopamine.Views
 
             // Stop playing
             // ------------
+            LogClient.Info("Stopping playback");
             this.playbackService.Stop();
 
             // Update file metadata
             // --------------------
+            LogClient.Info("Updating file metadata");
             await this.metadataService.SafeUpdateFileMetadataAsync();
 
             // Save track statistics
             // ---------------------
+            LogClient.Info("Saving playback counters");
             if (this.playbackService.IsSavingPlaybackCounters)
             {
                 while (this.playbackService.IsSavingPlaybackCounters)
