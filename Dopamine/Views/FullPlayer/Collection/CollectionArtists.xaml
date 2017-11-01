@@ -68,18 +68,18 @@
                 <Grid>
                     <Border Panel.ZIndex="0" Visibility="{Binding IsArtistsZoomVisible,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                         <dc:MultiSelectListBox x:Name="ListBoxArtists"
-                                                       VirtualizingStackPanel.IsVirtualizing="True"
-                                                       VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                                       VirtualizingStackPanel.VirtualizationMode="Recycling"    
-                                                       Style="{StaticResource ListBoxArtists}"
-                                                       ItemsSource="{Binding ArtistsCvs.View,IsAsync=True}"
-                                                       BorderThickness="0" 
-                                                       MouseDoubleClick="ListBoxArtists_MouseDoubleClick" 
-                                                       PreviewKeyDown="ListBoxArtists_PreviewKeyDown"
-                                                       SelectionMode="Extended">
+                                               VirtualizingStackPanel.IsVirtualizing="True"
+                                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                               VirtualizingStackPanel.VirtualizationMode="Recycling"    
+                                               Style="{StaticResource ListBoxArtists}"
+                                               ItemsSource="{Binding ArtistsCvs.View,IsAsync=True}"
+                                               BorderThickness="0" 
+                                               MouseDoubleClick="ListBoxArtists_MouseDoubleClick" 
+                                               PreviewKeyDown="ListBoxArtists_PreviewKeyDown"
+                                               SelectionMode="Extended">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding SelectedArtistsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxArtists}"/>
+                                    <i:InvokeCommandAction Command="{Binding SelectedArtistsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </dc:MultiSelectListBox>
@@ -139,16 +139,16 @@
                                 Command="{Binding ToggleAlbumOrderCommand}"/>
                 </StackPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
-                                                                 Style="{StaticResource ListBoxAlbums}"
-                                                                 ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
-                                                                 BorderThickness="0"
-                                                                 MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
-                                                                 PreviewKeyDown="ListBoxAlbums_PreviewKeyDown"
-                                                                 SelectionMode="Extended" 
-                                                                 VerticalAlignment="Top">
+                                       Style="{StaticResource ListBoxAlbums}"
+                                       ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
+                                       BorderThickness="0"
+                                       MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
+                                       PreviewKeyDown="ListBoxAlbums_PreviewKeyDown"
+                                       SelectionMode="Extended" 
+                                       VerticalAlignment="Top">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedAlbumsCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxAlbums}"/>
+                            <i:InvokeCommandAction Command="{Binding SelectedAlbumsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                             <i:InvokeCommandAction Command="{Binding DelaySelectedAlbumsCommand}"/>
@@ -184,16 +184,16 @@
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
                     <dc:MultiSelectListBox x:Name="ListBoxTracks"
-                                                   VirtualizingStackPanel.IsVirtualizing="True"
-                                                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                                   VirtualizingStackPanel.VirtualizationMode="Recycling"                       
-                                                   Style="{StaticResource ListBoxTracks}"
-                                                   ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
-                                                   MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
-                                                   PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                                                   KeyUp="ListBoxTracks_KeyUp" 
-                                                   BorderThickness="0"
-                                                   SelectionMode="Extended">
+                                           VirtualizingStackPanel.IsVirtualizing="True"
+                                           VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                           VirtualizingStackPanel.VirtualizationMode="Recycling"                       
+                                           Style="{StaticResource ListBoxTracks}"
+                                           ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                                           MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
+                                           PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
+                                           KeyUp="ListBoxTracks_KeyUp" 
+                                           BorderThickness="0"
+                                           SelectionMode="Extended">
                         <dc:MultiSelectListBox.InputBindings>
                             <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
                         </dc:MultiSelectListBox.InputBindings>
@@ -202,7 +202,7 @@
                         </dc:MultiSelectListBox.GroupStyle>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=ListBoxTracks}"/>
+                                <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </dc:MultiSelectListBox>
