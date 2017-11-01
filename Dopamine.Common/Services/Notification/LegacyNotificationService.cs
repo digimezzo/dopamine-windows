@@ -103,7 +103,7 @@ namespace Dopamine.Common.Services.Notification
             if (this.showNotificationWhenPausing) await this.ShowNotificationIfAllowedAsync();
         }
 
-        protected async void PlaybackSuccessHandler(bool _)
+        protected async void PlaybackSuccessHandler(object sender, PlaybackSuccessEventArgs e)
         {
             if (this.showNotificationWhenPlaying) await this.ShowNotificationIfAllowedAsync();
         }

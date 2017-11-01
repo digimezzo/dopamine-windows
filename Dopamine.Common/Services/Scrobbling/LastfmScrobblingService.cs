@@ -88,7 +88,7 @@ namespace Dopamine.Common.Services.Scrobbling
             this.canScrobble = false;
         }
       
-        private async void PlaybackService_PlaybackSuccess(bool isPlayingPreviousTrack)
+        private async void PlaybackService_PlaybackSuccess(object sender, PlaybackSuccessEventArgs e)
         {
             if (this.SignInState == SignInState.SignedIn)
             {

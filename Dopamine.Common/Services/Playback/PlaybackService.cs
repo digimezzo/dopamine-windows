@@ -10,6 +10,7 @@ using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.File;
+using Dopamine.Common.Services.I18n;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +18,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Services.I18n;
 
 namespace Dopamine.Common.Services.Playback
 {
@@ -72,7 +71,7 @@ namespace Dopamine.Common.Services.Playback
 
         private MMDevice outputDevice;
         private AudioDevicesWatcher watcher = new AudioDevicesWatcher();
-      
+
         public bool IsSavingQueuedTracks
         {
             get { return this.isSavingQueuedTracks; }
@@ -281,7 +280,7 @@ namespace Dopamine.Common.Services.Playback
         {
             get { return this.player; }
         }
-     
+
         public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository)
         {
             this.fileService = fileService;
@@ -311,13 +310,13 @@ namespace Dopamine.Common.Services.Playback
 
             this.Initialize();
         }
-     
+
+        public event PlaybackSuccessEventHandler PlaybackSuccess = delegate { };
+        public event PlaybackPausedEventHandler PlaybackPaused = delegate { };
         public event PlaybackFailedEventHandler PlaybackFailed = delegate { };
-        public event EventHandler PlaybackPaused = delegate { };
         public event EventHandler PlaybackProgressChanged = delegate { };
         public event EventHandler PlaybackResumed = delegate { };
         public event EventHandler PlaybackStopped = delegate { };
-        public event Action<bool> PlaybackSuccess = delegate { };
         public event EventHandler PlaybackVolumeChanged = delegate { };
         public event EventHandler PlaybackMuteChanged = delegate { };
         public event EventHandler PlaybackLoopChanged = delegate { };
@@ -331,7 +330,7 @@ namespace Dopamine.Common.Services.Playback
         public event EventHandler QueueChanged = delegate { };
         public event EventHandler AudioDevicesChanged = delegate { };
         public event EventHandler PlaybackSkipped = delegate { };
-       
+
         public async Task<MMDevice> GetSavedAudioDeviceAsync()
         {
             string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
@@ -881,7 +880,7 @@ namespace Dopamine.Common.Services.Playback
             List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
-        
+
         private void CheckWindowsMediaFoundationAsync()
         {
             try
@@ -996,7 +995,7 @@ namespace Dopamine.Common.Services.Playback
                 if (this.player != null)
                 {
                     await Task.Run(() => this.player.Pause());
-                    this.PlaybackPaused(this, new EventArgs());
+                    this.PlaybackPaused(this, new PlaybackPausedEventArgs() { IsSilent = false });
                 }
             }
             catch (Exception ex)
@@ -1105,7 +1104,11 @@ namespace Dopamine.Common.Services.Playback
                 await this.StartPlaybackAsync(trackPair, silent);
 
                 // Playing was successful
-                this.PlaybackSuccess(this.isPlayingPreviousTrack);
+                this.PlaybackSuccess(this, new PlaybackSuccessEventArgs()
+                {
+                    IsPlayingPreviousTrack = this.isPlayingPreviousTrack,
+                    IsSilent = false
+                });
 
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.

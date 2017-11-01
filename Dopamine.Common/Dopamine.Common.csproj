@@ -540,7 +540,9 @@
     <Compile Include="Services\Playback\IPlaybackService.cs" />
     <Compile Include="Services\Playback\PlaybackFailedEventArgs.cs" />
     <Compile Include="Services\Playback\PlaybackFailureReason.cs" />
+    <Compile Include="Services\Playback\PlaybackPausedEventArgs.cs" />
     <Compile Include="Services\Playback\PlaybackService.cs" />
+    <Compile Include="Services\Playback\PlaybackSuccessEventArgs.cs" />
     <Compile Include="Services\Playback\QueueManager.cs" />
     <Compile Include="Services\Playback\UpdateQueueMetadataResult.cs" />
     <Compile Include="Services\Playlist\Enums.cs" />

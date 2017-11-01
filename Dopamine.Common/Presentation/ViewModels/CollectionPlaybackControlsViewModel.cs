@@ -22,7 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.PlaybackService.PlaybackFailed += (_, __) => RaisePropertyChanged(nameof(this.IsPlaying));
             this.PlaybackService.PlaybackPaused += (_, __) => RaisePropertyChanged(nameof(this.IsPlaying));
             this.PlaybackService.PlaybackResumed += (_, __) => RaisePropertyChanged(nameof(this.IsPlaying));
-            this.PlaybackService.PlaybackSuccess += (_) => RaisePropertyChanged(nameof(this.IsPlaying));
+            this.PlaybackService.PlaybackSuccess += (_,__) => RaisePropertyChanged(nameof(this.IsPlaying));
         }
     }
 }

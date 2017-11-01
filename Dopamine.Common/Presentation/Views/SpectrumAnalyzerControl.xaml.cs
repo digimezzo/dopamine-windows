@@ -21,7 +21,7 @@ namespace Dopamine.Common.Presentation.Views
             InitializeComponent();
 
             this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.RegisterPlayer();
+            this.playbackService.PlaybackSuccess += (_,__) => this.RegisterPlayer();
 
             // Just in case we switched Views after the playBackService.PlaybackSuccess was triggered
             this.RegisterPlayer();

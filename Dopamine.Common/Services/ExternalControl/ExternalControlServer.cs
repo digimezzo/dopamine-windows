@@ -231,7 +231,7 @@ namespace Dopamine.Common.Services.ExternalControl
             ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackStoppedAsync));
         }
 
-        private void PlaybackSuccessCallback(bool _)
+        private void PlaybackSuccessCallback(object sender, PlaybackSuccessEventArgs e)
         {
             ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackSuccessAsync));
         }

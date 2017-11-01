@@ -66,9 +66,9 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
 
-            this.playbackService.PlaybackSuccess += async (isPlayingPreviousTrack) =>
+            this.playbackService.PlaybackSuccess += async (_, e) =>
             {
-                this.SlideDirection = isPlayingPreviousTrack ? SlideDirection.RightToLeft : SlideDirection.LeftToRight;
+                this.SlideDirection = e.IsPlayingPreviousTrack ? SlideDirection.RightToLeft : SlideDirection.LeftToRight;
                 await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, false);
             };
 

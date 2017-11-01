@@ -67,7 +67,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playlistService.PlaylistAdded += (_) => this.GetContextMenuPlaylistsAsync();
             this.playlistService.PlaylistDeleted += (_) => this.GetContextMenuPlaylistsAsync();
             this.playbackService.PlaybackFailed += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
-            this.playbackService.PlaybackSuccess += (_) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
+            this.playbackService.PlaybackSuccess += (_,__) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
             this.playbackService.PlaybackStopped += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
             this.playbackService.PlaybackPaused += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();
             this.playbackService.PlaybackResumed += (_, __) => this.AddPlayingTrackToPlaylistCommand.RaiseCanExecuteChanged();

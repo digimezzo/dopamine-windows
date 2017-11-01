@@ -31,7 +31,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playBackService.PlaybackProgressChanged += (sender,e) => this.GetPlayBackServiceProgress();
             this.playBackService.PlaybackFailed += (_, __) => this.GetPlayBackServiceProgress();
             this.playBackService.PlaybackStopped += (_, __) => this.GetPlayBackServiceProgress();
-            this.playBackService.PlaybackSuccess += (_) => this.GetPlayBackServiceProgress();
+            this.playBackService.PlaybackSuccess += (_,__) => this.GetPlayBackServiceProgress();
         }
         
         private void SetPlayBackServiceProgress(double progress)

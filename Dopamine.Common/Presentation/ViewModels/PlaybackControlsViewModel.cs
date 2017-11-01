@@ -85,7 +85,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.playbackService.PlaybackPaused += (_, __) => this.ShowPause = false;
             this.playbackService.PlaybackResumed += (_, __) => this.ShowPause = true;
             this.playbackService.PlaybackStopped += (_, __) => this.ShowPause = false;
-            this.playbackService.PlaybackSuccess += (isPlayingPreviousTrack) => this.ShowPause = true;
+            this.playbackService.PlaybackSuccess += (_,__) => this.ShowPause = true;
             this.playbackService.PlaybackLoopChanged += (_, __) => this.GetPlayBackServiceLoop();
             this.playbackService.PlaybackShuffleChanged += (_, __) => this.GetPlayBackServiceShuffle();
 

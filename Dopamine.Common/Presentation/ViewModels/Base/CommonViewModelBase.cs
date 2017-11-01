@@ -120,7 +120,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.playbackService.PlaybackPaused += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackResumed += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
-            this.playbackService.PlaybackSuccess += (_) => this.ShowPlayingTrackAsync();
+            this.playbackService.PlaybackSuccess += (_,__) => this.ShowPlayingTrackAsync();
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
