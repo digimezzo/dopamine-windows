@@ -404,24 +404,22 @@ namespace Dopamine.Common.Services.Appearance
 
         private async void InterpolateAccentColorAsync(Color accentColor)
         {
-            int loop = 0;
-            int loopMax = 10;
-            var oldColor = (Color)Application.Current.Resources["RG_AccentColor"];
-
-            while (loop < loopMax)
+            await Task.Run(async() =>
             {
-                loop++;
-                Color color = oldColor;
+                int loop = 0;
+                int loopMax = 30;
+                var oldColor = (Color)Application.Current.Resources["RG_AccentColor"];
 
-                await Task.Run(() =>
+                while (loop < loopMax)
                 {
-                    color = AnimatedTypeHelpers.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
-                });
+                    loop++;
+                    Color color = AnimatedTypeHelpers.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
 
-                Application.Current.Resources["RG_AccentColor"] = color;
-                Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
-                await Task.Delay(15);
-            }
+                    Application.Current.Resources["RG_AccentColor"] = color;
+                    Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
+                    await Task.Delay(7);
+                }
+            });
 
             // Re-apply theme to ensure brushes referencing AccentColor are updated
             this.ReApplyTheme();
