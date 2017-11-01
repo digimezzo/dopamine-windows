@@ -348,7 +348,7 @@ namespace Dopamine.Common.Services.Appearance
             {
                 if (followWindowsColor)
                 {
-                    accentColor = (Color)ColorConverter.ConvertFromString(GetWindowsDWMColor());
+                    accentColor = (Color)ColorConverter.ConvertFromString(this.GetWindowsDWMColor());
                 }
                 else if (followAlbumCoverColor)
                 {
@@ -385,16 +385,21 @@ namespace Dopamine.Common.Services.Appearance
 
             if (Application.Current.Resources["RG_AccentColor"] == null)
             {
-                Application.Current.Resources["RG_AccentColor"] = accentColor;
-                Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(accentColor);
-
-                // Re-apply theme to ensure brushes referencing AccentColor are updated
-                this.ReApplyTheme();
-                this.OnColorSchemeChanged(new EventArgs());
+                this.ApplyAccentColor(accentColor);
                 return;
             }
 
             this.InterpolateAccentColorAsync(accentColor);
+        }
+
+        private void ApplyAccentColor(Color accentColor)
+        {
+            Application.Current.Resources["RG_AccentColor"] = accentColor;
+            Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(accentColor);
+
+            // Re-apply theme to ensure brushes referencing AccentColor are updated
+            this.ReApplyTheme();
+            this.OnColorSchemeChanged(new EventArgs());
         }
 
         private async void InterpolateAccentColorAsync(Color accentColor)
@@ -418,6 +423,7 @@ namespace Dopamine.Common.Services.Appearance
                 await Task.Delay(10);
             }
 
+            // Re-apply theme to ensure brushes referencing AccentColor are updated
             this.ReApplyTheme();
             this.OnColorSchemeChanged(new EventArgs());
         }

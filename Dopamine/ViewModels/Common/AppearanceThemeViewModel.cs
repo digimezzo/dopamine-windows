@@ -74,14 +74,18 @@ namespace Dopamine.ViewModels.Common
             {
                 if (value)
                 {
-                    this.CheckBoxAlbumCoverColorChecked = false;
+                    this.checkBoxAlbumCoverColorChecked = false;
+                    this.RaisePropertyChanged(nameof(this.CheckBoxAlbumCoverColorChecked));
                 }
 
-                SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
+                SettingsClient.Set<bool>("Appearance", "FollowWindowsColor", value);
 
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await this.appearanceService.ApplyColorSchemeAsync(SettingsClient.Get<string>("Appearance", "ColorScheme"), value, false);
+                    await this.appearanceService.ApplyColorSchemeAsync(
+                        SettingsClient.Get<string>("Appearance", "ColorScheme"), 
+                        value, 
+                        false);
                 });
 
                 SetProperty<bool>(ref this.checkBoxWindowsColorChecked, value);
@@ -97,7 +101,8 @@ namespace Dopamine.ViewModels.Common
             {
                 if (value)
                 {
-                    this.CheckBoxWindowsColorChecked = false;
+                    this.checkBoxWindowsColorChecked = false;
+                    this.RaisePropertyChanged(nameof(this.CheckBoxWindowsColorChecked));
                 }
 
                 SettingsClient.Set<bool>("Appearance", "FollowAlbumCoverColor", value);
@@ -105,7 +110,9 @@ namespace Dopamine.ViewModels.Common
                 Application.Current.Dispatcher.Invoke(async () =>
                 {
                     await this.appearanceService.ApplyColorSchemeAsync(
-                          SettingsClient.Get<string>("Appearance", "ColorScheme"), false, value);
+                          SettingsClient.Get<string>("Appearance", "ColorScheme"), 
+                          false, 
+                          value);
                 });
 
                 SetProperty<bool>(ref this.checkBoxAlbumCoverColorChecked, value);
