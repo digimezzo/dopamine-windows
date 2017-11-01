@@ -35,7 +35,7 @@
             </controls:DataGridEx.InputBindings>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding Path=SelectedItems,ElementName=DataGridTracks}"/>
+                    <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=SelectedItems}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <controls:DataGridEx.Resources>
