@@ -27,7 +27,7 @@
   <Text Key="Display">Exibição</Text>
   <Text Key="Playback">Reprodução</Text>
   <Text Key="Help">Ajuda</Text>
-  <Text Key="About">Sobre</Text>
+  <Text Key="About">Acerca</Text>
   <Text Key="Version">Versão</Text>
   <Text Key="Do_You_Like_Dopamine">Gosta do Dopamine? Por favor, clique aqui para doar. Obrigado!</Text>
   <Text Key="Donate">Doar</Text>
@@ -114,7 +114,7 @@
   <Text Key="Artist">Artista</Text>
   <Text Key="Download">Descarregar</Text>
   <Text Key="Startup">Arranque</Text>
-  <Text Key="Mini_Player_On_Top">Mostrar sempre o mini-repordutor</Text>
+  <Text Key="Mini_Player_On_Top">Mostrar sempre o mini-reprodutor</Text>
   <Text Key="A_Z">A-Z</Text>
   <Text Key="Z_A">Z-A</Text>
   <Text Key="By_Album">Por álbum</Text>
@@ -142,7 +142,7 @@
   <Text Key="Already_Exists">Já existe</Text>
   <Text Key="Already_Playlist_With_That_Name">Já existe uma lista de reprodução com o nome '%playlistname%'.</Text>
   <Text Key="Error_Adding_Playlist">Não foi possível adicionar a lista de reprodução. Consulte o registo para obter mais infromações.</Text>
-  <Text Key="Provide_Playlist_Name">Tem que digitar nome para a lista de reprodução.</Text>
+  <Text Key="Provide_Playlist_Name">Tem que digitar o nome para a lista de reprodução.</Text>
   <Text Key="Delete_This_Playlist">Apagar esta lista de reprodução</Text>
   <Text Key="Delete_Playlist">Apagar lista de reprodução</Text>
   <Text Key="Delete_Playlists">Apagar listas de reprodução</Text>
@@ -180,7 +180,7 @@
   <Text Key="Hide_Taskbar_When_Maximized">Ocultar barra de tarefas do Windows quando a janela está maximizada</Text>
   <Text Key="Glow">Brilho</Text>
   <Text Key="Show_Glow_Under_Main_Window">Mostrar um brilho na parte inferior da janela principal</Text>
-  <Text Key="Enter_Leave_Fullscreen">Entrar ou sair do modo ecrã total</Text>
+  <Text Key="Enter_Leave_Fullscreen">Entrar ou sair do modo ecrã completo</Text>
   <Text Key="File_Type_Not_Supported">Este tipo de ficheiro não é suportado</Text>
   <Text Key="Unknown_Artist">Artista desconhecido</Text>
   <Text Key="Unknown_Title">Título desconhecido</Text>
@@ -244,7 +244,7 @@
   <Text Key="Remove_The_Image">Remover imagem</Text>
   <Text Key="Images">Imagens</Text>
   <Text Key="Select_Image">Selecionar imagem</Text>
-  <Text Key="Error_Changing_Image">A imagem não foi alterada. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Changing_Image">Não foi possível alterar a imagem. Consulte o registo para obter mais informações.</Text>
   <Text Key="Add_To_Now_Playing">Adicionar à lista em reprodução</Text>
   <Text Key="By_Year">Por ano</Text>
   <Text Key="Removing_Songs">A remover faixas</Text>
@@ -257,8 +257,8 @@
   <Text Key="Update_Album_Cover">Atualizar imagem do álbum</Text>
   <Text Key="Check_Box_To_Update_Album_Cover_In_Collection">Assinale esta caixa para atualizar a imagem do álbum na coleção</Text>
   <Text Key="Edit_Album">Editar álbum</Text>
-  <Text Key="Update_File_Covers">Atualizar imagens de todos os ficheiros</Text>
-  <Text Key="Check_Box_To_Update_File_Covers">Assinale esta caixa para atualizar a imagem de todos os ficheiros deste álbum</Text>
+  <Text Key="Update_File_Covers">Atualizar imagem em todos os ficheiros</Text>
+  <Text Key="Check_Box_To_Update_File_Covers">Assinale esta caixa para atualizar a imagem em todos os ficheiros deste álbum</Text>
   <Text Key="Startup_Page">Página inicial</Text>
   <Text Key="Start_At_Last_Selected_Page">Abrir a última página selecionada</Text>
   <Text Key="Rating">Classificação</Text>
@@ -292,7 +292,7 @@
   <Text Key="Social_Networks">Redes sociais</Text>
   <Text Key="Contact_Us">Contacte-nos</Text>
   <Text Key="Email">E-mail</Text>
-  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe mas não é possívelreproduzir esta faixa. Ficheiro não encontrado.</Text>
+  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe mas não é possível reproduzir esta faixa. Ficheiro não encontrado.</Text>
   <Text Key="Current_Of_Total">%current% de %total%</Text>
   <Text Key="Cover_Size">Tamanho da imagem</Text>
   <Text Key="Small">Pequeno</Text>
@@ -328,7 +328,7 @@
   <Text Key="Separator">Separador</Text>
   <Text Key="Error_Adding_Online_Search_Provider">Não foi possível adicionar o motor de pesquisa. Consulte o registo para obter mais informações.</Text>
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Não foi possível adicionar o motor de pesquisa. Os campos "Nome" e "URL" são necessários mas o campo "Separador" é opcional.</Text>
-  <Text Key="Error_Updating_Online_Search_Provider">Não foi possível adicionar o motor de pesquisa. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Updating_Online_Search_Provider">Não foi possível atualizar o motor de pesquisa. Consulte o registo para obter mais informações.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Não foi possível atualizar o motor de pesquisa. Os campos "Nome" e "URL" são necessários mas o campo "Separador" é opcional.</Text>
   <Text Key="Sign_In">Iniciar sessão</Text>
   <Text Key="Sign_Out">Fechar sessão</Text>
@@ -373,11 +373,11 @@
   <Text Key="Show_Remove_From_Disk">Mostrar 'Remover do disco' no menu de contexto</Text>
   <Text Key="Remove_From_Disk">Remover do disco</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Tem a certeza de que deseja remover esta faixa do disco? Em caso de arrependimento, pode recuperar a faixa na Reciclagem.</Text>
-  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Tem a certeza de que deseja remover esta faixa do disco? Em caso de arrependimento, pode recuperar as faixas na Reciclagem.</Text>
-  <Text Key="Error_Removing_Songs_From_Disk">ocorreu um erro ao remover as faixas do disco. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Tem a certeza de que deseja remover estas faixas do disco? Em caso de arrependimento, pode recuperar as faixas na Reciclagem.</Text>
+  <Text Key="Error_Removing_Songs_From_Disk">Ocorreu um erro ao remover as faixas do disco. Consulte o registo para obter mais informações.</Text>
   <Text Key="About_Donated_People">Às pessoas que fizeram donativos.</Text>
   <Text Key="About_Translators">Às pessoas que traduziram.</Text>
-  <Text Key="About_Components_Developers">Aos programadores que criaram os componentes mencionados acima.</Text>
+  <Text Key="About_Components_Developers">Aos programadores que criaram os componentes acima mencionados.</Text>
   <Text Key="About_Neowin_Head">À</Text>
   <Text Key="About_Neowin_End">comunidade pelas suas ideias, testes e relatórios de erros.</Text>
   <Text Key="Frequent">Frequentes</Text>
