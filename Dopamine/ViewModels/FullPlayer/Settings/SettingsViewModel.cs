@@ -1,32 +1,25 @@
 ﻿using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Views.FullPlayer.Settings;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Dopamine.ViewModels.FullPlayer.Settings
 {
-    public class SettingsViewModel : BindableBase
+    public class SettingsViewModel : NavigationViewModelBase
     {
         private SettingsPage previousSelectedSettingsPage;
         private SettingsPage selectedSettingsPage;
         private IIndexingService indexingService;
-        private IRegionManager regionManager;
-        private int slideInFrom;
-
-        public int SlideInFrom
-        {
-            get { return this.slideInFrom; }
-            set { SetProperty<int>(ref this.slideInFrom, value); }
-        }
 
         public SettingsPage SelectedSettingsPage
         {
             get { return selectedSettingsPage; }
-            set {
+            set
+            {
                 SetProperty<SettingsPage>(ref this.selectedSettingsPage, value);
                 this.NagivateToSelectedPage();
 
@@ -37,13 +30,9 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public DelegateCommand LoadedCommand { get; set; }
-
-        public SettingsViewModel(IIndexingService indexingService, IRegionManager regionManager)
+        public SettingsViewModel(IIndexingService indexingService, IRegionManager regionManager) : base(regionManager)
         {
             this.indexingService = indexingService;
-            this.regionManager = regionManager;
-
             this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage());
         }
 
@@ -55,22 +44,22 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             switch (this.selectedSettingsPage)
             {
                 case SettingsPage.Appearance:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsAppearance).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsAppearance).FullName);
                     break;
                 case SettingsPage.Behaviour:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsBehaviour).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsBehaviour).FullName);
                     break;
                 case SettingsPage.Collection:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsCollection).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsCollection).FullName);
                     break;
                 case SettingsPage.Online:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsOnline).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsOnline).FullName);
                     break;
                 case SettingsPage.Playback:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsPlayback).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsPlayback).FullName);
                     break;
                 case SettingsPage.Startup:
-                    this.regionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsStartup).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.SettingsRegion, typeof(SettingsStartup).FullName);
                     break;
                 default:
                     break;

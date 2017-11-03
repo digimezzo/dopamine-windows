@@ -1,26 +1,18 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Views.FullPlayer.Collection;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
-    public class CollectionViewModel : BindableBase
+    public class CollectionViewModel : NavigationViewModelBase
     {
         private CollectionPage previousSelectedCollectionPage;
         private CollectionPage selectedCollectionPage;
-        private IRegionManager regionManager;
-        private int slideInFrom;
-
-        public int SlideInFrom
-        {
-            get { return this.slideInFrom; }
-            set { SetProperty<int>(ref this.slideInFrom, value); }
-        }
 
         public CollectionPage SelectedCollectionPage
         {
@@ -34,19 +26,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public DelegateCommand LoadedCommand { get; set; }
-
         public bool CanSearch
         {
             get { return this.selectedCollectionPage != CollectionPage.Frequent; }
         }
 
-        public CollectionViewModel(IRegionManager regionManager)
+        public CollectionViewModel(IRegionManager regionManager) : base(regionManager)
         {
-            this.regionManager = regionManager;
-
-            this.SlideInFrom = Constants.SlideDistance;
-
             this.LoadedCommand = new DelegateCommand(() =>
             {
                 if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
@@ -70,22 +56,22 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             switch (this.selectedCollectionPage)
             {
                 case CollectionPage.Artists:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionArtists).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionArtists).FullName);
                     break;
                 case CollectionPage.Genres:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionGenres).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionGenres).FullName);
                     break;
                 case CollectionPage.Albums:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionAlbums).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionAlbums).FullName);
                     break;
                 case CollectionPage.Songs:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
                     break;
                 case CollectionPage.Playlists:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
                     break;
                 case CollectionPage.Frequent:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
                     break;
                 default:
                     break;
