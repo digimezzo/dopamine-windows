@@ -3,29 +3,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://www.codeplex.com/prism"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:collectionviews="clr-namespace:Dopamine.Views.FullPlayer.Collection"
-             xmlns:settingsviews="clr-namespace:Dopamine.Views.FullPlayer.Settings"
-             xmlns:informationviews="clr-namespace:Dopamine.Views.FullPlayer.Information"
              xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid>
         <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
-        <dc:Pivot HeaderMargin="85,0,0,0" Margin="0,20,0,0" SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:FullPlayerPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MainMenuPivotItemStyle}">
-                <collectionviews:Collection/>
-            </dc:PivotItem>
-            <dc:PivotItem Header="{DynamicResource Language_Settings}" Style="{StaticResource MainMenuPivotItemStyle}">
-                <settingsviews:Settings/>
-            </dc:PivotItem>
-            <dc:PivotItem Header="{DynamicResource Language_Information}" Style="{StaticResource MainMenuPivotItemStyle}">
-                <informationviews:Information/>
-            </dc:PivotItem>
-        </dc:Pivot>
+        <DockPanel>
+            <dc:Pivot DockPanel.Dock="Top" Margin="85,20,0,0" 
+                      SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:FullPlayerPage}}">
+                <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                <dc:PivotItem Header="{DynamicResource Language_Settings}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                <dc:PivotItem Header="{DynamicResource Language_Information}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+            </dc:Pivot>
+            <controls:TransitioningContentControl Margin="0,0,0,0" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                                                  SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="FullPlayerRegion" 
+                                                  prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.FullPlayerRegion}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

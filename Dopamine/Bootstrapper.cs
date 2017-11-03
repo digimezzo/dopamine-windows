@@ -36,6 +36,9 @@ using Dopamine.Common.Services.WindowsIntegration;
 using Dopamine.Views;
 using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
+using Dopamine.Views.FullPlayer.Collection;
+using Dopamine.Views.FullPlayer.Information;
+using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
 using Microsoft.Practices.Unity;
@@ -141,6 +144,7 @@ namespace Dopamine
 
         protected void RegisterViews()
         {
+            // Misc.
             Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
             Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
             Container.RegisterType<object, Shell>(typeof(Views.Shell).FullName);
@@ -150,6 +154,29 @@ namespace Dopamine
             Container.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);
             Container.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
             Container.RegisterType<object, NowPlaying>(typeof(NowPlaying).FullName);
+
+            // Collection
+            Container.RegisterType<object, Collection>(typeof(Collection).FullName);
+            Container.RegisterType<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
+            Container.RegisterType<object, CollectionArtists>(typeof(CollectionArtists).FullName);
+            Container.RegisterType<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
+            Container.RegisterType<object, CollectionGenres>(typeof(CollectionGenres).FullName);
+            Container.RegisterType<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
+            Container.RegisterType<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+
+            // Settings
+            Container.RegisterType<object, Settings>(typeof(Settings).FullName);
+            Container.RegisterType<object, SettingsAppearance>(typeof(SettingsAppearance).FullName);
+            Container.RegisterType<object, SettingsBehaviour>(typeof(SettingsBehaviour).FullName);
+            Container.RegisterType<object, SettingsCollection>(typeof(SettingsCollection).FullName);
+            Container.RegisterType<object, SettingsOnline>(typeof(SettingsOnline).FullName);
+            Container.RegisterType<object, SettingsPlayback>(typeof(SettingsPlayback).FullName);
+            Container.RegisterType<object, SettingsStartup>(typeof(SettingsStartup).FullName);
+
+            // Information
+            Container.RegisterType<object, Information>(typeof(Information).FullName);
+            Container.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
+            Container.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);
         }
 
         protected void RegisterViewModels()

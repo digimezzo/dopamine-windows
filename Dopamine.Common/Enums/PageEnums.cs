@@ -44,6 +44,12 @@
         Online = 5
     }
 
+    public enum InformationPage
+    {
+        Help = 0,
+        About = 1
+    }
+
     public enum FullPlayerPage
     {
         Collection = 0,

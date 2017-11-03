@@ -167,6 +167,7 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
