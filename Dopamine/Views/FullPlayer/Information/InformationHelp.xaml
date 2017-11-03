@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,15,5,15" Padding="10,0,10,0" PanningMode="Both">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_File_Types}" />
             <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_File_Types_Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
