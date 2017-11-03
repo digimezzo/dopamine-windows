@@ -1,27 +1,17 @@
 ﻿using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Views.FullPlayer.Information;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Dopamine.ViewModels.FullPlayer.Information
 {
-    public class InformationViewModel : BindableBase
+    public class InformationViewModel : NavigationViewModelBase
     {
         private InformationPage previousSelectedInformationPage;
         private InformationPage selectedInformationPage;
-        private IRegionManager regionManager;
-        private int slideInFrom;
-
-        public int SlideInFrom
-        {
-            get { return this.slideInFrom; }
-            set { SetProperty<int>(ref this.slideInFrom, value); }
-        }
-
-        public DelegateCommand LoadedCommand { get; set; }
 
         public InformationPage SelectedInformationPage
         {
@@ -33,10 +23,8 @@ namespace Dopamine.ViewModels.FullPlayer.Information
             }
         }
 
-        public InformationViewModel(IRegionManager regionManager)
+        public InformationViewModel(IRegionManager regionManager) : base(regionManager)
         {
-            this.regionManager = regionManager;
-
             this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage());
         }
 
@@ -48,10 +36,10 @@ namespace Dopamine.ViewModels.FullPlayer.Information
             switch (this.selectedInformationPage)
             {
                 case InformationPage.Help:
-                    this.regionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationHelp).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationHelp).FullName);
                     break;
                 case InformationPage.About:
-                    this.regionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationAbout).FullName);
+                    this.RegionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationAbout).FullName);
                     break;
                 default:
                     break;
