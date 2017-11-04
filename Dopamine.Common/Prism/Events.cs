@@ -1,4 +1,6 @@
-﻿using Prism.Events;
+﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Enums;
+using Prism.Events;
 using System;
 
 namespace Dopamine.Common.Prism
@@ -27,7 +29,11 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    public class IsNowPlayingLyricsPageActiveChanged : PubSubEvent<bool>
+    //public class IsNowPlayingLyricsPageActiveChanged : PubSubEvent<bool>
+    //{
+    //}
+
+    public class IsNowPlayingSubPageChanged : PubSubEvent<Tuple<SlideDirection, NowPlayingSubPage>>
     {
     }
 }

@@ -177,6 +177,12 @@ namespace Dopamine
             Container.RegisterType<object, Information>(typeof(Information).FullName);
             Container.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
             Container.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);
+
+            // Now playing
+            Container.RegisterType<object, NowPlayingArtistInformation>(typeof(NowPlayingArtistInformation).FullName);
+            Container.RegisterType<object, NowPlayingLyrics>(typeof(NowPlayingLyrics).FullName);
+            Container.RegisterType<object, NowPlayingPlaylist>(typeof(NowPlayingPlaylist).FullName);
+            Container.RegisterType<object, NowPlayingShowcase>(typeof(NowPlayingShowcase).FullName);
         }
 
         protected void RegisterViewModels()
