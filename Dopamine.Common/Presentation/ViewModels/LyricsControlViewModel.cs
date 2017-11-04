@@ -109,9 +109,9 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.RestartRefreshTimer();
             });
 
-            this.eventAggregator.GetEvent<IsNowPlayingLyricsPageActiveChanged>().Subscribe(isLyricsPageActive =>
+            this.eventAggregator.GetEvent<IsNowPlayingSubPageChanged>().Subscribe(tuple =>
             {
-                this.isNowPlayingLyricsPageActive = isLyricsPageActive;
+                this.isNowPlayingLyricsPageActive = tuple.Item2 == NowPlayingSubPage.Lyrics;
                 this.RestartRefreshTimer();
             });
 
