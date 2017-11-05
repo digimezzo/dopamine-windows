@@ -10,6 +10,7 @@ namespace Dopamine.Common.Base
         public static bool IsWindows10 = EnvironmentUtils.IsWindows10();
 
         // Links
+        public static string HomeLink = "https://www.digimezzo.com";
         public static string LastFmJoinLink = "https://www.last.fm/join";
 
         // Default Window button sizes

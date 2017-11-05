@@ -11,14 +11,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Xml.Linq;
 
 namespace Dopamine.Common.Services.Update
 {
+    [DataContract]
+    internal class OnlineVersionResult
+    {
+        [DataMember]
+        internal string status;
+
+        [DataMember]
+        internal string status_message;
+
+        [DataMember]
+        internal string data;
+    }
+
     public class UpdateService : IUpdateService
     {
+        private string apiRootFormat = Base.Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}";
         private string updatesSubDirectory;
         private bool canCheckForUpdates;
         private bool checkingForUpdates;
@@ -44,21 +62,6 @@ namespace Dopamine.Common.Services.Update
             return new Package(ProductInformation.ApplicationName, version, Configuration.Debug);
         }
 
-        private Package XElement2Package(XElement element)
-        {
-            try
-            {
-                return new Package(
-                    ProductInformation.ApplicationName,
-                    new Version(element.Value),
-                    (Configuration)Convert.ToInt32(element.Attribute("Configuration").Value));
-            }
-            catch (Exception)
-            {
-                return this.CreateDummyPackage();
-            }
-        }
-
         private bool IsValidVersion(Version version)
         {
             if (version.Major == 0 & version.Minor == 0 & version.Build == 0 & version.Revision == 0)
@@ -71,53 +74,41 @@ namespace Dopamine.Common.Services.Update
             }
         }
 
-        private async Task<Package> GetLatestOnlineVersionAsync()
+        private async Task<Package> GetNewVersionAsync(Package currentVersion)
         {
-            // Dummy package. If the version remains 0.0.0.0, there is no update available
-            var lastestVersion = this.CreateDummyPackage();
+            // Create a dummy package. If the version remains 0.0.0.0, no new version was found.
+            Package newVersion = this.CreateDummyPackage();
 
-            await Task.Run(() =>
+            try
             {
-                try
+                // Download a new version from Internet
+                Uri uri = new Uri(string.Format(apiRootFormat, currentVersion.UnformattedVersion));
+                string jsonResult = string.Empty;
+
+                using (var client = new HttpClient())
                 {
-                    // Download the version information web page from the Internet
-                    // Random part required to make sure that we don't download a cached versions file.
-                    WebRequest request = WebRequest.Create(string.Format("{0}?random={1}", UpdateInformation.VersionFileLink, DateTime.Now.Ticks.ToString()));
-                    WebResponse response = request.GetResponse();
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    string str = reader.ReadToEnd();
+                    client.DefaultRequestHeaders.ExpectContinue = false;
+                    var response = await client.GetAsync(uri);
+                    jsonResult = await response.Content.ReadAsStringAsync();
+                }
 
-                    // Create an XML from the downloaded file
-                    XDocument doc = default(XDocument);
-                    doc = XDocument.Parse(str);
+                using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonResult)))
+                {
+                    var deserializer = new DataContractJsonSerializer(typeof(OnlineVersionResult));
+                    OnlineVersionResult newOnlineVersionResult = (OnlineVersionResult)deserializer.ReadObject(ms);
 
-                    // Query the XML file for only result which match this application name
-                    var versionXElements = (from a in doc.Element("Applications").Elements("Application")
-                                            from v in a.Elements("Version")
-                                            where a.Attribute("Name").Value.ToLower().Equals(ProductInformation.ApplicationName.ToLower())
-                                            orderby v.Value
-                                            select v).ToList();
-
-                    var foundVersions = new List<Package>();
-
-                    // Iterate over all versions to find the latest version
-                    foreach (XElement el in versionXElements)
+                    if (!string.IsNullOrEmpty(newOnlineVersionResult.data))
                     {
-                        Package pa = this.XElement2Package(el);
-
-                        if (this.IsValidVersion(pa.Version) && lastestVersion.IsOlder(pa))
-                        {
-                            lastestVersion = pa;
-                        }
+                        newVersion = this.CreateDummyPackage(new Version(newOnlineVersionResult.data));
                     }
                 }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Update check: could not retrieve online version information. Exception: {0}", ex.Message);
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Update check: could not retrieve online version information. Exception: {0}", ex.Message);
+            }
 
-            return lastestVersion;
+            return newVersion;
         }
 
         private async Task<bool> TryCreateUpdatesSubDirectoryAsync()
@@ -288,15 +279,19 @@ namespace Dopamine.Common.Services.Update
             var currentVersion = this.CreateDummyPackage(ProcessExecutable.AssemblyVersion());
             LogClient.Info("Update check: current version = {0}", currentVersion.Version.ToString());
 
-            // Get the latest version online
-            // -----------------------------
-            if (!this.canCheckForUpdates) return; // Stop here if the update check was disabled while we were running
-            Package latestOnlineVersion = await this.GetLatestOnlineVersionAsync();
-            LogClient.Info("Update check: latest online version = {0}.{1}.{2}.{3}", latestOnlineVersion.Version.Major.ToString(), latestOnlineVersion.Version.Minor.ToString(), latestOnlineVersion.Version.Build.ToString(), latestOnlineVersion.Version.Revision.ToString());
+            // Get a new version online
+            // ------------------------
+            if (!this.canCheckForUpdates)
+            {
+                return; // Stop here if the update check was disabled while we were running
+            }
 
-            // Compare the versions
-            // --------------------
-            if (currentVersion.IsOlder(latestOnlineVersion))
+            Package newOnlineVersion = await this.GetNewVersionAsync(currentVersion);
+            LogClient.Info("Update check: new online version = {0}.{1}.{2}.{3}", newOnlineVersion.UnformattedVersion);
+
+            // Check if the online version is valid
+            // ------------------------------------
+            if (this.IsValidVersion(newOnlineVersion.Version))
             {
                 if (this.automaticDownload)
                 {
@@ -304,8 +299,8 @@ namespace Dopamine.Common.Services.Update
                     // -----------------------------
 
                     // Define the name of the file to which we will download the update
-                    string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, latestOnlineVersion.Filename);
-                    string updatePackageDownloadedFileFullPath = Path.Combine(this.updatesSubDirectory, latestOnlineVersion.Filename + latestOnlineVersion.UpdateFileExtension);
+                    string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, newOnlineVersion.Filename);
+                    string updatePackageDownloadedFileFullPath = Path.Combine(this.updatesSubDirectory, newOnlineVersion.Filename + newOnlineVersion.UpdateFileExtension);
 
                     // Check if there is a directory with the name of the update package: 
                     // that means the file was already downloaded and extracted.
@@ -314,7 +309,7 @@ namespace Dopamine.Common.Services.Update
 
                         // The folder exists, that means that the new version was already extracted previously.
                         // Raise an event that a new version is available for installation.
-                        if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(latestOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                        if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
                     }
                     else
                     {
@@ -322,7 +317,7 @@ namespace Dopamine.Common.Services.Update
                         if (!this.IsDownloadedPackageAvailable(updatePackageDownloadedFileFullPath))
                         {
                             // No package available yet: download it.
-                            OperationResult downloadResult = await this.DownloadAsync(latestOnlineVersion, updatePackageDownloadedFileFullPath);
+                            OperationResult downloadResult = await this.DownloadAsync(newOnlineVersion, updatePackageDownloadedFileFullPath);
 
                             if (downloadResult.Result)
                             {
@@ -331,7 +326,7 @@ namespace Dopamine.Common.Services.Update
                                 if (processResult.Result)
                                 {
                                     // Processing the downloaded file was successful. Raise an event that a new version is available for installation.
-                                    if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(latestOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                                    if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
                                 }
                                 else
                                 {
@@ -339,7 +334,7 @@ namespace Dopamine.Common.Services.Update
                                     LogClient.Error("Update check: could not process downloaded files. User is notified that there is a new version online. Exception: {0}", processResult.GetFirstMessage());
 
                                     // Raise an event that there is a new version available online.
-                                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(latestOnlineVersion);
+                                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(newOnlineVersion);
                                 }
                             }
                             else
@@ -355,7 +350,7 @@ namespace Dopamine.Common.Services.Update
                             if (extractResult.Result)
                             {
                                 // Extracting was successful. Raise an event that a new version is available for installation.
-                                if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(latestOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                                if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
                             }
                             else
                             {
@@ -371,12 +366,12 @@ namespace Dopamine.Common.Services.Update
                     // ---------------------------------
 
                     // Raise an event that a New version Is available for download
-                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(latestOnlineVersion);
+                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(newOnlineVersion);
                 }
             }
             else
             {
-                this.NoNewVersionAvailable(latestOnlineVersion);
+                this.NoNewVersionAvailable(newOnlineVersion);
                 LogClient.Info("Update check: no newer version was found.");
             }
 
