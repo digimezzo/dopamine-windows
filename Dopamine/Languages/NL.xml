@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Kies jouw taal</Text>
   <Text Key="Language">Taal</Text>
   <Text Key="Updates">Updates</Text>
-  <Text Key="Check_For_Updates">Controleren op updates (bij het opstarten en om de 15 minuten)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Ook controleren op pre-releases</Text>
   <Text Key="New_Version_available">Een nieuwe versie is beschikbaar</Text>
   <Text Key="Add_More_Colors">Meer kleuren toevoegen</Text>
   <Text Key="Show_Dopamine">Toon Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">Ga, tijdens gemixed afspelen, terug naar het begin van de afspeellijst na het laatste nummer.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Controleren op updates bij het opstarten</Text>
+  <Text Key="Check_For_Updates_Periodically">Periodisch controleren op updates</Text>
 </Language>

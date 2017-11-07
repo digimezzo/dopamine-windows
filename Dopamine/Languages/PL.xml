@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Wybierz swój język</Text>
   <Text Key="Language">Język</Text>
   <Text Key="Updates">Aktualizacje</Text>
-  <Text Key="Check_For_Updates">Sprawdź aktualizacje (co 15 minut)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Sprawdź także wczesne wersje</Text>
   <Text Key="New_Version_available">Dostępna nowa wersja</Text>
   <Text Key="Add_More_Colors">Dodaj więcej kolorów</Text>
   <Text Key="Show_Dopamine">Pokaż Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

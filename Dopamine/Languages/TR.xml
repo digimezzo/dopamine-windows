@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Dilinizi seçin</Text>
   <Text Key="Language">Dil</Text>
   <Text Key="Updates">Güncellemeler</Text>
-  <Text Key="Check_For_Updates">Güncellemeleri kontrol et (açılışta ve her 15 dakikada bir)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Önizleme sürümlerini de kontrol et</Text>
   <Text Key="New_Version_available">Yeni bir sürüm mevcut</Text>
   <Text Key="Add_More_Colors">Daha fazla renk ekle</Text>
   <Text Key="Show_Dopamine">Dopamine'ı göster</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

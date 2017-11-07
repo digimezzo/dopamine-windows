@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Välj ditt språk</Text>
   <Text Key="Language">Språk</Text>
   <Text Key="Updates">Uppdateringar</Text>
-  <Text Key="Check_For_Updates">Sök efter uppdateringar (vid systemstart och var 15:e minut)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Sök också testversioner</Text>
   <Text Key="New_Version_available">En ny version finns tillgänglig</Text>
   <Text Key="Add_More_Colors">Lägg till fler färger</Text>
   <Text Key="Show_Dopamine">Visa Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">Vid blandad uppspelning, återvänd till början av spellistan efter sista låten.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>
