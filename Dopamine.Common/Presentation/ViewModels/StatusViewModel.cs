@@ -134,11 +134,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
             this.updateService.UpdateCheckDisabled += (_, __) => this.IsUpdateAvailable = false;
 
-            if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
-            {
-                this.updateService.EnableUpdateCheck();
-            }
-
             // Initial status
             this.IsIndexing = false;
             this.IsUpdateAvailable = false;

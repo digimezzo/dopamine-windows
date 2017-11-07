@@ -1,8 +1,10 @@
-﻿using Dopamine.Common.Services.Dialog;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Taskbar;
+using Dopamine.Common.Services.Update;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -11,12 +13,7 @@ namespace Dopamine.ViewModels
 {
     public class ShellViewModel : BindableBase
     {
-        private IDialogService dialogService;
-        private IFileService fileService;
-        private IJumpListService jumpListService;
         private bool isOverlayVisible;
-
-        public ITaskbarService TaskbarService { get; }
 
         public bool IsOverlayVisible
         {
@@ -30,23 +27,23 @@ namespace Dopamine.ViewModels
         public DelegateCommand LoadedCommand { get; set; }
 
         public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, IDialogService dialogService,
-            IJumpListService jumpListService, IFileService fileService)
+            IJumpListService jumpListService, IFileService fileService, IUpdateService updateService)
         {
-            this.TaskbarService = taskbarService;
-            this.dialogService = dialogService;
-            this.jumpListService = jumpListService;
-            this.fileService = fileService;
-
-            this.dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
+            dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
             this.PlayPreviousCommand = new DelegateCommand(async () => await playbackService.PlayPreviousAsync());
             this.PlayNextCommand = new DelegateCommand(async () => await playbackService.PlayNextAsync());
             this.PlayOrPauseCommand = new DelegateCommand(async () => await playbackService.PlayOrPauseAsync());
 
-            this.LoadedCommand = new DelegateCommand(() => this.fileService.ProcessArguments(Environment.GetCommandLineArgs()));
+            this.LoadedCommand = new DelegateCommand(() => fileService.ProcessArguments(Environment.GetCommandLineArgs()));
+
+            if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
+            {
+                updateService.EnableUpdateCheck();
+            }
 
             // Populate the JumpList
-            this.jumpListService.PopulateJumpListAsync();
+            jumpListService.PopulateJumpListAsync();
         }
     }
 }
