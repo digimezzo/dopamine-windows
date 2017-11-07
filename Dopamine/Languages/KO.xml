@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">언어를 선택하세요</Text>
   <Text Key="Language">언어</Text>
   <Text Key="Updates">업데이트</Text>
-  <Text Key="Check_For_Updates">업데이트 확인 (시작할 때와 이후 15분마다)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">프리뷰 버전도 확인</Text>
   <Text Key="New_Version_available">새 버전이 있습니다</Text>
   <Text Key="Add_More_Colors">색상 추가</Text>
   <Text Key="Show_Dopamine">도파민 보이기</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">무작위 재생 중 마지막 노래가 끝나면 재생 목록 처음으로 돌아가기</Text>
   <Text Key="Show_Song_Covers">노래 커버 보이기</Text>
   <Text Key="Hide_Song_Covers">노래 커버 숨기기</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

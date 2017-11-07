@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Escolha o idioma preferencial</Text>
   <Text Key="Language">Idioma</Text>
   <Text Key="Updates">Atualizações</Text>
-  <Text Key="Check_For_Updates">Procurar atualizações (ao iniciar e a cada 15 minutos)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Procurar também versões de desenvolvimento</Text>
   <Text Key="New_Version_available">Está disponível uma nova versão</Text>
   <Text Key="Add_More_Colors">Adicionar mais cores</Text>
   <Text Key="Show_Dopamine">Mostrar Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">Durante a reprodução aleatória, voltar ao início da lista de reprodução depois de reproduzir a última faixa.</Text>
   <Text Key="Show_Song_Covers">Mostrar imagens dos álbuns</Text>
   <Text Key="Hide_Song_Covers">Ocultar imagens dos álbuns</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

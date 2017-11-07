@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">选择您的语言</Text>
   <Text Key="Language">语言</Text>
   <Text Key="Updates">更新</Text>
-  <Text Key="Check_For_Updates">检查更新 (启动时且每15分钟检查一次）</Text>
-  <Text Key="Also_Check_For_Pre_Releases">检查预览版更新</Text>
   <Text Key="New_Version_available">有新的版本可用</Text>
   <Text Key="Add_More_Colors">添加更多颜色</Text>
   <Text Key="Show_Dopamine">打开 Dopamine 主窗口</Text>
@@ -407,6 +405,8 @@
   <Text Key="Unknown_Genre">未知流派</Text>
   <Text Key="Refresh_Collection_Automatically">自动更新音乐库</Text>
   <Text Key="Loop_When_Shuffle">在随机播放模式中，在最后一首歌曲播放结束后返回播放列表的开头。</Text>
-<Text Key="Show_Song_Covers">Show song covers</Text>
+  <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

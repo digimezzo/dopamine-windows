@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Выберите Ваш язык</Text>
   <Text Key="Language">Язык</Text>
   <Text Key="Updates">Обновления</Text>
-  <Text Key="Check_For_Updates">Проверять наличие обновлений (при запуске и каждые 15 минут)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Включая предрелизные версии</Text>
   <Text Key="New_Version_available">Доступна новая версия</Text>
   <Text Key="Add_More_Colors">Добавить ещё цвета</Text>
   <Text Key="Show_Dopamine">Показать Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">Во время воспроизведения в случайном порядке, возвращает к началу списка воспроизведения после последней песни.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

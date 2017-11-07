@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Επιλέξτε γλώσσα</Text>
   <Text Key="Language">Γλώσσα</Text>
   <Text Key="Updates">Ενημερώσεις</Text>
-  <Text Key="Check_For_Updates">Έλεγχος ενημερώσεων (κατά την εκκίνηση και κάθε 15 λεπτά)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Επίσης έλεγξε και για προεκδόσεις</Text>
   <Text Key="New_Version_available">Διατίθεται νέα έκδοση</Text>
   <Text Key="Add_More_Colors">Προσθήκη περισσότερων χρωμάτων</Text>
   <Text Key="Show_Dopamine">Εμφάνιση του Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

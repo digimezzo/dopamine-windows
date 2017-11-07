@@ -2,7 +2,7 @@
 <Settings>
    <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>94</Value>
+      <Value>95</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -164,8 +164,14 @@
     </Setting>
   </Namespace>
   <Namespace Name="Updates">
-    <Setting Name="CheckForUpdates">
+    <Setting Name="CheckAtStartup">
+      <Value>true</Value>
+    </Setting>
+    <Setting Name="CheckPeriodically">
       <Value>False</Value>
+    </Setting>
+    <Setting Name="CheckIntervalMinutes">
+      <Value>15</Value>
     </Setting>
     <Setting Name="AutomaticDownload">
       <Value>True</Value>

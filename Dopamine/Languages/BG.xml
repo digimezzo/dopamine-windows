@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Изберете своя език</Text>
   <Text Key="Language">Език</Text>
   <Text Key="Updates">Ъпдейти</Text>
-  <Text Key="Check_For_Updates">Проверка за ъпдейти (проверка на всеки 15 минути)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Проверка за предварителни издания</Text>
   <Text Key="New_Version_available">Налична е нова версия</Text>
   <Text Key="Add_More_Colors">Добавете още цветове</Text>
   <Text Key="Show_Dopamine">Покажи Dopamine</Text>
@@ -409,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>

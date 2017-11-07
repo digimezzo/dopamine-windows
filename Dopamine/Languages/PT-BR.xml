@@ -55,8 +55,6 @@
   <Text Key="Pick_Your_Language">Escolha o seu idioma</Text>
   <Text Key="Language">Idioma</Text>
   <Text Key="Updates">Atualizações</Text>
-  <Text Key="Check_For_Updates">Verificar se há atualizações (na inicialização e a cada 15 minutos)</Text>
-  <Text Key="Also_Check_For_Pre_Releases">Verificar se há pré-lançamentos</Text>
   <Text Key="New_Version_available">Há uma nova versão disponível</Text>
   <Text Key="Add_More_Colors">Adicionar mais cores</Text>
   <Text Key="Show_Dopamine">Mostrar Dopamine</Text>
@@ -396,7 +394,6 @@
   <Text Key="Audio_Device">Dispositivo de áudio</Text>
   <Text Key="Choose_Audio_Device">Escolher dispositivo de áudio</Text>
   <Text Key="By_Date_Created">Por data de criação</Text>
-  <Text Key="Output_Device">Dispositivo de saída</Text>
   <Text Key="Plays">Plays</Text>
   <Text Key="Skips">Skips</Text>
   <Text Key="Play_Selected">Play Selected</Text>
@@ -410,4 +407,6 @@
   <Text Key="Loop_When_Shuffle">During shuffled playback, return to the start of the playlist after the last song.</Text>
   <Text Key="Show_Song_Covers">Show song covers</Text>
   <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
+  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
 </Language>
