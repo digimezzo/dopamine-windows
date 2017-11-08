@@ -62,24 +62,18 @@ namespace Dopamine.Common.Presentation.ViewModels
                 this.IsUpdateAvailable = false;
             });
 
-            this.updateService.NewDownloadedVersionAvailable += NewVersionAvailableHandler;
-            this.updateService.NewOnlineVersionAvailable += NewVersionAvailableHandler;
+            this.updateService.NewVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
         }
 
-        private void NewVersionAvailableHandler(Package package)
-        {
-            this.NewVersionAvailableHandler(package, string.Empty);
-        }
-
-        private void NewVersionAvailableHandler(Package package, string destinationPath)
+        private void NewVersionAvailableHandler(object sender, UpdateAvailableEventArgs e)
         {
             if (!this.isUpdateStatusHiddenByUser)
             {
-                this.Package = package;
+                this.Package = e.UpdatePackage;
                 this.IsUpdateAvailable = true;
 
-                this.destinationPath = destinationPath;
+                this.destinationPath = e.UpdatePackageLocation;
                 RaisePropertyChanged(nameof(this.ShowInstallUpdateButton));
 
                 if (!string.IsNullOrEmpty(destinationPath))
@@ -93,7 +87,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        private void NoNewVersionAvailableHandler(Package package)
+        private void NoNewVersionAvailableHandler(object sender, EventArgs e)
         {
             this.IsUpdateAvailable = false;
         }

@@ -3,12 +3,13 @@ using System;
 
 namespace Dopamine.Common.Services.Update
 {
+    public delegate void UpdateAvailableEventHandler(object sender, UpdateAvailableEventArgs e);
+
     public interface IUpdateService
     {
         void EnableUpdateCheck();
         void DisableUpdateCheck();
-        event Action<Package, string> NewDownloadedVersionAvailable;
-        event Action<Package> NewOnlineVersionAvailable;
-        event Action<Package> NoNewVersionAvailable;
+        event UpdateAvailableEventHandler NewVersionAvailable;
+        event EventHandler NoNewVersionAvailable;
     }
 }
