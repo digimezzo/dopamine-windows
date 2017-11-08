@@ -285,7 +285,7 @@
   <Text Key="Error_Adding_Playlists_To_Now_Playing">Ocorreu um erro ao adicionar as listas de reprodução. Consulte o registo para obter mais informações.</Text>
   <Text Key="Play_All">Reproduzir tudo</Text>
   <Text Key="Shuffle_All">Baralhar tudo</Text>
-  <Text Key="See_You_Later">Até logo!</Text>
+  <Text Key="See_You_Later">Até já!</Text>
   <Text Key="Website">Site</Text>
   <Text Key="Social_Networks">Redes sociais</Text>
   <Text Key="Contact_Us">Contacte-nos</Text>
@@ -407,6 +407,6 @@
   <Text Key="Loop_When_Shuffle">Durante a reprodução aleatória, voltar ao início da lista de reprodução depois de reproduzir a última faixa.</Text>
   <Text Key="Show_Song_Covers">Mostrar imagens dos álbuns</Text>
   <Text Key="Hide_Song_Covers">Ocultar imagens dos álbuns</Text>
-  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
-  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
+  <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
+  <Text Key="Check_For_Updates_Periodically">Procurar atualizações periodicamente</Text>
 </Language>
