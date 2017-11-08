@@ -34,7 +34,10 @@
                 <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
                 <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             </dc:Pivot>
-            <commonviews:Status DockPanel.Dock="Top"/>
+            <Grid DockPanel.Dock="Top">
+                <commonviews:UpdateStatus Panel.ZIndex="0"/>
+                <commonviews:IndexingStatus Panel.ZIndex="1"/>
+            </Grid>
             <Grid DockPanel.Dock="Bottom">
                 <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
                 <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>

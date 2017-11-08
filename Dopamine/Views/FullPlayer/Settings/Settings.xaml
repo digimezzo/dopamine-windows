@@ -30,7 +30,10 @@
             <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource SubMenuPivotItemStyle}"/>
         </dc:Pivot>
-        <commonviews:Status DockPanel.Dock="Top"/>
+        <Grid DockPanel.Dock="Top">
+            <commonviews:UpdateStatus Panel.ZIndex="0"/>
+            <commonviews:IndexingStatus Panel.ZIndex="1"/>
+        </Grid>
         <controls:TransitioningContentControl Margin="0,20,0,15" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
                                                   SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="SettingsRegion" 
                                                   prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.SettingsRegion}"/>

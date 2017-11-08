@@ -10,6 +10,5 @@ namespace Dopamine.Common.Services.Update
         event Action<Package, string> NewDownloadedVersionAvailable;
         event Action<Package> NewOnlineVersionAvailable;
         event Action<Package> NoNewVersionAvailable;
-        event EventHandler UpdateCheckDisabled;
     }
 }

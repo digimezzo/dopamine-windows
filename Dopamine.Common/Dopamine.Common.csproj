@@ -256,6 +256,7 @@
     <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="Presentation\ViewModels\Base\NavigationViewModelBase.cs" />
+    <Compile Include="Presentation\ViewModels\IndexingStatusViewModel.cs" />
     <Compile Include="Presentation\Views\Empty.xaml.cs">
       <DependentUpon>Empty.xaml</DependentUpon>
     </Compile>
@@ -339,7 +340,7 @@
     <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\StatusViewModel.cs" />
+    <Compile Include="Presentation\ViewModels\UpdateStatusViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
@@ -397,6 +398,9 @@
     </Compile>
     <Compile Include="Presentation\Views\HorizontalVolumeControls.xaml.cs">
       <DependentUpon>HorizontalVolumeControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\IndexingStatus.xaml.cs">
+      <DependentUpon>IndexingStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\LyricsControl.xaml.cs">
       <DependentUpon>LyricsControl.xaml</DependentUpon>
@@ -458,8 +462,8 @@
     <Compile Include="Presentation\Views\SpectrumAnalyzerControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\Status.xaml.cs">
-      <DependentUpon>Status.xaml</DependentUpon>
+    <Compile Include="Presentation\Views\UpdateStatus.xaml.cs">
+      <DependentUpon>UpdateStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
       <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
@@ -679,6 +683,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Views\IndexingStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\Views\LyricsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -759,7 +767,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\Views\Status.xaml">
+    <Page Include="Presentation\Views\UpdateStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

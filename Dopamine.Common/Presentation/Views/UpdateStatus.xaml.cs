@@ -2,9 +2,9 @@
 
 namespace Dopamine.Common.Presentation.Views
 {
-    public partial class Status : UserControl
+    public partial class UpdateStatus : UserControl
     {
-        public Status()
+        public UpdateStatus()
         {
             InitializeComponent();
         }
