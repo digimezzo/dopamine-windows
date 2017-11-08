@@ -7,7 +7,6 @@ using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Ionic.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,7 +16,6 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Xml.Linq;
 
 namespace Dopamine.Common.Services.Update
 {
@@ -309,7 +307,13 @@ namespace Dopamine.Common.Services.Update
 
                         // The folder exists, that means that the new version was already extracted previously.
                         // Raise an event that a new version is available for installation.
-                        if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                        if (this.canCheckForUpdates)
+                        {
+                            this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
+                                UpdatePackage = newOnlineVersion,
+                                UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
+                            });
+                        }
                     }
                     else
                     {
@@ -326,7 +330,10 @@ namespace Dopamine.Common.Services.Update
                                 if (processResult.Result)
                                 {
                                     // Processing the downloaded file was successful. Raise an event that a new version is available for installation.
-                                    if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
+                                        UpdatePackage = newOnlineVersion,
+                                        UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
+                                    });
                                 }
                                 else
                                 {
@@ -334,7 +341,10 @@ namespace Dopamine.Common.Services.Update
                                     LogClient.Error("Update check: could not process downloaded files. User is notified that there is a new version online. Exception: {0}", processResult.GetFirstMessage());
 
                                     // Raise an event that there is a new version available online.
-                                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(newOnlineVersion);
+                                    if (this.canCheckForUpdates)
+                                    {
+                                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs() { UpdatePackage = newOnlineVersion });
+                                    }
                                 }
                             }
                             else
@@ -350,7 +360,13 @@ namespace Dopamine.Common.Services.Update
                             if (extractResult.Result)
                             {
                                 // Extracting was successful. Raise an event that a new version is available for installation.
-                                if (this.canCheckForUpdates) this.NewDownloadedVersionAvailable(newOnlineVersion, updatePackageExtractedDirectoryFullPath);
+                                if (this.canCheckForUpdates)
+                                {
+                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
+                                        UpdatePackage = newOnlineVersion,
+                                        UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
+                                    });
+                                }
                             }
                             else
                             {
@@ -366,12 +382,15 @@ namespace Dopamine.Common.Services.Update
                     // ---------------------------------
 
                     // Raise an event that a New version Is available for download
-                    if (this.canCheckForUpdates) this.NewOnlineVersionAvailable(newOnlineVersion);
+                    if (this.canCheckForUpdates)
+                    {
+                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs() { UpdatePackage = newOnlineVersion });
+                    }
                 }
             }
             else
             {
-                this.NoNewVersionAvailable(newOnlineVersion);
+                this.NoNewVersionAvailable(this, new EventArgs());
                 LogClient.Info("Update check: no newer version was found.");
             }
 
@@ -407,13 +426,11 @@ namespace Dopamine.Common.Services.Update
             this.canCheckForUpdates = false;
             this.checkNewVersionTimer.Stop();
 
-            this.UpdateCheckDisabled(this, null);
+            this.NoNewVersionAvailable(this, new EventArgs());
         }
 
-        public event Action<Package, string> NewDownloadedVersionAvailable = delegate { };
-        public event Action<Package> NewOnlineVersionAvailable = delegate { };
-        public event Action<Package> NoNewVersionAvailable = delegate { };
-        public event EventHandler UpdateCheckDisabled = delegate { };
+        public event UpdateAvailableEventHandler NewVersionAvailable = delegate { };
+        public event EventHandler NoNewVersionAvailable = delegate { };
 
         public void CheckNewVersionTimerHandler(object sender, ElapsedEventArgs e)
         {

@@ -568,6 +568,7 @@
     <Compile Include="Services\Taskbar\ITaskbarService.cs" />
     <Compile Include="Services\Taskbar\TaskbarService.cs" />
     <Compile Include="Services\Update\IUpdateService.cs" />
+    <Compile Include="Services\Update\UpdateAvailableEventArgs.cs" />
     <Compile Include="Services\Update\UpdateService.cs" />
     <Compile Include="Services\Win32Input\AppCommandKeyboardHookManager.cs" />
     <Compile Include="Services\Win32Input\IKeyboardHookManager.cs" />
