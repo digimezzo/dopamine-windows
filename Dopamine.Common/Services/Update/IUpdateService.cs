@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Packaging;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Update
 {
@@ -7,8 +7,7 @@ namespace Dopamine.Common.Services.Update
 
     public interface IUpdateService
     {
-        void EnableUpdateCheck();
-        void DisableUpdateCheck();
+        void Reset();
         event UpdateAvailableEventHandler NewVersionAvailable;
         event EventHandler NoNewVersionAvailable;
     }
