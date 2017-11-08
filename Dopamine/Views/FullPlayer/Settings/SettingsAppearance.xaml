@@ -15,7 +15,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Theme}" />
-            <commonviews:AppearanceTheme Margin="0,15,0,0" ShowFollowAlbumCoverColor="True"/>
+            <commonviews:AppearanceTheme Margin="0,5,0,0" ShowFollowAlbumCoverColor="True"/>
             <controls:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="0,15,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Add_More_Colors}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding OpenColorSchemesDirectoryCommand}" CommandParameter="{Binding Path=ColorSchemesDirectory}"/>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Border}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Window_Border}" Foreground="{DynamicResource RG_ForegroundBrush}"/>

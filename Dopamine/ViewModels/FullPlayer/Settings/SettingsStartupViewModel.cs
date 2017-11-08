@@ -7,29 +7,31 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 {
     public class SettingsStartupViewModel : BindableBase
     {
-        private bool checkBoxCheckForUpdatesChecked;
+        private bool checkBoxCheckForUpdatesAtStartupChecked;
+        private bool checkBoxCheckForUpdatesPeriodicallyChecked;
         private bool checkBoxInstallUpdatesAutomaticallyChecked;
         private bool checkBoxStartupPageChecked;
         private bool checkBoxRembemberLastPlayedTrackChecked;
         private IUpdateService updateService;
         private bool isportable;
 
-        public bool CheckBoxCheckForUpdatesChecked
+        public bool CheckBoxCheckForUpdatesAtStartupChecked
         {
-            get { return this.checkBoxCheckForUpdatesChecked; }
+            get { return this.checkBoxCheckForUpdatesAtStartupChecked; }
             set
             {
-                SettingsClient.Set<bool>("Updates", "CheckForUpdates", value);
-                SetProperty<bool>(ref this.checkBoxCheckForUpdatesChecked, value);
+                SettingsClient.Set<bool>("Updates", "CheckAtStartup", value);
+                SetProperty<bool>(ref this.checkBoxCheckForUpdatesAtStartupChecked, value);
+            }
+        }
 
-                if (value)
-                {
-                    this.updateService.EnableUpdateCheck();
-                }
-                else
-                {
-                    this.updateService.DisableUpdateCheck();
-                }
+        public bool CheckBoxCheckForUpdatesPeriodicallyChecked
+        {
+            get { return this.checkBoxCheckForUpdatesPeriodicallyChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Updates", "CheckPeriodically", value);
+                SetProperty<bool>(ref this.checkBoxCheckForUpdatesPeriodicallyChecked, value);
             }
         }
 
@@ -40,15 +42,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "AutomaticDownload", value);
                 SetProperty<bool>(ref this.checkBoxInstallUpdatesAutomaticallyChecked, value);
-
-                if (this.CheckBoxCheckForUpdatesChecked)
-                {
-                    this.updateService.EnableUpdateCheck();
-                }
-                else
-                {
-                    this.updateService.DisableUpdateCheck();
-                }
             }
         }
 
@@ -102,7 +95,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
-                this.checkBoxCheckForUpdatesChecked = SettingsClient.Get<bool>("Updates", "CheckForUpdates");
+                this.checkBoxCheckForUpdatesAtStartupChecked = SettingsClient.Get<bool>("Updates", "CheckAtStartup");
+                this.checkBoxCheckForUpdatesPeriodicallyChecked = SettingsClient.Get<bool>("Updates", "CheckPeriodically");
                 this.checkBoxStartupPageChecked = SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage");
                 this.checkBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
             });

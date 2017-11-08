@@ -37,11 +37,6 @@ namespace Dopamine.ViewModels
 
             this.LoadedCommand = new DelegateCommand(() => fileService.ProcessArguments(Environment.GetCommandLineArgs()));
 
-            if (SettingsClient.Get<bool>("Updates", "CheckForUpdates"))
-            {
-                updateService.EnableUpdateCheck();
-            }
-
             // Populate the JumpList
             jumpListService.PopulateJumpListAsync();
         }
