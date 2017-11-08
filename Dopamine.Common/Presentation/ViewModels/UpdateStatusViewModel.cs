@@ -1,0 +1,147 @@
+﻿using Digimezzo.Utilities.IO;
+using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Packaging;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Services.Update;
+using Prism.Commands;
+using Prism.Mvvm;
+using System;
+using System.Diagnostics;
+using System.Linq;
+
+namespace Dopamine.Common.Presentation.ViewModels
+{
+    public class UpdateStatusViewModel : BindableBase
+    {
+        private IUpdateService updateService;
+        private bool isUpdateAvailable;
+        private Package package;
+        private string destinationPath;
+        private string updateToolTip;
+        private bool isUpdateStatusHiddenByUser;
+
+        public bool IsUpdateAvailable
+        {
+            get { return this.isUpdateAvailable; }
+            set
+            {
+                SetProperty<bool>(ref this.isUpdateAvailable, value);
+            }
+        }
+
+        public Package Package
+        {
+            get { return this.package; }
+            set { SetProperty<Package>(ref this.package, value); }
+        }
+
+        public string UpdateToolTip
+        {
+            get { return this.updateToolTip; }
+            set { SetProperty<string>(ref this.updateToolTip, value); }
+        }
+
+        public bool ShowInstallUpdateButton
+        {
+            get { return !string.IsNullOrEmpty(this.destinationPath); }
+        }
+
+        public DelegateCommand DownloadOrInstallUpdateCommand { get; set; }
+        public DelegateCommand HideUpdateStatusCommand { get; set; }
+
+        public UpdateStatusViewModel(IUpdateService updateService)
+        {
+            this.updateService = updateService;
+
+            this.DownloadOrInstallUpdateCommand = new DelegateCommand(this.DownloadOrInstallUpdate);
+
+            this.HideUpdateStatusCommand = new DelegateCommand(() =>
+            {
+                this.isUpdateStatusHiddenByUser = true;
+                this.IsUpdateAvailable = false;
+            });
+
+            this.updateService.NewDownloadedVersionAvailable += NewVersionAvailableHandler;
+            this.updateService.NewOnlineVersionAvailable += NewVersionAvailableHandler;
+            this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
+        }
+
+        private void NewVersionAvailableHandler(Package package)
+        {
+            this.NewVersionAvailableHandler(package, string.Empty);
+        }
+
+        private void NewVersionAvailableHandler(Package package, string destinationPath)
+        {
+            if (!this.isUpdateStatusHiddenByUser)
+            {
+                this.Package = package;
+                this.IsUpdateAvailable = true;
+
+                this.destinationPath = destinationPath;
+                RaisePropertyChanged(nameof(this.ShowInstallUpdateButton));
+
+                if (!string.IsNullOrEmpty(destinationPath))
+                {
+                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Install");
+                }
+                else
+                {
+                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
+                }
+            }
+        }
+
+        private void NoNewVersionAvailableHandler(Package package)
+        {
+            this.IsUpdateAvailable = false;
+        }
+
+        private void DownloadOrInstallUpdate()
+        {
+            if (!string.IsNullOrEmpty(this.destinationPath))
+            {
+                try
+                {
+                    // A file was downloaded. Start the installer.
+                    System.IO.FileInfo msiFileInfo = new System.IO.DirectoryInfo(this.destinationPath).GetFiles("*" + package.InstallableFileExtension).First();
+                    Process.Start(msiFileInfo.FullName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not start the MSI installer. Download link was opened instead. Exception: {0}", ex.Message);
+                    this.OpenDownloadLink();
+                }
+            }
+            else
+            {
+                // Nothing was downloaded, forward to the download site.
+                this.OpenDownloadLink();
+            }
+        }
+
+        private void OpenDownloadLink()
+        {
+            try
+            {
+                string downloadLink = string.Empty;
+
+                if (this.Package.Configuration == Configuration.Debug)
+                {
+                    downloadLink = UpdateInformation.PreReleaseDownloadLink;
+                }
+                else if (this.Package.Configuration == Configuration.Release)
+                {
+                    downloadLink = UpdateInformation.ReleaseDownloadLink;
+                }
+
+                Actions.TryOpenLink(downloadLink);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not open the download link. Exception: {0}", ex.Message);
+            }
+        }
+    }
+}
