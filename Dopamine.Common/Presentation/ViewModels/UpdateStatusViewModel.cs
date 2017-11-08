@@ -119,18 +119,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             try
             {
-                string downloadLink = string.Empty;
-
-                if (this.Package.Configuration == Configuration.Debug)
-                {
-                    downloadLink = UpdateInformation.PreReleaseDownloadLink;
-                }
-                else if (this.Package.Configuration == Configuration.Release)
-                {
-                    downloadLink = UpdateInformation.ReleaseDownloadLink;
-                }
-
-                Actions.TryOpenLink(downloadLink);
+                Actions.TryOpenLink(UpdateInformation.DownloadLink);
             }
             catch (Exception ex)
             {

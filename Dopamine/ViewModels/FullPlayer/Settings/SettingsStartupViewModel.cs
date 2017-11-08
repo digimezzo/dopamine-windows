@@ -22,6 +22,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "CheckAtStartup", value);
                 SetProperty<bool>(ref this.checkBoxCheckForUpdatesAtStartupChecked, value);
+                this.updateService.Reset();
             }
         }
 
@@ -32,6 +33,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "CheckPeriodically", value);
                 SetProperty<bool>(ref this.checkBoxCheckForUpdatesPeriodicallyChecked, value);
+                this.updateService.Reset();
             }
         }
 
@@ -42,6 +44,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "AutomaticDownload", value);
                 SetProperty<bool>(ref this.checkBoxInstallUpdatesAutomaticallyChecked, value);
+                this.updateService.Reset();
             }
         }
 

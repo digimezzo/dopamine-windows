@@ -39,7 +39,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
         {
             this.container = container;
             this.dialogService = dialogService;
-            this.Package = new Package(ProcessExecutable.Name(), ProcessExecutable.AssemblyVersion(), Configuration.Release);
+            this.Package = new Package(ProcessExecutable.Name(), ProcessExecutable.AssemblyVersion());
 
             this.ShowLicenseCommand = new DelegateCommand(() =>
             {

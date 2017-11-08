@@ -39,6 +39,9 @@ namespace Dopamine.ViewModels
 
             // Populate the JumpList
             jumpListService.PopulateJumpListAsync();
+
+            // Enable update check
+            updateService.Reset();
         }
     }
 }

@@ -35,41 +35,34 @@ namespace Dopamine.Common.Services.Update
     public class UpdateService : IUpdateService
     {
         private string apiRootFormat = Base.Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}";
+        private Timer checkTimer = new Timer();
         private string updatesSubDirectory;
-        private bool canCheckForUpdates;
-        private bool checkingForUpdates;
-        private bool automaticDownload;
-        private Timer checkNewVersionTimer = new Timer();
+        private bool canCheck;
         private WebClient downloadClient;
+
+        public event UpdateAvailableEventHandler NewVersionAvailable = delegate { };
+        public event EventHandler NoNewVersionAvailable = delegate { };
 
         public UpdateService()
         {
-            this.checkNewVersionTimer.Elapsed += new ElapsedEventHandler(this.CheckNewVersionTimerHandler);
-
             this.updatesSubDirectory = Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.UpdatesFolder);
-            this.canCheckForUpdates = false;
+            this.checkTimer.Elapsed += new ElapsedEventHandler(this.CheckTimerElapsedHandler);
+        }
+
+        private void CheckTimerElapsedHandler(object sender, ElapsedEventArgs e)
+        {
+            this.checkTimer.Stop();
+            this.CheckNow();
         }
 
         private Package CreateDummyPackage()
         {
-            return new Package(ProductInformation.ApplicationName, new Version("0.0.0.0"), Configuration.Debug);
+            return new Package(ProductInformation.ApplicationName, new Version("0.0.0.0"));
         }
 
         private Package CreateDummyPackage(Version version)
         {
-            return new Package(ProductInformation.ApplicationName, version, Configuration.Debug);
-        }
-
-        private bool IsValidVersion(Version version)
-        {
-            if (version.Major == 0 & version.Minor == 0 & version.Build == 0 & version.Revision == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return new Package(ProductInformation.ApplicationName, version);
         }
 
         private async Task<Package> GetNewVersionAsync(Package currentVersion)
@@ -107,6 +100,18 @@ namespace Dopamine.Common.Services.Update
             }
 
             return newVersion;
+        }
+
+        private bool IsValidVersion(Version version)
+        {
+            return !(version.Major == 0 & version.Minor == 0 & version.Build == 0 & version.Revision == 0);
+        }
+
+        private bool IsDownloadedPackageAvailable(string package)
+        {
+            FileInfo fi = new FileInfo(package);
+
+            return fi.Exists && fi.Length > 0;
         }
 
         private async Task<bool> TryCreateUpdatesSubDirectoryAsync()
@@ -173,18 +178,38 @@ namespace Dopamine.Common.Services.Update
 
             try
             {
-                string downloadLink = Path.Combine(UpdateInformation.ReleaseAutomaticDownloadLink, Path.GetFileName(packageToDownload));
-
-                if (latestOnlineVersion.Configuration == Configuration.Debug)
-                {
-                    downloadLink = Path.Combine(UpdateInformation.PreReleaseAutomaticDownloadLink, Path.GetFileName(packageToDownload));
-                }
+                string downloadLink = Path.Combine(UpdateInformation.AutomaticDownloadLink, Path.GetFileName(packageToDownload));
 
                 this.downloadClient = new WebClient();
 
                 LogClient.Info("Update check: downloading file '{0}'", downloadLink);
 
                 await this.downloadClient.DownloadFileTaskAsync(new Uri(downloadLink), packageToDownload + ".part");
+
+                operationResult.Result = true;
+            }
+            catch (Exception ex)
+            {
+                operationResult.Result = false;
+                operationResult.AddMessage(ex.Message);
+            }
+
+            return operationResult;
+        }
+
+        private OperationResult ExtractDownloadedPackage(string package)
+        {
+            var operationResult = new OperationResult();
+            FileInfo fi = new FileInfo(package);
+            string destinationPath = Path.Combine(this.updatesSubDirectory, Path.GetFileNameWithoutExtension(package));
+
+            try
+            {
+                // Extract
+                using (ZipFile zip = ZipFile.Read(fi.FullName))
+                {
+                    zip.ExtractAll(destinationPath, ExtractExistingFileAction.OverwriteSilently);
+                }
 
                 operationResult.Result = true;
             }
@@ -223,79 +248,29 @@ namespace Dopamine.Common.Services.Update
             return operationResult;
         }
 
-        private bool IsDownloadedPackageAvailable(string package)
+        private async void CheckNow()
         {
-            FileInfo fi = new FileInfo(package);
-
-            if (fi.Exists && fi.Length > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private OperationResult ExtractDownloadedPackage(string package)
-        {
-            var operationResult = new OperationResult();
-            FileInfo fi = new FileInfo(package);
-            string destinationPath = Path.Combine(this.updatesSubDirectory, Path.GetFileNameWithoutExtension(package));
-
-            try
-            {
-                // Extract
-                using (ZipFile zip = ZipFile.Read(fi.FullName))
-                {
-                    zip.ExtractAll(destinationPath, ExtractExistingFileAction.OverwriteSilently);
-                }
-
-                operationResult.Result = true;
-            }
-            catch (Exception ex)
-            {
-                operationResult.Result = false;
-                operationResult.AddMessage(ex.Message);
-            }
-
-            return operationResult;
-        }
-
-        private async Task CheckForUpdatesAsync()
-        {
-            // Indicate for the rest of the class that we are checking for updates
-            // -------------------------------------------------------------------
-            this.checkingForUpdates = true;
-
-            // We start checking for updates: stop the timer
-            // ---------------------------------------------
-            this.checkNewVersionTimer.Stop();
+            LogClient.Info("Checking for updates");
+            this.canCheck = true;
 
             // Get the current version
-            // -----------------------
             var currentVersion = this.CreateDummyPackage(ProcessExecutable.AssemblyVersion());
-            LogClient.Info("Update check: current version = {0}", currentVersion.Version.ToString());
+            LogClient.Info("Update check: current version = {0}", currentVersion.Version);
 
             // Get a new version online
-            // ------------------------
-            if (!this.canCheckForUpdates)
+            if (!this.canCheck)
             {
-                return; // Stop here if the update check was disabled while we were running
+                return; // Stop here if the update check was disabled
             }
 
             Package newOnlineVersion = await this.GetNewVersionAsync(currentVersion);
             LogClient.Info("Update check: new online version = {0}.{1}.{2}.{3}", newOnlineVersion.UnformattedVersion);
 
             // Check if the online version is valid
-            // ------------------------------------
             if (this.IsValidVersion(newOnlineVersion.Version))
             {
-                if (this.automaticDownload)
+                if (SettingsClient.Get<bool>("Updates", "AutomaticDownload")) // Automatic download is enabled
                 {
-                    // Automatic download is enabled
-                    // -----------------------------
-
                     // Define the name of the file to which we will download the update
                     string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, newOnlineVersion.Filename);
                     string updatePackageDownloadedFileFullPath = Path.Combine(this.updatesSubDirectory, newOnlineVersion.Filename + newOnlineVersion.UpdateFileExtension);
@@ -306,10 +281,11 @@ namespace Dopamine.Common.Services.Update
                     {
 
                         // The folder exists, that means that the new version was already extracted previously.
-                        // Raise an event that a new version is available for installation.
-                        if (this.canCheckForUpdates)
+                        if (this.canCheck)
                         {
-                            this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
+                            // Raise an event that a new version is available for installation.
+                            this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                            {
                                 UpdatePackage = newOnlineVersion,
                                 UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
                             });
@@ -330,10 +306,14 @@ namespace Dopamine.Common.Services.Update
                                 if (processResult.Result)
                                 {
                                     // Processing the downloaded file was successful. Raise an event that a new version is available for installation.
-                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
-                                        UpdatePackage = newOnlineVersion,
-                                        UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
-                                    });
+                                    if (this.canCheck)
+                                    {
+                                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                                        {
+                                            UpdatePackage = newOnlineVersion,
+                                            UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
+                                        });
+                                    }
                                 }
                                 else
                                 {
@@ -341,9 +321,13 @@ namespace Dopamine.Common.Services.Update
                                     LogClient.Error("Update check: could not process downloaded files. User is notified that there is a new version online. Exception: {0}", processResult.GetFirstMessage());
 
                                     // Raise an event that there is a new version available online.
-                                    if (this.canCheckForUpdates)
+                                    if (this.canCheck)
                                     {
-                                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs() { UpdatePackage = newOnlineVersion });
+                                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                                        {
+                                            UpdatePackage = newOnlineVersion,
+                                            UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
+                                        });
                                     }
                                 }
                             }
@@ -360,9 +344,10 @@ namespace Dopamine.Common.Services.Update
                             if (extractResult.Result)
                             {
                                 // Extracting was successful. Raise an event that a new version is available for installation.
-                                if (this.canCheckForUpdates)
+                                if (this.canCheck)
                                 {
-                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs() {
+                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                                    {
                                         UpdatePackage = newOnlineVersion,
                                         UpdatePackageLocation = updatePackageExtractedDirectoryFullPath
                                     });
@@ -376,66 +361,60 @@ namespace Dopamine.Common.Services.Update
                         }
                     }
                 }
-                else
+                else // Automatic download is not enabled
                 {
-                    // Automatic download is not enabled
-                    // ---------------------------------
-
-                    // Raise an event that a New version Is available for download
-                    if (this.canCheckForUpdates)
+                    // Raise an event that a new version Is available for download
+                    if (this.canCheck)
                     {
-                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs() { UpdatePackage = newOnlineVersion });
+                        this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                        {
+                            UpdatePackage = newOnlineVersion
+                        });
                     }
                 }
             }
             else
             {
                 this.NoNewVersionAvailable(this, new EventArgs());
-                LogClient.Info("Update check: no newer version was found.");
+                LogClient.Info("No new version was found");
             }
 
-            // Indicate for the rest of the class that we have finished checking for updates
-            // -----------------------------------------------------------------------------
-            this.checkingForUpdates = false;
-
-            // We're finished checking for updates: start the timer
-            // ----------------------------------------------------
-            this.checkNewVersionTimer.Start();
+            if (SettingsClient.Get<bool>("Updates", "CheckPeriodically"))
+            {
+                this.EnablePeriodicCheck();
+            }
         }
 
-        public void EnableUpdateCheck()
+        private void EnablePeriodicCheck()
         {
-            // Log that we start checking for updates
-            LogClient.Info("Update check: checking for updates.");
-
-            // We can check for updates
-            this.canCheckForUpdates = true;
-
-            // Set the timer interval based on update settings
-            this.checkNewVersionTimer.Interval = TimeSpan.FromSeconds(Base.Constants.UpdateCheckIntervalSeconds).TotalMilliseconds;
-
-            // Set flags based on update settings
-            this.automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Configuration", "IsPortable");
-
-            // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
-            if (!this.checkingForUpdates) this.CheckForUpdatesAsync();
+            LogClient.Info("Enabling periodic update check");
+            this.checkTimer.Stop();
+            this.checkTimer.Interval = TimeSpan.FromMinutes(SettingsClient.Get<int>("Updates", "CheckIntervalMinutes")).TotalMilliseconds;
+            this.checkTimer.Start();
         }
 
-        public void DisableUpdateCheck()
+        private void DisablePeriodicCheck()
         {
-            this.canCheckForUpdates = false;
-            this.checkNewVersionTimer.Stop();
-
+            LogClient.Info("Disabling periodic update check");
+            this.canCheck = false;
+            this.checkTimer.Stop();
             this.NoNewVersionAvailable(this, new EventArgs());
         }
 
-        public event UpdateAvailableEventHandler NewVersionAvailable = delegate { };
-        public event EventHandler NoNewVersionAvailable = delegate { };
-
-        public void CheckNewVersionTimerHandler(object sender, ElapsedEventArgs e)
+        public void Reset()
         {
-            // Actual update check. Don't await, just run async. (Stops the timer when starting and starts the timer again when ready)
-            if (!this.checkingForUpdates) this.CheckForUpdatesAsync();
+            LogClient.Info("Resetting update check");
+
+            this.DisablePeriodicCheck();
+
+            if (SettingsClient.Get<bool>("Updates", "CheckAtStartup"))
+            {
+                this.CheckNow();
+            }
+            else if (SettingsClient.Get<bool>("Updates", "CheckPeriodically"))
+            {
+                this.EnablePeriodicCheck();
+            }
         }
     }
 }
