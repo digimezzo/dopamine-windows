@@ -19,7 +19,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private Package package;
         private string destinationPath;
         private string updateToolTip;
-        private bool isUpdateStatusHiddenByUser;
 
         public bool IsUpdateAvailable
         {
@@ -55,35 +54,27 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.updateService = updateService;
 
             this.DownloadOrInstallUpdateCommand = new DelegateCommand(this.DownloadOrInstallUpdate);
-
-            this.HideUpdateStatusCommand = new DelegateCommand(() =>
-            {
-                this.isUpdateStatusHiddenByUser = true;
-                this.IsUpdateAvailable = false;
-            });
-
+            this.HideUpdateStatusCommand = new DelegateCommand(() => this.updateService.Dismiss());
+        
             this.updateService.NewVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
         }
 
         private void NewVersionAvailableHandler(object sender, UpdateAvailableEventArgs e)
         {
-            if (!this.isUpdateStatusHiddenByUser)
+            this.Package = e.UpdatePackage;
+            this.IsUpdateAvailable = true;
+
+            this.destinationPath = e.UpdatePackageLocation;
+            RaisePropertyChanged(nameof(this.ShowInstallUpdateButton));
+
+            if (!string.IsNullOrEmpty(destinationPath))
             {
-                this.Package = e.UpdatePackage;
-                this.IsUpdateAvailable = true;
-
-                this.destinationPath = e.UpdatePackageLocation;
-                RaisePropertyChanged(nameof(this.ShowInstallUpdateButton));
-
-                if (!string.IsNullOrEmpty(destinationPath))
-                {
-                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Install");
-                }
-                else
-                {
-                    this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
-                }
+                this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Install");
+            }
+            else
+            {
+                this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Dialog;
+﻿using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.JumpList;
 using Dopamine.Common.Services.Playback;
@@ -35,13 +34,14 @@ namespace Dopamine.ViewModels
             this.PlayNextCommand = new DelegateCommand(async () => await playbackService.PlayNextAsync());
             this.PlayOrPauseCommand = new DelegateCommand(async () => await playbackService.PlayOrPauseAsync());
 
-            this.LoadedCommand = new DelegateCommand(() => fileService.ProcessArguments(Environment.GetCommandLineArgs()));
+            this.LoadedCommand = new DelegateCommand(() =>
+            {
+                fileService.ProcessArguments(Environment.GetCommandLineArgs()); // Process command line arguments
+                updateService.Reset(); // Enable update check
+            });
 
             // Populate the JumpList
             jumpListService.PopulateJumpListAsync();
-
-            // Enable update check
-            updateService.Reset();
         }
     }
 }
