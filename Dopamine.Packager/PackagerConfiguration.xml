@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Packager>
+  <Publishing>
+    <ParentDirectory>content/software/</ParentDirectory>
+    <ApiUrl>https://www.digimezzo.com/content/software/updateapi.php?function=addversion</ApiUrl>
+  </Publishing>
   <Packaging>
     <PackageDirectory>C:\Temp\Dopamine</PackageDirectory>
     <Installable>

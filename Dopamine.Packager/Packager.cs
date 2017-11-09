@@ -11,7 +11,7 @@ namespace Dopamine.Packager
             Assembly asm = Assembly.GetEntryAssembly();
             AssemblyName an = asm.GetName();
             var worker = new PackageCreator(ProductInformation.ApplicationName, an.Version);
-            worker.Execute();
+            worker.ExecuteAsync().Wait();
         }
     }
 }
