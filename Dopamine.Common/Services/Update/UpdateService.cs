@@ -335,6 +335,15 @@ namespace Dopamine.Common.Services.Update
                             {
                                 // Downloading failed: log the failure reason.
                                 LogClient.Error("Update check: could not download the file. Exception: {0}", downloadResult.GetFirstMessage());
+
+                                // Downloading failed, but we want the user to know that there is a new version.
+                                if (this.canCheck)
+                                {
+                                    this.NewVersionAvailable(this, new UpdateAvailableEventArgs()
+                                    {
+                                        UpdatePackage = newOnlineVersion
+                                    });
+                                }
                             }
                         }
                         else

@@ -21,10 +21,7 @@
                         </Grid>
                         <TextBlock Text="{DynamicResource Language_New_Version_available}" Foreground="{DynamicResource RG_WhiteBrush}"/>
                         <TextBlock Text=": " Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <TextBlock Text="{Binding Package.FormattedVersion}" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                        <Border Background="{DynamicResource RG_WhiteBrush}" Margin="5,0,5,0" Padding="4,2,4,2" CornerRadius="2">
-                            <TextBlock Text="{Binding Package.Label}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource RG_AccentBrush}"/>
-                        </Border>
+                        <TextBlock Text="{Binding Package.FormattedVersionNoBuild}" FontWeight="Bold" Foreground="{DynamicResource RG_WhiteBrush}"/>
                     </StackPanel>
                 </Button>
                 <!-- Hide button -->
