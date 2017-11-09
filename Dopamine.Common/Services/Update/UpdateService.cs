@@ -39,6 +39,7 @@ namespace Dopamine.Common.Services.Update
         private string updatesSubDirectory;
         private bool canCheck;
         private WebClient downloadClient;
+        private bool isDismissed;
 
         public event UpdateAvailableEventHandler NewVersionAvailable = delegate { };
         public event EventHandler NoNewVersionAvailable = delegate { };
@@ -250,6 +251,11 @@ namespace Dopamine.Common.Services.Update
 
         private async void CheckNow()
         {
+            if (this.isDismissed)
+            {
+                return;
+            }
+
             LogClient.Info("Checking for updates");
             this.canCheck = true;
 
@@ -416,6 +422,8 @@ namespace Dopamine.Common.Services.Update
 
             this.DisablePeriodicCheck();
 
+            this.isDismissed = false;
+
             if (SettingsClient.Get<bool>("Updates", "CheckAtStartup"))
             {
                 this.CheckNow();
@@ -424,6 +432,12 @@ namespace Dopamine.Common.Services.Update
             {
                 this.EnablePeriodicCheck();
             }
+        }
+
+        public void Dismiss()
+        {
+            this.isDismissed = true;
+            this.NoNewVersionAvailable(this, new EventArgs());
         }
     }
 }

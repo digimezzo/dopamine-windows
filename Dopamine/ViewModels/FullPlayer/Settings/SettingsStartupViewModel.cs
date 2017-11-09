@@ -86,11 +86,11 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             // No automatic updates in the portable version
             if (!this.IsPortable)
             {
-                this.CheckBoxInstallUpdatesAutomaticallyChecked = SettingsClient.Get<bool>("Updates", "AutomaticDownload");
+                this.checkBoxInstallUpdatesAutomaticallyChecked = SettingsClient.Get<bool>("Updates", "AutomaticDownload");
             }
             else
             {
-                this.CheckBoxInstallUpdatesAutomaticallyChecked = false;
+                this.checkBoxInstallUpdatesAutomaticallyChecked = false;
             }
         }
 
