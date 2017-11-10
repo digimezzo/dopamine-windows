@@ -413,7 +413,6 @@ namespace Dopamine.Common.Services.Update
             LogClient.Info("Disabling periodic update check");
             this.canCheck = false;
             this.checkTimer.Stop();
-            this.NoNewVersionAvailable(this, new EventArgs());
         }
 
         public void Reset()
@@ -431,6 +430,10 @@ namespace Dopamine.Common.Services.Update
             else if (SettingsClient.Get<bool>("Updates", "CheckPeriodically"))
             {
                 this.EnablePeriodicCheck();
+            }
+            else
+            {
+                this.NoNewVersionAvailable(this, new EventArgs());
             }
         }
 
