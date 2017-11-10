@@ -156,6 +156,7 @@ namespace Dopamine
             Container.RegisterType<object, NowPlaying>(typeof(NowPlaying).FullName);
 
             // Collection
+            Container.RegisterType<object, CollectionMenu>(typeof(CollectionMenu).FullName);
             Container.RegisterType<object, Collection>(typeof(Collection).FullName);
             Container.RegisterType<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
             Container.RegisterType<object, CollectionArtists>(typeof(CollectionArtists).FullName);
@@ -165,6 +166,7 @@ namespace Dopamine
             Container.RegisterType<object, CollectionTracks>(typeof(CollectionTracks).FullName);
 
             // Settings
+            Container.RegisterType<object, SettingsMenu>(typeof(SettingsMenu).FullName);
             Container.RegisterType<object, Settings>(typeof(Settings).FullName);
             Container.RegisterType<object, SettingsAppearance>(typeof(SettingsAppearance).FullName);
             Container.RegisterType<object, SettingsBehaviour>(typeof(SettingsBehaviour).FullName);
@@ -174,6 +176,7 @@ namespace Dopamine
             Container.RegisterType<object, SettingsStartup>(typeof(SettingsStartup).FullName);
 
             // Information
+            Container.RegisterType<object, InformationMenu>(typeof(InformationMenu).FullName);
             Container.RegisterType<object, Information>(typeof(Information).FullName);
             Container.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
             Container.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);

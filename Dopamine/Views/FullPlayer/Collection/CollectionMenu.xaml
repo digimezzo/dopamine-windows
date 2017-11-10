@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <commonviews:SearchControl Margin="0,0,15,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedCollectionPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
+            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+        </dc:Pivot>
+    </Grid>
+</UserControl>

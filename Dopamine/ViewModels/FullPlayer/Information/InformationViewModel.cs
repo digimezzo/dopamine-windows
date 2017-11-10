@@ -1,45 +1,46 @@
-﻿using Dopamine.Common.Base;
+﻿using Digimezzo.WPFControls.Enums;
+using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
-using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Views.FullPlayer.Information;
-using Prism.Commands;
+using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Dopamine.ViewModels.FullPlayer.Information
 {
-    public class InformationViewModel : NavigationViewModelBase
+    public class InformationViewModel : BindableBase
     {
-        private InformationPage previousSelectedInformationPage;
-        private InformationPage selectedInformationPage;
+        private int slideInFrom;
+        private IRegionManager regionManager;
 
-        public InformationPage SelectedInformationPage
+        public int SlideInFrom
         {
-            get { return selectedInformationPage; }
-            set
+            get { return this.slideInFrom; }
+            set { SetProperty<int>(ref this.slideInFrom, value); }
+        }
+
+        public InformationViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
+        {
+            this.regionManager = regionManager;
+
+            eventAggregator.GetEvent<IsInformationPageChanged>().Subscribe(tuple =>
             {
-                SetProperty<InformationPage>(ref this.selectedInformationPage, value);
-                this.NagivateToSelectedPage();
-            }
+                this.NagivateToSelectedPage(tuple.Item1, tuple.Item2);
+            });
         }
 
-        public InformationViewModel(IRegionManager regionManager) : base(regionManager)
+        private void NagivateToSelectedPage(SlideDirection direction, InformationPage page)
         {
-            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage());
-        }
+            this.SlideInFrom = direction == SlideDirection.RightToLeft ? Constants.SlideDistance : -Constants.SlideDistance;
 
-        private void NagivateToSelectedPage()
-        {
-            this.SlideInFrom = this.selectedInformationPage <= this.previousSelectedInformationPage ? -Constants.SlideDistance : Constants.SlideDistance;
-            this.previousSelectedInformationPage = this.selectedInformationPage;
-
-            switch (this.selectedInformationPage)
+            switch (page)
             {
                 case InformationPage.Help:
-                    this.RegionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationHelp).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationHelp).FullName);
                     break;
                 case InformationPage.About:
-                    this.RegionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationAbout).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.InformationRegion, typeof(InformationAbout).FullName);
                     break;
                 default:
                     break;

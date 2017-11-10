@@ -48,6 +48,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public DelegateCommand DownloadOrInstallUpdateCommand { get; set; }
         public DelegateCommand HideUpdateStatusCommand { get; set; }
+        public DelegateCommand LoadedCommand { get; set; }
 
         public UpdateStatusViewModel(IUpdateService updateService)
         {
@@ -55,9 +56,11 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             this.DownloadOrInstallUpdateCommand = new DelegateCommand(this.DownloadOrInstallUpdate);
             this.HideUpdateStatusCommand = new DelegateCommand(() => this.updateService.Dismiss());
-        
+
             this.updateService.NewVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
+
+            this.LoadedCommand = new DelegateCommand(() => updateService.Reset());
         }
 
         private void NewVersionAvailableHandler(object sender, UpdateAvailableEventArgs e)

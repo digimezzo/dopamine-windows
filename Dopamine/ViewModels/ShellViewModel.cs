@@ -34,11 +34,7 @@ namespace Dopamine.ViewModels
             this.PlayNextCommand = new DelegateCommand(async () => await playbackService.PlayNextAsync());
             this.PlayOrPauseCommand = new DelegateCommand(async () => await playbackService.PlayOrPauseAsync());
 
-            this.LoadedCommand = new DelegateCommand(() =>
-            {
-                fileService.ProcessArguments(Environment.GetCommandLineArgs()); // Process command line arguments
-                updateService.Reset(); // Enable update check
-            });
+            this.LoadedCommand = new DelegateCommand(() => fileService.ProcessArguments(Environment.GetCommandLineArgs()));
 
             // Populate the JumpList
             jumpListService.PopulateJumpListAsync();
