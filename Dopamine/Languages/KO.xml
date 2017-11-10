@@ -407,6 +407,6 @@
   <Text Key="Loop_When_Shuffle">무작위 재생 중 마지막 노래가 끝나면 재생 목록 처음으로 돌아가기</Text>
   <Text Key="Show_Song_Covers">노래 커버 보이기</Text>
   <Text Key="Hide_Song_Covers">노래 커버 숨기기</Text>
-  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
-  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
+  <Text Key="Check_For_Updates_At_Startup">시작할 때 업데이트 확인</Text>
+  <Text Key="Check_For_Updates_Periodically">정기적으로 업데이트 확인</Text>
 </Language>
