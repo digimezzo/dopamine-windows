@@ -12,17 +12,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     public class CollectionMenuViewModel : BindableBase
     {
         private IEventAggregator eventAggregator;
-        private CollectionPage previousSelectedCollectionPage;
-        private CollectionPage selectedCollectionPage;
+        private CollectionPage previousPage;
+        private CollectionPage selectedPage;
 
         public DelegateCommand LoadedCommand { get; set; }
 
-        public CollectionPage SelectedCollectionPage
+        public CollectionPage SelectedPage
         {
-            get { return this.selectedCollectionPage; }
+            get { return this.selectedPage; }
             set
             {
-                SetProperty<CollectionPage>(ref this.selectedCollectionPage, value);
+                SetProperty<CollectionPage>(ref this.selectedPage, value);
                 SettingsClient.Set<int>("FullPlayer", "SelectedCollectionPage", (int)value);
                 RaisePropertyChanged(nameof(this.CanSearch));
                 this.NagivateToSelectedPage();
@@ -31,7 +31,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public bool CanSearch
         {
-            get { return this.selectedCollectionPage != CollectionPage.Frequent; }
+            get { return this.selectedPage != CollectionPage.Frequent; }
         }
 
         public CollectionMenuViewModel(IEventAggregator eventAggregator)
@@ -42,11 +42,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
                 {
-                    this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
+                    this.SelectedPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
                 }
                 else
                 {
-                    this.SelectedCollectionPage = CollectionPage.Artists;
+                    this.SelectedPage = CollectionPage.Artists;
                 }
 
                 this.NagivateToSelectedPage();
@@ -56,8 +56,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private void NagivateToSelectedPage()
         {
             this.eventAggregator.GetEvent<IsCollectionPageChanged>().Publish(
-                   new Tuple<SlideDirection, CollectionPage>(this.selectedCollectionPage >= this.previousSelectedCollectionPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedCollectionPage));
-            previousSelectedCollectionPage = this.selectedCollectionPage;
+                   new Tuple<SlideDirection, CollectionPage>(this.selectedPage >= this.previousPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedPage));
+            previousPage = this.selectedPage;
         }
     }
 }

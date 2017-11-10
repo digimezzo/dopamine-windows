@@ -26,11 +26,11 @@ namespace Dopamine.ViewModels.FullPlayer.Information
 
             eventAggregator.GetEvent<IsInformationPageChanged>().Subscribe(tuple =>
             {
-                this.NagivateToSelectedPage(tuple.Item1, tuple.Item2);
+                this.NagivateToPage(tuple.Item1, tuple.Item2);
             });
         }
 
-        private void NagivateToSelectedPage(SlideDirection direction, InformationPage page)
+        private void NagivateToPage(SlideDirection direction, InformationPage page)
         {
             this.SlideInFrom = direction == SlideDirection.RightToLeft ? Constants.SlideDistance : -Constants.SlideDistance;
 

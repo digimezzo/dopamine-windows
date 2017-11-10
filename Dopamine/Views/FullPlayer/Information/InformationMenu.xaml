@@ -17,7 +17,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedInformationPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:InformationPage}}">
+    <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:InformationPage}}">
         <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource SubMenuPivotItemStyle}"/>
         <dc:PivotItem Header="{DynamicResource Language_About}" Style="{StaticResource SubMenuPivotItemStyle}"/>
     </dc:Pivot>
