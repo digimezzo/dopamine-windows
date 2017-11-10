@@ -1,77 +1,58 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Common.Base;
 using Dopamine.Common.Enums;
-using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Views.FullPlayer.Collection;
-using Prism.Commands;
+using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
-    public class CollectionViewModel : NavigationViewModelBase
+    public class CollectionViewModel : BindableBase
     {
-        private CollectionPage previousSelectedCollectionPage;
-        private CollectionPage selectedCollectionPage;
+        private int slideInFrom;
+        private IRegionManager regionManager;
 
-        public CollectionPage SelectedCollectionPage
+        public int SlideInFrom
         {
-            get { return this.selectedCollectionPage; }
-            set
-            {
-                SetProperty<CollectionPage>(ref this.selectedCollectionPage, value);
-                SettingsClient.Set<int>("FullPlayer", "SelectedCollectionPage", (int)value);
-                RaisePropertyChanged(nameof(this.CanSearch));
-                this.NagivateToSelectedPage();
-            }
+            get { return this.slideInFrom; }
+            set { SetProperty<int>(ref this.slideInFrom, value); }
         }
 
-        public bool CanSearch
+        public CollectionViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
-            get { return this.selectedCollectionPage != CollectionPage.Frequent; }
-        }
+            this.regionManager = regionManager;
 
-        public CollectionViewModel(IRegionManager regionManager) : base(regionManager)
-        {
-            this.LoadedCommand = new DelegateCommand(() =>
+            eventAggregator.GetEvent<IsCollectionPageChanged>().Subscribe(tuple =>
             {
-                if (SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage"))
-                {
-                    this.SelectedCollectionPage = (CollectionPage)SettingsClient.Get<int>("FullPlayer", "SelectedCollectionPage");
-                }
-                else
-                {
-                    this.SelectedCollectionPage = CollectionPage.Artists;
-                }
-
-                this.NagivateToSelectedPage();
+                this.NagivateToSelectedPage(tuple.Item1, tuple.Item2);
             });
         }
 
-        private void NagivateToSelectedPage()
+        private void NagivateToSelectedPage(SlideDirection direction, CollectionPage page)
         {
-            this.SlideInFrom = this.selectedCollectionPage <= this.previousSelectedCollectionPage ? -Constants.SlideDistance : Constants.SlideDistance;
-            this.previousSelectedCollectionPage = this.selectedCollectionPage;
+            this.SlideInFrom = direction == SlideDirection.RightToLeft ? Constants.SlideDistance  : -Constants.SlideDistance;
 
-            switch (this.selectedCollectionPage)
+            switch (page)
             {
                 case CollectionPage.Artists:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionArtists).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionArtists).FullName);
                     break;
                 case CollectionPage.Genres:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionGenres).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionGenres).FullName);
                     break;
                 case CollectionPage.Albums:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionAlbums).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionAlbums).FullName);
                     break;
                 case CollectionPage.Songs:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
                     break;
                 case CollectionPage.Playlists:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
                     break;
                 case CollectionPage.Frequent:
-                    this.RegionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
                     break;
                 default:
                     break;

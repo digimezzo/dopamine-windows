@@ -158,6 +158,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
@@ -167,10 +168,12 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Information\InformationMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineAddEditSearchProviderViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
@@ -209,6 +212,9 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionGenres.xaml.cs">
       <DependentUpon>CollectionGenres.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionMenu.xaml.cs">
+      <DependentUpon>CollectionMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
       <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
     </Compile>
@@ -233,6 +239,9 @@
     <Compile Include="Views\FullPlayer\Information\InformationHelp.xaml.cs">
       <DependentUpon>InformationHelp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FullPlayer\Information\InformationMenu.xaml.cs">
+      <DependentUpon>InformationMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -244,6 +253,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\SettingsCollection.xaml.cs">
       <DependentUpon>SettingsCollection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsMenu.xaml.cs">
+      <DependentUpon>SettingsMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\SettingsOnline.xaml.cs">
       <DependentUpon>SettingsOnline.xaml</DependentUpon>
@@ -595,6 +607,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -627,6 +643,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FullPlayer\Information\InformationMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullPlayer\Settings\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -640,6 +660,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Settings\SettingsCollection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

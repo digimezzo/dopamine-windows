@@ -29,11 +29,19 @@ namespace Dopamine.Common.Prism
     {
     }
 
-    //public class IsNowPlayingLyricsPageActiveChanged : PubSubEvent<bool>
-    //{
-    //}
-
     public class IsNowPlayingSubPageChanged : PubSubEvent<Tuple<SlideDirection, NowPlayingSubPage>>
+    {
+    }
+
+    public class IsCollectionPageChanged : PubSubEvent<Tuple<SlideDirection, CollectionPage>>
+    {
+    }
+
+    public class IsSettingsPageChanged : PubSubEvent<Tuple<SlideDirection, SettingsPage>>
+    {
+    }
+
+    public class IsInformationPageChanged : PubSubEvent<Tuple<SlideDirection, InformationPage>>
     {
     }
 }

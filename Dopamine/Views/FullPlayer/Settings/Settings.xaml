@@ -4,39 +4,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
-             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
-    <DockPanel>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedSettingsPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:SettingsPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-        </dc:Pivot>
-        <Grid DockPanel.Dock="Top">
-            <commonviews:UpdateStatus Panel.ZIndex="0"/>
-            <commonviews:IndexingStatus Panel.ZIndex="1"/>
-        </Grid>
-        <controls:TransitioningContentControl Margin="0,20,0,15" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                                                  SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="SettingsRegion" 
-                                                  prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.SettingsRegion}"/>
-    </DockPanel>
-    
+    <controls:TransitioningContentControl Margin="0,20,0,15" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                                          SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="SettingsRegion" 
+                                          prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.SettingsRegion}"/>
 </UserControl>

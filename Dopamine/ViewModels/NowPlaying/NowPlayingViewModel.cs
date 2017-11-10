@@ -13,7 +13,6 @@ namespace Dopamine.ViewModels.NowPlaying
     {
         private SlideDirection direction;
         private IRegionManager regionManager;
-        private IEventAggregator eventAggregator;
 
         public SlideDirection Direction
         {
@@ -27,9 +26,8 @@ namespace Dopamine.ViewModels.NowPlaying
         public NowPlayingViewModel(IPlaybackService playbackService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(playbackService)
         {
             this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
 
-            this.eventAggregator.GetEvent<IsNowPlayingSubPageChanged>().Subscribe(tuple =>
+            eventAggregator.GetEvent<IsNowPlayingSubPageChanged>().Subscribe(tuple =>
             {
                 this.NagivateToSelectedPage(tuple.Item1, tuple.Item2);
             });
