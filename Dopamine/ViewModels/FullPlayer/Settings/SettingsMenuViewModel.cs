@@ -11,17 +11,17 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
     public class SettingsMenuViewModel : BindableBase
     {
         private IEventAggregator eventAggregator;
-        private SettingsPage previousSelectedSettingsPage;
-        private SettingsPage selectedSettingsPage;
+        private SettingsPage previousPage;
+        private SettingsPage selectedPage;
 
         public DelegateCommand LoadedCommand { get; set; }
 
-        public SettingsPage SelectedSettingsPage
+        public SettingsPage SelectedPage
         {
-            get { return this.selectedSettingsPage; }
+            get { return this.selectedPage; }
             set
             {
-                SetProperty<SettingsPage>(ref this.selectedSettingsPage, value);
+                SetProperty<SettingsPage>(ref this.selectedPage, value);
                 this.NagivateToSelectedPage();
             }
         }
@@ -32,7 +32,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             this.LoadedCommand = new DelegateCommand(() =>
             {
-                this.SelectedSettingsPage = SettingsPage.Collection;
+                this.SelectedPage = SettingsPage.Collection;
                 this.NagivateToSelectedPage();
             });
         }
@@ -40,8 +40,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private void NagivateToSelectedPage()
         {
             this.eventAggregator.GetEvent<IsSettingsPageChanged>().Publish(
-                   new Tuple<SlideDirection, SettingsPage>(this.selectedSettingsPage >= this.previousSelectedSettingsPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedSettingsPage));
-            previousSelectedSettingsPage = this.selectedSettingsPage;
+                   new Tuple<SlideDirection, SettingsPage>(this.selectedPage >= this.previousPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedPage));
+            previousPage = this.selectedPage;
         }
     }
 }

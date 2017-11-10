@@ -20,7 +20,7 @@
 
     <Grid>
         <commonviews:SearchControl Margin="0,0,15,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedCollectionPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
+        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
             <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}"/>

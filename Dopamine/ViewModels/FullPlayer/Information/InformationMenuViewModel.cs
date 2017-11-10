@@ -11,17 +11,17 @@ namespace Dopamine.ViewModels.FullPlayer.Information
     public class InformationMenuViewModel : BindableBase
     {
         private IEventAggregator eventAggregator;
-        private InformationPage previousSelectedInformationPage;
-        private InformationPage selectedInformationPage;
+        private InformationPage previousPage;
+        private InformationPage selectedPage;
 
         public DelegateCommand LoadedCommand { get; set; }
 
-        public InformationPage SelectedInformationPage
+        public InformationPage SelectedPage
         {
-            get { return this.selectedInformationPage; }
+            get { return this.selectedPage; }
             set
             {
-                SetProperty<InformationPage>(ref this.selectedInformationPage, value);
+                SetProperty<InformationPage>(ref this.selectedPage, value);
                 this.NagivateToSelectedPage();
             }
         }
@@ -32,7 +32,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
 
             this.LoadedCommand = new DelegateCommand(() =>
             {
-                this.SelectedInformationPage = InformationPage.Help;
+                this.SelectedPage = InformationPage.Help;
                 this.NagivateToSelectedPage();
             });
         }
@@ -40,8 +40,8 @@ namespace Dopamine.ViewModels.FullPlayer.Information
         private void NagivateToSelectedPage()
         {
             this.eventAggregator.GetEvent<IsInformationPageChanged>().Publish(
-                   new Tuple<SlideDirection, InformationPage>(this.selectedInformationPage >= this.previousSelectedInformationPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedInformationPage));
-            previousSelectedInformationPage = this.selectedInformationPage;
+                   new Tuple<SlideDirection, InformationPage>(this.selectedPage >= this.previousPage ? SlideDirection.RightToLeft : SlideDirection.LeftToRight, this.selectedPage));
+            previousPage = this.selectedPage;
         }
     }
 }
