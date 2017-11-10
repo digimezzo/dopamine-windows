@@ -364,7 +364,7 @@
   <Text Key="Search_Again">다시 검색</Text>
   <Text Key="Audio_File">오디오 파일</Text>
   <Text Key="Play_Next">다음 재생</Text>
-  <Text Key="Last_Played">마지막으로 재생</Text>
+  <Text Key="Last_Played">마지막으로 재생한 날짜</Text>
   <Text Key="Remember_Last_played_Song">마지막으로 재생한 노래와 재생 진행률 기억하기</Text>
   <Text Key="Download_Lyrics_From">여기서 가사 다운로드</Text>
   <Text Key="Lyrics_Download_Timeout">가사 다운로드 시간 초과</Text>
