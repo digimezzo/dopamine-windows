@@ -53,6 +53,7 @@ namespace Dopamine.Views
         public DelegateCommand MinimizeWindowCommand { get; set; }
         public DelegateCommand MaximizeRestoreWindowCommand { get; set; }
         public DelegateCommand CloseWindowCommand { get; set; }
+        public DelegateCommand ShowMainWindowCommand { get; set; }
 
         public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
             INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
@@ -324,6 +325,9 @@ namespace Dopamine.Views
 
             this.CloseWindowCommand = new DelegateCommand(() => this.Close());
             Dopamine.Common.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
+
+            this.ShowMainWindowCommand = new DelegateCommand(() => this.ShowWindowInForeground());
+            Dopamine.Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
         }
 
         private void InitializeServices()
