@@ -271,13 +271,30 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     conn.BeginTransaction();
 
-                    foreach (Album alb in conn.Table<Album>())
+                    List<Album> allAlbums = conn.Table<Album>().ToList();
+                    List<Album> albumsToUpdate = null;
+
+                    if (scanMissingOnly)
                     {
-                        try
+                        // Scan only albums which have no artwork
+                        albumsToUpdate = allAlbums.Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
+                    }
+                    else
+                    {
+                        // Scan all albums
+                        albumsToUpdate = allAlbums;
+                    }
+
+                    if (albumsToUpdate.Count > 0)
+                    {
+                        // Report progress if at least 1 album is needs to be updated
+                        this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
+                        this.eventArgs.ProgressPercent = 0;
+                        this.IndexingStatusChanged(this.eventArgs);
+
+                        foreach (Album alb in conn.Table<Album>())
                         {
-                            // Only update artwork if scanMissingOnly is enabled AND there is no ArtworkID set,
-                            // OR when scanMissingOnly is disabled (this makes sure everything gets scanned).
-                            if ((scanMissingOnly & string.IsNullOrEmpty(alb.ArtworkID)) | !scanMissingOnly)
+                            try
                             {
                                 Track trk = this.GetLastModifiedTrack(alb);
 
@@ -290,22 +307,14 @@ namespace Dopamine.Common.Services.Indexing
                                     numberUpdated += 1;
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                            }
                         }
 
-                        // Report progress if at least 1 album is added
-                        if (numberUpdated > 0)
-                        {
-                            this.eventArgs.IndexingAction = IndexingAction.UpdateArtwork;
-                            this.eventArgs.ProgressPercent = 0;
-                            this.IndexingStatusChanged(this.eventArgs);
-                        }
+                        conn.Commit();
                     }
-
-                    conn.Commit();
                 }
             });
 
@@ -543,14 +552,15 @@ namespace Dopamine.Common.Services.Indexing
                                 {
                                     conn.Delete(trk);
                                     numberRemovedTracks += 1;
-                                }
 
-                                // Report progress if at least 1 track is removed
-                                if (numberRemovedTracks > 0)
-                                {
-                                    this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
-                                    this.eventArgs.ProgressPercent = 0;
-                                    this.IndexingStatusChanged(this.eventArgs);
+                                    // Report progress as soon as the first track was removed.
+                                    // This is indeterminate progress. No need to sent it multiple times.
+                                    if (numberRemovedTracks == 1)
+                                    {
+                                        this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
+                                        this.eventArgs.ProgressPercent = 0;
+                                        this.IndexingStatusChanged(this.eventArgs);
+                                    }
                                 }
                             }
                         }
@@ -584,6 +594,9 @@ namespace Dopamine.Common.Services.Indexing
                         long currentValue = 0;
                         long totalValue = alltracks.Count;
 
+                        long progressInterval = IndexerUtils.CalculateProgessInterval(totalValue);
+                        long lastProgressValue = 0;
+
                         foreach (Track dbTrack in alltracks)
                         {
                             try
@@ -602,8 +615,13 @@ namespace Dopamine.Common.Services.Indexing
 
                             currentValue += 1;
 
-                            // Report progress if at least 1 track is updated
-                            if (numberUpdatedTracks > 0)
+                            // Report progress if at least 1 track is updated OR when the progress
+                            // interval has been exceeded OR the maximum has been reached.
+                            bool mustReportProgress = numberUpdatedTracks == 1 ||
+                            currentValue - lastProgressValue > progressInterval ||
+                            currentValue == totalValue;
+
+                            if (mustReportProgress)
                             {
                                 this.eventArgs.IndexingAction = IndexingAction.UpdateTracks;
                                 this.eventArgs.ProgressCurrent = currentValue;
@@ -636,8 +654,11 @@ namespace Dopamine.Common.Services.Indexing
                     long currentValue = 0;
                     long totalValue = this.newDiskPaths.Count;
 
-                    long saveItemCount = IndexerUtils.CalculateSaveItemCount(this.newDiskPaths.Count);
+                    long saveItemCount = IndexerUtils.CalculateSaveItemCount(totalValue);
                     long unsavedItemCount = 0;
+
+                    long progressInterval = IndexerUtils.CalculateProgessInterval(totalValue);
+                    long lastProgressValue = 0;
 
                     using (var conn = this.factory.GetConnection())
                     {
@@ -669,9 +690,16 @@ namespace Dopamine.Common.Services.Indexing
 
                             currentValue += 1;
 
-                            // Report progress if at least 1 track is updated
-                            if (numberAddedTracks > 0)
+                            // Report progress if at least 1 track is added OR when the progress
+                            // interval has been exceeded OR the maximum has been reached.
+                            bool mustReportProgress = numberAddedTracks == 1 ||
+                            currentValue - lastProgressValue > progressInterval ||
+                            currentValue == totalValue;
+
+                            if (mustReportProgress)
                             {
+                                lastProgressValue = currentValue;
+
                                 this.eventArgs.IndexingAction = IndexingAction.AddTracks;
                                 this.eventArgs.ProgressCurrent = currentValue;
                                 this.eventArgs.ProgressTotal = totalValue;
