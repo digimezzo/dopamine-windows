@@ -45,12 +45,12 @@ namespace Dopamine.Common.Services.Indexing
         // Flags
         private bool isIndexing;
         private bool isFoldersChanged;
-       
+
         public bool IsIndexing
         {
             get { return this.isIndexing; }
         }
-      
+
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
             IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
             IFolderRepository folderRepository)
@@ -85,7 +85,7 @@ namespace Dopamine.Common.Services.Indexing
                 }
             }
         }
-      
+
         public async void OnFoldersChanged()
         {
             this.isFoldersChanged = true;
@@ -120,7 +120,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             await this.CheckCollectionAsync(true);
         }
-       
+
         private async Task InitializeAsync()
         {
             // Initialize Cache
@@ -261,7 +261,7 @@ namespace Dopamine.Common.Services.Indexing
             return numberDeletedFromDatabase + numberDeletedFromDisk + numberUpdated;
         }
 
-        private async Task<long> AddArtworkAsync()
+        private async Task<long> AddArtworkAsync(bool scanMissingOnly = true)
         {
             long numberUpdated = 0;
 
@@ -275,15 +275,20 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         try
                         {
-                            Track trk = this.GetLastModifiedTrack(alb);
-
-                            alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
-
-                            if (!string.IsNullOrEmpty(alb.ArtworkID))
+                            // Only update artwork if scanMissingOnly is enabled AND there is no ArtworkID set,
+                            // OR when scanMissingOnly is disabled (this makes sure everything gets scanned).
+                            if ((scanMissingOnly & string.IsNullOrEmpty(alb.ArtworkID)) | !scanMissingOnly)
                             {
-                                alb.DateLastSynced = DateTime.Now.Ticks;
-                                conn.Update(alb);
-                                numberUpdated += 1;
+                                Track trk = this.GetLastModifiedTrack(alb);
+
+                                alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
+
+                                if (!string.IsNullOrEmpty(alb.ArtworkID))
+                                {
+                                    alb.DateLastSynced = DateTime.Now.Ticks;
+                                    conn.Update(alb);
+                                    numberUpdated += 1;
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -756,7 +761,7 @@ namespace Dopamine.Common.Services.Indexing
         {
             await this.RefreshCollectionAsync();
         }
-      
+
         public event EventHandler IndexingStopped = delegate { };
         public event EventHandler IndexingStarted = delegate { };
         public event Action<IndexingStatusEventArgs> IndexingStatusChanged = delegate { };
