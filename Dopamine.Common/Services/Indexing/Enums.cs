@@ -5,7 +5,6 @@
         Idle = 1,
         RemoveTracks = 2,
         AddTracks = 3,
-        UpdateTracks = 4,
-        UpdateArtwork = 5
+        UpdateTracks = 4
     }
 }

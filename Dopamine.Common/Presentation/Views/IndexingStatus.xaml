@@ -18,7 +18,6 @@
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Removing_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerRemovingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Adding_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerAddingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Updating_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerUpdatingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Updating_Artwork}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerUpdatingArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 </Grid>
             </DockPanel>
         </Border>

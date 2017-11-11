@@ -49,12 +49,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<bool>(ref this.isIndexerUpdatingSongs, value); }
         }
 
-        public bool IsIndexerUpdatingArtwork
-        {
-            get { return this.isIndexerUpdatingArtwork; }
-            set { SetProperty<bool>(ref this.isIndexerUpdatingArtwork, value); }
-        }
-
         public IndexingStatusViewModel(IIndexingService indexingService)
         {
             this.indexingService = indexingService;
@@ -77,29 +71,19 @@ namespace Dopamine.Common.Presentation.ViewModels
                             this.IsIndexerRemovingSongs = true;
                             this.IsIndexerAddingSongs = false;
                             this.IsIndexerUpdatingSongs = false;
-                            this.IsIndexerUpdatingArtwork = false;
                             this.IndexingProgress = string.Empty;
                             break;
                         case IndexingAction.AddTracks:
                             this.IsIndexerRemovingSongs = false;
                             this.IsIndexerAddingSongs = true;
                             this.IsIndexerUpdatingSongs = false;
-                            this.IsIndexerUpdatingArtwork = false;
                             this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
                             break;
                         case IndexingAction.UpdateTracks:
                             this.IsIndexerRemovingSongs = false;
                             this.IsIndexerAddingSongs = false;
                             this.IsIndexerUpdatingSongs = true;
-                            this.IsIndexerUpdatingArtwork = false;
                             this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
-                            break;
-                        case IndexingAction.UpdateArtwork:
-                            this.IsIndexerRemovingSongs = false;
-                            this.IsIndexerAddingSongs = false;
-                            this.IsIndexerUpdatingSongs = false;
-                            this.IsIndexerUpdatingArtwork = true;
-                            this.IndexingProgress = string.Empty;
                             break;
                         default:
                             break;
