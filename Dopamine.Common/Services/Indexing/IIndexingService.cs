@@ -14,6 +14,5 @@ namespace Dopamine.Common.Services.Indexing
         event EventHandler IndexingStopped;
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
         event EventHandler RefreshLists;
-        event EventHandler RefreshArtwork;
     }
 }
