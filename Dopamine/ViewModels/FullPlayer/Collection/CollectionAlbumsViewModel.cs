@@ -62,6 +62,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
+            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.collectionService.RefreshArtworkAsync(this.Albums, e.AlbumIds);
 
             //  Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());

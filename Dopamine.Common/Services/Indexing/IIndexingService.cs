@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.Indexing
 {
+    public delegate void AlbumArtworkAddedEventHandler(object sender, AlbumArtworkAddedEventArgs e);
+
     public interface IIndexingService
     {
         void OnFoldersChanged();
@@ -14,5 +16,6 @@ namespace Dopamine.Common.Services.Indexing
         event EventHandler IndexingStopped;
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
         event EventHandler RefreshLists;
+        event AlbumArtworkAddedEventHandler AlbumArtworkAdded;
     }
 }

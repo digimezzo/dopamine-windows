@@ -128,7 +128,7 @@ namespace Dopamine.Common.Services.Collection
             return RemoveTracksResult.Error;
         }
 
-        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels)
+        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, List<long> albumsIds = null)
         {
             List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
 
@@ -140,14 +140,16 @@ namespace Dopamine.Common.Services.Collection
                     {
                         try
                         {
-                            // Get an up to date version of this album from the database
-
-                            Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(albvm.Album.AlbumID)).Select((a) => a).FirstOrDefault();
-
-                            if (dbAlbum != null)
+                            if(albumsIds == null || albumsIds.Contains(albvm.Album.AlbumID))
                             {
-                                albvm.Album.ArtworkID = dbAlbum.ArtworkID;
-                                albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
+                                // Get an up to date version of this album from the database
+                                Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(albvm.Album.AlbumID)).Select((a) => a).FirstOrDefault();
+
+                                if (dbAlbum != null)
+                                {
+                                    albvm.Album.ArtworkID = dbAlbum.ArtworkID;
+                                    albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -159,7 +161,7 @@ namespace Dopamine.Common.Services.Collection
             }
         }
 
-        public async Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds)
+        public async Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, int delayMilliSeconds)
         {
             await Task.Delay(delayMilliSeconds);
 
@@ -167,7 +169,7 @@ namespace Dopamine.Common.Services.Collection
             {
                 try
                 {
-                    foreach (AlbumViewModel albvm in albumViewmodels)
+                    foreach (AlbumViewModel albvm in albumViewModels)
                     {
                         try
                         {
