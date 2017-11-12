@@ -829,20 +829,27 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    conn.BeginTransaction();
-
-                    if (reloadOnlyMissing)
+                    try
                     {
-                        LogClient.Info("Setting NeedsIndexing=1 for albums which have no cover");
-                        conn.Execute("UPDATE Album SET NeedsIndexing=1 WHERE ArtworkID IS NULL OR TRIM(ArtworkID)='';");
-                    }
-                    else
-                    {
-                        LogClient.Info("Setting NeedsIndexing=1 for all albums");
-                        conn.Execute("UPDATE Album SET NeedsIndexing=1;");
-                    }
+                        conn.BeginTransaction();
 
-                    conn.Commit();
+                        if (reloadOnlyMissing)
+                        {
+                            LogClient.Info("Setting NeedsIndexing=1 for albums which have no cover");
+                            conn.Execute("UPDATE Album SET NeedsIndexing=1 WHERE ArtworkID IS NULL OR TRIM(ArtworkID)='';");
+                        }
+                        else
+                        {
+                            LogClient.Info("Setting NeedsIndexing=1 for all albums");
+                            conn.Execute("UPDATE Album SET NeedsIndexing=1;");
+                        }
+
+                        conn.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Failed to set NeedsIndexing=1 for albums. Exception: {0}", ex.Message);
+                    }
                 }
             });
 
