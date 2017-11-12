@@ -49,7 +49,7 @@
   <Text Key="Appearance">외형</Text>
   <Text Key="Theme">테마</Text>
   <Text Key="Choose_Theme">밝은 테마 사용</Text>
-  <Text Key="Follow_Windows_Color">윈도우 색상과 동일하게</Text>
+  <Text Key="Follow_Windows_Color">윈도우 색상과 같게</Text>
   <Text Key="Choose_A_Color">색상 선택</Text>
   <Text Key="Choose_Language">언어 선택</Text>
   <Text Key="Pick_Your_Language">언어를 선택하세요</Text>
@@ -120,7 +120,7 @@
   <Text Key="Show_Audio_Progress_In_Taskbar">윈도우 작업 표시줄에 재생 진행률 보이기</Text>
   <Text Key="Spectrum_Analyzer">스펙트럼 분석기</Text>
   <Text Key="Show_Spectrum_Analyzer">스펙트럼 분석기 보이기</Text>
-  <Text Key="Columns">열</Text>
+  <Text Key="Columns">표시할 열 선택</Text>
   <Text Key="Length">길이</Text>
   <Text Key="Album_Artist">앨범 아티스트</Text>
   <Text Key="Track_Number">트랙 번호</Text>
@@ -177,7 +177,7 @@
   <Text Key="Maximize">최대화</Text>
   <Text Key="Hide_Taskbar_When_Maximized">창을 최대화했을 때 윈도우 작업 표시줄 숨기기</Text>
   <Text Key="Glow">후광</Text>
-  <Text Key="Show_Glow_Under_Main_Window">주 창 아래에 후광 보이기</Text>
+  <Text Key="Show_Glow_Under_Main_Window">주 창 아래에 후광 효과 보이기</Text>
   <Text Key="Enter_Leave_Fullscreen">전체 화면 들어가거나 나가기</Text>
   <Text Key="File_Type_Not_Supported">다음 파일 형식은 지원하지 않습니다</Text>
   <Text Key="Unknown_Artist">알 수 없는 아티스트</Text>
@@ -213,7 +213,7 @@
   <Text Key="Show_Window_Border">창 주변에 1픽셀 테두리 보이기</Text>
   <Text Key="System_Tray">알림 영역</Text>
   <Text Key="Show_Tray_Icon">알림 영역에 아이콘 보이기</Text>
-  <Text Key="Align_Playlist_Vertically">세로로 재생 목록 정렬</Text>
+  <Text Key="Align_Playlist_Vertically">재생 목록 세로로 정렬</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">플레이어가 보이지 않을 때만 알림 보이기</Text>
   <Text Key="Transparency">투명도</Text>
   <Text Key="Enable_Transparency">일부 요소 투명하게 만들기 (윈도우 10 전용)</Text>
@@ -300,7 +300,7 @@
   <Text Key="Light">밝음</Text>
   <Text Key="Components">구성 요소</Text>
   <Text Key="Thanks">고마운 분들</Text>
-  <Text Key="License">라이센스</Text>
+  <Text Key="License">라이선스</Text>
   <Text Key="Wasapi_Exclusive_Mode">독점 모드 (다른 애플리케이션 음소거)</Text>
   <Text Key="Equalizer">이퀄라이저</Text>
   <Text Key="Enable_Equalizer">이퀄라이저 활성화</Text>
@@ -363,7 +363,7 @@
   <Text Key="Search_Again">다시 검색</Text>
   <Text Key="Audio_File">오디오 파일</Text>
   <Text Key="Play_Next">다음 재생</Text>
-  <Text Key="Last_Played">마지막으로 재생</Text>
+  <Text Key="Last_Played">마지막으로 재생한 날짜</Text>
   <Text Key="Remember_Last_played_Song">마지막으로 재생한 노래와 재생 진행률 기억하기</Text>
   <Text Key="Download_Lyrics_From">여기서 가사 다운로드</Text>
   <Text Key="Lyrics_Download_Timeout">가사 다운로드 시간 초과</Text>
@@ -383,7 +383,7 @@
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">스펙트럼 스타일</Text>
-  <Text Key="Follow_Album_Cover_Color">앨범 커버 색상과 동일하게</Text>
+  <Text Key="Follow_Album_Cover_Color">앨범 커버 색상과 같게</Text>
   <Text Key="Lyrics_File">가사 파일</Text>
   <Text Key="Long_Jump_Backward">뒤로 15초 넘기기</Text>
   <Text Key="Short_Jump_Backward">뒤로 5초 넘기기</Text>
@@ -406,6 +406,6 @@
   <Text Key="Loop_When_Shuffle">무작위 재생 중 마지막 노래가 끝나면 재생 목록 처음으로 돌아가기</Text>
   <Text Key="Show_Song_Covers">노래 커버 보이기</Text>
   <Text Key="Hide_Song_Covers">노래 커버 숨기기</Text>
-  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
-  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
+  <Text Key="Check_For_Updates_At_Startup">시작할 때 업데이트 확인</Text>
+  <Text Key="Check_For_Updates_Periodically">정기적으로 업데이트 확인</Text>
 </Language>
