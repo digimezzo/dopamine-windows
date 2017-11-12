@@ -14,6 +14,7 @@ namespace Dopamine.Common.Database.Entities
         public long DateLastSynced { get; set; }
         public long DateAdded { get; set; }
         public long DateCreated { get; set; }
+        public long NeedsIndexing { get; set; }
 
         [Ignore()]
         public string AlbumTitleTrim

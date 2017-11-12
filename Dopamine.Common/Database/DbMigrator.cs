@@ -26,7 +26,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 22;
+        protected const int CURRENT_VERSION = 23;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -78,6 +78,7 @@ namespace Dopamine.Common.Database
                              "DateLastSynced	INTEGER," +
                              "DateAdded	        INTEGER," +
                              "DateCreated	    INTEGER," +
+                             "NeedsIndexing	    INTEGER," +
                              "PRIMARY KEY(AlbumID));");
 
                 conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
@@ -86,7 +87,7 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Path	             TEXT," +
-                             "SafePath	             TEXT," +
+                             "SafePath	         TEXT," +
                              "ShowInCollection   INTEGER);");
 
                 conn.Execute("CREATE TABLE Track (" +
@@ -987,7 +988,22 @@ namespace Dopamine.Common.Database
                 conn.Execute("VACUUM;");
             }
         }
-  
+
+        [DatabaseVersion(23)]
+        private void Migrate23()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("ALTER TABLE Album ADD NeedsIndexing INTEGER;");
+                conn.Execute("UPDATE Album SET NeedsIndexing=1;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
         public void Migrate()
         {
             try

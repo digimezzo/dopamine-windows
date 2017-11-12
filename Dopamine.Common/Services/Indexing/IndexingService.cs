@@ -743,7 +743,9 @@ namespace Dopamine.Common.Services.Indexing
                     List<Album> albumsToCheck = conn.Table<Album>().ToList().Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
                     List<long> albumIds = new List<long>();
 
-                    foreach (Album alb in conn.Table<Album>())
+                    List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
+
+                    foreach (Album alb in albumsToIndex)
                     {
                         if (!this.canIndexArtwork)
                         {
@@ -789,6 +791,9 @@ namespace Dopamine.Common.Services.Indexing
                         {
                             LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
                         }
+
+                        alb.NeedsIndexing = 0;
+                        conn.Update(alb);
                     }
 
                     try

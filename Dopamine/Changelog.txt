@@ -1,5 +1,5 @@
-2017-11-10: Dopamine 1.4.1
---------------------------
+2017-11-12: Dopamine 1.5
+------------------------
 
 - [Added] Added a Context Menu option to play (enqueue) selected tracks
 - [Added] Added option to use native Windows 10 notifications
@@ -19,6 +19,7 @@
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 - [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
 - [Changed] Album covers are updated in the background
+- [Changed] It's now possible to check for updates at startup only (without periodic update check)
 - [Fixed] Indexer starts even when disabled in the settings
 - [Fixed] Indexer starts too often due to corrupt or unreadable files
 - [Fixed] Window is restored behind the task bar when double clicking tray icon
