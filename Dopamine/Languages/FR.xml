@@ -404,8 +404,14 @@
   <Text Key="Unknown_Genre">Genre inconnu</Text>
   <Text Key="Refresh_Collection_Automatically">Actualiser la collection automatiquement</Text>
   <Text Key="Loop_When_Shuffle">Pendant une lecture aléatoire, retourner au début de la playlist après le dernier morceau.</Text>
-  <Text Key="Show_Song_Covers">Afficher les pochettes des numéros</Text>
-  <Text Key="Hide_Song_Covers">Cacher les pochettes des numéros</Text>
+  <Text Key="Show_Song_Covers">Afficher les pochettes</Text>
+  <Text Key="Hide_Song_Covers">Cacher les pochettes</Text>
   <Text Key="Check_For_Updates_At_Startup">Vérifier les mises à jour au démarrage</Text>
   <Text Key="Check_For_Updates_Periodically">Vérifier les mises à jour périodiquement</Text>
+  <Text Key="Refresh_Collection_Now">Actualiser la collection maintenant</Text>
+  <Text Key="Album_Covers">Pochettes d'album</Text>
+  <Text Key="Reload_All_Covers">Recharger toutes les pochettes</Text>
+  <Text Key="Reload_All_Covers_Description">Rechargez les pochettes de tous les albums, y compris ceux ayant déjà une pochette.</Text>
+  <Text Key="Reload_Missing_Covers">Recharger pochettes manquantes</Text>
+  <Text Key="Reload_Missing_Covers_Description">Recharger les pochettes uniquement pour les albums n'ayant pas encore de pochette</Text>
 </Language>

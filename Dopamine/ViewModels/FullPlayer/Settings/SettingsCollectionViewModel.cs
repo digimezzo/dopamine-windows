@@ -18,6 +18,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private ITrackRepository trackRepository;
 
         public DelegateCommand RefreshNowCommand { get; set; }
+        public DelegateCommand ReloadAllCoversCommand { get; set; }
+        public DelegateCommand ReloadMissingCoversCommand { get; set; }
 
         public bool IsActive
         {
@@ -54,6 +56,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.trackRepository = trackRepository;
 
             this.RefreshNowCommand = new DelegateCommand(this.RefreshNow);
+            this.ReloadAllCoversCommand = new DelegateCommand(() => this.indexingService.ReloadAlbumArtworkAsync(false));
+            this.ReloadMissingCoversCommand = new DelegateCommand(() => this.indexingService.ReloadAlbumArtworkAsync(true));
 
             this.GetCheckBoxesAsync();
         }

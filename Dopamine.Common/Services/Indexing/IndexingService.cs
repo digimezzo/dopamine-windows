@@ -814,5 +814,39 @@ namespace Dopamine.Common.Services.Indexing
             this.isIndexingArtwork = false;
             LogClient.Error("+++ FINISHED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
         }
+
+        public async void ReloadAlbumArtworkAsync(bool reloadOnlyMissing)
+        {
+            this.canIndexArtwork = false;
+
+            // Wait until artwork indexing is stopped
+            while (this.isIndexingArtwork)
+            {
+                await Task.Delay(100);
+            }
+
+            await Task.Run(async () =>
+            {
+                using (SQLiteConnection conn = this.factory.GetConnection())
+                {
+                    conn.BeginTransaction();
+
+                    if (reloadOnlyMissing)
+                    {
+                        LogClient.Info("Setting NeedsIndexing=1 for albums which have no cover");
+                        conn.Execute("UPDATE Album SET NeedsIndexing=1 WHERE ArtworkID IS NULL OR TRIM(ArtworkID)='';");
+                    }
+                    else
+                    {
+                        LogClient.Info("Setting NeedsIndexing=1 for all albums");
+                        conn.Execute("UPDATE Album SET NeedsIndexing=1;");
+                    }
+
+                    conn.Commit();
+                }
+            });
+
+            this.AddArtworkInBackgroundAsync();
+        }
     }
 }

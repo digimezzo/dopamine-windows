@@ -408,4 +408,10 @@
   <Text Key="Hide_Song_Covers">Ocultar imagens dos álbuns</Text>
   <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
   <Text Key="Check_For_Updates_Periodically">Procurar atualizações periodicamente</Text>
+  <Text Key="Refresh_Collection_Now">Refresh the collection now</Text>
+  <Text Key="Album_Covers">Album covers</Text>
+  <Text Key="Reload_All_Covers">Reload all covers</Text>
+  <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
+  <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
+  <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
 </Language>

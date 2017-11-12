@@ -404,8 +404,14 @@
   <Text Key="Unknown_Genre">Onbekend genre</Text>
   <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>
   <Text Key="Loop_When_Shuffle">Ga, tijdens gemixed afspelen, terug naar het begin van de afspeellijst na het laatste nummer.</Text>
-  <Text Key="Show_Song_Covers">Show song covers</Text>
-  <Text Key="Hide_Song_Covers">Hide song covers</Text>
+  <Text Key="Show_Song_Covers">Afbeeldingen weergeven</Text>
+  <Text Key="Hide_Song_Covers">Afbeeldingen verbergen</Text>
   <Text Key="Check_For_Updates_At_Startup">Controleren op updates bij het opstarten</Text>
   <Text Key="Check_For_Updates_Periodically">Periodisch controleren op updates</Text>
+  <Text Key="Refresh_Collection_Now">Collectie nu verversen</Text>
+  <Text Key="Album_Covers">Albumafbeeldingen</Text>
+  <Text Key="Reload_All_Covers">Alle albumafbeeldingen herladen</Text>
+  <Text Key="Reload_All_Covers_Description">Albumafbeeldingen voor alle albums herladen, ook voor albums die al een afbeelding hebben.</Text>
+  <Text Key="Reload_Missing_Covers">Ontbrekende albumafbeeldingen herladen</Text>
+  <Text Key="Reload_Missing_Covers_Description">Herlaad albumafbeeldingen alleen voor albums die nog geen afbeelding hebben</Text>
 </Language>
