@@ -23,7 +23,7 @@
             <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Refresh_Collection_Now}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Refresh_Now}" Command="{Binding RefreshNowCommand}"/>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Album_Covers}" />
-            <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Reload_All_Covers_Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Reload_All_Covers_Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Reload_All_Covers}" Command="{Binding ReloadAllCoversCommand}"/>
             <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Reload_Missing_Covers_Description}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Reload_Missing_Covers}" Command="{Binding ReloadMissingCoversCommand}"/>
