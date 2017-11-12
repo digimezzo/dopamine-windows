@@ -518,6 +518,7 @@
     <Compile Include="Services\I18n\I18nService.cs" />
     <Compile Include="Services\I18n\II18nService.cs" />
     <Compile Include="Services\I18n\Language.cs" />
+    <Compile Include="Services\Indexing\AlbumArtworkAddedEventArgs.cs" />
     <Compile Include="Services\Indexing\Enums.cs" />
     <Compile Include="Services\Indexing\FolderWatcherManager.cs" />
     <Compile Include="Services\Indexing\IIndexingService.cs" />

@@ -13,8 +13,8 @@ namespace Dopamine.Common.Services.Collection
     {
         Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks);
         Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks);
-        Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewmodels, int delayMilliSeconds);
-        Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels);
+        Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, int delayMilliSeconds);
+        Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, List<long> albumsIds = null);
         Task MarkFolderAsync(Folder folder);
         event EventHandler CollectionChanged;
     }

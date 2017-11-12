@@ -45,6 +45,16 @@ namespace Dopamine.Common.Services.Indexing
         // Flags
         private bool isIndexing;
         private bool isFoldersChanged;
+        private bool canIndexArtwork;
+        private bool isIndexingArtwork;
+
+        // Events
+        public event EventHandler IndexingStopped = delegate { };
+        public event EventHandler IndexingStarted = delegate { };
+        public event Action<IndexingStatusEventArgs> IndexingStatusChanged = delegate { };
+        public event EventHandler RefreshLists = delegate { };
+        public event EventHandler RefreshArtwork = delegate { };
+        public event AlbumArtworkAddedEventHandler AlbumArtworkAdded = delegate { };
 
         public bool IsIndexing
         {
@@ -141,6 +151,14 @@ namespace Dopamine.Common.Services.Indexing
                 return;
             }
 
+            this.canIndexArtwork = false;
+
+            // Wait until artwork indexing is stopped
+            while (this.isIndexingArtwork)
+            {
+                await Task.Delay(100);
+            }
+
             await this.watcherManager.StopWatchingAsync();
             await this.InitializeAsync();
 
@@ -175,6 +193,7 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
                         {
+                            this.AddArtworkInBackgroundAsync();
                             await this.watcherManager.StartWatchingAsync();
                         }
                     }
@@ -200,9 +219,15 @@ namespace Dopamine.Common.Services.Indexing
             // ------
             bool isTracksChanged = await this.IndexTracksAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0 ? true : false;
 
-            if (isTracksChanged)
+            // Artwork cleanup
+            // ---------------
+            bool isArtworkCleanedUp = await this.CleanupArtworkAsync();
+
+            // Refresh lists
+            // -------------
+            if (isTracksChanged || isArtworkCleanedUp)
             {
-                LogClient.Info("Sending event to refresh the lists");
+                LogClient.Info("Sending event to refresh the lists because: isTracksChanged = {0}, isArtworkCleanedUp = {1}", isTracksChanged, isArtworkCleanedUp);
                 this.RefreshLists(this, new EventArgs());
             }
 
@@ -210,6 +235,8 @@ namespace Dopamine.Common.Services.Indexing
             // --------
             this.isIndexing = false;
             this.IndexingStopped(this, new EventArgs());
+
+            this.AddArtworkInBackgroundAsync();
 
             if (SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically"))
             {
@@ -609,10 +636,175 @@ namespace Dopamine.Common.Services.Indexing
             await this.RefreshCollectionAsync();
         }
 
-        public event EventHandler IndexingStopped = delegate { };
-        public event EventHandler IndexingStarted = delegate { };
-        public event Action<IndexingStatusEventArgs> IndexingStatusChanged = delegate { };
-        public event EventHandler RefreshLists = delegate { };
-        public event EventHandler RefreshArtwork = delegate { };
+        private async Task<long> DeleteUnusedArtworkFromDatabaseAsync()
+        {
+            long numberDeleted = 0;
+
+            await Task.Run(() =>
+            {
+                using (SQLiteConnection conn = this.factory.GetConnection())
+                {
+                    conn.BeginTransaction();
+
+                    foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
+                    {
+                        if (!System.IO.File.Exists(this.cacheService.GetCachedArtworkPath(alb.ArtworkID)))
+                        {
+                            alb.ArtworkID = string.Empty;
+                            conn.Update(alb);
+                            numberDeleted += 1;
+                        }
+                    }
+
+                    conn.Commit();
+                }
+            });
+
+            return numberDeleted;
+        }
+
+        private async Task<long> DeleteUnusedArtworkFromCacheAsync()
+        {
+            long numberDeleted = 0;
+
+            await Task.Run(() =>
+            {
+                string[] artworkFiles = Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "album-*.jpg");
+
+                using (SQLiteConnection conn = this.factory.GetConnection())
+                {
+                    List<Album> albumsWithArtwork = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t).ToList();
+                    List<string> artworkIDs = albumsWithArtwork.Select((a) => a.ArtworkID).ToList();
+
+                    foreach (string artworkFile in artworkFiles)
+                    {
+                        if (!artworkIDs.Contains(System.IO.Path.GetFileNameWithoutExtension(artworkFile)))
+                        {
+                            try
+                            {
+                                System.IO.File.Delete(artworkFile);
+                                numberDeleted += 1;
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("There was a problem while deleting cached artwork {0}. Exception: {1}", artworkFile, ex.Message);
+                            }
+                        }
+                    }
+                }
+            });
+
+            return numberDeleted;
+        }
+
+        private async Task<bool> CleanupArtworkAsync()
+        {
+            LogClient.Info("+++ STARTED CLEANING UP ARTWORK +++");
+
+            DateTime startTime = DateTime.Now;
+            long numberDeletedFromDatabase = 0;
+            long numberDeletedFromDisk = 0;
+
+            try
+            {
+                // Step 1: delete unused artwork from the database
+                // -----------------------------------------------
+                numberDeletedFromDatabase = await this.DeleteUnusedArtworkFromDatabaseAsync();
+
+                // Step 2: delete unused artwork from the cache
+                // --------------------------------------------
+                numberDeletedFromDisk = await this.DeleteUnusedArtworkFromCacheAsync();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Info("There was a problem while updating the artwork. Exception: {0}", ex.Message);
+            }
+
+            LogClient.Info("+++ FINISHED CLEANING UP ARTWORK: Covers deleted from database: {0}. Covers deleted from disk: {1}. Time required: {3} ms +++", numberDeletedFromDatabase, numberDeletedFromDisk, Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+
+            return numberDeletedFromDatabase + numberDeletedFromDisk > 0;
+        }
+
+        private async void AddArtworkInBackgroundAsync()
+        {
+            LogClient.Info("+++ STARTED ADDING ARTWORK IN THE BACKGROUND +++");
+            this.canIndexArtwork = true;
+            this.isIndexingArtwork = true;
+
+            long numberAdded = 0;
+            DateTime startTime = DateTime.Now;
+
+            await Task.Run(async () =>
+            {
+                using (SQLiteConnection conn = this.factory.GetConnection())
+                {
+                    conn.BeginTransaction();
+
+                    List<Album> albumsToCheck = conn.Table<Album>().ToList().Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
+                    List<long> albumIds = new List<long>();
+
+                    foreach (Album alb in conn.Table<Album>())
+                    {
+                        if (!this.canIndexArtwork)
+                        {
+                            try
+                            {
+                                LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+                                conn.Commit(); // Makes sure we commit what we already processed
+                                this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("Failed to commit changes while aborting adding artwork in background. Exception: {0}", ex.Message);
+                            }
+
+                            this.isIndexingArtwork = false;
+
+                            return;
+                        }
+
+                        try
+                        {
+                            Track trk = this.GetLastModifiedTrack(alb);
+
+                            alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
+
+                            if (!string.IsNullOrEmpty(alb.ArtworkID))
+                            {
+                                albumIds.Add(alb.AlbumID);
+                                alb.DateLastSynced = DateTime.Now.Ticks;
+                                conn.Update(alb);
+                                numberAdded += 1;
+
+                                if(albumIds.Count >= 20)
+                                {
+                                    conn.Commit();
+                                    List<long> eventAlbumIds = new List<long>(albumIds);
+                                    albumIds.Clear();
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                        }
+                    }
+
+                    try
+                    {
+                        conn.Commit();
+                        this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Failed to commit changes while finishing adding artwork in background. Exception: {0}", ex.Message);
+                    }
+                }
+            });
+
+            this.isIndexingArtwork = false;
+            LogClient.Error("+++ FINISHED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+        }
     }
 }

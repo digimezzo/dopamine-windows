@@ -18,6 +18,7 @@
 - [Changed] Removed the splash screen
 - [Changed] When double clicking files in Windows Explorer, we now start in Mini Player mode
 - [Changed] Re-introduced automatic loop when performing shuffled playback. There is now an option to disable it.
+- [Changed] Album covers are updated in the background
 - [Fixed] Indexer starts even when disabled in the settings
 - [Fixed] Indexer starts too often due to corrupt or unreadable files
 - [Fixed] Window is restored behind the task bar when double clicking tray icon
