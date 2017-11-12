@@ -569,7 +569,7 @@ namespace Dopamine.Common.Services.Indexing
         private void ProcessTrack(Track track, SQLiteConnection conn)
         {
             var newTrackStatistic = new TrackStatistic();
-            var newAlbum = new Album();
+            var newAlbum = new Album() { NeedsIndexing = 1 }; // Make sure album art gets indexed for this album
             var newArtist = new Artist();
             var newGenre = new Genre();
 
@@ -621,6 +621,9 @@ namespace Dopamine.Common.Services.Indexing
                     if (dbAlbum != null)
                     {
                         dbAlbum.Year = newAlbum.Year;
+
+                        // A track from this album has changed, so make sure album art gets re-indexed.
+                        dbAlbum.NeedsIndexing = 1; 
                         conn.Update(dbAlbum);
                     }
                 }
