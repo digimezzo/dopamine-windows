@@ -79,7 +79,7 @@ namespace Dopamine.Views
                 );
 
             this.InitializeServices();
-            this.InitializeWindow();
+            this.InitializeWindows();
             this.InitializeTrayIcon();
             this.InitializeCommands();
         }
@@ -243,14 +243,15 @@ namespace Dopamine.Views
             this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
 
             this.trayIconContextMenu = (ContextMenu)this.FindResource("TrayIconContextMenu");
-
-            this.trayControls = this.container.Resolve<TrayControls>();
         }
 
-        private void InitializeWindow()
+        private void InitializeWindows()
         {
             // Start monitoring tablet mode
             this.windowsIntegrationService.StartMonitoringTabletMode();
+
+            // Tray controls
+            this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
             this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(DopamineWindow), this));
