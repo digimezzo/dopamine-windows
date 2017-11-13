@@ -19,7 +19,8 @@ namespace Dopamine.Common.Services.Shell
         private IWindowsIntegrationService windowsIntegrationService;
         private IEventAggregator eventAggregator;
         private ActiveMiniPlayerPlaylist activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.None;
-        private bool canSaveWindowGeometry = false;
+        private bool canSaveWindowGeometry;
+        private bool isMiniPlayerActive;
         string nowPlayingPage;
         private string fullPlayerPage;
         private string coverPlayerPage;
@@ -127,7 +128,7 @@ namespace Dopamine.Common.Services.Shell
 
         private void TogglePlayer()
         {
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+            if (this.isMiniPlayerActive)
             {
                 // Show the Full Player
                 this.SetPlayer(false, MiniPlayerType.CoverPlayer);
@@ -204,6 +205,9 @@ namespace Dopamine.Common.Services.Shell
             // Determine if the player position is locked
             this.SetWindowPositionLockedFromSettings();
 
+            // Determine if the player is 
+            this.SetWindowTopmostFromSettings();
+
             // Delay, otherwise content is never shown (probably because regions don't exist yet at startup)
             await Task.Delay(150);
 
@@ -215,6 +219,8 @@ namespace Dopamine.Common.Services.Shell
 
         private void SetFullPlayer()
         {
+            this.isMiniPlayerActive = false;
+
             this.PlaylistVisibilityChanged(this, new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = false });
 
             this.ResizeModeChanged(this, new ResizeModeChangedEventArgs() { ResizeMode = ResizeMode.CanResize });
@@ -239,12 +245,12 @@ namespace Dopamine.Common.Services.Shell
             {
                 MinimumSize = new Size(Constants.MinShellWidth, Constants.MinShellHeight)
             });
-
-            this.SetWindowTopmostFromSettings();
         }
 
         private void SetMiniPlayer(MiniPlayerType miniPlayerType, bool openPlaylist)
         {
+            this.isMiniPlayerActive = true;
+
             // Hide the playlist BEFORE changing window dimensions to avoid strange behaviour
             this.PlaylistVisibilityChanged(this, new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = false });
 
@@ -294,8 +300,6 @@ namespace Dopamine.Common.Services.Shell
                 Size = minimumSize
             });
 
-            this.SetWindowTopmostFromSettings();
-
             // Show the playlist AFTER changing window dimensions to avoid strange behaviour
             if (openPlaylist)
             {
@@ -325,12 +329,12 @@ namespace Dopamine.Common.Services.Shell
         {
             if (this.canSaveWindowGeometry)
             {
-                if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+                if (this.isMiniPlayerActive)
                 {
                     SettingsClient.Set<int>("MiniPlayer", "Top", Convert.ToInt32(top));
                     SettingsClient.Set<int>("MiniPlayer", "Left", Convert.ToInt32(left));
                 }
-                else if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(state == WindowState.Maximized))
+                else if (state != WindowState.Maximized)
                 {
                     SettingsClient.Set<int>("FullPlayer", "Top", Convert.ToInt32(top));
                     SettingsClient.Set<int>("FullPlayer", "Left", Convert.ToInt32(left));
@@ -340,7 +344,7 @@ namespace Dopamine.Common.Services.Shell
 
         private void SetWindowTopmostFromSettings()
         {
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+            if (this.isMiniPlayerActive)
             {
                 this.TopmostChanged(this, new TopmostChangedEventArgs() { IsTopmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop") });
             }
@@ -354,7 +358,7 @@ namespace Dopamine.Common.Services.Shell
         private void SetWindowPositionLockedFromSettings()
         {
             // Only lock position when the mini player is active
-            if (SettingsClient.Get<bool>("General", "IsMiniPlayer"))
+            if (this.isMiniPlayerActive)
             {
                 this.IsMovableChanged(this, new IsMovableChangedEventArgs() { IsMovable = !SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked") });
             }
@@ -412,7 +416,7 @@ namespace Dopamine.Common.Services.Shell
         {
             if (this.canSaveWindowGeometry)
             {
-                if (!SettingsClient.Get<bool>("General", "IsMiniPlayer") & !(state == WindowState.Maximized))
+                if (!this.isMiniPlayerActive & state != WindowState.Maximized)
                 {
                     SettingsClient.Set<int>("FullPlayer", "Width", Convert.ToInt32(size.Width));
                     SettingsClient.Set<int>("FullPlayer", "Height", Convert.ToInt32(size.Height));
