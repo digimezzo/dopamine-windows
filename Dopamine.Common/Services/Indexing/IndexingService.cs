@@ -123,6 +123,7 @@ namespace Dopamine.Common.Services.Indexing
                 return;
             }
 
+            this.isFoldersChanged = false;
             await this.RefreshCollectionAsync();
         }
 
@@ -150,6 +151,8 @@ namespace Dopamine.Common.Services.Indexing
             {
                 return;
             }
+
+            LogClient.Info("+++ STARTED CHECKING COLLECTION +++");
 
             this.canIndexArtwork = false;
 
