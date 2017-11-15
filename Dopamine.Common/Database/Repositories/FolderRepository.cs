@@ -130,63 +130,6 @@ namespace Dopamine.Common.Database.Repositories
             return allFolders;
         }
 
-        public async Task<List<Tuple<long, string, long>>> GetPathsAsync()
-        {
-            var diskPaths = new Dictionary<string, Tuple<long, string, long>>();
-            List<Folder> folders = await this.GetFoldersAsync();
-
-            await Task.Run(() =>
-            {
-                // Recursively get all the files in the collection folders
-                foreach (Folder fol in folders)
-                {
-                    if (Directory.Exists(fol.Path))
-                    {
-                        var paths = new List<string>();
-
-                        try
-                        {
-                            // Create a queue to hold exceptions that have occurred while scanning the directory tree
-                            var recurseExceptions = new ConcurrentQueue<Exception>();
-
-                            // Get all audio files recursively
-                            FileOperations.TryDirectoryRecursiveGetFiles(fol.Path, paths, FileFormats.SupportedMediaExtensions, recurseExceptions);
-
-                            if (recurseExceptions.Count > 0)
-                            {
-                                foreach (Exception recurseException in recurseExceptions)
-                                {
-                                    LogClient.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not iterate through the subdirectories of folder '{0}'. Exception: {1}", fol.Path, ex.Message);
-                        }
-
-                        foreach (string path in paths)
-                        {
-                            try
-                            {
-                                // Avoid adding duplicate paths
-                                if (!diskPaths.Keys.Contains(path))
-                                {
-                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileUtils.DateModifiedTicks(path)));
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol.Path, ex.Message);
-                            }
-                        }
-                    }
-                }
-            });
-
-            return diskPaths.Values.ToList();
-        }
-
         public async Task UpdateFoldersAsync(IList<Folder> folders)
         {
             await Task.Run(() =>
