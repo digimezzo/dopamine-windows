@@ -221,14 +221,14 @@ namespace Dopamine.Common.Services.File
 
             // Create a queue to hold exceptions that have occurred while scanning the directory tree
             var recurseExceptions = new ConcurrentQueue<Exception>();
-            FileOperations.TryDirectoryRecursiveGetFiles(directoryPath, paths, FileFormats.SupportedMediaExtensions, recurseExceptions);
 
-            if (recurseExceptions.Count > 0)
+            try
             {
-                foreach (Exception recurseException in recurseExceptions)
-                {
-                    LogClient.Error("Error while recursively getting files/folders. Exception: {0}", recurseException.ToString());
-                }
+                paths = FileOperations.DirectoryRecursiveGetValidFiles(directoryPath, FileFormats.SupportedMediaExtensions);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", directoryPath, ex.Message);
             }
 
             return paths;
