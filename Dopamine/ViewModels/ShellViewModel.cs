@@ -20,6 +20,8 @@ namespace Dopamine.ViewModels
             set { SetProperty<bool>(ref this.isOverlayVisible, value); }
         }
 
+        public ITaskbarService TaskbarService { get; }
+
         public DelegateCommand PlayPreviousCommand { get; set; }
         public DelegateCommand PlayNextCommand { get; set; }
         public DelegateCommand PlayOrPauseCommand { get; set; }
@@ -28,6 +30,8 @@ namespace Dopamine.ViewModels
         public ShellViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, IDialogService dialogService,
             IJumpListService jumpListService, IFileService fileService, IUpdateService updateService)
         {
+            this.TaskbarService = taskbarService;
+
             dialogService.DialogVisibleChanged += isDialogVisible => { this.IsOverlayVisible = isDialogVisible; };
 
             this.PlayPreviousCommand = new DelegateCommand(async () => await playbackService.PlayPreviousAsync());
