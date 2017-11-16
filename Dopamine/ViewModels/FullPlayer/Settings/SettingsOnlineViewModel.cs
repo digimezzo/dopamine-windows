@@ -300,7 +300,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         private void RemoveSearchProvider()
         {
-            if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Remove"), ResourceUtils.GetString("Language_Confirm_Remove_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
+            if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Remove"), ResourceUtils.GetString("Language_Confirm_Remove_Online_Search_Provider").Replace("{provider}", this.selectedSearchProvider.Name), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
             {
                 var isRemoveSuccess = this.providerService.RemoveSearchProvider(this.selectedSearchProvider);
 
@@ -310,7 +310,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                         0xe711,
                         16,
                         ResourceUtils.GetString("Language_Error"),
-                        ResourceUtils.GetString("Language_Error_Removing_Online_Search_Provider").Replace("%provider%", this.selectedSearchProvider.Name),
+                        ResourceUtils.GetString("Language_Error_Removing_Online_Search_Provider").Replace("{provider}", this.selectedSearchProvider.Name),
                         ResourceUtils.GetString("Language_Ok"),
                         true,
                         ResourceUtils.GetString("Language_Log_File"));

@@ -67,7 +67,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         public string MultipleTracksWarningText
         {
-            get { return ResourceUtils.GetString("Language_Multiple_Songs_Selected").Replace("%trackcount%", this.paths.Count.ToString()); }
+            get { return ResourceUtils.GetString("Language_Multiple_Songs_Selected").Replace("{trackcount}", this.paths.Count.ToString()); }
         }
 
         public bool ShowMultipleTracksWarning

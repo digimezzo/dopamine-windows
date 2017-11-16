@@ -409,7 +409,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 0xe11b,
                 16,
                 ResourceUtils.GetString("Language_Delete_Preset"),
-                ResourceUtils.GetString("Language_Delete_Preset_Confirmation").Replace("%preset%", this.SelectedPreset.Name),
+                ResourceUtils.GetString("Language_Delete_Preset_Confirmation").Replace("{preset}", this.SelectedPreset.Name),
                 ResourceUtils.GetString("Language_Yes"),
                 ResourceUtils.GetString("Language_No")))
             {

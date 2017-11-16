@@ -59,7 +59,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     text = ResourceUtils.GetString("Language_Added_Tracks_To_Playlist");
                 }
 
-                this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", numberTracksAdded.ToString()).Replace("%playlistname%", playlist);
+                this.AddedTracksToPlaylistText = text.Replace("{numberoftracks}", numberTracksAdded.ToString()).Replace("{playlistname}", playlist);
 
                 this.ShowAddedTracksToPlaylistText = true;
             };
@@ -73,7 +73,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                     text = ResourceUtils.GetString("Language_Added_Tracks_To_Now_Playing");
                 }
 
-                this.AddedTracksToPlaylistText = text.Replace("%numberoftracks%", iNumberOfTracks.ToString());
+                this.AddedTracksToPlaylistText = text.Replace("{numberoftracks}", iNumberOfTracks.ToString());
 
                 this.ShowAddedTracksToPlaylistText = true;
             };

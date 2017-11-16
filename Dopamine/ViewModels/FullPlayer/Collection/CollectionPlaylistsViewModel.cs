@@ -248,7 +248,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         0xe711,
                         16,
                         ResourceUtils.GetString("Language_Already_Exists"),
-                        ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", playlistName),
+                        ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", playlistName),
                         ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
@@ -331,7 +331,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     0xe711,
                     16,
                     ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("%playlistname%", playlistName),
+                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("{playlistname}", playlistName),
                     ResourceUtils.GetString("Language_Ok"),
                     true,
                     ResourceUtils.GetString("Language_Log_File"));
@@ -344,7 +344,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 0xe11b,
                 16,
                 ResourceUtils.GetString("Language_Delete"),
-                ResourceUtils.GetString("Language_Are_You_Sure_To_Delete_Playlist").Replace("%playlistname%", playlistName),
+                ResourceUtils.GetString("Language_Are_You_Sure_To_Delete_Playlist").Replace("{playlistname}", playlistName),
                 ResourceUtils.GetString("Language_Yes"),
                 ResourceUtils.GetString("Language_No")))
             {
@@ -363,7 +363,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 0xea37,
                 16,
                 ResourceUtils.GetString("Language_Rename_Playlist"),
-                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("%playlistname%", oldPlaylistName),
+                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylistName),
                 ResourceUtils.GetString("Language_Ok"),
                 ResourceUtils.GetString("Language_Cancel"),
                 ref newPlaylistName))
@@ -377,7 +377,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                             0xe711,
                             16,
                             ResourceUtils.GetString("Language_Already_Exists"),
-                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("%playlistname%", newPlaylistName),
+                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
                             ResourceUtils.GetString("Language_Ok"),
                             false,
                             string.Empty);
@@ -470,8 +470,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (!this.IsPlaylistSelected) return;
 
-            string question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
-            if (this.SelectedTracks.Count == 1) question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Playlist").Replace("%playlistname%", this.SelectedPlaylistName);
+            string question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("{playlistname}", this.SelectedPlaylistName);
+            if (this.SelectedTracks.Count == 1) question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Playlist").Replace("{playlistname}", this.SelectedPlaylistName);
 
             if (this.dialogService.ShowConfirmation(
             0xe11b,
