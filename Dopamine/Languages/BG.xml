@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Contact us</Text>
   <Text Key="Mail">Mail</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Sorry, I can't play this song. The file could not be found.</Text>
-  <Text Key="Current_Of_Total">%current% of %total%</Text>
   <Text Key="Cover_Size">Размер на обложка</Text>
   <Text Key="Small">Малка</Text>
   <Text Key="Medium">Средна</Text>

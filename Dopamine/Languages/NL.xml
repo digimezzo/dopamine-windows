@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Ons contacteren</Text>
   <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Sorry, ik kan dit nummer niet afspelen. Het bestand werd niet gevonden.</Text>
-  <Text Key="Current_Of_Total">%current% van %total%</Text>
   <Text Key="Cover_Size">Grootte van afbeeldingen</Text>
   <Text Key="Small">Klein</Text>
   <Text Key="Medium">Middelmatig</Text>

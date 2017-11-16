@@ -119,37 +119,13 @@ namespace Dopamine.Common.Services.Indexing
             }
         }
 
-        public static long CalculateProgessInterval(long totalItems)
-        {
-            if (totalItems < 10)
-            {
-                return 1;
-            }
-            else if (totalItems < 50)
-            {
-                return 5;
-            }
-            else if (totalItems < 100)
-            {
-                return 10;
-            }
-            else if (totalItems < 200)
-            {
-                return 20;
-            }
-            else
-            {
-                return 200;
-            }
-        }
-
         public static int CalculatePercent(long currentValue, long totalValue)
         {
             int percent = 0;
 
             if (totalValue > 0)
             {
-                percent = Convert.ToInt32((currentValue / totalValue) * 100);
+                percent = Convert.ToInt32((currentValue / (double)totalValue) * 100);
             }
 
             return percent;

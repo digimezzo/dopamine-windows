@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Kontakt os</Text>
   <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">En fejl opstod ved afspilning af sangen. Filen blev ikke fundet.</Text>
-  <Text Key="Current_Of_Total">%current% af %total%</Text>
   <Text Key="Cover_Size">Cover-størrelse</Text>
   <Text Key="Small">Lille</Text>
   <Text Key="Medium">Mellem</Text>

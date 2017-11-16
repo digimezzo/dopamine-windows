@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">연락하기</Text>
   <Text Key="Email">이메일</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">죄송하지만 이 노래는 재생할 수 없습니다. 해당 파일을 찾을 수 없습니다.</Text>
-  <Text Key="Current_Of_Total">%total% 중 %current%</Text>
   <Text Key="Cover_Size">커버 크기</Text>
   <Text Key="Small">작게</Text>
   <Text Key="Medium">중간</Text>

@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">联系我们</Text>
   <Text Key="Email">邮件</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">抱歉，Dopamine 不能播放这首歌曲。未找到此文件</Text>
-  <Text Key="Current_Of_Total">%current% of %total%</Text>
   <Text Key="Cover_Size">封面大小</Text>
   <Text Key="Small">小</Text>
   <Text Key="Medium">中</Text>

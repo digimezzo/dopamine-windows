@@ -13,12 +13,7 @@
         <Border Background="{DynamicResource RG_AccentBrush}" Height="30" Margin="0,20,0,0">
             <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <controls:SyncRing DockPanel.Dock="Left" Width="16" Margin="15,0,10,0" VerticalAlignment="Center" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                <TextBlock DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding IndexingProgress}" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                <Grid>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Removing_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerRemovingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Adding_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerAddingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource Language_Updating_Songs}" Foreground="{DynamicResource RG_WhiteBrush}" Visibility="{Binding IsIndexerUpdatingSongs,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                </Grid>
+                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding IndexingStatus}" Foreground="{DynamicResource RG_WhiteBrush}"/>
             </DockPanel>
         </Border>
         <Border.Style>

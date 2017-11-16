@@ -10,11 +10,7 @@ namespace Dopamine.Common.Presentation.ViewModels
     {
         private IIndexingService indexingService;
         private bool isIndexing;
-        private string indexingProgress;
-        private bool isIndexerRemovingSongs;
-        private bool isIndexerAddingSongs;
-        private bool isIndexerUpdatingSongs;
-        private bool isIndexerUpdatingArtwork;
+        private string indexingStatus;
 
         public bool IsIndexing
         {
@@ -25,28 +21,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
-        public string IndexingProgress
+        public string IndexingStatus
         {
-            get { return this.indexingProgress; }
-            set { SetProperty<string>(ref this.indexingProgress, value); }
-        }
-
-        public bool IsIndexerRemovingSongs
-        {
-            get { return this.isIndexerRemovingSongs; }
-            set { SetProperty<bool>(ref this.isIndexerRemovingSongs, value); }
-        }
-
-        public bool IsIndexerAddingSongs
-        {
-            get { return this.isIndexerAddingSongs; }
-            set { SetProperty<bool>(ref this.isIndexerAddingSongs, value); }
-        }
-
-        public bool IsIndexerUpdatingSongs
-        {
-            get { return this.isIndexerUpdatingSongs; }
-            set { SetProperty<bool>(ref this.isIndexerUpdatingSongs, value); }
+            get { return this.indexingStatus; }
+            set { SetProperty<string>(ref this.indexingStatus, value); }
         }
 
         public IndexingStatusViewModel(IIndexingService indexingService)
@@ -68,22 +46,13 @@ namespace Dopamine.Common.Presentation.ViewModels
                     switch (indexingStatusEventArgs.IndexingAction)
                     {
                         case IndexingAction.RemoveTracks:
-                            this.IsIndexerRemovingSongs = true;
-                            this.IsIndexerAddingSongs = false;
-                            this.IsIndexerUpdatingSongs = false;
-                            this.IndexingProgress = string.Empty;
+                            this.SetIndexingStatusRemovingTracks();
                             break;
                         case IndexingAction.AddTracks:
-                            this.IsIndexerRemovingSongs = false;
-                            this.IsIndexerAddingSongs = true;
-                            this.IsIndexerUpdatingSongs = false;
-                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.SetIndexingStatusAddingTracks(indexingStatusEventArgs.ProgressCurrent, indexingStatusEventArgs.ProgressPercent);
                             break;
                         case IndexingAction.UpdateTracks:
-                            this.IsIndexerRemovingSongs = false;
-                            this.IsIndexerAddingSongs = false;
-                            this.IsIndexerUpdatingSongs = true;
-                            this.IndexingProgress = this.FillProgress(indexingStatusEventArgs.ProgressCurrent.ToString(), indexingStatusEventArgs.ProgressTotal.ToString());
+                            this.SetIndexingStatusUpdatingTracks(indexingStatusEventArgs.ProgressPercent);
                             break;
                         default:
                             break;
@@ -92,20 +61,24 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 else
                 {
-                    this.IndexingProgress = string.Empty;
+                    this.IndexingStatus = string.Empty;
                 }
             });
         }
 
-        private string FillProgress(string currentProgres, string totalProgress)
+        private void SetIndexingStatusRemovingTracks()
         {
-            string progress = string.Empty;
+            this.IndexingStatus = ResourceUtils.GetString("Language_Removing_Songs");
+        }
 
-            progress = "(" + ResourceUtils.GetString("Language_Current_Of_Total") + ")";
-            progress = progress.Replace("%current%", currentProgres);
-            progress = progress.Replace("%total%", totalProgress);
+        private void SetIndexingStatusAddingTracks(long currentProgress, int progressPercent)
+        {
+            this.IndexingStatus = $"{ResourceUtils.GetString("Language_Adding_Songs")}: {currentProgress} ({progressPercent}%)";
+        }
 
-            return progress;
+        private void SetIndexingStatusUpdatingTracks(int progressPercent)
+        {
+            this.IndexingStatus = $"{ResourceUtils.GetString("Language_Updating_Songs")} ({progressPercent}%)";
         }
 
         private void IndexingService_IndexingStopped(object sender, EventArgs e)
@@ -113,7 +86,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (this.IsIndexing)
             {
                 this.IsIndexing = false;
-                this.IndexingProgress = string.Empty;
+                this.IndexingStatus = string.Empty;
             }
         }
     }

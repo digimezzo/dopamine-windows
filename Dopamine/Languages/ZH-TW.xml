@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">聯繫我們</Text>
   <Text Key="Email">郵件</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">對不起，未能播放播放此歌曲。找不到檔案。</Text>
-  <Text Key="Current_Of_Total">%current% (共有%total%)</Text>
   <Text Key="Cover_Size">封面大小</Text>
   <Text Key="Small">小</Text>
   <Text Key="Medium">中</Text>

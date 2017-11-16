@@ -441,9 +441,7 @@ namespace Dopamine.Common.Services.Indexing
 
                         long currentValue = 0;
                         long totalValue = alltracks.Count;
-
-                        long progressInterval = IndexerUtils.CalculateProgessInterval(totalValue);
-                        long lastProgressValue = 0;
+                        int lastPercent = 0;
 
                         foreach (Track dbTrack in alltracks)
                         {
@@ -463,17 +461,16 @@ namespace Dopamine.Common.Services.Indexing
 
                             currentValue += 1;
 
+                            int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+
                             // Report progress if at least 1 track is updated OR when the progress
                             // interval has been exceeded OR the maximum has been reached.
-                            bool mustReportProgress = numberUpdatedTracks == 1 ||
-                            currentValue - lastProgressValue > progressInterval ||
-                            currentValue == totalValue;
+                            bool mustReportProgress = numberUpdatedTracks == 1 || percent >= lastPercent + 5 || percent == 100;
 
                             if (mustReportProgress)
                             {
-                                args.ProgressCurrent = currentValue;
-                                args.ProgressTotal = totalValue;
-                                args.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                lastPercent = percent;
+                                args.ProgressPercent = percent;
                                 this.IndexingStatusChanged(args);
                             }
                         }
@@ -509,9 +506,7 @@ namespace Dopamine.Common.Services.Indexing
 
                     long saveItemCount = IndexerUtils.CalculateSaveItemCount(totalValue);
                     long unsavedItemCount = 0;
-
-                    long progressInterval = IndexerUtils.CalculateProgessInterval(totalValue);
-                    long lastProgressValue = 0;
+                    int lastPercent = 0;
 
                     using (var conn = this.factory.GetConnection())
                     {
@@ -529,12 +524,11 @@ namespace Dopamine.Common.Services.Indexing
                                 {
                                     conn.Insert(diskTrack);
                                     this.cache.AddTrack(diskTrack);
+                                    numberAddedTracks += 1;
+                                    unsavedItemCount += 1;
                                 }
 
                                 conn.Insert(new FolderTrack(newDiskPath.FolderId, diskTrack.TrackID));
-
-                                numberAddedTracks += 1;
-                                unsavedItemCount += 1;
 
                                 // Intermediate save to the database if 20% is reached
                                 if (unsavedItemCount == saveItemCount)
@@ -551,19 +545,17 @@ namespace Dopamine.Common.Services.Indexing
 
                             currentValue += 1;
 
+                            int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+
                             // Report progress if at least 1 track is added OR when the progress
                             // interval has been exceeded OR the maximum has been reached.
-                            bool mustReportProgress = numberAddedTracks == 1 ||
-                            currentValue - lastProgressValue > progressInterval ||
-                            currentValue == totalValue;
+                            bool mustReportProgress = numberAddedTracks == 1 || percent >= lastPercent + 5 || percent == 100;
 
                             if (mustReportProgress)
                             {
-                                lastProgressValue = currentValue;
-
-                                args.ProgressCurrent = currentValue;
-                                args.ProgressTotal = totalValue;
-                                args.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                lastPercent = percent;
+                                args.ProgressCurrent = numberAddedTracks;
+                                args.ProgressPercent = percent;
                                 this.IndexingStatusChanged(args);
                             }
                         }
