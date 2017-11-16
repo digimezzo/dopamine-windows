@@ -83,11 +83,14 @@ namespace Dopamine.Common.Controls
         /// Custom Activate function because the real Activate function doesn't always bring the window on top.
         /// </summary>
         /// <remarks></remarks>
-        public void ActivateNow()
+        public void ForceActivate()
         {
             // Prevent calling Activate() before Show() was called. Otherwise Activate() fails 
             // with an exception: "Cannot call DragMove or Activate before a Window is shown".
-            if (!this.IsLoaded) return;
+            if (!this.IsLoaded)
+            {
+                return;
+            }
 
             this.oldTopMost = this.Topmost;
 

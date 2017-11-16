@@ -131,7 +131,7 @@ namespace Dopamine.Common.Services.Notification
         {
             if (this.mainWindow != null)
             {
-                this.mainWindow.ActivateNow();
+                this.mainWindow.ForceActivate();
             }
         }
 

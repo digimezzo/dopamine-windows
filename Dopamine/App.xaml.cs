@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Database;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Command;
@@ -60,8 +61,9 @@ namespace Dopamine
             if (this.IsUpdateNeeded())
             {
                 // Show the Update Window
-                Window initWin = new Initialize();
+                DopamineWindow initWin = new Initialize();
                 initWin.Show();
+                initWin.ForceActivate();
             }
             else
             {
