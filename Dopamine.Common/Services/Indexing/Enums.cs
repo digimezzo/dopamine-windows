@@ -2,9 +2,8 @@
 {
     public enum IndexingAction
     {
-        Idle = 1,
-        RemoveTracks = 2,
-        AddTracks = 3,
-        UpdateTracks = 4
+        RemoveTracks = 1,
+        AddTracks = 2,
+        UpdateTracks = 3
     }
 }
