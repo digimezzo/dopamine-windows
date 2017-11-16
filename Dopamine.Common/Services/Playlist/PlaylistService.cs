@@ -184,7 +184,10 @@ namespace Dopamine.Common.Services.Playlist
                 }
             });
 
-            if (result == DeletePlaylistsResult.Success) this.PlaylistDeleted(playlistName);
+            if (result == DeletePlaylistsResult.Success)
+            {
+                this.PlaylistDeleted(playlistName);
+            }
 
             watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
@@ -232,7 +235,10 @@ namespace Dopamine.Common.Services.Playlist
                 }
             });
 
-            if (result == RenamePlaylistResult.Success) this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
+            if (result == RenamePlaylistResult.Success)
+            {
+                this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
+            }
 
             watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
