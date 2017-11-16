@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">지금 재생 중 목록에 추가</Text>
   <Text Key="By_Year">연도</Text>
   <Text Key="Removing_Songs">노래 제거</Text>
-  <Text Key="Adding_Songs">노래 추가</Text>
   <Text Key="Updating_Songs">노래 업데이트 중</Text>
   <Text Key="Hide">숨기기</Text>
   <Text Key="Click_Here_To_Install">눌러서 설치</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">이미 커버가 있는 앨범을 포함한 모든 앨범의 커버를 다시 불러옵니다.</Text>
   <Text Key="Reload_Missing_Covers">없는 커버 다시 불러오기</Text>
   <Text Key="Reload_Missing_Covers_Description">아직 커버가 없는 앨범의 커버만 다시 불러옵니다.</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>

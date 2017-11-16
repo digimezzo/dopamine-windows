@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Προσθήκη στην τρέχουσα αναπαραγωγή</Text>
   <Text Key="By_Year">Κατ' έτος</Text>
   <Text Key="Removing_Songs">Αφαίρεση τραγουδιών</Text>
-  <Text Key="Adding_Songs">Προσθήκη τραγουδιών</Text>
   <Text Key="Updating_Songs">Ενημέρωση τραγουδιών</Text>
   <Text Key="Hide">Απόκρυψη</Text>
   <Text Key="Click_Here_To_Install">Κλικ εδώ για εγκατάσταση</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
   <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>

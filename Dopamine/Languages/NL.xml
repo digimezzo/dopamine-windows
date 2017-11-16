@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Toevoegen aan speelt nu</Text>
   <Text Key="By_Year">Per jaar</Text>
   <Text Key="Removing_Songs">Verwijderen van nummers</Text>
-  <Text Key="Adding_Songs">Toevoegen van nummers</Text>
   <Text Key="Updating_Songs">Bijwerken van nummers</Text>
   <Text Key="Verbergen">Verbergen</Text>
   <Text Key="Click_Here_To_Install">Klik hier om te installeren</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Albumafbeeldingen voor alle albums herladen, ook voor albums die al een afbeelding hebben.</Text>
   <Text Key="Reload_Missing_Covers">Ontbrekende albumafbeeldingen herladen</Text>
   <Text Key="Reload_Missing_Covers_Description">Herlaad albumafbeeldingen alleen voor albums die nog geen afbeelding hebben</Text>
+  <Text Key="Added_Songs">{number} nummers toegevoegd ({percent}%)</Text>
 </Language>

@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Добавить в «Сейчас играет»</Text>
   <Text Key="By_Year">По году</Text>
   <Text Key="Removing_Songs">Удаление песен</Text>
-  <Text Key="Adding_Songs">Добавление песен</Text>
   <Text Key="Updating_Songs">Обновление песен</Text>
   <Text Key="Hide">Скрыть</Text>
   <Text Key="Click_Here_To_Install">Нажмите здесь, чтобы установить</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
   <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>

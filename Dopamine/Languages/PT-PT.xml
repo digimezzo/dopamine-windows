@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Adicionar à lista em reprodução</Text>
   <Text Key="By_Year">Por ano</Text>
   <Text Key="Removing_Songs">A remover faixas</Text>
-  <Text Key="Adding_Songs">A adicionar faixas</Text>
   <Text Key="Updating_Songs">A atualizar faixas</Text>
   <Text Key="Hide">Ocultar</Text>
   <Text Key="Click_Here_To_Install">Clique aqui para instalar</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
   <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>

@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Lägg till i Nu spelas</Text>
   <Text Key="By_Year">Årtal</Text>
   <Text Key="Removing_Songs">Raderar låtar</Text>
-  <Text Key="Adding_Songs">Lägger till låtar</Text>
   <Text Key="Updating_Songs">Uppdaterar låtar</Text>
   <Text Key="Hide">Dölj</Text>
   <Text Key="Click_Here_To_Install">Klicka här för att installera</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
   <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>
