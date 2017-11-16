@@ -34,6 +34,7 @@
 - [Fixed] Tracks on the playlists screen are not cleared when the last playlist is deleted
 - [Fixed] Unable to type underscore in Last.fm user field
 - [Fixed] Crash when attempting to jump to albums using key presses
+- [Fixed] Renaming a playlist does not update the playlist name in the context menus
 
 
 2017-07-07: Dopamine 1.3
