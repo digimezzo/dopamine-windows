@@ -136,19 +136,6 @@ namespace Dopamine.Common.Services.Indexing
             await this.CheckCollectionAsync(true);
         }
 
-        private async Task InitializeAsync()
-        {
-            // Initialize Cache
-            this.cache = new IndexerCache(this.factory);
-
-            // IndexingEventArgs
-            this.eventArgs = new IndexingStatusEventArgs();
-            this.eventArgs.IndexingAction = IndexingAction.Idle;
-
-            // Get all files on disk which belong to a Collection Folder
-            this.allDiskPaths = await this.GetFolderPaths();
-        }
-
         private async Task CheckCollectionAsync(bool forceIndexing)
         {
             if (this.IsIndexing)
@@ -167,10 +154,11 @@ namespace Dopamine.Common.Services.Indexing
             }
 
             await this.watcherManager.StopWatchingAsync();
-            await this.InitializeAsync();
 
             try
             {
+                this.allDiskPaths = await this.GetFolderPaths();
+
                 using (var conn = this.factory.GetConnection())
                 {
                     bool performIndexing = false;
@@ -220,6 +208,10 @@ namespace Dopamine.Common.Services.Indexing
             }
 
             this.isIndexing = true;
+
+            this.eventArgs = new IndexingStatusEventArgs();
+            this.eventArgs.IndexingAction = IndexingAction.Idle;
+
             this.IndexingStarted(this, new EventArgs());
 
             // Tracks
@@ -285,6 +277,7 @@ namespace Dopamine.Common.Services.Indexing
                 LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
 
                 await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete Tracks are removed, now we can determine new files
+                this.cache = new IndexerCache(this.factory); // Reset the cache
 
                 // Step 2: update outdated Tracks
                 // ------------------------------
