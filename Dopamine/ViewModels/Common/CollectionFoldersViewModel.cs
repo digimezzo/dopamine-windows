@@ -31,8 +31,8 @@ namespace Dopamine.ViewModels.Common
         private bool isIndexing;
 
         public DelegateCommand<string> AddFolderCommand { get; set; }
-        public DelegateCommand<string> RemoveFolderCommand { get; set; }
-        public DelegateCommand<string> ShowInCollectionChangedCommand { get; set; }
+        public DelegateCommand<long?> RemoveFolderCommand { get; set; }
+        public DelegateCommand<long?> ShowInCollectionChangedCommand { get; set; }
         public bool IsBusy
         {
             get { return this.IsIndexing | this.IsLoadingFolders; }
@@ -89,21 +89,21 @@ namespace Dopamine.ViewModels.Common
 
             this.AddFolderCommand = new DelegateCommand<string>((_) => { this.AddFolder(); });
 
-            this.RemoveFolderCommand = new DelegateCommand<string>(iPath =>
+            this.RemoveFolderCommand = new DelegateCommand<long?>(folderId =>
             {
                 if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Remove"), ResourceUtils.GetString("Language_Confirm_Remove_Folder"), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
                 {
-                    this.RemoveFolder(iPath);
+                    this.RemoveFolder(folderId.Value);
                 }
             });
 
-            this.ShowInCollectionChangedCommand = new DelegateCommand<string>(path =>
+            this.ShowInCollectionChangedCommand = new DelegateCommand<long?>(folderId =>
             {
                 this.ShowAllFoldersInCollection = false;
 
                 lock (this.Folders)
                 {
-                    this.collectionservice.MarkFolderAsync(this.Folders.Select((f) => f.Folder).Where((f) => f.SafePath.Equals(path.ToSafePath())).FirstOrDefault());
+                    this.collectionservice.MarkFolderAsync(this.Folders.Select((f) => f.Folder).Where((f) => f.FolderID == folderId).FirstOrDefault());
                 }
             });
 
@@ -185,12 +185,12 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        private async void RemoveFolder(string path)
+        private async void RemoveFolder(long folderId)
         {
             try
             {
                 this.IsLoadingFolders = true;
-                RemoveFolderResult result = await this.folderRepository.RemoveFolderAsync(path);
+                RemoveFolderResult result = await this.folderRepository.RemoveFolderAsync(folderId);
                 this.IsLoadingFolders = false;
 
                 switch (result)

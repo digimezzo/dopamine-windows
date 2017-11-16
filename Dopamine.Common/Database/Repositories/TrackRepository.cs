@@ -1,10 +1,10 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Helpers;
-using Digimezzo.Utilities.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Dopamine.Common.Database.Repositories
 
         private string SelectQueryPart()
         {
-            return "SELECT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.FolderID, tra.Path, tra.SafePath, " +
+            return "SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.Path, tra.SafePath, " +
                    "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
                    "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
                    "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
@@ -90,7 +90,8 @@ namespace Dopamine.Common.Database.Repositories
                         try
                         {
                             tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
-                                                             "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                             "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                             "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                              "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
                         }
                         catch (Exception ex)
@@ -124,7 +125,8 @@ namespace Dopamine.Common.Database.Repositories
                             List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
 
                             string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                      "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
 
                             tracks = conn.Query<PlayableTrack>(q);
@@ -159,7 +161,8 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
 
                             string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                      "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIDs));
 
                             tracks = conn.Query<PlayableTrack>(q);
@@ -194,7 +197,8 @@ namespace Dopamine.Common.Database.Repositories
                             List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
 
                             string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                      "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIDs));
 
                             tracks = conn.Query<PlayableTrack>(q);

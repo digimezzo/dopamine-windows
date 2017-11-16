@@ -38,7 +38,8 @@ namespace Dopamine.Common.Database.Repositories
                             genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, " +
                                                        $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName FROM Genre gen " +
                                                        "INNER JOIN Track tra ON gen.GenreID=tra.GenreID " +
-                                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                       "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                       "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                        "WHERE fol.ShowInCollection=1");
 
                             // Orders the Genres

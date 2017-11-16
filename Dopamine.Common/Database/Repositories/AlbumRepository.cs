@@ -45,7 +45,8 @@ namespace Dopamine.Common.Database.Repositories
                         {
                             albums = conn.Query<Album>(this.SelectQueryPart() +
                                                        "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
-                                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                       "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                       "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                                        "WHERE fol.ShowInCollection=1;");
                         }
                         catch (Exception ex)
@@ -80,7 +81,8 @@ namespace Dopamine.Common.Database.Repositories
 
                             string q = this.SelectQueryPart() +
                                        "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
-                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                       "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                       "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                        $"WHERE (tra.ArtistID IN ({DatabaseUtils.ToQueryList(artistIDs)}) OR " +
                                        $"alb.AlbumArtist IN ({DatabaseUtils.ToQueryList(artistNames)})) AND fol.ShowInCollection=1;";
 
@@ -118,7 +120,8 @@ namespace Dopamine.Common.Database.Repositories
 
                             string q = this.SelectQueryPart() +
                                        "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
-                                       "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                       "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                       "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
                                        $"WHERE tra.GenreID IN ({ DatabaseUtils.ToQueryList(genreIDs)}) AND fol.ShowInCollection=1;";
 
                             albums = conn.Query<Album>(q);

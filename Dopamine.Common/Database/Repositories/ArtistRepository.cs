@@ -43,7 +43,8 @@ namespace Dopamine.Common.Database.Repositories
                                                               $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName " +
                                                               "FROM Artist art " +
                                                               "INNER JOIN Track tra ON art.ArtistID=tra.ArtistID " +
-                                                              "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                              "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                              "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID AND ft.TrackID=tra.TrackID " +
                                                               "WHERE fol.ShowInCollection=1");
 
                             // Get the Album Artists
@@ -52,7 +53,8 @@ namespace Dopamine.Common.Database.Repositories
                                                            $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                                                            "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb " +
                                                            "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
-                                                           "INNER JOIN Folder fol ON tra.FolderID=fol.FolderID " +
+                                                           "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                                                           "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID AND ft.TrackID=tra.TrackID " +
                                                            "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
                                                            "WHERE tra.AlbumID=alb.AlbumID AND tra.ArtistID=tra.ArtistID AND fol.ShowInCollection=1");
 

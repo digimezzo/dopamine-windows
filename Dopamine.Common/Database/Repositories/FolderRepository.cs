@@ -64,7 +64,7 @@ namespace Dopamine.Common.Database.Repositories
             return result;
         }
 
-        public async Task<RemoveFolderResult> RemoveFolderAsync(string path)
+        public async Task<RemoveFolderResult> RemoveFolderAsync(long folderId)
         {
             RemoveFolderResult result = RemoveFolderResult.Success;
 
@@ -76,17 +76,14 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            var obsoleteFolder = conn.Table<Folder>().Select((f) => f).ToList().Where((f) => f.SafePath.Equals(path.ToSafePath())).Select((f) => f).FirstOrDefault();
+                            conn.Execute($"DELETE FROM Folder WHERE FolderID={folderId};");
+                            conn.Execute($"DELETE FROM FolderTrack WHERE FolderID={folderId};");
 
-                            if (obsoleteFolder != null)
-                            {
-                                conn.Delete(obsoleteFolder);
-                                LogClient.Info("Removed the Folder {0}", path);
-                            }
+                            LogClient.Info("Removed the Folder with FolderID={0}", folderId);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not remove the Folder {0}. Exception: {1}", path, ex.Message);
+                            LogClient.Error("Could not remove the Folder with FolderID={0}. Exception: {1}", folderId, ex.Message);
                             result = RemoveFolderResult.Error;
                         }
                     }
