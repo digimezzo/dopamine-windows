@@ -546,7 +546,7 @@ namespace Dopamine.Common.Services.Indexing
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
+                                LogClient.Error("There was a problem while adding Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
                             }
 
                             currentValue += 1;

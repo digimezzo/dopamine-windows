@@ -13,6 +13,7 @@ namespace Dopamine.Common.Base
         public static string M4A = ".m4a";
         public static string AAC = ".aac";
         public static string WAV = ".wav";
+        public static string APE = ".ape";
 
         // Lyrics extensions
         public static string LRC = ".lrc";
@@ -39,7 +40,8 @@ namespace Dopamine.Common.Base
                                                             FileFormats.FLAC,
                                                             FileFormats.M4A,
                                                             FileFormats.AAC,
-                                                            FileFormats.WAV
+                                                            FileFormats.WAV,
+                                                            FileFormats.APE
                                                           };
         public static string[] SupportedPlaylistExtensions = {
                                                                 FileFormats.M3U,
