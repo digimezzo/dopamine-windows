@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
+using Dopamine.Common.Controls;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Repositories;
 using Dopamine.Common.Database.Repositories.Interfaces;
@@ -207,7 +208,7 @@ namespace Dopamine
 
             if (SettingsClient.Get<bool>("General", "ShowOobe"))
             {
-                Window oobeWin = Container.Resolve<Oobe>();
+                DopamineWindow oobeWin = Container.Resolve<Oobe>();
 
                 // These 2 lines are required to set the RegionManager of the child window.
                 // If we don't do this, regions on child windows are never known by the Shell 
@@ -219,6 +220,7 @@ namespace Dopamine
                 // It will get a signal to start when the OOBE window closes.
                 LogClient.Info("Showing Oobe screen");
                 oobeWin.Show();
+                oobeWin.ForceActivate();
             }
             else
             {

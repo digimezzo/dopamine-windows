@@ -223,7 +223,7 @@ namespace Dopamine.Views
 
             // By default, the window appears in the background when showing
             // from the tray menu. We force it on the foreground here.
-            this.ActivateNow();
+            this.ForceActivate();
         }
 
         private void InitializeTrayIcon()
