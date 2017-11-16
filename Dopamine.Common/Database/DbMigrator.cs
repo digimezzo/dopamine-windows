@@ -95,7 +95,6 @@ namespace Dopamine.Common.Database
                              "ArtistID	                INTEGER," +
                              "GenreID	                INTEGER," +
                              "AlbumID	                INTEGER," +
-                             "FolderID	                INTEGER," +
                              "Path	                    TEXT," +
                              "SafePath	                TEXT," +
                              "FileName	                TEXT," +
@@ -123,9 +122,13 @@ namespace Dopamine.Common.Database
                 conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
                 conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
                 conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
-                conn.Execute("CREATE INDEX TrackFolderIDIndex ON Track(FolderID);");
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
                 conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
+
+                conn.Execute("CREATE TABLE FolderTrack (" +
+                             "FolderTrackID      INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                             "FolderID	         INTEGER," +
+                             "TrackID	         INTEGER);");
 
                 conn.Execute("CREATE TABLE RemovedTrack (" +
                              "TrackID	            INTEGER," +
@@ -998,6 +1001,15 @@ namespace Dopamine.Common.Database
 
                 conn.Execute("ALTER TABLE Album ADD NeedsIndexing INTEGER;");
                 conn.Execute("UPDATE Album SET NeedsIndexing=1;");
+
+                conn.Execute("CREATE TABLE FolderTrack (" +
+                             "FolderTrackID      INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                             "FolderID	         INTEGER," +
+                             "TrackID	         INTEGER);");
+
+                conn.Execute("INSERT INTO FolderTrack(FolderID, TrackID) SELECT FolderID,TrackID FROM Track;");
+
+                conn.Execute("UPDATE Track SET FolderID=0;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

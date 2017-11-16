@@ -68,7 +68,7 @@
                                 CheckMarkBrush="{Binding Foreground,ElementName=SelectionIconForeground}"
                                 IsChecked="{Binding ShowInCollection}"
                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.ShowInCollectionChangedCommand}"
-                                CommandParameter="{Binding Path}"
+                                CommandParameter="{Binding FolderId}"
                                 Margin="10,0,0,0"
                                 ToolTip="{DynamicResource Language_Show_In_Collection}"
                                 Visibility="{Binding ShowControls,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource AncestorType=UserControl}}"/>
@@ -88,7 +88,7 @@
                                     VerticalAlignment="Center" 
                                     ToolTip="{DynamicResource Language_Remove_This_Folder}" 
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RemoveFolderCommand}" 
-                                    CommandParameter="{Binding Path}" 
+                                    CommandParameter="{Binding FolderId}" 
                                     Visibility="{Binding Path=Visibility,ElementName=SelectionCloseVisibility}">
                                 <TextBlock 
                                     x:Name="DeleteButton"

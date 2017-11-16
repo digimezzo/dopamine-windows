@@ -214,6 +214,7 @@
     <Compile Include="Database\Entities\Artist.cs" />
     <Compile Include="Database\Entities\Configuration.cs" />
     <Compile Include="Database\Entities\Folder.cs" />
+    <Compile Include="Database\Entities\FolderTrack.cs" />
     <Compile Include="Database\Entities\Genre.cs" />
     <Compile Include="Database\Entities\QueuedTrack.cs" />
     <Compile Include="Database\Entities\RemovedTrack.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
+    <Compile Include="IO\FolderPathInfo.cs" />
     <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />

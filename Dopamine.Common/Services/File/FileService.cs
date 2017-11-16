@@ -217,21 +217,21 @@ namespace Dopamine.Common.Services.File
 
         private List<string> ProcessDirectory(string directoryPath)
         {
-            List<string> paths = new List<string>();
+            var folderPaths = new List<FolderPathInfo>();
 
             // Create a queue to hold exceptions that have occurred while scanning the directory tree
             var recurseExceptions = new ConcurrentQueue<Exception>();
 
             try
             {
-                paths = FileOperations.DirectoryRecursiveGetValidFiles(directoryPath, FileFormats.SupportedMediaExtensions);
+                folderPaths = FileOperations.RecursiveGetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions);
             }
             catch (Exception ex)
             {
                 LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", directoryPath, ex.Message);
             }
 
-            return paths;
+            return folderPaths != null && folderPaths.Count > 0 ? folderPaths.Select(f => f.Path).ToList() : new List<string>();
         }
 
         private async Task DeleteFileArtworkFromCacheAsync(string exclude)

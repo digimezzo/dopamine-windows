@@ -5,6 +5,7 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
+using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
@@ -33,8 +34,8 @@ namespace Dopamine.Common.Services.Indexing
         private FolderWatcherManager watcherManager;
 
         // Paths
-        private List<Tuple<long, string, long>> allDiskPaths;
-        private List<Tuple<long, string, long>> newDiskPaths;
+        private List<FolderPathInfo> allDiskPaths;
+        private List<FolderPathInfo> newDiskPaths;
 
         // Cache
         private IndexerCache cache;
@@ -145,7 +146,7 @@ namespace Dopamine.Common.Services.Indexing
             this.eventArgs.IndexingAction = IndexingAction.Idle;
 
             // Get all files on disk which belong to a Collection Folder
-            this.allDiskPaths = await this.GetPathsAsync();
+            this.allDiskPaths = await this.GetFolderPaths();
         }
 
         private async Task CheckCollectionAsync(bool forceIndexing)
@@ -182,7 +183,7 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         long databaseNeedsIndexingCount = conn.Table<Track>().Select(t => t).ToList().Where(t => t.NeedsIndexing == 1).LongCount();
                         long databaseLastDateFileModified = conn.Table<Track>().Select(t => t).ToList().OrderByDescending(t => t.DateFileModified).Select(t => t.DateFileModified).FirstOrDefault();
-                        long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.Item3).OrderByDescending((t) => t).First() : 0;
+                        long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.DateModifiedTicks).OrderByDescending((t) => t).First() : 0;
                         long databaseTrackCount = conn.Table<Track>().Select(t => t).LongCount();
 
                         performIndexing = databaseNeedsIndexingCount > 0 |
@@ -333,11 +334,11 @@ namespace Dopamine.Common.Services.Indexing
                     removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.SafePath).ToList();
                 }
 
-                this.newDiskPaths = new List<Tuple<long, string, long>>();
+                this.newDiskPaths = new List<FolderPathInfo>();
 
-                foreach (Tuple<long, string, long> diskpath in this.allDiskPaths)
+                foreach (FolderPathInfo diskpath in this.allDiskPaths)
                 {
-                    if (!dbPaths.Contains(diskpath.Item2.ToLower()) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Item2.ToLower()) : true))
+                    if (!dbPaths.Contains(diskpath.Path.ToSafePath()) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Path.ToSafePath()) : true))
                     {
                         this.newDiskPaths.Add(diskpath);
                     }
@@ -358,10 +359,10 @@ namespace Dopamine.Common.Services.Indexing
                         conn.BeginTransaction();
 
                         // Create a list of folderIDs
-                        List<long> folderIDs = conn.Table<Folder>().ToList().Select((t) => t.FolderID).ToList();
+                        List<long> folderTrackIDs = conn.Table<FolderTrack>().ToList().Select((t) => t.TrackID).Distinct().ToList();
 
                         List<Track> alltracks = conn.Table<Track>().Select((t) => t).ToList();
-                        List<Track> tracksInMissingFolders = alltracks.Select((t) => t).Where(t => !folderIDs.Contains(t.FolderID)).ToList();
+                        List<Track> tracksInMissingFolders = alltracks.Select((t) => t).Where(t => !folderTrackIDs.Contains(t.TrackID)).ToList();
                         List<Track> remainingTracks = new List<Track>();
 
                         // Processing tracks in missing folders in bulk first, then checking 
@@ -516,14 +517,22 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
-                        foreach (Tuple<long, string, long> newDiskPath in this.newDiskPaths)
+                        foreach (FolderPathInfo newDiskPath in this.newDiskPaths)
                         {
-                            Track diskTrack = Track.CreateDefault(newDiskPath.Item1, newDiskPath.Item2);
+                            Track diskTrack = Track.CreateDefault(newDiskPath.Path);
 
                             try
                             {
                                 this.ProcessTrack(diskTrack, conn);
-                                conn.Insert(diskTrack);
+
+                                if (!this.cache.HasCachedTrack(ref diskTrack))
+                                {
+                                    conn.Insert(diskTrack);
+                                    this.cache.AddTrack(diskTrack);
+                                }
+
+                                conn.Insert(new FolderTrack(newDiskPath.FolderId, diskTrack.TrackID));
+
                                 numberAddedTracks += 1;
                                 unsavedItemCount += 1;
 
@@ -629,7 +638,7 @@ namespace Dopamine.Common.Services.Indexing
                         dbAlbum.Year = newAlbum.Year;
 
                         // A track from this album has changed, so make sure album art gets re-indexed.
-                        dbAlbum.NeedsIndexing = 1; 
+                        dbAlbum.NeedsIndexing = 1;
                         conn.Update(dbAlbum);
                     }
                 }
@@ -638,6 +647,8 @@ namespace Dopamine.Common.Services.Indexing
                 track.ArtistID = newArtist.ArtistID;
                 track.GenreID = newGenre.GenreID;
             }
+
+            return;
         }
 
         private async void WatcherManager_FoldersChanged(object sender, EventArgs e)
@@ -787,7 +798,7 @@ namespace Dopamine.Common.Services.Indexing
                                 conn.Update(alb);
                                 numberAdded += 1;
 
-                                if(albumIds.Count >= 20)
+                                if (albumIds.Count >= 20)
                                 {
                                     conn.Commit();
                                     List<long> eventAlbumIds = new List<long>(albumIds);
@@ -862,9 +873,9 @@ namespace Dopamine.Common.Services.Indexing
             this.AddArtworkInBackgroundAsync();
         }
 
-        private async Task<List<Tuple<long, string, long>>> GetPathsAsync()
+        private async Task<List<FolderPathInfo>> GetFolderPaths()
         {
-            var diskPaths = new Dictionary<string, Tuple<long, string, long>>();
+            var allFolderPaths = new List<FolderPathInfo>();
             List<Folder> folders = await this.folderRepository.GetFoldersAsync();
 
             await Task.Run(() =>
@@ -874,38 +885,21 @@ namespace Dopamine.Common.Services.Indexing
                 {
                     if (Directory.Exists(fol.Path))
                     {
-                        var paths = new List<string>();
-
                         try
                         {
                             // Get all audio files recursively
-                            paths = FileOperations.DirectoryRecursiveGetValidFiles(fol.Path, FileFormats.SupportedMediaExtensions);
+                            List<FolderPathInfo> folderPaths = FileOperations.RecursiveGetValidFolderPaths(fol.FolderID, fol.Path, FileFormats.SupportedMediaExtensions);
+                            allFolderPaths.AddRange(folderPaths);
                         }
                         catch (Exception ex)
                         {
                             LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", fol.Path, ex.Message);
                         }
-
-                        foreach (string path in paths)
-                        {
-                            try
-                            {
-                                // Avoid adding duplicate paths
-                                if (!diskPaths.Keys.Contains(path))
-                                {
-                                    diskPaths.Add(path, new Tuple<long, string, long>(fol.FolderID, path, FileUtils.DateModifiedTicks(path)));
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Error("Could not add path '{0}' to the list of folder paths, while processing folder '{1}'. Exception: {2}", path, fol.Path, ex.Message);
-                            }
-                        }
                     }
                 }
             });
 
-            return diskPaths.Values.ToList();
+            return allFolderPaths;
         }
     }
 }

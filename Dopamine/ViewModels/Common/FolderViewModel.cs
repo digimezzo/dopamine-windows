@@ -23,6 +23,11 @@ namespace Dopamine.ViewModels.Common
             get { return this.Folder.Path; }
         }
 
+        public long FolderId
+        {
+            get { return this.Folder.FolderID; }
+        }
+
         public string Directory
         {
             get { return System.IO.Path.GetFileName(this.Folder.Path); }

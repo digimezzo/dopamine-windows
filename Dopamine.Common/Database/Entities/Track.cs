@@ -11,7 +11,6 @@ namespace Dopamine.Common.Database.Entities
         public long ArtistID { get; set; }
         public long GenreID { get; set; }
         public long AlbumID { get; set; }
-        public long FolderID { get; set; }
         public string Path { get; set; }
         public string SafePath { get; set; }
         public string FileName { get; set; }
@@ -35,11 +34,10 @@ namespace Dopamine.Common.Database.Entities
         public long? IndexingSuccess { get; set; }
         public string IndexingFailureReason { get; set; }
  
-        public static Track CreateDefault(long folderID, string path)
+        public static Track CreateDefault(string path)
         {
             var track = new Track()
             {
-                FolderID = folderID,
                 Path = path,
                 SafePath = path.ToSafePath(),
                 FileName = System.IO.Path.GetFileNameWithoutExtension(path),
