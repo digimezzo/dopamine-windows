@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Bize ulaşın</Text>
   <Text Key="Email">E-posta</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Üzgünüm, bu şarkıyı çalamıyorum. Dosya bulunamadı.</Text>
-  <Text Key="Current_Of_Total">%total%'de %current%</Text>
   <Text Key="Cover_Size">Kapak boyutu</Text>
   <Text Key="Small">Küçük</Text>
   <Text Key="Medium">Orta</Text>

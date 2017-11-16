@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Kontakta oss</Text>
   <Text Key="Email">Epost</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Ursäkta, kan inte spela denna låt. Filen kunde inte hittas.</Text>
-  <Text Key="Current_Of_Total">%current% av %total%</Text>
   <Text Key="Cover_Size">Skivomslag storlek</Text>
   <Text Key="Small">Liten</Text>
   <Text Key="Medium">Mellan</Text>

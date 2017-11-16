@@ -290,7 +290,6 @@
   <Text Key="Contact_Us">Contatos</Text>
   <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe, não foi possível reproduzir esta música. O arquivo não pôde ser encontrado.</Text>
-  <Text Key="Current_Of_Total">%current% do %total%</Text>
   <Text Key="Cover_Size">Tamanho da capa</Text>
   <Text Key="Small">Pequena</Text>
   <Text Key="Medium">Média</Text>
