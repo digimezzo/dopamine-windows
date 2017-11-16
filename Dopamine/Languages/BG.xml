@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Добави в изпълнява се</Text>
   <Text Key="By_Year">По година</Text>
   <Text Key="Removing_Songs">Изтриване на песни</Text>
-  <Text Key="Adding_Songs">Добавяне на песни</Text>
   <Text Key="Updating_Songs">Обновяване на песни</Text>
   <Text Key="Hide">Скрий</Text>
   <Text Key="Click_Here_To_Install">Натисни за инсталиране</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
   <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
+  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
 </Language>

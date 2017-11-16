@@ -73,7 +73,10 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private void SetIndexingStatusAddingTracks(long currentProgress, int progressPercent)
         {
-            this.IndexingStatus = $"{ResourceUtils.GetString("Language_Adding_Songs")}: {currentProgress} ({progressPercent}%)";
+            string indexingStatus = ResourceUtils.GetString("Language_Added_Songs");
+            indexingStatus = indexingStatus.Replace("{number}", currentProgress.ToString());
+            indexingStatus = indexingStatus.Replace("{percent}", progressPercent.ToString());
+            this.IndexingStatus = indexingStatus;
         }
 
         private void SetIndexingStatusUpdatingTracks(int progressPercent)

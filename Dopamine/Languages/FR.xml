@@ -246,7 +246,6 @@
   <Text Key="Add_To_Now_Playing">Ajouter à la lecture en cours</Text>
   <Text Key="By_Year">Par année</Text>
   <Text Key="Removing_Songs">Suppression de morceaux</Text>
-  <Text Key="Adding_Songs">Ajout de morceaux</Text>
   <Text Key="Updating_Songs">Mise à jour des morceaux</Text>
   <Text Key="Hide">Masquer</Text>
   <Text Key="Click_Here_To_Install">Cliquez ici pour installer</Text>
@@ -413,4 +412,5 @@
   <Text Key="Reload_All_Covers_Description">Rechargez les pochettes de tous les albums, y compris ceux ayant déjà une pochette.</Text>
   <Text Key="Reload_Missing_Covers">Recharger pochettes manquantes</Text>
   <Text Key="Reload_Missing_Covers_Description">Recharger les pochettes uniquement pour les albums n'ayant pas encore de pochette</Text>
+  <Text Key="Added_Songs">Ajouté {number} morceaux ({percent}%)</Text>
 </Language>
