@@ -26,7 +26,6 @@ namespace Dopamine.Common.Services.Indexing
         public IndexerCache(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.Initialize();
         }
 
         public bool HasCachedTrackStatistic(TrackStatistic trackStatistic)
