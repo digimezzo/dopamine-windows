@@ -165,7 +165,7 @@ namespace Dopamine.Common.Services.Indexing
             this.cachedTracks.Add(track.TrackID, track);
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             // Comparing new and existing object will happen in a Dictionary cache. This should improve performance.
             // For Albums, we're comparing a concatenated string consisting of AlbumTitle and AlbumArtist.

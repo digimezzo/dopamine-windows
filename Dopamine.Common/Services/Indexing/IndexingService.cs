@@ -1,6 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
@@ -43,9 +42,6 @@ namespace Dopamine.Common.Services.Indexing
         // Factory
         private ISQLiteConnectionFactory factory;
 
-        // IndexingEventArgs
-        private IndexingStatusEventArgs eventArgs;
-
         // Flags
         private bool isIndexing;
         private bool isFoldersChanged;
@@ -78,6 +74,7 @@ namespace Dopamine.Common.Services.Indexing
             this.folderRepository = folderRepository;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
+            this.cache = new IndexerCache(this.factory);
 
             SettingsClient.SettingChanged += SettingsClient_SettingChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
@@ -209,9 +206,6 @@ namespace Dopamine.Common.Services.Indexing
 
             this.isIndexing = true;
 
-            this.eventArgs = new IndexingStatusEventArgs();
-            this.eventArgs.IndexingAction = IndexingAction.Idle;
-
             this.IndexingStarted(this, new EventArgs());
 
             // Tracks
@@ -276,8 +270,8 @@ namespace Dopamine.Common.Services.Indexing
 
                 LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
 
-                await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete Tracks are removed, now we can determine new files
-                this.cache = new IndexerCache(this.factory); // Reset the cache
+                await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete tracks are removed, now we can determine new files.
+                this.cache.Initialize(); // After obsolete tracks are removed, we can initialize the cache.
 
                 // Step 2: update outdated Tracks
                 // ------------------------------
@@ -343,6 +337,12 @@ namespace Dopamine.Common.Services.Indexing
         {
             long numberRemovedTracks = 0;
 
+            var args = new IndexingStatusEventArgs()
+            {
+                IndexingAction = IndexingAction.RemoveTracks,
+                ProgressPercent = 0
+            };
+
             await Task.Run(() =>
             {
                 try
@@ -373,10 +373,8 @@ namespace Dopamine.Common.Services.Indexing
                         // ------------------------------------
                         if (tracksInMissingFolders.Count > 0)
                         {
-                            // Report progress immediately, as there are tracks in missing folders.
-                            this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
-                            this.eventArgs.ProgressPercent = 0;
-                            this.IndexingStatusChanged(this.eventArgs);
+                            // Report progress immediately, as there are tracks in missing folders.                           
+                            this.IndexingStatusChanged(args);
 
                             // Delete
                             foreach (Track trk in tracksInMissingFolders)
@@ -403,9 +401,7 @@ namespace Dopamine.Common.Services.Indexing
                                     // This is indeterminate progress. No need to sent it multiple times.
                                     if (numberRemovedTracks == 1)
                                     {
-                                        this.eventArgs.IndexingAction = IndexingAction.RemoveTracks;
-                                        this.eventArgs.ProgressPercent = 0;
-                                        this.IndexingStatusChanged(this.eventArgs);
+                                        this.IndexingStatusChanged(args);
                                     }
                                 }
                             }
@@ -426,6 +422,12 @@ namespace Dopamine.Common.Services.Indexing
         private async Task<long> UpdateTracksAsync()
         {
             long numberUpdatedTracks = 0;
+
+            var args = new IndexingStatusEventArgs()
+            {
+                IndexingAction = IndexingAction.UpdateTracks,
+                ProgressPercent = 0
+            };
 
             await Task.Run(() =>
             {
@@ -469,11 +471,10 @@ namespace Dopamine.Common.Services.Indexing
 
                             if (mustReportProgress)
                             {
-                                this.eventArgs.IndexingAction = IndexingAction.UpdateTracks;
-                                this.eventArgs.ProgressCurrent = currentValue;
-                                this.eventArgs.ProgressTotal = totalValue;
-                                this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-                                this.IndexingStatusChanged(this.eventArgs);
+                                args.ProgressCurrent = currentValue;
+                                args.ProgressTotal = totalValue;
+                                args.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                this.IndexingStatusChanged(args);
                             }
                         }
 
@@ -492,6 +493,12 @@ namespace Dopamine.Common.Services.Indexing
         private async Task<long> AddTracksAsync()
         {
             long numberAddedTracks = 0;
+
+            var args = new IndexingStatusEventArgs()
+            {
+                IndexingAction = IndexingAction.AddTracks,
+                ProgressPercent = 0
+            };
 
             await Task.Run(() =>
             {
@@ -554,11 +561,10 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 lastProgressValue = currentValue;
 
-                                this.eventArgs.IndexingAction = IndexingAction.AddTracks;
-                                this.eventArgs.ProgressCurrent = currentValue;
-                                this.eventArgs.ProgressTotal = totalValue;
-                                this.eventArgs.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-                                this.IndexingStatusChanged(this.eventArgs);
+                                args.ProgressCurrent = currentValue;
+                                args.ProgressTotal = totalValue;
+                                args.ProgressPercent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                this.IndexingStatusChanged(args);
                             }
                         }
 
