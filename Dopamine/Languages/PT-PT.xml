@@ -29,12 +29,12 @@
   <Text Key="Help">Ajuda</Text>
   <Text Key="About">Acerca</Text>
   <Text Key="Version">Versão</Text>
-  <Text Key="Do_You_Like_Dopamine">Gosta do Dopamine? Por favor, clique aqui para doar. Obrigado!</Text>
+  <Text Key="Do_You_Like_Dopamine">Gosta do Dopamine? Clique aqui para doar. Obrigado!</Text>
   <Text Key="Donate">Doar</Text>
   <Text Key="Donate_With_PayPal">Doar com PayPal</Text>
   <Text Key="File_Types">Tipos de ficheiro</Text>
   <Text Key="File_Types_Description">São suportados os seguintes formatos: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE.</Text>
-  <Text Key="Keyboard_Shortcuts">Atalhos do teclado</Text>
+  <Text Key="Keyboard_Shortcuts">Atalhos de teclado</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
   <Text Key="Key_Ctrl">Ctrl</Text>
@@ -406,11 +406,11 @@
   <Text Key="Hide_Song_Covers">Ocultar imagens dos álbuns</Text>
   <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
   <Text Key="Check_For_Updates_Periodically">Procurar atualizações periodicamente</Text>
-  <Text Key="Refresh_Collection_Now">Refresh the collection now</Text>
-  <Text Key="Album_Covers">Album covers</Text>
-  <Text Key="Reload_All_Covers">Reload all covers</Text>
-  <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
-  <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
-  <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
-  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
+  <Text Key="Refresh_Collection_Now">Recarregar coleção agora</Text>
+  <Text Key="Album_Covers">Capas do álbuns</Text>
+  <Text Key="Reload_All_Covers">Recarregar todas as capas</Text>
+  <Text Key="Reload_All_Covers_Description">Recarrega as capas de todos os álbuns, incluindo aqueles que já possuam capa.</Text>
+  <Text Key="Reload_Missing_Covers">Recarregar capa se inexistente</Text>
+  <Text Key="Reload_Missing_Covers_Description">Recarregar apenas as capas para os álbuns que não a possuam.</Text>
+  <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
 </Language>
