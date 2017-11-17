@@ -79,10 +79,6 @@ namespace Dopamine.Common.Controls
             this.closeButton.ToolTip = this.CloseToolTip;
         }
 
-        /// <summary>
-        /// Custom Activate function because the real Activate function doesn't always bring the window on top.
-        /// </summary>
-        /// <remarks></remarks>
         public void ForceActivate()
         {
             // Prevent calling Activate() before Show() was called. Otherwise Activate() fails 
@@ -106,10 +102,6 @@ namespace Dopamine.Common.Controls
             t.Start();
         }
 
-        /// <summary>
-        /// Sets the border
-        /// </summary>
-        /// <remarks></remarks>
         public void SetWindowBorder(bool hasBorder)
         {
             this.hasBorder = hasBorder;
@@ -126,15 +118,19 @@ namespace Dopamine.Common.Controls
             this.previousBorderThickness = borderThickness;
         }
 
-        /// <summary>
-        /// The Deactivate function which goes together with ActivateNow
-        /// </summary>
-        /// <remarks></remarks>
         private void Deactivate()
         {
             System.Threading.Thread.Sleep(500);
             Application.Current.Dispatcher.Invoke(() => this.Topmost = this.oldTopMost);
-            System.Threading.Thread.CurrentThread.Abort();
+
+            try
+            {
+                System.Threading.Thread.CurrentThread.Abort();
+            }
+            catch (System.Exception)
+            {
+                // This fails sometimes. We don't care about it.
+            }
         }
     }
 }

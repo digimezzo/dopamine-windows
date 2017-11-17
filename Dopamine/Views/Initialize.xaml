@@ -7,7 +7,7 @@
                          xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                          xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                          mc:Ignorable="d"
-                         Title="Updating" Height="75" Width="350"
+                         Title="Dopamine" Height="75" Width="350"
                          Background="#0B0B0B"
                          ShowWindowControls="False"
                          Loaded="Window_Loaded"
@@ -20,8 +20,7 @@
                          Height="30" 
                          VerticalAlignment="Center"
                          Foreground="#1D7DD4" 
-                         IsActive="{Binding IsBusy}" 
-                         Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                         IsActive="True"/>
         <TextBlock Text="{Binding InitializeText}" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="22" FontWeight="Light" Foreground="White"/>
     </DockPanel>
 </controls:DopamineWindow>
