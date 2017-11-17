@@ -228,23 +228,32 @@ namespace Dopamine.Common.Services.Playback
         {
             get
             {
-                // Check if there is a Track playing
-                if (this.player != null && this.player.CanStop)
+                try
                 {
-                    // This prevents displaying a current time which is larger than the total time
-                    if (this.player.GetCurrentTime() <= this.player.GetTotalTime())
+                    // Check if there is a Track playing
+                    if (this.player != null && this.player.CanStop)
                     {
-                        return this.player.GetCurrentTime();
+                        // This prevents displaying a current time which is larger than the total time
+                        if (this.player.GetCurrentTime() <= this.player.GetTotalTime())
+                        {
+                            return this.player.GetCurrentTime();
+                        }
+                        else
+                        {
+                            return this.player.GetTotalTime();
+                        }
                     }
                     else
                     {
-                        return this.player.GetTotalTime();
+                        return new TimeSpan(0);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
+                    LogClient.Error("Failed to get current time. Returning 00:00. Exception: {0}", ex.Message);
                     return new TimeSpan(0);
                 }
+                
             }
         }
 
@@ -252,27 +261,35 @@ namespace Dopamine.Common.Services.Playback
         {
             get
             {
-                // Check if there is a Track playing
-
-                if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Value.Duration != null)
+                try
                 {
-                    // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by CSCore.
-                    if (this.CurrentTrack.Value.Duration > this.player.GetTotalTime().TotalMilliseconds)
+                    // Check if there is a Track playing
+                    if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Value.Duration != null)
                     {
-                        // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
-                        return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Duration));
+                        // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by CSCore.
+                        if (this.CurrentTrack.Value.Duration > this.player.GetTotalTime().TotalMilliseconds)
+                        {
+                            // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
+                            return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Duration));
+                        }
+                        else
+                        {
+                            // Unless the TagLib duration is incorrect. In rare cases it is 0, even if 
+                            // CSCore reports a correct duration. In such cases, report the CSCore duration.
+                            return this.player.GetTotalTime();
+                        }
                     }
                     else
                     {
-                        // Unless the TagLib duration is incorrect. In rare cases it is 0, even if 
-                        // CSCore reports a correct duration. In such cases, report the CSCore duration.
-                        return this.player.GetTotalTime();
+                        return new TimeSpan(0);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
+                    LogClient.Error("Failed to get total time. Returning 00:00. Exception: {0}", ex.Message);
                     return new TimeSpan(0);
                 }
+                
             }
         }
 
