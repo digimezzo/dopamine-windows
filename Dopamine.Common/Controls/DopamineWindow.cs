@@ -123,13 +123,9 @@ namespace Dopamine.Common.Controls
             System.Threading.Thread.Sleep(500);
             Application.Current.Dispatcher.Invoke(() => this.Topmost = this.oldTopMost);
 
-            try
+            if (System.Threading.Thread.CurrentThread.IsAlive)
             {
                 System.Threading.Thread.CurrentThread.Abort();
-            }
-            catch (System.Exception)
-            {
-                // This fails sometimes. We don't care about it.
             }
         }
     }
