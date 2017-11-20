@@ -1,3 +1,9 @@
+2017-11-20: Dopamine 1.5.1
+--------------------------
+
+- [Fixed] Potential database issues while indexing album covers in the background
+
+
 2017-11-16: Dopamine 1.5
 ------------------------
 

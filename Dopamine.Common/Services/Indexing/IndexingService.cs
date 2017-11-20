@@ -749,72 +749,86 @@ namespace Dopamine.Common.Services.Indexing
             {
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    conn.BeginTransaction();
-
-                    List<Album> albumsToCheck = conn.Table<Album>().ToList().Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
-                    List<long> albumIds = new List<long>();
-
-                    List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
-
-                    foreach (Album alb in albumsToIndex)
+                    try
                     {
-                        if (!this.canIndexArtwork)
+                        conn.BeginTransaction();
+
+                        List<Album> albumsToCheck = conn.Table<Album>().ToList().Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
+                        List<long> albumIds = new List<long>();
+
+                        List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
+
+                        foreach (Album alb in albumsToIndex)
                         {
+                            if (!this.canIndexArtwork)
+                            {
+                                try
+                                {
+                                    LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
+                                    conn.Commit(); // Makes sure we commit what we already processed
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogClient.Error("Failed to commit changes while aborting adding artwork in background. Exception: {0}", ex.Message);
+                                }
+
+                                this.isIndexingArtwork = false;
+
+                                return;
+                            }
+
                             try
                             {
-                                LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
-                                conn.Commit(); // Makes sure we commit what we already processed
-                                this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                                Track trk = this.GetLastModifiedTrack(alb);
+
+                                alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
+
+                                if (!string.IsNullOrEmpty(alb.ArtworkID))
+                                {
+                                    albumIds.Add(alb.AlbumID);
+                                    alb.DateLastSynced = DateTime.Now.Ticks;
+                                    conn.Update(alb);
+                                    numberAdded += 1;
+
+                                    if (albumIds.Count >= 20)
+                                    {
+                                        conn.Commit();
+                                        List<long> eventAlbumIds = new List<long>(albumIds);
+                                        albumIds.Clear();
+                                        this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
+                                    }
+                                }
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Error("Failed to commit changes while aborting adding artwork in background. Exception: {0}", ex.Message);
+                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
                             }
 
-                            this.isIndexingArtwork = false;
-
-                            return;
+                            try
+                            {
+                                alb.NeedsIndexing = 0;
+                                conn.Update(alb);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                            }
                         }
 
                         try
                         {
-                            Track trk = this.GetLastModifiedTrack(alb);
-
-                            alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
-
-                            if (!string.IsNullOrEmpty(alb.ArtworkID))
-                            {
-                                albumIds.Add(alb.AlbumID);
-                                alb.DateLastSynced = DateTime.Now.Ticks;
-                                conn.Update(alb);
-                                numberAdded += 1;
-
-                                if (albumIds.Count >= 20)
-                                {
-                                    conn.Commit();
-                                    List<long> eventAlbumIds = new List<long>(albumIds);
-                                    albumIds.Clear();
-                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
-                                }
-                            }
+                            conn.Commit();
+                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                            LogClient.Error("Failed to commit changes while finishing adding artwork in background. Exception: {0}", ex.Message);
                         }
-
-                        alb.NeedsIndexing = 0;
-                        conn.Update(alb);
-                    }
-
-                    try
-                    {
-                        conn.Commit();
-                        this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Failed to commit changes while finishing adding artwork in background. Exception: {0}", ex.Message);
+                        LogClient.Error("Unexpected error occurred while updating artwork in the background. Exception: {0}", ex.Message);
                     }
                 }
             });
