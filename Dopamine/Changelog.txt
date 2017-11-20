@@ -1,3 +1,11 @@
+2017-11-21: Dopamine 1.5.2
+--------------------------
+
+- [Changed] Updated the Korean translation
+- [Fixed] Crash on startup when using a non-English language
+- [Fixed] Menu texts not updated when switching language
+
+
 2017-11-20: Dopamine 1.5.1
 --------------------------
 

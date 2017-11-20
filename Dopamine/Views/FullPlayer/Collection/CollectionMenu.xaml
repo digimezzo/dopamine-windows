@@ -19,14 +19,20 @@
     </i:Interaction.Triggers>
 
     <Grid>
+        <TextBlock x:Name="ArtistsProxy" Text="{DynamicResource Language_Artists}" Visibility="Collapsed"/>
+        <TextBlock x:Name="GenresProxy" Text="{DynamicResource Language_Genres}" Visibility="Collapsed"/>
+        <TextBlock x:Name="AlbumsProxy" Text="{DynamicResource Language_Albums}" Visibility="Collapsed"/>
+        <TextBlock x:Name="SongsProxy" Text="{DynamicResource Language_Songs}" Visibility="Collapsed"/>
+        <TextBlock x:Name="PlaylistsProxy" Text="{DynamicResource Language_Playlists}" Visibility="Collapsed"/>
+        <TextBlock x:Name="FrequentProxy" Text="{DynamicResource Language_Frequent}" Visibility="Collapsed"/>
         <commonviews:SearchControl Margin="0,0,15,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=ArtistsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=GenresProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=AlbumsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=SongsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=PlaylistsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{Binding Text,ElementName=FrequentProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

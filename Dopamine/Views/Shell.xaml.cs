@@ -428,7 +428,10 @@ namespace Dopamine.Views
         private void ShellWindow_CloseToolTipChanged(object sender, System.EventArgs e)
         {
             // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
-            this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
+            if(this.PART_MiniPlayerButton != null)
+            {
+                this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
+            }
         }
 
         private void ShellWindow_LocationChanged(object sender, System.EventArgs e)

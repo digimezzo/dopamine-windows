@@ -2,6 +2,7 @@
 using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -97,9 +98,7 @@ namespace Dopamine.Common.Controls
 
             this.Activate();
             this.Topmost = true;
-
-            System.Threading.Thread t = new System.Threading.Thread(Deactivate);
-            t.Start();
+            this.Deactivate();
         }
 
         public void SetWindowBorder(bool hasBorder)
@@ -118,15 +117,10 @@ namespace Dopamine.Common.Controls
             this.previousBorderThickness = borderThickness;
         }
 
-        private void Deactivate()
+        private async void Deactivate()
         {
-            System.Threading.Thread.Sleep(500);
+            await Task.Delay(500);
             Application.Current.Dispatcher.Invoke(() => this.Topmost = this.oldTopMost);
-
-            if (System.Threading.Thread.CurrentThread.IsAlive)
-            {
-                System.Threading.Thread.CurrentThread.Abort();
-            }
         }
     }
 }
