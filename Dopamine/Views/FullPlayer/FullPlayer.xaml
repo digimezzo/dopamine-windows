@@ -22,13 +22,16 @@
     </i:Interaction.Triggers>
     
     <Grid>
+        <TextBlock x:Name="CollectionProxy" Text="{DynamicResource Language_Collection}" Visibility="Collapsed"/>
+        <TextBlock x:Name="SettingsProxy" Text="{DynamicResource Language_Settings}" Visibility="Collapsed"/>
+        <TextBlock x:Name="InformationProxy" Text="{DynamicResource Language_Information}" Visibility="Collapsed"/>
         <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
         <DockPanel>
             <dc:Pivot DockPanel.Dock="Top" Margin="85,20,0,0" 
                       SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:FullPlayerPage}}">
-                <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MainMenuPivotItemStyle}"/>
-                <dc:PivotItem Header="{DynamicResource Language_Settings}" Style="{StaticResource MainMenuPivotItemStyle}"/>
-                <dc:PivotItem Header="{DynamicResource Language_Information}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                <dc:PivotItem Header="{Binding Text,ElementName=CollectionProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                <dc:PivotItem Header="{Binding Text,ElementName=SettingsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                <dc:PivotItem Header="{Binding Text,ElementName=InformationProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
             </dc:Pivot>
             <controls:TransitioningContentControl DockPanel.Dock="Top" Margin="85,0,0,0" FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
                                                   SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="FullPlayerMenuRegion" 
