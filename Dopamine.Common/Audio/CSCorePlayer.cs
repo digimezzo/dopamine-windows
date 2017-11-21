@@ -242,6 +242,7 @@ namespace Dopamine.Common.Audio
             // FfmpegDecoder constructor which uses string as parameter throws exception 
             // "Exception: avformat_open_input returned 0xffffffea: Invalid argument."  
             // when the file name contains special characters.
+            // See: https://github.com/filoe/cscore/issues/298
             // Workaround: use the constructor which uses stream as parameter.
             // IWaveSource waveSource = new FfmpegDecoder(this.filename);
             Stream musicstream = File.OpenRead(this.filename);
