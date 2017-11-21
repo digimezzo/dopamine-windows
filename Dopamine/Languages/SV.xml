@@ -402,15 +402,15 @@
   <Text Key="Unknown_Genre">Okänd genre</Text>
   <Text Key="Refresh_Collection_Automatically">Uppdatera samlingen automatiskt</Text>
   <Text Key="Loop_When_Shuffle">Vid blandad uppspelning, återvänd till början av spellistan efter sista låten.</Text>
-  <Text Key="Show_Song_Covers">Show song covers</Text>
-  <Text Key="Hide_Song_Covers">Hide song covers</Text>
-  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
-  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
-  <Text Key="Refresh_Collection_Now">Refresh the collection now</Text>
-  <Text Key="Album_Covers">Album covers</Text>
-  <Text Key="Reload_All_Covers">Reload all covers</Text>
-  <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
-  <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
-  <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
-  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
+  <Text Key="Show_Song_Covers">Visa låtomslag</Text>
+  <Text Key="Hide_Song_Covers">Dölj låtomslag</Text>
+  <Text Key="Check_For_Updates_At_Startup">Sök uppdateringar vid uppstart</Text>
+  <Text Key="Check_For_Updates_Periodically">Sök uppdateringar periodvist</Text>
+  <Text Key="Refresh_Collection_Now">Uppdatera samlingen nu</Text>
+  <Text Key="Album_Covers">Skivomslag</Text>
+  <Text Key="Reload_All_Covers">Ladda om alla skivomslag</Text>
+  <Text Key="Reload_All_Covers_Description">Ladda om skivomslag för alla album, inklusive dom som redan har ett skivomslag.</Text>
+  <Text Key="Reload_Missing_Covers">Ladda om saknade skivomslag</Text>
+  <Text Key="Reload_Missing_Covers_Description">Ladda om skivomslag endast för album som inte än har ett skivomslag</Text>
+  <Text Key="Added_Songs">Tillagt {number} låtar ({percent}%)</Text>
 </Language>

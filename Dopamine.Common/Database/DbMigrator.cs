@@ -26,7 +26,7 @@ namespace Dopamine.Common.Database
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 23;
+        protected const int CURRENT_VERSION = 24;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -1010,6 +1010,23 @@ namespace Dopamine.Common.Database
                 conn.Execute("INSERT INTO FolderTrack(FolderID, TrackID) SELECT FolderID,TrackID FROM Track;");
 
                 conn.Execute("UPDATE Track SET FolderID=0;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
+        [DatabaseVersion(24)]
+        private void Migrate24()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("DELETE FROM Track WHERE AlbumID = (SELECT AlbumID FROM Album WHERE AlbumTitle IS NULL);");
+                conn.Execute("DELETE FROM Artist WHERE ArtistName IS NULL;");
+                conn.Execute("DELETE FROM Genre WHERE GenreName IS NULL;");
+                conn.Execute("DELETE FROM Album WHERE AlbumTitle IS NULL;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

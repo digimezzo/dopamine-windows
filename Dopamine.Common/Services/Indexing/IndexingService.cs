@@ -582,16 +582,7 @@ namespace Dopamine.Common.Services.Indexing
             try
             {
                 MetadataUtils.SplitMetadata(track.Path, ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
-                track.IndexingSuccess = 1;
-            }
-            catch (Exception ex)
-            {
-                track.IndexingFailureReason = ex.Message;
-                LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
-            }
 
-            if (track.IndexingSuccess == 1)
-            {
                 // Check if such TrackStatistic already exists in the database
                 if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
                 {
@@ -634,9 +625,21 @@ namespace Dopamine.Common.Services.Indexing
                     }
                 }
 
+                track.IndexingSuccess = 1;
                 track.AlbumID = newAlbum.AlbumID;
                 track.ArtistID = newArtist.ArtistID;
                 track.GenreID = newGenre.GenreID;
+            }
+            catch (Exception ex)
+            {
+                // When updating tracks: for tracks that were indexed successfully in the past and had IndexingSuccess = 1
+                track.IndexingSuccess = 0;
+                track.AlbumID = 0;
+                track.ArtistID = 0;
+                track.GenreID = 0;
+                track.IndexingFailureReason = ex.Message;
+
+                LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
             }
 
             return;
