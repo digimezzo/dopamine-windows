@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,28 +11,35 @@ namespace Dopamine.Common.IO
     {
         public static List<FolderPathInfo> RecursiveGetValidFolderPaths(long folderId, string directory, string[] validExtensions)
         {
+            var folderPaths = new List<FolderPathInfo>();
+
             try
             {
                 var di = new DirectoryInfo(directory);
                 IEnumerable<FileInfo> fi = di.GetFiles("*.*", SearchOption.AllDirectories);
 
-                var folderPaths = new List<FolderPathInfo>();
-                
                 foreach (FileInfo f in fi)
                 {
-                    // Only add the file if they have a valid extension
-                    if (validExtensions.Contains(Path.GetExtension(f.FullName.ToLower())))
+                    try
                     {
-                        folderPaths.Add(new FolderPathInfo(folderId, f.FullName, FileUtils.DateModifiedTicks(f.FullName)));
+                        // Only add the file if they have a valid extension
+                        if (validExtensions.Contains(Path.GetExtension(f.FullName.ToLower())))
+                        {
+                            folderPaths.Add(new FolderPathInfo(folderId, f.FullName, FileUtils.DateModifiedTicks(f.FullName)));
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Error occured while getting folder path for file '{0}'. Exception: {1}", f.FullName, ex.Message);
+                    }   
                 }
-
-                return folderPaths;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogClient.Error("Unexpected error occured while getting folder paths. Exception: {0}", ex.Message);
             }
+
+            return folderPaths;
         }
     }
 }
