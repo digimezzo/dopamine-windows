@@ -10,6 +10,7 @@ using Dopamine.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Threading;
 
 namespace Dopamine.Common.Audio
@@ -238,6 +239,11 @@ namespace Dopamine.Common.Audio
 
         private IWaveSource GetCodec(string filename)
         {
+            // FfmpegDecoder constructor which uses string as parameter throws exception 
+            // "Exception: avformat_open_input returned 0xffffffea: Invalid argument."  
+            // when the file name contains special characters.
+            // Workaround: use the constructor which uses stream as parameter.
+            // IWaveSource waveSource = new FfmpegDecoder(this.filename);
             Stream musicstream = File.OpenRead(this.filename);
             IWaveSource waveSource = new FfmpegDecoder(musicstream);
 
