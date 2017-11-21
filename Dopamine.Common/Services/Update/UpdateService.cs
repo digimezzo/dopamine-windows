@@ -275,7 +275,9 @@ namespace Dopamine.Common.Services.Update
             // Check if the online version is valid
             if (this.IsValidVersion(newOnlineVersion.Version))
             {
-                if (SettingsClient.Get<bool>("Updates", "AutomaticDownload")) // Automatic download is enabled
+                bool automaticDownload = SettingsClient.Get<bool>("Updates", "AutomaticDownload") & !SettingsClient.Get<bool>("Configuration", "IsPortable");
+
+                if (automaticDownload) // Automatic download is enabled
                 {
                     // Define the name of the file to which we will download the update
                     string updatePackageExtractedDirectoryFullPath = Path.Combine(this.updatesSubDirectory, newOnlineVersion.Filename);
