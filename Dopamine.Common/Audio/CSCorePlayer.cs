@@ -238,7 +238,8 @@ namespace Dopamine.Common.Audio
 
         private IWaveSource GetCodec(string filename)
         {
-            IWaveSource waveSource = new FfmpegDecoder(this.filename);
+            Stream musicstream = File.OpenRead(this.filename);
+            IWaveSource waveSource = new FfmpegDecoder(musicstream);
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
             // The sample rate has to be bigger than 2 * frequency.
