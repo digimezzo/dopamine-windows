@@ -29,12 +29,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         public SettingsMenuViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-
-            this.LoadedCommand = new DelegateCommand(() =>
-            {
-                this.SelectedPage = SettingsPage.Collection;
-                this.NagivateToSelectedPage();
-            });
+            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage());
         }
 
         private void NagivateToSelectedPage()
