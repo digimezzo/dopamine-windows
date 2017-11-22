@@ -1,6 +1,7 @@
 2017-11-22: Dopamine 1.5.3
 --------------------------
 
+- [Changed] Updated the French translation
 - [Changed] Updated the German translation
 - [Changed] Updated the Swedish translation
 - [Changed] Updated the Turkish translation
