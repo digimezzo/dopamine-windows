@@ -335,9 +335,6 @@ namespace Dopamine.Views
         {
             // IWin32InputService
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
-            this.win32InputService.MediaKeyNextPressed += async (_, __) => await this.playbackService.PlayNextAsync();
-            this.win32InputService.MediaKeyPreviousPressed += async (_, __) => await this.playbackService.PlayPreviousAsync();
-            this.win32InputService.MediaKeyPlayPressed += async (_, __) => await this.playbackService.PlayOrPauseAsync();
 
             // IAppearanceService
             this.appearanceService.ThemeChanged += this.ThemeChangedHandler;

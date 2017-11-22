@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Services.Playback;
+using System;
 using System.Timers;
 
 namespace Dopamine.Common.Services.Win32Input
 {
     public class Win32InputService : IWin32InputService
     {
-        private bool canRaiseMediaKeyEvent = true;
+        private IPlaybackService playbackService;
+        private bool isMediaKeyJustPressed = false;
         private Timer canRaiseMediaKeyEventTimer = new Timer();
         private IKeyboardHookManager lowLevelManager ;
         private IKeyboardHookManager appCommandManager;
 
-        public Win32InputService()
+        public Win32InputService(IPlaybackService playbackService)
         {
+            this.playbackService = playbackService;
             this.canRaiseMediaKeyEventTimer.Interval = 250;
             this.canRaiseMediaKeyEventTimer.Elapsed += CanPressMediaKeyTimer_Elapsed;
         }
-
-        public event EventHandler MediaKeyNextPressed = delegate { };
-        public event EventHandler MediaKeyPreviousPressed = delegate { };
-        public event EventHandler MediaKeyPlayPressed = delegate { };
 
         public void SetKeyboardHook(IntPtr hWnd)
         {
@@ -47,31 +47,31 @@ namespace Dopamine.Common.Services.Win32Input
             this.appCommandManager.SetHook();
         }
 
-        private void MediaKeyNextPressedHandler(object sender, EventArgs e)
+        private async void MediaKeyNextPressedHandler(object sender, EventArgs e)
         {
-            if (this.canRaiseMediaKeyEvent)
+            if (this.CanPressMediaKey())
             {
-                this.MediaKeyNextPressed(this, new EventArgs());
+                await this.playbackService.PlayNextAsync();
             }
 
             this.StartCanPressMediaKeyTimer();
         }
 
-        private void MediaKeyPreviousPressedHandler(object sender, EventArgs e)
+        private async void MediaKeyPreviousPressedHandler(object sender, EventArgs e)
         {
-            if (this.canRaiseMediaKeyEvent)
+            if (this.CanPressMediaKey())
             {
-                this.MediaKeyPreviousPressed(this, new EventArgs());
+                await this.playbackService.PlayPreviousAsync();
             }
 
             this.StartCanPressMediaKeyTimer();
         }
 
-        private void MediaKeyPlayPressedHandler(object sender, EventArgs e)
+        private async void MediaKeyPlayPressedHandler(object sender, EventArgs e)
         {
-            if (this.canRaiseMediaKeyEvent)
+            if (this.CanPressMediaKey())
             {
-                this.MediaKeyPlayPressed(this, new EventArgs());
+                await this.playbackService.PlayOrPauseAsync();
             }
 
             this.StartCanPressMediaKeyTimer();
@@ -94,15 +94,20 @@ namespace Dopamine.Common.Services.Win32Input
             this.appCommandManager.Unhook();
         }
 
+        private bool CanPressMediaKey()
+        {
+            return !isMediaKeyJustPressed && SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification");
+        }
+
         private void CanPressMediaKeyTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             canRaiseMediaKeyEventTimer.Stop();
-            canRaiseMediaKeyEvent = true;
+            isMediaKeyJustPressed = false;
         }
 
         private void StartCanPressMediaKeyTimer()
         {
-            canRaiseMediaKeyEvent = false;
+            isMediaKeyJustPressed = true;
             canRaiseMediaKeyEventTimer.Start();
         }
     }
