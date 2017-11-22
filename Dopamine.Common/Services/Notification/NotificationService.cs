@@ -20,7 +20,7 @@ namespace Dopamine.Common.Services.Notification
         private SystemMediaTransportControlsDisplayUpdater displayUpdater;
         private MusicDisplayProperties musicProperties;
         private InMemoryRandomAccessStream artworkStream;
-   
+
         public override bool SystemNotificationIsEnabled
         {
             get => this.systemNotificationIsEnabled;
@@ -31,7 +31,7 @@ namespace Dopamine.Common.Services.Notification
                 Application.Current.Dispatcher.InvokeAsync(async () => await SwitchNotificationHandlerAsync(value));
             }
         }
-    
+
         public NotificationService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService) : base(playbackService, cacheService, metadataService)
         {
             // Pay attention to UPPERCASE property
@@ -44,13 +44,35 @@ namespace Dopamine.Common.Services.Notification
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Closed;
             displayUpdater.Update();
         }
-     
+
+        private async void SMCButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case SystemMediaTransportControlsButton.Previous:
+                    await this.PlaybackService.PlayPreviousAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Next:
+                    await this.PlaybackService.PlayNextAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Pause:
+                    await this.PlaybackService.PlayOrPauseAsync();
+                    break;
+                case SystemMediaTransportControlsButton.Play:
+                    await this.PlaybackService.PlayOrPauseAsync();
+                    break;
+                default:
+                    // Never happens		
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         protected override bool CanShowNotification()
         {
             if (this.systemNotificationIsEnabled) return false;
             return base.CanShowNotification();
         }
-  
+
         private void PlaybackResumedSystemNotificationHandler(object _, EventArgs __)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
@@ -102,6 +124,7 @@ namespace Dopamine.Common.Services.Notification
                         systemMediaControls.IsFastForwardEnabled = false;
                         systemMediaControls.IsRecordEnabled = false;
                         systemMediaControls.IsStopEnabled = false;
+                        systemMediaControls.ButtonPressed += SMCButtonPressed;
 
                         this.PlaybackService.PlaybackSuccess += this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused += this.PlaybackPausedSystemNotificationHandler;
@@ -117,6 +140,7 @@ namespace Dopamine.Common.Services.Notification
                     if (Constants.IsWindows10)
                     {
                         systemMediaControls.IsEnabled = false;
+                        systemMediaControls.ButtonPressed -= SMCButtonPressed;
 
                         this.PlaybackService.PlaybackSuccess -= this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused -= this.PlaybackPausedSystemNotificationHandler;
