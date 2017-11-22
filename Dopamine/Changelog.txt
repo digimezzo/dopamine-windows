@@ -3,6 +3,7 @@
 
 - [Changed] Updated the German translation
 - [Changed] Updated the Swedish translation
+- [Changed] Updated the Turkish translation
 - [Fixed] Korean language file is missing in installable version
 - [Fixed] Indexing fails for all files if 1 of the files has a path which is too long
 - [Fixed] Some broken files generate faulty artists, genres and albums in the collection during indexing
