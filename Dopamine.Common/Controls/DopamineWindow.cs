@@ -1,5 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.WPFControls;
+﻿using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using System;
 using System.Threading.Tasks;
@@ -11,18 +10,12 @@ namespace Dopamine.Common.Controls
     public class DopamineWindow : BorderlessWindows8Window
     {
         private bool oldTopMost;
-        private bool hasBorder;
 
         public Brush Accent
         {
             get { return (Brush)GetValue(AccentProperty); }
 
             set { SetValue(AccentProperty, value); }
-        }
-
-        public bool HasBorder
-        {
-            get { return this.hasBorder; }
         }
 
         public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(DopamineWindow), new PropertyMetadata(null));
@@ -37,20 +30,12 @@ namespace Dopamine.Common.Controls
             base.OnApplyTemplate();
 
             this.TitleBarHeight = Convert.ToInt32(Constants.DefaultWindowButtonHeight);
-            this.SetWindowBorder(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"));
             this.InitializeWindow();
 
             base.MinimizeToolTipChanged += BorderlessWindowBase_MinimizeToolTipChanged;
             base.MaximizeToolTipChanged += BorderlessWindowBase_MaximizeRestoreToolTipChanged;
             base.RestoreToolTipChanged += BorderlessWindowBase_MaximizeRestoreToolTipChanged;
             base.CloseToolTipChanged += BorderlessWindowBase_CloseToolTipChanged;
-        }
-
-        protected override void OnStateChanged(EventArgs e)
-        {
-            base.OnStateChanged(e);
-
-            this.SetWindowBorder(this.hasBorder);
         }
 
         protected override void BorderlessWindowBase_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -99,22 +84,6 @@ namespace Dopamine.Common.Controls
             this.Activate();
             this.Topmost = true;
             this.Deactivate();
-        }
-
-        public void SetWindowBorder(bool hasBorder)
-        {
-            this.hasBorder = hasBorder;
-
-            if (this.windowBorder == null) return;
-
-            this.SetBorderThickness(
-                new Thickness(this.WindowState == WindowState.Maximized ? 6 : this.HasBorder ? 1 : 0));
-        }
-
-        private void SetBorderThickness(Thickness borderThickness)
-        {
-            this.windowBorder.BorderThickness = borderThickness;
-            this.previousBorderThickness = borderThickness;
         }
 
         private async void Deactivate()
