@@ -519,7 +519,9 @@
     <Content Include="Languages\IT.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Languages\KO.xml" />
+    <Content Include="Languages\KO.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\NL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
