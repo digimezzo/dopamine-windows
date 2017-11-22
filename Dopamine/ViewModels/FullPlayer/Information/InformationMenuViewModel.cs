@@ -29,12 +29,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
         public InformationMenuViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-
-            this.LoadedCommand = new DelegateCommand(() =>
-            {
-                this.SelectedPage = InformationPage.Help;
-                this.NagivateToSelectedPage();
-            });
+            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage();
         }
 
         private void NagivateToSelectedPage()

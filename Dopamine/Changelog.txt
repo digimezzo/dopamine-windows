@@ -11,6 +11,7 @@
 - [Fixed] Files with special characters fail to play
 - [Fixed] Buttons don't work on the system notification
 - [Fixed] A thick accented window border is displayed when maximized with a hidden Windows Taskbar
+- [Fixed] Last selected settings page is not remembered when going back to Settings from the Collection or Information pages
 
 
 2017-11-21: Dopamine 1.5.2
