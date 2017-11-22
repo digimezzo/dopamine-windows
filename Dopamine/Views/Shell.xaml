@@ -109,15 +109,16 @@
         </TaskbarItemInfo>
     </controls:DopamineWindow.TaskbarItemInfo>
 
-    <Grid>
-        <Border x:Name="ClosingBorder" Panel.ZIndex="1" Visibility="Collapsed" Opacity="0" Background="{DynamicResource RG_WindowBackgroundBrush}">
-            <Border.Resources>
-                <Storyboard x:Key="ClosingAnimation">
-                    <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" BeginTime="0:0:0.5" Duration="0:0:0.3" />
-                </Storyboard>
-            </Border.Resources>
-            <Viewbox StretchDirection="DownOnly" Margin="10">
-                <TextBlock 
+    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource RG_AccentBrush}">
+        <Grid>
+            <Border x:Name="ClosingBorder" Panel.ZIndex="1" Visibility="Collapsed" Opacity="0" Background="{DynamicResource RG_WindowBackgroundBrush}">
+                <Border.Resources>
+                    <Storyboard x:Key="ClosingAnimation">
+                        <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" BeginTime="0:0:0.5" Duration="0:0:0.3" />
+                    </Storyboard>
+                </Border.Resources>
+                <Viewbox StretchDirection="DownOnly" Margin="10">
+                    <TextBlock 
                 x:Name="ClosingText"
                 Text="{DynamicResource Language_See_You_Later}" 
                 Foreground="{DynamicResource RG_ForegroundBrush}" 
@@ -126,19 +127,20 @@
                 VerticalAlignment="Center"
                 TextWrapping="Wrap"
                 FontSize="30"/>
-            </Viewbox>
-        </Border>
-        <Border x:Name="WindowBorder" Panel.ZIndex="0">
-            <Border.Background>
-                <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource RG_WindowBackgroundColor}"/>
-            </Border.Background>
-            <Border.Resources>
-                <Storyboard x:Key="BackgroundAnimation">
-                    <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="{x:Static base:Constants.SourceChangedDuration}" />
-                </Storyboard>
-            </Border.Resources>
-            <controls:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.PlayerTypeRegion}"/>
-        </Border>
-    </Grid>
+                </Viewbox>
+            </Border>
+            <Border x:Name="BackgroundBorder" Panel.ZIndex="0">
+                <Border.Background>
+                    <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+                </Border.Background>
+                <Border.Resources>
+                    <Storyboard x:Key="BackgroundAnimation">
+                        <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="{x:Static base:Constants.SourceChangedDuration}" />
+                    </Storyboard>
+                </Border.Resources>
+                <controls:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.PlayerTypeRegion}"/>
+            </Border>
+        </Grid>
+    </Border>
 </controls:DopamineWindow>
 

@@ -89,7 +89,7 @@ namespace Dopamine.Views
             base.OnApplyTemplate();
 
             // Retrieve BackgroundAnimation storyboard
-            this.backgroundAnimation = this.WindowBorder.Resources["BackgroundAnimation"] as Storyboard;
+            this.backgroundAnimation = this.BackgroundBorder.Resources["BackgroundAnimation"] as Storyboard;
 
             if (this.backgroundAnimation != null)
             {
@@ -266,7 +266,7 @@ namespace Dopamine.Views
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
                 {
-                    this.SetWindowBorder((bool)e.SettingValue);
+                    this.WindowBorder.BorderThickness = new Thickness((bool)e.SettingValue ? 1 : 0);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowTrayIcon"))
@@ -309,7 +309,13 @@ namespace Dopamine.Views
                 }
             };
 
-            this.shellService.CheckIfTabletMode(true); // TODO  // Make sure the window geometry respects tablet mode at startup
+            this.shellService.CheckIfTabletMode(true); // Make sure the window geometry respects tablet mode at startup
+            this.SetWindowBorder();
+        }
+
+        private void SetWindowBorder()
+        {
+            this.WindowBorder.BorderThickness = new Thickness(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder") & this.WindowState != WindowState.Maximized ? 1 : 0);
         }
 
         private void InitializeCommands()
@@ -425,7 +431,7 @@ namespace Dopamine.Views
         private void ShellWindow_CloseToolTipChanged(object sender, System.EventArgs e)
         {
             // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
-            if(this.PART_MiniPlayerButton != null)
+            if (this.PART_MiniPlayerButton != null)
             {
                 this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
             }
@@ -502,6 +508,7 @@ namespace Dopamine.Views
                 }
             }
 
+            this.SetWindowBorder();
             this.shellService.SaveWindowState(this.WindowState);
         }
 

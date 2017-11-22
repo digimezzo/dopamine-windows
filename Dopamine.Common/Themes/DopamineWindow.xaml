@@ -18,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:DopamineWindow}">
                     <AdornerDecorator>
-                        <Border x:Name="PART_Border" BorderBrush="{TemplateBinding Accent}">
+                        <Border x:Name="PART_Border">
                             <Grid>
                                 <Border Background="{TemplateBinding OverlayBackground}" Panel.ZIndex="2" BorderThickness="0" Visibility="{Binding IsOverlayVisible,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Converter={StaticResource BooleanToCollapsedConverter}}">
                                     <Border.Style>

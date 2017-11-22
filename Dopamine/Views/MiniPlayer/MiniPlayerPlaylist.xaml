@@ -28,17 +28,19 @@
     </i:Interaction.Triggers>
 
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
-    <Grid>
-        <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
-            <dc:PivotItem>
-                <!-- Displayed when no tracks are queued -->
-                <commonviews:NothingPlayingControl/>
-            </dc:PivotItem>
-            <dc:PivotItem>
-                <!-- Displayed when tracks are queued -->
-                <commonviews:NowPlayingControl/>
-            </dc:PivotItem>
-        </dc:Pivot>
-    </Grid>
+    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource RG_AccentBrush}">
+        <Grid>
+            <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+                <dc:PivotItem>
+                    <!-- Displayed when no tracks are queued -->
+                    <commonviews:NothingPlayingControl/>
+                </dc:PivotItem>
+                <dc:PivotItem>
+                    <!-- Displayed when tracks are queued -->
+                    <commonviews:NowPlayingControl/>
+                </dc:PivotItem>
+            </dc:Pivot>
+        </Grid>
+    </Border>
 </controls:DopamineWindow>

@@ -9,6 +9,7 @@ using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Interop;
 
 namespace Dopamine.Views.MiniPlayer
@@ -32,6 +33,14 @@ namespace Dopamine.Views.MiniPlayer
             this.playbackService = playbackService;
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
+
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
+                {
+                    this.WindowBorder.BorderThickness = new Thickness((bool)e.SettingValue ? 1 : 0);
+                }
+            };
 
             this.eventAggregator.GetEvent<ToggledCoverPlayerAlignPlaylistVertically>().Subscribe(async alignPlaylistVertically =>
             {
@@ -63,7 +72,7 @@ namespace Dopamine.Views.MiniPlayer
             this.parent.LocationChanged += Parent_LocationChanged;
 
             this.alignCoverPlayerPlaylistVertically = SettingsClient.Get<bool>("Behaviour", "CoverPlayerAlignPlaylistVertically");
-            this.SetWindowBorder(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"));
+            this.WindowBorder.BorderThickness = new Thickness(SettingsClient.Get<bool>("Appearance", "ShowWindowBorder") ? 1 : 0);
 
             // Makes sure the playlist doesn't appear briefly at the top left 
             // of the screen just before it is positioned by Me.SetGeometry()

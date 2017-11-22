@@ -9,6 +9,7 @@
 - [Fixed] Portable version update notification forwards the user to the installer instead of download location
 - [Fixed] Files with special characters fail to play
 - [Fixed] Buttons don't work on the system notification
+- [Fixed] A thick accented window border is displayed when maximized with a hidden Windows Taskbar
 
 
 2017-11-21: Dopamine 1.5.2
