@@ -2,6 +2,7 @@
 --------------------------
 
 - [Changed] Updated the Spanish translation
+- [Fixed] A conflict between playing a file from Explorer and loading of saved queued songs
 
 
 2017-11-22: Dopamine 1.5.3
