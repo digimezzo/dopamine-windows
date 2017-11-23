@@ -1,6 +1,4 @@
 ﻿using Digimezzo.WPFControls;
-using Dopamine.Common.Base;
-using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -25,8 +23,6 @@ namespace Dopamine.Common.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            this.TitleBarHeight = Convert.ToInt32(Constants.DefaultWindowButtonHeight);
             this.InitializeWindow();
         }
     }

@@ -20,7 +20,7 @@ namespace Dopamine.Common.Services.Dialog
         {
             InitializeComponent();
 
-            this.TitleBarHeight = Constants.DefaultWindowButtonHeight + 10;
+            this.TitleBarHeight = 39;
             this.Title = title;
             this.TextBlockTitle.Text = title.ToLower();
             this.Width = width;

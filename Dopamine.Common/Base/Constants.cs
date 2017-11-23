@@ -14,8 +14,8 @@ namespace Dopamine.Common.Base
         public static string LastFmJoinLink = "https://www.last.fm/join";
 
         // Default Window button sizes
-        public static double DefaultWindowButtonHeight = 29;
-        public static double DefaultWindowButtonWidth = 45;
+        //public static double DefaultWindowButtonHeight = 29;
+        //public static double DefaultWindowButtonWidth = 45;
 
         // Fonts
         public static double GlobalFontSize = 12;
