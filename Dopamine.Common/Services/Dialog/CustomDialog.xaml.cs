@@ -11,16 +11,12 @@ namespace Dopamine.Common.Services.Dialog
 {
     public partial class CustomDialog : DopamineWindow
     {
-        #region Variables
         private Func<Task<bool>> callback;
-        #endregion
-
-        #region Construction
+       
         public CustomDialog(string title, UserControl content, int width, int height, bool canResize,bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback) : base()
         {
             InitializeComponent();
 
-            this.TitleBarHeight = 39;
             this.Title = title;
             this.TextBlockTitle.Text = title.ToLower();
             this.Width = width;
@@ -88,9 +84,7 @@ namespace Dopamine.Common.Services.Dialog
         {
             this.IconContentControl.Content = icon.Content;
         }
-        #endregion
-
-        #region Event Handlers
+      
         private async void ButtonOK_Click(Object sender, RoutedEventArgs e)
         {
                 if (this.callback != null)
@@ -127,6 +121,5 @@ namespace Dopamine.Common.Services.Dialog
         {
             this.DialogResult = false;
         }
-        #endregion
     }
 }

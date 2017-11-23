@@ -7,28 +7,19 @@ namespace Dopamine.Common.Services.Dialog
 {
     public partial class InputDialog : DopamineWindow
     {
-        #region Variables
         private string responseText;
-        #endregion
-
-        #region Properties
+      
         public string ResponseText
         {
             get { return this.responseText; }
             set { this.responseText = value; }
         }
-        #endregion
-
-        #region Construction
+      
         public InputDialog(int iconCharCode, int iconSize, string title, string content, string okText, string cancelText, string defaultResponse)
             : base()
         {
-
-            // This call is required by the designer.
             InitializeComponent();
 
-            // Add any initialization after the InitializeComponent() call.
-            this.TitleBarHeight = 39;
             this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
             this.Icon.FontSize = iconSize;
             this.Title = title;
@@ -40,9 +31,7 @@ namespace Dopamine.Common.Services.Dialog
 
             WindowUtils.CenterWindow(this);
         }
-        #endregion
-
-        #region Events
+    
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             this.ResponseText = TextBoxResponse.Text;
@@ -60,6 +49,5 @@ namespace Dopamine.Common.Services.Dialog
             this.TextBoxResponse.Focus();
             if (!string.IsNullOrEmpty(this.TextBoxResponse.Text)) this.TextBoxResponse.Select(0, this.TextBoxResponse.Text.Length);
         }
-        #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Dopamine.Common.Controls
 {
-    public class DopamineWindow : BorderlessWindows8Window
+    public class DopamineWindow : BorderlessWindows10Window
     {
         public Brush Accent
         {
