@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionFrequent"
+             x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -46,7 +47,7 @@
             </Storyboard>
         </Storyboard>
         <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
-            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=ThisControl}" CommandParameter="{Binding Album}">
+            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=This}" CommandParameter="{Binding Album}">
                 <Grid 
                     Width="{Binding ActualWidth,ElementName=TheButton}"
                     Height="{Binding ActualHeight,ElementName=TheButton}">
