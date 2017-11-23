@@ -8,6 +8,7 @@ using Dopamine.Common.Extensions;
 using Dopamine.Common.IO;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Appearance;
+using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Notification;
 using Dopamine.Common.Services.Playback;
@@ -40,6 +41,7 @@ namespace Dopamine.Views
         private IMetadataService metadataService;
         private IAppearanceService appearanceService;
         private IShellService shellService;
+        private II18nService i18nService;
         private IEventAggregator eventAggregator;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
@@ -55,7 +57,7 @@ namespace Dopamine.Views
         public DelegateCommand CloseWindowCommand { get; set; }
         public DelegateCommand ShowMainWindowCommand { get; set; }
 
-        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService,
+        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, II18nService i18nService,
             INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
             IPlaybackService playbackService, IMetadataService metadataService, IEventAggregator eventAggregator)
         {
@@ -68,6 +70,7 @@ namespace Dopamine.Views
             this.playbackService = playbackService;
             this.metadataService = metadataService;
             this.appearanceService = appearanceService;
+            this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
             this.shellService = container.Resolve<IShellService>(
@@ -339,6 +342,18 @@ namespace Dopamine.Views
 
         private void InitializeServices()
         {
+            // I18nService
+            this.i18nService.LanguageChanged += (_, __) =>
+            {
+                // TODO: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
+                // This is a workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change.
+                // Is there a better way to do this.
+                if (this.PART_MiniPlayerButton != null)
+                {
+                    this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
+                }
+            };
+
             // IWin32InputService
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
 
@@ -426,15 +441,6 @@ namespace Dopamine.Views
                 SettingsClient.Get<int>("FullPlayer", "Height"),
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
-        }
-
-        private void ShellWindow_CloseToolTipChanged(object sender, System.EventArgs e)
-        {
-            // Workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change
-            if (this.PART_MiniPlayerButton != null)
-            {
-                this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
-            }
         }
 
         private void ShellWindow_LocationChanged(object sender, System.EventArgs e)

@@ -31,7 +31,6 @@
                          Loaded="ShellWindow_Loaded"
                          Closed="ShellWindow_Closed"
                          Restored="ShellWindow_Restored"
-                         CloseToolTipChanged="ShellWindow_CloseToolTipChanged"
                          LocationChanged="ShellWindow_LocationChanged"
                          MouseUp="ShellWindow_MouseUp"
                          SizeChanged="ShellWindow_SizeChanged"

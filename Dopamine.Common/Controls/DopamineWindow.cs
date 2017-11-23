@@ -31,38 +31,6 @@ namespace Dopamine.Common.Controls
 
             this.TitleBarHeight = Convert.ToInt32(Constants.DefaultWindowButtonHeight);
             this.InitializeWindow();
-
-            base.MinimizeToolTipChanged += BorderlessWindowBase_MinimizeToolTipChanged;
-            base.MaximizeToolTipChanged += BorderlessWindowBase_MaximizeRestoreToolTipChanged;
-            base.RestoreToolTipChanged += BorderlessWindowBase_MaximizeRestoreToolTipChanged;
-            base.CloseToolTipChanged += BorderlessWindowBase_CloseToolTipChanged;
-        }
-
-        protected override void BorderlessWindowBase_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            base.BorderlessWindowBase_SizeChanged(sender, e);
-        }
-     
-        private void BorderlessWindowBase_MinimizeToolTipChanged(object sender, EventArgs e)
-        {
-            this.minimizeButton.ToolTip = this.MinimizeToolTip;
-        }
-
-        private void BorderlessWindowBase_MaximizeRestoreToolTipChanged(object sender, EventArgs e)
-        {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.maximizeButton.ToolTip = this.RestoreToolTip;
-            }
-            else
-            {
-                this.maximizeButton.ToolTip = this.MaximizeToolTip;
-            }
-        }
-
-        private void BorderlessWindowBase_CloseToolTipChanged(object sender, EventArgs e)
-        {
-            this.closeButton.ToolTip = this.CloseToolTip;
         }
 
         public void ForceActivate()
