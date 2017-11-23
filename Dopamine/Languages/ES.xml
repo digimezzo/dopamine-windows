@@ -402,15 +402,15 @@
   <Text Key="Unknown_Genre">Género desconocido</Text>
   <Text Key="Refresh_Collection_Automatically">Actualizar la colección automáticamente</Text>
   <Text Key="Loop_When_Shuffle">Al usar reproducción aleatoria, volver al comienzo de la lista de reproducción tras la última canción.</Text>
-  <Text Key="Show_Song_Covers">Show song covers</Text>
-  <Text Key="Hide_Song_Covers">Hide song covers</Text>
-  <Text Key="Check_For_Updates_At_Startup">Check for updates at startup</Text>
-  <Text Key="Check_For_Updates_Periodically">Check for updates periodically</Text>
-  <Text Key="Refresh_Collection_Now">Refresh the collection now</Text>
-  <Text Key="Album_Covers">Album covers</Text>
-  <Text Key="Reload_All_Covers">Reload all covers</Text>
-  <Text Key="Reload_All_Covers_Description">Reload covers for all albums, including those that already have a cover.</Text>
-  <Text Key="Reload_Missing_Covers">Reload missing covers</Text>
-  <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
-  <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
+  <Text Key="Show_Song_Covers">Mostrar las portadas de canciones</Text>
+  <Text Key="Hide_Song_Covers">Ocultar las portadas de canciones</Text>
+  <Text Key="Check_For_Updates_At_Startup">Buscar actualizaciones al iniciar Dopamine</Text>
+  <Text Key="Check_For_Updates_Periodically">Buscar actualizaciones con regularidad</Text>
+  <Text Key="Refresh_Collection_Now">Actualizar la colección</Text>
+  <Text Key="Album_Covers">Portadas de Álbumes</Text>
+  <Text Key="Reload_All_Covers">Recargar todas las portadas</Text>
+  <Text Key="Reload_All_Covers_Description">Recargar las portadas de todos los álbumes, incluyendo aquellos que ya tienen portada.</Text>
+  <Text Key="Reload_Missing_Covers">Recargar las portadas que faltan</Text>
+  <Text Key="Reload_Missing_Covers_Description">Recargar solo las portadas de aquellos álbumes que no tienen ninguna</Text>
+  <Text Key="Added_Songs">Añadidas {number} canciones ({porcentaje}%)</Text>
 </Language>
