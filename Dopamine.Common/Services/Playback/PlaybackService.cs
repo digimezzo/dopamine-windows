@@ -313,7 +313,7 @@ namespace Dopamine.Common.Services.Playback
             this.queueManager = new QueueManager();
 
             // Event handlers
-            this.fileService.TracksImported += (tracks) => EnqueueFromFilesAsync();
+            this.fileService.TracksImported += (tracks) => this.EnqueueFromFilesAsync(tracks);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
 
             // Set up timers
@@ -329,7 +329,7 @@ namespace Dopamine.Common.Services.Playback
             this.Initialize();
         }
 
-        private async void EnqueueFromFilesAsync()
+        private async void EnqueueFromFilesAsync(List<PlayableTrack> tracks)
         {
             this.canGetSavedQueuedTracks = false;
 
