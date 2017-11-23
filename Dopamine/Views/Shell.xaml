@@ -63,8 +63,8 @@
         <Button 
                 x:Name="PART_MiniPlayerButton" 
                 Style="{StaticResource WindowButton}" 
-                Width="{x:Static base:Constants.DefaultWindowButtonWidth}" 
-                Height="{x:Static base:Constants.DefaultWindowButtonHeight}" 
+                Width="45" 
+                Height="29" 
                 BorderBrush="{x:Null}" 
                 BorderThickness="0" 
                 Background="{x:Null}" 

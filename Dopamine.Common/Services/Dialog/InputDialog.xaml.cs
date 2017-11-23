@@ -28,7 +28,7 @@ namespace Dopamine.Common.Services.Dialog
             InitializeComponent();
 
             // Add any initialization after the InitializeComponent() call.
-            this.TitleBarHeight = Constants.DefaultWindowButtonHeight + 10;
+            this.TitleBarHeight = 39;
             this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
             this.Icon.FontSize = iconSize;
             this.Title = title;

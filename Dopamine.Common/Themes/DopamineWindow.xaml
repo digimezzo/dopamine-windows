@@ -42,7 +42,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding ShowWindowControls,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Converter={StaticResource BooleanToCollapsedConverter}}">
                                             <ContentPresenter x:Name="PART_WindowCommands" ContentSource="WindowCommands" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                                            <Button x:Name="PART_Min" Width="{x:Static base:Constants.DefaultWindowButtonWidth}" Height="{x:Static base:Constants.DefaultWindowButtonHeight}" Margin="0" Style="{StaticResource WindowButton}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}">
+                                            <Button x:Name="PART_Min" Width="45" Height="29" Margin="0" Style="{StaticResource WindowButton}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}">
                                                 <Path Data="F1M0,3L10,3 9,2 0,2z" UseLayoutRounding="False" SnapsToDevicePixels="True" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" HorizontalAlignment="center" VerticalAlignment="Center"/>
                                                 <Button.Visibility>
                                                     <MultiBinding Converter="{StaticResource ResizeModeMinMaxButtonVisibilityConverter}"
@@ -56,7 +56,7 @@
                                                     </MultiBinding>
                                                 </Button.Visibility>
                                             </Button>
-                                            <Button x:Name="PART_Max" Width="{x:Static base:Constants.DefaultWindowButtonWidth}" Height="{x:Static base:Constants.DefaultWindowButtonHeight}" Margin="0" Style="{StaticResource WindowButton}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}">
+                                            <Button x:Name="PART_Max" Width="45" Height="29" Margin="0" Style="{StaticResource WindowButton}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}">
                                                 <Path UseLayoutRounding="False" SnapsToDevicePixels="True" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" HorizontalAlignment="center" VerticalAlignment="Center">
                                                     <Path.Style>
                                                         <Style>
@@ -83,7 +83,7 @@
                                                     </MultiBinding>
                                                 </Button.Visibility>
                                             </Button>
-                                            <Button x:Name="PART_Close" Width="{x:Static base:Constants.DefaultWindowButtonWidth}" Height="{x:Static base:Constants.DefaultWindowButtonHeight}" Margin="0" Visibility="{Binding Path=ShowCloseButton, RelativeSource={RelativeSource AncestorType={x:Type Window}},Converter={StaticResource BooleanToCollapsedConverter}}" Style="{StaticResource WindowButton}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="0" ToolTip="Close" Padding="0">
+                                            <Button x:Name="PART_Close" Width="45" Height="29" Margin="0" Visibility="{Binding Path=ShowCloseButton, RelativeSource={RelativeSource AncestorType={x:Type Window}},Converter={StaticResource BooleanToCollapsedConverter}}" Style="{StaticResource WindowButton}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="0" ToolTip="Close" Padding="0">
                                                 <Path Data="F1M0.6,0L10,9.4 9.4,10 0,0.6 0.6,0 M9.4,0L10,0.6 0.6,10 0,9.4 9.4,0z" UseLayoutRounding="False" SnapsToDevicePixels="True" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" HorizontalAlignment="center" VerticalAlignment="Center"/>
                                             </Button>
                                         </StackPanel>
