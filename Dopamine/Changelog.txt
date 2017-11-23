@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Spanish translation
 - [Fixed] A conflict between playing a file from Explorer and loading of saved queued songs
+- [Fixed] User interface becomes unresponsive when a collection folder contains the characters { and/or }
 
 
 2017-11-22: Dopamine 1.5.3
