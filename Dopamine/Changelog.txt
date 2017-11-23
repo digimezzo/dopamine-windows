@@ -1,3 +1,9 @@
+2017-11-23: Dopamine 1.5.4
+--------------------------
+
+- [Changed] Updated the Spanish translation
+
+
 2017-11-22: Dopamine 1.5.3
 --------------------------
 
