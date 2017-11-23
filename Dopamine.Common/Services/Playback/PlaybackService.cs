@@ -39,6 +39,7 @@ namespace Dopamine.Common.Services.Playback
         private IPlayer player;
 
         private bool isQueueChanged;
+        private bool canGetSavedQueuedTracks = true;
 
         private II18nService i18nService;
         private IFileService fileService;
@@ -312,7 +313,7 @@ namespace Dopamine.Common.Services.Playback
             this.queueManager = new QueueManager();
 
             // Event handlers
-            this.fileService.TracksImported += async (tracks) => await this.EnqueueAsync(tracks);
+            this.fileService.TracksImported += (tracks) => EnqueueFromFilesAsync();
             this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
 
             // Set up timers
@@ -326,6 +327,15 @@ namespace Dopamine.Common.Services.Playback
             this.saveTrackStatisticsTimer.Elapsed += new ElapsedEventHandler(this.SavePlaybackCountersHandler);
 
             this.Initialize();
+        }
+
+        private async void EnqueueFromFilesAsync()
+        {
+            this.canGetSavedQueuedTracks = false;
+
+            LogClient.Info("Start enqueuing {0} track(s) from files", tracks.Count);
+            await this.EnqueueAsync(tracks);
+            LogClient.Info("Finished enqueuing {0} track(s) from files", tracks.Count);
         }
 
         public event PlaybackSuccessEventHandler PlaybackSuccess = delegate { };
@@ -1250,8 +1260,15 @@ namespace Dopamine.Common.Services.Playback
 
         private async void GetSavedQueuedTracks()
         {
+            if (!this.canGetSavedQueuedTracks)
+            {
+                LogClient.Info("Aborting getting of saved queued tracks");
+                return;
+            }
+
             try
             {
+                LogClient.Info("Getting saved queued tracks");
                 List<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
                 List<PlayableTrack> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
                 var tracksDictionary = new Dictionary<string, PlayableTrack>();
@@ -1264,11 +1281,23 @@ namespace Dopamine.Common.Services.Playback
                     // Makes lookup faster
                     foreach (var track in tracks)
                     {
+                        if (!this.canGetSavedQueuedTracks)
+                        {
+                            LogClient.Info("Aborting getting of saved queued tracks");
+                            return;
+                        }
+
                         tracksDictionary.Add(track.SafePath, track);
                     }
 
                     foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
                     {
+                        if (!this.canGetSavedQueuedTracks)
+                        {
+                            LogClient.Info("Aborting getting of saved queued tracks");
+                            return;
+                        }
+
                         KeyValuePair<string, PlayableTrack> trackToEnqueue = default(KeyValuePair<string, PlayableTrack>);
 
                         // Enqueue only tracks which are found in the database and exist on disk.
@@ -1290,18 +1319,35 @@ namespace Dopamine.Common.Services.Playback
                     }
                 });
 
+                if (!this.canGetSavedQueuedTracks)
+                {
+                    LogClient.Info("Aborting getting of saved queued tracks");
+                    return;
+                }
+
                 if (tracksToEnqueue.Count > 0)
                 {
+                    LogClient.Info("Enqueuing {0} saved queued tracks", tracksToEnqueue.Count);
                     await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
                     this.QueueChanged(this, new EventArgs());
                 }
 
-                if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack")) return;
+                if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
+                {
+                    return;
+                }
 
                 if (!playingTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
                 {
+                    if (!this.canGetSavedQueuedTracks)
+                    {
+                        LogClient.Info("Aborting getting of saved queued tracks");
+                        return;
+                    }
+
                     try
                     {
+                        LogClient.Info("Starting track {0} paused", playingTrack.Value.Path);
                         await this.StartTrackPausedAsync(playingTrack, progressSeconds);
                     }
                     catch (Exception ex)
