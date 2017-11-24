@@ -1,10 +1,11 @@
-2017-11-23: Dopamine 1.5.4
+2017-11-24: Dopamine 1.5.4
 --------------------------
 
 - [Changed] Updated the Spanish translation
 - [Fixed] A conflict between playing a file from Explorer and loading of saved queued songs
 - [Fixed] User interface becomes unresponsive when a collection folder contains the characters { and/or }
 - [Fixed] Click to play from the Frequent screen doesn't work anymore
+- [Fixed] Fixed missing lyrics editor in song edit window
 
 
 2017-11-22: Dopamine 1.5.3

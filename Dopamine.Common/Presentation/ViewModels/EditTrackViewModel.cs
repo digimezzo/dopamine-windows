@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Dopamine.Common.Enums;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
@@ -46,16 +47,17 @@ namespace Dopamine.Common.Presentation.ViewModels
         private MetadataArtworkValue artwork;
         private BitmapImage artworkThumbnail;
 
-        private int previousIndex = 0;
-        private int contentSlideInFrom;
+        private int slideInFrom;
         private UserControl editTrackContent;
-      
+
+        private EditTrackPage previousSelectedEditTrackPage;
+        private EditTrackPage selectedEditTrackPage;
+
         public DelegateCommand LoadedCommand { get; set; }
-        public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
-     
+
         public string DialogTitle
         {
             get
@@ -79,11 +81,21 @@ namespace Dopamine.Common.Presentation.ViewModels
         {
             get { return Artwork?.Value != null; }
         }
-     
-        public int ContentSlideInFrom
+
+        public int SlideInFrom
         {
-            get { return this.contentSlideInFrom; }
-            set { SetProperty<int>(ref this.contentSlideInFrom, value); }
+            get { return this.slideInFrom; }
+            set { SetProperty<int>(ref this.slideInFrom, value); }
+        }
+
+        public EditTrackPage SelectedEditTrackPage
+        {
+            get { return selectedEditTrackPage; }
+            set
+            {
+                SetProperty<EditTrackPage>(ref this.selectedEditTrackPage, value);
+                this.NagivateToSelectedPage();
+            }
         }
 
         public UserControl EditTrackContent
@@ -205,10 +217,10 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.updateAlbumArtwork; }
             set { SetProperty<bool>(ref this.updateAlbumArtwork, value); }
         }
-    
+
         public EditTrackViewModel(IList<string> paths, IMetadataService metadataService, IDialogService dialogService)
         {
-            this.multipleValuesText = "<"+ ResourceUtils.GetString("Language_Multiple_Values")+">";
+            this.multipleValuesText = "<" + ResourceUtils.GetString("Language_Multiple_Values") + ">";
 
             this.artists = new MetadataValue();
             this.title = new MetadataValue();
@@ -232,9 +244,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.HasMultipleArtwork = false;
             this.UpdateAlbumArtwork = false;
 
-            this.LoadedCommand = new DelegateCommand(async () => await this.GetFilesMetadataAsync());
-
-            this.NavigateCommand = new DelegateCommand<string>((index) => Navigate(index));
+            this.LoadedCommand = new DelegateCommand(async () =>
+            {
+                this.NagivateToSelectedPage();
+                await this.GetFilesMetadataAsync();
+            });
 
             this.ExportArtworkCommand = new DelegateCommand(async () =>
             {
@@ -258,39 +272,27 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
-
-            this.Navigate("1"); // Make sure something is displayed when the screen is shown
         }
-    
-        private void Navigate(string indexString)
+
+        private void NagivateToSelectedPage()
         {
-            if (string.IsNullOrWhiteSpace(indexString))
-                return;
+            this.SlideInFrom = this.selectedEditTrackPage <= this.previousSelectedEditTrackPage ? -Constants.SlideDistance : Constants.SlideDistance;
+            this.previousSelectedEditTrackPage = this.selectedEditTrackPage;
 
-            int index = 0;
-
-            int.TryParse(indexString, out index);
-
-            if (index == 0)
-                return;
-
-            this.ContentSlideInFrom = index <= this.previousIndex ? -30 : 30;
-
-            this.previousIndex = index;
-
-            if (index == 1)
+            switch (this.selectedEditTrackPage)
             {
-                // Tags
-                var content = new EditTrackTagsControl();
-                content.DataContext = this;
-                this.EditTrackContent = content;
-            }
-            else if (index == 2)
-            {
-                // Lyrics
-                var content = new EditTrackLyricsControl();
-                content.DataContext = this;
-                this.EditTrackContent = content;
+                case EditTrackPage.Tags:
+                    var tagsContent = new EditTrackTagsControl();
+                    tagsContent.DataContext = this;
+                    this.EditTrackContent = tagsContent;
+                    break;
+                case EditTrackPage.Lyrics:
+                    var lyricsContent = new EditTrackLyricsControl();
+                    lyricsContent.DataContext = this;
+                    this.EditTrackContent = lyricsContent;
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -464,7 +466,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             // Artwork is updated. Multiple artwork is now impossible.
             this.HasMultipleArtwork = false;
         }
-     
+
         public async Task<bool> SaveTracksAsync()
         {
             if (!this.AllEntriesValid()) return false;

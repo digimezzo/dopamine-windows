@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
@@ -49,10 +50,15 @@
             </Grid>
             <DockPanel x:Name="Menu" Height="56">
                 <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
-                    <controls:MainMenuButton x:Name="MenuTags" GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Tags}" IsChecked="True"  Command="{Binding NavigateCommand}" CommandParameter="1"/>
-                    <controls:MainMenuButton x:Name="MenuLyrics" GroupName="MenuGroup" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{DynamicResource Language_Lyrics}" Command="{Binding NavigateCommand}" CommandParameter="2"/>
-                </StackPanel>
+                <Grid DockPanel.Dock="Top" Margin="15,5,0,0">
+                    <TextBlock x:Name="TagsProxy" Text="{DynamicResource Language_Tags}" Visibility="Collapsed"/>
+                    <TextBlock x:Name="LyricsProxy" Text="{DynamicResource Language_Lyrics}" Visibility="Collapsed"/>
+                    <dc:Pivot SelectedIndex="{Binding SelectedEditTrackPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:EditTrackPage}}">
+                        <dc:PivotItem Header="{Binding Text,ElementName=TagsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                        <dc:PivotItem Header="{Binding Text,ElementName=LyricsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
+                    </dc:Pivot>
+                </Grid>
+                
             </DockPanel>
         </DockPanel>
         <!-- Multiple Tracks notification -->
@@ -82,7 +88,8 @@
             <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
             </Viewbox>
-            <controls:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.25" SlideInFrom="{Binding ContentSlideInFrom}" SlideInTo="0"/>
+            <controls:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" 
+                                                  SlideInTimeout="0.5" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0"/>
         </Grid>
     </DockPanel>
 </UserControl>
