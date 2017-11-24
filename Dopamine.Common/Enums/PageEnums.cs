@@ -56,4 +56,10 @@
         Settings = 1,
         Information = 2
     }
+
+    public enum EditTrackPage
+    {
+        Tags = 0,
+        Lyrics = 1
+    }
 }
