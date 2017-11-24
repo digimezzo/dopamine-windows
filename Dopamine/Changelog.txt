@@ -6,7 +6,7 @@
 - [Fixed] User interface becomes unresponsive when a collection folder contains the characters { and/or }
 - [Fixed] Click to play from the Frequent screen doesn't work anymore
 - [Fixed] Fixed missing lyrics editor in song edit window
-
+- [Fixed] Media keys don't work
 
 2017-11-22: Dopamine 1.5.3
 --------------------------
