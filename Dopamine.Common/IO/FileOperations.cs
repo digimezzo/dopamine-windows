@@ -30,13 +30,13 @@ namespace Dopamine.Common.IO
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Error occured while getting folder path for file '{0}'. Exception: {1}", f.FullName, ex.Message);
+                        LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", f.FullName, ex.Message);
                     }   
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Error("Unexpected error occured while getting folder paths. Exception: {0}", ex.Message);
+                LogClient.Error("Unexpected error occurred while getting folder paths. Exception: {0}", ex.Message);
             }
 
             return folderPaths;
