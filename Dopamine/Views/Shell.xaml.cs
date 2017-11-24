@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Extensions;
@@ -31,7 +32,7 @@ using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
-    public partial class Shell : DopamineWindow
+    public partial class Shell : BorderlessWindows10Window
     {
         private IUnityContainer container;
         private IWindowsIntegrationService windowsIntegrationService;
@@ -111,7 +112,7 @@ namespace Dopamine.Views
             this.Close();
         }
 
-        private void ShellWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
                                   SettingsClient.Get<bool>("Behaviour", "CloseToTray") &
@@ -257,7 +258,7 @@ namespace Dopamine.Views
             this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
-            this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(DopamineWindow), this));
+            this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(BorderlessWindows10Window), this));
 
             // NotificationService needs to know about the application windows
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
@@ -391,12 +392,12 @@ namespace Dopamine.Views
             }
         }
 
-        private void ShellWindow_Deactivated(object sender, System.EventArgs e)
+        private void Window_Deactivated(object sender, System.EventArgs e)
         {
             this.trayIconContextMenu.IsOpen = false;
         }
 
-        private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // This call is not in the constructor, because we want to show the tray icon only
             // when the main window has been shown by explicitly calling Show(). This prevents 
@@ -407,7 +408,7 @@ namespace Dopamine.Views
             }
         }
 
-        private void ShellWindow_Closed(object sender, System.EventArgs e)
+        private void Window_Closed(object sender, System.EventArgs e)
         {
             // Stop monitoring tablet mode
             this.windowsIntegrationService.StopMonitoringTabletMode();
@@ -425,7 +426,7 @@ namespace Dopamine.Views
             Application.Current.Shutdown();
         }
 
-        private void ShellWindow_Restored(object sender, System.EventArgs e)
+        private void Window_Restored(object sender, System.EventArgs e)
         {
             // This workaround is needed because when executing the following 
             // sequence, the window is restored to the Restore Position of 
@@ -443,7 +444,7 @@ namespace Dopamine.Views
                 Constants.DefaultShellLeft);
         }
 
-        private void ShellWindow_LocationChanged(object sender, System.EventArgs e)
+        private void Window_LocationChanged(object sender, System.EventArgs e)
         {
             // We need to put SaveWindowLocation() in the queue of the Dispatcher.
             // SaveWindowLocation() needs to be executed after LocationChanged was 
@@ -452,22 +453,22 @@ namespace Dopamine.Views
             this.Dispatcher.BeginInvoke(new Action(() => this.shellService.SaveWindowLocation(this.Top, this.Left, this.WindowState)));
         }
 
-        private void ShellWindow_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Window_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.eventAggregator.GetEvent<ShellMouseUp>().Publish(null);
         }
 
-        private void ShellWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.shellService.SaveWindowSize(this.WindowState, new Size(this.ActualWidth, this.ActualHeight));
         }
 
-        private void ShellWindow_SourceInitialized(object sender, System.EventArgs e)
+        private void Window_SourceInitialized(object sender, System.EventArgs e)
         {
             this.appearanceService.WatchWindowsColor(this);
         }
 
-        private void ShellWindow_StateChanged(object sender, System.EventArgs e)
+        private void Window_StateChanged(object sender, System.EventArgs e)
         {
             if (this.WindowState == WindowState.Minimized)
             {
@@ -518,7 +519,7 @@ namespace Dopamine.Views
             this.shellService.SaveWindowState(this.WindowState);
         }
 
-        private void ShellWindow_KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
@@ -587,7 +588,7 @@ namespace Dopamine.Views
             }
         }
 
-        private void ShellWindow_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Space)
             {
@@ -597,7 +598,7 @@ namespace Dopamine.Views
             }
         }
 
-        private async void ShellWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.XButton1)
             {

@@ -1,13 +1,10 @@
-﻿<controls:DopamineWindow x:Class="Dopamine.Common.Services.Dialog.CustomDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-    Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
-    Accent="{DynamicResource RG_AccentBrush}"
-    OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
-    Background="Transparent"
-    ShowWindowControls="False">
+﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Common.Services.Dialog.CustomDialog"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+                              Background="Transparent"
+                              ShowWindowControls="False">
 
     <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">
         <DockPanel Margin="17">
@@ -22,7 +19,7 @@
                       Style="{StaticResource SegoeAssets}"
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Center" 
-                      Foreground="{DynamicResource RG_WhiteBrush}" />   
+                      Foreground="{DynamicResource RG_WhiteBrush}" />
                     <Viewbox Width="30" Height="30" Panel.ZIndex="2">
                         <Path x:Name="Overlay" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_IconGradientBrush}"/>
                     </Viewbox>
@@ -39,4 +36,4 @@
             </DockPanel>
         </DockPanel>
     </Border>
-</controls:DopamineWindow>
+</dc:BorderlessWindows10Window>

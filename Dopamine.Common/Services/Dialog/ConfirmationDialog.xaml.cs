@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Controls;
+using Digimezzo.WPFControls;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Dialog
 {
-    public partial class ConfirmationDialog : DopamineWindow
+    public partial class ConfirmationDialog : BorderlessWindows10Window
     {
         public ConfirmationDialog(int iconCharCode, int iconSize, string title, string content, string okText, string cancelText) : base()
 {

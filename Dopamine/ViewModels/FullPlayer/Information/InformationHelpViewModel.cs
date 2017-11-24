@@ -1,4 +1,4 @@
-﻿using Digimezzo.WPFControls.Base;
+﻿using Prism.Mvvm;
 
 namespace Dopamine.ViewModels.FullPlayer.Information
 {

@@ -1,11 +1,10 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Controls;
-using Dopamine.Common.Base;
+using Digimezzo.WPFControls;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Dialog
 {
-    public partial class InputDialog : DopamineWindow
+    public partial class InputDialog : BorderlessWindows10Window
     {
         private string responseText;
       
@@ -43,7 +42,7 @@ namespace Dopamine.Common.Services.Dialog
             this.DialogResult = false;
         }
 
-        private void DopamineWindow_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Set focus to the TextBox and highlight the text. This makes user input easier.
             this.TextBoxResponse.Focus();

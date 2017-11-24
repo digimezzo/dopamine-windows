@@ -1,31 +1,36 @@
-﻿<controls:DopamineWindow x:Class="Dopamine.Views.Oobe"
-                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                         xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
-                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-                         xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
-                         xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
-                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-                         mc:Ignorable="d"
-                         Title="Dopamine"
-                         Height="550"
-                         Width="400"
-                         ResizeMode="NoResize"
-                         WindowStartupLocation="CenterScreen"
-                         Closing="Window_Closing"
-                         OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
-                         IsOverlayVisible="{Binding Path=IsOverlayVisible}"
-                         Background="Transparent"
-                         Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
-                         Accent="{DynamicResource RG_AccentBrush}"
-                         CloseToolTip="{DynamicResource Language_Close}"
-                         prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Views.Oobe"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+                              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+                              xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+                              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
+                              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+                              mc:Ignorable="d"
+                              Title="Dopamine"
+                              Height="550"
+                              Width="400"
+                              ResizeMode="NoResize"
+                              WindowStartupLocation="CenterScreen"
+                              Closing="Window_Closing"
+                              OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+                              IsOverlayVisible="{Binding Path=IsOverlayVisible}"
+                              Background="Transparent"
+                              CloseToolTip="{DynamicResource Language_Close}"
+                              ApplyDefaultButtonColors="False"
+                              CloseForeground="{DynamicResource RG_WindowButtonForegroundBrush}"
+                              CloseHoveredForeground="{DynamicResource RG_WhiteBrush}"
+                              ClosePressedForeground="{DynamicResource RG_WhiteBrush}"
+                              CloseBackground="Transparent"
+                              CloseHoveredBackground="{DynamicResource RG_AccentBrush}"
+                              ClosePressedBackground="{DynamicResource RG_AccentTransparentBrush}"
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <!-- Triggers -->
-    <controls:DopamineWindow.Triggers>
+    <dc:BorderlessWindows10Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
@@ -36,7 +41,7 @@
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
-    </controls:DopamineWindow.Triggers>
+    </dc:BorderlessWindows10Window.Triggers>
 
     <!-- Background -->
     <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0">
@@ -139,4 +144,4 @@
             </DockPanel>
         </DockPanel>
     </Border>
-</controls:DopamineWindow>
+</dc:BorderlessWindows10Window>

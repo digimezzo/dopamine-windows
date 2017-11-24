@@ -208,7 +208,7 @@ namespace Dopamine
 
             if (SettingsClient.Get<bool>("General", "ShowOobe"))
             {
-                DopamineWindow oobeWin = Container.Resolve<Oobe>();
+                BorderlessWindows10Window oobeWin = Container.Resolve<Oobe>();
 
                 // These 2 lines are required to set the RegionManager of the child window.
                 // If we don't do this, regions on child windows are never known by the Shell 

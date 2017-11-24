@@ -7,48 +7,26 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="WindowButton" TargetType="{x:Type Button}">
-        <!-- UseLayoutRounding=False and SnapsToDevicePixels=True Prevents clipping at more than 100% scaling -->
-        <Setter Property="UseLayoutRounding" Value="False"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="{DynamicResource RG_WindowButtonForegroundBrush}"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Border">
-                        <Rectangle x:Name="rect" Stroke="Transparent" StrokeThickness="0">
-                            <Rectangle.Fill>
-                                <SolidColorBrush Color="{DynamicResource RG_AccentColor}" Opacity="0"/>
-                             </Rectangle.Fill>    
-                        </Rectangle>
-                        <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0">
-                        </ContentPresenter>
+                        <Rectangle x:Name="rect" Fill="Transparent"/>
+                        <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="rect" TargetProperty="Fill.Opacity">
-                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="rect" TargetProperty="Fill.Opacity">
-                                        <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                            <!--<Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentBrush}"/>-->
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Opacity" Value="0.8"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentTransparentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Opacity" Value=".5"/>
+                            <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -57,38 +35,26 @@
     </Style>
 
     <Style x:Key="ActiveWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Border">
-                        <Rectangle x:Name="rect" Fill="{DynamicResource RG_AccentBrush}" Stroke="Transparent" StrokeThickness="0"/>
+                        <Rectangle x:Name="rect" Fill="{DynamicResource RG_AccentBrush}"/>
                         <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Opacity">
-                                        <DoubleAnimation To="0.8" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Opacity">
-                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
                         </Trigger>
-                        <!-- MUST explicitly set TargetName to Border after IsMouseOver trigger,
-                             or this trigger will not execute -->
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="Border" Property="Opacity" Value="0.6"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentTransparentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Opacity" Value=".5"/>
+                            <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

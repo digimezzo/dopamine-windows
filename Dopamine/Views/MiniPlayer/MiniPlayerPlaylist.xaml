@@ -1,25 +1,20 @@
-﻿<controls:DopamineWindow x:Class="Dopamine.Views.MiniPlayer.MiniPlayerPlaylist"
-                         x:Name="PlaylistWindow"
-                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                         xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-                         xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-                         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                         xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-                         xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
-                         mc:Ignorable="d"
-                         Title="Playlist"
-                         Height="300" 
-                         Width="300"
-                         Accent="{DynamicResource RG_AccentBrush}"
-                         IsMovable="False"
-                         ShowWindowControls="False"
-                         ShowInTaskbar="False"
-                         ResizeMode="NoResize"
-                         prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Views.MiniPlayer.MiniPlayerPlaylist"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+                              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+                              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              mc:Ignorable="d"
+                              Title="Playlist" Height="300" Width="300"
+                              IsMovable="False"
+                              ShowWindowControls="False"
+                              ShowInTaskbar="False"
+                              ResizeMode="NoResize"
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -43,4 +38,4 @@
             </dc:Pivot>
         </Grid>
     </Border>
-</controls:DopamineWindow>
+</dc:BorderlessWindows10Window>

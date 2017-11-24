@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.WPFControls.Base;
 using Dopamine.Common.Base;
+using Prism.Mvvm;
 
 namespace Dopamine.ViewModels
 {
