@@ -96,7 +96,7 @@ namespace Dopamine.Common.Services.Win32Input
 
         private bool CanPressMediaKey()
         {
-            return !isMediaKeyJustPressed && SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification");
+            return !isMediaKeyJustPressed && !SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification");
         }
 
         private void CanPressMediaKeyTimer_Elapsed(object sender, ElapsedEventArgs e)
