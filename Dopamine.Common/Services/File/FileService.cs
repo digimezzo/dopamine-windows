@@ -231,7 +231,7 @@ namespace Dopamine.Common.Services.File
                 LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", directoryPath, ex.Message);
             }
 
-            return folderPaths != null && folderPaths.Count > 0 ? folderPaths.Select(f => f.Path).ToList() : new List<string>();
+            return folderPaths != null && folderPaths.Count > 0 ? folderPaths.OrderBy(f => f.Path).Select(f => f.Path).ToList() : new List<string>();
         }
 
         private async Task DeleteFileArtworkFromCacheAsync(string exclude)
