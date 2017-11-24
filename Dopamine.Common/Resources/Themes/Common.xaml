@@ -39,4 +39,7 @@
         <GradientStop Color="White" Offset="0.0" />
         <GradientStop Color="Transparent" Offset="1.0" />
     </LinearGradientBrush>
+    
+    <!-- Accent -->
+    <SolidColorBrush x:Key="RG_AccentTransparentBrush" Color="{DynamicResource RG_AccentColor}" Opacity="0.8"/>
 </ResourceDictionary>

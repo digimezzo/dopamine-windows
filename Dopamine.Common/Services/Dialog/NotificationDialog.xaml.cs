@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Controls;
+using Digimezzo.WPFControls;
 using System;
 using System.Windows;
 
 namespace Dopamine.Common.Services.Dialog
 {
-    public partial class NotificationDialog : DopamineWindow
+    public partial class NotificationDialog : BorderlessWindows10Window
     {
         public NotificationDialog(int iconCharCode, int iconSize, string title, string content, string okText, bool showViewLogs, string viewLogsText) : base()
         {

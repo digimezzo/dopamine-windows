@@ -187,7 +187,6 @@
     <Compile Include="Controls\SourceChangedImage.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
     <Compile Include="Controls\DataGridEx.cs" />
-    <Compile Include="Controls\DopamineWindow.cs" />
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
@@ -955,10 +954,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\CrossFadeContentControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\DopamineWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

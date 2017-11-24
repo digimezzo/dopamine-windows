@@ -1,16 +1,14 @@
-﻿<controls:DopamineWindow x:Class="Dopamine.Common.Services.Dialog.InputDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-    SizeToContent="Height"
-    Width="420" 
-    ResizeMode="NoResize"
-    Foreground="{DynamicResource RG_WindowButtonForegroundBrush}"
-    Accent="{DynamicResource RG_AccentBrush}"
-    OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
-    Background="Transparent"
-    Loaded="DopamineWindow_Loaded"
-    ShowWindowControls="False">
+﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Common.Services.Dialog.InputDialog"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              SizeToContent="Height"
+                              Width="420" 
+                              ResizeMode="NoResize"
+                              OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+                              Background="Transparent"
+                              Loaded="Window_Loaded"
+                              ShowWindowControls="False">
 
     <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">
         <DockPanel Margin="17">
@@ -42,4 +40,4 @@
             </StackPanel>
         </DockPanel>
     </Border>
-</controls:DopamineWindow>
+</dc:BorderlessWindows10Window>

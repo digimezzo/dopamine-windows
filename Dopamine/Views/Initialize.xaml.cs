@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Controls;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Database;
 using System;
 using System.Threading.Tasks;
 
 namespace Dopamine.Views
 {
-    public partial class Initialize : DopamineWindow
+    public partial class Initialize : BorderlessWindows10Window
     {
         public Initialize()
         {

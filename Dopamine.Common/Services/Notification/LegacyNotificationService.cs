@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Windows.Media;
+using Digimezzo.WPFControls;
 
 namespace Dopamine.Common.Services.Notification
 {
@@ -18,8 +19,8 @@ namespace Dopamine.Common.Services.Notification
         private IPlaybackService playbackService;
         private ICacheService cacheService;
         private IMetadataService metadataService;
-        private DopamineWindow mainWindow;
-        private DopamineWindow playlistWindow;
+        private BorderlessWindows10Window mainWindow;
+        private BorderlessWindows10Window playlistWindow;
         private Window trayControlsWindow;
         private bool showNotificationWhenPlaying;
         private bool showNotificationWhenPausing;
@@ -216,7 +217,7 @@ namespace Dopamine.Common.Services.Notification
                 this.notification.Disable();
         }
 
-        public void SetApplicationWindows(DopamineWindow mainWindow, DopamineWindow playlistWindow, Window trayControlsWindow)
+        public void SetApplicationWindows(BorderlessWindows10Window mainWindow, BorderlessWindows10Window playlistWindow, Window trayControlsWindow)
         {
             if (mainWindow != null)
             {

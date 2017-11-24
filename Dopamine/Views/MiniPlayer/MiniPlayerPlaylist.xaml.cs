@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
@@ -14,9 +15,9 @@ using System.Windows.Interop;
 
 namespace Dopamine.Views.MiniPlayer
 {
-    public partial class MiniPlayerPlaylist : DopamineWindow
+    public partial class MiniPlayerPlaylist : BorderlessWindows10Window
     {
-        private DopamineWindow parent;
+        private BorderlessWindows10Window parent;
         private IPlaybackService playbackService;
         private IRegionManager regionManager;
         private IEventAggregator eventAggregator;
@@ -25,7 +26,7 @@ namespace Dopamine.Views.MiniPlayer
         private bool alignCoverPlayerPlaylistVertically;
         private IntPtr windowHandle;
 
-        public MiniPlayerPlaylist(DopamineWindow parent, IPlaybackService playbackService, IRegionManager regionManager, IEventAggregator eventAggregator)
+        public MiniPlayerPlaylist(BorderlessWindows10Window parent, IPlaybackService playbackService, IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             InitializeComponent();
 

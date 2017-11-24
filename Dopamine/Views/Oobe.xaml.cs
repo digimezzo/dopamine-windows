@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
+using Digimezzo.WPFControls;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.Indexing;
@@ -8,7 +9,7 @@ using System.Windows.Media.Animation;
 
 namespace Dopamine.Views
 {
-    public partial class Oobe : DopamineWindow
+    public partial class Oobe : BorderlessWindows10Window
     {
         private IAppearanceService appearanceService;
         private Storyboard backgroundAnimation;
