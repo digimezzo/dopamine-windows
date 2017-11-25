@@ -231,6 +231,7 @@ namespace Dopamine.Common.Services.File
                 LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", directoryPath, ex.Message);
             }
 
+            // Ordering by path is required. Samba shares provide the files in the wrong order.
             return folderPaths != null && folderPaths.Count > 0 ? folderPaths.OrderBy(f => f.Path).Select(f => f.Path).ToList() : new List<string>();
         }
 
