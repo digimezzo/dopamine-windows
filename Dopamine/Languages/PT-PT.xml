@@ -131,7 +131,7 @@
   <Text Key="Volume">Volume</Text>
   <Text Key="Playlist">Lista de reprodução</Text>
   <Text Key="Automatically_Download_Updates">Descarregar atualizações automaticamente</Text>
-  <Text Key="Not_Available_In_Portable_Version">Não disponível na versão portátil</Text>
+  <Text Key="Not_Available_In_Portable_Version">não disponível na versão portátil</Text>
   <Text Key="Refresh_Now">Recarregar agora</Text>
   <Text Key="New_Playlist">Nova lista de reprodução</Text>
   <Text Key="Open_Playlist">Abrir lista de reprodução</Text>
@@ -401,7 +401,7 @@
   <Text Key="Unknown_Album">Álbum desconhecido</Text>
   <Text Key="Unknown_Genre">Género desconhecido</Text>
   <Text Key="Refresh_Collection_Automatically">Atualizar coleção automaticamente</Text>
-  <Text Key="Loop_When_Shuffle">Durante a reprodução aleatória, voltar ao início da lista de reprodução depois de reproduzir a última faixa.</Text>
+  <Text Key="Loop_When_Shuffle">Durante a reprodução aleatória, voltar ao início da lista de reprodução depois de reproduzir a última faixa</Text>
   <Text Key="Show_Song_Covers">Mostrar imagens dos álbuns</Text>
   <Text Key="Hide_Song_Covers">Ocultar imagens dos álbuns</Text>
   <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
@@ -409,8 +409,8 @@
   <Text Key="Refresh_Collection_Now">Recarregar coleção agora</Text>
   <Text Key="Album_Covers">Capas do álbuns</Text>
   <Text Key="Reload_All_Covers">Recarregar todas as capas</Text>
-  <Text Key="Reload_All_Covers_Description">Recarrega as capas de todos os álbuns, incluindo aqueles que já possuam capa.</Text>
+  <Text Key="Reload_All_Covers_Description">Recarrega as capas de todos os álbuns, incluindo aqueles que já tenham</Text>
   <Text Key="Reload_Missing_Covers">Recarregar capa se inexistente</Text>
-  <Text Key="Reload_Missing_Covers_Description">Recarregar apenas as capas para os álbuns que não a possuam.</Text>
+  <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as capas para os álbuns que ainda não a tenham</Text>
   <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
 </Language>
