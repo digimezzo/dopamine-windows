@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
 using Dopamine.Common.Database;
@@ -64,6 +65,21 @@ namespace Dopamine.Common.Services.File
                     {
                         // The file is a supported audio format: add it directly.
                         tracks.Add(await this.CreateTrackAsync(path));
+                        
+                        if(SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
+                        {
+                            // Get all files in that directory
+                            List<string> audioFilePaths = this.ProcessDirectory(Path.GetDirectoryName(path));
+
+                            // Add all files from that directory
+                            foreach (string audioFilePath in audioFilePaths)
+                            {
+                                if (!audioFilePath.Equals(path))
+                                {
+                                    tracks.Add(await this.CreateTrackAsync(audioFilePath));
+                                }
+                            }
+                        } 
                     }
                     else if (FileFormats.IsSupportedPlaylistFile(path))
                     {
