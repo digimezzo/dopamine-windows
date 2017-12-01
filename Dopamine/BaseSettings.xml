@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings>
-   <Namespace Name="Configuration">
+  <Namespace Name="Configuration">
     <Setting Name="Version">
       <Value>95</Value>
     </Setting>
@@ -320,6 +320,11 @@
     </Setting>
     <Setting Name="Providers">
       <Value>lololyrics;lyricwikia;metrolyrics</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Covers">
+    <Setting Name="DownloadMissingAlbumCovers">
+      <Value>True</Value>
     </Setting>
   </Namespace>
 </Settings>

@@ -392,7 +392,7 @@ namespace Dopamine.Common.Services.Metadata
                 if (album == null)
                 {
                     album = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
-                    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, track.Path));
+                    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtworkFromFile(album, track.Path));
                     album = await this.albumRepository.AddAlbumAsync(album);
                 }
 

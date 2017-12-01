@@ -745,7 +745,6 @@ namespace Dopamine.Common.Services.Indexing
             this.canIndexArtwork = true;
             this.isIndexingArtwork = true;
 
-            long numberAdded = 0;
             DateTime startTime = DateTime.Now;
 
             await Task.Run(async () =>
@@ -756,9 +755,7 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
-                        List<Album> albumsToCheck = conn.Table<Album>().ToList().Where(a => string.IsNullOrEmpty(a.ArtworkID)).ToList();
-                        List<long> albumIds = new List<long>();
-
+                        List<long> checkedAlbumIds = new List<long>();
                         List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
 
                         foreach (Album alb in albumsToIndex)
@@ -769,7 +766,7 @@ namespace Dopamine.Common.Services.Indexing
                                 {
                                     LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
                                     conn.Commit(); // Makes sure we commit what we already processed
-                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = checkedAlbumIds }); // Update UI
                                 }
                                 catch (Exception ex)
                                 {
@@ -789,16 +786,15 @@ namespace Dopamine.Common.Services.Indexing
 
                                 if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {
-                                    albumIds.Add(alb.AlbumID);
+                                    checkedAlbumIds.Add(alb.AlbumID);
                                     alb.DateLastSynced = DateTime.Now.Ticks;
                                     conn.Update(alb);
-                                    numberAdded += 1;
 
-                                    if (albumIds.Count >= 20)
+                                    if (checkedAlbumIds.Count >= 20)
                                     {
                                         conn.Commit();
-                                        List<long> eventAlbumIds = new List<long>(albumIds);
-                                        albumIds.Clear();
+                                        List<long> eventAlbumIds = new List<long>(checkedAlbumIds);
+                                        checkedAlbumIds.Clear();
                                         this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
                                     }
                                 }
@@ -822,7 +818,7 @@ namespace Dopamine.Common.Services.Indexing
                         try
                         {
                             conn.Commit();
-                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIds }); // Update UI
+                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = checkedAlbumIds }); // Update UI
                         }
                         catch (Exception ex)
                         {
