@@ -413,4 +413,5 @@
   <Text Key="Reload_Missing_Covers">Eksik kapakları yeniden yükle</Text>
   <Text Key="Reload_Missing_Covers_Description">Sadece kapağı olmayan albümlerin kapaklarını yeniden yükle</Text>
   <Text Key="Added_Songs">{number} şarkı eklendi (%{percent})</Text>
+  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
 </Language>

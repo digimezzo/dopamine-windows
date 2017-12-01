@@ -67,12 +67,20 @@ namespace Dopamine.Common.Services.Cache
             temporaryCacheCleanupTimer.Elapsed += TemporaryCacheCleanupTimer_Elapsed;
             temporaryCacheCleanupTimer.Start();
         }
+
+        private string GetAlbumCacheArtworkId()
+        {
+            return "album-" + Guid.NewGuid().ToString(); 
+        }
       
         public async Task<string> CacheArtworkAsync(byte[] artwork)
         {
-            if (artwork == null) return string.Empty;
+            if (artwork == null)
+            {
+                return string.Empty;
+            }
 
-            string artworkID = "album-" + Guid.NewGuid().ToString();
+            string artworkID = this.GetAlbumCacheArtworkId();
 
             try
             {
@@ -83,8 +91,35 @@ namespace Dopamine.Common.Services.Cache
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could convert artwork byte[]to JPG. Exception: {0}", ex.Message);
+                LogClient.Error("Could not cache byte[] artwork. Exception: {0}", ex.Message);
                 artworkID = string.Empty;
+            }
+
+            return artworkID;
+        }
+
+        public async Task<string> CacheArtworkAsync(Uri uri)
+        {
+            if (uri == null)
+            {
+                return string.Empty;
+            }
+
+            string artworkID = this.GetAlbumCacheArtworkId();
+
+            string temporaryFilePath = await this.DownloadFileToTemporaryCacheAsync(uri);
+
+            if (!string.IsNullOrEmpty(temporaryFilePath))
+            {
+                try
+                {
+                    System.IO.File.Copy(temporaryFilePath, Path.Combine(this.coverArtCacheFolderPath, artworkID + ".jpg"), true);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not cache Uri artwork. Exception: {0}", ex.Message);
+                    artworkID = string.Empty;
+                }
             }
 
             return artworkID;

@@ -413,4 +413,5 @@
   <Text Key="Reload_Missing_Covers">Recargar las portadas que faltan</Text>
   <Text Key="Reload_Missing_Covers_Description">Recargar solo las portadas de aquellos álbumes que no tienen ninguna</Text>
   <Text Key="Added_Songs">Añadidas {number} canciones ({porcentaje}%)</Text>
+  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
 </Language>

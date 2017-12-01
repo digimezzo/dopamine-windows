@@ -164,7 +164,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             try
             {
                 Common.Api.Lastfm.Album lfmAlbum = await LastfmApi.AlbumGetInfo((string)this.Album.AlbumArtist, (string)this.Album.AlbumTitle, false, "EN");
-                byte[] artworkData = null;
 
                 if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
                 {

@@ -413,4 +413,5 @@
   <Text Key="Reload_Missing_Covers">Fehlende Cover neu laden</Text>
   <Text Key="Reload_Missing_Covers_Description">Lade Cover für alle Alben die kein Cover haben neu</Text>
   <Text Key="Added_Songs">{number} Songs hinzugefügt ({percent}%)</Text>
+  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
 </Language>

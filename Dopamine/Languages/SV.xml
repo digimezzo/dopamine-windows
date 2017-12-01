@@ -413,4 +413,5 @@
   <Text Key="Reload_Missing_Covers">Ladda om saknade skivomslag</Text>
   <Text Key="Reload_Missing_Covers_Description">Ladda om skivomslag endast för album som inte än har ett skivomslag</Text>
   <Text Key="Added_Songs">Tillagt {number} låtar ({percent}%)</Text>
+  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
 </Language>
