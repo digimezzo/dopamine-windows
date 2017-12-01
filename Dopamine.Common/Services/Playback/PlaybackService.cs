@@ -254,7 +254,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Error("Failed to get current time. Returning 00:00. Exception: {0}", ex.Message);
                     return new TimeSpan(0);
                 }
-                
+
             }
         }
 
@@ -290,7 +290,7 @@ namespace Dopamine.Common.Services.Playback
                     LogClient.Error("Failed to get total time. Returning 00:00. Exception: {0}", ex.Message);
                     return new TimeSpan(0);
                 }
-                
+
             }
         }
 
@@ -313,6 +313,7 @@ namespace Dopamine.Common.Services.Playback
             this.queueManager = new QueueManager();
 
             // Event handlers
+            this.fileService.ImportingTracks += (_, __) => this.canGetSavedQueuedTracks = false;
             this.fileService.TracksImported += (tracks) => this.EnqueueFromFilesAsync(tracks);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
 
