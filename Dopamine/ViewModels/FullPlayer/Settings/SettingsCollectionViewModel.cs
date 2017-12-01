@@ -13,6 +13,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool isActive;
         private bool checkBoxIgnoreRemovedFilesChecked;
         private bool checkBoxRefreshCollectionAutomaticallyChecked;
+        private bool checkBoxDownloadMissingAlbumCoversChecked;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private ITrackRepository trackRepository;
@@ -34,7 +35,26 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Indexing", "IgnoreRemovedFiles", value);
                 SetProperty<bool>(ref this.checkBoxIgnoreRemovedFilesChecked, value);
-                if (!value) this.trackRepository.ClearRemovedTrackAsync(); // Fire and forget.
+
+                if (!value)
+                {
+                    this.trackRepository.ClearRemovedTrackAsync(); // Fire and forget
+                }
+            }
+        }
+
+        public bool CheckBoxDownloadMissingAlbumCoversChecked
+        {
+            get { return this.checkBoxDownloadMissingAlbumCoversChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Covers", "DownloadMissingAlbumCovers", value);
+                SetProperty<bool>(ref this.checkBoxDownloadMissingAlbumCoversChecked, value);
+
+                if (value)
+                {
+                    this.indexingService.ReloadAlbumArtworkAsync(true);
+                }
             }
         }
 
@@ -68,6 +88,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 this.checkBoxRefreshCollectionAutomaticallyChecked = SettingsClient.Get<bool>("Indexing", "RefreshCollectionAutomatically");
                 this.checkBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
+                this.checkBoxDownloadMissingAlbumCoversChecked = SettingsClient.Get<bool>("Covers", "DownloadMissingAlbumCovers");
             });
         }
 

@@ -15,6 +15,7 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
         Task<Album> AddAlbumAsync(Album album);
         Task<bool> UpdateAlbumArtworkAsync(string albumTitle, string albumArtist, string artworkID);
         Task<bool> UpdateAlbumAsync(Album album);
+        Task SetAlbumsNeedsIndexing(int needsIndexing, bool onlyUpdateWhenNoCover);
         Task DeleteOrphanedAlbumsAsync();
     }
 }

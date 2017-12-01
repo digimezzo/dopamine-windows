@@ -333,6 +333,37 @@ namespace Dopamine.Common.Database.Repositories
             return isUpdateSuccess;
         }
 
+        public async Task SetAlbumsNeedsIndexing(int needsIndexing, bool onlyUpdateWhenNoCover)
+        {
+            await Task.Run(() =>
+            {
+                using (var conn = this.Factory.GetConnection())
+                {
+                    try
+                    {
+                        conn.BeginTransaction();
+
+                        if (onlyUpdateWhenNoCover)
+                        {
+                            LogClient.Info($"Setting NeedsIndexing={needsIndexing} for albums which have no cover");
+                            conn.Execute("UPDATE Album SET NeedsIndexing=? WHERE ArtworkID IS NULL OR TRIM(ArtworkID)='';", needsIndexing);
+                        }
+                        else
+                        {
+                            LogClient.Info($"Setting NeedsIndexing={needsIndexing} for all albums");
+                            conn.Execute("UPDATE Album SET NeedsIndexing=?;", needsIndexing);
+                        }
+
+                        conn.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Failed to set NeedsIndexing={0} for albums. Exception: {1}", needsIndexing, ex.Message);
+                    }
+                }
+            });
+        }
+
         public async Task DeleteOrphanedAlbumsAsync()
         {
             await Task.Run(() =>

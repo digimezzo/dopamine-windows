@@ -739,7 +739,53 @@ namespace Dopamine.Common.Services.Indexing
             return numberDeletedFromDatabase + numberDeletedFromDisk > 0;
         }
 
+        private async Task<string> GetArtworkFromFile(Album album)
+        {
+            Track trk = this.GetLastModifiedTrack(album);
+            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, trk.Path));
+        }
+
+        private async Task<string> GetArtworkFromInternet(Album album)
+        {
+            if(album.AlbumArtist.Equals(Defaults.UnknownArtistText) || album.AlbumTitle.Equals(Defaults.UnknownAlbumText))
+            {
+                return string.Empty;
+            }
+
+            Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo((string)album.AlbumArtist, (string)album.AlbumTitle, false, "EN");
+
+            if (string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+            {
+                return string.Empty;
+            }
+
+            return await this.cacheService.CacheArtworkAsync(new Uri(lfmAlbum.LargestImage()));
+        }
+
         private async void AddArtworkInBackgroundAsync()
+        {
+            // First, add artwork from file.
+            await this.AddArtworkInBackgroundAsync(1);
+
+            // Next, add artwork from the Internet, if the user has chosen to do so.
+            if (SettingsClient.Get<bool>("Covers", "DownloadMissingAlbumCovers"))
+            {
+                // Add artwork from the Internet.
+                await this.AddArtworkInBackgroundAsync(2);
+            }
+            else
+            {
+                // Don't add artwork from the Internet. Mark all albums as indexed.
+                await this.MarkAllAlbumsAsIndexed();
+            }
+        }
+
+        private async Task MarkAllAlbumsAsIndexed()
+        {
+            await this.albumRepository.SetAlbumsNeedsIndexing(0, false);
+        }
+
+        private async Task AddArtworkInBackgroundAsync(int passNumber)
         {
             LogClient.Info("+++ STARTED ADDING ARTWORK IN THE BACKGROUND +++");
             this.canIndexArtwork = true;
@@ -780,9 +826,20 @@ namespace Dopamine.Common.Services.Indexing
 
                             try
                             {
-                                Track trk = this.GetLastModifiedTrack(alb);
+                                if (passNumber.Equals(1))
+                                {
+                                    // During the 1st pass, look for artwork in file.
+                                    // Don't set alb.NeedsIndexing = 0, as the 2nd pass will check this flag.
+                                    alb.ArtworkID = await this.GetArtworkFromFile(alb);
+                                }
+                                else if (passNumber.Equals(2))
+                                {
+                                    // During the 2nd pass, look for artwork on the Internet and set alb.NeedsIndexing = 0.
+                                    alb.ArtworkID = await this.GetArtworkFromInternet(alb);
+                                    alb.NeedsIndexing = 0;
+                                }
 
-                                alb.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(alb, trk.Path));
+                                conn.Update(alb);
 
                                 if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {
@@ -803,21 +860,11 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
                             }
-
-                            try
-                            {
-                                alb.NeedsIndexing = 0;
-                                conn.Update(alb);
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
-                            }
                         }
 
                         try
                         {
-                            conn.Commit();
+                            conn.Commit(); // Make sure all albums are committed
                             this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = checkedAlbumIds }); // Update UI
                         }
                         catch (Exception ex)
@@ -836,7 +883,7 @@ namespace Dopamine.Common.Services.Indexing
             LogClient.Error("+++ FINISHED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
         }
 
-        public async void ReloadAlbumArtworkAsync(bool reloadOnlyMissing)
+        public async void ReloadAlbumArtworkAsync(bool onlyUpdateWhenNoCover)
         {
             this.canIndexArtwork = false;
 
@@ -846,33 +893,7 @@ namespace Dopamine.Common.Services.Indexing
                 await Task.Delay(100);
             }
 
-            await Task.Run(async () =>
-            {
-                using (SQLiteConnection conn = this.factory.GetConnection())
-                {
-                    try
-                    {
-                        conn.BeginTransaction();
-
-                        if (reloadOnlyMissing)
-                        {
-                            LogClient.Info("Setting NeedsIndexing=1 for albums which have no cover");
-                            conn.Execute("UPDATE Album SET NeedsIndexing=1 WHERE ArtworkID IS NULL OR TRIM(ArtworkID)='';");
-                        }
-                        else
-                        {
-                            LogClient.Info("Setting NeedsIndexing=1 for all albums");
-                            conn.Execute("UPDATE Album SET NeedsIndexing=1;");
-                        }
-
-                        conn.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Failed to set NeedsIndexing=1 for albums. Exception: {0}", ex.Message);
-                    }
-                }
-            });
+            await this.albumRepository.SetAlbumsNeedsIndexing(1, onlyUpdateWhenNoCover);
 
             this.AddArtworkInBackgroundAsync();
         }

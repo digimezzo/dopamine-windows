@@ -413,4 +413,5 @@
   <Text Key="Reload_Missing_Covers">Ontbrekende albumafbeeldingen herladen</Text>
   <Text Key="Reload_Missing_Covers_Description">Herlaad albumafbeeldingen alleen voor albums die nog geen afbeelding hebben</Text>
   <Text Key="Added_Songs">{number} nummers toegevoegd ({percent}%)</Text>
+  <Text Key="Download_Missing_Album_Covers">Ontbrekende albumafbeeldingen downloaden van het Internet</Text>
 </Language>
