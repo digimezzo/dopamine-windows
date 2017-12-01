@@ -47,6 +47,7 @@ namespace Dopamine.Common.Services.File
         }
 
         public event TracksImportedHandler TracksImported = delegate { };
+        public event EventHandler ImportingTracks = delegate { };
 
         public async Task<List<PlayableTrack>> ProcessFilesAsync(List<string> filenames)
         {
@@ -96,7 +97,7 @@ namespace Dopamine.Common.Services.File
 
         public void ProcessArguments(string[] args)
         {
-            this.ProcessArgumentsAsync(args);
+            this.ImportTracks(args);
         }
 
         public async Task<PlayableTrack> CreateTrackAsync(string path)
@@ -123,11 +124,12 @@ namespace Dopamine.Common.Services.File
             return returnTrack;
         }
     
-        private async Task ProcessArgumentsAsync(string[] args)
+        private async Task ImportTracks(string[] args)
         {
             if (args.Length > 1)
             {
                 this.addFilesTimer.Stop();
+                this.ImportingTracks(this, new EventArgs());
 
                 await Task.Run(() =>
                 {

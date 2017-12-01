@@ -1,8 +1,9 @@
-2017-11-26: Dopamine 1.5.5
+2017-11-27: Dopamine 1.5.5
 --------------------------
 
 - [Changed] Updated the French translation
 - [Changed] Updated the Portuguese (Portugal) translation
+- [Fixed] Another conflict between playing a file from Explorer and loading of saved queued songs
 
 
 2017-11-24: Dopamine 1.5.4

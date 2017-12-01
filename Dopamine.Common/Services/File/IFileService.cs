@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Database;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -17,5 +18,6 @@ namespace Dopamine.Common.Services.File
         Task<PlayableTrack> CreateTrackAsync(string path);
 
         event TracksImportedHandler TracksImported;
+        event EventHandler ImportingTracks;
     }
 }
