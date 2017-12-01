@@ -414,4 +414,5 @@
   <Text Key="Reload_Missing_Covers_Description">아직 커버가 없는 앨범의 커버만 다시 불러옵니다.</Text>
   <Text Key="Added_Songs">{Number}곡 추가됨 ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
+<Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
 </Language>

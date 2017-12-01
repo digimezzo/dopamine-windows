@@ -414,4 +414,5 @@ les  <Text Key="Last_Played">Dernière lecture</Text>
   <Text Key="Reload_Missing_Covers_Description">Recharger les pochettes uniquement pour les albums n'ayant pas encore de pochette</Text>
   <Text Key="Added_Songs">Ajouté {number} morceaux ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Télécharger les pochettes d'album manquantes à partir d'Internet</Text>
+<Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
 </Language>

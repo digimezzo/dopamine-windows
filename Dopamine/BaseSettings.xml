@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>96</Value>
+      <Value>97</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -153,6 +153,9 @@
     </Setting>
     <Setting Name="ShowRemoveFromDisk">
       <Value>False</Value>
+    </Setting>
+    <Setting Name="EnqueueOtherFilesInFolder">
+      <Value>True</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Startup">
