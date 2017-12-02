@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="VI" Name="Tiếng Việt">
-  <Text Key="ISO639-1">EN</Text>
+<Language Code="VI" Name="Vietnamese">
+  <Text Key="ISO639-1">VI</Text>
   <Text Key="Ok">Ok</Text>
   <Text Key="Cancel">Hủy</Text>
   <Text Key="Close">Đóng</Text>

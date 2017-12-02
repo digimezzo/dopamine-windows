@@ -136,6 +136,7 @@
               <File Source="Languages\SV.xml" />
               <File Source="Languages\TR.xml" />
               <File Source="Languages\UK.xml" />
+              <File Source="Languages\VI.xml" />
               <File Source="Languages\ZH-CN.xml" />
               <File Source="Languages\ZH-TW.xml" />
             </Component>

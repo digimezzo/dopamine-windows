@@ -546,6 +546,9 @@
     <Content Include="Languages\UK.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Languages\VI.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\ZH-CN.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
