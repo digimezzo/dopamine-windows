@@ -8,6 +8,7 @@
 - [Changed] Updated the French translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Fixed] Fixed another conflict between playing a file from Explorer and loading of saved queued songs
+- [Fixed] Fixed a potential issue when changing album covers
 
 
 2017-11-24: Dopamine 1.5.4
