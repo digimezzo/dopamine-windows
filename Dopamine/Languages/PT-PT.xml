@@ -34,7 +34,7 @@
   <Text Key="Donate_With_PayPal">Doar com PayPal</Text>
   <Text Key="File_Types">Tipos de ficheiro</Text>
   <Text Key="File_Types_Description">São suportados os seguintes formatos: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE.</Text>
-  <Text Key="Keyboard_Shortcuts">Atalhos de teclado</Text>
+  <Text Key="Keyboard_Shortcuts">Teclas de atalho</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
   <Text Key="Key_Ctrl">Ctrl</Text>
@@ -100,7 +100,7 @@
   <Text Key="Ctrl_J">Ctrl+J</Text>
   <Text Key="Ctrl_T">Ctrl+T</Text>
   <Text Key="Notification">Notificação</Text>
-  <Text Key="Show_Notification_When_Song_Starts">Mostrar notificação  ao iniciar a reprodução de uma faixa</Text>
+  <Text Key="Show_Notification_When_Song_Starts">Mostrar notificação ao iniciar a reprodução de uma faixa</Text>
   <Text Key="Show_Notification_Controls">Mostrar controlos de reprodução na notificação</Text>
   <Text Key="Notification_Position">Posição da notificação</Text>
   <Text Key="Test">Testar</Text>
@@ -169,16 +169,16 @@
   <Text Key="Error_Removing_Songs">Ocorreu um erro ao remover as faixas da sua coleção. Consulte o registo para obter mais informações.</Text>
   <Text Key="By_Date_Added">Por data de adição</Text>
   <Text Key="Cover_Player">Reprodutor compacto</Text>
-  <Text Key="Micro_Player">Micro reprodutor</Text>
+  <Text Key="Micro_Player">Micro-reprodutor</Text>
   <Text Key="Nano_Player">Nano reprodutor</Text>
   <Text Key="Lock_Position">Bloquear posição</Text>
   <Text Key="Always_On_Top">Sempre na frente</Text>
   <Text Key="Always_Show_Playback_Info">Mostrar sempre artista e álbum</Text>
   <Text Key="Maximize">Maximizar</Text>
-  <Text Key="Hide_Taskbar_When_Maximized">Ocultar barra de tarefas do Windows quando a janela está maximizada</Text>
+  <Text Key="Hide_Taskbar_When_Maximized">Ocultar barra de tarefas do Windows se a janela estiver maximizada</Text>
   <Text Key="Glow">Brilho</Text>
-  <Text Key="Show_Glow_Under_Main_Window">Mostrar um brilho na parte inferior da janela principal</Text>
-  <Text Key="Enter_Leave_Fullscreen">Entrar ou sair do modo ecrã completo</Text>
+  <Text Key="Show_Glow_Under_Main_Window">Mostrar brilho na parte inferior da janela principal</Text>
+  <Text Key="Enter_Leave_Fullscreen">Ativar ou desativar do modo ecrã completo</Text>
   <Text Key="File_Type_Not_Supported">Este tipo de ficheiro não é suportado</Text>
   <Text Key="Unknown_Artist">Artista desconhecido</Text>
   <Text Key="Unknown_Title">Título desconhecido</Text>
@@ -210,7 +210,7 @@
   <Text Key="All_Genres">Todos os géneros</Text>
   <Text Key="Error_Adding_Genres_To_Playlist">Ocorreu um erro ao adicionar os géneros à lista de reprodução {playlistname}. Consulte o registo para obter mais informações.</Text>
   <Text Key="Border">Contorno</Text>
-  <Text Key="Show_Window_Border">Mostrar contorno com 1 pixel em redor da janela</Text>
+  <Text Key="Show_Window_Border">Mostrar contorno com 1 pixel</Text>
   <Text Key="System_Tray">Área de notificação</Text>
   <Text Key="Show_Tray_Icon">Mostrar ícone na área de notificação</Text>
   <Text Key="Align_Playlist_Vertically">Alinhar lista de reprodução na vertical</Text>
@@ -288,7 +288,7 @@
   <Text Key="Social_Networks">Redes sociais</Text>
   <Text Key="Contact_Us">Contacte-nos</Text>
   <Text Key="Email">E-mail</Text>
-  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe mas não é possível reproduzir esta faixa. Ficheiro não encontrado.</Text>
+  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Desculpe mas não é possível reproduzir esta faixa. O ficheiro não foi encontrado.</Text>
   <Text Key="Cover_Size">Tamanho da imagem</Text>
   <Text Key="Small">Pequeno</Text>
   <Text Key="Medium">Médio</Text>
@@ -350,8 +350,8 @@
   <Text Key="Love">Gosto</Text>
   <Text Key="Show_Love_Button">Mostrar o botão 'Gosto'</Text>
   <Text Key="Show_Rating_Button">Mostrar o botão 'Classificação'</Text>
-  <Text Key="Show_Notification_When_Pausing_Song">Mostrar uma notificação ao colocar em pausa</Text>
-  <Text Key="Show_Notification_When_Resuming_Song">Mostrar uma notificação ao retomar a reprodução</Text>
+  <Text Key="Show_Notification_When_Pausing_Song">Mostrar notificação ao colocar em pausa</Text>
+  <Text Key="Show_Notification_When_Resuming_Song">Mostrar notificação ao retomar a reprodução</Text>
   <Text Key="Add_Lyrics">Adicionar letra</Text>
   <Text Key="Save_In_Audio_File">Guardar no ficheiro</Text>
   <Text Key="Download_Lyrics_Automatically">Descarregar letra automaticamente</Text>
@@ -407,12 +407,12 @@
   <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
   <Text Key="Check_For_Updates_Periodically">Procurar atualizações periodicamente</Text>
   <Text Key="Refresh_Collection_Now">Recarregar coleção agora</Text>
-  <Text Key="Album_Covers">Capas do álbuns</Text>
-  <Text Key="Reload_All_Covers">Recarregar todas as capas</Text>
-  <Text Key="Reload_All_Covers_Description">Recarrega as capas de todos os álbuns, incluindo aqueles que já tenham</Text>
-  <Text Key="Reload_Missing_Covers">Recarregar capa se inexistente</Text>
-  <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as capas para os álbuns que ainda não a tenham</Text>
+  <Text Key="Album_Covers">Imagens do álbuns</Text>
+  <Text Key="Reload_All_Covers">Recarregar todas as imagens</Text>
+  <Text Key="Reload_All_Covers_Description">Recarrega as imagens de todos os álbuns, incluindo aqueles que já tenham</Text>
+  <Text Key="Reload_Missing_Covers">Recarregar imagem se inexistente</Text>
+  <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as imagens para os álbuns que ainda não a tenham</Text>
   <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Download_Missing_Album_Covers">Descarregar imagens automaticamente através da Internet</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Ao reproduzir uma faixa a partir do Explorador do Windows,colocar também na fila todas as faixas que estejam na mesma pasta da que foi escolhida.</Text>
 </Language>
