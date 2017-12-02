@@ -37,7 +37,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private IAlbumRepository albumRepository;
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
-        private IList<Album> selectedAlbums;
+        private IList<long> selectedAlbumIds;
         private bool delaySelectedAlbums;
         private long albumsCount;
         private AlbumOrder albumOrder;
@@ -60,8 +60,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         {
             get
             {
-                if (this.selectedAlbums != null && this.selectedAlbums.Count > 1) return true;
-                return false;
+                return this.selectedAlbumIds != null && this.selectedAlbumIds.Count > 1;
             }
         }
         public bool OrderedByYear => this.AlbumOrder == AlbumOrder.ByYear;
@@ -101,12 +100,12 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             set { SetProperty<CollectionViewSource>(ref this.albumsCvs, value); }
         }
 
-        public IList<Album> SelectedAlbums
+        public IList<long> SelectedAlbumIds
         {
-            get { return this.selectedAlbums; }
+            get { return this.selectedAlbumIds; }
             set
             {
-                SetProperty<IList<Album>>(ref this.selectedAlbums, value);
+                SetProperty<IList<long>>(ref this.selectedAlbumIds, value);
                 RaisePropertyChanged(nameof(this.CanOrderByAlbum));
             }
         }
@@ -141,10 +140,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
-            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedAlbums, true, false));
-            this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbums, playlistName));
+            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedAlbumIds, true, false));
+            this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbumIds, playlistName));
             this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
-            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
+            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbumIds));
             this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
 
             this.SelectedAlbumsCommand = new DelegateCommand<object>(async (parameter) =>
@@ -166,10 +165,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         private void EditSelectedAlbum()
         {
-            if (this.SelectedAlbums == null || this.SelectedAlbums.Count == 0) return;
+            if (this.SelectedAlbumIds == null || this.SelectedAlbumIds.Count == 0)
+            {
+                return;
+            }
 
             EditAlbum view = this.container.Resolve<EditAlbum>();
-            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbums.First()));
+            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbumIds.First()));
 
             this.dialogService.ShowCustomDialog(
                 0xe104,
@@ -314,7 +316,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.collectionService.SetAlbumArtworkAsync(this.Albums, Constants.ArtworkLoadDelay);
         }
 
-        protected async Task AddAlbumsToPlaylistAsync(IList<Album> albums, string playlistName)
+        protected async Task AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
@@ -346,7 +348,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albums, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albumIds, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
@@ -379,9 +381,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
         }
 
-        protected async Task AddAlbumsToNowPlayingAsync(IList<Album> albums)
+        protected async Task AddAlbumsToNowPlayingAsync(IList<long> albumIds)
         {
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(albums);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(albumIds);
 
             if (!result.IsSuccess)
             {
@@ -395,11 +397,11 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             if (parameter != null)
             {
-                this.SelectedAlbums = new List<Album>();
+                this.SelectedAlbumIds = new List<long>();
 
                 foreach (AlbumViewModel item in (IList)parameter)
                 {
-                    this.SelectedAlbums.Add(item.Album);
+                    this.SelectedAlbumIds.Add(item.Album.AlbumID);
                 }
 
                 RaisePropertyChanged(nameof(this.IsMultipleAlbumsSelected));
@@ -430,7 +432,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             base.FilterLists();
         }
-     
+
         protected virtual async Task SetCoversizeAsync(CoverSizeType coverSize)
         {
             await Task.Run(() =>

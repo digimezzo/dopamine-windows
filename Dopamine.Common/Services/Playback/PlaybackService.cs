@@ -770,11 +770,14 @@ namespace Dopamine.Common.Services.Playback
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(IList<Album> albums, bool shuffle, bool unshuffle)
+        public async Task EnqueueAsync(IList<long> albumIds, bool shuffle, bool unshuffle)
         {
-            if (albums == null) return;
+            if (albumIds == null)
+            {
+                return;
+            }
 
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albumIds), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -903,9 +906,9 @@ namespace Dopamine.Common.Services.Playback
             return await this.AddToQueueAsync(tracks);
         }
 
-        public async Task<EnqueueResult> AddToQueueAsync(IList<Album> albums)
+        public async Task<EnqueueResult> AddToQueueAsync(IList<long> albumIds)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albums), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albumIds), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
 

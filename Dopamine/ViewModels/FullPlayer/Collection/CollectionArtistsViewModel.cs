@@ -148,7 +148,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             get
             {
                 return (this.SelectedArtists != null && this.SelectedArtists.Count > 0) |
-                     (this.SelectedAlbums != null && this.SelectedAlbums.Count > 0);
+                     (this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0);
             }
         }
 
@@ -190,14 +190,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
                 }
             };
 
@@ -264,7 +264,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsArtistChanged | (e.IsAlbumChanged & (this.ArtistOrder == ArtistOrder.Album | this.ArtistOrder == ArtistOrder.All))) await this.GetArtistsAsync(this.ArtistOrder);
             if (e.IsArtistChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+            if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         private async Task GetArtistsAsync(ArtistOrder artistOrder)
@@ -335,7 +335,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         private async Task AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
@@ -494,7 +494,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             await this.GetArtistsAsync(this.ArtistOrder);
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void FilterLists()
@@ -518,7 +518,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()

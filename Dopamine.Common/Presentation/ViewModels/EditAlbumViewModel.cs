@@ -43,7 +43,7 @@ namespace Dopamine.Common.Presentation.ViewModels
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
     
-        public EditAlbumViewModel(Album album, IMetadataService metadataService, 
+        public EditAlbumViewModel(long albumId, IMetadataService metadataService, 
             IDialogService dialogService, ICacheService cacheService, IAlbumRepository albumRepository) : base(cacheService)
         {
             this.albumRepository = albumRepository;
@@ -51,7 +51,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = dialogService;
             this.cacheService = cacheService;
 
-            this.LoadedCommand = new DelegateCommand(async() => await this.GetAlbumArtworkAsync(album));
+            this.LoadedCommand = new DelegateCommand(async() => await this.GetAlbumArtworkAsync(albumId));
 
             this.ExportArtworkCommand = new DelegateCommand(async () =>
             {
@@ -89,11 +89,11 @@ namespace Dopamine.Common.Presentation.ViewModels
             return this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText;
         }
       
-        private async Task GetAlbumArtworkAsync(Album album)
+        private async Task GetAlbumArtworkAsync(long albumId)
         {
             await Task.Run(() =>
             {
-                this.Album = this.albumRepository.GetAlbum(album.AlbumID);
+                this.Album = this.albumRepository.GetAlbum(albumId);
                 string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
 
                 try

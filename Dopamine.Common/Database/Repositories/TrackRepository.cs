@@ -182,7 +182,7 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Album> albums)
+        public async Task<List<PlayableTrack>> GetTracksAsync(IList<long> albumIds)
         {
             var tracks = new List<PlayableTrack>();
 
@@ -194,12 +194,10 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            List<long> albumIDs = albums.Select((a) => a.AlbumID).ToList();
-
                             string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
                                                      "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIDs));
+                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIds));
 
                             tracks = conn.Query<PlayableTrack>(q);
                         }

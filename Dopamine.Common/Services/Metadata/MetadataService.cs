@@ -37,16 +37,16 @@ namespace Dopamine.Common.Services.Metadata
         private int updateFileMetadataLongTimeout = 15000; // 15 seconds
         private Tuple<string, byte[]> cachedArtwork;
         private object cachedArtworkLock = new object();
-     
+
         public bool IsUpdatingDatabaseMetadata
         {
             get { return this.isUpdatingDatabaseMetadata; }
         }
-   
+
         public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
-      
+
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
         {
             this.cacheService = cacheService;
@@ -66,9 +66,9 @@ namespace Dopamine.Common.Services.Metadata
 
             this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFileMetadataAsync();
             this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync();
-            this.playbackService.PlaybackSuccess += async (_,__) => await this.UpdateFileMetadataAsync();
+            this.playbackService.PlaybackSuccess += async (_, __) => await this.UpdateFileMetadataAsync();
         }
-    
+
         public FileMetadata GetFileMetadata(string path)
         {
             bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
@@ -179,7 +179,7 @@ namespace Dopamine.Common.Services.Metadata
             // Update artwork in database
             await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
-            List<PlayableTrack> albumTracks = await this.trackRepository.GetTracksAsync(album.ToList());
+            List<PlayableTrack> albumTracks = await this.trackRepository.GetTracksAsync(new List<long> { album.AlbumID });
 
             var fileMetadatas = new List<FileMetadata>();
 
@@ -207,7 +207,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             byte[] artwork = null;
 
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 lock (this.cachedArtworkLock)
                 {
