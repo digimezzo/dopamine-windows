@@ -18,7 +18,7 @@
   <Text Key="Playlists">Playlists</Text>
   <Text Key="Songs">Bài hát</Text>
   <Text Key="Song">Bài hát</Text>
-  <Text Key="Genres"></Text>
+  <Text Key="Genres">Thể loại</Text>
   <Text Key="Genre">Thể loại</Text>
   <Text Key="Now_Playing">Đang phát</Text>
   <Text Key="General">Chung</Text>
@@ -111,7 +111,7 @@
   <Text Key="Title">Tiêu đề</Text>
   <Text Key="Artist">Nghệ sĩ</Text>
   <Text Key="Download">Tải về</Text>
-  <Text Key="Startup">Khới động</Text>
+  <Text Key="Startup">Khởi động</Text>
   <Text Key="Mini_Player_On_Top">Giữ Mini player trên tất cả các cửa sổ khác</Text>
   <Text Key="A_Z">A-Z</Text>
   <Text Key="Z_A">Z-A</Text>
@@ -289,7 +289,7 @@
   <Text Key="Contact_Us">Liên hệ chúng tôi</Text>
   <Text Key="Email">Email</Text>
   <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Xin lỗi, không thể phát bài hát này. Không thể tìm thấy tệp.</Text>
-  <Text Key="Cover_Size">Kích cỡ ảnh bài</Text>
+  <Text Key="Cover_Size">Kích cỡ ảnh bìa</Text>
   <Text Key="Small">Nhỏ</Text>
   <Text Key="Medium">Trung bình</Text>
   <Text Key="Large">Lớn</Text>
@@ -299,7 +299,7 @@
   <Text Key="Components">Các thành phần</Text>
   <Text Key="Thanks">Cảm ơn</Text>
   <Text Key="License">Giấy phép</Text>
-  <Text Key="Wasapi_Exclusive_Mode">Chế độ độc quyền (tắt tiếng từ các ứng dụng khác)</Text>
+  <Text Key="Wasapi_Exclusive_Mode">Chế độ ưu tiên (tắt tiếng từ các ứng dụng khác)</Text>
   <Text Key="Equalizer">Bộ chỉnh âm</Text>
   <Text Key="Enable_Equalizer">Bật bộ chỉnh âm</Text>
   <Text Key="Reset">Đặt lại</Text>
@@ -346,7 +346,7 @@
   <Text Key="Font_Size">Kích cỡ chữ</Text>
   <Text Key="Cancel_Edit">Hủy bỏ chỉnh sửa</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Phát bài hát và nhấn Ctrl+T để chèn dấu thời gian ở đầu dòng hiện tại</Text>
-  <Text Key="Sign_In_To_Enable_Lastfm">Đăng nhập để kích hoạt Last.fm 'Scrobble' and 'Yêu thích'</Text>
+  <Text Key="Sign_In_To_Enable_Lastfm">Đăng nhập để kích hoạt Last.fm 'Scrobble' và 'Yêu thích'</Text>
   <Text Key="Create_A_Lastfm_Account">Tạo một tài khoản Last.fm</Text>
   <Text Key="Love">Yêu thích</Text>
   <Text Key="Show_Love_Button">Hiển thị nút 'Yêu thích'</Text>
@@ -382,7 +382,7 @@
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
   <Text Key="Spectrum_Style">Phong cách phổ</Text>
-  <Text Key="Follow_Album_Cover_Color">Trích xuất màu bìa album</Text>
+  <Text Key="Follow_Album_Cover_Color">Theo màu bìa album</Text>
   <Text Key="Lyrics_File">Tệp lời</Text>
   <Text Key="Long_Jump_Backward">Lùi về trước 15 giây</Text>
   <Text Key="Short_Jump_Backward">Lùi về trước 5 giây</Text>
@@ -410,9 +410,9 @@
   <Text Key="Refresh_Collection_Now">Làm mới bộ sưu tập bây giờ</Text>
   <Text Key="Album_Covers">Ảnh bìa album</Text>
   <Text Key="Reload_All_Covers">Tải lại tất cả ảnh bìa</Text>
-  <Text Key="Reload_All_Covers_Description">Tải lại ảnh bìa cho tất cả album, kể cả bìa đã có bìa.</Text>
+  <Text Key="Reload_All_Covers_Description">Tải lại ảnh bìa cho tất cả album, kể cả album đã có ảnh bìa.</Text>
   <Text Key="Reload_Missing_Covers">Tải ảnh bìa còn thiếu</Text>
-  <Text Key="Reload_Missing_Covers_Description">Tải ảnh bìa còn thiếu chỉ dành cho các album chưa có ảnh bìa</Text>
+  <Text Key="Reload_Missing_Covers_Description">Tải về ảnh bìa cho các album chưa có ảnh bìa</Text>
   <Text Key="Added_Songs">Đã thêm {number} bài hát ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Tải ảnh bìa album còn thiếu từ Internet</Text>
 <Text Key="Also_Enqueue_Other_Files_In_Folder">Khi bạn mở một tệp âm thanh Windows Explorer, bạn cũng thêm tất cả các tệp âm thanh trong cũng thư mục đó vào hàng đợi.</Text>
