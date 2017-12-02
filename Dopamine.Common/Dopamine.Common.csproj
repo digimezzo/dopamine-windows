@@ -256,6 +256,7 @@
     <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
+    <Compile Include="Presentation\ViewModels\Base\EditMetadataBase.cs" />
     <Compile Include="Presentation\ViewModels\IndexingStatusViewModel.cs" />
     <Compile Include="Presentation\Views\Empty.xaml.cs">
       <DependentUpon>Empty.xaml</DependentUpon>

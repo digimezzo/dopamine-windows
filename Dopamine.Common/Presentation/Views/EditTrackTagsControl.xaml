@@ -59,6 +59,12 @@
             <Button 
                         Style="{StaticResource RegularButton}" 
                         Margin="0,10,0,0" 
+                        Content="{DynamicResource Language_Download}" 
+                        ToolTip="{DynamicResource Language_Download_An_Image}"
+                        Command="{Binding DownloadArtworkCommand}"/>
+            <Button 
+                        Style="{StaticResource RegularButton}" 
+                        Margin="0,10,0,0" 
                         Content="{DynamicResource Language_Remove}" 
                         ToolTip="{DynamicResource Language_Remove_The_Image}"
                         Command="{Binding RemoveArtworkCommand}"/>

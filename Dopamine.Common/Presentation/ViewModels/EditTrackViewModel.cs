@@ -1,34 +1,32 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
+using Dopamine.Common.Base;
+using Dopamine.Common.Enums;
+using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.Views;
+using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Digimezzo.Utilities.Log;
-using Dopamine.Common.Metadata;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Dopamine.Common.Enums;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class EditTrackViewModel : BindableBase
+    public class EditTrackViewModel : EditMetadataBase
     {
-        private bool isBusy;
         private IList<string> paths;
         private IMetadataService metadataService;
         private IDialogService dialogService;
 
         private string multipleValuesText;
         private bool hasMultipleArtwork;
-        private string artworkSize;
 
         private bool updateAlbumArtwork;
         private MetadataValue artists;
@@ -44,8 +42,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private MetadataValue grouping;
         private MetadataValue comment;
         private MetadataValue lyrics;
-        private MetadataArtworkValue artwork;
-        private BitmapImage artworkThumbnail;
 
         private int slideInFrom;
         private UserControl editTrackContent;
@@ -77,11 +73,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.paths.Count > 1; }
         }
 
-        public bool HasArtwork
-        {
-            get { return Artwork?.Value != null; }
-        }
-
         public int SlideInFrom
         {
             get { return this.slideInFrom; }
@@ -104,34 +95,20 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<UserControl>(ref this.editTrackContent, value); }
         }
 
-        public bool IsBusy
-        {
-            get { return this.isBusy; }
-            set { SetProperty<bool>(ref this.isBusy, value); }
-        }
-
         public bool HasMultipleArtwork
         {
             get { return this.hasMultipleArtwork; }
             set { SetProperty<bool>(ref this.hasMultipleArtwork, value); }
         }
 
-        public BitmapImage ArtworkThumbnail
-        {
-            get { return this.artworkThumbnail; }
-            set { SetProperty<BitmapImage>(ref this.artworkThumbnail, value); }
-        }
-
-        public MetadataArtworkValue Artwork
-        {
-            get { return this.artwork; }
-            set { SetProperty<MetadataArtworkValue>(ref this.artwork, value); }
-        }
-
         public MetadataValue Artists
         {
             get { return this.artists; }
-            set { SetProperty<MetadataValue>(ref this.artists, value); }
+            set
+            {
+                SetProperty<MetadataValue>(ref this.artists, value);
+                this.DownloadArtworkCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public MetadataValue Title
@@ -143,13 +120,21 @@ namespace Dopamine.Common.Presentation.ViewModels
         public MetadataValue Album
         {
             get { return this.album; }
-            set { SetProperty<MetadataValue>(ref this.album, value); }
+            set
+            {
+                SetProperty<MetadataValue>(ref this.album, value);
+                this.DownloadArtworkCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public MetadataValue AlbumArtists
         {
             get { return this.albumArtists; }
-            set { SetProperty<MetadataValue>(ref this.albumArtists, value); }
+            set
+            {
+                SetProperty<MetadataValue>(ref this.albumArtists, value);
+                this.DownloadArtworkCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public MetadataValue Year
@@ -206,40 +191,21 @@ namespace Dopamine.Common.Presentation.ViewModels
             set { SetProperty<MetadataValue>(ref this.lyrics, value); }
         }
 
-        public string ArtworkSize
-        {
-            get { return this.artworkSize; }
-            set { SetProperty<string>(ref this.artworkSize, value); }
-        }
-
         public bool UpdateAlbumArtwork
         {
             get { return this.updateAlbumArtwork; }
             set { SetProperty<bool>(ref this.updateAlbumArtwork, value); }
         }
 
-        public EditTrackViewModel(IList<string> paths, IMetadataService metadataService, IDialogService dialogService)
+        public EditTrackViewModel(IList<string> paths, IMetadataService metadataService,
+            IDialogService dialogService, ICacheService cacheService) : base(cacheService)
         {
             this.multipleValuesText = "<" + ResourceUtils.GetString("Language_Multiple_Values") + ">";
 
-            this.artists = new MetadataValue();
-            this.title = new MetadataValue();
-            this.album = new MetadataValue();
-            this.albumArtists = new MetadataValue();
-            this.year = new MetadataValue();
-            this.trackNumber = new MetadataValue();
-            this.trackCount = new MetadataValue();
-            this.discNumber = new MetadataValue();
-            this.discCount = new MetadataValue();
-            this.genres = new MetadataValue();
-            this.grouping = new MetadataValue();
-            this.comment = new MetadataValue();
-            this.lyrics = new MetadataValue();
-            this.artwork = new MetadataArtworkValue();
-
-            this.paths = paths;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
+
+            this.paths = paths;
 
             this.HasMultipleArtwork = false;
             this.UpdateAlbumArtwork = false;
@@ -253,7 +219,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.ExportArtworkCommand = new DelegateCommand(async () =>
             {
                 if (HasArtwork)
+                {
                     await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
+                }
             });
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
@@ -272,6 +240,26 @@ namespace Dopamine.Common.Presentation.ViewModels
             });
 
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
+            this.DownloadArtworkCommand = new DelegateCommand(async () => await this.DownloadArtworkAsync(), () => this.CanDownloadArtwork());
+        }
+
+        private async Task DownloadArtworkAsync()
+        {
+            string artist = string.Empty;
+
+            if (this.albumArtists != null && !string.IsNullOrEmpty(this.albumArtists.Value))
+            {
+                artist = this.albumArtists.Values.FirstOrDefault();
+            }
+            else if (this.artists != null && !string.IsNullOrEmpty(this.artists.Value))
+            {
+                artist = this.artists.Values.FirstOrDefault();
+            }
+
+            if (!string.IsNullOrEmpty(artist))
+            {
+                await base.DownloadArtworkAsync(this.album.Value, artist);
+            }
         }
 
         private void NagivateToSelectedPage()
@@ -296,6 +284,19 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
         }
 
+        private bool CanDownloadArtwork()
+        {
+            if (this.albumArtists == null || this.albumArtists.Value == null ||
+                this.Artists == null || this.Artists.Value == null ||
+                this.Album == null || this.Album.Value == null)
+            {
+                return false;
+            }
+
+            return (this.albumArtists.Value != Defaults.UnknownArtistText || this.Artists.Value != Defaults.UnknownArtistText) &&
+                this.Album.Value != Defaults.UnknownAlbumText;
+        }
+
         private async Task GetFilesMetadataAsync()
         {
             List<FileMetadata> fileMetadatas = new List<FileMetadata>();
@@ -309,7 +310,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occured while getting the metadata from the files. Exception: {0}", ex.Message);
+                LogClient.Error("An error occurred while getting the metadata from the files. Exception: {0}", ex.Message);
             }
 
             if (fileMetadatas.Count == 0) return;
@@ -375,7 +376,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("An error occured while parsing the metadata. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occurred while parsing the metadata. Exception: {0}", ex.Message);
                 }
             });
         }
@@ -455,13 +456,9 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.HasMultipleArtwork = false;
         }
 
-        private void UpdateArtwork(byte[] imageData)
+        protected override void UpdateArtwork(byte[] imageData)
         {
-            // Artwork data
-            this.Artwork.Value = imageData;
-
-            // Visualize the artwork
-            this.VisualizeArtwork(imageData);
+            base.UpdateArtwork(imageData);
 
             // Artwork is updated. Multiple artwork is now impossible.
             this.HasMultipleArtwork = false;
@@ -496,14 +493,14 @@ namespace Dopamine.Common.Presentation.ViewModels
                         if (this.grouping.IsValueChanged) fmd.Grouping = this.grouping;
                         if (this.comment.IsValueChanged) fmd.Comment = this.comment;
                         if (this.lyrics.IsValueChanged) fmd.Lyrics = this.lyrics;
-                        if (this.artwork.IsValueChanged) fmd.ArtworkData = this.artwork;
+                        if (this.Artwork.IsValueChanged) fmd.ArtworkData = this.Artwork;
 
                         fmdList.Add(fmd);
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("An error occured while setting the metadata. Exception: {0}", ex.Message);
+                    LogClient.Error("An error occurred while setting the metadata. Exception: {0}", ex.Message);
                 }
 
             });
