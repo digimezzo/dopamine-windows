@@ -57,12 +57,12 @@ namespace Dopamine.Common.Services.Playback
         Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle);
         Task EnqueueAsync(IList<Artist> artists, bool shuffle, bool unshuffle);
         Task EnqueueAsync(IList<Genre> genres, bool shuffle, bool unshuffle);
-        Task EnqueueAsync(IList<Album> albums, bool shuffle, bool unshuffle);
+        Task EnqueueAsync(IList<long> albumIds, bool shuffle, bool unshuffle);
         Task StopIfPlayingAsync(PlayableTrack track);
         Task<EnqueueResult> AddToQueueAsync(IList<PlayableTrack> tracks);
         Task<EnqueueResult> AddToQueueAsync(IList<Artist> artists);
         Task<EnqueueResult> AddToQueueAsync(IList<Genre> genres);
-        Task<EnqueueResult> AddToQueueAsync(IList<Album> albums);
+        Task<EnqueueResult> AddToQueueAsync(IList<long> albumIds);
         Task<EnqueueResult> AddToQueueNextAsync(IList<PlayableTrack> tracks);
         Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks);
         Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks);

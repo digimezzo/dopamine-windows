@@ -5,6 +5,7 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -83,7 +84,7 @@ namespace Dopamine.Common.Presentation.Views.Base
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(((AlbumViewModel)lb.SelectedItem).Album.ToList(), false, false);
+                    await this.playbackService.EnqueueAsync(new List<long> { ((AlbumViewModel)lb.SelectedItem).Album.AlbumID }, false, false);
                 }
             }
             catch (Exception ex)

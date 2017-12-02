@@ -162,18 +162,18 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             e.Accepted = DatabaseUtils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
-        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<Album> selectedAlbums, TrackOrder trackOrder)
+        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<long> selectedAlbumIds, TrackOrder trackOrder)
         {
 
-            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty() & selectedAlbums.IsNullOrEmpty())
+            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty() & selectedAlbumIds.IsNullOrEmpty())
             {
                 await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(), trackOrder);
             }
             else
             {
-                if (!selectedAlbums.IsNullOrEmpty())
+                if (!selectedAlbumIds.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedAlbums), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedAlbumIds), trackOrder);
                     return;
                 }
 
