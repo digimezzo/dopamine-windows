@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Base;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
 using Prism.Commands;
@@ -92,17 +93,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             try
             {
-                Common.Api.Lastfm.Album lfmAlbum = await LastfmApi.AlbumGetInfo(artist, albumTitle, false, "EN");
-
-                if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
-                {
-                    string filename = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(lfmAlbum.LargestImage()));
-
-                    if (!string.IsNullOrEmpty(filename))
-                    {
-                        this.UpdateArtwork(ImageUtils.Image2ByteArray(filename));
-                    }
-                }
+                Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(artist, albumTitle);
+                string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
+                this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile));
             }
             catch (Exception ex)
             {

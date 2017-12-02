@@ -5,6 +5,7 @@ using Dopamine.Common.Database;
 using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
@@ -747,19 +748,8 @@ namespace Dopamine.Common.Services.Indexing
 
         private async Task<string> GetArtworkFromInternet(Album album)
         {
-            if(album.AlbumArtist.Equals(Defaults.UnknownArtistText) || album.AlbumTitle.Equals(Defaults.UnknownAlbumText))
-            {
-                return string.Empty;
-            }
-
-            Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo((string)album.AlbumArtist, (string)album.AlbumTitle, false, "EN");
-
-            if (string.IsNullOrEmpty(lfmAlbum.LargestImage()))
-            {
-                return string.Empty;
-            }
-
-            return await this.cacheService.CacheArtworkAsync(new Uri(lfmAlbum.LargestImage()));
+            Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(album.AlbumArtist, album.AlbumTitle);
+            return await this.cacheService.CacheArtworkAsync(artworkUri);
         }
 
         private async void AddArtworkInBackgroundAsync()
