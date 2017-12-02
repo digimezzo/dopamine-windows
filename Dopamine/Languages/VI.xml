@@ -299,7 +299,7 @@
   <Text Key="Components">Các thành phần</Text>
   <Text Key="Thanks">Cảm ơn</Text>
   <Text Key="License">Giấy phép</Text>
-  <Text Key="Wasapi_Exclusive_Mode">Chế độ ưu tiên (tắt tiếng từ các ứng dụng khác)</Text>
+  <Text Key="Wasapi_Exclusive_Mode">Chế độ ưu tiên (tắt tiếng tất cả các ứng dụng khác)</Text>
   <Text Key="Equalizer">Bộ chỉnh âm</Text>
   <Text Key="Enable_Equalizer">Bật bộ chỉnh âm</Text>
   <Text Key="Reset">Đặt lại</Text>
@@ -371,10 +371,10 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Bạn có chắc chắn muốn xóa các bài hát này khỏi máy tính của mình không? Bạn có thể khôi phục chúng từ Thùng Rác.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Bạn có chắc chắn muốn xóa các bài hát này khỏi máy tính của mình không? Bạn có thể khôi phục chúng từ Thùng Rác.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Đã xảy ra lỗi khi xóa bài hát khỏi máy tính. Vui lòng tham khảo tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="About_Donated_People">Đối với những người đã quyên góp.</Text>
-  <Text Key="About_Translators">Đối với các dịch giả.</Text>
-  <Text Key="About_Components_Developers">Đối với các nhà phát triển tài năng đã tạo ra các thành phần đã đề cập ở trên.</Text>
-  <Text Key="About_Neowin_Head">Đến cộng đồng</Text>
+  <Text Key="About_Donated_People">Những người đã quyên góp.</Text>
+  <Text Key="About_Translators">Các dịch giả.</Text>
+  <Text Key="About_Components_Developers">Các nhà phát triển tài năng đã tạo ra các thành phần đã đề cập ở trên.</Text>
+  <Text Key="About_Neowin_Head">Cộng đồng</Text>
   <Text Key="About_Neowin_End">cho các ý tưởng, thử nghiệm và báo cáo lỗi.</Text>
   <Text Key="Frequent">Thường xuyên</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Bạn có chắc chắn muốn xóa các bài hát này khỏi playlist '{playlistname}'?</Text>
