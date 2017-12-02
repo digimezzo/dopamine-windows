@@ -246,6 +246,7 @@
     <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
+    <Compile Include="Helpers\ArtworkHelper.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
     <Compile Include="IO\FolderPathInfo.cs" />

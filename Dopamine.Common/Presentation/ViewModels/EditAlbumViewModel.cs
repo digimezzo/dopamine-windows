@@ -84,7 +84,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             if(this.album == null)
             {
                 return false;
-
             }
 
             return this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText;

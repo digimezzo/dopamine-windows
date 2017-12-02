@@ -139,9 +139,14 @@ namespace Dopamine.Common.Services.Cache
 
         public async Task<string> DownloadFileToTemporaryCacheAsync(Uri uri)
         {
+            if(uri == null)
+            {
+                return string.Empty;
+            }
+
             try
             {
-                string cachedFilePath = System.IO.Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
+                string cachedFilePath = Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
 
                 using (var client = new WebClient())
                 {
@@ -157,7 +162,6 @@ namespace Dopamine.Common.Services.Cache
                 LogClient.Error("Could not download file to temporary cache. Exception: {0}", ex.Message);
                 return string.Empty;
             }
-           
         }
       
         private void TemporaryCacheCleanupTimer_Elapsed(object sender, ElapsedEventArgs e)
