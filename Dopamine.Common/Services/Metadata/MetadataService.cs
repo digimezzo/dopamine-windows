@@ -207,7 +207,7 @@ namespace Dopamine.Common.Services.Metadata
         {
             byte[] artwork = null;
 
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 lock (this.cachedArtworkLock)
                 {

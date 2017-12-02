@@ -1,11 +1,12 @@
-2017-12-01: Dopamine 1.5.5
+2017-12-02: Dopamine 1.5.5
 --------------------------
 
 - [Added] Added optional automatic download of album covers from the Internet
 - [Added] Added optional enqueue of other audio files which are in the same folder as a double-clicked audio file
+- [Added] Added button to download covers from the edit song window
 - [Changed] Updated the French translation
 - [Changed] Updated the Portuguese (Portugal) translation
-- [Fixed] Another conflict between playing a file from Explorer and loading of saved queued songs
+- [Fixed] Fixed another conflict between playing a file from Explorer and loading of saved queued songs
 
 
 2017-11-24: Dopamine 1.5.4

@@ -1,59 +1,35 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Base;
-using Dopamine.Common.Metadata;
+using Dopamine.Common.Database.Entities;
+using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.Utils;
+using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {
-    public class EditAlbumViewModel : BindableBase
+    public class EditAlbumViewModel : EditMetadataBase
     {
-        private bool isBusy;
         private Common.Database.Entities.Album album;
+        private IAlbumRepository albumRepository;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
-        private MetadataArtworkValue artwork;
-        private string artworkSize;
-        private BitmapImage artworkThumbnail;
         private bool updateFileArtwork;
-      
-        public bool HasArtwork
-        {
-            get { return Artwork?.Value != null; }
-        }
-   
-        public bool IsBusy
-        {
-            get { return this.isBusy; }
-            set { SetProperty<bool>(ref this.isBusy, value); }
-        }
 
-        public BitmapImage ArtworkThumbnail
-        {
-            get { return this.artworkThumbnail; }
-            set { SetProperty<BitmapImage>(ref this.artworkThumbnail, value); }
-        }
-
-        public MetadataArtworkValue Artwork
-        {
-            get { return this.artwork; }
-            set { SetProperty<MetadataArtworkValue>(ref this.artwork, value); }
-        }
-
-        public Common.Database.Entities.Album Album
+        public Album Album
         {
             get { return this.album; }
-            set { base.SetProperty(ref this.album, value); }
+            set {
+                SetProperty(ref this.album, value);
+                this.DownloadArtworkCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public bool UpdateFileArtwork
@@ -61,34 +37,28 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.updateFileArtwork; }
             set { SetProperty<bool>(ref this.updateFileArtwork, value); }
         }
-
-        public string ArtworkSize
-        {
-            get { return this.artworkSize; }
-            set { SetProperty<string>(ref this.artworkSize, value); }
-        }
     
         public DelegateCommand LoadedCommand { get; set; }
         public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
-        public DelegateCommand DownloadArtworkCommand { get; set; }
     
-        public EditAlbumViewModel(Common.Database.Entities.Album album, IMetadataService metadataService, IDialogService dialogService, ICacheService cacheService)
+        public EditAlbumViewModel(Album album, IMetadataService metadataService, 
+            IDialogService dialogService, ICacheService cacheService, IAlbumRepository albumRepository) : base(cacheService)
         {
-            this.Album = album;
+            this.albumRepository = albumRepository;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
             this.cacheService = cacheService;
 
-            this.artwork = new MetadataArtworkValue();
-
-            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync());
+            this.LoadedCommand = new DelegateCommand(async() => await this.GetAlbumArtworkAsync(album));
 
             this.ExportArtworkCommand = new DelegateCommand(async () =>
             {
                 if (HasArtwork)
+                {
                     await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
+                }
             });
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
@@ -101,13 +71,30 @@ namespace Dopamine.Common.Presentation.ViewModels
 
 
             this.RemoveArtworkCommand = new DelegateCommand(() => this.UpdateArtwork(null));
-            this.DownloadArtworkCommand = new DelegateCommand(() => this.DownloadArtworkAsync(), () => this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText);
+            this.DownloadArtworkCommand = new DelegateCommand(async () => await this.DownloadArtworkAsync(), () => this.CanDownloadArtwork());
+        }
+
+        private async Task DownloadArtworkAsync()
+        {
+            await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
+        }
+
+        private bool CanDownloadArtwork()
+        {
+            if(this.album == null)
+            {
+                return false;
+
+            }
+
+            return this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText;
         }
       
-        private async Task GetAlbumArtworkAsync()
+        private async Task GetAlbumArtworkAsync(Album album)
         {
             await Task.Run(() =>
             {
+                this.Album = this.albumRepository.GetAlbum(album.AlbumID);
                 string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
 
                 try
@@ -124,63 +111,9 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("An error occurred while getting the artwork for album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
+                    LogClient.Error("An error occurred while getting the artwork for album title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
                 }
             });
-        }
-
-        private void VisualizeArtwork(byte[] imageData)
-        {
-            this.ArtworkThumbnail = ImageUtils.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
-
-            // Size of the artwork
-            if (imageData != null)
-            {
-                // Use PixelWidth and PixelHeight instead of Width and Height:
-                // Width and Height take DPI into account. We don't want that here.
-                this.ArtworkSize = this.ArtworkThumbnail.PixelWidth + "x" + this.ArtworkThumbnail.PixelHeight;
-            }
-            else
-            {
-                this.ArtworkSize = string.Empty;
-            }
-
-            RaisePropertyChanged(nameof(this.HasArtwork));
-        }
-
-        private void UpdateArtwork(byte[] imageData)
-        {
-            // Artwork data
-            this.Artwork.Value = imageData;
-
-            // Set the artwork
-            this.VisualizeArtwork(imageData);
-        }
-
-        private async Task DownloadArtworkAsync()
-        {
-            this.IsBusy = true;
-
-            try
-            {
-                Common.Api.Lastfm.Album lfmAlbum = await LastfmApi.AlbumGetInfo((string)this.Album.AlbumArtist, (string)this.Album.AlbumTitle, false, "EN");
-
-                if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
-                {
-                    string temporaryFilePath = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(lfmAlbum.LargestImage()));
-
-                    if (!string.IsNullOrEmpty(temporaryFilePath))
-                    {
-                        this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFilePath));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("An error occurred while downloading artwork for the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
-            }
-
-            this.IsBusy = false;
         }
      
         public async Task<bool> SaveAlbumAsync()
