@@ -175,7 +175,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.SelectedArtistsCommand = new DelegateCommand<object>(async (iParameter) => await this.SelectedArtistsHandlerAsync(iParameter));
             this.ShowArtistsZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
-            this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedArtists, true, false));
+            this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueArtistsAsync(this.SelectedArtists, true, false));
 
             this.SemanticJumpCommand = new DelegateCommand<string>((header) =>
             {
@@ -459,7 +459,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
         {
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(artists);
+            EnqueueResult result = await this.playbackService.AddArtistsToQueueAsync(artists);
 
             if (!result.IsSuccess)
             {

@@ -9,9 +9,9 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
     {
         Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths);
         Task<List<PlayableTrack>> GetTracksAsync();
-        Task<List<PlayableTrack>> GetTracksAsync(IList<Artist> artists);
-        Task<List<PlayableTrack>> GetTracksAsync(IList<Genre> genres);
-        Task<List<PlayableTrack>> GetTracksAsync(IList<long> albumIds);
+        Task<List<PlayableTrack>> GetArtistTracksAsync(IList<Artist> artists);
+        Task<List<PlayableTrack>> GetGenreTracksAsync(IList<long> genreIds);
+        Task<List<PlayableTrack>> GetAlbumTracksAsync(IList<long> albumIds);
         Track GetTrack(string path);
         Task<Track> GetTrackAsync(string path);
         Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks);

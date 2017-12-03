@@ -491,15 +491,15 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
+        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(genres), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
@@ -507,7 +507,7 @@ namespace Dopamine.Common.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(albumIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;

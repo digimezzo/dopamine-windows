@@ -109,7 +109,7 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Artist> artists)
+        public async Task<List<PlayableTrack>> GetArtistTracksAsync(IList<Artist> artists)
         {
             var tracks = new List<PlayableTrack>();
 
@@ -146,7 +146,7 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<Genre> genres)
+        public async Task<List<PlayableTrack>> GetGenreTracksAsync(IList<long> genreIds)
         {
             var tracks = new List<PlayableTrack>();
 
@@ -158,12 +158,10 @@ namespace Dopamine.Common.Database.Repositories
                     {
                         try
                         {
-                            List<long> genreIDs = genres.Select((g) => g.GenreID).ToList();
-
                             string q = string.Format(this.SelectQueryPart() +
                                                      "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
                                                      "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIDs));
+                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIds));
 
                             tracks = conn.Query<PlayableTrack>(q);
                         }
@@ -182,7 +180,7 @@ namespace Dopamine.Common.Database.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<long> albumIds)
+        public async Task<List<PlayableTrack>> GetAlbumTracksAsync(IList<long> albumIds)
         {
             var tracks = new List<PlayableTrack>();
 
