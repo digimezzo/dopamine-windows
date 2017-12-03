@@ -9,7 +9,6 @@ using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Collection;
 using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
