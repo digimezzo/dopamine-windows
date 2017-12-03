@@ -26,7 +26,7 @@ namespace Dopamine.Common.Services.Playlist
         Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlistName);
         Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName);
         Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
-        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName);
+        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName);
         Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName);
         Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName);
 

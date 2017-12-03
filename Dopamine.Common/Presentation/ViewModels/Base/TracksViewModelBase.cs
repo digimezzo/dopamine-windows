@@ -162,10 +162,10 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             e.Accepted = DatabaseUtils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
-        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, IList<long> selectedAlbumIds, TrackOrder trackOrder)
+        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, IList<long> selectedAlbumIds, TrackOrder trackOrder)
         {
 
-            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty() & selectedAlbumIds.IsNullOrEmpty())
+            if (selectedArtists.IsNullOrEmpty() & selectedGenreIds.IsNullOrEmpty() & selectedAlbumIds.IsNullOrEmpty())
             {
                 await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(), trackOrder);
             }
@@ -173,19 +173,19 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 if (!selectedAlbumIds.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedAlbumIds), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetAlbumTracksAsync(selectedAlbumIds), trackOrder);
                     return;
                 }
 
                 if (!selectedArtists.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedArtists), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetArtistTracksAsync(selectedArtists), trackOrder);
                     return;
                 }
 
-                if (!selectedGenres.IsNullOrEmpty())
+                if (!selectedGenreIds.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(selectedGenres), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetGenreTracksAsync(selectedGenreIds), trackOrder);
                     return;
                 }
             }

@@ -7,8 +7,8 @@ namespace Dopamine.Common.Database.Repositories.Interfaces
     public interface IAlbumRepository
     {
         Task<List<Album>> GetAlbumsAsync();
-        Task<List<Album>> GetAlbumsAsync(IList<Artist> artists);
-        Task<List<Album>> GetAlbumsAsync(IList<Genre> genres);
+        Task<List<Album>> GetArtistAlbumsAsync(IList<Artist> artists);
+        Task<List<Album>> GetGenreAlbumsAsync(IList<long> genreIds);
         Album GetAlbum(long albumID);
         Task<Album> GetAlbumAsync(string albumTitle, string albumArtist);
         Task<List<Album>> GetFrequentAlbumsAsync(int limit);

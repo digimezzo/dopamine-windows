@@ -140,7 +140,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
-            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedAlbumIds, true, false));
+            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAlbumsAsync(this.SelectedAlbumIds, true, false));
             this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbumIds, playlistName));
             this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
             this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbumIds));
@@ -223,9 +223,9 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             RaisePropertyChanged(nameof(this.AlbumOrderText));
         }
 
-        protected async Task GetAlbumsAsync(IList<Artist> selectedArtists, IList<Genre> selectedGenres, AlbumOrder albumOrder)
+        protected async Task GetAlbumsAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, AlbumOrder albumOrder)
         {
-            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty())
+            if (selectedArtists.IsNullOrEmpty() & selectedGenreIds.IsNullOrEmpty())
             {
                 await this.GetAlbumsCommonAsync(await this.albumRepository.GetAlbumsAsync(), albumOrder);
             }
@@ -233,13 +233,13 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             {
                 if (!selectedArtists.IsNullOrEmpty())
                 {
-                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetAlbumsAsync(selectedArtists), albumOrder);
+                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetArtistAlbumsAsync(selectedArtists), albumOrder);
                     return;
                 }
 
-                if (!selectedGenres.IsNullOrEmpty())
+                if (!selectedGenreIds.IsNullOrEmpty())
                 {
-                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetAlbumsAsync(selectedGenres), albumOrder);
+                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetGenreAlbumsAsync(selectedGenreIds), albumOrder);
                     return;
                 }
             }
@@ -383,7 +383,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
         protected async Task AddAlbumsToNowPlayingAsync(IList<long> albumIds)
         {
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(albumIds);
+            EnqueueResult result = await this.playbackService.AddAlbumsToQueueAsync(albumIds);
 
             if (!result.IsSuccess)
             {

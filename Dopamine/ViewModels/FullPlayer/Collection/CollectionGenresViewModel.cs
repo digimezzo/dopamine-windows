@@ -44,7 +44,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IGenreRepository genreRepository;
         private ObservableCollection<ISemanticZoomable> genres;
         private CollectionViewSource genresCvs;
-        private IList<Genre> selectedGenres;
+        private IList<long> selectedGenreIds;
         private ObservableCollection<ISemanticZoomSelector> genresZoomSelectors;
         private bool isGenresZoomVisible;
         private long genresCount;
@@ -110,10 +110,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<CollectionViewSource>(ref this.genresCvs, value); }
         }
 
-        public IList<Genre> SelectedGenres
+        public IList<long> SelectedGenreIds
         {
-            get { return this.selectedGenres; }
-            set { SetProperty<IList<Genre>>(ref this.selectedGenres, value); }
+            get { return this.selectedGenreIds; }
+            set { SetProperty<IList<long>>(ref this.selectedGenreIds, value); }
         }
 
         public long GenresCount
@@ -143,7 +143,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             get
             {
-                return (this.SelectedGenres != null && this.SelectedGenres.Count > 0) |
+                return (this.SelectedGenreIds != null && this.SelectedGenreIds.Count > 0) |
                        (this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0);
             }
         }
@@ -167,11 +167,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-            this.AddGenresToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddGenresToPlaylistAsync(this.SelectedGenres, playlistName));
+            this.AddGenresToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddGenresToPlaylistAsync(this.SelectedGenreIds, playlistName));
             this.SelectedGenresCommand = new DelegateCommand<object>(async (parameter) => await this.SelectedGenresHandlerAsync(parameter));
             this.ShowGenresZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
-            this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenres));
-            this.ShuffleSelectedGenresCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAsync(this.SelectedGenres, true, false));
+            this.AddGenresToNowPlayingCommand = new DelegateCommand(async () => await this.AddGenresToNowPlayingAsync(this.SelectedGenreIds));
+            this.ShuffleSelectedGenresCommand = new DelegateCommand(async () => await this.playbackService.EnqueueGenresAsync(this.SelectedGenreIds, true, false));
 
             this.SemanticJumpCommand = new DelegateCommand<string>((header) =>
             {
@@ -186,14 +186,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("GenresTrackOrder");
-                    await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+                    await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("GenresTrackOrder");
-                    await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+                    await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
                 }
             };
 
@@ -299,8 +299,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
             if (e.IsGenreChanged) await this.GetGenresAsync(this.GenreOrder);
-            if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
-            if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+            if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenreIds, this.AlbumOrder);
+            if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         private async Task GetGenresAsync(GenreOrder genreOrder)
@@ -364,23 +364,23 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (parameter != null)
             {
-                this.SelectedGenres = new List<Genre>();
+                this.SelectedGenreIds = new List<long>();
 
                 foreach (GenreViewModel item in (IList)parameter)
                 {
-                    this.SelectedGenres.Add(item.Genre);
+                    this.SelectedGenreIds.Add(item.Genre.GenreID);
                 }
             }
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
             if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
-            await this.GetAlbumsAsync(null, this.SelectedGenres, (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder"));
+            await this.GetAlbumsAsync(null, this.SelectedGenreIds, (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder"));
             this.SetTrackOrder("GenresTrackOrder");
-            await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
         }
 
-        private async Task AddGenresToPlaylistAsync(IList<Genre> genres, string playlistName)
+        private async Task AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
@@ -412,7 +412,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genres, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genreIds, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
@@ -445,9 +445,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private async Task AddGenresToNowPlayingAsync(IList<Genre> genres)
+        private async Task AddGenresToNowPlayingAsync(IList<long> genreIds)
         {
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(genres);
+            EnqueueResult result = await this.playbackService.AddGenresToQueueAsync(genreIds);
 
             if (!result.IsSuccess)
             {
@@ -487,8 +487,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetGenresAsync(this.GenreOrder);
-            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
-            await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetAlbumsAsync(null, this.SelectedGenreIds, this.AlbumOrder);
+            await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void FilterLists()
@@ -512,7 +512,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             this.SetTrackOrder("GenresTrackOrder");
-            await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()
