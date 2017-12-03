@@ -791,7 +791,7 @@ namespace Dopamine.Common.Services.Indexing
                     {
                         conn.BeginTransaction();
 
-                        List<long> checkedAlbumIds = new List<long>();
+                        List<long> albumIdsWithArtwork = new List<long>();
                         List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
 
                         foreach (Album alb in albumsToIndex)
@@ -802,7 +802,7 @@ namespace Dopamine.Common.Services.Indexing
                                 {
                                     LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
                                     conn.Commit(); // Makes sure we commit what we already processed
-                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = checkedAlbumIds }); // Update UI
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
                                 }
                                 catch (Exception ex)
                                 {
@@ -821,6 +821,11 @@ namespace Dopamine.Common.Services.Indexing
                                     // During the 1st pass, look for artwork in file.
                                     // Don't set alb.NeedsIndexing = 0, as the 2nd pass will check this flag.
                                     alb.ArtworkID = await this.GetArtworkFromFile(alb);
+
+                                    if (!string.IsNullOrEmpty(alb.ArtworkID))
+                                    {
+                                        alb.NeedsIndexing = 0;
+                                    }
                                 }
                                 else if (passNumber.Equals(2))
                                 {
@@ -829,21 +834,20 @@ namespace Dopamine.Common.Services.Indexing
                                     alb.NeedsIndexing = 0;
                                 }
 
-                                conn.Update(alb);
-
                                 if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {
-                                    checkedAlbumIds.Add(alb.AlbumID);
-                                    alb.DateLastSynced = DateTime.Now.Ticks;
-                                    conn.Update(alb);
+                                    albumIdsWithArtwork.Add(alb.AlbumID);
+                                }
 
-                                    if (checkedAlbumIds.Count >= 20)
-                                    {
-                                        conn.Commit();
-                                        List<long> eventAlbumIds = new List<long>(checkedAlbumIds);
-                                        checkedAlbumIds.Clear();
-                                        this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
-                                    }
+                                alb.DateLastSynced = DateTime.Now.Ticks;
+                                conn.Update(alb);
+
+                                if (albumIdsWithArtwork.Count >= 20)
+                                {
+                                    conn.Commit();
+                                    List<long> eventAlbumIds = new List<long>(albumIdsWithArtwork);
+                                    albumIdsWithArtwork.Clear();
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
                                 }
                             }
                             catch (Exception ex)
@@ -855,7 +859,7 @@ namespace Dopamine.Common.Services.Indexing
                         try
                         {
                             conn.Commit(); // Make sure all albums are committed
-                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = checkedAlbumIds }); // Update UI
+                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
                         }
                         catch (Exception ex)
                         {

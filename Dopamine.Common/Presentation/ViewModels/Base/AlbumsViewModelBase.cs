@@ -170,7 +170,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             }
 
             EditAlbum view = this.container.Resolve<EditAlbum>();
-            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(Album), this.SelectedAlbumIds.First()));
+            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(long), this.SelectedAlbumIds.First()));
 
             this.dialogService.ShowCustomDialog(
                 0xe104,
