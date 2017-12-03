@@ -344,42 +344,50 @@ namespace Dopamine.Common.Api.Lastfm
                 // http://www.last.fm/api/show/album.getInfo
                 var resultXml = XDocument.Parse(result);
 
-                // Artist
-                lfmAlbum.Artist = (from t in resultXml.Element("lfm").Element("album").Elements("artist")
-                                   select t.Value).FirstOrDefault();
+                string lfmStatus = (from t in resultXml.Elements("lfm")
+                                    select t.Attribute("status").Value).FirstOrDefault();
 
-                // Name
-                lfmAlbum.Name = (from t in resultXml.Element("lfm").Element("album").Elements("name")
-                                 select t.Value).FirstOrDefault();
+                // If Status is ok, return true.
+                if (lfmStatus != null && lfmStatus.ToLower() == "ok")
+                {
 
-                // Url
-                lfmAlbum.Url = (from t in resultXml.Element("lfm").Element("album").Elements("url")
-                                select t.Value).FirstOrDefault();
-
-                // ImageSmall
-                lfmAlbum.ImageSmall = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                       where t.Attribute("size").Value == "small"
+                    // Artist
+                    lfmAlbum.Artist = (from t in resultXml.Element("lfm").Element("album").Elements("artist")
                                        select t.Value).FirstOrDefault();
 
-                // ImageMedium
-                lfmAlbum.ImageMedium = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                        where t.Attribute("size").Value == "medium"
-                                        select t.Value).FirstOrDefault();
+                    // Name
+                    lfmAlbum.Name = (from t in resultXml.Element("lfm").Element("album").Elements("name")
+                                     select t.Value).FirstOrDefault();
 
-                // ImageLarge
-                lfmAlbum.ImageLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                       where t.Attribute("size").Value == "large"
-                                       select t.Value).FirstOrDefault();
+                    // Url
+                    lfmAlbum.Url = (from t in resultXml.Element("lfm").Element("album").Elements("url")
+                                    select t.Value).FirstOrDefault();
 
-                // ImageExtraLarge
-                lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                            where t.Attribute("size").Value == "extralarge"
+                    // ImageSmall
+                    lfmAlbum.ImageSmall = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "small"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageMedium
+                    lfmAlbum.ImageMedium = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                            where t.Attribute("size").Value == "medium"
                                             select t.Value).FirstOrDefault();
 
-                // ImageMega
-                lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
-                                      where t.Attribute("size").Value == "mega"
-                                      select t.Value).FirstOrDefault();
+                    // ImageLarge
+                    lfmAlbum.ImageLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                           where t.Attribute("size").Value == "large"
+                                           select t.Value).FirstOrDefault();
+
+                    // ImageExtraLarge
+                    lfmAlbum.ImageExtraLarge = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                                where t.Attribute("size").Value == "extralarge"
+                                                select t.Value).FirstOrDefault();
+
+                    // ImageMega
+                    lfmAlbum.ImageMega = (from t in resultXml.Element("lfm").Element("album").Elements("image")
+                                          where t.Attribute("size").Value == "mega"
+                                          select t.Value).FirstOrDefault();
+                }
             }
 
             return lfmAlbum;
