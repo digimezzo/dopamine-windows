@@ -198,7 +198,7 @@
   <Text Key="Last_Modified">Sửa đổi gần nhất</Text>
   <Text Key="Audio">Âm thanh</Text>
   <Text Key="Duration">Thời lượng</Text>
-  <Text Key="Type">Loại tệp</Text>
+  <Text Key="Type">Định dạng</Text>
   <Text Key="Sample_Rate">Tốc độ lấy mẫu</Text>
   <Text Key="Bitrate">Tốc độ bit</Text>
   <Text Key="Bytes">Bytes</Text>
@@ -230,7 +230,7 @@
   <Text Key="Album_Artists">Nghệ sĩ của album</Text>
   <Text Key="Track_Count">Tổng số bài</Text>
   <Text Key="Disc_Number">Số đĩa</Text>
-  <Text Key="Disc_Count">Rãnh</Text>
+  <Text Key="Disc_Count">Tổng số đĩa</Text>
   <Text Key="Grouping">Nhóm</Text>
   <Text Key="Comment">Bình luận</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Chỉ cho phép số dương</Text>
@@ -334,7 +334,7 @@
   <Text Key="Biography">Tiểu sử</Text>
   <Text Key="Similar">Tương tự</Text>
   <Text Key="Not_Available">Không có sẵn</Text>
-  <Text Key="Download_An_Image">Tải xuống một hình ảnh</Text>
+  <Text Key="Download_An_Image">Tự động tải về ảnh bìa</Text>
   <Text Key="Tags">Nhãn</Text>
   <Text Key="Lyrics">Lời bài hát</Text>
   <Text Key="No_Lyrics_Found">Không tìm thấy lời bài hát</Text>
@@ -345,7 +345,7 @@
   <Text Key="Automatic_Scrolling">Tự động cuộn</Text>
   <Text Key="Font_Size">Kích cỡ chữ</Text>
   <Text Key="Cancel_Edit">Hủy bỏ chỉnh sửa</Text>
-  <Text Key="Play_Song_And_Insert_Timestamp">Phát bài hát và nhấn Ctrl+T để chèn dấu thời gian ở đầu dòng hiện tại</Text>
+  <Text Key="Play_Song_And_Insert_Timestamp">Phát bài hát và nhấn Ctrl+T để đồng bộ lời với nhạc trong dòng đang chọn và chuyển sang dòng tiếp theo</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Đăng nhập để kích hoạt tính năng 'Scrobble' và 'Yêu thích' của Last.fm</Text>
   <Text Key="Create_A_Lastfm_Account">Tạo một tài khoản Last.fm</Text>
   <Text Key="Love">Yêu thích</Text>
@@ -376,7 +376,7 @@
   <Text Key="About_Components_Developers">Các nhà phát triển tài năng đã tạo ra các thành phần đã đề cập ở trên.</Text>
   <Text Key="About_Neowin_Head">Cộng đồng</Text>
   <Text Key="About_Neowin_End">cho các ý tưởng, thử nghiệm và báo cáo lỗi.</Text>
-  <Text Key="Frequent">Thường xuyên</Text>
+  <Text Key="Frequent">Nghe nhiều</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Bạn có chắc chắn muốn xóa các bài hát này khỏi playlist '{playlistname}'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Bạn có chắc chắn muốn xóa các bài hát này khỏi playlist '{playlistname}'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
