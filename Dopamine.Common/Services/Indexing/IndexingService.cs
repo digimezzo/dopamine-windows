@@ -818,8 +818,9 @@ namespace Dopamine.Common.Services.Indexing
                             {
                                 if (passNumber.Equals(1))
                                 {
-                                    // During the 1st pass, look for artwork in file.
-                                    // Don't set alb.NeedsIndexing = 0, as the 2nd pass will check this flag.
+                                    // During the 1st pass, look for artwork in file(s).
+                                    // Only set NeedsIndexing = 0 if artwork was found. If no artwork was found, 
+                                    // this gives the 2nd pass a chance to look for artwork on the Internet.
                                     alb.ArtworkID = await this.GetArtworkFromFile(alb);
 
                                     if (!string.IsNullOrEmpty(alb.ArtworkID))
@@ -830,10 +831,12 @@ namespace Dopamine.Common.Services.Indexing
                                 else if (passNumber.Equals(2))
                                 {
                                     // During the 2nd pass, look for artwork on the Internet and set alb.NeedsIndexing = 0.
+                                    // We don't want future passes to index this album anymore.
                                     alb.ArtworkID = await this.GetArtworkFromInternet(alb);
                                     alb.NeedsIndexing = 0;
                                 }
 
+                                // If artwork was found, keep track of the albumID
                                 if (!string.IsNullOrEmpty(alb.ArtworkID))
                                 {
                                     albumIdsWithArtwork.Add(alb.AlbumID);
@@ -842,9 +845,11 @@ namespace Dopamine.Common.Services.Indexing
                                 alb.DateLastSynced = DateTime.Now.Ticks;
                                 conn.Update(alb);
 
+                                // If artwork was found for 20 albums, trigger a refresh of the UI.
                                 if (albumIdsWithArtwork.Count >= 20)
                                 {
-                                    conn.Commit();
+                                    conn.Commit(); // Commit, because the UI refresh will need up to date albums in the database.
+                                    await Task.Delay(1000); // Hopefully prevents database locks
                                     List<long> eventAlbumIds = new List<long>(albumIdsWithArtwork);
                                     albumIdsWithArtwork.Clear();
                                     this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
