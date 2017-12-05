@@ -50,7 +50,6 @@ namespace Dopamine.Common.Presentation.ViewModels
         private EditTrackPage selectedEditTrackPage;
 
         public DelegateCommand LoadedCommand { get; set; }
-        public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
 
@@ -216,14 +215,6 @@ namespace Dopamine.Common.Presentation.ViewModels
                 await this.GetFilesMetadataAsync();
             });
 
-            this.ExportArtworkCommand = new DelegateCommand(async () =>
-            {
-                if (HasArtwork)
-                {
-                    await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
-                }
-            });
-
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
             {
                 if (!await OpenFileUtils.OpenImageFileAsync(new Action<byte[]>(this.UpdateArtwork)))
@@ -245,20 +236,17 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async Task DownloadArtworkAsync()
         {
-            string artist = string.Empty;
-
-            if (this.albumArtists != null && !string.IsNullOrEmpty(this.albumArtists.Value))
+            try
             {
-                artist = this.albumArtists.Values.FirstOrDefault();
+                await base.DownloadArtworkAsync(
+                   this.album.Value,
+                   this.albumArtists.Values.FirstOrDefault(),
+                   this.Title.Value,
+                   this.artists.Values.FirstOrDefault());
             }
-            else if (this.artists != null && !string.IsNullOrEmpty(this.artists.Value))
+            catch (Exception ex)
             {
-                artist = this.artists.Values.FirstOrDefault();
-            }
-
-            if (!string.IsNullOrEmpty(artist))
-            {
-                await base.DownloadArtworkAsync(this.album.Value, artist);
+                LogClient.Error("Could not download artwork. Exception: {0}", ex.Message);
             }
         }
 
@@ -442,18 +430,6 @@ namespace Dopamine.Common.Presentation.ViewModels
             }
 
             RaisePropertyChanged(nameof(this.HasArtwork));
-        }
-
-        private void ShowArtwork(byte[] imageData)
-        {
-            // Artwork data
-            this.Artwork = new MetadataArtworkValue(imageData);
-
-            // Visualize the artwork
-            this.VisualizeArtwork(imageData);
-
-            // Artwork is updated. Multiple artwork is now impossible.
-            this.HasMultipleArtwork = false;
         }
 
         protected override void UpdateArtwork(byte[] imageData)
