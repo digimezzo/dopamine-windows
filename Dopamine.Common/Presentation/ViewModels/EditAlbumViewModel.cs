@@ -26,7 +26,8 @@ namespace Dopamine.Common.Presentation.ViewModels
         public Album Album
         {
             get { return this.album; }
-            set {
+            set
+            {
                 SetProperty(ref this.album, value);
                 this.DownloadArtworkCommand.RaiseCanExecuteChanged();
             }
@@ -37,13 +38,12 @@ namespace Dopamine.Common.Presentation.ViewModels
             get { return this.updateFileArtwork; }
             set { SetProperty<bool>(ref this.updateFileArtwork, value); }
         }
-    
+
         public DelegateCommand LoadedCommand { get; set; }
-        public DelegateCommand ExportArtworkCommand { get; set; }
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
-    
-        public EditAlbumViewModel(long albumId, IMetadataService metadataService, 
+
+        public EditAlbumViewModel(long albumId, IMetadataService metadataService,
             IDialogService dialogService, ICacheService cacheService, IAlbumRepository albumRepository) : base(cacheService)
         {
             this.albumRepository = albumRepository;
@@ -51,15 +51,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             this.dialogService = dialogService;
             this.cacheService = cacheService;
 
-            this.LoadedCommand = new DelegateCommand(async() => await this.GetAlbumArtworkAsync(albumId));
-
-            this.ExportArtworkCommand = new DelegateCommand(async () =>
-            {
-                if (HasArtwork)
-                {
-                    await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
-                }
-            });
+            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync(albumId));
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
            {
@@ -76,19 +68,31 @@ namespace Dopamine.Common.Presentation.ViewModels
 
         private async Task DownloadArtworkAsync()
         {
-            await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
+            try
+            {
+                await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not download artwork. Exception: {0}", ex.Message);
+            }
         }
 
         private bool CanDownloadArtwork()
         {
-            if(this.album == null)
+            if (this.album == null)
             {
                 return false;
             }
 
             return this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText;
         }
-      
+
+        protected override void UpdateArtwork(byte[] imageData)
+        {
+            base.UpdateArtwork(imageData);
+        }
+
         private async Task GetAlbumArtworkAsync(long albumId)
         {
             await Task.Run(() =>
@@ -100,13 +104,12 @@ namespace Dopamine.Common.Presentation.ViewModels
                 {
                     if (!string.IsNullOrEmpty(artworkPath))
                     {
-                        this.UpdateArtwork(ImageUtils.Image2ByteArray(artworkPath));
+                        this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath));
                     }
                     else
                     {
-                        this.UpdateArtwork(null);
+                        this.ShowArtwork(null);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -114,14 +117,17 @@ namespace Dopamine.Common.Presentation.ViewModels
                 }
             });
         }
-     
+
         public async Task<bool> SaveAlbumAsync()
         {
             this.IsBusy = true;
 
             try
             {
-                await this.metadataService.UpdateAlbumAsync((Common.Database.Entities.Album)this.Album, this.Artwork, this.UpdateFileArtwork);
+                if (this.Artwork.IsValueChanged)
+                {
+                    await this.metadataService.UpdateAlbumAsync(this.Album, this.Artwork, this.UpdateFileArtwork);
+                }
             }
             catch (Exception ex)
             {

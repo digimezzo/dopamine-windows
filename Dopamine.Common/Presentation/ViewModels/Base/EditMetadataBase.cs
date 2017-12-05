@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Base;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
+using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Cache;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -22,6 +22,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
         private ICacheService cacheService;
 
         public DelegateCommand DownloadArtworkCommand { get; set; }
+        public DelegateCommand ExportArtworkCommand { get; set; }
 
         public string ArtworkSize
         {
@@ -57,6 +58,21 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             this.cacheService = cacheService;
 
             this.artwork = new MetadataArtworkValue();
+
+            this.ExportArtworkCommand = new DelegateCommand(async () => await this.ExportArtworkAsync(), () => this.CanExportArtwork());
+        }
+
+        private async Task ExportArtworkAsync()
+        {
+            if (this.HasArtwork)
+            {
+                await SaveFileUtils.SaveImageFileAsync("cover", this.Artwork.Value);
+            }
+        }
+
+        private bool CanExportArtwork()
+        {
+            return this.HasArtwork;
         }
 
         private void VisualizeArtwork(byte[] imageData)
@@ -78,28 +94,33 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
             RaisePropertyChanged(nameof(this.HasArtwork));
         }
 
-        protected virtual void UpdateArtwork(byte[] imageData)
+        protected virtual void ShowArtwork(byte[] imageData)
         {
-            // Artwork data
-            this.Artwork.Value = imageData;
-
-            // Set the artwork
-            this.VisualizeArtwork(imageData);
+            this.Artwork = new MetadataArtworkValue(imageData); // Create new artwork data, so IsValueChanged is not triggered.
+            this.VisualizeArtwork(imageData); // Visualize the artwork
+            this.ExportArtworkCommand.RaiseCanExecuteChanged();
         }
 
-        protected async Task DownloadArtworkAsync(string albumTitle, string artist)
+        protected virtual void UpdateArtwork(byte[] imageData)
+        {
+            this.Artwork.Value = imageData; // Update existing artwork data, so IsValueChanged is triggered.
+            this.VisualizeArtwork(imageData); // Visualize the artwork
+            this.ExportArtworkCommand.RaiseCanExecuteChanged();
+        }
+
+        protected async Task DownloadArtworkAsync(string title, string artist, string alternateTitle = "", string alternateArtist = "")
         {
             this.IsBusy = true;
 
             try
             {
-                Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(artist, albumTitle);
+                Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(title, artist, alternateTitle, alternateArtist);
                 string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
                 this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile));
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occurred while downloading artwork for the album title='{0}' and artist='{1}'. Exception: {2}", albumTitle, artist, ex.Message);
+                LogClient.Error("An error occurred while downloading artwork. Exception: {0}", ex.Message);
             }
 
             this.IsBusy = false;
