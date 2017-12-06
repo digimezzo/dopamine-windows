@@ -1,12 +1,13 @@
-2017-12-05: Dopamine 1.5.5
+2017-12-06: Dopamine 1.5.5
 --------------------------
 
-- [Added] Added support for Opus file format
+- [Added] Added support for the Opus file format
 - [Added] Added optional automatic download of album covers from the Internet
 - [Added] Added optional enqueue of other audio files which are in the same folder as a double-clicked audio file
 - [Added] Added button to download covers from the edit song window
 - [Added] Added Vietnamese translation
 - [Changed] Updated the French translation
+- [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Fixed] Fixed another conflict between playing a file from Explorer and loading of saved queued songs
 - [Fixed] Fixed a potential issue when changing album covers
