@@ -22,7 +22,7 @@ Examples:
 
 **WRONG :(**
 
-"This feature doesn't work!" "The application crashes!" "The application is buggy!" "The installer doesn't work!"
+"This feature doesn't work!" "The application is buggy!" "The installer doesn't work!"
 
 **RIGHT :)**
 
