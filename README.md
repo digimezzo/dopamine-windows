@@ -22,12 +22,12 @@ Examples:
 
 **WRONG :(**
 
-"This feature doesn't work!" "The application crashes!" "The application is unstable!" "The installer doesn't work!"
+"This feature doesn't work!" "The application crashes!" "The application is buggy!" "The installer doesn't work!"
 
 **RIGHT :)**
 
-- If you experienced a crash, send the log file. In preview builds, the little "bug" icon on the main window will help you find it. Pressing CTRL+L also opens the folder which contains the log file.
-- If you got an error message, send a screenshot of that error message. Or, at least, describe what the error message says.
+- If you experienced a crash, send the log file. Pressing CTRL+L in the application opens the folder which contains the log file.
+- If you got an error message, send a screenshot of that error message. Or, at least, describe the content of the error.
 - Describe the problem in a concise and constructive way. More information, increases the chances of reproducing the bug.
 
 Thanks!
