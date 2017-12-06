@@ -413,6 +413,6 @@
   <Text Key="Reload_Missing_Covers">없는 커버 다시 불러오기</Text>
   <Text Key="Reload_Missing_Covers_Description">아직 커버가 없는 앨범의 커버만 다시 불러옵니다.</Text>
   <Text Key="Added_Songs">{Number}곡 추가됨 ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-<Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Download_Missing_Album_Covers">없는 앨범 커버를 인터넷에서 다운로드하기</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">윈도우 탐색기에서 오디오 파일을 재생할 때 같은 폴더의 다른 오디오 파일도 재생 대기 목록에 추가합니다.</Text>
 </Language>
