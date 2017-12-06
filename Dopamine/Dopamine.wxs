@@ -186,7 +186,6 @@
             <File Source="CSCore.Ffmpeg.dll" />
             <File Source="GongSolutions.WPF.DragDrop.dll" />
             <File Source="Ionic.Zip.dll" />
-            <File Source="policy.2.0.taglib-sharp.dll" />
             <File Source="Digimezzo.Utilities.dll" />
             <File Source="Digimezzo.WPFControls.dll" />
             <File Source="SQLite-net.dll" />
