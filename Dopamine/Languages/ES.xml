@@ -413,6 +413,6 @@
   <Text Key="Reload_Missing_Covers">Recargar las portadas que faltan</Text>
   <Text Key="Reload_Missing_Covers_Description">Recargar solo las portadas de aquellos álbumes que no tienen ninguna</Text>
   <Text Key="Added_Songs">Añadidas {number} canciones ({porcentaje}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Download_Missing_Album_Covers">Descargar de Internet portadas de álbumes sin las mismas</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Al reproducir un archivo de sonido desde el Explorador de Windows, añadir también a la cola archivos de sonido que estén en la misma carpeta.</Text>
 </Language>
