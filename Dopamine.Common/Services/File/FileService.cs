@@ -9,7 +9,6 @@ using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,7 +28,7 @@ namespace Dopamine.Common.Services.File
         private Timer addFilesTimer;
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
-   
+
         public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository, ILocalizationInfo info)
         {
             this.cacheService = cacheService;
@@ -65,11 +64,11 @@ namespace Dopamine.Common.Services.File
                     {
                         // The file is a supported audio format: add it directly.
                         tracks.Add(await this.CreateTrackAsync(path));
-                        
-                        if(SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
+
+                        if (SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
                         {
-                            // Get all files in that directory
-                            List<string> audioFilePaths = this.ProcessDirectory(Path.GetDirectoryName(path));
+                            // Get all files in the current (top) directory
+                            List<string> audioFilePaths = this.ProcessDirectory(Path.GetDirectoryName(path), SearchOption.TopDirectoryOnly);
 
                             // Add all files from that directory
                             foreach (string audioFilePath in audioFilePaths)
@@ -79,7 +78,7 @@ namespace Dopamine.Common.Services.File
                                     tracks.Add(await this.CreateTrackAsync(audioFilePath));
                                 }
                             }
-                        } 
+                        }
                     }
                     else if (FileFormats.IsSupportedPlaylistFile(path))
                     {
@@ -93,8 +92,8 @@ namespace Dopamine.Common.Services.File
                     }
                     else if (Directory.Exists(path))
                     {
-                        // The file is a directory: get the audio files in that directory.
-                        List<string> audioFilePaths = this.ProcessDirectory(path);
+                        // The file is a directory: get the audio files in that directory and its subdirectories.
+                        List<string> audioFilePaths = this.ProcessDirectory(path, SearchOption.AllDirectories);
 
                         foreach (string audioFilePath in audioFilePaths)
                         {
@@ -139,7 +138,7 @@ namespace Dopamine.Common.Services.File
 
             return returnTrack;
         }
-    
+
         private async Task ImportTracks(string[] args)
         {
             if (args.Length > 1)
@@ -216,7 +215,7 @@ namespace Dopamine.Common.Services.File
             if (tracks.Count > 0)
             {
                 LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
-                this.TracksImported(tracks);
+                this.TracksImported(tracks, tracks.First());
             }
         }
 
@@ -233,16 +232,13 @@ namespace Dopamine.Common.Services.File
             return decodeResult.Paths;
         }
 
-        private List<string> ProcessDirectory(string directoryPath)
+        private List<string> ProcessDirectory(string directoryPath, SearchOption searchOption)
         {
             var folderPaths = new List<FolderPathInfo>();
 
-            // Create a queue to hold exceptions that have occurred while scanning the directory tree
-            var recurseExceptions = new ConcurrentQueue<Exception>();
-
             try
             {
-                folderPaths = FileOperations.RecursiveGetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions);
+                folderPaths = FileOperations.GetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions, searchOption);
             }
             catch (Exception ex)
             {

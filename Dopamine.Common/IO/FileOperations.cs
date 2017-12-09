@@ -9,14 +9,14 @@ namespace Dopamine.Common.IO
 {
     public sealed class FileOperations
     {
-        public static List<FolderPathInfo> RecursiveGetValidFolderPaths(long folderId, string directory, string[] validExtensions)
+        public static List<FolderPathInfo> GetValidFolderPaths(long folderId, string directory, string[] validExtensions, SearchOption searchOption)
         {
             var folderPaths = new List<FolderPathInfo>();
 
             try
             {
                 var di = new DirectoryInfo(directory);
-                IEnumerable<FileInfo> fi = di.GetFiles("*.*", SearchOption.AllDirectories);
+                IEnumerable<FileInfo> fi = di.GetFiles("*.*", searchOption);
 
                 foreach (FileInfo f in fi)
                 {

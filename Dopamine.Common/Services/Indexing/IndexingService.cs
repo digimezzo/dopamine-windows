@@ -912,7 +912,7 @@ namespace Dopamine.Common.Services.Indexing
                         try
                         {
                             // Get all audio files recursively
-                            List<FolderPathInfo> folderPaths = FileOperations.RecursiveGetValidFolderPaths(fol.FolderID, fol.Path, FileFormats.SupportedMediaExtensions);
+                            List<FolderPathInfo> folderPaths = FileOperations.GetValidFolderPaths(fol.FolderID, fol.Path, FileFormats.SupportedMediaExtensions, SearchOption.AllDirectories);
                             allFolderPaths.AddRange(folderPaths);
                         }
                         catch (Exception ex)
