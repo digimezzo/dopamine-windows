@@ -314,7 +314,7 @@ namespace Dopamine.Common.Services.Playback
 
             // Event handlers
             this.fileService.ImportingTracks += (_, __) => this.canGetSavedQueuedTracks = false;
-            this.fileService.TracksImported += (tracks) => this.EnqueueFromFilesAsync(tracks);
+            this.fileService.TracksImported += (tracks, track) => this.EnqueueFromFilesAsync(tracks, track);
             this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
 
             // Set up timers
@@ -330,12 +330,12 @@ namespace Dopamine.Common.Services.Playback
             this.Initialize();
         }
 
-        private async void EnqueueFromFilesAsync(List<PlayableTrack> tracks)
+        private async void EnqueueFromFilesAsync(List<PlayableTrack> tracks, PlayableTrack track)
         {
             this.canGetSavedQueuedTracks = false;
 
             LogClient.Info("Start enqueuing {0} track(s) from files", tracks.Count);
-            await this.EnqueueAsync(tracks);
+            await this.EnqueueAsync(tracks, track);
             LogClient.Info("Finished enqueuing {0} track(s) from files", tracks.Count);
         }
 
@@ -712,16 +712,28 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle)
         {
-            if (tracks == null) return;
+            if (tracks == null)
+            {
+                return;
+            }
 
             // Shuffle
-            if (shuffle) await this.EnqueueIfDifferent(tracks, true);
+            if (shuffle)
+            {
+                await this.EnqueueIfDifferent(tracks, true);
+            }
 
             // Unshuffle
-            if (unshuffle) await this.EnqueueIfDifferent(tracks, false);
+            if (unshuffle)
+            {
+                await this.EnqueueIfDifferent(tracks, false);
+            }
 
             // Use the current shuffle mode
-            if (!shuffle && !unshuffle) await this.EnqueueIfDifferent(tracks, this.shuffle);
+            if (!shuffle && !unshuffle)
+            {
+                await this.EnqueueIfDifferent(tracks, this.shuffle);
+            }
 
             // Start playing
             await this.PlayFirstAsync();
@@ -740,7 +752,10 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack track)
         {
-            if (tracks == null || track == null) return;
+            if (tracks == null || track == null)
+            {
+                return;
+            }
 
             await this.EnqueueIfDifferent(tracks, this.shuffle);
             await this.PlaySelectedAsync(track);
@@ -748,9 +763,12 @@ namespace Dopamine.Common.Services.Playback
 
         public async Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> trackPair)
         {
-            if (trackPairs == null || trackPair.Value == null) return;
+            if (trackPairs == null || trackPair.Value == null)
+            {
+                return;
+            }
 
-            await this.EnqueueIfRequired(trackPairs);
+            await this.EnqueueIfDifferent(trackPairs);
             await this.PlaySelectedAsync(trackPair);
         }
 
@@ -1398,6 +1416,17 @@ namespace Dopamine.Common.Services.Playback
             PlaybackProgressChanged(this, new EventArgs());
         }
 
+        private async Task EnqueueAlways(List<PlayableTrack> tracks)
+        {
+            if (await this.queueManager.ClearQueueAsync())
+            {
+                await this.queueManager.EnqueueAsync(tracks, this.shuffle);
+
+                this.QueueChanged(this, new EventArgs());
+                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
+            }
+        }
+
         private async Task EnqueueIfDifferent(List<PlayableTrack> tracks, bool shuffle)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks) || shuffle != this.shuffle)
@@ -1418,7 +1447,7 @@ namespace Dopamine.Common.Services.Playback
             }
         }
 
-        private async Task EnqueueIfRequired(List<KeyValuePair<string, PlayableTrack>> tracks)
+        private async Task EnqueueIfDifferent(List<KeyValuePair<string, PlayableTrack>> tracks)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {
@@ -1428,7 +1457,6 @@ namespace Dopamine.Common.Services.Playback
                 }
 
                 this.QueueChanged(this, new EventArgs());
-
                 this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
             }
         }
