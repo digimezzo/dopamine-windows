@@ -49,53 +49,61 @@ namespace Dopamine.Common.Services.File
         public event TracksImportedHandler TracksImported = delegate { };
         public event EventHandler ImportingTracks = delegate { };
 
-        public async Task<List<PlayableTrack>> ProcessFilesAsync(List<string> filenames)
+        private async Task<Tuple<List<PlayableTrack>, PlayableTrack>> ProcessFileAsync(string path)
+        {
+            var tracks = new List<PlayableTrack>();
+            PlayableTrack selectedTrack = await this.CreateTrackAsync(path);
+
+            if (SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
+            {
+                // Get all files in the current (top) directory
+                List<string> scannedPaths = this.ProcessDirectory(Path.GetDirectoryName(path), SearchOption.TopDirectoryOnly);
+
+                // Add all files from that directory
+                foreach (string scannedPath in scannedPaths)
+                {
+                    tracks.Add(await this.CreateTrackAsync(scannedPath));
+                }
+            }
+            else
+            {
+                tracks.Add(await this.CreateTrackAsync(path));
+            }
+
+            return new Tuple<List<PlayableTrack>, PlayableTrack>(tracks, selectedTrack);
+        }
+
+        public async Task<List<PlayableTrack>> ProcessFilesAsync(List<string> paths)
         {
             var tracks = new List<PlayableTrack>();
 
             await Task.Run(async () =>
             {
-                if (filenames == null) return;
+                if (paths == null)
+                {
+                    return;
+                }
 
                 // Convert the files to tracks
-                foreach (string path in filenames)
+                foreach (string path in paths)
                 {
                     if (FileFormats.IsSupportedAudioFile(path))
                     {
                         // The file is a supported audio format: add it directly.
                         tracks.Add(await this.CreateTrackAsync(path));
-
-                        if (SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
-                        {
-                            // Get all files in the current (top) directory
-                            List<string> audioFilePaths = this.ProcessDirectory(Path.GetDirectoryName(path), SearchOption.TopDirectoryOnly);
-
-                            // Add all files from that directory
-                            foreach (string audioFilePath in audioFilePaths)
-                            {
-                                if (!audioFilePath.Equals(path))
-                                {
-                                    tracks.Add(await this.CreateTrackAsync(audioFilePath));
-                                }
-                            }
-                        }
                     }
                     else if (FileFormats.IsSupportedPlaylistFile(path))
                     {
                         // The file is a supported playlist format: process the contents of the playlist file.
-                        List<string> audioFilePaths = this.ProcessPlaylistFile(path);
-
-                        foreach (string audioFilePath in audioFilePaths)
+                        foreach (string audioFilePath in this.ProcessPlaylistFile(path))
                         {
                             tracks.Add(await this.CreateTrackAsync(audioFilePath));
                         }
                     }
                     else if (Directory.Exists(path))
                     {
-                        // The file is a directory: get the audio files in that directory and its subdirectories.
-                        List<string> audioFilePaths = this.ProcessDirectory(path, SearchOption.AllDirectories);
-
-                        foreach (string audioFilePath in audioFilePaths)
+                        // The file is a directory: get the audio files in that directory and all its sub directories.
+                        foreach (string audioFilePath in this.ProcessDirectory(path, SearchOption.AllDirectories))
                         {
                             tracks.Add(await this.CreateTrackAsync(audioFilePath));
                         }
@@ -195,27 +203,48 @@ namespace Dopamine.Common.Services.File
 
         private async Task ImportFilesAsync()
         {
-            List<string> tempFiles = null;
-
-            await Task.Run(() =>
+            try
             {
-                lock (this.lockObject)
+                List<string> tempFiles = null;
+
+                await Task.Run(() =>
                 {
-                    tempFiles = this.files.Select(item => (string)item.Clone()).ToList();
-                    this.files.Clear(); // Clear the list
+                    lock (this.lockObject)
+                    {
+                        tempFiles = this.files.Select(item => (string)item.Clone()).ToList();
+                        this.files.Clear(); // Clear the list
+                    }
+
+                    tempFiles.Sort(); // Sort the files alphabetically
+                });
+
+                List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
+                PlayableTrack selectedTrack = null;
+
+                if (tempFiles.Count.Equals(1))
+                {
+                    // If there is only 1 file, we do something special.
+                    Tuple<List<PlayableTrack>, PlayableTrack> processedTracks = await this.ProcessFileAsync(tempFiles.First());
+                    tracks = processedTracks.Item1;
+                    selectedTrack = processedTracks.Item2;
+                }
+                else
+                {
+                    tracks = await this.ProcessFilesAsync(tempFiles);
+                    selectedTrack = tracks.First();
                 }
 
-                tempFiles.Sort(); // Sort the files alphabetically
-            });
+                LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
 
-            List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
-
-            LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
-
-            if (tracks.Count > 0)
+                if (tracks.Count > 0)
+                {
+                    LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
+                    this.TracksImported(tracks, selectedTrack);
+                }
+            }
+            catch (Exception ex)
             {
-                LogClient.Info("Enqueuing {0} tracks.", tracks.Count.ToString());
-                this.TracksImported(tracks, tracks.First());
+                LogClient.Error("Could not enqueue tracks. Exception: {0}", ex.Message);
             }
         }
 
