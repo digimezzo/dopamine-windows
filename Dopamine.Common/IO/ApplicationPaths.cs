@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Base;
+﻿using Dopamine.Core.Base;
 
 namespace Dopamine.Common.IO
 {

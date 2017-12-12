@@ -16,6 +16,7 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Shell;
 using Dopamine.Common.Services.Win32Input;
 using Dopamine.Common.Services.WindowsIntegration;
+using Dopamine.Core.Base;
 using Dopamine.Views.Common;
 using Dopamine.Views.MiniPlayer;
 using Microsoft.Practices.Unity;

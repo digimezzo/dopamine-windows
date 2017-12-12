@@ -1,11 +1,10 @@
-﻿using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Data;
+using Dopamine.Data.Entities;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dopamine.Common.Extensions;
 
 namespace Dopamine.Common.Services.Indexing
 {

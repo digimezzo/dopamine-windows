@@ -9,13 +9,13 @@ using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Base;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

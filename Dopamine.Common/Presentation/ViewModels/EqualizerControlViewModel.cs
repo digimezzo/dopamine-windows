@@ -8,6 +8,7 @@ using Dopamine.Common.IO;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -347,7 +348,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.DEQ;
             dlg.Filter = string.Concat(ResourceUtils.GetString("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
-            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), Common.Base.ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
+            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
 
             while (showSaveDialog)
             {
@@ -416,7 +417,7 @@ namespace Dopamine.Common.Presentation.ViewModels
                 try
                 {
                     await Task.Run(() => {
-                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), Common.Base.ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
+                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
                         System.IO.File.Delete(presetPath);
                     });
 

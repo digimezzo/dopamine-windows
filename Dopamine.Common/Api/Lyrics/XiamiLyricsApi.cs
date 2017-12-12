@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Helpers;
+using Dopamine.Core.Helpers;
 using System;
 using System.Net;
 using System.Net.Http;

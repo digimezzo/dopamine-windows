@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Database;
+﻿using Dopamine.Data;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Common.Services.File
 {
-   public delegate void TracksImportedHandler(List<PlayableTrack> tracks, PlayableTrack trackToPlay);
+    public delegate void TracksImportedHandler(List<PlayableTrack> tracks, PlayableTrack trackToPlay);
 
     [ServiceContract(Namespace = "http://Dopamine.FileService")]
     public interface IFileService

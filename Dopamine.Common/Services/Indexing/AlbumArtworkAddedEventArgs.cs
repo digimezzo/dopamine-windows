@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Database.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Dopamine.Common.Services.Indexing

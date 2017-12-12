@@ -571,6 +571,14 @@
       <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
       <Name>Dopamine.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
+      <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
+      <Name>Dopamine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Data\Dopamine.Data.csproj">
+      <Project>{3AA1D889-7AAF-4385-A373-8E2757D47FD4}</Project>
+      <Name>Dopamine.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Packager\Dopamine.Packager.csproj">
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>

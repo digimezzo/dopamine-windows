@@ -1,5 +1,5 @@
-﻿using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
+﻿using Dopamine.Data.Entities;
+using Dopamine.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

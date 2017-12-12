@@ -7,6 +7,7 @@ using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

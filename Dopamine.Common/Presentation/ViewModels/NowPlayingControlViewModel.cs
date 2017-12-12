@@ -4,7 +4,7 @@ using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Database;
+using Dopamine.Data;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

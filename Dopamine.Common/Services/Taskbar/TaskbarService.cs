@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Base;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using Prism.Mvvm;
 using System;
 using System.Windows;

@@ -1,6 +1,6 @@
-﻿using System.ServiceModel;
+﻿using Dopamine.Data;
+using System.ServiceModel;
 using System.Threading.Tasks;
-using Dopamine.Common.Database;
 
 namespace Dopamine.Common.Services.ExternalControl
 {

@@ -1,4 +1,5 @@
 ﻿using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
