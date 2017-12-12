@@ -1,13 +1,14 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
 using Dopamine.Common.Extensions;
+using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
+using Dopamine.Core.Extensions;
+using Dopamine.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Common.Helpers;
 
 namespace Dopamine.Common.Services.Playback
 {

@@ -1,11 +1,11 @@
-﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Database.Repositories.Interfaces;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
-using Digimezzo.Utilities.Log;
+using Dopamine.Data;
+using Dopamine.Data.Entities;
+using Dopamine.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

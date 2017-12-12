@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database.Entities;
-using Dopamine.Common.Database.Repositories.Interfaces;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
+using Dopamine.Core.Base;
+using Dopamine.Data.Entities;
+using Dopamine.Data.Repositories.Interfaces;
 using Prism.Commands;
 using System;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 {
     public class EditAlbumViewModel : EditMetadataBase
     {
-        private Common.Database.Entities.Album album;
+        private Data.Entities.Album album;
         private IAlbumRepository albumRepository;
         private IMetadataService metadataService;
         private IDialogService dialogService;

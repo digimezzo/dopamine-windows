@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Prism.Mvvm;
 
 namespace Dopamine.ViewModels

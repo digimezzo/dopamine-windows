@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Base;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;

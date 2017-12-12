@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Database;
+using Dopamine.Data;
 using System;
 using System.Threading.Tasks;
 

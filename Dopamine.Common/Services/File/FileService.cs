@@ -2,12 +2,13 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Repositories.Interfaces;
-using Dopamine.Common.Helpers;
 using Dopamine.Common.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
+using Dopamine.Data;
+using Dopamine.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

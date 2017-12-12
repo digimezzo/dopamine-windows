@@ -1,8 +1,9 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
-using Dopamine.Common.Database;
-using Dopamine.Common.Database.Entities;
 using Dopamine.Common.Extensions;
+using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
+using Dopamine.Data;
+using Dopamine.Data.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -1,10 +1,10 @@
 ﻿using CSCore.DSP;
 using CSCore.Streams;
 using Dopamine.Common.Audio;
-using Dopamine.Common.Database;
 using Dopamine.Common.Extensions;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Data;
 using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;

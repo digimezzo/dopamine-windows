@@ -1,8 +1,10 @@
-﻿using Dopamine.Common.Audio;
+﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
+using Dopamine.Common.Audio;
+using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Utils;
-using Dopamine.Common.Base;
-using Digimezzo.Utilities.Log;
+using Dopamine.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Digimezzo.Utilities.Settings;
 
 namespace Dopamine.Common.Services.Equalizer
 {

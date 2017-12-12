@@ -35,6 +35,8 @@
         <File>Prism.Unity.Wpf.dll</File>
         <File>Prism.Wpf.dll</File>
         <File>Dopamine.Common.dll</File>
+        <File>Dopamine.Core.dll</File>
+        <File>Dopamine.Data.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>CSCore.dll</File>
         <File>CSCore.Ffmpeg.dll</File>

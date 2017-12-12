@@ -1,7 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Database;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
@@ -12,6 +11,7 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
+using Dopamine.Data;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
