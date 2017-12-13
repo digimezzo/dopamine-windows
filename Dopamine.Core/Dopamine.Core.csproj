@@ -59,7 +59,13 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Base\Constants.cs" />
+    <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />
+    <Compile Include="Base\Enums.cs" />
+    <Compile Include="Base\FileFormats.cs" />
+    <Compile Include="Base\SensitiveInformation.cs" />
+    <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />

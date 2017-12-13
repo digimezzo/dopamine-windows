@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Base;
+﻿using Dopamine.Core.Base;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using System;

@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Base;
+﻿using Dopamine.Core.Base;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Indexing;

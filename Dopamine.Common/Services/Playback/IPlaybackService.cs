@@ -1,6 +1,6 @@
 ﻿using CSCore.CoreAudioAPI;
 using Dopamine.Common.Audio;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Data;

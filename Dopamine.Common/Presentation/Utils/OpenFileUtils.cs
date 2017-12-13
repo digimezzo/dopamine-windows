@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Digimezzo.Utilities.Log;
 using System;
 using System.Threading.Tasks;

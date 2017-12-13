@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.ExternalControl;
 using Dopamine.Common.Services.Notification;

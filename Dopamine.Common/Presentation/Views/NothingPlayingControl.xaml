@@ -6,7 +6,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:base="clr-namespace:Dopamine.Common.Base"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Indexing;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Microsoft.Practices.Unity;

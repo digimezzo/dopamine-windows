@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:corebase="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+             xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"

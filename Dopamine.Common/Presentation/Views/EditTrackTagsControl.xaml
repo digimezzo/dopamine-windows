@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
-             xmlns:base="clr-namespace:Dopamine.Common.Base;assembly=Dopamine.Common"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"

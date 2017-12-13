@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:base="clr-namespace:Dopamine.Common.Base">
+    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Themes/Common.xaml" />

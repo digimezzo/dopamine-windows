@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Api.Lyrics;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
