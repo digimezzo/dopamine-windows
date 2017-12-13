@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Dopamine.Common.IO
+namespace Dopamine.Core.IO
 {
     public class DecodePlaylistResult
     {

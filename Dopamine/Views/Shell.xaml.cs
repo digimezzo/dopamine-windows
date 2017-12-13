@@ -4,7 +4,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
 using Dopamine.Common.Extensions;
-using Dopamine.Common.IO;
+using Dopamine.Core.IO;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Appearance;
 using Dopamine.Common.Services.I18n;

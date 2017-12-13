@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.IO
+﻿namespace Dopamine.Core.IO
 {
     public class FolderPathInfo
     {

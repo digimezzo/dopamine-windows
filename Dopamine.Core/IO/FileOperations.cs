@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Dopamine.Common.IO
+namespace Dopamine.Core.IO
 {
     public sealed class FileOperations
     {

@@ -4,7 +4,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Audio;
 using Dopamine.Core.Base;
-using Dopamine.Common.IO;
+using Dopamine.Core.IO;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
