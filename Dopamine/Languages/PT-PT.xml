@@ -407,12 +407,12 @@
   <Text Key="Check_For_Updates_At_Startup">Procurar atualizações ao iniciar</Text>
   <Text Key="Check_For_Updates_Periodically">Procurar atualizações periodicamente</Text>
   <Text Key="Refresh_Collection_Now">Recarregar coleção agora</Text>
-  <Text Key="Album_Covers">Imagens do álbuns</Text>
+  <Text Key="Album_Covers">Imagens dos álbuns</Text>
   <Text Key="Reload_All_Covers">Recarregar todas as imagens</Text>
-  <Text Key="Reload_All_Covers_Description">Recarrega as imagens de todos os álbuns, incluindo aqueles que já tenham</Text>
+  <Text Key="Reload_All_Covers_Description">Recarrega as imagens de todos os álbuns, incluindo aqueles que já a tenham</Text>
   <Text Key="Reload_Missing_Covers">Recarregar imagem se inexistente</Text>
   <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as imagens para os álbuns que ainda não a tenham</Text>
   <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Descarregar imagens automaticamente através da Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Ao reproduzir uma faixa a partir do Explorador do Windows,colocar também na fila todas as faixas que estejam na mesma pasta da que foi escolhida.</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Ao reproduzir uma faixa a partir do Explorador do Windows, colocar na fila todas as faixas que estejam na mesma pasta da que foi escolhida.</Text>
 </Language>
