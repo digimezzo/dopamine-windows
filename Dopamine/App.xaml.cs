@@ -3,7 +3,6 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Services.Command;
 using Dopamine.Common.Services.File;

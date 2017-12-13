@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Base
+﻿namespace Dopamine.Core.Base
 {
     public class SensitiveInformation
     {

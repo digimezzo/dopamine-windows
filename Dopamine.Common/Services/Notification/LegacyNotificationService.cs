@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Metadata;

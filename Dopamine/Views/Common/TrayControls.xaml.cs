@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.Utilities.Win32;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Services.Notification;
 using System;
 using System.Windows;

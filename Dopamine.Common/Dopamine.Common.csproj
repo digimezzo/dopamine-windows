@@ -169,12 +169,6 @@
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
     <Compile Include="Audio\SpectrumAnalyzer.cs" />
-    <Compile Include="Base\Constants.cs" />
-    <Compile Include="Base\ContactInformation.cs" />
-    <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\FileFormats.cs" />
-    <Compile Include="Base\SensitiveInformation.cs" />
-    <Compile Include="Base\UpdateInformation.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\Logo.xaml.cs">

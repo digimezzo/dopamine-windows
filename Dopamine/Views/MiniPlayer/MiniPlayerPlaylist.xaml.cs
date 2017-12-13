@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Controls;
 using Dopamine.Common.Enums;
 using Dopamine.Common.Prism;

@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.IO;
 using Dopamine.Common.Utils;
 using Dopamine.Core.Base;

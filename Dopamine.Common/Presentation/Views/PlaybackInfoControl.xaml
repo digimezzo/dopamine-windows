@@ -8,7 +8,7 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
-             xmlns:base="clr-namespace:Dopamine.Common.Base"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

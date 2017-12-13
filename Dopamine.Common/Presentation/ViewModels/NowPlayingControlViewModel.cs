@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Playback;

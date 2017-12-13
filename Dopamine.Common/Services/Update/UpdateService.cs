@@ -3,7 +3,6 @@ using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Base;
 using Dopamine.Common.IO;
 using Dopamine.Core.Base;
 using Ionic.Zip;
@@ -35,7 +34,7 @@ namespace Dopamine.Common.Services.Update
 
     public class UpdateService : IUpdateService
     {
-        private string apiRootFormat = Base.Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}";
+        private string apiRootFormat = Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}";
         private Timer checkTimer = new Timer();
         private string updatesSubDirectory;
         private bool canCheck;

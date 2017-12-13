@@ -2,7 +2,7 @@
 using System.Windows;
 using Digimezzo.Utilities.Utils;
 
-namespace Dopamine.Common.Base
+namespace Dopamine.Core.Base
 {
     public static class Constants
     {

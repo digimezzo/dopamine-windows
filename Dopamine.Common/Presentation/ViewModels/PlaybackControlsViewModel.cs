@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Base;
+using Dopamine.Core.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

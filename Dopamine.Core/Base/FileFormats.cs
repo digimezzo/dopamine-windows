@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Dopamine.Common.Base
+namespace Dopamine.Core.Base
 {
     public static class FileFormats
     {
