@@ -206,7 +206,6 @@
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
     <Compile Include="Helpers\ArtworkHelper.cs" />
-    <Compile Include="IO\FolderPathInfo.cs" />
     <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
@@ -224,10 +223,6 @@
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
-    <Compile Include="IO\ApplicationPaths.cs" />
-    <Compile Include="IO\FileOperations.cs" />
-    <Compile Include="IO\PlaylistDecoder.cs" />
-    <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />

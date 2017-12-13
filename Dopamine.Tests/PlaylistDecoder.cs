@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.IO;
+﻿using Dopamine.Core.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dopamine.Tests
@@ -14,7 +14,7 @@ namespace Dopamine.Tests
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new Common.IO.PlaylistDecoder();
+            var decoder = new Core.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -40,7 +40,7 @@ namespace Dopamine.Tests
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new Common.IO.PlaylistDecoder();
+            var decoder = new Core.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -66,7 +66,7 @@ namespace Dopamine.Tests
             string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
 
             // Act
-            var decoder = new Common.IO.PlaylistDecoder();
+            var decoder = new Core.IO.PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
@@ -88,7 +88,7 @@ namespace Dopamine.Tests
         public void GenerateFullPath()
         {
             // Arrange
-            var decoder = new Common.IO.PlaylistDecoder();
+            var decoder = new PlaylistDecoder();
             PrivateObject obj = new PrivateObject(decoder);
 
             string expectedPath1 = @"C:\Music\Folder\File.mp3";

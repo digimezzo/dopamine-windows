@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.Xml;
 
-namespace Dopamine.Common.IO
+namespace Dopamine.Core.IO
 {
     public class StrongNetNamedPipeBinding : NetNamedPipeBinding
     {

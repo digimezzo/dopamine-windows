@@ -54,6 +54,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -82,6 +84,11 @@
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
+    <Compile Include="IO\ApplicationPaths.cs" />
+    <Compile Include="IO\FileOperations.cs" />
+    <Compile Include="IO\FolderPathInfo.cs" />
+    <Compile Include="IO\PlaylistDecoder.cs" />
+    <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

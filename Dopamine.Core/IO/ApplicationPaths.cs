@@ -1,6 +1,6 @@
 ﻿using Dopamine.Core.Base;
 
-namespace Dopamine.Common.IO
+namespace Dopamine.Core.IO
 {
     public static class ApplicationPaths
     {
