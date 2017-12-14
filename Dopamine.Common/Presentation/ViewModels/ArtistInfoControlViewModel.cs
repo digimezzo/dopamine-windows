@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Api.Lastfm;
+using Dopamine.Core.Api.Lastfm;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Services.I18n;
 using Dopamine.Common.Services.Playback;
@@ -98,7 +98,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             if (track.ArtistName == Defaults.UnknownArtistText)
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Common.Api.Lastfm.Artist { Name = Defaults.UnknownArtistText });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistText });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;
@@ -119,7 +119,7 @@ namespace Dopamine.Common.Presentation.ViewModels
 
             try
             {
-                Common.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
+                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {

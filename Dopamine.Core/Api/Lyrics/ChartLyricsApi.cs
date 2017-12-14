@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Dopamine.Common.Api.Lyrics
+namespace Dopamine.Core.Api.Lyrics
 {
     public class ChartLyricsApi : ILyricsApi
     {

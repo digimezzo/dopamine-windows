@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
-using Dopamine.Common.Helpers;
+using Dopamine.Core.Utils;
 using Dopamine.Core.IO;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Cache;
@@ -748,7 +748,7 @@ namespace Dopamine.Common.Services.Indexing
 
         private async Task<string> GetArtworkFromInternet(Album album)
         {
-            Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(album.AlbumTitle, album.AlbumArtist);
+            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(album.AlbumTitle, album.AlbumArtist);
             return await this.cacheService.CacheArtworkAsync(artworkUri);
         }
 

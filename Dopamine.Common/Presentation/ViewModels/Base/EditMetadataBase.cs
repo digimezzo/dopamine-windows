@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Common.Helpers;
+using Dopamine.Core.Utils;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Services.Cache;
@@ -114,7 +114,7 @@ namespace Dopamine.Common.Presentation.ViewModels.Base
 
             try
             {
-                Uri artworkUri = await ArtworkHelper.GetAlbumArtworkFromInternetAsync(title, artist, alternateTitle, alternateArtist);
+                Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artist, alternateTitle, alternateArtist);
                 string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
                 this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile));
             }

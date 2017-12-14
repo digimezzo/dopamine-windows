@@ -2,9 +2,9 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Helpers
+namespace Dopamine.Core.Utils
 {
-    public static class ArtworkHelper
+    public static class ArtworkUtils
     {
         public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string title, string artist, string alternateTitle = "", string alternateArtist = "")
         {

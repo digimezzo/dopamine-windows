@@ -2,12 +2,12 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Common.Helpers;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.File;
 using Dopamine.Common.Services.I18n;
+using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;

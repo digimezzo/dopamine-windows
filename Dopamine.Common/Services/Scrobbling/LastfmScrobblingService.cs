@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Api.Lastfm;
+using Dopamine.Core.Api.Lastfm;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Data;

@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Api.Lastfm
+﻿namespace Dopamine.Core.Api.Lastfm
 {
     public class Biography
     {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Api.Lyrics;
+using Dopamine.Core.Api.Lyrics;
 
 namespace Dopamine.Common.Presentation.Converters
 {

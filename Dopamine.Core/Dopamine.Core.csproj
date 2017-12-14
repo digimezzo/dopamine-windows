@@ -73,6 +73,19 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Api\Lastfm\Album.cs" />
+    <Compile Include="Api\Lastfm\Artist.cs" />
+    <Compile Include="Api\Lastfm\Biography.cs" />
+    <Compile Include="Api\Lastfm\LastfmApi.cs" />
+    <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
+    <Compile Include="Api\Lyrics\ILyricsApi.cs" />
+    <Compile Include="Api\Lyrics\LololyricsApi.cs" />
+    <Compile Include="Api\Lyrics\Lyrics.cs" />
+    <Compile Include="Api\Lyrics\LyricsFactory.cs" />
+    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
+    <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
+    <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
+    <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />
     <Compile Include="Base\Constants.cs" />
     <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />
@@ -91,6 +104,7 @@
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
+    <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\FolderPathInfo.cs" />
@@ -110,6 +124,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils\ArrayUtils.cs" />
+    <Compile Include="Utils\ArtworkUtils.cs" />
+    <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

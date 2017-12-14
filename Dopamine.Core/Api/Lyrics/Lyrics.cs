@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Api.Lyrics
+﻿namespace Dopamine.Core.Api.Lyrics
 {
     public enum SourceTypeEnum
     {

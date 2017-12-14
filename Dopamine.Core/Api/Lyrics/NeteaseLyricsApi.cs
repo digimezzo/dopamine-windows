@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Api.Lyrics
+namespace Dopamine.Core.Api.Lyrics
 {
     // API from http://moonlib.com/606.html
     public class NeteaseLyricsApi : ILyricsApi

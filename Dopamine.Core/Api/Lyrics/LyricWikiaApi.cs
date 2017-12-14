@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Api.Lyrics
+namespace Dopamine.Core.Api.Lyrics
 {
     /// <summary>
     /// LyricWikia doesn't have a proper API anymore.

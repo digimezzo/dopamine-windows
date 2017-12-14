@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Dopamine.Common.Api.Lyrics
+namespace Dopamine.Core.Api.Lyrics
 {
     public interface ILyricsApi
     {
