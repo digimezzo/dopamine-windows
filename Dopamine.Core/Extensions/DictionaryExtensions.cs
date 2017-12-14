@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dopamine.Common.Extensions
+namespace Dopamine.Core.Extensions
 {
     public static class DictionaryExtensions
     {

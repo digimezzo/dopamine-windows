@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Dopamine.Common.Extensions
+namespace Dopamine.Core.Extensions
 {
     public static class WindowExtensions
     {

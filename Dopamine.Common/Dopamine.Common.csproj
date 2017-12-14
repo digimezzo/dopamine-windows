@@ -197,10 +197,6 @@
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\UnityExtensions.cs" />
-    <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
     <Compile Include="Helpers\ArtworkHelper.cs" />
     <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />

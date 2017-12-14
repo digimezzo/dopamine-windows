@@ -1,7 +1,7 @@
 ﻿using CSCore.DSP;
 using CSCore.Streams;
 using Dopamine.Common.Audio;
-using Dopamine.Common.Extensions;
+using Dopamine.Core.Extensions;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Data;
