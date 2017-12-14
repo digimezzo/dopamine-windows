@@ -4,7 +4,7 @@ using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Provider;
-using Dopamine.Common.Utils;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

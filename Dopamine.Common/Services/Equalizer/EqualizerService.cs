@@ -3,8 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Common.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Common.Utils;
-using Dopamine.Core.Base;
+using Dopamine.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,7 +50,7 @@ namespace Dopamine.Common.Services.Equalizer
         {
             var presets = new List<EqualizerPreset>();
 
-            // First, get the builtin equalizer presets
+            // First, get the built-in equalizer presets
             presets = await this.GetBuiltInPresetsAsync();
 
             // Then, get custom equalizer presets

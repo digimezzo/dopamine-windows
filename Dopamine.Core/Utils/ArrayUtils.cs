@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace Dopamine.Common.Utils
+namespace Dopamine.Core.Utils
 {
     public static class ArrayUtils
     {
