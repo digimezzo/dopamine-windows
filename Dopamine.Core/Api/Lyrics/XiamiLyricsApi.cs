@@ -1,5 +1,4 @@
-﻿using Dopamine.Common.Helpers;
-using Dopamine.Core.Helpers;
+﻿using Dopamine.Core.Helpers;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Api.Lyrics
+namespace Dopamine.Core.Api.Lyrics
 {
     public class XiamiLyricsApi : ILyricsApi
     {

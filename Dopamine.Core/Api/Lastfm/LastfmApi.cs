@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Dopamine.Common.Api.Lastfm
+namespace Dopamine.Core.Api.Lastfm
 {
     public static class LastfmApi
     {

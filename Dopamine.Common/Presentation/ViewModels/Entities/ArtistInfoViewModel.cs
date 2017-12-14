@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
-using Dopamine.Common.Api.Lastfm;
 using Dopamine.Common.Services.Cache;
+using Dopamine.Core.Api.Lastfm;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

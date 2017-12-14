@@ -1,14 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows.Media;
 
-namespace Dopamine.Common.Helpers
+namespace Dopamine.Core.Utils
 {
     /// <summary>
     /// Same as MS.Internal.PresentationCore
     /// </summary>
     [DebuggerStepThrough]
-    public static class AnimatedTypeHelpers
+    public static class ColorUtils
     {
         public static Color InterpolateColor(Color from, Color to, double progress)
         {

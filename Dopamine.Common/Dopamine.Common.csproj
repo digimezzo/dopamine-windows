@@ -148,19 +148,6 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Api\Lastfm\Album.cs" />
-    <Compile Include="Api\Lastfm\Artist.cs" />
-    <Compile Include="Api\Lastfm\Biography.cs" />
-    <Compile Include="Api\Lastfm\LastfmApi.cs" />
-    <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
-    <Compile Include="Api\Lyrics\ILyricsApi.cs" />
-    <Compile Include="Api\Lyrics\LololyricsApi.cs" />
-    <Compile Include="Api\Lyrics\Lyrics.cs" />
-    <Compile Include="Api\Lyrics\LyricsFactory.cs" />
-    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
-    <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
-    <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
-    <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />
     <Compile Include="Audio\CSCorePlayer.cs" />
     <Compile Include="Audio\EqualizerPreset.cs" />
     <Compile Include="Audio\IPlayer.cs" />
@@ -197,8 +184,6 @@
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
-    <Compile Include="Helpers\AnimatedTypeHelpers.cs" />
-    <Compile Include="Helpers\ArtworkHelper.cs" />
     <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />
     <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
     <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
@@ -215,7 +200,6 @@
     <Compile Include="Presentation\Utils\UriUtils.cs" />
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
-    <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />

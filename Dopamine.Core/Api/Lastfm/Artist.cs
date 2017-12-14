@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dopamine.Common.Api.Lastfm
+namespace Dopamine.Core.Api.Lastfm
 {
     public class Artist
     {

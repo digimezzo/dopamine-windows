@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Helpers;
+using Dopamine.Core.Utils;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Core.Base;
@@ -413,7 +413,7 @@ namespace Dopamine.Common.Services.Appearance
                 while (loop < loopMax)
                 {
                     loop++;
-                    Color color = AnimatedTypeHelpers.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
+                    Color color = ColorUtils.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
 
                     Application.Current.Resources["RG_AccentColor"] = color;
                     Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);

@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Api.Lastfm;
+﻿using Dopamine.Core.Api.Lastfm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task AuthenticationTest()
         {
-            string sessionKey = await Common.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
+            string sessionKey = await Core.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
 
             Assert.IsTrue(!string.IsNullOrEmpty(sessionKey));
         }
@@ -22,8 +22,8 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task UpdateNowPlayingTest()
         {
-            string sessionKey = await Common.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
-            bool isSuccess = await Common.Api.Lastfm.LastfmApi.TrackUpdateNowPlaying(sessionKey, "Jetta", "I'd Love to Change the World", "");
+            string sessionKey = await Core.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
+            bool isSuccess = await Core.Api.Lastfm.LastfmApi.TrackUpdateNowPlaying(sessionKey, "Jetta", "I'd Love to Change the World", "");
 
             Assert.IsTrue(isSuccess);
         }
@@ -31,8 +31,8 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task ScrobbleTest()
         {
-            string sessionKey = await Common.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
-            bool isSuccess = await Common.Api.Lastfm.LastfmApi.TrackScrobble(sessionKey, "Coldplay", "Viva La Vida", "", DateTime.Now);
+            string sessionKey = await Core.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
+            bool isSuccess = await Core.Api.Lastfm.LastfmApi.TrackScrobble(sessionKey, "Coldplay", "Viva La Vida", "", DateTime.Now);
 
             Assert.IsTrue(isSuccess);
        }
@@ -40,7 +40,7 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task ArtistGetInfoTest()
         {
-            Artist lfmArtist = await Common.Api.Lastfm.LastfmApi.ArtistGetInfo("Coldplay",false, string.Empty);
+            Artist lfmArtist = await Core.Api.Lastfm.LastfmApi.ArtistGetInfo("Coldplay",false, string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmArtist.Name) & !string.IsNullOrEmpty(lfmArtist.Url));
         }
@@ -48,7 +48,7 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task AlbumGetInfoTest()
         {
-            Album lfmAlbum = await Common.Api.Lastfm.LastfmApi.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends",false, string.Empty);
+            Album lfmAlbum = await Core.Api.Lastfm.LastfmApi.AlbumGetInfo("Coldplay", "Viva la Vida or Death and All His Friends",false, string.Empty);
 
             Assert.IsTrue(!string.IsNullOrEmpty(lfmAlbum.Name) & !string.IsNullOrEmpty(lfmAlbum.Url));
         }
@@ -60,8 +60,8 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task TrackLoveTest()
         {
-            string sessionKey = await Common.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
-            bool isSuccess = await Common.Api.Lastfm.LastfmApi.TrackLove(sessionKey, "Madonna", "Like a Virgin");
+            string sessionKey = await Core.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
+            bool isSuccess = await Core.Api.Lastfm.LastfmApi.TrackLove(sessionKey, "Madonna", "Like a Virgin");
 
             Assert.IsTrue(isSuccess);
         }
@@ -73,8 +73,8 @@ namespace Dopamine.Tests
         [TestMethod(), TestCategory(TestCategories.LastfmApi)]
         public async Task TrackUnloveTest()
         {
-            string sessionKey = await Common.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
-            bool isSuccess = await Common.Api.Lastfm.LastfmApi.TrackUnlove(sessionKey, "Madonna", "Like a Virgin");
+            string sessionKey = await Core.Api.Lastfm.LastfmApi.GetMobileSession(this.username, this.password);
+            bool isSuccess = await Core.Api.Lastfm.LastfmApi.TrackUnlove(sessionKey, "Madonna", "Like a Virgin");
 
             Assert.IsTrue(isSuccess);
         }
