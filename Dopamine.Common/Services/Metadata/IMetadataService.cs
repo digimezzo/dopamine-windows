@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Metadata;
+﻿using Dopamine.Data.Metadata;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;

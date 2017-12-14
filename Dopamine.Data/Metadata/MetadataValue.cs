@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using System.Linq;
 
-namespace Dopamine.Common.Metadata
+namespace Dopamine.Data.Metadata
 {
     public class MetadataValue : BindableBase
     {
