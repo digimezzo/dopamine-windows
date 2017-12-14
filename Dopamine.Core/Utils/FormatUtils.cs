@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace Dopamine.Common.Utils
+namespace Dopamine.Core.Utils
 {
     public static class FormatUtils
     {

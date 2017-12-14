@@ -9,7 +9,7 @@ using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Search;
-using Dopamine.Common.Utils;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
