@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public class PlaybackInterruptedEventArgs : EventArgs
     {

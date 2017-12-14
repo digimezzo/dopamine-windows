@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public class CSCorePlayer : IPlayer, IDisposable
     {
@@ -32,7 +32,7 @@ namespace Dopamine.Common.Audio
         private int latency = 100; // Default is 100
         private bool eventSync = false; // Default is False
         private AudioClientShareMode audioClientShareMode = AudioClientShareMode.Shared; // Default is Shared
-        internal SingleBlockNotificationStream notificationSource;
+        private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
         private MMDevice outputDevice;
         private ISoundOut wasapiOut;
@@ -63,6 +63,8 @@ namespace Dopamine.Common.Audio
                 return instance;
             }
         }
+
+        public SingleBlockNotificationStream NotificationSource => this.notificationSource;
 
         public string Filename
         {

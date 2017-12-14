@@ -37,6 +37,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSCore">
+      <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="CSCore.Ffmpeg">
+      <HintPath>..\Dopamine\Libraries\CSCore.Ffmpeg.dll</HintPath>
+    </Reference>
     <Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
     </Reference>
@@ -89,6 +95,14 @@
     <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
     <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
     <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />
+    <Compile Include="Audio\CSCorePlayer.cs" />
+    <Compile Include="Audio\EqualizerPreset.cs" />
+    <Compile Include="Audio\IPlayer.cs" />
+    <Compile Include="Audio\IPlayerFactory.cs" />
+    <Compile Include="Audio\ISpectrumPlayer.cs" />
+    <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
+    <Compile Include="Audio\PlayerFactory.cs" />
+    <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Base\Constants.cs" />
     <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />

@@ -1,7 +1,7 @@
 ﻿using CSCore.CoreAudioAPI;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Audio;
+using Dopamine.Core.Audio;
 using Dopamine.Data.Metadata;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.File;

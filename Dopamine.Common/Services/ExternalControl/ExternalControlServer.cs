@@ -1,6 +1,6 @@
 ﻿using CSCore.DSP;
 using CSCore.Streams;
-using Dopamine.Common.Audio;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Playback;
@@ -265,7 +265,7 @@ namespace Dopamine.Common.Services.ExternalControl
             this.player = playbackService.Player as CSCorePlayer;
             if (this.player != null && !this.haveAddedInputStream)
             {
-                this.player.notificationSource.SingleBlockRead += InputStream;
+                this.player.NotificationSource.SingleBlockRead += InputStream;
                 this.haveAddedInputStream = true;
             }
         }
@@ -275,7 +275,7 @@ namespace Dopamine.Common.Services.ExternalControl
             this.player = playbackService.Player as CSCorePlayer;
             if (this.player != null && this.haveAddedInputStream)
             {
-                this.player.notificationSource.SingleBlockRead -= InputStream;
+                this.player.NotificationSource.SingleBlockRead -= InputStream;
                 this.haveAddedInputStream = false;
             }
         }

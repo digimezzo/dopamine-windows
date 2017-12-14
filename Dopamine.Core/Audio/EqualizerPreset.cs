@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public delegate void BandValueChangedEventHandler(int bandIndex, double newValue);
 

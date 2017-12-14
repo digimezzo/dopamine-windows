@@ -2,13 +2,12 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Audio;
-using Dopamine.Core.Base;
-using Dopamine.Core.IO;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Equalizer;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
+using Dopamine.Core.IO;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

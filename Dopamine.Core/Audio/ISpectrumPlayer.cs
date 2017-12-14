@@ -20,7 +20,7 @@
 
 using System.ComponentModel;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public interface ISpectrumPlayer : INotifyPropertyChanged
     {
