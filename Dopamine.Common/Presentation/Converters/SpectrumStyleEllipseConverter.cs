@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 
 namespace Dopamine.Common.Presentation.Converters
 {

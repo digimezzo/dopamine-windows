@@ -1,7 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Common.Enums;
 using Dopamine.Common.Metadata;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
@@ -10,6 +8,7 @@ using Dopamine.Common.Services.Cache;
 using Dopamine.Common.Services.Dialog;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Core.Base;
+using Dopamine.Core.Enums;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

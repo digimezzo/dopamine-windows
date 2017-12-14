@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -26,7 +26,7 @@
         <TextBlock x:Name="PlaylistsProxy" Text="{DynamicResource Language_Playlists}" Visibility="Collapsed"/>
         <TextBlock x:Name="FrequentProxy" Text="{DynamicResource Language_Frequent}" Visibility="Collapsed"/>
         <commonviews:SearchControl Margin="0,0,15,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:CollectionPage}}">
+        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,215,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:CollectionPage}}">
             <dc:PivotItem Header="{Binding Text,ElementName=ArtistsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{Binding Text,ElementName=GenresProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{Binding Text,ElementName=AlbumsProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>

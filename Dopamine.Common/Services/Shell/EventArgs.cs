@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Enums;
+﻿using Dopamine.Core.Enums;
 using System;
 using System.Windows;
 

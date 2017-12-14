@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
@@ -24,7 +24,7 @@
         <TextBlock x:Name="PlaybackProxy" Text="{DynamicResource Language_Playback}" Visibility="Collapsed"/>
         <TextBlock x:Name="StartupProxy" Text="{DynamicResource Language_Startup}" Visibility="Collapsed"/>
         <TextBlock x:Name="OnlineProxy" Text="{DynamicResource Language_Online}" Visibility="Collapsed"/>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:SettingsPage}}">
+        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:SettingsPage}}">
             <dc:PivotItem Header="{Binding Text,ElementName=CollectionProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{Binding Text,ElementName=AppearanceProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
             <dc:PivotItem Header="{Binding Text,ElementName=BehaviourProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>

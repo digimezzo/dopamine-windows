@@ -1,11 +1,10 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Core.Base;
-using Dopamine.Common.Controls;
-using Dopamine.Common.Enums;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
+using Dopamine.Core.Enums;
 using Prism.Events;
 using Prism.Regions;
 using System;

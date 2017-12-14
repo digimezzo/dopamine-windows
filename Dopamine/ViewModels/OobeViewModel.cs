@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using Dopamine.Common.Services.Dialog;
 using Prism.Commands;
 using Prism.Mvvm;

@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Indexing;
 using Prism.Commands;

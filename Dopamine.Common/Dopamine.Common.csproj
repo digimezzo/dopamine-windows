@@ -197,9 +197,6 @@
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
-    <Compile Include="Enums\PageEnums.cs" />
-    <Compile Include="Enums\PlayerEnums.cs" />
-    <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\UnityExtensions.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Enums
+﻿namespace Dopamine.Core.Enums
 {
     public enum MiniPlayerType
     {

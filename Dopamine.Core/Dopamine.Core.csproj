@@ -80,6 +80,9 @@
     <Compile Include="Base\FileFormats.cs" />
     <Compile Include="Base\SensitiveInformation.cs" />
     <Compile Include="Base\UpdateInformation.cs" />
+    <Compile Include="Enums\PageEnums.cs" />
+    <Compile Include="Enums\PlayerEnums.cs" />
+    <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />

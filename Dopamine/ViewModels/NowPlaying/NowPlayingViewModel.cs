@@ -1,5 +1,5 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Playback;
