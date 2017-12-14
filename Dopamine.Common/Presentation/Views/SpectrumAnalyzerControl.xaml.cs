@@ -1,7 +1,7 @@
 ﻿using Dopamine.Common.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using System.Windows.Controls;
 
 namespace Dopamine.Common.Presentation.Views

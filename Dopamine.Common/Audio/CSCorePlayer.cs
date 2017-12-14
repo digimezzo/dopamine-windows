@@ -1,12 +1,11 @@
 ﻿using CSCore;
-using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
 using CSCore.Ffmpeg;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

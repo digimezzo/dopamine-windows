@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using Dopamine.Common.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

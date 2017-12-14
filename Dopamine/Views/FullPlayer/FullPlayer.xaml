@@ -6,7 +6,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -28,7 +28,7 @@
         <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
         <DockPanel>
             <dc:Pivot DockPanel.Dock="Top" Margin="85,20,0,0" 
-                      SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:FullPlayerPage}}">
+                      SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:FullPlayerPage}}">
                 <dc:PivotItem Header="{Binding Text,ElementName=CollectionProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
                 <dc:PivotItem Header="{Binding Text,ElementName=SettingsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
                 <dc:PivotItem Header="{Binding Text,ElementName=InformationProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>

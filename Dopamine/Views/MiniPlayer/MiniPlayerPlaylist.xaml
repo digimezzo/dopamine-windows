@@ -4,7 +4,7 @@
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                              xmlns:commonenums="clr-namespace:Dopamine.Common.Enums;assembly=Dopamine.Common"
+                              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
                               xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -26,7 +26,7 @@
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource RG_AccentBrush}">
         <Grid>
             <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+            <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
                 <dc:PivotItem>
                     <!-- Displayed when no tracks are queued -->
                     <commonviews:NothingPlayingControl/>

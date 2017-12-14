@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
-using Dopamine.Common.Enums;
+using Dopamine.Core.Enums;
 using Dopamine.Common.Presentation.Views;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.WindowsIntegration;

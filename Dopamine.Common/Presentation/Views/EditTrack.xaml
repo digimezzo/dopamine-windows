@@ -8,7 +8,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:commonenums="clr-namespace:Dopamine.Common.Enums"
+             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
@@ -53,7 +53,7 @@
                 <Grid DockPanel.Dock="Top" Margin="15,5,0,0">
                     <TextBlock x:Name="TagsProxy" Text="{DynamicResource Language_Tags}" Visibility="Collapsed"/>
                     <TextBlock x:Name="LyricsProxy" Text="{DynamicResource Language_Lyrics}" Visibility="Collapsed"/>
-                    <dc:Pivot SelectedIndex="{Binding SelectedEditTrackPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type commonenums:EditTrackPage}}">
+                    <dc:Pivot SelectedIndex="{Binding SelectedEditTrackPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:EditTrackPage}}">
                         <dc:PivotItem Header="{Binding Text,ElementName=TagsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
                         <dc:PivotItem Header="{Binding Text,ElementName=LyricsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
                     </dc:Pivot>
