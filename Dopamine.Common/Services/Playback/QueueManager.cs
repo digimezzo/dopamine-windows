@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Metadata;
+using Dopamine.Data.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;

@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Utils;
 using Dopamine.Core.IO;
-using Dopamine.Common.Metadata;
+using Dopamine.Data.Metadata;
 using Dopamine.Common.Services.Cache;
 using Dopamine.Core.Extensions;
 using Dopamine.Data;

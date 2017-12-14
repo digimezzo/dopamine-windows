@@ -200,11 +200,6 @@
     <Compile Include="Presentation\Utils\UriUtils.cs" />
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
-    <Compile Include="Metadata\FileMetadata.cs" />
-    <Compile Include="Metadata\MetadataArtworkValue.cs" />
-    <Compile Include="Metadata\MetadataRatingValue.cs" />
-    <Compile Include="Metadata\MetadataUtils.cs" />
-    <Compile Include="Metadata\MetadataValue.cs" />
     <Compile Include="Presentation\Converters\AddEllipsisConverter.cs" />
     <Compile Include="Presentation\Converters\AddValueConverter.cs" />
     <Compile Include="Presentation\Converters\BooleanToCollapsedConverter.cs" />

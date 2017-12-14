@@ -1,11 +1,10 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using System;
 using System.Linq;
 using TagLib;
 
-namespace Dopamine.Common.Metadata
+namespace Dopamine.Data.Metadata
 {
     public class FileMetadata
     {

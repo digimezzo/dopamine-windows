@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lyrics;
-using Dopamine.Common.Metadata;
+using Dopamine.Data.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
 using Dopamine.Common.Services.Metadata;
 using Dopamine.Common.Services.Provider;

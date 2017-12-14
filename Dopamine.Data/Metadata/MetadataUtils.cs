@@ -1,7 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Data;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dopamine.Common.Metadata
+namespace Dopamine.Data.Metadata
 {
     public class MetadataUtils
     {
