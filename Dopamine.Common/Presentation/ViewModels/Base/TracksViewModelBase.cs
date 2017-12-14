@@ -1,8 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Common.Extensions;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Prism;
 using Dopamine.Common.Services.Collection;
@@ -13,6 +11,8 @@ using Dopamine.Common.Services.Playback;
 using Dopamine.Common.Services.Playlist;
 using Dopamine.Common.Services.Provider;
 using Dopamine.Common.Services.Search;
+using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
