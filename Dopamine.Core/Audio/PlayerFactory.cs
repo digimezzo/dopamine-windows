@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Common.Audio
+﻿namespace Dopamine.Core.Audio
 {
     public class PlayerFactory : IPlayerFactory
     {

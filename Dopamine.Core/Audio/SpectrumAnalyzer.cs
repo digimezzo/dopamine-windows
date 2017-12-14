@@ -27,7 +27,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public enum SpectrumAnimationStyle
     {

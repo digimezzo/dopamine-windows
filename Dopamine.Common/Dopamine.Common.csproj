@@ -148,14 +148,6 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Audio\CSCorePlayer.cs" />
-    <Compile Include="Audio\EqualizerPreset.cs" />
-    <Compile Include="Audio\IPlayer.cs" />
-    <Compile Include="Audio\IPlayerFactory.cs" />
-    <Compile Include="Audio\ISpectrumPlayer.cs" />
-    <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
-    <Compile Include="Audio\PlayerFactory.cs" />
-    <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\Logo.xaml.cs">

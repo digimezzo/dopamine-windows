@@ -2,7 +2,7 @@
 using System;
 using CSCore.CoreAudioAPI;
 
-namespace Dopamine.Common.Audio
+namespace Dopamine.Core.Audio
 {
     public delegate void PlaybackInterruptedEventHandler(object sender, PlaybackInterruptedEventArgs e);
 
