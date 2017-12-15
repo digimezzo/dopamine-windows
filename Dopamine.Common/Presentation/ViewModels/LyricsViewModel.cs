@@ -2,8 +2,8 @@
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Data.Metadata;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Provider;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Provider;
 using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Microsoft.Practices.Unity;

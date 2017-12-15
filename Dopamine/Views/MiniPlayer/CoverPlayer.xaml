@@ -6,7 +6,7 @@
                               xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils;assembly=Dopamine.Common"
                               xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
                               xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
-                              xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+                              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"
                               d:DesignHeight="300" d:DesignWidth="300"
@@ -42,15 +42,15 @@
             <ContextMenu.Resources>
                 <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
             </ContextMenu.Resources>
-            <MenuItem Header="{DynamicResource Language_Always_On_Top}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerAlwaysOnTop,Mode=OneWay}"/>
-            <MenuItem Header="{DynamicResource Language_Lock_Position}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleMiniPlayerPositionLockedCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerPositionLocked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Always_On_Top}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerAlwaysOnTop,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Lock_Position}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ToggleMiniPlayerPositionLockedCommand}" IsCheckable="True" IsChecked="{Binding IsMiniPlayerPositionLocked,Mode=OneWay}"/>
             <Separator/>
-            <MenuItem Header="{DynamicResource Language_Cover_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding IsCoverPlayerChecked,Mode=OneWay}"/>
-            <MenuItem Header="{DynamicResource Language_Micro_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding IsMicroPlayerChecked,Mode=OneWay}"/>
-            <MenuItem Header="{DynamicResource Language_Nano_Player}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding IsNanoPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Cover_Player}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="1" IsCheckable="True" IsChecked="{Binding IsCoverPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Micro_Player}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="2" IsCheckable="True" IsChecked="{Binding IsMicroPlayerChecked,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Nano_Player}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ChangePlayerTypeCommand}" CommandParameter="3" IsCheckable="True" IsChecked="{Binding IsNanoPlayerChecked,Mode=OneWay}"/>
             <Separator/>
-            <MenuItem Header="{DynamicResource Language_Always_Show_Playback_Info}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleAlwaysShowPlaybackInfoCommand}" IsCheckable="True" IsChecked="{Binding AlwaysShowPlaybackInfo,Mode=OneWay}"/>
-            <MenuItem Header="{DynamicResource Language_Align_Playlist_Vertically}" InputGestureText="" Command="{x:Static prism:ApplicationCommands.ToggleAlignPlaylistVerticallyCommand}" IsCheckable="True" IsChecked="{Binding AlignPlaylistVertically,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Always_Show_Playback_Info}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ToggleAlwaysShowPlaybackInfoCommand}" IsCheckable="True" IsChecked="{Binding AlwaysShowPlaybackInfo,Mode=OneWay}"/>
+            <MenuItem Header="{DynamicResource Language_Align_Playlist_Vertically}" InputGestureText="" Command="{x:Static cp:ApplicationCommands.ToggleAlignPlaylistVerticallyCommand}" IsCheckable="True" IsChecked="{Binding AlignPlaylistVertically,Mode=OneWay}"/>
             <Separator/>
             <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                 <MenuItem.ItemContainerStyle>

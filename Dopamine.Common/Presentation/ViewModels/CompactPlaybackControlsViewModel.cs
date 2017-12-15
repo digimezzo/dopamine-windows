@@ -1,6 +1,7 @@
-﻿using Dopamine.Common.Services.Playback;
-using Prism.Events;
+﻿using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Playback;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Events;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

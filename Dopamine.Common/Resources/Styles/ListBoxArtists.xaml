@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
-    xmlns:prism="clr-namespace:Dopamine.Common.Prism"
-    xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
-    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
+                    xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
+                    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />

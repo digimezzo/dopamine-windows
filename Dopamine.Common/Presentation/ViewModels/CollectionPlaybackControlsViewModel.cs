@@ -1,5 +1,5 @@
 ﻿using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Services.Dialog;
+using Dopamine.Services.Dialog;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.Common.Presentation.ViewModels

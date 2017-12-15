@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Enums;
-using Dopamine.Common.Prism;
+using Dopamine.Core.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 

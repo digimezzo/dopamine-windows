@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Services.Playback;
+﻿using Dopamine.Services.Contracts.Playback;
 using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels

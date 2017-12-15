@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                     xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+                    xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
                     xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
                     xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
                     xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
@@ -151,17 +152,17 @@
                                        Visibility="{Binding Visibility,ElementName=ProxyBorder}"
                                        FontSize="13"/>
                                 </Grid>
-                                <controls:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                <pc:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                              Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                              Panel.ZIndex="0"
                                              IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
                                              Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
-                                    <controls:Tile.Content>
+                                    <pc:Tile.Content>
                                         <Viewbox>
                                             <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                                         </Viewbox>
-                                    </controls:Tile.Content>
-                                </controls:Tile>
+                                    </pc:Tile.Content>
+                                </pc:Tile>
                                 <controls:SourceChangedImage Panel.ZIndex="1" 
                                    Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                    Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"

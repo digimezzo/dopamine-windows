@@ -1,14 +1,14 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Common.Services.Collection;
-using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.I18n;
-using Dopamine.Common.Services.Indexing;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Playlist;
-using Dopamine.Common.Services.Search;
+using Dopamine.Services.Collection;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.I18n;
+using Dopamine.Services.Indexing;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Playback;
+using Dopamine.Services.Playlist;
+using Dopamine.Services.Search;
 using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Microsoft.Practices.Unity;
@@ -17,6 +17,7 @@ using Prism.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {

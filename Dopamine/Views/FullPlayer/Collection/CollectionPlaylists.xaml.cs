@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Enums;
 using Dopamine.Common.Presentation.Views.Base;
-using Dopamine.Common.Prism;
+using Dopamine.Core.Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;

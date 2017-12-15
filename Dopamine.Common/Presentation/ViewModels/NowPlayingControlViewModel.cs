@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Base;
 using Dopamine.Data;
+using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Dialog;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

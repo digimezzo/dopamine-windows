@@ -1,0 +1,39 @@
+﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Services.Dialog.CustomDialog"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+                              Background="Transparent"
+                              ShowWindowControls="False">
+
+    <Border Background="{DynamicResource RG_WindowBackgroundBrush}" Margin="-2">
+        <DockPanel Margin="17">
+            <StackPanel x:Name="TitlePanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,15">
+                <Grid>
+                    <Viewbox Width="30" Height="30" Panel.ZIndex="0">
+                        <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
+                    </Viewbox>
+                    <TextBlock
+                      x:Name="Icon"
+                      Panel.ZIndex="1"
+                      Style="{StaticResource SegoeAssets}"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" 
+                      Foreground="{DynamicResource RG_WhiteBrush}" />
+                    <Viewbox Width="30" Height="30" Panel.ZIndex="2">
+                        <Path x:Name="Overlay" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_IconGradientBrush}"/>
+                    </Viewbox>
+                    <ContentControl x:Name="IconContentControl" Width="30" Height="30"/>
+                </Grid>
+                <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            </StackPanel>
+            <DockPanel x:Name="Content">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,30,0,0">
+                    <Button x:Name="ButtonOK" Style="{StaticResource RegularButton}" IsDefault="True" Click="ButtonOK_Click"/>
+                    <Button x:Name="ButtonCancel" Style="{StaticResource RegularButton}" IsCancel="True" Margin="10,0,0,0" Click="ButtonCancel_Click"/>
+                </StackPanel>
+                <ContentControl x:Name="CustomContent"/>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</dc:BorderlessWindows10Window>

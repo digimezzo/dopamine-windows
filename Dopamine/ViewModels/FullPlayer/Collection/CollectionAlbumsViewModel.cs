@@ -2,9 +2,9 @@
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Services.Collection;
-using Dopamine.Common.Services.Indexing;
-using Dopamine.Common.Services.Metadata;
+using Dopamine.Services.Collection;
+using Dopamine.Services.Indexing;
+using Dopamine.Services.Metadata;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

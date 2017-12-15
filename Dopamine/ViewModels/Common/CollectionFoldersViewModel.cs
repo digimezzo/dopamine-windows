@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Services.Collection;
-using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.Indexing;
+using Dopamine.Services.Collection;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.Indexing;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;

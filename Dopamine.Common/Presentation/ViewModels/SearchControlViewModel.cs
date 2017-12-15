@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Services.Search;
+﻿using Dopamine.Services.Search;
 using Prism.Mvvm;
 
 namespace Dopamine.Common.Presentation.ViewModels

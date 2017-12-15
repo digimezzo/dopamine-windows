@@ -1,8 +1,8 @@
 ﻿using Digimezzo.WPFControls.Enums;
-using Dopamine.Core.Enums;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Core.Enums;
+using Dopamine.Core.Prism;
+using Dopamine.Services.Contracts.Playback;
 using Dopamine.Views.NowPlaying;
 using Prism.Events;
 using Prism.Regions;
