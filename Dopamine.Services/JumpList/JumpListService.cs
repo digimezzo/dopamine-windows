@@ -32,7 +32,7 @@ namespace Dopamine.Services.JumpList
                         Title = ResourceUtils.GetString("Language_Donate"),
                         Arguments = "/donate " + ContactInformation.PayPalLink,
                         Description = "",
-                        IconResourcePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Defaults.IconsLibrary),
+                        IconResourcePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Defaults.IconsLibrary + ".dll"),
                         ApplicationPath = Assembly.GetEntryAssembly().Location,
                         IconResourceIndex = 0
                     });

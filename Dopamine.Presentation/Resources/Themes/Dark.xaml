@@ -3,7 +3,7 @@
     xmlns:core="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Themes/Common.xaml" />
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Themes/Common.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- This RG_AppearanceServiceBrush is used by the AppearanceService -->
