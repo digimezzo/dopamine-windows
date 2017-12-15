@@ -328,7 +328,7 @@ namespace Dopamine.Services.Appearance
 
             ResourceDictionary currentThemeDict = this.GetCurrentThemeDictionary();
 
-            var newThemeDict = new ResourceDictionary { Source = new Uri(string.Format("/{0};component/Resources/Themes/{1}.xaml", Assembly.GetExecutingAssembly().GetName().Name, themeName), UriKind.RelativeOrAbsolute) };
+            var newThemeDict = new ResourceDictionary { Source = new Uri(string.Format("/{0};component/Resources/Themes/{1}.xaml", Defaults.ResourcesLibrary, themeName), UriKind.RelativeOrAbsolute) };
 
             // Prevent exceptions by adding the new dictionary before removing the old one
             Application.Current.Resources.MergedDictionaries.Add(newThemeDict);
