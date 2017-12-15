@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
-             xmlns:entityvm="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities;assembly=Dopamine.Common"
+             xmlns:vm="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -46,7 +46,7 @@
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1.0" To="0" Duration="0:0:0.15" />
             </Storyboard>
         </Storyboard>
-        <DataTemplate DataType="{x:Type entityvm:AlbumViewModel}">
+        <DataTemplate DataType="{x:Type vm:AlbumViewModel}">
             <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=This}" CommandParameter="{Binding Album}">
                 <Grid 
                     Width="{Binding ActualWidth,ElementName=TheButton}"

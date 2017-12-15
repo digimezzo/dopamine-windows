@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -21,18 +21,18 @@
         <!-- Embedded cover art -->
         <StackPanel DockPanel.Dock="Left" Panel.ZIndex="0" VerticalAlignment="Top" Width="{x:Static base:Constants.CoverLargeSize}">
             <Grid Width="{x:Static base:Constants.CoverLargeSize}" Height="{x:Static base:Constants.CoverLargeSize}">
-                <controls:Tile 
+                <pc:Tile 
                             Width="{x:Static base:Constants.CoverLargeSize}" 
                             Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
-                    <controls:Tile.Content>
+                    <pc:Tile.Content>
                         <Viewbox>
                             <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                         </Viewbox>
-                    </controls:Tile.Content>
-                </controls:Tile>
+                    </pc:Tile.Content>
+                </pc:Tile>
                 <Image 
                             Panel.ZIndex="1" 
                             ToolTip="{Binding ArtworkSize}"

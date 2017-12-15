@@ -1,9 +1,9 @@
-﻿using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.File;
-using Dopamine.Common.Services.JumpList;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Taskbar;
-using Dopamine.Common.Services.Update;
+﻿using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.File;
+using Dopamine.Services.JumpList;
+using Dopamine.Services.Taskbar;
+using Dopamine.Services.Update;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

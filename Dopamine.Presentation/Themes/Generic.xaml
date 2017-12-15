@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/Tile.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

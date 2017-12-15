@@ -8,7 +8,7 @@
              xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
-             xmlns:prism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -95,7 +95,7 @@
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Automatic_Scrolling}" IsCheckable="True" IsChecked="{Binding AutomaticScrolling}"/>
                                 <Separator/>
-                                <MenuItem Header="{DynamicResource Language_Search_Again}" Command="{x:Static prism:ApplicationCommands.RefreshLyricsCommand}"/>
+                                <MenuItem Header="{DynamicResource Language_Search_Again}" Command="{x:Static cp:ApplicationCommands.RefreshLyricsCommand}"/>
                                 <Separator/>
                                 <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding ContextMenuSearchProviders}" DisplayMemberPath="Name" IsEnabled="{Binding HasContextMenuSearchProviders}">
                                     <MenuItem.ItemContainerStyle>

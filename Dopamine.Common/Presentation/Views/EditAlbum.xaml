@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -55,18 +56,18 @@
             </DockPanel.Style>
             <StackPanel DockPanel.Dock="Left" Panel.ZIndex="0" VerticalAlignment="Top" Width="{x:Static base:Constants.CoverLargeSize}">
                 <Grid Width="{x:Static base:Constants.CoverLargeSize}" Height="{x:Static base:Constants.CoverLargeSize}">
-                    <controls:Tile 
+                    <pc:Tile 
                             Width="{x:Static base:Constants.CoverLargeSize}" 
                             Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
-                        <controls:Tile.Content>
+                        <pc:Tile.Content>
                             <Viewbox>
                                 <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                             </Viewbox>
-                        </controls:Tile.Content>
-                    </controls:Tile>
+                        </pc:Tile.Content>
+                    </pc:Tile>
                     <Image 
                         Panel.ZIndex="1"
                         ToolTip="{Binding ArtworkSize}"

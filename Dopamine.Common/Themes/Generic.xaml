@@ -13,7 +13,6 @@
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/RatingButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SearchBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SyncRing.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/Tile.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/TotalsInformation.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

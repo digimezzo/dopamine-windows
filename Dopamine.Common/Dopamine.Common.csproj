@@ -172,7 +172,6 @@
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
     <Compile Include="Controls\SubMenuButton.cs" />
     <Compile Include="Controls\SyncRing.cs" />
-    <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
@@ -185,9 +184,6 @@
     <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="Presentation\ViewModels\Base\EditMetadataBase.cs" />
     <Compile Include="Presentation\ViewModels\IndexingStatusViewModel.cs" />
-    <Compile Include="Presentation\Views\Empty.xaml.cs">
-      <DependentUpon>Empty.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
     <Compile Include="Presentation\Utils\UriUtils.cs" />
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
@@ -217,7 +213,6 @@
     <Compile Include="Presentation\ViewModels\Base\CommonViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\PlaybackControlsViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\CollectionPlaybackControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Entities\AlbumViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\ArtistInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\ArtistViewModel.cs" />
@@ -241,7 +236,6 @@
     <Compile Include="Presentation\ViewModels\NowPlayingControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlayAllControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
     <Compile Include="Presentation\ViewModels\PlaybackInfoControlViewModel.cs" />
@@ -259,8 +253,6 @@
     <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\UpdateStatusViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\VerticalVolumeControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
       <DependentUpon>ArtistInfoControl.xaml</DependentUpon>
     </Compile>
@@ -271,7 +263,6 @@
     <Compile Include="Presentation\Views\Base\MiniPlayerViewBase.cs" />
     <Compile Include="Presentation\Views\Base\PlaylistViewBase.cs" />
     <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
-    <Compile Include="Presentation\Views\Base\VolumeControlViewBase.cs" />
     <Compile Include="Presentation\Views\CollectionPlaybackControls.xaml.cs">
       <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
     </Compile>
@@ -344,9 +335,6 @@
     <Compile Include="Presentation\Views\PlayAllControl.xaml.cs">
       <DependentUpon>PlayAllControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\PlaybackControls.xaml.cs">
-      <DependentUpon>PlaybackControls.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Views\PlaybackControlsWithPlaylistNotification.xaml.cs">
       <DependentUpon>PlaybackControlsWithPlaylistNotification.xaml</DependentUpon>
     </Compile>
@@ -383,12 +371,6 @@
     <Compile Include="Presentation\Views\UpdateStatus.xaml.cs">
       <DependentUpon>UpdateStatus.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\VerticalVolumeControls.xaml.cs">
-      <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Prism\ApplicationCommands.cs" />
-    <Compile Include="Prism\Events.cs" />
-    <Compile Include="Prism\RegionNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -402,100 +384,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Services\Appearance\AppearanceService.cs" />
-    <Compile Include="Services\Appearance\ColorScheme.cs" />
-    <Compile Include="Services\Appearance\IAppearanceService.cs" />
-    <Compile Include="Services\Cache\CacheService.cs" />
-    <Compile Include="Services\Cache\ICacheService.cs" />
-    <Compile Include="Services\Collection\CollectionService.cs" />
-    <Compile Include="Services\Collection\ICollectionService.cs" />
-    <Compile Include="Services\Command\CommandService.cs" />
-    <Compile Include="Services\Command\ICommandService.cs" />
-    <Compile Include="Services\Dialog\ConfirmationDialog.xaml.cs">
-      <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Dialog\CustomDialog.xaml.cs">
-      <DependentUpon>CustomDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Dialog\DialogService.cs" />
-    <Compile Include="Services\Dialog\IDialogService.cs" />
-    <Compile Include="Services\Dialog\InputDialog.xaml.cs">
-      <DependentUpon>InputDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Dialog\NotificationDialog.xaml.cs">
-      <DependentUpon>NotificationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Equalizer\EqualizerService.cs" />
-    <Compile Include="Services\Equalizer\IEqualizerService.cs" />
-    <Compile Include="Services\ExternalControl\ExternalControlServer.cs" />
-    <Compile Include="Services\ExternalControl\ExternalControlService.cs" />
-    <Compile Include="Services\ExternalControl\IExternalControlServer.cs" />
-    <Compile Include="Services\ExternalControl\IExternalControlService.cs" />
-    <Compile Include="Services\ExternalControl\IFftDataServer.cs" />
-    <Compile Include="Services\File\FileService.cs" />
-    <Compile Include="Services\File\IFileService.cs" />
-    <Compile Include="Services\I18n\I18nService.cs" />
-    <Compile Include="Services\I18n\II18nService.cs" />
-    <Compile Include="Services\I18n\Language.cs" />
-    <Compile Include="Services\Indexing\AlbumArtworkAddedEventArgs.cs" />
-    <Compile Include="Services\Indexing\Enums.cs" />
-    <Compile Include="Services\Indexing\FolderWatcherManager.cs" />
-    <Compile Include="Services\Indexing\IIndexingService.cs" />
-    <Compile Include="Services\Indexing\IndexerCache.cs" />
-    <Compile Include="Services\Indexing\IndexerUtils.cs" />
-    <Compile Include="Services\Indexing\IndexingService.cs" />
-    <Compile Include="Services\Indexing\IndexingStatusEventArgs.cs" />
-    <Compile Include="Services\JumpList\IJumpListService.cs" />
-    <Compile Include="Services\JumpList\JumpListService.cs" />
-    <Compile Include="Services\Metadata\IMetadataService.cs" />
-    <Compile Include="Services\Metadata\LoveChangedEventArgs.cs" />
-    <Compile Include="Services\Metadata\MetadataChangedEventArgs.cs" />
-    <Compile Include="Services\Metadata\MetadataService.cs" />
-    <Compile Include="Services\Metadata\RatingChangedEventArgs.cs" />
-    <Compile Include="Services\Notification\INotificationService.cs" />
-    <Compile Include="Services\Notification\LegacyNotificationService.cs" />
-    <Compile Include="Services\Notification\NotificationService.cs" />
-    <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
-      <DependentUpon>NotificationWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Playback\AudioDevicesWatcher.cs" />
-    <Compile Include="Services\Playback\EnqueueResult.cs" />
-    <Compile Include="Services\Playback\DequeueResult.cs" />
-    <Compile Include="Services\Playback\IPlaybackService.cs" />
-    <Compile Include="Services\Playback\PlaybackFailedEventArgs.cs" />
-    <Compile Include="Services\Playback\PlaybackFailureReason.cs" />
-    <Compile Include="Services\Playback\PlaybackPausedEventArgs.cs" />
-    <Compile Include="Services\Playback\PlaybackService.cs" />
-    <Compile Include="Services\Playback\PlaybackSuccessEventArgs.cs" />
-    <Compile Include="Services\Playback\QueueManager.cs" />
-    <Compile Include="Services\Playback\UpdateQueueMetadataResult.cs" />
-    <Compile Include="Services\Playlist\Enums.cs" />
-    <Compile Include="Services\Playlist\IPlaylistService.cs" />
-    <Compile Include="Services\Playlist\PlaylistService.cs" />
-    <Compile Include="Services\Provider\Enums.cs" />
-    <Compile Include="Services\Provider\IProviderService.cs" />
-    <Compile Include="Services\Provider\ProviderService.cs" />
-    <Compile Include="Services\Provider\SearchProvider.cs" />
-    <Compile Include="Services\Scrobbling\Enums.cs" />
-    <Compile Include="Services\Scrobbling\IScrobblingService.cs" />
-    <Compile Include="Services\Scrobbling\LastfmScrobblingService.cs" />
-    <Compile Include="Services\Search\ISearchService.cs" />
-    <Compile Include="Services\Search\SearchService.cs" />
-    <Compile Include="Services\Shell\IShellService.cs" />
-    <Compile Include="Services\Shell\EventArgs.cs" />
-    <Compile Include="Services\Shell\ShellService.cs" />
-    <Compile Include="Services\Taskbar\ITaskbarService.cs" />
-    <Compile Include="Services\Taskbar\TaskbarService.cs" />
-    <Compile Include="Services\Update\IUpdateService.cs" />
-    <Compile Include="Services\Update\UpdateAvailableEventArgs.cs" />
-    <Compile Include="Services\Update\UpdateService.cs" />
-    <Compile Include="Services\Win32Input\AppCommandKeyboardHookManager.cs" />
-    <Compile Include="Services\Win32Input\IKeyboardHookManager.cs" />
-    <Compile Include="Services\Win32Input\IWin32InputService.cs" />
-    <Compile Include="Services\Win32Input\LowLevelKeyboardHookManager.cs" />
-    <Compile Include="Services\Win32Input\Win32InputService.cs" />
-    <Compile Include="Services\WindowsIntegration\IWindowsIntegrationService.cs" />
-    <Compile Include="Services\WindowsIntegration\WindowsIntegrationService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -528,10 +416,6 @@
     <Page Include="Presentation\Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Views\Empty.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\ArtistInfoControl.xaml">
       <SubType>Designer</SubType>
@@ -637,10 +521,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\Views\PlaybackControls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presentation\Views\PlaybackControlsWithPlaylistNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -686,10 +566,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\UpdateStatus.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Views\VerticalVolumeControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -841,26 +717,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Services\Dialog\ConfirmationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Services\Dialog\CustomDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Services\Dialog\InputDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Services\Dialog\NotificationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Services\Notification\NotificationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\AccentTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -913,10 +769,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Tile.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\TotalsInformation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -930,6 +782,18 @@
     <ProjectReference Include="..\Dopamine.Data\Dopamine.Data.csproj">
       <Project>{3AA1D889-7AAF-4385-A373-8E2757D47FD4}</Project>
       <Name>Dopamine.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
+      <Project>{D4CC27BA-1089-47FD-86C0-F6C12FF0D344}</Project>
+      <Name>Dopamine.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Services.Contracts\Dopamine.Services.Contracts.csproj">
+      <Project>{90c71913-2055-422a-895f-66c37f459e06}</Project>
+      <Name>Dopamine.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Services\Dopamine.Services.csproj">
+      <Project>{c7c13d3a-bef1-4825-9c60-14aaec9714b3}</Project>
+      <Name>Dopamine.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

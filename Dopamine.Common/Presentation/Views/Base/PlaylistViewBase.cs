@@ -4,7 +4,7 @@ using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Common.Services.Playlist;
+using Dopamine.Services.Playlist;
 using Dopamine.Data;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;

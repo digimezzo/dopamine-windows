@@ -1,7 +1,7 @@
 ﻿using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
-using Dopamine.Common.Prism;
+using Dopamine.Core.Prism;
 using Dopamine.Views.FullPlayer.Settings;
 using Prism.Events;
 using Prism.Mvvm;

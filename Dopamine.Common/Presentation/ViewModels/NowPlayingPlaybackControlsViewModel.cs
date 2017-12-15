@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Core.Enums;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Prism;
+using Dopamine.Core.Enums;
+using Dopamine.Core.Prism;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

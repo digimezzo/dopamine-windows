@@ -3,15 +3,15 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Prism;
-using Dopamine.Common.Services.Appearance;
-using Dopamine.Common.Services.I18n;
-using Dopamine.Common.Services.Metadata;
-using Dopamine.Common.Services.Notification;
-using Dopamine.Common.Services.Playback;
-using Dopamine.Common.Services.Shell;
-using Dopamine.Common.Services.Win32Input;
-using Dopamine.Common.Services.WindowsIntegration;
+using Dopamine.Core.Prism;
+using Dopamine.Services.Appearance;
+using Dopamine.Services.I18n;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Notification;
+using Dopamine.Services.Playback;
+using Dopamine.Services.Shell;
+using Dopamine.Services.Win32Input;
+using Dopamine.Services.WindowsIntegration;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
@@ -28,6 +28,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Views
 {
@@ -325,19 +326,19 @@ namespace Dopamine.Views
         {
             // Window State
             this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
-            Dopamine.Common.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
+            Core.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
 
             this.RestoreWindowCommand = new DelegateCommand(() => this.shellService.ForceFullPlayer());
-            Dopamine.Common.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
+            Core.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
 
             this.MaximizeRestoreWindowCommand = new DelegateCommand(() => this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
-            Dopamine.Common.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
+            Core.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
 
             this.CloseWindowCommand = new DelegateCommand(() => this.Close());
-            Dopamine.Common.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
+            Core.Prism.ApplicationCommands.CloseWindowCommand.RegisterCommand(this.CloseWindowCommand);
 
             this.ShowMainWindowCommand = new DelegateCommand(() => this.ShowWindowInForeground());
-            Dopamine.Common.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
+            Core.Prism.ApplicationCommands.ShowMainWindowCommand.RegisterCommand(this.ShowMainWindowCommand);
         }
 
         private void InitializeServices()

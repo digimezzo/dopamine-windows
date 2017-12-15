@@ -46,6 +46,9 @@
     <Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="Digimezzo.WPFControls">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -127,6 +130,9 @@
     <Compile Include="IO\FolderPathInfo.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
     <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
+    <Compile Include="Prism\ApplicationCommands.cs" />
+    <Compile Include="Prism\Events.cs" />
+    <Compile Include="Prism\RegionNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

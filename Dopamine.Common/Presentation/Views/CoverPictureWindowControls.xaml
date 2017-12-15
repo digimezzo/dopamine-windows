@@ -4,12 +4,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism"
+             xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <StackPanel Orientation="Horizontal">
-        <Button x:Name="PART_Restore" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Restore}" Command="{x:Static commonprism:ApplicationCommands.RestoreWindowCommand}">
+        <Button x:Name="PART_Restore" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Restore}" Command="{x:Static cp:ApplicationCommands.RestoreWindowCommand}">
             <Path Data="{StaticResource MiniPlayer}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
@@ -17,7 +17,7 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-        <Button x:Name="PART_Minimize" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Minimize}" Command="{x:Static commonprism:ApplicationCommands.MinimizeWindowCommand}">
+        <Button x:Name="PART_Minimize" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Minimize}" Command="{x:Static cp:ApplicationCommands.MinimizeWindowCommand}">
             <Path Data="{StaticResource Minimize}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
@@ -25,7 +25,7 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-        <Button x:Name="PART_Close" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Close}" Command="{x:Static commonprism:ApplicationCommands.CloseWindowCommand}">
+        <Button x:Name="PART_Close" Style="{StaticResource WhiteWindowButton}" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Close}" Command="{x:Static cp:ApplicationCommands.CloseWindowCommand}">
             <Path Data="{StaticResource Close}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 

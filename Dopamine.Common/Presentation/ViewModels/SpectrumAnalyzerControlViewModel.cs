@@ -1,8 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Enums;
-using Dopamine.Common.Services.Appearance;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Services.Appearance;
+using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Windows;

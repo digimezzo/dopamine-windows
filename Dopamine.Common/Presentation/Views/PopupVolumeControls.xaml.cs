@@ -1,6 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Common.Presentation.Views.Base;
-using Dopamine.Common.Services.Playback;
+using Dopamine.Presentation.Views.Base;
+using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Timers;

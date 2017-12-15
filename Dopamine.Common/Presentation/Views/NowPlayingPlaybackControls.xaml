@@ -6,7 +6,8 @@
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
-             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.Views;assembly=Dopamine.Presentation"
+             xmlns:cv="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -22,7 +23,7 @@
 
     <DockPanel Height="80">
         <!-- Progress slider -->
-        <commonviews:ProgressControls DockPanel.Dock="Top"/>
+        <cv:ProgressControls DockPanel.Dock="Top"/>
         <Grid Margin="0,-6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -82,7 +83,7 @@
                 </dc:PivotItem>
             </dc:Pivot>
             <!-- Playback controls -->
-            <commonviews:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+            <pv:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
             <controls:IconMenuButton  
                 Grid.Column="3" 
@@ -95,11 +96,11 @@
                 ToolTip="{DynamicResource Language_Equalizer}"
                 Command="{Binding ShowEqualizerCommand}">
                 <ToggleButton.Content>
-                    <commonviews:EqualizerIcon/>
+                    <cv:EqualizerIcon/>
                 </ToggleButton.Content>
             </controls:IconMenuButton>
             <!-- Volume -->
-            <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
+            <cv:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
         </Grid>
     </DockPanel>
 </UserControl>

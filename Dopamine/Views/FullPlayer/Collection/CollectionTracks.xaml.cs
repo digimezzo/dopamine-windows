@@ -5,7 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views.Base;
-using Dopamine.Common.Prism;
+using Dopamine.Core.Prism;
 using Prism.Commands;
 using System;
 using System.Linq;

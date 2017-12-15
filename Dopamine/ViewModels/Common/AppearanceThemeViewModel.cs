@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Common.Services.Appearance;
+using Dopamine.Services.Appearance;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;

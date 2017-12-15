@@ -7,7 +7,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
-             xmlns:commonprism="clr-namespace:Dopamine.Common.Prism;assembly=Dopamine.Common"
+             xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" 
@@ -21,6 +21,6 @@
         </Grid>
         <controls:TransitioningContentControl Margin="0,20,0,10" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
                                               SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionRegion" 
-                                              prism:RegionManager.RegionName="{x:Static commonprism:RegionNames.CollectionRegion}"/>
+                                              prism:RegionManager.RegionName="{x:Static cp:RegionNames.CollectionRegion}"/>
     </DockPanel>
 </UserControl>

@@ -2,9 +2,9 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Services.Cache;
-using Dopamine.Common.Services.Dialog;
-using Dopamine.Common.Services.Metadata;
+using Dopamine.Services.Cache;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
