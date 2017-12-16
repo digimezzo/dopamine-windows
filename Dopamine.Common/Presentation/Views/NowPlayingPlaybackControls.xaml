@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:Dopamine.Common.Controls"
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:pv="clr-namespace:Dopamine.Presentation.Views;assembly=Dopamine.Presentation"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:cv="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -85,7 +86,7 @@
             <!-- Playback controls -->
             <pv:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
             <!-- Equalizer button -->
-            <controls:IconMenuButton  
+            <pc:IconMenuButton  
                 Grid.Column="3" 
                 x:Name="EqualizerButton" 
                 Width="30" 
@@ -98,7 +99,7 @@
                 <ToggleButton.Content>
                     <cv:EqualizerIcon/>
                 </ToggleButton.Content>
-            </controls:IconMenuButton>
+            </pc:IconMenuButton>
             <!-- Volume -->
             <cv:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
         </Grid>

@@ -148,20 +148,8 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Controls\AccentTextBox.cs" />
     <Compile Include="Controls\CombiLabel.cs" />
-    <Compile Include="Controls\Logo.xaml.cs">
-      <DependentUpon>Logo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SourceChangedImage.cs" />
-    <Compile Include="Controls\CrossFadeContentControl.cs" />
-    <Compile Include="Controls\DataGridEx.cs" />
-    <Compile Include="Controls\FullLogo.xaml.cs">
-      <DependentUpon>FullLogo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\IconButton.cs" />
-    <Compile Include="Controls\IconMenuButton.cs" />
-    <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ListCheckBox.cs" />
     <Compile Include="Controls\LoveButton.cs" />
     <Compile Include="Controls\MainMenuButton.cs" />
@@ -171,7 +159,6 @@
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
     <Compile Include="Controls\SubMenuButton.cs" />
-    <Compile Include="Controls\SyncRing.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
@@ -405,14 +392,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\FullLogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Logo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presentation\Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -705,31 +684,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AccentTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\CombiLabel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\CrossFadeContentControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\IconButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\IconMenuButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\IconTextButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -750,10 +709,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\SpectrumAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\SyncRing.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

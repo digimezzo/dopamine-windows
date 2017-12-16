@@ -1,10 +1,9 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Core.Base;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Dopamine.Common.Controls
+namespace Dopamine.Presentation.Controls
 {
     public partial class FullLogo : UserControl
     {

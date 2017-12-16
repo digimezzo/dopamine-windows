@@ -6,7 +6,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Dopamine.Common.Controls
+namespace Dopamine.Presentation.Controls
 {
     public class CrossFadeContentControl : ContentControl
     {

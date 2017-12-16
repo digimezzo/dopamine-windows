@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Dopamine.Common.Controls
+namespace Dopamine.Presentation.Controls
 {
     public class SyncRing : Label
     {

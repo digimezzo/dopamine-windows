@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Dopamine.Common.Controls
+namespace Dopamine.Presentation.Controls
 {
     public class IconButton : Button
     {
