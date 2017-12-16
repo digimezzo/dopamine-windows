@@ -2,13 +2,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/AccentTextBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/CombiLabel.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/CrossFadeContentControl.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/IconButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/IconMenuButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/IconTextButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Common;component/Themes/ListCheckBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/LoveButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/RatingButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Common;component/Themes/SearchBox.xaml" />

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Dopamine.Common.Controls
+namespace Dopamine.Presentation.Controls
 {
     public class ListCheckBox : CheckBox
     {
@@ -27,9 +27,12 @@ namespace Dopamine.Common.Controls
             set { SetValue(CheckMarkBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty CheckBackgroundProperty = DependencyProperty.Register("CheckBackground", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty CheckBorderBrushProperty = DependencyProperty.Register("CheckBorderBrush", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty CheckMarkBrushProperty = DependencyProperty.Register("CheckMarkBrush", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty CheckBackgroundProperty = 
+            DependencyProperty.Register("CheckBackground", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty CheckBorderBrushProperty = 
+            DependencyProperty.Register("CheckBorderBrush", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty CheckMarkBrushProperty = 
+            DependencyProperty.Register("CheckMarkBrush", typeof(Brush), typeof(ListCheckBox), new PropertyMetadata(null));
        
         static ListCheckBox()
         {
