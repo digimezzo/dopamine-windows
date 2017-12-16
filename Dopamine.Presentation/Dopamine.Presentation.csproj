@@ -90,6 +90,7 @@
       <DependentUpon>Logo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LoveButton.cs" />
+    <Compile Include="Controls\RatingButton.cs" />
     <Compile Include="Controls\SyncRing.cs" />
     <Compile Include="Controls\Tile.cs" />
     <Compile Include="Converters\AddEllipsisConverter.cs" />
@@ -223,6 +224,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\LoveButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\RatingButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

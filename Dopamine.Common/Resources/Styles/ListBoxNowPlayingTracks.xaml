@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters"
                     xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-                    xmlns:controls="clr-namespace:Dopamine.Common.Controls"
-                    xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
-                    xmlns:converters="clr-namespace:Dopamine.Common.Presentation.Converters">
+                    xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation">
 
     <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter" />
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
@@ -165,7 +164,7 @@
                                 </DockPanel>
                                 <DockPanel Height="20">
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                        <controls:RatingButton 
+                                        <pc:RatingButton 
                                             VerticalAlignment="Center" 
                                             Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

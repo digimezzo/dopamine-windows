@@ -149,13 +149,10 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controls\SourceChangedImage.cs" />
-    <Compile Include="Controls\MainMenuButton.cs" />
     <Compile Include="Controls\PopupEx.cs" />
-    <Compile Include="Controls\RatingButton.cs" />
     <Compile Include="Controls\ScalingTextBlock.cs" />
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
-    <Compile Include="Controls\SubMenuButton.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
     <Compile Include="Controls\TransitioningContentControl.cs" />
     <Compile Include="Controls\ZoomInContentControl.cs" />
@@ -678,10 +675,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\RatingButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
