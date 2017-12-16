@@ -149,7 +149,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controls\SourceChangedImage.cs" />
-    <Compile Include="Controls\LoveButton.cs" />
     <Compile Include="Controls\MainMenuButton.cs" />
     <Compile Include="Controls\PopupEx.cs" />
     <Compile Include="Controls\RatingButton.cs" />
@@ -681,10 +680,6 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\LoveButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\RatingButton.xaml">
       <Generator>MSBuild:Compile</Generator>
