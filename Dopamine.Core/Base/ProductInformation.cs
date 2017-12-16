@@ -83,7 +83,7 @@ namespace Dopamine.Core.Base
                 Name = "Unity",
                 Description = "A lightweight extensible dependency injection container with support for constructor, property, and method call injection.",
                 Url = "https://github.com/unitycontainer/unity",
-                LicenseUrl = "https://github.com/unitycontainer/unity/blob/master/LICENSE.txt"
+                LicenseUrl = "https://github.com/unitycontainer/container/blob/master/LICENSE"
             },
             new ExternalComponent
             {

@@ -76,6 +76,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controls\AccentTextBox.cs" />
+    <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
     <Compile Include="Controls\DataGridEx.cs" />
     <Compile Include="Controls\FullLogo.xaml.cs">
@@ -84,6 +85,7 @@
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\IconMenuButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
+    <Compile Include="Controls\ListCheckBox.cs" />
     <Compile Include="Controls\Logo.xaml.cs">
       <DependentUpon>Logo.xaml</DependentUpon>
     </Compile>
@@ -163,6 +165,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Themes\ListCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\HotKey.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Styles\AllStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -184,6 +194,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\AccentTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CombiLabel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
