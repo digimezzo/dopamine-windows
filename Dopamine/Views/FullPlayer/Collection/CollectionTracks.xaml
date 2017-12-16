@@ -91,7 +91,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <controls:LoveButton 
+                            <pc:LoveButton 
                                             VerticalAlignment="Center" 
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
