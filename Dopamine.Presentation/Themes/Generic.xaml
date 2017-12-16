@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconMenuButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconTextButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/LoveButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/RatingButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SyncRing.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/Tile.xaml" />
     </ResourceDictionary.MergedDictionaries>
