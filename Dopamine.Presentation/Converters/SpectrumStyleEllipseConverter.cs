@@ -1,0 +1,21 @@
+﻿using System;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using Dopamine.Core.Enums;
+
+namespace Dopamine.Presentation.Converters
+{
+    public class SpectrumStyleEllipseConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (SpectrumStyle) value == SpectrumStyle.Flames ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

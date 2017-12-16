@@ -6,6 +6,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
@@ -25,7 +26,7 @@
         <TextBlock x:Name="CollectionProxy" Text="{DynamicResource Language_Collection}" Visibility="Collapsed"/>
         <TextBlock x:Name="SettingsProxy" Text="{DynamicResource Language_Settings}" Visibility="Collapsed"/>
         <TextBlock x:Name="InformationProxy" Text="{DynamicResource Language_Information}" Visibility="Collapsed"/>
-        <controls:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
+        <pc:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
         <DockPanel>
             <dc:Pivot DockPanel.Dock="Top" Margin="85,20,0,0" 
                       SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:FullPlayerPage}}">

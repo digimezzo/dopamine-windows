@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="SegoeAssets">
+        <Setter Property="TextElement.FontFamily" Value="/Dopamine.Presentation;component/Resources/Fonts/#Segoe MDL2 Assets" />
+    </Style>
+
+    <Style x:Key="FontAwesome">
+        <Setter Property="TextElement.FontFamily" Value="/Dopamine.Presentation;component/Resources/Fonts/#FontAwesome" />
+    </Style>
+
+    <Style x:Key="Material">
+        <Setter Property="TextElement.FontFamily" Value="/Dopamine.Presentation;component/Resources/Fonts/#Material Icons" />
+    </Style>
+</ResourceDictionary>

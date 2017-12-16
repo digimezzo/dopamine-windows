@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
@@ -19,7 +19,7 @@
 
     <Border x:Name="CoverImage" Opacity="{Binding Opacity}">
         <Border Opacity="0.15">
-            <controls:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0" />
+            <pc:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0" />
             <!--<Border.Effect>
                 <BlurEffect Radius="20" KernelType="Gaussian"/>
             </Border.Effect>-->

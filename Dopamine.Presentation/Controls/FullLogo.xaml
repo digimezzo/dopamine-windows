@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Dopamine.Common.Controls.FullLogo"
+﻿<UserControl x:Class="Dopamine.Presentation.Controls.FullLogo"
              x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
