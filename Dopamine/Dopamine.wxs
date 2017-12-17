@@ -180,7 +180,6 @@
             <File Source="Prism.dll" />
             <File Source="Prism.Unity.Wpf.dll" />
             <File Source="Prism.Wpf.dll" />
-            <File Source="Dopamine.Common.dll" />
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
             <File Source="Dopamine.Icons.dll" />

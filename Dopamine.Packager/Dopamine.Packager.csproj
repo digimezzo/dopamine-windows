@@ -92,10 +92,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
-      <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
-      <Name>Dopamine.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
       <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
       <Name>Dopamine.Core</Name>

@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.PlaybackInfoControlNano"
+             x:Name="ThisControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
+             Background="#00000000"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
+            <StackPanel VerticalAlignment="Center" Visibility="{Binding Title,Converter={StaticResource StringEmptyToInvisibleConverter}}">
+                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"/>
+                <StackPanel.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Artist}"/>
+                        </StackPanel>
+                    </ToolTip>
+                </StackPanel.ToolTip>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <dc:SlidingContentControl 
+        x:Name="PlaybackInfoContent" 
+        SlideDirection="{Binding SlideDirection}" 
+        Width="{Binding ActualWidth,ElementName=ThisControl}" 
+        EasingAmplitude="0" 
+        SlideFadeIn="True"
+        Content="{Binding PlaybackInfoViewModel}"/>
+</UserControl>

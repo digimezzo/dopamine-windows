@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Presentation.Views.Base;
+using Dopamine.Views.Common.Base;
 using Dopamine.Core.Prism;
 using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.ViewModels;
