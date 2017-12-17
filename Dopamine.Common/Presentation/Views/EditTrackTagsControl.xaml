@@ -6,14 +6,14 @@
              xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
+             xmlns:utils="clr-namespace:Dopamine.Presentation.Utils;assembly=Dopamine.Presentation"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
 
     <UserControl.Resources>
-        <presentationutils:BindingProxy x:Key="ChangeProxy" Data="{DynamicResource Language_Change}"/>
-        <presentationutils:BindingProxy x:Key="ExportProxy" Data="{DynamicResource Language_Export}"/>
+        <utils:BindingProxy x:Key="ChangeProxy" Data="{DynamicResource Language_Change}"/>
+        <utils:BindingProxy x:Key="ExportProxy" Data="{DynamicResource Language_Export}"/>
     </UserControl.Resources>
 
     <DockPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">

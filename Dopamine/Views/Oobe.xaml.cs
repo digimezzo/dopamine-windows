@@ -1,6 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Controls;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Indexing;
 using System.ComponentModel;

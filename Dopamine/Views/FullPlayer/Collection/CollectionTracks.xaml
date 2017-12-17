@@ -3,7 +3,6 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                           xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-                          xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
                           xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
                           xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
                           xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -17,7 +16,7 @@
     </i:Interaction.Triggers>
 
     <DockPanel>
-        <controls:TotalsInformation
+        <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
                                 Foreground="{DynamicResource RG_InactiveForegroundBrush}" 

@@ -6,7 +6,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Provider;
-using Dopamine.Services.Scrobbling;
+using Dopamine.Services.Contracts.Scrobbling;
 using Dopamine.Views.FullPlayer.Settings;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

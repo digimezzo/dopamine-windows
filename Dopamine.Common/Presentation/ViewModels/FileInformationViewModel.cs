@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Data.Metadata;
-using Dopamine.Services.Metadata;
 using Dopamine.Core.Utils;
+using Dopamine.Data.Metadata;
+using Dopamine.Services.Contracts.Metadata;
 using Prism.Mvvm;
 using System;
 using System.Globalization;

@@ -3,7 +3,6 @@ using Dopamine.Core.Audio;
 using Dopamine.Core.Enums;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Playback;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Windows;
@@ -59,7 +58,7 @@ namespace Dopamine.Common.Presentation.ViewModels
             set
             {
                 SetProperty<double>(ref this.spectrumWidth, value);
-                OnPropertyChanged(() => this.SpectrumPanelWidth);
+                RaisePropertyChanged(nameof(this.SpectrumPanelWidth));
             }
         }
 

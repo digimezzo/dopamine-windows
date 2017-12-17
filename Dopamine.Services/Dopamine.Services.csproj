@@ -158,11 +158,7 @@
     <Compile Include="Indexing\IndexingStatusEventArgs.cs" />
     <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
-    <Compile Include="Metadata\IMetadataService.cs" />
-    <Compile Include="Metadata\LoveChangedEventArgs.cs" />
-    <Compile Include="Metadata\MetadataChangedEventArgs.cs" />
     <Compile Include="Metadata\MetadataService.cs" />
-    <Compile Include="Metadata\RatingChangedEventArgs.cs" />
     <Compile Include="Notification\INotificationService.cs" />
     <Compile Include="Notification\LegacyNotificationService.cs" />
     <Compile Include="Notification\NotificationService.cs" />
@@ -192,8 +188,6 @@
     <Compile Include="Provider\IProviderService.cs" />
     <Compile Include="Provider\ProviderService.cs" />
     <Compile Include="Provider\SearchProvider.cs" />
-    <Compile Include="Scrobbling\Enums.cs" />
-    <Compile Include="Scrobbling\IScrobblingService.cs" />
     <Compile Include="Scrobbling\LastfmScrobblingService.cs" />
     <Compile Include="Search\ISearchService.cs" />
     <Compile Include="Search\SearchService.cs" />

@@ -4,6 +4,7 @@ using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Contracts.Scrobbling;
 using System;
 using System.Threading.Tasks;
 

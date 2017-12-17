@@ -184,6 +184,9 @@
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
             <File Source="Dopamine.Icons.dll" />
+            <File Source="Dopamine.Presentation.dll" />
+            <File Source="Dopamine.Services.dll" />
+            <File Source="Dopamine.Services.Contracts.dll" />
             <File Source="CSCore.dll" />
             <File Source="CSCore.Ffmpeg.dll" />
             <File Source="GongSolutions.WPF.DragDrop.dll" />

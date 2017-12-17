@@ -3,7 +3,7 @@
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                            xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+                            xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
                             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
                             xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base"
                             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -53,7 +53,7 @@
                         </Border>
                     </Grid>
                 </ToggleButton>
-                <controls:TotalsInformation
+                <pc:TotalsInformation
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
                     FontSize="13"

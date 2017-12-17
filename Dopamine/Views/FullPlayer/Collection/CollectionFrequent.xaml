@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Dopamine.Common.Controls;assembly=Dopamine.Common"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:vm="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -178,7 +178,7 @@
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Bottom" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel5}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel5}"/>
                     </Border>
                     <!-- Album 1 -->
                     <Border 
@@ -188,7 +188,7 @@
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Bottom" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel1}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel1}"/>
                     </Border>
                 </StackPanel>
                 <!-- Row 2 -->
@@ -201,7 +201,7 @@
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Top" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel4}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel4}"/>
                     </Border>
                 </StackPanel>
             </StackPanel>
@@ -217,7 +217,7 @@
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Bottom" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel3}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel3}"/>
                     </Border>
                 </StackPanel>
                 <!-- Row 2 -->
@@ -230,7 +230,7 @@
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel2}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel2}"/>
                     </Border>
                     <!-- Album 6 -->
                     <Border 
@@ -240,7 +240,7 @@
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
                         Background="Transparent">
-                        <controls:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel6}"/>
+                        <pc:ZoomInContentControl Duration="0.15" Content="{Binding AlbumViewModel6}"/>
                     </Border>
                 </StackPanel>
             </StackPanel>
