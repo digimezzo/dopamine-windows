@@ -1,7 +1,7 @@
 ﻿using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Services.Indexing;
+using Dopamine.Services.Contracts.Indexing;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Views.Common;
 using Dopamine.Core.Utils;
 using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Dialog;
+using Dopamine.Views.Common;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 

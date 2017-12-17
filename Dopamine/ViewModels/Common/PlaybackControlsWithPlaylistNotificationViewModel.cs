@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Playlist;
+using Dopamine.Services.Contracts.Playlist;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

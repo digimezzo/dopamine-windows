@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Data;
-using Dopamine.ViewModels.Common.Base;
 using Dopamine.Services.Collection;
-using Dopamine.Services.Indexing;
+using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Metadata;
+using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

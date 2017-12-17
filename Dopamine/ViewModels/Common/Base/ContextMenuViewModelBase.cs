@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Data;
 using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Playlist;
-using Dopamine.Services.Provider;
+using Dopamine.Services.Contracts.Playlist;
+using Dopamine.Services.Contracts.Provider;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;

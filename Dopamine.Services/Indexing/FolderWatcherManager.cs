@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Dopamine.Services.Indexing
 {
-    public class FolderWatcherManager
+    internal class FolderWatcherManager
     {
         private IFolderRepository folderRepository;
         private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
