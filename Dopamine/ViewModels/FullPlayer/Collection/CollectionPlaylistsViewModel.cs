@@ -6,6 +6,7 @@ using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
+using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.File;

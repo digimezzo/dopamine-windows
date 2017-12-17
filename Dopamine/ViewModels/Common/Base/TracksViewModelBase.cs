@@ -8,7 +8,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Presentation.ViewModels;
-using Dopamine.Services.Collection;
+using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Metadata;

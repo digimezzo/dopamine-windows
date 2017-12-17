@@ -116,9 +116,7 @@
     <Compile Include="Appearance\AppearanceService.cs" />
     <Compile Include="Cache\CacheService.cs" />
     <Compile Include="Collection\CollectionService.cs" />
-    <Compile Include="Collection\ICollectionService.cs" />
     <Compile Include="Command\CommandService.cs" />
-    <Compile Include="Command\ICommandService.cs" />
     <Compile Include="Dialog\ConfirmationDialog.xaml.cs">
       <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
     </Compile>
@@ -135,11 +133,7 @@
     <Compile Include="Equalizer\EqualizerService.cs" />
     <Compile Include="ExternalControl\ExternalControlServer.cs" />
     <Compile Include="ExternalControl\ExternalControlService.cs" />
-    <Compile Include="ExternalControl\IExternalControlServer.cs" />
-    <Compile Include="ExternalControl\IExternalControlService.cs" />
-    <Compile Include="ExternalControl\IFftDataServer.cs" />
     <Compile Include="File\FileService.cs" />
-    <Compile Include="File\IFileService.cs" />
     <Compile Include="I18n\I18nService.cs" />
     <Compile Include="Indexing\FolderWatcherManager.cs" />
     <Compile Include="Indexing\IndexerCache.cs" />

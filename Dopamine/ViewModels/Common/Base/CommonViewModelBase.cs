@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Utils;
 using Dopamine.Data;
-using Dopamine.Services.Collection;
+using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Indexing;

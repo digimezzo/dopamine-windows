@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Dopamine.Services.File
+namespace Dopamine.Services.Contracts.File
 {
     public delegate void TracksImportedHandler(List<PlayableTrack> tracks, PlayableTrack trackToPlay);
 

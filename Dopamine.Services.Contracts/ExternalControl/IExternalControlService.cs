@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Services.ExternalControl
+﻿namespace Dopamine.Services.Contracts.ExternalControl
 {
     public interface IExternalControlService
     {

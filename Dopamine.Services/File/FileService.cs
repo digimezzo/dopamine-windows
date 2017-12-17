@@ -8,6 +8,7 @@ using Dopamine.Data;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.File;
 using System;
 using System.Collections.Generic;
 using System.IO;
