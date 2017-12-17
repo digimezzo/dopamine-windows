@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-             xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
@@ -88,7 +88,7 @@
             <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
                 <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
             </Viewbox>
-            <controls:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" 
+            <pc:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" 
                                                   SlideInTimeout="0.5" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0"/>
         </Grid>
     </DockPanel>

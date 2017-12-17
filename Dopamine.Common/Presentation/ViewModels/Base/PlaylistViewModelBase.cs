@@ -2,14 +2,14 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
 using Dopamine.Data;
+using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.I18n;
-using Dopamine.Services.Metadata;
 using Dopamine.Services.Provider;
 using Dopamine.Services.Search;
 using Microsoft.Practices.Unity;

@@ -5,7 +5,7 @@
                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                                  xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                                 xmlns:controls="clr-namespace:Dopamine.Common.Controls"
+                                 xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
                                  xmlns:baseviews="clr-namespace:Dopamine.Presentation.Views.Base;assembly=Dopamine.Presentation"
                                  xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                                  mc:Ignorable="d"
@@ -26,7 +26,7 @@
                 <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </Button>
-        <controls:PopupEx x:Name="VolumeButtonPopup"
+        <pc:PopupEx x:Name="VolumeButtonPopup"
          StaysOpen="False" PlacementTarget="{Binding ElementName=VolumeButton}"
          Placement="Top" PopupAnimation="Fade" Width="40" Height="130" VerticalOffset="-5" HorizontalOffset="-7" AllowsTransparency="True">
             <Grid>
@@ -52,6 +52,6 @@
                     </StackPanel>
                 </Border>
             </Grid>
-        </controls:PopupEx>
+        </pc:PopupEx>
     </Grid>
 </baseviews:VolumeControlViewBase>

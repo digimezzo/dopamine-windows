@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:utils="clr-namespace:Dopamine.Common.Presentation.Utils"
+             xmlns:utils="clr-namespace:Dopamine.Presentation.Utils;assembly=Dopamine.Presentation"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>

@@ -59,6 +59,10 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Metadata\IMetadataService.cs" />
+    <Compile Include="Metadata\LoveChangedEventArgs.cs" />
+    <Compile Include="Metadata\MetadataChangedEventArgs.cs" />
+    <Compile Include="Metadata\RatingChangedEventArgs.cs" />
     <Compile Include="Playback\DequeueResult.cs" />
     <Compile Include="Playback\EnqueueResult.cs" />
     <Compile Include="Playback\IPlaybackService.cs" />
@@ -80,6 +84,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Scrobbling\Enums.cs" />
+    <Compile Include="Scrobbling\IScrobblingService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -99,5 +105,6 @@
       <Name>Dopamine.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

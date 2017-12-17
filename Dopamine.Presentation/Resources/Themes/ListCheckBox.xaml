@@ -3,7 +3,7 @@
     xmlns:pc="clr-namespace:Dopamine.Presentation.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/FontStyles.xaml" />
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type pc:ListCheckBox}" TargetType="{x:Type pc:ListCheckBox}">

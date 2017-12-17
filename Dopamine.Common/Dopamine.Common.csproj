@@ -148,48 +148,10 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Controls\SourceChangedImage.cs" />
-    <Compile Include="Controls\PopupEx.cs" />
-    <Compile Include="Controls\ScalingTextBlock.cs" />
-    <Compile Include="Controls\SearchBox.cs" />
-    <Compile Include="Controls\SelectionChangedComboBox.cs" />
-    <Compile Include="Controls\TotalsInformation.cs" />
-    <Compile Include="Controls\TransitioningContentControl.cs" />
-    <Compile Include="Controls\ZoomInContentControl.cs" />
-    <Compile Include="Presentation\Converters\BrushOpacityConverter.cs" />
-    <Compile Include="Presentation\Converters\InvertingBooleanConverter.cs" />
-    <Compile Include="Presentation\Converters\LyricSourceVisibilityConverter.cs" />
-    <Compile Include="Presentation\Converters\EnumConverter.cs" />
-    <Compile Include="Presentation\Converters\SpectrumStyleEllipseConverter.cs" />
-    <Compile Include="Presentation\Converters\StringToLowerConverter.cs" />
-    <Compile Include="Presentation\Converters\StringToUpperConverter.cs" />
     <Compile Include="Presentation\ViewModels\Base\EditMetadataBase.cs" />
     <Compile Include="Presentation\ViewModels\IndexingStatusViewModel.cs" />
-    <Compile Include="Presentation\Utils\SaveFileUtils.cs" />
-    <Compile Include="Presentation\Utils\UriUtils.cs" />
     <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
-    <Compile Include="Presentation\Converters\AddEllipsisConverter.cs" />
-    <Compile Include="Presentation\Converters\AddValueConverter.cs" />
-    <Compile Include="Presentation\Converters\BooleanToCollapsedConverter.cs" />
-    <Compile Include="Presentation\Converters\BooleanToOpacityConverter.cs" />
-    <Compile Include="Presentation\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Presentation\Converters\LoveConverter.cs" />
-    <Compile Include="Presentation\Converters\NullImageConverter.cs" />
-    <Compile Include="Presentation\Converters\PathToImageConverter.cs" />
-    <Compile Include="Presentation\Converters\PercentSizeConverter.cs" />
-    <Compile Include="Presentation\Converters\RatingConverter.cs" />
-    <Compile Include="Presentation\Converters\SolidColorBrushToColorConverter.cs" />
-    <Compile Include="Presentation\Converters\StringEmptyToInvisibleConverter.cs" />
-    <Compile Include="Presentation\Converters\StringEmptyToVisibleConverter.cs" />
-    <Compile Include="Presentation\Interfaces\ISemanticZoomable.cs" />
-    <Compile Include="Presentation\Interfaces\ISemanticZoomSelector.cs" />
-    <Compile Include="Presentation\Interfaces\ISemanticZoomViewModel.cs" />
-    <Compile Include="Presentation\Utils\BindingProxy.cs" />
-    <Compile Include="Presentation\Utils\OpenFileUtils.cs" />
-    <Compile Include="Presentation\Utils\ScrollUtils.cs" />
-    <Compile Include="Presentation\Utils\SemanticZoomUtils.cs" />
-    <Compile Include="Presentation\Utils\SlidingContentControlRegionAdapter.cs" />
     <Compile Include="Presentation\ViewModels\Base\ContextMenuViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\CommonViewModelBase.cs" />
     <Compile Include="Presentation\ViewModels\Base\PlaybackControlsViewModelBase.cs" />
@@ -227,10 +189,8 @@
     <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SearchControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Entities\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Entities\SimilarArtistViewModel.cs" />
     <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Entities\TrackViewModel.cs" />
     <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="Presentation\ViewModels\UpdateStatusViewModel.cs" />
@@ -370,15 +330,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <Resource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Fonts\fontawesome-webfont.ttf" />
-    <Resource Include="Resources\Fonts\Monoglyceride.ttf" />
-    <Resource Include="Resources\Fonts\segmdl2.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -386,10 +342,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Presentation\Converters\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presentation\Views\ArtistInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -541,154 +493,6 @@
     <Page Include="Presentation\Views\UpdateStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\AllStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\Animations.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\Buttons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ColorSchemeButtons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ContextMenuButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\CountLabel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\DataGridTracks.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\FontStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\Geometries.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\LinkButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxAlbums.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxArtists.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxFolders.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxGenres.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxNowPlayingTracks.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxPlaylists.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxPlaylistTracks.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxSemanticZoom.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxSimilarArtists.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\ListBoxTracks.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\PivotItemStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\MetroCheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\MetroComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\MetroListBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\MetroTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\NowPlayingContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\SpectrumAnalyzer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\StackPanelConditionEnabled.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\Texts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\Tooltip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\WindowButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\SearchBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\SpectrumAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\TotalsInformation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

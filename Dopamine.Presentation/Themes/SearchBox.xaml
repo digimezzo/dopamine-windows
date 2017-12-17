@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Dopamine.Presentation.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type controls:SearchBox}" TargetType="{x:Type controls:SearchBox}">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}"/>
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Command="ApplicationCommands.Cut"/>
+                    <MenuItem Command="ApplicationCommands.Copy"/>
+                    <MenuItem Command="ApplicationCommands.Paste"/>
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SearchBox}">
+                    <Grid>
+                        <Border Width="{TemplateBinding Width}" Height="28" CornerRadius="14,0,14,14">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="{Binding VisibleBackground,RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Style>
+                            </Border.Style>
+                            <DockPanel>
+                                <Border x:Name="PART_SearchBorder" DockPanel.Dock="Right" Margin="0" Width="28" Height="28" CornerRadius="14,0,14,14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Grid>
+                                        <TextBlock
+                                            x:Name="PART_SearchIconGlass" 
+                                            Text="&#xE11A;"
+                                            Style="{StaticResource SegoeAssets}"
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" 
+                                            Foreground="{Binding SearchGlassForeground,RelativeSource={RelativeSource TemplatedParent}}" 
+                                            FontSize="16" />
+                                        <TextBlock 
+                                            x:Name="PART_SearchIconCross" 
+                                            Text="&#xE894;"
+                                            Style="{StaticResource SegoeAssets}"
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" 
+                                            Foreground="{DynamicResource RG_WhiteBrush}" 
+                                            FontSize="10" />
+                                    </Grid>
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasText,RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                                    <Setter Property="Background" Value="{Binding Accent,RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding HasText,RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="10,0,10,0" Padding="2,0,2,0" VerticalAlignment="Center" Foreground="{Binding Foreground,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

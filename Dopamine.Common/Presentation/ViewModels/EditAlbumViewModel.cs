@@ -1,13 +1,13 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.Utils;
 using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Services.Cache;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Presentation.Utils;
+using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.Services.Dialog;
 using Prism.Commands;
 using System;
 using System.Threading.Tasks;

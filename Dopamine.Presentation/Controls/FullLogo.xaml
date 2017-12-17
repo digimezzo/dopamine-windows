@@ -26,6 +26,6 @@
                 </Path>
             </Viewbox>
         </Grid>
-        <Label Margin="15,-4,0,0" Padding="0" Content="{Binding ApplicationName,ElementName=This,Converter={StaticResource StringToLowerConverter}}" Foreground="{Binding Foreground,ElementName=This}" FontFamily="/Dopamine.Common;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="{Binding Source={x:Static base:Constants.SplashAppNameFontSize}}"/>
+        <Label Margin="15,-4,0,0" Padding="0" Content="{Binding ApplicationName,ElementName=This,Converter={StaticResource StringToLowerConverter}}" Foreground="{Binding Foreground,ElementName=This}" FontFamily="/Dopamine.Presentation;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="{Binding Source={x:Static base:Constants.SplashAppNameFontSize}}"/>
     </StackPanel>
 </UserControl>

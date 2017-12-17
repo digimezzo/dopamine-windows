@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:lyrics="clr-namespace:Dopamine.Core.Api.Lyrics;assembly=Dopamine.Core"
-             xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
+             xmlns:utils="clr-namespace:Dopamine.Presentation.Utils;assembly=Dopamine.Presentation"
              xmlns:commonviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
@@ -132,7 +132,7 @@
             <StackPanel.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.Resources>
-                        <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+                        <utils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
                     </ContextMenu.Resources>
                     <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                         <MenuItem.ItemContainerStyle>
