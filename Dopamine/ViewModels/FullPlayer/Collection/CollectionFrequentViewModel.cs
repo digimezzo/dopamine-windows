@@ -3,7 +3,7 @@ using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Presentation.ViewModels;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Indexing;
 using Microsoft.Practices.Unity;

@@ -4,7 +4,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Presentation.ViewModels;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Playback;
 using System;
 using System.Collections.Generic;

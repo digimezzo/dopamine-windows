@@ -6,7 +6,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Data.Metadata;
 using Dopamine.Presentation.Utils;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Dialog;
 using Prism.Commands;

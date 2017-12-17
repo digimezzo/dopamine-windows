@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using System;

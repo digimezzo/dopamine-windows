@@ -3,7 +3,7 @@ using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.Utils;
 using Prism.Mvvm;
 
-namespace Dopamine.Common.Presentation.ViewModels.Entities
+namespace Dopamine.Presentation.ViewModels
 {
     public class GenreViewModel : BindableBase, ISemanticZoomable
     {

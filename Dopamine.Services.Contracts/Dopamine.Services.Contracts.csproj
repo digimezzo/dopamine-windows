@@ -59,6 +59,7 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="Metadata\IMetadataService.cs" />
     <Compile Include="Metadata\LoveChangedEventArgs.cs" />
     <Compile Include="Metadata\MetadataChangedEventArgs.cs" />

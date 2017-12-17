@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -22,7 +22,7 @@
                 <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0.5" Duration="0:0:0.15" />
             </Storyboard>
         </Storyboard>
-        <DataTemplate DataType="{x:Type entityviewmodels:ArtistInfoViewModel}">
+        <DataTemplate DataType="{x:Type pv:ArtistInfoViewModel}">
             <DockPanel>
                 <StackPanel>
                     <Grid DockPanel.Dock="Left">

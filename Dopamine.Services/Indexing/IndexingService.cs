@@ -4,7 +4,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Utils;
 using Dopamine.Core.IO;
 using Dopamine.Data.Metadata;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Core.Extensions;
 using Dopamine.Data;
 using Dopamine.Data.Entities;

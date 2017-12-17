@@ -4,7 +4,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Metadata;
 using Dopamine.Presentation.Utils;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

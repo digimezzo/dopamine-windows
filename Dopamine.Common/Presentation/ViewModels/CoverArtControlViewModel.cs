@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Data;
-using Dopamine.Services.Cache;
+using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Prism.Mvvm;

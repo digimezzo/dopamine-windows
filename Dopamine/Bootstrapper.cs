@@ -14,6 +14,7 @@ using Dopamine.Services.Appearance;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Command;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Scrobbling;

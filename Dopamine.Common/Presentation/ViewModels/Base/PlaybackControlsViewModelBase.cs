@@ -1,12 +1,11 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Common.Presentation.Views;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Playback;
 using Dopamine.Core.Utils;
+using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Dialog;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Common.Presentation.ViewModels.Base
 {
