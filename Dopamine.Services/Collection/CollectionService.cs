@@ -3,13 +3,11 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
-using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Playback;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -126,66 +124,6 @@ namespace Dopamine.Services.Collection
             if (sendToRecycleBinResult == RemoveTracksResult.Success && result == RemoveTracksResult.Success)
                 return RemoveTracksResult.Success;
             return RemoveTracksResult.Error;
-        }
-
-        public async Task RefreshArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, List<long> albumsIds = null)
-        {
-            List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
-
-            if (albumViewModels != null && albumViewModels.Count > 0)
-            {
-                await Task.Run(() =>
-                {
-                    foreach (AlbumViewModel albvm in albumViewModels)
-                    {
-                        try
-                        {
-                            if(albumsIds == null || albumsIds.Contains(albvm.Album.AlbumID))
-                            {
-                                // Get an up to date version of this album from the database
-                                Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(albvm.Album.AlbumID)).Select((a) => a).FirstOrDefault();
-
-                                if (dbAlbum != null)
-                                {
-                                    albvm.Album.ArtworkID = dbAlbum.ArtworkID;
-                                    albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", albvm.AlbumTitle, albvm.AlbumArtist, ex.Message);
-                        }
-                    }
-                });
-            }
-        }
-
-        public async Task SetAlbumArtworkAsync(ObservableCollection<AlbumViewModel> albumViewModels, int delayMilliSeconds)
-        {
-            await Task.Delay(delayMilliSeconds);
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    foreach (AlbumViewModel albvm in albumViewModels)
-                    {
-                        try
-                        {
-                            albvm.ArtworkPath = this.cacheService.GetCachedArtworkPath(albvm.Album.ArtworkID);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", albvm.AlbumArtist, albvm.AlbumTitle, ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while setting album artwork. Exception: {0}", ex.Message);
-                }
-            });
         }
 
         public async Task MarkFolderAsync(Folder fol)

@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Dopamine.Services.ExternalControl
+namespace Dopamine.Services.Contracts.ExternalControl
 {
     [ServiceContract(CallbackContract = typeof(IExternalControlServerCallback), Namespace = nameof(ExternalControl))]
     public interface IExternalControlServer
@@ -17,7 +17,7 @@ namespace Dopamine.Services.ExternalControl
         string RegisterClient();
 
         /// <summary>
-        /// Request to deregister this specified client.
+        /// Request to unregister this specified client.
         /// </summary>
         /// <param name="sessionId">The sessionId of each connection.</param>
         [OperationContract(IsOneWay = true)]

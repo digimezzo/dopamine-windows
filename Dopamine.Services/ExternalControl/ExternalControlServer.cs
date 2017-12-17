@@ -2,9 +2,10 @@
 using CSCore.Streams;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
-using Dopamine.Services.Contracts.Cache;
-using Dopamine.Services.Playback;
 using Dopamine.Data;
+using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.Playback;
 using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,11 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Services.ExternalControl
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
-    public class ExternalControlServer : IExternalControlServer, IFftDataServer, IDisposable
+    internal class ExternalControlServer : IExternalControlServer, IFftDataServer, IDisposable
     {
         private const int FftDataLength = 256 * 4;
 

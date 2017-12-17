@@ -9,6 +9,7 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Services.Contracts.Equalizer;
+using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.File;
