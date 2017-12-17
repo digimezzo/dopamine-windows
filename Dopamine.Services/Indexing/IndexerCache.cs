@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dopamine.Services.Indexing
 {
-    public class IndexerCache
+    internal class IndexerCache
     {
         private HashSet<string> cachedTrackStatistics;
         private Dictionary<long, Album> cachedAlbums;

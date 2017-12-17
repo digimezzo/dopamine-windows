@@ -5,7 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.ViewModels;
-using Dopamine.Services.Playlist;
+using Dopamine.Services.Contracts.Playlist;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using System;

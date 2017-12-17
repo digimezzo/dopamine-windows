@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Contracts.Taskbar;
 using Prism.Mvvm;
 using System;
 using System.Windows;

@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Dopamine.Core.Enums;
-using Dopamine.Services.Dialog;
+using Dopamine.Services.Contracts.Dialog;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

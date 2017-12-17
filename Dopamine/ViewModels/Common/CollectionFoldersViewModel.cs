@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Services.Collection;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Indexing;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Services.Collection;
+using Dopamine.Services.Contracts.Dialog;
+using Dopamine.Services.Contracts.Indexing;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

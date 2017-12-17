@@ -5,6 +5,7 @@ using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.File;
 using System;
 using System.Collections.Generic;

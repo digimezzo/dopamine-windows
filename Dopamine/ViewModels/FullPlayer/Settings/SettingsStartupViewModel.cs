@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Services.Update;
+using Dopamine.Services.Contracts.Update;
 using Prism.Mvvm;
 using System.Threading.Tasks;
 

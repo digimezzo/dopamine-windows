@@ -5,6 +5,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
+using Dopamine.Services.Contracts.Appearance;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Microsoft.Win32;

@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Dopamine.Services.Contracts.Win32Input;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -10,7 +11,7 @@ namespace Dopamine.Services.Win32Input
     /// APPCOMMAND Keyboard Hook (because some Media Keys get translated into APP_COMMAND Windows messages), 
     /// see: http://stackoverflow.com/questions/14087873/how-to-hook-global-wm-appcommand-message
     /// </summary> 
-    public class AppCommandKeyboardHookManager : IKeyboardHookManager
+    internal class AppCommandKeyboardHookManager : IKeyboardHookManager
     {
         private static int WM_SHELLHOOKMESSAGE;
         private const int HSHELL_APPCOMMAND = 12;
