@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Services.Appearance;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 

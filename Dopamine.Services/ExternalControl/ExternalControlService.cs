@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Playback;
 using Dopamine.Core.Base;
 using System;

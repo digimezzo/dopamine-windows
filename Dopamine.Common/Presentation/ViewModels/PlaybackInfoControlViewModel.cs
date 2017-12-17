@@ -1,14 +1,13 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Common.Presentation.ViewModels.Entities;
-using Dopamine.Services.Playback;
 using Dopamine.Core.Utils;
 using Dopamine.Data;
+using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Playback;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Common.Presentation.ViewModels
 {

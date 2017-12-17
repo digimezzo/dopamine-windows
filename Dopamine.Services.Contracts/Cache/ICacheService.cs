@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Dopamine.Services.Cache
+namespace Dopamine.Services.Contracts.Cache
 {
     public interface ICacheService
     {

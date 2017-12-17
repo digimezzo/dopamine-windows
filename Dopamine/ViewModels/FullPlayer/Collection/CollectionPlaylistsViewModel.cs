@@ -2,7 +2,6 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Common.Presentation.ViewModels;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Data;

@@ -146,9 +146,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\ArtistInfoViewModel.cs" />
+    <Compile Include="ViewModels\ArtistViewModel.cs" />
+    <Compile Include="ViewModels\CoverArtViewModel.cs" />
+    <Compile Include="ViewModels\GenreViewModel.cs" />
     <Compile Include="ViewModels\LyricsLineViewModel.cs" />
     <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
+    <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\SemanticZoomSelectorViewModel.cs" />
+    <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="ViewModels\TrackViewModel.cs" />
     <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\VolumeControlsViewModel.cs" />
