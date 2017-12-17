@@ -148,55 +148,12 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Presentation\ViewModels\Base\EditMetadataBase.cs" />
-    <Compile Include="Presentation\ViewModels\IndexingStatusViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Base\MiniPlayerViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\NowPlayingViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\ContextMenuViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\CommonViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\PlaybackControlsViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\CollectionPlaybackControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ArtistInfoControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\BackgroundCoverArtControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Base\AlbumsViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\Base\TracksViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\CompactPlaybackControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\CoverArtControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\CoverPlaybackInfoControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\EditAlbumViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\EditTrackViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\EqualizerControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\FileInformationViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\HorizontalVolumeControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\LyricsControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\LyricsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\Base\PlaylistViewModelBase.cs" />
-    <Compile Include="Presentation\ViewModels\NothingPlayingControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\NowPlayingControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\NowPlayingPlaybackControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlayAllControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlaybackInfoControlNanoViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PlaybackInfoControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\PopupVolumeControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ProgressControlsThinViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ProgressControlsViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ProgressControlsWithTimeViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\SearchControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\LyricsLineViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\ShuffleAllControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\SpectrumAnalyzerControlViewModel.cs" />
-    <Compile Include="Presentation\ViewModels\UpdateStatusViewModel.cs" />
     <Compile Include="Presentation\Views\ArtistInfoControl.xaml.cs">
       <DependentUpon>ArtistInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Views\BackgroundCoverArtControl.xaml.cs">
       <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\Base\CommonViewBase.cs" />
-    <Compile Include="Presentation\Views\Base\MiniPlayerViewBase.cs" />
-    <Compile Include="Presentation\Views\Base\PlaylistViewBase.cs" />
-    <Compile Include="Presentation\Views\Base\TracksViewBase.cs" />
     <Compile Include="Presentation\Views\CollectionPlaybackControls.xaml.cs">
       <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
     </Compile>

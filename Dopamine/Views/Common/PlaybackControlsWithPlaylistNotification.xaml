@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.PlaybackControlsWithPlaylistNotification"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.Views;assembly=Dopamine.Presentation"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseEnter">
+            <i:InvokeCommandAction Command="{Binding PlaylistNotificationMouseEnterCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Border Panel.ZIndex="1" Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <pv:PlaybackControls HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Border.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowAddedTracksToPlaylistText}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.15"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.20" Duration="0:0:0.15"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        <Border Panel.ZIndex="0" Opacity="0" Margin="0,0,0,-30" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock 
+                    x:Name="Icon"
+                    Text="&#xE8FB;"
+                    Style="{StaticResource SegoeAssets}"
+                    DockPanel.Dock="Left" 
+                    VerticalAlignment="Center" 
+                    Foreground="{DynamicResource RG_AccentBrush}" 
+                    FontSize="14" />
+                <TextBlock Margin="10,0,0,0" Text="{Binding AddedTracksToPlaylistText}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}" VerticalAlignment="Center" />
+            </DockPanel>
+            <Border.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowAddedTracksToPlaylistText}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.10" Duration="0:0:0.25"/>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,-30" To="0,0,0,0" BeginTime="0:0:0.10" Duration="0:0:0.15"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.15"/>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,-30,0,0" Duration="0:0:0.25"/>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,-30,0,0" To="0,0,0,-30" BeginTime="0:0:0.25" Duration="0:0:0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+    </Grid>
+</UserControl>

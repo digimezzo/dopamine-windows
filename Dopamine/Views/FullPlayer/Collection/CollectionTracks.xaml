@@ -4,7 +4,7 @@
                           xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                           xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
                           xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
-                          xmlns:baseviews="clr-namespace:Dopamine.Common.Presentation.Views.Base;assembly=Dopamine.Common"
+                          xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                           prismMvvm:ViewModelLocator.AutoWireViewModel="True">

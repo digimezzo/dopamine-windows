@@ -148,8 +148,47 @@
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
+    <Compile Include="ViewModels\Common\ArtistInfoControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\BackgroundCoverArtControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\Base\AlbumsViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\CommonViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\ContextMenuViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\EditMetadataBase.cs" />
+    <Compile Include="ViewModels\Common\Base\MiniPlayerViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\PlaylistViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
+    <Compile Include="ViewModels\Common\CollectionPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\CompactPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\CoverArtControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\CoverPlaybackInfoControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\EditAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Common\EditTrackViewModel.cs" />
+    <Compile Include="ViewModels\Common\EqualizerControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\FileInformationViewModel.cs" />
     <Compile Include="ViewModels\Common\FolderViewModel.cs" />
+    <Compile Include="ViewModels\Common\HorizontalVolumeControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\IndexingStatusViewModel.cs" />
+    <Compile Include="ViewModels\Common\LyricsControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\LyricsLineViewModel.cs" />
+    <Compile Include="ViewModels\Common\LyricsViewModel.cs" />
+    <Compile Include="ViewModels\Common\NothingPlayingControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\NowPlayingControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\NowPlayingPlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\PlayAllControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\PlaybackControlsWithPlaylistNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Common\PlaybackInfoControlNanoViewModel.cs" />
+    <Compile Include="ViewModels\Common\PlaybackInfoControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\PopupVolumeControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\ProgressControlsThinViewModel.cs" />
+    <Compile Include="ViewModels\Common\ProgressControlsViewModel.cs" />
+    <Compile Include="ViewModels\Common\ProgressControlsWithTimeViewModel.cs" />
+    <Compile Include="ViewModels\Common\SearchControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\ShuffleAllControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\SpectrumAnalyzerControlViewModel.cs" />
+    <Compile Include="ViewModels\Common\UpdateStatusViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
@@ -190,8 +229,126 @@
     <Compile Include="Views\Common\AppearanceTheme.xaml.cs">
       <DependentUpon>AppearanceTheme.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Common\ArtistInfoControl.xaml.cs">
+      <DependentUpon>ArtistInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\BackgroundCoverArtControl.xaml.cs">
+      <DependentUpon>BackgroundCoverArtControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\Base\CommonViewBase.cs" />
+    <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
+    <Compile Include="Views\Common\Base\PlaylistViewBase.cs" />
+    <Compile Include="Views\Common\Base\TracksViewBase.cs" />
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CollectionPlaybackControls.xaml.cs">
+      <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CompactPlaybackControls.xaml.cs">
+      <DependentUpon>CompactPlaybackControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CoverArtControl.xaml.cs">
+      <DependentUpon>CoverArtControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CoverPictureWindowControls.xaml.cs">
+      <DependentUpon>CoverPictureWindowControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CoverPlaybackInfoControl.xaml.cs">
+      <DependentUpon>CoverPlaybackInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CoverPlayerControls.xaml.cs">
+      <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\CoverPlayerWindowControls.xaml.cs">
+      <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EditAlbum.xaml.cs">
+      <DependentUpon>EditAlbum.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EditTrack.xaml.cs">
+      <DependentUpon>EditTrack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EditTrackLyricsControl.xaml.cs">
+      <DependentUpon>EditTrackLyricsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EditTrackTagsControl.xaml.cs">
+      <DependentUpon>EditTrackTagsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EqualizerControl.xaml.cs">
+      <DependentUpon>EqualizerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\EqualizerIcon.xaml.cs">
+      <DependentUpon>EqualizerIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\FileInformation.xaml.cs">
+      <DependentUpon>FileInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\HorizontalVolumeControls.xaml.cs">
+      <DependentUpon>HorizontalVolumeControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\IndexingStatus.xaml.cs">
+      <DependentUpon>IndexingStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\LyricsControl.xaml.cs">
+      <DependentUpon>LyricsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\MicroPlayerControls.xaml.cs">
+      <DependentUpon>MicroPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\NanoPlayerControls.xaml.cs">
+      <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\NanoPlayerWindowControls.xaml.cs">
+      <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\NothingPlayingControl.xaml.cs">
+      <DependentUpon>NothingPlayingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\NowPlayingControl.xaml.cs">
+      <DependentUpon>NowPlayingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\NowPlayingPlaybackControls.xaml.cs">
+      <DependentUpon>NowPlayingPlaybackControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\PlayAllControl.xaml.cs">
+      <DependentUpon>PlayAllControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\PlaybackControlsWithPlaylistNotification.xaml.cs">
+      <DependentUpon>PlaybackControlsWithPlaylistNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\PlaybackInfoControl.xaml.cs">
+      <DependentUpon>PlaybackInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\PlaybackInfoControlNano.xaml.cs">
+      <DependentUpon>PlaybackInfoControlNano.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\PopupVolumeControls.xaml.cs">
+      <DependentUpon>PopupVolumeControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\ProgressControls.xaml.cs">
+      <DependentUpon>ProgressControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\ProgressControlsThin.xaml.cs">
+      <DependentUpon>ProgressControlsThin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\ProgressControlsWithTime.xaml.cs">
+      <DependentUpon>ProgressControlsWithTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\SearchControl.xaml.cs">
+      <DependentUpon>SearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\ShuffleAllControl.xaml.cs">
+      <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\SizingTimeControl.xaml.cs">
+      <DependentUpon>SizingTimeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\SpectrumAnalyzerControl.xaml.cs">
+      <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Common\UpdateStatus.xaml.cs">
+      <DependentUpon>UpdateStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
       <DependentUpon>Collection.xaml</DependentUpon>
@@ -567,10 +724,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Dopamine.Common\Dopamine.Common.csproj">
-      <Project>{839c5668-b96d-4826-9bf5-e00bf3d9b292}</Project>
-      <Name>Dopamine.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
       <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
       <Name>Dopamine.Core</Name>
@@ -605,7 +758,159 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Common\ArtistInfoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\BackgroundCoverArtControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Common\CollectionFolders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CollectionPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CompactPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CoverArtControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CoverPictureWindowControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CoverPlaybackInfoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CoverPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\CoverPlayerWindowControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EditAlbum.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EditTrack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EditTrackLyricsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EditTrackTagsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EqualizerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\EqualizerIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\FileInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\HorizontalVolumeControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\IndexingStatus.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\LyricsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\MicroPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\NanoPlayerControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\NanoPlayerWindowControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\NothingPlayingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\NowPlayingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\NowPlayingPlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\PlayAllControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\PlaybackControlsWithPlaylistNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\PlaybackInfoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\PlaybackInfoControlNano.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\PopupVolumeControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\ProgressControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\ProgressControlsThin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\ProgressControlsWithTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\SearchControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\ShuffleAllControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\SizingTimeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\SpectrumAnalyzerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\UpdateStatus.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

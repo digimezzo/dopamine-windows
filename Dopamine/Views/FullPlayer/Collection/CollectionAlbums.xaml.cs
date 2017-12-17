@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Presentation.Views.Base;
+﻿using Dopamine.Views.Common.Base;
 using Dopamine.Core.Prism;
 using Prism.Commands;
 using System.Windows;

@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Presentation.Views.Base;
+﻿using Dopamine.Views.Common.Base;
 using System;
 using System.Windows;
 using System.Windows.Input;
