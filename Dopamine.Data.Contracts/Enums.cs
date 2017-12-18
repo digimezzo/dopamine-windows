@@ -1,4 +1,4 @@
-﻿namespace Dopamine.Data
+﻿namespace Dopamine.Data.Contracts
 {
     public enum AddFolderResult
     {

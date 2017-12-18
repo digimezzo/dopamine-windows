@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dopamine.Data.Repositories.Interfaces
+namespace Dopamine.Data.Contracts.Repositories
 {
     public interface IArtistRepository
     {

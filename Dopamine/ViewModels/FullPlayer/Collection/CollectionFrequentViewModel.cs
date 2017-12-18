@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts.Repositories;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Indexing;

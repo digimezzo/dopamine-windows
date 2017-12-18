@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace Dopamine.Data
+namespace Dopamine.Data.Contracts
 {
     public interface ISQLiteConnectionFactory
     {

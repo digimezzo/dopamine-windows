@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Data;
+using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts.Repositories;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Playback;

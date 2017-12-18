@@ -81,6 +81,8 @@
     <Compile Include="Entities\RemovedTrack.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="Entities\TrackStatistic.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="ISQLiteConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -94,6 +96,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Repositories\IAlbumRepository.cs" />
+    <Compile Include="Repositories\IArtistRepository.cs" />
+    <Compile Include="Repositories\IFolderRepository.cs" />
+    <Compile Include="Repositories\IGenreRepository.cs" />
+    <Compile Include="Repositories\IQueuedTrackRepository.cs" />
+    <Compile Include="Repositories\ITrackRepository.cs" />
+    <Compile Include="Repositories\ITrackStatisticRepository.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

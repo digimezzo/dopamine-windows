@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Data;
+using Dopamine.Data.Contracts;
 using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Metadata;
