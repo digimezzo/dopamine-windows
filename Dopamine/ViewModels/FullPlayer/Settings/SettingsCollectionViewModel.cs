@@ -1,6 +1,5 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Data.Repositories.Interfaces;
-using Dopamine.Services.Collection;
+using Dopamine.Data.Contracts.Repositories;
 using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Indexing;
 using Prism.Commands;

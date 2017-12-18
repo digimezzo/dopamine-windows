@@ -81,8 +81,6 @@
     </Compile>
     <Compile Include="DatabaseUtils.cs" />
     <Compile Include="DbMigrator.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="ISQLiteConnectionFactory.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />
@@ -105,13 +103,6 @@
     <Compile Include="Repositories\ArtistRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\GenreRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IAlbumRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IArtistRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IFolderRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IGenreRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IQueuedTrackRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ITrackRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ITrackStatisticRepository.cs" />
     <Compile Include="Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />
     <Compile Include="Repositories\TrackStatisticRepository.cs" />
