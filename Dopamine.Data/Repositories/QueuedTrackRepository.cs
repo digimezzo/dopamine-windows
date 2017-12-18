@@ -10,11 +10,11 @@ namespace Dopamine.Data.Repositories
 {
     public class QueuedTrackRepository : IQueuedTrackRepository
     {
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
 
-        public QueuedTrackRepository()
+        public QueuedTrackRepository(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
 
         public async Task<List<QueuedTrack>> GetSavedQueuedTracksAsync()
