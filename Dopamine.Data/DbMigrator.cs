@@ -35,8 +35,6 @@ namespace Dopamine.Data
             this.factory = factory;
         }
 
-        public ISQLiteConnectionFactory Factory => this.factory;
-
         private void CreateConfiguration()
         {
             using (var conn = this.factory.GetConnection())
@@ -1134,10 +1132,10 @@ namespace Dopamine.Data
         {
             try
             {
-                string databaseFileCopy = this.Factory.DatabaseFile + ".old";
+                string databaseFileCopy = this.factory.DatabaseFile + ".old";
 
                 if (File.Exists(databaseFileCopy)) File.Delete(databaseFileCopy);
-                File.Copy(this.Factory.DatabaseFile, databaseFileCopy);
+                File.Copy(this.factory.DatabaseFile, databaseFileCopy);
             }
             catch (Exception ex)
             {

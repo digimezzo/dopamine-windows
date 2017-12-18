@@ -15,8 +15,6 @@ namespace Dopamine.Data.Repositories
         private ISQLiteConnectionFactory factory;
         private ILocalizationInfo info;
 
-        public ISQLiteConnectionFactory Factory => this.factory;
-
         public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
         {
             this.factory = factory;
@@ -31,7 +29,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -105,7 +103,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -132,7 +130,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
