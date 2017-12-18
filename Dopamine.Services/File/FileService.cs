@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Services.Contracts.Cache;

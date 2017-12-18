@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Scrobbling;
 using System;

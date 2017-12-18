@@ -2,7 +2,7 @@
 using CSCore.Streams;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
-using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.ExternalControl;
 using Dopamine.Services.Contracts.Playback;

@@ -36,6 +36,7 @@
         <File>Prism.Wpf.dll</File>
         <File>Dopamine.Core.dll</File>
         <File>Dopamine.Data.dll</File>
+        <File>Dopamine.Data.Contracts.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.Presentation.dll</File>
         <File>Dopamine.Services.dll</File>

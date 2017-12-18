@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.Playlist;

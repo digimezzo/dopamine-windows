@@ -1,4 +1,4 @@
-﻿using Dopamine.Data.Entities;
+﻿using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Digimezzo.Utilities.Log;
 using System;

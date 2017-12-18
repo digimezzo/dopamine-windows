@@ -4,7 +4,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.Utils;

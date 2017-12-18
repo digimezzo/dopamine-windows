@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace Dopamine.Data.Entities
+namespace Dopamine.Data.Contracts.Entities
 {
     public class Folder
     {

@@ -1,9 +1,8 @@
 ﻿using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Data.Entities;
 using System.Collections.Generic;
 
-namespace Dopamine.Data
+namespace Dopamine.Data.Contracts.Entities
 {
     public class PlayableTrack : Track
     {

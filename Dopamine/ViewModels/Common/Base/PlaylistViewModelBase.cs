@@ -4,6 +4,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
 using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.I18n;

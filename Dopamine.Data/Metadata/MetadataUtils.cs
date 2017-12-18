@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

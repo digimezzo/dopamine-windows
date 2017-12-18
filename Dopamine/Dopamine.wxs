@@ -182,6 +182,7 @@
             <File Source="Prism.Wpf.dll" />
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
+            <File Source="Dopamine.Data.Contracts.dll" />
             <File Source="Dopamine.Icons.dll" />
             <File Source="Dopamine.Presentation.dll" />
             <File Source="Dopamine.Services.dll" />
