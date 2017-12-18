@@ -1,4 +1,4 @@
-﻿using Dopamine.Data.Entities;
+﻿using Dopamine.Data.Contracts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

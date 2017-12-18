@@ -6,6 +6,7 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
@@ -23,8 +24,8 @@ namespace Dopamine.ViewModels.Common
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private Data.Entities.Artist previousArtist;
-        private Data.Entities.Artist artist;
+        private Data.Contracts.Entities.Artist previousArtist;
+        private Data.Contracts.Entities.Artist artist;
         private SlideDirection slideDirection;
         private bool isBusy;
 
@@ -104,7 +105,7 @@ namespace Dopamine.ViewModels.Common
                 return;
             }
 
-            this.artist = new Data.Entities.Artist
+            this.artist = new Data.Contracts.Entities.Artist
             {
                 ArtistName = track.ArtistName
             };

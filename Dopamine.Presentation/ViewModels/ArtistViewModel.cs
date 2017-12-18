@@ -1,5 +1,5 @@
 ﻿using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.Utils;
 using Prism.Mvvm;

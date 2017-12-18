@@ -2,7 +2,7 @@
 using SQLite;
 using System;
 
-namespace Dopamine.Data.Entities
+namespace Dopamine.Data.Contracts.Entities
 {
     public class Track
     {

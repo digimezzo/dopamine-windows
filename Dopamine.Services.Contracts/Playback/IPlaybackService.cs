@@ -1,10 +1,9 @@
 ﻿using CSCore.CoreAudioAPI;
 using Dopamine.Core.Audio;
-using Dopamine.Data.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
-using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

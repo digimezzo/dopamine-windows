@@ -1,5 +1,5 @@
 ﻿using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Scrobbling;
 using Prism.Mvvm;

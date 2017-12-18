@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Repositories.Interfaces;
 using Dopamine.Presentation.Utils;
 using Dopamine.Services.Contracts.Cache;
@@ -16,7 +16,7 @@ namespace Dopamine.ViewModels.Common
 {
     public class EditAlbumViewModel : EditMetadataBase
     {
-        private Data.Entities.Album album;
+        private Album album;
         private IAlbumRepository albumRepository;
         private IMetadataService metadataService;
         private IDialogService dialogService;
