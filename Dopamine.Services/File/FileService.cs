@@ -5,10 +5,11 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.File;
+using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,16 +25,19 @@ namespace Dopamine.Services.File
         private ICacheService cacheService;
         private ILocalizationInfo info;
         private ITrackStatisticRepository trackStatisticRepository;
+        private IFileMetadataFactory fileMetadataFactory;
         private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
 
-        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository, ILocalizationInfo info)
+        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
+            IFileMetadataFactory fileMetadataFactory, ILocalizationInfo info)
         {
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
+            this.fileMetadataFactory = fileMetadataFactory;
             this.info = info;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
@@ -131,7 +135,7 @@ namespace Dopamine.Services.File
             try
             {
                 var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
-                returnTrack = await MetadataUtils.Path2TrackAsync(path, savedTrackStatistic);
+                returnTrack = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path), savedTrackStatistic);
             }
             catch (Exception ex)
             {

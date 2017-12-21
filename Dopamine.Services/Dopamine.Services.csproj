@@ -169,6 +169,7 @@
     <Compile Include="Shell\ShellService.cs" />
     <Compile Include="Taskbar\TaskbarService.cs" />
     <Compile Include="Update\UpdateService.cs" />
+    <Compile Include="Utils\MetadataUtils.cs" />
     <Compile Include="Win32Input\AppCommandKeyboardHookManager.cs" />
     <Compile Include="Win32Input\LowLevelKeyboardHookManager.cs" />
     <Compile Include="Win32Input\Win32InputService.cs" />

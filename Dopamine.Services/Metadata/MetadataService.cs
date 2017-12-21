@@ -4,12 +4,13 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Indexing;
+using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +27,12 @@ namespace Dopamine.Services.Metadata
         private IAlbumRepository albumRepository;
         private IGenreRepository genreRepository;
         private IArtistRepository artistRepository;
+        private IFileMetadataFactory metadataFactory;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
-        private Dictionary<string, FileMetadata> fileMetadataDictionary;
+        private Dictionary<string, IFileMetadata> fileMetadataDictionary;
         private object lockObject = new object();
         private Timer updateFileMetadataTimer;
         private int updateFileMetadataShortTimeout = 50; // 50 milliseconds
@@ -47,7 +49,9 @@ namespace Dopamine.Services.Metadata
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
-        public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository, ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository)
+        public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
+            ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository,
+            IArtistRepository artistRepository, IFileMetadataFactory metadataFactory)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
@@ -57,8 +61,9 @@ namespace Dopamine.Services.Metadata
             this.albumRepository = albumRepository;
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
+            this.metadataFactory = metadataFactory;
 
-            this.fileMetadataDictionary = new Dictionary<string, FileMetadata>();
+            this.fileMetadataDictionary = new Dictionary<string, IFileMetadata>();
 
             this.updateFileMetadataTimer = new Timer();
             this.updateFileMetadataTimer.Interval = this.updateFileMetadataLongTimeout;
@@ -69,12 +74,12 @@ namespace Dopamine.Services.Metadata
             this.playbackService.PlaybackSuccess += async (_, __) => await this.UpdateFileMetadataAsync();
         }
 
-        public FileMetadata GetFileMetadata(string path)
+        public IFileMetadata GetFileMetadata(string path)
         {
             bool restartTimer = this.updateFileMetadataTimer.Enabled; // If the timer is started, remember to restart it once we're done here.
             this.updateFileMetadataTimer.Stop();
 
-            FileMetadata returnFileMetadata = null;
+            IFileMetadata returnFileMetadata = null;
 
             // Check if there is a queued FileMetadata for this path, if yes, use that as it has more up to date information.
             lock (lockObject)
@@ -86,15 +91,15 @@ namespace Dopamine.Services.Metadata
             }
 
             // If no queued FileMetadata was found, create a new one from the actual file.
-            if (returnFileMetadata == null) returnFileMetadata = new FileMetadata(path);
+            if (returnFileMetadata == null) returnFileMetadata = metadataFactory.Create(path);
             if (restartTimer) this.updateFileMetadataTimer.Start(); // Restart the timer if necessary
 
             return returnFileMetadata;
         }
 
-        public async Task<FileMetadata> GetFileMetadataAsync(string path)
+        public async Task<IFileMetadata> GetFileMetadataAsync(string path)
         {
-            FileMetadata returnFileMetadata = null;
+            IFileMetadata returnFileMetadata = null;
 
             await Task.Run(() => { returnFileMetadata = this.GetFileMetadata(path); });
 
@@ -111,9 +116,9 @@ namespace Dopamine.Services.Metadata
                 // Only for MP3's
                 if (Path.GetExtension(path).ToLower().Equals(FileFormats.MP3))
                 {
-                    var fmd = await this.GetFileMetadataAsync(path);
+                    IFileMetadata fmd = await this.GetFileMetadataAsync(path);
                     fmd.Rating = new MetadataRatingValue() { Value = rating };
-                    await this.QueueUpdateFileMetadata(new FileMetadata[] { fmd }.ToList());
+                    await this.QueueUpdateFileMetadata(new IFileMetadata[] { fmd }.ToList());
                 }
             }
 
@@ -127,7 +132,7 @@ namespace Dopamine.Services.Metadata
             this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
         }
 
-        public async Task UpdateTracksAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
+        public async Task UpdateTracksAsync(List<IFileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             // Make sure that cached artwork cannot be out of date
             lock (this.cachedArtworkLock)
@@ -138,7 +143,7 @@ namespace Dopamine.Services.Metadata
             // Set event args
             var args = new MetadataChangedEventArgs();
 
-            foreach (FileMetadata fmd in fileMetadatas)
+            foreach (IFileMetadata fmd in fileMetadatas)
             {
                 if (fmd.Artists.IsValueChanged) args.IsArtistChanged = true;
                 if (fmd.Genres.IsValueChanged) args.IsGenreChanged = true;
@@ -181,7 +186,7 @@ namespace Dopamine.Services.Metadata
 
             List<PlayableTrack> albumTracks = await this.trackRepository.GetAlbumTracksAsync(new List<long> { album.AlbumID });
 
-            var fileMetadatas = new List<FileMetadata>();
+            var fileMetadatas = new List<IFileMetadata>();
 
             foreach (PlayableTrack track in albumTracks)
             {
@@ -220,7 +225,8 @@ namespace Dopamine.Services.Metadata
                     if (artwork == null)
                     {
                         // If no cached artwork was found, try to load embedded artwork.
-                        FileMetadata fmd = this.GetFileMetadata(path);
+                        IFileMetadata fmd = this.GetFileMetadata(path);
+
                         if (fmd.ArtworkData.Value != null)
                         {
                             artwork = fmd.ArtworkData.Value;
@@ -268,7 +274,7 @@ namespace Dopamine.Services.Metadata
             await this.UpdateFileMetadataAsync();
         }
 
-        private async Task QueueUpdateFileMetadata(List<FileMetadata> fileMetadatas)
+        private async Task QueueUpdateFileMetadata(List<IFileMetadata> fileMetadatas)
         {
             this.updateFileMetadataTimer.Stop();
 
@@ -276,7 +282,7 @@ namespace Dopamine.Services.Metadata
             {
                 lock (this.lockObject)
                 {
-                    foreach (FileMetadata fmd in fileMetadatas)
+                    foreach (IFileMetadata fmd in fileMetadatas)
                     {
                         if (this.fileMetadataDictionary.ContainsKey(fmd.SafePath))
                         {
@@ -301,7 +307,7 @@ namespace Dopamine.Services.Metadata
 
             this.isUpdatingFileMetadata = true;
 
-            var filesToSync = new List<FileMetadata>();
+            var filesToSync = new List<IFileMetadata>();
 
             await Task.Run(() =>
             {
@@ -312,7 +318,7 @@ namespace Dopamine.Services.Metadata
 
                     while (numberToProcess > 0)
                     {
-                        FileMetadata fmd = this.fileMetadataDictionary.First().Value;
+                        IFileMetadata fmd = this.fileMetadataDictionary.First().Value;
                         numberToProcess--;
 
                         try
@@ -338,7 +344,7 @@ namespace Dopamine.Services.Metadata
             });
 
             // Sync file size and last modified date in the database
-            foreach (FileMetadata fmd in filesToSync)
+            foreach (IFileMetadata fmd in filesToSync)
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.SafePath);
             }
@@ -350,7 +356,7 @@ namespace Dopamine.Services.Metadata
             if (restartTimer) this.updateFileMetadataTimer.Start();
         }
 
-        private async Task UpdateDatabaseMetadataAsync(FileMetadata fileMetadata, bool updateAlbumArtwork)
+        private async Task UpdateDatabaseMetadataAsync(IFileMetadata fileMetadata, bool updateAlbumArtwork)
         {
             Track track = await this.trackRepository.GetTrackAsync(fileMetadata.SafePath);
             if (track == null) return;
@@ -392,7 +398,7 @@ namespace Dopamine.Services.Metadata
                 if (album == null)
                 {
                     album = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
-                    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, track.Path));
+                    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, this.metadataFactory.Create(track.Path)));
                     album = await this.albumRepository.AddAlbumAsync(album);
                 }
 
@@ -426,11 +432,11 @@ namespace Dopamine.Services.Metadata
             }
         }
 
-        private async Task UpdateDatabaseMetadataAsync(List<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
+        private async Task UpdateDatabaseMetadataAsync(List<IFileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             this.isUpdatingDatabaseMetadata = true;
 
-            foreach (FileMetadata fmd in fileMetadatas)
+            foreach (IFileMetadata fmd in fileMetadatas)
             {
                 try
                 {

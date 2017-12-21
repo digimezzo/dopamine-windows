@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Metadata;
 using Dopamine.Presentation.Utils;
 using Dopamine.Services.Contracts.Cache;
@@ -286,7 +287,7 @@ namespace Dopamine.ViewModels.Common
 
         private async Task GetFilesMetadataAsync()
         {
-            List<FileMetadata> fileMetadatas = new List<FileMetadata>();
+            var fileMetadatas = new List<IFileMetadata>();
 
             try
             {
@@ -368,7 +369,7 @@ namespace Dopamine.ViewModels.Common
             });
         }
 
-        private void GetArtwork(List<FileMetadata> fileMetadatas)
+        private void GetArtwork(List<IFileMetadata> fileMetadatas)
         {
             byte[] foundArtwork = null;
 
@@ -443,7 +444,7 @@ namespace Dopamine.ViewModels.Common
         {
             if (!this.AllEntriesValid()) return false;
 
-            List<FileMetadata> fmdList = new List<FileMetadata>();
+            var fmdList = new List<IFileMetadata>();
 
             this.IsBusy = true;
 

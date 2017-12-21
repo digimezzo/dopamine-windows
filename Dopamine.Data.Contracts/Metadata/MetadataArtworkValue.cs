@@ -1,22 +1,20 @@
 ﻿using Prism.Mvvm;
 
-namespace Dopamine.Data.Metadata
+namespace Dopamine.Data.Contracts.Metadata
 {
-    public class MetadataRatingValue : BindableBase
+    public class MetadataArtworkValue : BindableBase
     {
-        private int value;
+        private byte[] value;
         private bool isValueChanged;
-
-
+  
         public bool IsValueChanged
         {
             get { return this.isValueChanged; }
         }
-  
-        public int Value
+   
+        public byte[] Value
         {
             get { return this.value; }
-
             set
             {
                 this.value = value;
@@ -24,15 +22,17 @@ namespace Dopamine.Data.Metadata
                 this.OnPropertiesChanged();
             }
         }
-        public MetadataRatingValue()
+ 
+        public MetadataArtworkValue()
         {
         }
 
-        public MetadataRatingValue(int value)
+        public MetadataArtworkValue(byte[] value)
         {
             this.value = value;
             this.OnPropertiesChanged();
         }
+  
         private void OnPropertiesChanged()
         {
             RaisePropertyChanged(nameof(this.Value));
