@@ -6,6 +6,7 @@ using Dopamine.Core.Enums;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
@@ -179,7 +180,7 @@ namespace Dopamine.ViewModels.Common
 
             this.StopHighlighting();
 
-            FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
+            IFileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
 
             await Task.Run(() =>
             {

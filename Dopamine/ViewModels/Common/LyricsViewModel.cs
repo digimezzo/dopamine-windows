@@ -2,6 +2,7 @@
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
@@ -143,7 +144,7 @@ namespace Dopamine.ViewModels.Common
             var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
             fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
 
-            var fmdList = new List<FileMetadata>
+            var fmdList = new List<IFileMetadata>
             {
                 fmd
             };

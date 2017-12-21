@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Metadata;
+using Dopamine.Data.Contracts.Metadata;
 using System;
 using System.IO;
 
@@ -39,19 +39,18 @@ namespace Dopamine.Services.Indexing
             return string.Empty;
         }
 
-        public static byte[] GetEmbeddedArtwork(string path)
+        public static byte[] GetEmbeddedArtwork(IFileMetadata fileMetadata)
         {
 
             byte[] artworkData = null;
 
             try
             {
-                var fmd = new FileMetadata(path);
-                artworkData = fmd.ArtworkData.Value;
+                artworkData = fileMetadata.ArtworkData.Value;
             }
             catch (Exception ex)
             {
-                LogClient.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", path, ex.Message);
+                LogClient.Error("There was a problem while getting artwork data for Track with path='{0}'. Exception: {1}", fileMetadata.Path, ex.Message);
             }
 
             return artworkData;
@@ -78,7 +77,7 @@ namespace Dopamine.Services.Indexing
             return artworkData;
         }
 
-        public static byte[] GetArtwork(Album album, string path)
+        public static byte[] GetArtwork(Album album, IFileMetadata fileMetadata)
         {
             byte[] artworkData = null;
 
@@ -88,12 +87,12 @@ namespace Dopamine.Services.Indexing
                 if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumText))
                 {
                     // Get embedded artwork
-                    artworkData = GetEmbeddedArtwork(path);
+                    artworkData = GetEmbeddedArtwork(fileMetadata);
 
                     if (artworkData == null || artworkData.Length == 0)
                     {
                         // If getting embedded artwork failed, try to get external artwork.
-                        artworkData = GetExternalArtwork(path);
+                        artworkData = GetExternalArtwork(fileMetadata.Path);
                     }
                 }
             }

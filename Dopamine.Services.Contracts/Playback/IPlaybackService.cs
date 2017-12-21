@@ -3,6 +3,7 @@ using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Metadata;
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace Dopamine.Services.Contracts.Playback
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
-        Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas);
+        Task UpdateQueueMetadataAsync(List<IFileMetadata> fileMetadatas);
         Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks);
         Task<IList<MMDevice>> GetAllOutputDevicesAsync();
         Task SwitchOutputDeviceAsync(MMDevice outputDevice);

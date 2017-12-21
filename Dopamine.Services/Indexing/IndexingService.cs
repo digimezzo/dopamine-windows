@@ -6,10 +6,11 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Indexing;
+using Dopamine.Services.Utils;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,10 @@ namespace Dopamine.Services.Indexing
         private IArtistRepository artistRepository;
         private IGenreRepository genreRepository;
 
+        // Factories
+        private ISQLiteConnectionFactory factory;
+        private IFileMetadataFactory fileMetadataFactory;
+
         // Watcher
         private FolderWatcherManager watcherManager;
 
@@ -40,9 +45,6 @@ namespace Dopamine.Services.Indexing
 
         // Cache
         private IndexerCache cache;
-
-        // Factory
-        private ISQLiteConnectionFactory factory;
 
         // Flags
         private bool isIndexing;
@@ -65,15 +67,16 @@ namespace Dopamine.Services.Indexing
 
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
             IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
-            IFolderRepository folderRepository)
+            IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory)
         {
             this.cacheService = cacheService;
-            this.factory = factory;
             this.trackRepository = trackRepository;
             this.albumRepository = albumRepository;
             this.genreRepository = genreRepository;
             this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
+            this.factory = factory;
+            this.fileMetadataFactory = fileMetadataFactory;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
             this.cache = new IndexerCache(this.factory);
@@ -583,7 +586,7 @@ namespace Dopamine.Services.Indexing
 
             try
             {
-                MetadataUtils.SplitMetadata(track.Path, ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
+                MetadataUtils.SplitMetadata(this.fileMetadataFactory.Create(track.Path), ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
 
                 // Check if such TrackStatistic already exists in the database
                 if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
@@ -744,7 +747,7 @@ namespace Dopamine.Services.Indexing
         private async Task<string> GetArtworkFromFile(Album album)
         {
             Track trk = this.GetLastModifiedTrack(album);
-            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, trk.Path));
+            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, this.fileMetadataFactory.Create(trk.Path)));
         }
 
         private async Task<string> GetArtworkFromInternet(Album album)

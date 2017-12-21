@@ -7,7 +7,9 @@ using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.Views;
@@ -166,7 +168,12 @@ namespace Dopamine
             Container.RegisterSingletonType<IQueuedTrackRepository, QueuedTrackRepository>();
         }
 
-        protected void RegisterViews()
+        protected void RegisterFactories()
+        {
+            Container.RegisterSingletonType<IFileMetadataFactory, FileMetadataFactory>();
+        }
+
+            protected void RegisterViews()
         {
             // Misc.
             Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);

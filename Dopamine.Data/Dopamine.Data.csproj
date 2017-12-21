@@ -82,10 +82,7 @@
     <Compile Include="DatabaseUtils.cs" />
     <Compile Include="DbMigrator.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
-    <Compile Include="Metadata\MetadataArtworkValue.cs" />
-    <Compile Include="Metadata\MetadataRatingValue.cs" />
-    <Compile Include="Metadata\MetadataUtils.cs" />
-    <Compile Include="Metadata\MetadataValue.cs" />
+    <Compile Include="Metadata\FileMetadataFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

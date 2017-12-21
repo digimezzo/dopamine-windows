@@ -7,8 +7,8 @@ using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Equalizer;
 using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.I18n;
@@ -427,7 +427,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
+        public async Task UpdateQueueMetadataAsync(List<IFileMetadata> fileMetadatas)
         {
             UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
