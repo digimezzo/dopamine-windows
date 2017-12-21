@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.ViewModels;
@@ -95,7 +96,7 @@ namespace Dopamine.Presentation.Utils
             if (string.IsNullOrEmpty(originalString))
                 return string.Empty;
 
-            string firstLetter = DatabaseUtils.GetSortableString(originalString, removePrefix).Substring(0, 1);
+            string firstLetter = FormatUtils.GetSortableString(originalString, removePrefix).Substring(0, 1);
 
             foreach (string semanticZoomItem in Defaults.SemanticZoomItems)
             {

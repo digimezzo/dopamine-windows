@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
+using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -79,7 +80,7 @@ namespace Dopamine.Data.Repositories
                             }
 
                             // Orders the artists
-                            artists = artists.OrderBy((a) => DatabaseUtils.GetSortableString(a.ArtistName, true)).ToList();
+                            artists = artists.OrderBy((a) => FormatUtils.GetSortableString(a.ArtistName, true)).ToList();
                         }
                         catch (Exception ex)
                         {

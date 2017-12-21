@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
+using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -42,7 +43,7 @@ namespace Dopamine.Data.Repositories
                                                        "WHERE fol.ShowInCollection=1");
 
                             // Orders the Genres
-                            genres = genres.OrderBy((g) => DatabaseUtils.GetSortableString(g.GenreName)).ToList();
+                            genres = genres.OrderBy((g) => FormatUtils.GetSortableString(g.GenreName)).ToList();
                         }
                         catch (Exception ex)
                         {

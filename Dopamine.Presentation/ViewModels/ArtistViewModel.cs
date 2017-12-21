@@ -1,4 +1,5 @@
-﻿using Dopamine.Data;
+﻿using Dopamine.Core.Utils;
+using Dopamine.Data;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.Utils;
@@ -28,7 +29,7 @@ namespace Dopamine.Presentation.ViewModels
 
         public string SortArtistName
         {
-            get { return DatabaseUtils.GetSortableString(this.ArtistName, true); }
+            get { return FormatUtils.GetSortableString(this.ArtistName, true); }
         }
 
         public string Header

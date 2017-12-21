@@ -3,7 +3,6 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
-using Dopamine.Data;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -17,6 +16,7 @@ using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -314,7 +314,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 // Order the incoming Genres
-                List<Genre> orderedGenres = await DatabaseUtils.OrderGenresAsync(genres, genreOrder);
+                List<Genre> orderedGenres = await DataUtils.OrderGenresAsync(genres, genreOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<GenreViewModel> genreViewModels = new ObservableCollection<GenreViewModel>();
@@ -460,7 +460,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = DatabaseUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
         }
 
         private async Task ToggleTrackOrderAsync()
