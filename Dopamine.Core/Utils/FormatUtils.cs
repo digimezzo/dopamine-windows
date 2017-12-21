@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using System;
 using System.Globalization;
 using System.Text;
@@ -98,6 +99,27 @@ namespace Dopamine.Core.Utils
 
             result = new TimeSpan();
             return false;
+        }
+
+        public static string GetSortableString(string originalString, bool removePrefix = false)
+        {
+            if (string.IsNullOrEmpty(originalString)) return string.Empty;
+
+            string returnString = originalString.ToLower().Trim();
+
+            if (removePrefix)
+            {
+                try
+                {
+                    returnString = returnString.TrimStart("the ").Trim();
+                }
+                catch (Exception)
+                {
+                    // Swallow
+                }
+            }
+
+            return returnString;
         }
     }
 }

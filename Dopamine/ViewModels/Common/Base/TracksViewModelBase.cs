@@ -17,6 +17,7 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -160,7 +161,7 @@ namespace Dopamine.ViewModels.Common.Base
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             TrackViewModel vm = e.Item as TrackViewModel;
-            e.Accepted = DatabaseUtils.FilterTracks(vm.Track, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterTracks(vm.Track, this.searchService.SearchText);
         }
 
         protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, IList<long> selectedAlbumIds, TrackOrder trackOrder)
@@ -203,7 +204,7 @@ namespace Dopamine.ViewModels.Common.Base
                 ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
 
                 // Order the incoming Tracks
-                List<PlayableTrack> orderedTracks = await DatabaseUtils.OrderTracksAsync(tracks, trackOrder);
+                List<PlayableTrack> orderedTracks = await DataUtils.OrderTracksAsync(tracks, trackOrder);
 
                 await Task.Run(() =>
                 {

@@ -84,6 +84,7 @@ namespace Dopamine
             base.ConfigureContainer();
 
             this.RegisterCoreComponents();
+            this.RegisterFactories();
             this.RegisterRepositories();
             this.RegisterServices();
             this.InitializeServices();

@@ -3,7 +3,6 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
-using Dopamine.Data;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -17,6 +16,7 @@ using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -408,7 +408,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            e.Accepted = DatabaseUtils.FilterArtists(avm.Artist, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterArtists(avm.Artist, this.searchService.SearchText);
         }
 
         private async Task ToggleArtistOrderAsync()

@@ -3,7 +3,6 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
-using Dopamine.Data;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
@@ -12,6 +11,7 @@ using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -121,7 +121,7 @@ namespace Dopamine.ViewModels.Common
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
-            e.Accepted = DatabaseUtils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
         }
 
         private async void CalculateSizeInformationAsync(CollectionViewSource source)
