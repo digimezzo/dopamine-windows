@@ -174,7 +174,7 @@ namespace Dopamine
             Container.RegisterSingletonType<IFileMetadataFactory, FileMetadataFactory>();
         }
 
-            protected void RegisterViews()
+        protected void RegisterViews()
         {
             // Misc.
             Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
@@ -226,7 +226,6 @@ namespace Dopamine
 
         protected override DependencyObject CreateShell()
         {
-
             return Container.Resolve<Shell>();
         }
 
