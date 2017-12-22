@@ -125,6 +125,7 @@
               <File Source="Languages\EN.xml" />
               <File Source="Languages\ES.xml" />
               <File Source="Languages\FR.xml" />
+              <File Source="Languages\HR.xml" />
               <File Source="Languages\HU.xml" />
               <File Source="Languages\IT.xml" />
               <File Source="Languages\KO.xml" />

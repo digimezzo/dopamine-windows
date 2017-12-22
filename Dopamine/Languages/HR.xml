@@ -311,7 +311,6 @@
   <Text Key="Delete_Preset">Izbrisati postavke</Text>
   <Text Key="Delete_Preset_Confirmation">Jeste li sigurni da želite izbrisati postavke '{preset}'?</Text>
   <Text Key="Error_While_Deleting_Preset">Postavke nije moguće izbrisati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="Error_While_Deleting_Preset">Nije moguće izbrisati postavke. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Exclusive_Mode">Ekskluzivni način rada</Text>
   <Text Key="Exclusive_Mode_Confirmation">Jeste li sigurni da želite uključiti ekskluzivni način rada? Druge aplikacije neće moći reproducirati zvukove.</Text>
   <Text Key="Search_Online">Traži na mreži</Text>
@@ -415,5 +414,5 @@
   <Text Key="Reload_Missing_Covers_Description">Ponovno učitaj samo naslovnice albuma koji je nemaju</Text>
   <Text Key="Added_Songs">Dodano {number} pjesama ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Preuzmi naslovnice albuma koje nedostaju s Interneta</Text>
-<Text Key="Also_Enqueue_Other_Files_In_Folder">Tijekom reprodukcije audio datoteke iz Windows Explorera, dodaj i ostale datoteke iz iste mape u red za preprodukciju.</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Tijekom reprodukcije audio datoteke iz Windows Explorera, dodaj i ostale datoteke iz iste mape u red za preprodukciju.</Text>
 </Language>
