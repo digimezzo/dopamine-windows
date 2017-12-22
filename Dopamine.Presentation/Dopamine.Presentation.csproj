@@ -426,10 +426,6 @@
       <Project>{4F692937-889B-4C09-B68D-858F9AA3F56A}</Project>
       <Name>Dopamine.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Data\Dopamine.Data.csproj">
-      <Project>{3AA1D889-7AAF-4385-A373-8E2757D47FD4}</Project>
-      <Name>Dopamine.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Services.Contracts\Dopamine.Services.Contracts.csproj">
       <Project>{90C71913-2055-422A-895F-66C37F459E06}</Project>
       <Name>Dopamine.Services.Contracts</Name>
