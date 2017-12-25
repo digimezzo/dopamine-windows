@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Dopamine.Common;component/Resources/Styles/AllStyles.xaml"/>
+                <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/AllStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
