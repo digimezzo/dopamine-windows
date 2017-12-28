@@ -145,6 +145,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Initializer.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
