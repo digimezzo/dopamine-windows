@@ -1395,8 +1395,14 @@ namespace Dopamine.Services.Playback
             if (await this.TryPlayAsync(track, true))
             {
                 await this.PauseAsync(true);
-                if (!this.mute) this.player.SetVolume(this.Volume);
                 this.player.Skip(progressSeconds);
+                await Task.Delay(200); // Small delay before unmuting
+
+                if (!this.mute)
+                {
+                    this.player.SetVolume(this.Volume);
+                }
+                
                 PlaybackProgressChanged(this, new EventArgs());
             }
         }
