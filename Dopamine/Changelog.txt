@@ -1,9 +1,10 @@
-2017-12-10: Dopamine 1.5.6
+2017-12-30: Dopamine 1.5.6
 --------------------------
 
 - [Added] Added Croatian translation
 - [Changed] Updated the Spanish translation
 - [Fixed] Fixed strange behaviour when playing files from Windows Explorer
+- [Fixed] Play and Skip count order is wrong on Songs screen
 
 
 2017-12-06: Dopamine 1.5.5
