@@ -69,6 +69,22 @@ namespace Dopamine.Presentation.ViewModels
             }
         }
 
+        public string SortPlayCount
+        {
+            get
+            {
+                return this.Track.PlayCount > 0 ? this.Track.PlayCount.Value.ToString("0000") : string.Empty;
+            }
+        }
+
+        public string SortSkipCount
+        {
+            get
+            {
+                return this.Track.SkipCount > 0 ? this.Track.SkipCount.Value.ToString("0000") : string.Empty;
+            }
+        }
+
         public bool ShowTrackArt
         {
             get { return this.showTrackArt; }
@@ -222,12 +238,12 @@ namespace Dopamine.Presentation.ViewModels
 
         public string PlayCount
         {
-            get { return this.Track.PlayCount > 0 ? this.Track.PlayCount.ToString() : string.Empty; }
+            get { return this.Track.PlayCount > 0 ? this.Track.PlayCount.Value.ToString() : string.Empty; }
         }
 
         public string SkipCount
         {
-            get { return this.Track.SkipCount > 0 ? this.Track.SkipCount.ToString() : string.Empty; }
+            get { return this.Track.SkipCount > 0 ? this.Track.SkipCount.Value.ToString() : string.Empty; }
         }
 
         public string DateLastPlayed
