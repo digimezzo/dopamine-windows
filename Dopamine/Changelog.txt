@@ -6,6 +6,7 @@
 - [Fixed] Fixed strange behaviour when playing files from Windows Explorer
 - [Fixed] Fixed wrong Play and Skip count order on the Songs screen
 - [Fixed] Fixed sound not playing on rear speakers on Quadraphonic speaker setups
+- [Fixed] Fixed bad album cover quality on 4K displays with 250% scaling
 
 
 2017-12-06: Dopamine 1.5.5
