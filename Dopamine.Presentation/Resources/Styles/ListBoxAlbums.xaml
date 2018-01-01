@@ -165,7 +165,7 @@
                                 <pc:SourceChangedImage Panel.ZIndex="1" 
                                    Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                    Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                   RenderOptions.BitmapScalingMode="LowQuality">
+                                   RenderOptions.BitmapScalingMode="HighQuality">
                                     <pc:SourceChangedImage.Source>
                                         <MultiBinding Converter="{StaticResource PathToImageConverter}">
                                             <Binding Path="ArtworkPath" IsAsync="True"/>
