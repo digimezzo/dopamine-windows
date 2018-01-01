@@ -315,6 +315,9 @@ namespace Dopamine.Core.Audio
             // Create SoundOut
             this.wasapiOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
 
+            // Map stereo or mono file to all channels
+            ((WasapiOut)this.wasapiOut).UseChannelMixingMatrices = true;
+
             if (this.outputDevice == null)
             {
                 // If no output device was provided, we're playing on the default device.
