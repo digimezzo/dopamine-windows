@@ -33,6 +33,7 @@ namespace Dopamine.Services.Contracts.Playback
         double Progress { get; set; }
         float Volume { get; set; }
         LoopMode LoopMode { get; set; }
+        bool UseAllAvailableChannels { get; set; }
         int Latency { get; set; }
         bool EventMode { get; set; }
         bool ExclusiveMode { get; set; }

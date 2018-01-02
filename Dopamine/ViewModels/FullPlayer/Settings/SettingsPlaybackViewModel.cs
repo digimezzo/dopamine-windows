@@ -52,7 +52,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private ITaskbarService taskbarService;
         private INotificationService notificationService;
         private IDialogService dialogService;
-        protected IExternalControlService externalControlService;
+        private IExternalControlService externalControlService;
+        private bool checkBoxUseAllAvailableChannelsChecked;
         private bool checkBoxWasapiExclusiveModeChecked;
         private bool checkBoxShowNotificationWhenPlayingChecked;
         private bool checkBoxShowNotificationWhenPausingChecked;
@@ -92,6 +93,16 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 {
                     this.playbackService.Latency = value.Value;
                 }
+            }
+        }
+
+        public bool CheckBoxUseAllAvailableChannelsChecked
+        {
+            get { return this.checkBoxUseAllAvailableChannelsChecked; }
+            set
+            {
+                SetProperty<bool>(ref this.checkBoxUseAllAvailableChannelsChecked, value);
+                SettingsClient.Set<bool>("Playback", "WasapiUseAllAvailableChannels", value);
             }
         }
 
@@ -393,6 +404,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
+                this.checkBoxUseAllAvailableChannelsChecked = SettingsClient.Get<bool>("Playback", "WasapiUseAllAvailableChannels");
                 this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
                 this.checkBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
                 this.checkBoxShowNotificationWhenPausingChecked = this.notificationService.ShowNotificationWhenPausing;

@@ -414,5 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">Sadece kapağı olmayan albümlerin kapaklarını yeniden yükle</Text>
   <Text Key="Added_Songs">{number} şarkı eklendi (%{percent})</Text>
   <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-<Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Use_All_Available_Speakers">Use all available speakers</Text>
 </Language>
