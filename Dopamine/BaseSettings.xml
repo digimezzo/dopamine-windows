@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>98</Value>
+      <Value>99</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -191,6 +191,9 @@
       <Value>False</Value>
     </Setting>
     <Setting Name="WasapiExclusiveMode">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="WasapiUseAllAvailableChannels">
       <Value>False</Value>
     </Setting>
     <Setting Name="Volume">

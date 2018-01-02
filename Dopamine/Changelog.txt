@@ -1,11 +1,11 @@
-2018-01-01: Dopamine 1.5.6
+2018-01-02: Dopamine 1.5.6
 --------------------------
 
 - [Added] Added Croatian translation
+- [Added] Added an option to use all speakers on multi-speaker systems
 - [Changed] Updated the Spanish translation
 - [Fixed] Fixed strange behaviour when playing files from Windows Explorer
 - [Fixed] Fixed wrong Play and Skip count order on the Songs screen
-- [Fixed] Fixed sound not playing on rear speakers on Quadraphonic speaker setups
 - [Fixed] Fixed bad album cover quality on 4K displays with 250% scaling
 
 
