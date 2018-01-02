@@ -793,8 +793,6 @@ namespace Dopamine.Services.Indexing
                 {
                     try
                     {
-                        conn.BeginTransaction();
-
                         List<long> albumIdsWithArtwork = new List<long>();
                         List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
 
@@ -805,7 +803,6 @@ namespace Dopamine.Services.Indexing
                                 try
                                 {
                                     LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
-                                    conn.Commit(); // Makes sure we commit what we already processed
                                     this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
                                 }
                                 catch (Exception ex)
@@ -852,8 +849,6 @@ namespace Dopamine.Services.Indexing
                                 // If artwork was found for 20 albums, trigger a refresh of the UI.
                                 if (albumIdsWithArtwork.Count >= 20)
                                 {
-                                    conn.Commit(); // Commit, because the UI refresh will need up to date albums in the database.
-                                    await Task.Delay(1000); // Hopefully prevents database locks
                                     List<long> eventAlbumIds = new List<long>(albumIdsWithArtwork);
                                     albumIdsWithArtwork.Clear();
                                     this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
@@ -867,7 +862,6 @@ namespace Dopamine.Services.Indexing
 
                         try
                         {
-                            conn.Commit(); // Make sure all albums are committed
                             this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
                         }
                         catch (Exception ex)
