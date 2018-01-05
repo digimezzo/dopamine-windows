@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dopamine.Services.Contracts.Win32Input;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -7,7 +8,7 @@ namespace Dopamine.Services.Win32Input
     /// <summary>
     /// Low-Level Keyboard Hook, see: http://www.markodevcic.com/post/.NET_Keyboard_Hook/
     /// </summary> 
-    public class LowLevelKeyboardHookManager : IKeyboardHookManager
+    internal class LowLevelKeyboardHookManager : IKeyboardHookManager
     {
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYUP = 0x101;

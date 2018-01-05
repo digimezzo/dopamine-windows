@@ -5,14 +5,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              Background="#00000000"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type entityviewmodels:PlaybackInfoViewModel}">
+        <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
             <StackPanel VerticalAlignment="Center" Visibility="{Binding Title,Converter={StaticResource StringEmptyToInvisibleConverter}}">
                 <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"/>

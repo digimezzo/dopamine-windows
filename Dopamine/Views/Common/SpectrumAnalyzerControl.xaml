@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.SpectrumAnalyzerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dca="clr-namespace:Dopamine.Core.Audio;assembly=Dopamine.Core"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeIn">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.25" />
+            </Storyboard>
+        </Storyboard>
+        <Storyboard x:Key="FadeOut">
+            <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.25" />
+            </Storyboard>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Button Style="{StaticResource TransparentFixedButton}" Background="#00000000" Visibility="{Binding ShowSpectrumAnalyzer,Converter={StaticResource BooleanToCollapsedConverter}}" Command="{Binding ToggleSpectrumCommand}">
+        <Grid ClipToBounds="True">
+            <StackPanel Opacity="{Binding SpectrumOpacity}" Panel.ZIndex="1" Width="{Binding SpectrumPanelWidth}" Height="{Binding SpectrumPanelHeight}" Margin="0,0,0,-1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Orientation="Horizontal">
+                <StackPanel.Effect>
+                    <BlurEffect Radius="{Binding BlurRadius}"/>
+                </StackPanel.Effect>
+                <dca:SpectrumAnalyzer 
+                x:Name="LeftSpectrumAnalyzer" 
+                Style="{StaticResource SpectrumAnalyzer}"
+                BarBackground="{Binding SpectrumBarBackground}"
+                Width="{Binding SpectrumWidth}" 
+                BarSpacing="{Binding SpectrumBarSpacing}" 
+                BarWidth="{Binding SpectrumBarWidth}" 
+                AnimationStyle="{Binding AnimationStyle}"
+                Margin="2,0,0,0" 
+                BarCount="{Binding SpectrumBarCount}"
+                RenderTransformOrigin="0.5,0.5">
+                    <dca:SpectrumAnalyzer.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </dca:SpectrumAnalyzer.RenderTransform>
+                </dca:SpectrumAnalyzer>
+                <dca:SpectrumAnalyzer 
+                x:Name="RightSpectrumAnalyzer" 
+                Style="{StaticResource SpectrumAnalyzer}" 
+                BarBackground="{Binding SpectrumBarBackground}"
+                Width="{Binding SpectrumWidth}" 
+                BarSpacing="{Binding SpectrumBarSpacing}" 
+                BarWidth="{Binding SpectrumBarWidth}" 
+                AnimationStyle="{Binding AnimationStyle}"
+                Margin="-4,0,0,0" 
+                BarCount="{Binding SpectrumBarCount}" />
+            </StackPanel>
+            <Ellipse Panel.ZIndex="0" Opacity="0" Width="{Binding SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource RG_SpectrumGradientBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding SpectrumStyle, Converter={StaticResource SpectrumStyleEllipseConverter}}">
+                <Ellipse.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard ="{StaticResource FadeIn}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard ="{StaticResource FadeOut}"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </Grid>
+    </Button>
+</UserControl>

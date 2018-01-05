@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.PlaybackInfoControl"
+             x:Name="ThisControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
+             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
+            <StackPanel>
+                <pc:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                <StackPanel Visibility="{Binding ShowAlbumInfo,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <TextBlock Text="{Binding Album}" TextTrimming="CharacterEllipsis" FontSize="{Binding AlbumFontSize,ElementName=ThisControl}" FontWeight="{Binding AlbumFontWeight,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
+                    <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" FontSize="{Binding YearFontSize,ElementName=ThisControl}" FontWeight="{Binding YearFontWeight,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" Visibility="{Binding Year, Converter={StaticResource StringEmptyToInvisibleConverter}}"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel HorizontalAlignment="Stretch" Height="{Binding ActualHeight,ElementName=ThisControl}">
+        <dc:SlidingContentControl 
+            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
+            DockPanel.Dock="Bottom" 
+            HorizontalAlignment="Stretch" 
+            SlideDirection="{Binding SlideDirection}" 
+            EasingAmplitude="0" 
+            SlideFadeIn="True"
+            Content="{Binding PlaybackInfoViewModel}"/>
+        <dc:SlidingContentControl 
+            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"
+            DockPanel.Dock="Top" 
+            HorizontalAlignment="Stretch" 
+            SlideDirection="{Binding SlideDirection}" 
+            EasingAmplitude="0" 
+            SlideFadeIn="True"
+            Content="{Binding PlaybackInfoViewModel}"/>
+        <ContentControl/>
+    </DockPanel>
+</UserControl>

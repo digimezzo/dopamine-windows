@@ -114,14 +114,9 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Appearance\AppearanceService.cs" />
-    <Compile Include="Appearance\ColorScheme.cs" />
-    <Compile Include="Appearance\IAppearanceService.cs" />
     <Compile Include="Cache\CacheService.cs" />
-    <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="Collection\CollectionService.cs" />
-    <Compile Include="Collection\ICollectionService.cs" />
     <Compile Include="Command\CommandService.cs" />
-    <Compile Include="Command\ICommandService.cs" />
     <Compile Include="Dialog\ConfirmationDialog.xaml.cs">
       <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
     </Compile>
@@ -129,7 +124,6 @@
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialog\DialogService.cs" />
-    <Compile Include="Dialog\IDialogService.cs" />
     <Compile Include="Dialog\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -137,33 +131,16 @@
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Equalizer\EqualizerService.cs" />
-    <Compile Include="Equalizer\IEqualizerService.cs" />
     <Compile Include="ExternalControl\ExternalControlServer.cs" />
     <Compile Include="ExternalControl\ExternalControlService.cs" />
-    <Compile Include="ExternalControl\IExternalControlServer.cs" />
-    <Compile Include="ExternalControl\IExternalControlService.cs" />
-    <Compile Include="ExternalControl\IFftDataServer.cs" />
     <Compile Include="File\FileService.cs" />
-    <Compile Include="File\IFileService.cs" />
     <Compile Include="I18n\I18nService.cs" />
-    <Compile Include="I18n\II18nService.cs" />
-    <Compile Include="I18n\Language.cs" />
-    <Compile Include="Indexing\AlbumArtworkAddedEventArgs.cs" />
-    <Compile Include="Indexing\Enums.cs" />
     <Compile Include="Indexing\FolderWatcherManager.cs" />
-    <Compile Include="Indexing\IIndexingService.cs" />
     <Compile Include="Indexing\IndexerCache.cs" />
     <Compile Include="Indexing\IndexerUtils.cs" />
     <Compile Include="Indexing\IndexingService.cs" />
-    <Compile Include="Indexing\IndexingStatusEventArgs.cs" />
-    <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
-    <Compile Include="Metadata\IMetadataService.cs" />
-    <Compile Include="Metadata\LoveChangedEventArgs.cs" />
-    <Compile Include="Metadata\MetadataChangedEventArgs.cs" />
     <Compile Include="Metadata\MetadataService.cs" />
-    <Compile Include="Metadata\RatingChangedEventArgs.cs" />
-    <Compile Include="Notification\INotificationService.cs" />
     <Compile Include="Notification\LegacyNotificationService.cs" />
     <Compile Include="Notification\NotificationService.cs" />
     <Compile Include="Notification\NotificationWindow.xaml.cs">
@@ -172,8 +149,6 @@
     <Compile Include="Playback\AudioDevicesWatcher.cs" />
     <Compile Include="Playback\PlaybackService.cs" />
     <Compile Include="Playback\QueueManager.cs" />
-    <Compile Include="Playlist\Enums.cs" />
-    <Compile Include="Playlist\IPlaylistService.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -188,29 +163,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Provider\Enums.cs" />
-    <Compile Include="Provider\IProviderService.cs" />
     <Compile Include="Provider\ProviderService.cs" />
-    <Compile Include="Provider\SearchProvider.cs" />
-    <Compile Include="Scrobbling\Enums.cs" />
-    <Compile Include="Scrobbling\IScrobblingService.cs" />
     <Compile Include="Scrobbling\LastfmScrobblingService.cs" />
-    <Compile Include="Search\ISearchService.cs" />
     <Compile Include="Search\SearchService.cs" />
-    <Compile Include="Shell\EventArgs.cs" />
-    <Compile Include="Shell\IShellService.cs" />
     <Compile Include="Shell\ShellService.cs" />
-    <Compile Include="Taskbar\ITaskbarService.cs" />
     <Compile Include="Taskbar\TaskbarService.cs" />
-    <Compile Include="Update\IUpdateService.cs" />
-    <Compile Include="Update\UpdateAvailableEventArgs.cs" />
     <Compile Include="Update\UpdateService.cs" />
+    <Compile Include="Utils\DataUtils.cs" />
+    <Compile Include="Utils\MetadataUtils.cs" />
     <Compile Include="Win32Input\AppCommandKeyboardHookManager.cs" />
-    <Compile Include="Win32Input\IKeyboardHookManager.cs" />
-    <Compile Include="Win32Input\IWin32InputService.cs" />
     <Compile Include="Win32Input\LowLevelKeyboardHookManager.cs" />
     <Compile Include="Win32Input\Win32InputService.cs" />
-    <Compile Include="WindowsIntegration\IWindowsIntegrationService.cs" />
     <Compile Include="WindowsIntegration\WindowsIntegrationService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -227,9 +190,9 @@
       <Project>{7faac843-6aa9-4b5b-8678-937137a61e47}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Data\Dopamine.Data.csproj">
-      <Project>{3aa1d889-7aaf-4385-a373-8e2757d47fd4}</Project>
-      <Name>Dopamine.Data</Name>
+    <ProjectReference Include="..\Dopamine.Data.Contracts\Dopamine.Data.Contracts.csproj">
+      <Project>{4F692937-889B-4C09-B68D-858F9AA3F56A}</Project>
+      <Name>Dopamine.Data.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
       <Project>{d4cc27ba-1089-47fd-86c0-f6c12ff0d344}</Project>

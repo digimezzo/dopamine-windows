@@ -1,4 +1,4 @@
-﻿using Dopamine.Common.Presentation.ViewModels.Base;
+﻿using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 
 namespace Dopamine.ViewModels.NowPlaying

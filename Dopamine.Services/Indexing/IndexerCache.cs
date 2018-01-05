@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Data;
-using Dopamine.Data.Entities;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Dopamine.Services.Indexing
 {
-    public class IndexerCache
+    internal class IndexerCache
     {
         private HashSet<string> cachedTrackStatistics;
         private Dictionary<long, Album> cachedAlbums;

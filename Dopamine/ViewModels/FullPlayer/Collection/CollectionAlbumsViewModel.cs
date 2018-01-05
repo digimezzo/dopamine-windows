@@ -1,10 +1,11 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Data;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Services.Collection;
-using Dopamine.Services.Indexing;
-using Dopamine.Services.Metadata;
+using Dopamine.Data.Contracts;
+using Dopamine.Services.Contracts.Collection;
+using Dopamine.Services.Contracts.Indexing;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -62,7 +63,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.collectionService.RefreshArtworkAsync(this.Albums, e.AlbumIds);
+            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshArtworkAsync(e.AlbumIds);
 
             //  Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
@@ -85,7 +86,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.RefreshArtworkAsync();
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
             if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
         }

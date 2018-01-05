@@ -2,25 +2,24 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Utils;
-using Dopamine.Services.Metadata;
-using Dopamine.Services.Playback;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
+using Dopamine.Core.Utils;
+using Dopamine.Services.Contracts.Appearance;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.Services.Contracts.Playback;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Services.Appearance
 {

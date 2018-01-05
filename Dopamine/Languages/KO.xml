@@ -363,7 +363,7 @@
   <Text Key="Play_Next">다음 재생</Text>
   <Text Key="Last_Played">마지막으로 재생한 날짜</Text>
   <Text Key="Remember_Last_played_Song">마지막으로 재생한 노래와 재생 진행률 기억하기</Text>
-  <Text Key="Download_Lyrics_From">여기서 가사 다운로드</Text>
+  <Text Key="Download_Lyrics_From">가사 다운로드 사이트</Text>
   <Text Key="Lyrics_Download_Timeout">가사 다운로드 시간 초과</Text>
   <Text Key="Show_Remove_From_Disk">우클릭 메뉴에 &apos;디스크에서 제거&apos; 보이기</Text>
   <Text Key="Remove_From_Disk">디스크에서 제거</Text>
@@ -414,5 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">아직 커버가 없는 앨범의 커버만 다시 불러옵니다.</Text>
   <Text Key="Added_Songs">{Number}곡 추가됨 ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">없는 앨범 커버를 인터넷에서 다운로드하기</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">윈도우 탐색기에서 오디오 파일을 재생할 때 같은 폴더의 다른 오디오 파일도 재생 대기 목록에 추가합니다.</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">윈도우 탐색기에서 오디오 파일을 재생하면 같은 폴더의 다른 오디오 파일도 재생 대기 목록에 추가</Text>
+  <Text Key="Use_All_Available_Speakers">가능한 모든 스피커 사용</Text>
 </Language>

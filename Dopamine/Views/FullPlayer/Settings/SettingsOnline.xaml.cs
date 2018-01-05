@@ -1,4 +1,4 @@
-﻿using Dopamine.Services.Scrobbling;
+﻿using Dopamine.Services.Contracts.Scrobbling;
 using Microsoft.Practices.ServiceLocation;
 using System.Windows.Controls;
 

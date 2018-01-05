@@ -40,8 +40,17 @@
     <Reference Include="CSCore">
       <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="Digimezzo.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Digimezzo.WPFControls, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,6 +68,29 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Appearance\ColorScheme.cs" />
+    <Compile Include="Appearance\IAppearanceService.cs" />
+    <Compile Include="Cache\ICacheService.cs" />
+    <Compile Include="Collection\ICollectionService.cs" />
+    <Compile Include="Command\ICommandService.cs" />
+    <Compile Include="Dialog\IDialogService.cs" />
+    <Compile Include="Equalizer\IEqualizerService.cs" />
+    <Compile Include="ExternalControl\IExternalControlServer.cs" />
+    <Compile Include="ExternalControl\IExternalControlService.cs" />
+    <Compile Include="ExternalControl\IFftDataServer.cs" />
+    <Compile Include="File\IFileService.cs" />
+    <Compile Include="I18n\II18nService.cs" />
+    <Compile Include="I18n\Language.cs" />
+    <Compile Include="Indexing\AlbumArtworkAddedEventArgs.cs" />
+    <Compile Include="Indexing\Enums.cs" />
+    <Compile Include="Indexing\IIndexingService.cs" />
+    <Compile Include="Indexing\IndexingStatusEventArgs.cs" />
+    <Compile Include="JumpList\IJumpListService.cs" />
+    <Compile Include="Metadata\IMetadataService.cs" />
+    <Compile Include="Metadata\LoveChangedEventArgs.cs" />
+    <Compile Include="Metadata\MetadataChangedEventArgs.cs" />
+    <Compile Include="Metadata\RatingChangedEventArgs.cs" />
+    <Compile Include="Notification\INotificationService.cs" />
     <Compile Include="Playback\DequeueResult.cs" />
     <Compile Include="Playback\EnqueueResult.cs" />
     <Compile Include="Playback\IPlaybackService.cs" />
@@ -67,6 +99,8 @@
     <Compile Include="Playback\PlaybackPausedEventArgs.cs" />
     <Compile Include="Playback\PlaybackSuccessEventArgs.cs" />
     <Compile Include="Playback\UpdateQueueMetadataResult.cs" />
+    <Compile Include="Playlist\Enums.cs" />
+    <Compile Include="Playlist\IPlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,6 +114,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Provider\Enums.cs" />
+    <Compile Include="Provider\IProviderService.cs" />
+    <Compile Include="Provider\SearchProvider.cs" />
+    <Compile Include="Scrobbling\Enums.cs" />
+    <Compile Include="Scrobbling\IScrobblingService.cs" />
+    <Compile Include="Search\ISearchService.cs" />
+    <Compile Include="Shell\EventArgs.cs" />
+    <Compile Include="Shell\IShellService.cs" />
+    <Compile Include="Taskbar\ITaskbarService.cs" />
+    <Compile Include="Update\IUpdateService.cs" />
+    <Compile Include="Update\UpdateAvailableEventArgs.cs" />
+    <Compile Include="Win32Input\IKeyboardHookManager.cs" />
+    <Compile Include="Win32Input\IWin32InputService.cs" />
+    <Compile Include="WindowsIntegration\IWindowsIntegrationService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -94,10 +142,11 @@
       <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Data\Dopamine.Data.csproj">
-      <Project>{3AA1D889-7AAF-4385-A373-8E2757D47FD4}</Project>
-      <Name>Dopamine.Data</Name>
+    <ProjectReference Include="..\Dopamine.Data.Contracts\Dopamine.Data.Contracts.csproj">
+      <Project>{4F692937-889B-4C09-B68D-858F9AA3F56A}</Project>
+      <Name>Dopamine.Data.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

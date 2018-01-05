@@ -29,6 +29,7 @@ namespace Dopamine.Core.Audio
         private bool canStop;
 
         // Output device
+        private bool useAllAvailableChannels = false;
         private int latency = 100; // Default is 100
         private bool eventSync = false; // Default is False
         private AudioClientShareMode audioClientShareMode = AudioClientShareMode.Shared; // Default is Shared
@@ -128,8 +129,9 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public void SetPlaybackSettings(int latency, bool eventMode, bool exclusiveMode, double[] filterValues)
+        public void SetPlaybackSettings(int latency, bool eventMode, bool exclusiveMode, double[] filterValues, bool useAllAvailableChannels)
         {
+            this.useAllAvailableChannels = useAllAvailableChannels;
             this.latency = latency;
             this.eventSync = eventMode;
             this.filterValues = filterValues;
@@ -314,6 +316,9 @@ namespace Dopamine.Core.Audio
         {
             // Create SoundOut
             this.wasapiOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
+
+            // Map stereo or mono file to all channels
+            ((WasapiOut)this.wasapiOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
 
             if (this.outputDevice == null)
             {

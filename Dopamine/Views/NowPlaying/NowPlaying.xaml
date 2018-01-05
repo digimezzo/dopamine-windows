@@ -7,7 +7,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
-             xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d" 

@@ -1,6 +1,7 @@
-﻿using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace Dopamine.Data.Repositories
 {
     public class QueuedTrackRepository : IQueuedTrackRepository
     {
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
 
-        public QueuedTrackRepository()
+        public QueuedTrackRepository(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
 
         public async Task<List<QueuedTrack>> GetSavedQueuedTracksAsync()

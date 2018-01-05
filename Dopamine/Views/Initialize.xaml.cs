@@ -1,8 +1,4 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.WPFControls;
-using Dopamine.Data;
-using System;
+﻿using Digimezzo.WPFControls;
 using System.Threading.Tasks;
 
 namespace Dopamine.Views
@@ -16,16 +12,15 @@ namespace Dopamine.Views
 
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            this.PerformUpdateAsync();
+            this.MigrateAsync();
         }
 
-        private async void PerformUpdateAsync()
+        private async void MigrateAsync()
         {
-            // Migrate settings
-            await this.MigrateSettingsAsync();
+            var initializer = new Initializer();
 
-            // Migrate database
-            await this.MigrateDatabaseAsync();
+            // Migrate
+            await initializer.MigrateAsync();
 
             // Small delay
             await Task.Delay(1000);
@@ -34,41 +29,6 @@ namespace Dopamine.Views
             Bootstrapper bootstrapper = new Bootstrapper();
             bootstrapper.Run();
             this.Close();
-        }
-
-        private async Task MigrateSettingsAsync()
-        {
-            try
-            {
-                if (SettingsClient.IsMigrationNeeded())
-                {
-                    LogClient.Info("Migrating settings");
-                    await Task.Run(() => SettingsClient.Migrate());
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("There was a problem migrating the settings. Exception: {0}", ex.Message);
-            }
-           
-        }
-
-        private async Task MigrateDatabaseAsync()
-        {
-            try
-            {
-                var migrator = new DbMigrator(new SQLiteConnectionFactory());
-
-                if (migrator.IsMigrationNeeded())
-                {
-                    LogClient.Info("Migrating database");
-                    await Task.Run(() => migrator.Migrate());
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("There was a problem migrating the database. Exception: {0}", ex.Message);
-            }
         }
     }
 }

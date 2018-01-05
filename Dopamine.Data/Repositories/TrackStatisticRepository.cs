@@ -1,7 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Extensions;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ namespace Dopamine.Data.Repositories
 {
     public class TrackStatisticRepository : ITrackStatisticRepository
     {
-        private SQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory factory;
 
-        public TrackStatisticRepository()
+        public TrackStatisticRepository(ISQLiteConnectionFactory factory)
         {
-            this.factory = new SQLiteConnectionFactory();
+            this.factory = factory;
         }
 
         public async Task UpdateRatingAsync(string path, int rating)

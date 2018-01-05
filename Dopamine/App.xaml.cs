@@ -6,9 +6,9 @@ using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Services.Command;
+using Dopamine.Services.Contracts.Command;
+using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.File;
 using Dopamine.Views;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -58,7 +58,9 @@ namespace Dopamine
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            if (this.IsUpdateNeeded())
+            var initializer = new Initializer();
+
+            if (initializer.IsMigrationNeeded())
             {
                 // Show the Update Window
                 BorderlessWindows10Window initWin = new Initialize();
@@ -71,16 +73,6 @@ namespace Dopamine
                 Bootstrapper bootstrapper = new Bootstrapper();
                 bootstrapper.Run();
             }
-        }
-
-        private bool IsUpdateNeeded()
-        {
-            var migrator = new DbMigrator(new SQLiteConnectionFactory());
-
-            bool issettingsMigrationNeeded = SettingsClient.IsMigrationNeeded();
-            bool isDatabaseMigrationNeeded = migrator.IsMigrationNeeded();
-            
-            return issettingsMigrationNeeded | isDatabaseMigrationNeeded;
         }
 
         private void ProcessCommandLineArguments(bool isNewInstance)

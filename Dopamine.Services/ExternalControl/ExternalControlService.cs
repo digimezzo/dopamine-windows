@@ -1,11 +1,11 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Services.Cache;
-using Dopamine.Services.Playback;
 using Dopamine.Core.Base;
+using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.Playback;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Services.ExternalControl
 {
