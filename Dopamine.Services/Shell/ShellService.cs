@@ -1,15 +1,16 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
+using Dopamine.Core.Prism;
 using Dopamine.Presentation.Views;
-using Dopamine.Services.WindowsIntegration;
+using Dopamine.Services.Contracts.Shell;
+using Dopamine.Services.Contracts.WindowsIntegration;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using Dopamine.Core.Prism;
 
 namespace Dopamine.Services.Shell
 {

@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:entityviewmodels="clr-namespace:Dopamine.Common.Presentation.ViewModels.Entities"
+             xmlns:pv="clr-namespace:Dopamine.Presentation.ViewModels;assembly=Dopamine.Presentation"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              Loaded="ThisControl_Loaded"
@@ -13,7 +13,7 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type entityviewmodels:CoverArtViewModel}">
+        <DataTemplate DataType="{x:Type pv:CoverArtViewModel}">
             <Grid>
                 <Border Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
                     <Viewbox Width="{Binding IconSize,ElementName=ThisControl}" Height="{Binding IconSize,ElementName=ThisControl}">

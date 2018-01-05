@@ -415,4 +415,5 @@
   <Text Key="Added_Songs">{number} nummers toegevoegd ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Ontbrekende albumafbeeldingen downloaden van het Internet</Text>
   <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Use_All_Available_Speakers">Gebruik alle beschikbare luidsprekers</Text>
 </Language>

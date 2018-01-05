@@ -1,14 +1,14 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Data.Metadata;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
-using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Services.Contracts.Playback;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Services.Playback
 {
@@ -24,7 +24,7 @@ namespace Dopamine.Services.Playback
             get { return this.queue; }
         }
     
-        private bool UpdateTrackPlaybackInfo(PlayableTrack track, FileMetadata fileMetadata)
+        private bool UpdateTrackPlaybackInfo(PlayableTrack track, IFileMetadata fileMetadata)
         {
             bool isDisplayedPlaybackInfoChanged = false;
 
@@ -554,7 +554,7 @@ namespace Dopamine.Services.Playback
             return isSuccess;
         }
 
-        public async Task<UpdateQueueMetadataResult> UpdateMetadataAsync(List<FileMetadata> fileMetadatas)
+        public async Task<UpdateQueueMetadataResult> UpdateMetadataAsync(List<IFileMetadata> fileMetadatas)
         {
             var result = new UpdateQueueMetadataResult();
 
@@ -566,7 +566,7 @@ namespace Dopamine.Services.Playback
                     {
                         foreach (PlayableTrack track in this.queue.Values)
                         {
-                            FileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
+                            IFileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
 
                             if (fmd != null)
                             {

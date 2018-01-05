@@ -125,6 +125,7 @@
               <File Source="Languages\EN.xml" />
               <File Source="Languages\ES.xml" />
               <File Source="Languages\FR.xml" />
+              <File Source="Languages\HR.xml" />
               <File Source="Languages\HU.xml" />
               <File Source="Languages\IT.xml" />
               <File Source="Languages\KO.xml" />
@@ -180,10 +181,13 @@
             <File Source="Prism.dll" />
             <File Source="Prism.Unity.Wpf.dll" />
             <File Source="Prism.Wpf.dll" />
-            <File Source="Dopamine.Common.dll" />
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
+            <File Source="Dopamine.Data.Contracts.dll" />
             <File Source="Dopamine.Icons.dll" />
+            <File Source="Dopamine.Presentation.dll" />
+            <File Source="Dopamine.Services.dll" />
+            <File Source="Dopamine.Services.Contracts.dll" />
             <File Source="CSCore.dll" />
             <File Source="CSCore.Ffmpeg.dll" />
             <File Source="GongSolutions.WPF.DragDrop.dll" />

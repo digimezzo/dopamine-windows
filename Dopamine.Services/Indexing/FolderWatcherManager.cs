@@ -1,5 +1,5 @@
-﻿using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+﻿using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Dopamine.Services.Indexing
 {
-    public class FolderWatcherManager
+    internal class FolderWatcherManager
     {
         private IFolderRepository folderRepository;
         private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();

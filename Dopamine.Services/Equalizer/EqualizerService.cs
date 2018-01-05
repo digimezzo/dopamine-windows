@@ -4,6 +4,7 @@ using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
+using Dopamine.Services.Contracts.Equalizer;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

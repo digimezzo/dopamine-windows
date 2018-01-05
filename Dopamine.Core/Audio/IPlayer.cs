@@ -18,7 +18,7 @@ namespace Dopamine.Core.Audio
         void Play(string filename, MMDevice outputDevice);
         void Skip(int gotoSeconds);
         void SetVolume(float volume);
-        void SetPlaybackSettings(int latency, bool eventMode, bool exclusiveMode, double[] filterValues);
+        void SetPlaybackSettings(int latency, bool eventMode, bool exclusiveMode, double[] filterValues, bool useAllAvailableChannels);
         void Pause();
         bool Resume();
         float GetVolume();

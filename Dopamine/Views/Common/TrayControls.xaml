@@ -8,7 +8,7 @@
         xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
         xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core" 
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views;assembly=Dopamine.Common"
+        xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
         xmlns:pv="clr-namespace:Dopamine.Presentation.Views;assembly=Dopamine.Presentation"
         Height="{x:Static base:Constants.TrayControlsHeight}" 
         Width="{x:Static base:Constants.TrayControlsWidth}" 

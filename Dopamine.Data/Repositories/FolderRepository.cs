@@ -1,7 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Extensions;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,6 @@ namespace Dopamine.Data.Repositories
     public class FolderRepository : IFolderRepository
     {
         private ISQLiteConnectionFactory factory;
-
-        public ISQLiteConnectionFactory Factory => this.factory;
 
         public FolderRepository(ISQLiteConnectionFactory factory)
         {
@@ -28,7 +27,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -67,7 +66,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -100,7 +99,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
@@ -128,7 +127,7 @@ namespace Dopamine.Data.Repositories
             {
                 try
                 {
-                    using (var conn = this.Factory.GetConnection())
+                    using (var conn = this.factory.GetConnection())
                     {
                         try
                         {

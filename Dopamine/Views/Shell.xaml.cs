@@ -3,18 +3,18 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
-using Dopamine.Core.Prism;
-using Dopamine.Services.Appearance;
-using Dopamine.Services.I18n;
-using Dopamine.Services.Metadata;
-using Dopamine.Services.Notification;
-using Dopamine.Services.Playback;
-using Dopamine.Services.Shell;
-using Dopamine.Services.Win32Input;
-using Dopamine.Services.WindowsIntegration;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
+using Dopamine.Core.Prism;
+using Dopamine.Services.Contracts.Appearance;
+using Dopamine.Services.Contracts.I18n;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.Services.Contracts.Notification;
+using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Contracts.Shell;
+using Dopamine.Services.Contracts.Win32Input;
+using Dopamine.Services.Contracts.WindowsIntegration;
 using Dopamine.Views.Common;
 using Dopamine.Views.MiniPlayer;
 using Microsoft.Practices.Unity;
@@ -28,7 +28,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
-using Dopamine.Services.Contracts.Playback;
 
 namespace Dopamine.Views
 {

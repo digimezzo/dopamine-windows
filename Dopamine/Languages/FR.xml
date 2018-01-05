@@ -234,8 +234,8 @@
   <Text Key="Grouping">Groupement</Text>
   <Text Key="Comment">Commentaires</Text>
   <Text Key="Only_Positive_Numbers_Allowed">Seules des valeurs positives sont autorisées</Text>
-  <Text Key="Export">Export</Text>
-  <Text Key="Export_The_Image">Export the image</Text>
+  <Text Key="Export">Exporter</Text>
+  <Text Key="Export_The_Image">Exporter l'image</Text>
   <Text Key="Change">Remplacer</Text>
   <Text Key="Change_The_Image">Remplacer l'image</Text>
   <Text Key="Remove">Effacer</Text>
@@ -361,7 +361,7 @@
   <Text Key="Search_Again">Chercher à nouveau</Text>
   <Text Key="Audio_File">Fichier audio</Text>
   <Text Key="Play_Next">Morceau suivant</Text>
-les  <Text Key="Last_Played">Dernière lecture</Text>
+  <Text Key="Last_Played">Dernière lecture</Text>
   <Text Key="Remember_Last_played_Song">Retenir le dernier morceau joué et la progression de lecture</Text>
   <Text Key="Download_Lyrics_From">Télécharger les paroles de</Text>
   <Text Key="Lyrics_Download_Timeout">Délai de téléchargement des paroles</Text>
@@ -414,5 +414,6 @@ les  <Text Key="Last_Played">Dernière lecture</Text>
   <Text Key="Reload_Missing_Covers_Description">Recharger les pochettes uniquement pour les albums n'ayant pas encore de pochette</Text>
   <Text Key="Added_Songs">Ajouté {number} morceaux ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Télécharger les pochettes d'album manquantes à partir d'Internet</Text>
-<Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Lors de la lecture d'un fichier audio à partir de l'Explorateur Windows, mettre également dans la file d'attente les autres fichiers audio contenus dans le même dossier.</Text>
+  <Text Key="Use_All_Available_Speakers">Utiliser tous les haut-parleurs disponibles</Text>
 </Language>

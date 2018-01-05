@@ -1,11 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
 using Dopamine.Presentation.ViewModels;
-using Dopamine.Services.Cache;
+using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Indexing;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;

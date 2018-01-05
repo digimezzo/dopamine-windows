@@ -1,8 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Controls;
-using Dopamine.Services.Appearance;
-using Dopamine.Services.Indexing;
+using Dopamine.Services.Contracts.Appearance;
+using Dopamine.Services.Contracts.Indexing;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Animation;

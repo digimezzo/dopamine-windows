@@ -4,14 +4,15 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
-using Dopamine.Data;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Metadata;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Services.Contracts.Equalizer;
+using Dopamine.Services.Contracts.File;
+using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Equalizer;
-using Dopamine.Services.File;
-using Dopamine.Services.I18n;
+using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,9 +30,6 @@ namespace Dopamine.Services.Playback
         private double progressTimeoutSeconds = 0.5;
         private double progress = 0.0;
         private float volume = 0.0f;
-        private int latency;
-        private bool eventMode;
-        private bool exclusiveMode;
         private LoopMode loopMode;
         private bool shuffle;
         private bool mute;
@@ -198,23 +196,14 @@ namespace Dopamine.Services.Playback
             this.QueueChanged(this, new EventArgs());
         }
 
-        public int Latency
-        {
-            get { return this.latency; }
-            set { this.latency = value; }
-        }
+        public bool UseAllAvailableChannels { get; set; }
 
-        public bool EventMode
-        {
-            get { return this.eventMode; }
-            set { this.eventMode = value; }
-        }
+        public int Latency { get; set; }
 
-        public bool ExclusiveMode
-        {
-            get { return this.exclusiveMode; }
-            set { this.exclusiveMode = value; }
-        }
+        public bool EventMode { get; set; }
+
+        public bool ExclusiveMode { get; set; }
+
 
         public bool IsSpectrumVisible
         {
@@ -426,7 +415,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public async Task UpdateQueueMetadataAsync(List<FileMetadata> fileMetadatas)
+        public async Task UpdateQueueMetadataAsync(List<IFileMetadata> fileMetadatas)
         {
             UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
@@ -742,7 +731,7 @@ namespace Dopamine.Services.Playback
 
         public async Task EnqueueAsync(bool shuffle, bool unshuffle)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetTracksAsync(), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -777,7 +766,7 @@ namespace Dopamine.Services.Playback
         {
             if (artists == null) return;
 
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -788,7 +777,7 @@ namespace Dopamine.Services.Playback
                 return;
             }
 
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -799,7 +788,7 @@ namespace Dopamine.Services.Playback
                 return;
             }
 
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
             await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
@@ -918,19 +907,19 @@ namespace Dopamine.Services.Playback
 
         public async Task<EnqueueResult> AddArtistsToQueueAsync(IList<Artist> artists)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
 
         public async Task<EnqueueResult> AddGenresToQueueAsync(IList<long> genreIds)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
 
         public async Task<EnqueueResult> AddAlbumsToQueueAsync(IList<long> albumIds)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
             return await this.AddToQueueAsync(tracks);
         }
 
@@ -1113,7 +1102,7 @@ namespace Dopamine.Services.Playback
             // Play the Track from its runtime path (current or temporary)
             this.player = this.playerFactory.Create(Path.GetExtension(track.Value.Path));
 
-            this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands);
+            this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands, this.UseAllAvailableChannels);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
 
             // We need to set PlayingTrack before trying to play the Track.
@@ -1166,7 +1155,7 @@ namespace Dopamine.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString());
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle);
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1190,7 +1179,7 @@ namespace Dopamine.Services.Playback
                     LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.eventMode.ToString(), this.exclusiveMode.ToString(), this.LoopMode.ToString(), this.shuffle.ToString(), playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1394,8 +1383,14 @@ namespace Dopamine.Services.Playback
             if (await this.TryPlayAsync(track, true))
             {
                 await this.PauseAsync(true);
-                if (!this.mute) this.player.SetVolume(this.Volume);
                 this.player.Skip(progressSeconds);
+                await Task.Delay(200); // Small delay before unmuting
+
+                if (!this.mute)
+                {
+                    this.player.SetVolume(this.Volume);
+                }
+                
                 PlaybackProgressChanged(this, new EventArgs());
             }
         }
@@ -1477,6 +1472,7 @@ namespace Dopamine.Services.Playback
 
         private void SetPlaybackSettings()
         {
+            this.UseAllAvailableChannels = SettingsClient.Get<bool>("Playback", "WasapiUseAllAvailableChannels");
             this.LoopMode = (LoopMode)SettingsClient.Get<int>("Playback", "LoopMode");
             this.Latency = SettingsClient.Get<int>("Playback", "AudioLatency");
             this.Volume = SettingsClient.Get<float>("Playback", "Volume");

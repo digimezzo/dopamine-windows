@@ -1,20 +1,45 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
-using Dopamine.Common.Presentation.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
-using Dopamine.Data.Repositories.Interfaces;
+using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.Views;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Command;
+using Dopamine.Services.Contracts.Appearance;
+using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.Collection;
+using Dopamine.Services.Contracts.Command;
+using Dopamine.Services.Contracts.Dialog;
+using Dopamine.Services.Contracts.Equalizer;
+using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.File;
+using Dopamine.Services.Contracts.I18n;
+using Dopamine.Services.Contracts.Indexing;
+using Dopamine.Services.Contracts.JumpList;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.Services.Contracts.Notification;
 using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Contracts.Playlist;
+using Dopamine.Services.Contracts.Provider;
+using Dopamine.Services.Contracts.Scrobbling;
+using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Contracts.Shell;
+using Dopamine.Services.Contracts.Taskbar;
+using Dopamine.Services.Contracts.Update;
+using Dopamine.Services.Contracts.Win32Input;
+using Dopamine.Services.Contracts.WindowsIntegration;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Equalizer;
 using Dopamine.Services.ExternalControl;
@@ -59,6 +84,7 @@ namespace Dopamine
             base.ConfigureContainer();
 
             this.RegisterCoreComponents();
+            this.RegisterFactories();
             this.RegisterRepositories();
             this.RegisterServices();
             this.InitializeServices();
@@ -79,7 +105,6 @@ namespace Dopamine
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterSingletonType<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
             Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
 
@@ -143,6 +168,12 @@ namespace Dopamine
             Container.RegisterSingletonType<IQueuedTrackRepository, QueuedTrackRepository>();
         }
 
+        protected void RegisterFactories()
+        {
+            Container.RegisterSingletonType<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
+            Container.RegisterSingletonType<IFileMetadataFactory, FileMetadataFactory>();
+        }
+
         protected void RegisterViews()
         {
             // Misc.
@@ -195,7 +226,6 @@ namespace Dopamine
 
         protected override DependencyObject CreateShell()
         {
-
             return Container.Resolve<Shell>();
         }
 

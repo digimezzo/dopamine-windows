@@ -1,22 +1,23 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Common.Presentation.Interfaces;
-using Dopamine.Common.Presentation.Utils;
-using Dopamine.Common.Presentation.ViewModels.Base;
-using Dopamine.Common.Presentation.ViewModels.Entities;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
-using Dopamine.Data;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
-using Dopamine.Services.Collection;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Presentation.Interfaces;
+using Dopamine.Presentation.Utils;
+using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Contracts.Collection;
+using Dopamine.Services.Contracts.Dialog;
+using Dopamine.Services.Contracts.Indexing;
+using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Indexing;
-using Dopamine.Services.Metadata;
-using Dopamine.Services.Playlist;
-using Dopamine.Services.Search;
+using Dopamine.Services.Contracts.Playlist;
+using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Utils;
+using Dopamine.ViewModels.Common.Base;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -202,7 +203,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.collectionService.RefreshArtworkAsync(this.Albums, e.AlbumIds);
+            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshArtworkAsync(e.AlbumIds);
 
             // Set the initial GenreOrder
             this.SetGenreOrder("GenresGenreOrder");
@@ -297,7 +298,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.collectionService.RefreshArtworkAsync(this.Albums);
+            if (e.IsArtworkChanged) await this.RefreshArtworkAsync();
             if (e.IsGenreChanged) await this.GetGenresAsync(this.GenreOrder);
             if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenreIds, this.AlbumOrder);
             if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenreIds, this.SelectedAlbumIds, this.TrackOrder);
@@ -313,7 +314,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 // Order the incoming Genres
-                List<Genre> orderedGenres = await DatabaseUtils.OrderGenresAsync(genres, genreOrder);
+                List<Genre> orderedGenres = await DataUtils.OrderGenresAsync(genres, genreOrder);
 
                 // Create new ObservableCollection
                 ObservableCollection<GenreViewModel> genreViewModels = new ObservableCollection<GenreViewModel>();
@@ -459,7 +460,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = DatabaseUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
         }
 
         private async Task ToggleTrackOrderAsync()

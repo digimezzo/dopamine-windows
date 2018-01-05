@@ -3,9 +3,12 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories.Interfaces;
-using Dopamine.Services.File;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Services.Contracts.File;
+using Dopamine.Services.Contracts.Playlist;
+using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -491,7 +494,7 @@ namespace Dopamine.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
@@ -499,7 +502,7 @@ namespace Dopamine.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;
@@ -507,7 +510,7 @@ namespace Dopamine.Services.Playlist
 
         public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName)
         {
-            List<PlayableTrack> tracks = await DatabaseUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
+            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
             AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
 
             return result;

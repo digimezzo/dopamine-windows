@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:presentationutils="clr-namespace:Dopamine.Common.Presentation.Utils"
+             xmlns:utils="clr-namespace:Dopamine.Presentation.Utils;assembly=Dopamine.Presentation"
              xmlns:commonviews="clr-namespace:Dopamine.Common.Presentation.Views"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
              xmlns:local="clr-namespace:Dopamine.Common.Presentation.Views"
@@ -34,7 +34,7 @@
                 <DockPanel.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.Resources>
-                            <presentationutils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
+                            <utils:BindingProxy x:Key="NewPlaylistProxy" Data="{DynamicResource Language_New_Playlist}"/>
                         </ContextMenu.Resources>
                         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                             <MenuItem.ItemContainerStyle>

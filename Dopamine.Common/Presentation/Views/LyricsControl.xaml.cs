@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Common.Presentation.Utils;
+using Dopamine.Presentation.Utils;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Contracts.Playback;
 using Microsoft.Practices.ServiceLocation;

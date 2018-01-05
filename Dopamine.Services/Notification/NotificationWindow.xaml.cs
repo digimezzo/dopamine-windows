@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Data;
+using Dopamine.Data.Contracts.Entities;
 using System;
 using System.ComponentModel;
 using System.Windows;
