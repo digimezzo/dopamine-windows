@@ -1,4 +1,4 @@
-2018-01-02: Dopamine 1.5.6
+2018-01-06: Dopamine 1.5.6
 --------------------------
 
 - [Added] Added Croatian translation
