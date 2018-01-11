@@ -102,7 +102,7 @@ namespace Dopamine.Presentation.Utils
                                 break;
                             }
                         }
-                        else if (itemType == typeof(KeyValuePair<string,TrackViewModel>))
+                        else if (itemType == typeof(KeyValuePair<string, TrackViewModel>))
                         {
                             if (((KeyValuePair<string, TrackViewModel>)box.Items[i]).Value.IsPlaying)
                             {
@@ -179,7 +179,7 @@ namespace Dopamine.Presentation.Utils
                 {
                     for (int i = 0; i <= box.Items.Count - 1; i++)
                     {
-                        if (((LyricsLineViewModel)box.Items[i]).IsHighlighted)
+                        if (box.Items[i] is LyricsLineViewModel && ((LyricsLineViewModel)box.Items[i]).IsHighlighted)
                         {
                             itemObject = box.Items[i];
                             break;
