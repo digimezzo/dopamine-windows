@@ -173,7 +173,6 @@
     <Compile Include="ViewModels\Common\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\IndexingStatusViewModel.cs" />
     <Compile Include="ViewModels\Common\LyricsControlViewModel.cs" />
-    <Compile Include="ViewModels\Common\LyricsLineViewModel.cs" />
     <Compile Include="ViewModels\Common\LyricsViewModel.cs" />
     <Compile Include="ViewModels\Common\NothingPlayingControlViewModel.cs" />
     <Compile Include="ViewModels\Common\NowPlayingControlViewModel.cs" />
