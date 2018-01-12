@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Portuguese (Brazil) translation
 - [Changed] Updated the Spanish translation
+- [Changed] Updated the Vietnamese translation
 - [Fixed] Fixed multiple issues concerning lyrics support
 
 
