@@ -1,6 +1,7 @@
-2018-01-11: Dopamine 1.5.7
+2018-01-12: Dopamine 1.5.7
 --------------------------
 
+- [Changed] Updated the Portuguese (Brazil) translation
 - [Changed] Updated the Spanish translation
 - [Fixed] Fixed multiple issues concerning lyrics support
 
