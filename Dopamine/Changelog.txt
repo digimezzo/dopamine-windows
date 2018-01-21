@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Bulgarian translation
 - [Fixed] Fixed a problem playing folders and playlists from Windows Explorer
+- [Fixed] Fixed sorting by track number in the songs screen
 
 
 2018-01-12: Dopamine 1.5.7

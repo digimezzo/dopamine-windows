@@ -17,7 +17,7 @@ namespace Dopamine.Presentation.ViewModels
         private bool showTrackNumber;
         private bool showTrackArt;
         private byte[] trackArt;
- 
+
         // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
         public long SortDuration
         {
@@ -82,6 +82,14 @@ namespace Dopamine.Presentation.ViewModels
             get
             {
                 return this.Track.SkipCount > 0 ? this.Track.SkipCount.Value.ToString("0000") : string.Empty;
+            }
+        }
+
+        public long SortTrackNumber
+        {
+            get
+            {
+                return Track.TrackNumber.Value;
             }
         }
 
@@ -389,7 +397,7 @@ namespace Dopamine.Presentation.ViewModels
             this.metadataService = metadataService;
             this.scrobblingService = scrobblingService;
         }
-    
+
         public override string ToString()
         {
             return this.TrackTitle;
@@ -409,7 +417,7 @@ namespace Dopamine.Presentation.ViewModels
         {
             return this.Track.GetHashCode();
         }
-     
+
         public void UpdateVisibleRating(int rating)
         {
             this.Track.Rating = (long?)rating;
