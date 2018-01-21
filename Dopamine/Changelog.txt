@@ -1,7 +1,8 @@
-2018-01-15: Dopamine 1.5.8
+2018-01-21: Dopamine 1.5.8
 --------------------------
 
 - [Changed] Updated the Bulgarian translation
+- [Fixed] Fixed a problem playing folders and playlists from Windows Explorer
 
 
 2018-01-12: Dopamine 1.5.7

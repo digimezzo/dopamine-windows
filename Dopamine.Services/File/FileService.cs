@@ -226,9 +226,9 @@ namespace Dopamine.Services.File
                 List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
                 PlayableTrack selectedTrack = null;
 
-                if (tempFiles.Count.Equals(1))
+                if (tempFiles.Count.Equals(1) && FileFormats.IsSupportedAudioFile(tempFiles.First()))
                 {
-                    // If there is only 1 file, we do something special.
+                    // If there is only 1 file and it's a supported audio format, we do something special.
                     Tuple<List<PlayableTrack>, PlayableTrack> processedTracks = await this.ProcessFileAsync(tempFiles.First());
                     tracks = processedTracks.Item1;
                     selectedTrack = processedTracks.Item2;
