@@ -406,7 +406,7 @@
   <Text Key="Hide_Song_Covers">Esconder capa da música</Text>
   <Text Key="Check_For_Updates_At_Startup">Procurar por atualizações na inicialização</Text>
   <Text Key="Check_For_Updates_Periodically">Procurar por atualizações periodicamente</Text>
-  <Text Key="Refresh_Collection_Now">Atualizars a coleção agora</Text>
+  <Text Key="Refresh_Collection_Now">Atualizar a coleção agora</Text>
   <Text Key="Album_Covers">Capas de álbum</Text>
   <Text Key="Reload_All_Covers">Recarregar todas as capas</Text>
   <Text Key="Reload_All_Covers_Description">Recarregar capas de todos álbuns,inclusive daqueles que já possuem uma capa.</Text>
