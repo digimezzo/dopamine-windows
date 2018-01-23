@@ -4,6 +4,7 @@
 - [Added] Added support for the WMA Lossless file format
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Portuguese (Brazil) translation
 - [Fixed] Fixed a problem playing folders and playlists from Windows Explorer
 - [Fixed] Fixed sorting by track number in the songs screen
 - [Fixed] Fixed possible crash when drawing the list of albums
