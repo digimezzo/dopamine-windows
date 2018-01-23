@@ -26,7 +26,7 @@
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource RG_AccentBrush}">
         <Grid>
             <Border x:Name="PlaylistBackground" Background="{DynamicResource RG_WindowBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="Slide" SlideFadeIn="True">
+            <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="SlideHorizontal" SlideFadeIn="True">
                 <dc:PivotItem>
                     <!-- Displayed when no tracks are queued -->
                     <commonviews:NothingPlayingControl/>
