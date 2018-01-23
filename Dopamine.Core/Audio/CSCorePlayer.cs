@@ -2,9 +2,11 @@
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
 using CSCore.Ffmpeg;
+using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
+using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using System;
 using System.Collections.Generic;
@@ -243,14 +245,32 @@ namespace Dopamine.Core.Audio
 
         private IWaveSource GetCodec(string filename)
         {
-            // FfmpegDecoder constructor which uses string as parameter throws exception 
-            // "Exception: avformat_open_input returned 0xffffffea: Invalid argument."  
-            // when the file name contains special characters.
-            // See: https://github.com/filoe/cscore/issues/298
-            // Workaround: use the constructor which uses stream as parameter.
-            // IWaveSource waveSource = new FfmpegDecoder(this.filename);
-            this.audioStream = File.OpenRead(this.filename);
-            IWaveSource waveSource = new FfmpegDecoder(this.audioStream);
+            IWaveSource waveSource = null;
+            bool useFfmpegDecoder = true;
+
+            if (Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
+            {
+                try
+                {
+                    waveSource = new MediaFoundationDecoder(filename);
+                    useFfmpegDecoder = false;
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            if (useFfmpegDecoder)
+            {
+                // FfmpegDecoder constructor which uses string as parameter throws exception 
+                // "Exception: avformat_open_input returned 0xffffffea: Invalid argument."  
+                // when the file name contains special characters.
+                // See: https://github.com/filoe/cscore/issues/298
+                // Workaround: use the constructor which uses stream as parameter.
+                // IWaveSource waveSource = new FfmpegDecoder(this.filename);
+                this.audioStream = File.OpenRead(filename);
+                waveSource = new FfmpegDecoder(this.audioStream);
+            }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
             // The sample rate has to be bigger than 2 * frequency.

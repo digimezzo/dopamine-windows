@@ -1,10 +1,12 @@
-2018-01-21: Dopamine 1.5.8
+2018-01-23: Dopamine 1.5.8
 --------------------------
 
+- [Added] Added support for the WMA Lossless file format
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed a problem playing folders and playlists from Windows Explorer
 - [Fixed] Fixed sorting by track number in the songs screen
+- [Fixed] Fixed possible crash when drawing the list of albums
 
 
 2018-01-12: Dopamine 1.5.7
