@@ -2,7 +2,6 @@
 {
     public class ContactInformation
     {
-        public static string ContactEmail = "info@digimezzo.com";
         public static string WebsiteLink = "http://www.digimezzo.com";
         public static string WebsiteContactLink = "http://www.digimezzo.com/contact";
         public static string TwitterLink = "https://twitter.com/digimezzo";
