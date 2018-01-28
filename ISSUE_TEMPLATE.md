@@ -14,11 +14,12 @@ For feature requests, delete the form below and describe your requirements. For 
 fill in the form below. Issues missing important information may be closed without investigation.
 -->
 
-## I'm using version
+## I'm using versions
 <!-- 
-Provide the version of the application that you are using below 
+Provide the Windows version and the version of the application that you are using below.
 -->
-Version number
+* Windows version:
+* Application version:
 
 ## Reproduction steps
 <!--
