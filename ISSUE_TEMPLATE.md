@@ -18,7 +18,7 @@ fill in the form below. Issues missing important information may be closed witho
 <!-- 
 Provide the version of the application that you are using below 
 -->
-Version:
+Version number
 
 ## Reproduction steps
 <!--
