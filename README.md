@@ -13,23 +13,3 @@ More information and downloads are available at [https://www.digimezzo.com](http
 ## Important ##
 
 This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a> and <a href="https://github.com/digimezzo/Dopamine/tree/master/Dopamine/FFmpeg/src">here</a>
-
-## How to correctly report a bug? ##
-
-**When your car doesn’t start, and the mechanic has to repair it without looking at your car, it is important to describe what you observe in the most detailed way possible. Just saying “it doesn’t start” brings the chances of repair close to 0%. The same is valid for software.**
-
-Some bugs are very subtle and occur only after a specific sequence of events. So, when reporting a bug, it is important that you describe the sequence of events which led to the bug. It's simple: a bug that cannot be reproduced, cannot be fixed.
-
-Examples:
-
-**WRONG :(**
-
-"This feature doesn't work!" "The application is buggy!" "The installer doesn't work!"
-
-**RIGHT :)**
-
-- If you experienced a crash, send the log file. The log file can be found in this folder on your computer: %appdata%\Dopamine\Log
-- If you got an error message, send a screenshot of that error message. Or, at least, describe the content of the error.
-- Describe the problem in a concise and constructive way. More information, increases the chances of reproducing the bug.
-
-Thanks!
