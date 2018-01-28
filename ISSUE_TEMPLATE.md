@@ -20,7 +20,7 @@ Provide the version of the application that you are using below
 -->
 Version:
 
-### Reproduction steps
+## Reproduction steps
 <!--
 Add simple steps to reproduce this bug. Please add as many details as possible. 
 That helps us reproduce the issue on our computers.
@@ -29,12 +29,12 @@ That helps us reproduce the issue on our computers.
 * Step 2
 * Step 3
 
-### Observed behavior
+## Observed behavior
 <!--
 Describe how the application acts.
 -->
 
-### Desired behavior
+## Desired behavior
 <!--
 Describe how the application should act.
 -->
