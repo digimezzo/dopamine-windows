@@ -11,15 +11,15 @@ For support requests, use this contact form: https://www.digimezzo.com/contact/
 
 <!-- 
 For feature requests, delete the form below and describe your requirements. For bug reports, 
-fill in the form below. Issues missing important information may be closed without investigation.
+fill in the form below. Bug reports missing important information may be closed without investigation.
 -->
 
 ## I'm using versions
 <!-- 
-Provide the Windows version and the version of the application that you are using below.
+Provide the Windows and Dopamine version that you are using below.
 -->
 * Windows version:
-* Application version:
+* Dopamine version:
 
 ## Reproduction steps
 <!--
@@ -32,16 +32,15 @@ That helps us reproduce the issue on our computers.
 
 ## Observed behavior
 <!--
-Describe how the application acts.
+Describe how Dopamine acts.
 -->
 
 ## Desired behavior
 <!--
-Describe how the application should act.
+Describe how Dopamine should act.
 -->
 
 ## Log file
 <!--
-Add the relevant piece of the log file. The log file of our applications can be found in the directory 
-%appdata%\<application name>\Log. E.g., for Dopamine, that would be: %appdata%\Dopamine\Log
+Add the relevant piece of the log file. The Dopamine log file can be found in this directory: %appdata%\Dopamine\Log
 -->
