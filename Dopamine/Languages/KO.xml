@@ -416,4 +416,5 @@
   <Text Key="Download_Missing_Album_Covers">없는 앨범 커버를 인터넷에서 다운로드하기</Text>
   <Text Key="Also_Enqueue_Other_Files_In_Folder">윈도우 탐색기에서 오디오 파일을 재생하면 같은 폴더의 다른 오디오 파일도 재생 대기 목록에 추가</Text>
   <Text Key="Use_All_Available_Speakers">가능한 모든 스피커 사용</Text>
+  <Text Key="Center_Lyrics">Center Lyrics</Text>
 </Language>
