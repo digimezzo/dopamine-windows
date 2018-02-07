@@ -28,6 +28,7 @@ namespace Dopamine.ViewModels.Common
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         private double fontSize;
         private bool automaticScrolling;
+        private bool centerLyrics;
         private bool isEditing;
         private IMetadataService metadataService;
         private IProviderService providerService;
@@ -87,6 +88,16 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
+        public bool CenterLyrics
+        {
+            get { return this.centerLyrics; }
+            set
+            {
+                SetProperty<bool>(ref this.centerLyrics, value);
+                SettingsClient.Set<bool>("Lyrics", "CenterLyrics", value);
+            }
+        }
+
         public string FontSizePixels
         {
             get { return this.fontSize.ToString() + " px"; }
@@ -119,6 +130,7 @@ namespace Dopamine.ViewModels.Common
 
             this.FontSize = SettingsClient.Get<double>("Lyrics", "FontSize");
             this.AutomaticScrolling = SettingsClient.Get<bool>("Lyrics", "AutomaticScrolling");
+            this.CenterLyrics = SettingsClient.Get<bool>("Lyrics", "CenterLyrics");
 
             this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 11) this.FontSize--; });
             this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
