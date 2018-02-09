@@ -10,11 +10,11 @@ For support requests, use this contact form: https://www.digimezzo.com/contact/
 </code></pre>
 
 <!-- 
-For feature requests, delete the form below and describe your requirements. For bug reports, 
-fill in the form below. Bug reports missing important information may be closed without investigation.
+For feature requests: delete the rest of the form which comes BELOW this text and describe your requirements. 
+For bug reports: FILL IN the form below. Bug reports missing important information may be closed without investigation.
 -->
 
-## I'm using versions
+## I'm using these versions
 <!-- 
 Provide the Windows and Dopamine version that you are using below.
 -->
