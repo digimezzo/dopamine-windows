@@ -1,4 +1,4 @@
-﻿using Dopamine.Data;
+﻿using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Scrobbling;
@@ -9,6 +9,7 @@ namespace Dopamine.Presentation.ViewModels
 {
     public class TrackViewModel : BindableBase
     {
+        private int scaledTrackCoverSize = Convert.ToInt32(Constants.TrackCoverSize * Constants.CoverUpscaleFactor);
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
         private PlayableTrack track;
@@ -105,6 +106,10 @@ namespace Dopamine.Presentation.ViewModels
                 {
                     this.GetTrackArt();
                 }
+                else
+                {
+                    this.TrackArt = null;
+                }
             }
         }
 
@@ -122,14 +127,7 @@ namespace Dopamine.Presentation.ViewModels
 
         public async void GetTrackArt()
         {
-            try
-            {
-                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path);
-            }
-            catch (Exception)
-            {
-                // Swallow
-            }
+            this.TrackArt = await this.metadataService.GetArtworkScaledAsync(this.Track.Path, scaledTrackCoverSize, scaledTrackCoverSize);
         }
 
         public bool HasLyrics

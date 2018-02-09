@@ -212,7 +212,7 @@ namespace Dopamine.Services.Metadata
         {
             byte[] artwork = null;
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 lock (this.cachedArtworkLock)
                 {
@@ -258,6 +258,27 @@ namespace Dopamine.Services.Metadata
             });
 
             return artwork;
+        }
+
+        public async Task<byte[]> GetArtworkScaledAsync(string path, int width, int height)
+        {
+            byte[] scaledArtwork = null;
+
+            try
+            {
+                byte[] artwork = await this.GetArtworkAsync(path);
+
+                if(artwork != null)
+                {
+                    await Task.Run(() => scaledArtwork = ImageUtils.ResizeImageInByteArray(artwork, width, height));
+                }
+            }
+            catch (Exception)
+            {
+                // Intended suppression
+            }
+
+            return scaledArtwork;
         }
 
         public async Task SafeUpdateFileMetadataAsync()
