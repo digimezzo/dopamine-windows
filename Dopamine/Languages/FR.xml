@@ -416,4 +416,5 @@
   <Text Key="Download_Missing_Album_Covers">Télécharger les pochettes d'album manquantes à partir d'Internet</Text>
   <Text Key="Also_Enqueue_Other_Files_In_Folder">Lors de la lecture d'un fichier audio à partir de l'Explorateur Windows, mettre également dans la file d'attente les autres fichiers audio contenus dans le même dossier.</Text>
   <Text Key="Use_All_Available_Speakers">Utiliser tous les haut-parleurs disponibles</Text>
+  <Text Key="Center_Lyrics">Center Lyrics</Text>
 </Language>
