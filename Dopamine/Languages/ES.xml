@@ -416,4 +416,5 @@
   <Text Key="Download_Missing_Album_Covers">Descargar de Internet portadas de álbumes sin las mismas</Text>
   <Text Key="Also_Enqueue_Other_Files_In_Folder">Al reproducir un archivo desde el Explorador de Windows, añadir también a la cola el resto de archivos de la misma carpeta.</Text>
   <Text Key="Use_All_Available_Speakers">Usar todos los altavoces disponibles</Text>
+  <Text Key="Center_Lyrics">Center Lyrics</Text>
 </Language>
