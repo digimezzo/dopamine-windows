@@ -1,8 +1,9 @@
-2018-02-09: Dopamine 1.5.10
+2018-02-10: Dopamine 1.5.10
 ----------------------------
 
+- [Added] Added option to center lyrics
 - [Fixed] Fixed an issue where indexing fails completely if at least 1 subdirectory is inaccessible
-- [Fixed] Checkboxes to show/hide folders from collection are not displayed
+- [Fixed] Fixed checkboxes to show/hide folders from collection are not displayed
 - [Fixed] Fixed high memory usage when shuffling a lot of songs
 
 
