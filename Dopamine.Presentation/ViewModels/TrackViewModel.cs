@@ -127,7 +127,14 @@ namespace Dopamine.Presentation.ViewModels
 
         public async void GetTrackArt()
         {
-            this.TrackArt = await this.metadataService.GetArtworkScaledAsync(this.Track.Path, scaledTrackCoverSize, scaledTrackCoverSize);
+            try
+            {
+                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path, scaledTrackCoverSize);
+            }
+            catch (Exception)
+            {
+                // Intended suppression
+            }
         }
 
         public bool HasLyrics

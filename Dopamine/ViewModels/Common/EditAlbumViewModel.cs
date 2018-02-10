@@ -104,7 +104,7 @@ namespace Dopamine.ViewModels.Common
                 {
                     if (!string.IsNullOrEmpty(artworkPath))
                     {
-                        this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath));
+                        this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath, 0, 0));
                     }
                     else
                     {

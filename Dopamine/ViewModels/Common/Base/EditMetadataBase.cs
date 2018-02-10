@@ -117,7 +117,7 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artist, alternateTitle, alternateArtist);
                 string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
-                this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile));
+                this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile, 0, 0));
             }
             catch (Exception ex)
             {
