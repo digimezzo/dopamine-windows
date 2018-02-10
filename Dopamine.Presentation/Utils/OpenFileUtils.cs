@@ -30,11 +30,11 @@ namespace Dopamine.Presentation.Utils
                 {
                     try
                     {
-                        byteArray = ImageUtils.Image2ByteArray(dlg.FileName);
+                        byteArray = ImageUtils.Image2ByteArray(dlg.FileName, 0, 0);
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("An error occured while converting the image to a Byte[]. Exception: {0}", ex.Message);
+                        LogClient.Error("An error occurred while converting the image to a Byte[]. Exception: {0}", ex.Message);
                         isOpenSuccess = false;
                     }
                 });

@@ -56,7 +56,7 @@ namespace Dopamine.Services.Indexing
             return artworkData;
         }
 
-        public static byte[] GetExternalArtwork(string path)
+        public static byte[] GetExternalArtwork(string path, int width, int height)
         {
             byte[] artworkData = null;
 
@@ -66,7 +66,7 @@ namespace Dopamine.Services.Indexing
 
                 if (!string.IsNullOrEmpty(externalArtworkPath))
                 {
-                    artworkData = ImageUtils.Image2ByteArray(externalArtworkPath);
+                    artworkData = ImageUtils.Image2ByteArray(externalArtworkPath, width, height);
                 }
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace Dopamine.Services.Indexing
                     if (artworkData == null || artworkData.Length == 0)
                     {
                         // If getting embedded artwork failed, try to get external artwork.
-                        artworkData = GetExternalArtwork(fileMetadata.Path);
+                        artworkData = GetExternalArtwork(fileMetadata.Path, 0, 0);
                     }
                 }
             }

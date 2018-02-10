@@ -22,9 +22,7 @@ namespace Dopamine.Services.Contracts.Metadata
 
         Task<IFileMetadata> GetFileMetadataAsync(string path);
 
-        Task<byte[]> GetArtworkAsync(string path);
-
-        Task<byte[]> GetArtworkScaledAsync(string path, int width, int height);
+        Task<byte[]> GetArtworkAsync(string path, int size = 0);
         
         Task SafeUpdateFileMetadataAsync();
 
