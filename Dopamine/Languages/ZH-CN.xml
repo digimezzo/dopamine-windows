@@ -416,5 +416,5 @@
   <Text Key="Download_Missing_Album_Covers">从网络下载缺失的专辑封面</Text>
   <Text Key="Also_Enqueue_Other_Files_In_Folder">当从 Windows 资源管理器播放音频时，也将同一文件夹中音乐加入正在播放列表。</Text>
   <Text Key="Use_All_Available_Speakers">使用所有可用的扬声器</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Center_Lyrics">歌词居中</Text>
 </Language>
