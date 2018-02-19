@@ -91,7 +91,7 @@
                                   SelectedItemFill="{DynamicResource RG_AccentBrush}" Margin="10"
                                   NumberOfItems="6" ActiveItem="{Binding SelectedIndex,ElementName=oobewizard}"/>
                 <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePage,Mode=TwoWay,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:OobePage}}" 
-                          DisableTabKey="True" AnimationType="Slide" FeatheringRadius="24" HeaderVisibility="Collapsed">
+                          DisableTabKey="True" AnimationType="SlideHorizontal" FeatheringRadius="24" HeaderVisibility="Collapsed">
                     <!-- Welcome -->
                     <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">

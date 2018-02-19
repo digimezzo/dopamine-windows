@@ -104,6 +104,8 @@
     <Compile Include="Controls\ZoomInContentControl.cs" />
     <Compile Include="Converters\AddEllipsisConverter.cs" />
     <Compile Include="Converters\AddValueConverter.cs" />
+    <Compile Include="Converters\BooleanToCenterHorizontalAlignmentConverter.cs" />
+    <Compile Include="Converters\BooleanToCenterTextAlignmentConverter.cs" />
     <Compile Include="Converters\BooleanToCollapsedConverter.cs" />
     <Compile Include="Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -324,7 +326,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Themes\ListCheckBox.xaml">
+    <Page Include="Themes\ListCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

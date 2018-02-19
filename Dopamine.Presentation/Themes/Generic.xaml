@@ -7,6 +7,7 @@
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconMenuButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconTextButton.xaml" />
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/ListCheckBox.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/LoveButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/RatingButton.xaml" />
         <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SearchBox.xaml" />

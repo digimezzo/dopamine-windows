@@ -43,6 +43,8 @@
                 <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{Binding FacebookLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding FacebookLink}"/>
                 <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <Button Content="Instagram" Style="{StaticResource LinkButton}" ToolTip="{Binding InstagramLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding InstagramLink}"/>
+                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{Binding TwitterLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding TwitterLink}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />

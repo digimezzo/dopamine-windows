@@ -31,6 +31,7 @@ namespace Dopamine.Core.Base
         public static double CoverSmallSize = 120;
         public static double CoverMediumSize = 150;
         public static double CoverLargeSize = 180;
+        public static double TrackCoverSize = 40;
 
         // We're forcing PathToImageConverter to create thumbnails that are 2.5 larger than what will
         // be displayed at Windows Desktop scaling of 100%. That way, when the Windows Desktop scaling

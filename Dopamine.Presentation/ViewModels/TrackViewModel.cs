@@ -1,4 +1,4 @@
-﻿using Dopamine.Data;
+﻿using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Scrobbling;
@@ -9,6 +9,7 @@ namespace Dopamine.Presentation.ViewModels
 {
     public class TrackViewModel : BindableBase
     {
+        private int scaledTrackCoverSize = Convert.ToInt32(Constants.TrackCoverSize * Constants.CoverUpscaleFactor);
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
         private PlayableTrack track;
@@ -17,7 +18,7 @@ namespace Dopamine.Presentation.ViewModels
         private bool showTrackNumber;
         private bool showTrackArt;
         private byte[] trackArt;
- 
+
         // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
         public long SortDuration
         {
@@ -85,6 +86,14 @@ namespace Dopamine.Presentation.ViewModels
             }
         }
 
+        public long SortTrackNumber
+        {
+            get
+            {
+                return Track.TrackNumber.Value;
+            }
+        }
+
         public bool ShowTrackArt
         {
             get { return this.showTrackArt; }
@@ -96,6 +105,10 @@ namespace Dopamine.Presentation.ViewModels
                 if (oldValue != value && value)
                 {
                     this.GetTrackArt();
+                }
+                else
+                {
+                    this.TrackArt = null;
                 }
             }
         }
@@ -116,11 +129,11 @@ namespace Dopamine.Presentation.ViewModels
         {
             try
             {
-                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path);
+                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path, scaledTrackCoverSize);
             }
             catch (Exception)
             {
-                // Swallow
+                // Intended suppression
             }
         }
 
@@ -389,7 +402,7 @@ namespace Dopamine.Presentation.ViewModels
             this.metadataService = metadataService;
             this.scrobblingService = scrobblingService;
         }
-    
+
         public override string ToString()
         {
             return this.TrackTitle;
@@ -409,7 +422,7 @@ namespace Dopamine.Presentation.ViewModels
         {
             return this.Track.GetHashCode();
         }
-     
+
         public void UpdateVisibleRating(int rating)
         {
             this.Track.Rating = (long?)rating;
