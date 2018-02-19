@@ -148,7 +148,7 @@
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Album_Artist}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" SortMemberPath="FormattedTrackNumber" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackNumber}" Visibility="{Binding (FrameworkElement.DataContext).TrackNumberVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="*" SortMemberPath="SortTrackNumber" CellStyle="{StaticResource DataGridCellWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackNumber}" Visibility="{Binding (FrameworkElement.DataContext).TrackNumberVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Track_Number_Short}"/>
                     </DataGridTextColumn.Header>

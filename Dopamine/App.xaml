@@ -1,13 +1,14 @@
-﻿<Application x:Class="Dopamine.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             DispatcherUnhandledException="App_DispatcherUnhandledException">
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Dopamine.Presentation;component/Converters/Converters.xaml"/>
-                <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/AllStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+﻿<Application
+  x:Class="Dopamine.App"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  DispatcherUnhandledException="App_DispatcherUnhandledException">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Converters/Converters.xaml" />
+        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/AllStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

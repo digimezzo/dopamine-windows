@@ -4,7 +4,7 @@
 
 Dopamine is an audio player which tries to make organizing and listening to music as simple and pretty as possible. It is written in C# and is powered by the [CSCore sound library](https://github.com/filoe/cscore).
 
-More information and downloads are available at [http://www.digimezzo.com](http://www.digimezzo.com)
+More information and downloads are available at [https://www.digimezzo.com](http://www.digimezzo.com)
 
 [![Release](https://img.shields.io/github/release/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/releases/latest)
 [![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/issues)
@@ -13,21 +13,3 @@ More information and downloads are available at [http://www.digimezzo.com](http:
 ## Important ##
 
 This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href="https://github.com/digimezzo/Dopamine">here</a> and <a href="https://github.com/digimezzo/Dopamine/tree/master/Dopamine/FFmpeg/src">here</a>
-
-## How to correctly report a bug? ##
-
-Some bugs are very subtle and occur only after a specific sequence of events. So, when reporting a bug, it is important that you describe the sequence of events which led to the bug. It's simple: a bug that cannot be reproduced, cannot be fixed.
-
-Examples:
-
-**WRONG :(**
-
-"This feature doesn't work!" "The application is buggy!" "The installer doesn't work!"
-
-**RIGHT :)**
-
-- If you experienced a crash, send the log file. Pressing CTRL+L in the application opens the folder which contains the log file.
-- If you got an error message, send a screenshot of that error message. Or, at least, describe the content of the error.
-- Describe the problem in a concise and constructive way. More information, increases the chances of reproducing the bug.
-
-Thanks!

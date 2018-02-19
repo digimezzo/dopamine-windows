@@ -1,4 +1,40 @@
-2018-01-02: Dopamine 1.5.6
+2018-02-10: Dopamine 1.5.10
+----------------------------
+
+- [Added] Added option to center lyrics
+- [Fixed] Fixed an issue where indexing fails completely if at least 1 subdirectory is inaccessible
+- [Fixed] Fixed checkboxes to show/hide folders from collection are not displayed
+- [Fixed] Fixed high memory usage when shuffling a lot of songs
+
+
+2018-01-28: Dopamine 1.5.9
+--------------------------
+
+- [Fixed] Fixed albums not being displayed for artists and genres which only have 1 album
+
+
+2018-01-23: Dopamine 1.5.8
+--------------------------
+
+- [Added] Added support for the WMA Lossless file format
+- [Changed] Updated the Bulgarian translation
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Portuguese (Brazil) translation
+- [Fixed] Fixed a problem playing folders and playlists from Windows Explorer
+- [Fixed] Fixed sorting by track number in the songs screen
+- [Fixed] Fixed possible crash when drawing the list of albums
+
+
+2018-01-12: Dopamine 1.5.7
+--------------------------
+
+- [Changed] Updated the Portuguese (Brazil) translation
+- [Changed] Updated the Spanish translation
+- [Changed] Updated the Vietnamese translation
+- [Fixed] Fixed multiple issues concerning lyrics support
+
+
+2018-01-06: Dopamine 1.5.6
 --------------------------
 
 - [Added] Added Croatian translation

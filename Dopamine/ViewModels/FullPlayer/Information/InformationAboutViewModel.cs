@@ -28,12 +28,20 @@ namespace Dopamine.ViewModels.FullPlayer.Information
         }
 
         public ExternalComponent[] Components => ProductInformation.Components;
+
         public string Copyright => ProductInformation.Copyright;
+
         public string DonateUrl => ContactInformation.PayPalLink;
+
         public string WebsiteLink => ContactInformation.WebsiteLink;
+
         public string WebsiteContactLink => ContactInformation.WebsiteContactLink;
+
         public string FacebookLink => ContactInformation.FacebookLink;
+
         public string TwitterLink => ContactInformation.TwitterLink;
+
+        public string InstagramLink => ContactInformation.InstagramLink;
 
         public InformationAboutViewModel(IUnityContainer container, IDialogService dialogService)
         {

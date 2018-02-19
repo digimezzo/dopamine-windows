@@ -15,23 +15,22 @@ namespace Dopamine.Core.IO
 
             try
             {
-                var di = new DirectoryInfo(directory);
-                IEnumerable<FileInfo> fi = di.GetFiles("*.*", searchOption);
+                IEnumerable<String> allFilenames = GetAllFiles(directory, "*.*");
 
-                foreach (FileInfo f in fi)
+                foreach (string filename in allFilenames)
                 {
                     try
                     {
                         // Only add the file if they have a valid extension
-                        if (validExtensions.Contains(Path.GetExtension(f.FullName.ToLower())))
+                        if (validExtensions.Contains(Path.GetExtension(filename.ToLower())))
                         {
-                            folderPaths.Add(new FolderPathInfo(folderId, f.FullName, FileUtils.DateModifiedTicks(f.FullName)));
+                            folderPaths.Add(new FolderPathInfo(folderId, filename, FileUtils.DateModifiedTicks(filename)));
                         }
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", f.FullName, ex.Message);
-                    }   
+                        LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", filename, ex.Message);
+                    }
                 }
             }
             catch (Exception ex)
@@ -40,6 +39,29 @@ namespace Dopamine.Core.IO
             }
 
             return folderPaths;
+        }
+
+        /// <summary>
+        /// Recursively gets all files in a directory without failing 
+        /// the complete operation when a directory inaccessible.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="searchPattern"></param>
+        /// <returns></returns>
+        private static IEnumerable<String> GetAllFiles(string path, string searchPattern)
+        {
+            return Directory.EnumerateFiles(path, searchPattern).Union(
+                Directory.EnumerateDirectories(path).SelectMany(d =>
+                {
+                    try
+                    {
+                        return GetAllFiles(d, searchPattern);
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        return Enumerable.Empty<String>();
+                    }
+                }));
         }
     }
 }

@@ -107,7 +107,7 @@
                 </Grid>
                 <!-- Content -->
                 <dc:Pivot HeaderVisibility="Collapsed" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" 
-                          FeatheringRadius="24" Margin="100,90,100,120" AnimationType="Slide" SlideFadeIn="True">
+                          FeatheringRadius="24" Margin="100,90,100,120" AnimationType="SlideHorizontal" SlideFadeIn="True">
                     <dc:PivotItem>
                         <!-- Displayed when no tracks are queued -->
                         <commonviews:NothingPlayingControl/>

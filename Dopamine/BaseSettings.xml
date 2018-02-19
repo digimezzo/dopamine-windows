@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>99</Value>
+      <Value>100</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -314,6 +314,9 @@
   <Namespace Name="Lyrics">
     <Setting Name="AutomaticScrolling">
       <Value>True</Value>
+    </Setting>
+    <Setting Name="CenterLyrics">
+      <Value>False</Value>
     </Setting>
     <Setting Name="FontSize">
       <Value>18</Value>

@@ -3,7 +3,7 @@ using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Metadata;
-using Dopamine.Data.Metadata;
+using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.ViewModels.Common.Base;
@@ -28,6 +28,7 @@ namespace Dopamine.ViewModels.Common
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
         private double fontSize;
         private bool automaticScrolling;
+        private bool centerLyrics;
         private bool isEditing;
         private IMetadataService metadataService;
         private IProviderService providerService;
@@ -87,6 +88,16 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
+        public bool CenterLyrics
+        {
+            get { return this.centerLyrics; }
+            set
+            {
+                SetProperty<bool>(ref this.centerLyrics, value);
+                SettingsClient.Set<bool>("Lyrics", "CenterLyrics", value);
+            }
+        }
+
         public string FontSizePixels
         {
             get { return this.fontSize.ToString() + " px"; }
@@ -119,6 +130,7 @@ namespace Dopamine.ViewModels.Common
 
             this.FontSize = SettingsClient.Get<double>("Lyrics", "FontSize");
             this.AutomaticScrolling = SettingsClient.Get<bool>("Lyrics", "AutomaticScrolling");
+            this.CenterLyrics = SettingsClient.Get<bool>("Lyrics", "CenterLyrics");
 
             this.DecreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize > 11) this.FontSize--; });
             this.IncreaseFontSizeCommand = new DelegateCommand(() => { if (this.FontSize < 50) this.FontSize++; });
@@ -170,6 +182,9 @@ namespace Dopamine.ViewModels.Common
             var reader = new StringReader(lyrics.Text);
             string line;
 
+            bool allLinesHaveTimeStamps = true; // Assume true
+            bool hasLinesWithMultipleTimeStamps = false; // Assume false
+
             while (true)
             {
                 line = reader.ReadLine();
@@ -186,9 +201,16 @@ namespace Dopamine.ViewModels.Common
                         if (index > 0)
                         {
                             MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
+
+                            if(ms.Count > 1)
+                            {
+                                hasLinesWithMultipleTimeStamps = true;
+                            }
+
                             foreach (Match m in ms)
                             {
-                                var subString = m.Value.Trim('[', ']');
+                                string subString = m.Value.Trim('[', ']');
+
                                 if (FormatUtils.ParseLyricsTime(subString, out time))
                                 {
                                     localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
@@ -198,6 +220,7 @@ namespace Dopamine.ViewModels.Common
                                     // The string between square brackets could not be parsed to a timestamp.
                                     // In such case, just add the complete lyrics line.
                                     localLyricsLines.Add(new LyricsLineViewModel(line));
+                                    allLinesHaveTimeStamps = false;
                                 }
                             }
                         }
@@ -205,6 +228,7 @@ namespace Dopamine.ViewModels.Common
                     else
                     {
                         localLyricsLines.Add(new LyricsLineViewModel(line));
+                        allLinesHaveTimeStamps = false;
                     }
                 }
                 else
@@ -213,7 +237,12 @@ namespace Dopamine.ViewModels.Common
                 }
             }
 
-            localLyricsLines = new ObservableCollection<LyricsLineViewModel>(localLyricsLines.OrderBy(p => p.Time));
+            if (allLinesHaveTimeStamps && hasLinesWithMultipleTimeStamps)
+            {
+                // Only sort when all lines have timestamps and there are lines with multiple timestamps. 
+                // This works around a sorting issue when timestamping lyrics and not all lines have timestamps
+                localLyricsLines = new ObservableCollection<LyricsLineViewModel>(localLyricsLines.OrderBy(p => p.Time));
+            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {

@@ -208,54 +208,111 @@ namespace Dopamine.Services.Metadata
             this.MetadataChanged(args);
         }
 
-        public async Task<byte[]> GetArtworkAsync(string path)
+        public async Task<byte[]> GetArtworkAsync(string filename, int size = 0)
         {
             byte[] artwork = null;
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 lock (this.cachedArtworkLock)
                 {
-                    // First, check if artwork for this path has been asked recently.
-                    if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == path.ToSafePath())
+                    // First, if we need full size artwork, check if artwork for this path has been asked for recently.
+                    if (size == 0)
                     {
-                        if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
+                        artwork = this.GetCachedArtwork(filename);
                     }
 
                     if (artwork == null)
                     {
-                        // If no cached artwork was found, try to load embedded artwork.
-                        IFileMetadata fmd = this.GetFileMetadata(path);
-
-                        if (fmd.ArtworkData.Value != null)
-                        {
-                            artwork = fmd.ArtworkData.Value;
-                            this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
-                        }
+                        // If no cached artwork was found, try to find embedded artwork.
+                        artwork = this.GetEmbeddedArtwork(filename, size);
                     }
 
                     if (artwork == null)
                     {
                         // If no embedded artwork was found, try to find external artwork.
-                        artwork = IndexerUtils.GetExternalArtwork(path);
-                        if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
+                        artwork = this.GetExternalArtwork(filename, size);
                     }
 
                     if (artwork == null)
                     {
-                        // If no embedded artwork was found, try to find album artwork.
-                        Track track = this.trackRepository.GetTrack(path);
-                        Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+                        // If no external artwork was found, try to find album artwork.
+                        artwork = this.GetAlbumArtwork(filename, size);
+                    }
 
-                        if (album != null)
-                        {
-                            string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
-                            if (!string.IsNullOrEmpty(artworkPath)) artwork = ImageUtils.Image2ByteArray(artworkPath);
-                            if (artwork != null) this.cachedArtwork = new Tuple<string, byte[]>(path, artwork);
-                        }
+                    if (artwork != null && size == 0)
+                    {
+                        // If any artwork was found, and it wasn't resized, cache it for the next request for this file.
+                        this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
                     }
                 }
             });
+
+            return artwork;
+        }
+
+        private byte[] GetCachedArtwork(string filename)
+        {
+            byte[] artwork = null;
+
+            if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == filename.ToSafePath())
+            {
+                if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
+            }
+
+            return artwork;
+        }
+
+        private byte[] GetEmbeddedArtwork(string filename, int size)
+        {
+            byte[] artwork = null;
+
+            IFileMetadata fmd = this.GetFileMetadata(filename);
+
+            if (fmd.ArtworkData.Value != null)
+            {
+                // If size > 0, resize the artwork. Otherwise, get the full artwork.
+                artwork = size > 0 ? ImageUtils.ResizeImageInByteArray(fmd.ArtworkData.Value, size, size) : fmd.ArtworkData.Value;
+            }
+
+            return artwork;
+        }
+
+        private byte[] GetExternalArtwork(string filename, int size)
+        {
+            byte[] artwork = null;
+
+            artwork = IndexerUtils.GetExternalArtwork(filename, size, size);
+
+            if (artwork != null)
+            {
+                this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
+            }
+
+            return artwork;
+        }
+
+        private byte[] GetAlbumArtwork(string filename, int size)
+        {
+            byte[] artwork = null;
+
+            Track track = this.trackRepository.GetTrack(filename);
+            Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+
+            if (album != null)
+            {
+                string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
+
+                if (!string.IsNullOrEmpty(artworkPath))
+                {
+                    artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
+                }
+
+                if (artwork != null)
+                {
+                    this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
+                }
+            }
 
             return artwork;
         }
