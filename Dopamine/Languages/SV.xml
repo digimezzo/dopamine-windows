@@ -62,7 +62,7 @@
   <Text Key="Minimize">Minimera</Text>
   <Text Key="Minimize_To_Tray">Minimera till meddelandefältet</Text>
   <Text Key="Add_A_Folder">Lägg till en mapp</Text>
-  <Text Key="Start">Start</Text>
+  <Text Key="Start">Starta</Text>
   <Text Key="Done">Klart!</Text>
   <Text Key="We_Are_Done">Nu är det klart. Låt oss starta Dopamine.</Text>
   <Text Key="What_Will_Your_Dopamine_Look_Like">Hur skall Dopamine se ut?</Text>
@@ -413,8 +413,8 @@
   <Text Key="Reload_Missing_Covers">Ladda om saknade skivomslag</Text>
   <Text Key="Reload_Missing_Covers_Description">Ladda om skivomslag endast för album som inte än har ett skivomslag</Text>
   <Text Key="Added_Songs">Tillagt {number} låtar ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
-  <Text Key="Use_All_Available_Speakers">Use all available speakers</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Download_Missing_Album_Covers">Ladda ner saknade skivomslag från Internet</Text>
+  <Text Key="Also_Enqueue_Other_Files_In_Folder">Vid uppspelning av en ljudfil via Windows Utforskaren, köa också andra ljudfiler belägna i samma mapp.</Text>
+  <Text Key="Use_All_Available_Speakers">Använd alla tillgängliga högtalare</Text>
+  <Text Key="Center_Lyrics">Centrera Låttexter</Text>
 </Language>
