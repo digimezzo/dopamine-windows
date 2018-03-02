@@ -7,6 +7,7 @@
 - [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Swedish translation
+- [Fixed] Fixed a crash which happens just after startup on some editions of Windows 10
 
 
 2018-02-10: Dopamine 1.5.10

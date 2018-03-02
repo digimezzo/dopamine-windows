@@ -133,15 +133,39 @@ namespace Dopamine
             Container.RegisterSingletonType<IWindowsIntegrationService, WindowsIntegrationService>();
             Container.RegisterSingletonType<IShellService, ShellService>();
 
+            INotificationService notificationService;
+
+            // NotificationService contains code that is only supported on Windows 10
             if (Constants.IsWindows10)
             {
-                // NotificationService contains code that is not supported on older versions of Windows
-                Container.RegisterSingletonType<INotificationService, NotificationService>();
+
+                // On some editions of Windows 10, constructing NotificationService still fails
+                // (e.g. Windows 10 Enterprise N 2016 LTSB). Hence the try/catch block.
+                try
+                {
+                    notificationService = new NotificationService(
+                    Container.Resolve<IPlaybackService>(),
+                    Container.Resolve<ICacheService>(),
+                    Container.Resolve<IMetadataService>());
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Constructing NotificationService failed. Falling back to LegacyNotificationService. Exception: {0}", ex.Message);
+                    notificationService = new LegacyNotificationService(
+                    Container.Resolve<IPlaybackService>(),
+                    Container.Resolve<ICacheService>(),
+                    Container.Resolve<IMetadataService>());
+                }
             }
             else
             {
-                Container.RegisterSingletonType<INotificationService, LegacyNotificationService>();
+                notificationService = new LegacyNotificationService(
+                    Container.Resolve<IPlaybackService>(),
+                    Container.Resolve<ICacheService>(),
+                    Container.Resolve<IMetadataService>());
             }
+
+            Container.RegisterInstance<INotificationService>(notificationService);
         }
 
         private void InitializeServices()
