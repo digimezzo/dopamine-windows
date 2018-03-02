@@ -2,6 +2,6 @@
 {
     public interface IPlayerFactory
     {
-        IPlayer Create(string path);
+        IPlayer Create(bool supportsWasapi);
     }
 }
