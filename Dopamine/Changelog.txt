@@ -1,3 +1,14 @@
+2018-03-02: Dopamine 1.5.11
+---------------------------
+
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Croatian translation
+- [Changed] Updated the Greek translation
+- [Changed] Updated the Korean translation
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Swedish translation
+
+
 2018-02-10: Dopamine 1.5.10
 ----------------------------
 
