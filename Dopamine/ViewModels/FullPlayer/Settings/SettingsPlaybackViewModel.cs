@@ -75,6 +75,22 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
+        public bool SupportsWindowsMediaFoundation
+        {
+            get
+            {
+                return this.playbackService != null ? this.playbackService.SupportsWindowsMediaFoundation : false;
+            }
+        }
+
+        public bool SupportsSystemNotification
+        {
+            get
+            {
+                return this.notificationService != null ? this.notificationService.SupportsSystemNotification : false;
+            }
+        }
+
         public ObservableCollection<NameValue> Latencies
         {
             get => this.latencies;

@@ -2,9 +2,12 @@
 {
     public class PlayerFactory : IPlayerFactory
     {
-        public IPlayer Create(string path)
+        public IPlayer Create(bool supportsWasapi)
         {
-            return CSCorePlayer.Instance;
+            IPlayer player = CSCorePlayer.Instance;
+            player.SupportsWasapi = supportsWasapi;
+
+            return player;
         }
     }
 }

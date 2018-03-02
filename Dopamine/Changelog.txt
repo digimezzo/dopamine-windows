@@ -1,6 +1,7 @@
 2018-03-02: Dopamine 1.5.11
 ---------------------------
 
+- [Added] Added support for N editions of Windows
 - [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Croatian translation
 - [Changed] Updated the Greek translation

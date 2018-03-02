@@ -19,6 +19,8 @@ namespace Dopamine.Services.Contracts.Playback
     {
         IPlayer Player { get; }
         KeyValuePair<string, PlayableTrack> CurrentTrack { get; }
+
+        bool SupportsWindowsMediaFoundation { get; }
         bool HasCurrentTrack { get; }
         bool IsSavingQueuedTracks { get; }
         bool IsSavingPlaybackCounters { get; }

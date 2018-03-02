@@ -20,18 +20,20 @@
                 <TextBlock Text="{DynamicResource Language_Wasapi_Event_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiEventMode"  Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiEventModeChecked}"/>
             </StackPanel>-->
-            <StackPanel Margin="0,20,0,0">
-                <TextBlock Text="{DynamicResource Language_Use_All_Available_Speakers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxUseAllAvailableChannels" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxUseAllAvailableChannelsChecked}"/>
-            </StackPanel>
-            <StackPanel Margin="0,20,0,0">
-                <TextBlock Text="{DynamicResource Language_Wasapi_Exclusive_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiExclusiveMode" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiExclusiveModeChecked}"/>
+            <StackPanel Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding SupportsWindowsMediaFoundation}">
+                <StackPanel Margin="0,20,0,0">
+                    <TextBlock Text="{DynamicResource Language_Use_All_Available_Speakers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxUseAllAvailableChannels" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxUseAllAvailableChannelsChecked}"/>
+                </StackPanel>
+                <StackPanel Margin="0,20,0,0">
+                    <TextBlock Text="{DynamicResource Language_Wasapi_Exclusive_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiExclusiveMode" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiExclusiveModeChecked}"/>
+                </StackPanel>
             </StackPanel>
 
             <!-- Notification -->
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Notification}" />
-            <StackPanel Margin="0,5,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding IsWindows10}">
+            <StackPanel Margin="0,5,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding SupportsSystemNotification}">
                 <TextBlock Text="{DynamicResource Language_Enable_System_Notification}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableSystemNotification" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableSystemNotificationChecked}"/>
             </StackPanel>

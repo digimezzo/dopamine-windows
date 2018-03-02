@@ -38,7 +38,7 @@ namespace Dopamine.Core.Audio
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
         private MMDevice outputDevice;
-        private ISoundOut wasapiOut;
+        private ISoundOut soundOut;
         Stream audioStream;
 
         // Equalizer
@@ -47,6 +47,7 @@ namespace Dopamine.Core.Audio
 
         // Flags
         private bool isPlaying;
+        private bool supportsWasapi = false;
 
         public CSCorePlayer()
         {
@@ -68,6 +69,12 @@ namespace Dopamine.Core.Audio
         }
 
         public SingleBlockNotificationStream NotificationSource => this.notificationSource;
+
+        public bool SupportsWasapi
+        {
+            get { return this.supportsWasapi; }
+            set { this.supportsWasapi = value; }
+        }
 
         public string Filename
         {
@@ -151,9 +158,9 @@ namespace Dopamine.Core.Audio
         public TimeSpan GetCurrentTime()
         {
             // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
-            if (this.wasapiOut != null && this.wasapiOut.PlaybackState != PlaybackState.Stopped && this.wasapiOut.WaveSource != null)
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
-                return this.wasapiOut.WaveSource.GetPosition();
+                return this.soundOut.WaveSource.GetPosition();
             }
 
             return new TimeSpan(0);
@@ -162,9 +169,9 @@ namespace Dopamine.Core.Audio
         public TimeSpan GetTotalTime()
         {
             // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
-            if (this.wasapiOut != null && this.wasapiOut.PlaybackState != PlaybackState.Stopped && this.wasapiOut.WaveSource != null)
+            if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
-                return this.wasapiOut.WaveSource.GetLength();
+                return this.soundOut.WaveSource.GetLength();
             }
 
             return new TimeSpan(0);
@@ -172,7 +179,7 @@ namespace Dopamine.Core.Audio
 
         public float GetVolume()
         {
-            return this.wasapiOut.Volume;
+            return this.soundOut.Volume;
         }
 
         public void Pause()
@@ -181,7 +188,7 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
-                    this.wasapiOut.Pause();
+                    this.soundOut.Pause();
 
                     this.IsPlaying = false;
 
@@ -203,7 +210,7 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
-                    this.wasapiOut.Play();
+                    this.soundOut.Play();
 
                     this.IsPlaying = true;
 
@@ -234,7 +241,7 @@ namespace Dopamine.Core.Audio
 
             this.InitializeSoundOut(this.GetCodec(this.filename));
             this.ApplyFilter(this.filterValues);
-            this.wasapiOut.Play();
+            this.soundOut.Play();
         }
 
         public void Play(string filename, MMDevice outputDevice)
@@ -248,7 +255,9 @@ namespace Dopamine.Core.Audio
             IWaveSource waveSource = null;
             bool useFfmpegDecoder = true;
 
-            if (Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
+            // FfmpegDecoder doesn't support WMA lossless. If Windows Media Foundation is available,
+            // we can use MediaFoundationDecoder for WMA files, which supports WMA lossless.
+            if (this.supportsWasapi && Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
             {
                 try
                 {
@@ -295,9 +304,9 @@ namespace Dopamine.Core.Audio
                     this.volume = 0;
                 }
 
-                if (this.wasapiOut != null)
+                if (this.soundOut != null)
                 {
-                    this.wasapiOut.Volume = volume;
+                    this.soundOut.Volume = volume;
                 }
             }
             catch (Exception)
@@ -310,7 +319,7 @@ namespace Dopamine.Core.Audio
         {
             try
             {
-                this.wasapiOut.WaveSource.SetPosition(new TimeSpan(0, 0, gotoSeconds));
+                this.soundOut.WaveSource.SetPosition(new TimeSpan(0, 0, gotoSeconds));
             }
             catch (Exception)
             {
@@ -335,38 +344,52 @@ namespace Dopamine.Core.Audio
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // Create SoundOut
-            this.wasapiOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
-
-            // Map stereo or mono file to all channels
-            ((WasapiOut)this.wasapiOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
-
-            if (this.outputDevice == null)
+            if (this.supportsWasapi)
             {
-                // If no output device was provided, we're playing on the default device.
-                // In such case, we want to detected when the default device changes.
-                // This is done by setting stream routing options
-                ((WasapiOut)this.wasapiOut).StreamRoutingOptions = StreamRoutingOptions.All;
+                this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
+
+                // Map stereo or mono file to all channels
+                ((WasapiOut)this.soundOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
+
+                if (this.outputDevice == null)
+                {
+                    // If no output device was provided, we're playing on the default device.
+                    // In such case, we want to detected when the default device changes.
+                    // This is done by setting stream routing options
+                    ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
+                }
+                else
+                {
+                    // If an output device was provided, assign it to soundOut.Device.
+                    // Only allow stream routing when the device was disconnected.
+                    ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
+                    ((WasapiOut)this.soundOut).Device = this.outputDevice;
+                }
+
+                // Initialize SoundOut 
+                this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
+                this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
+
+                if (inputStreamList.Count != 0)
+                {
+                    foreach (var inputStream in inputStreamList)
+                    {
+                        this.notificationSource.SingleBlockRead += inputStream;
+                    }
+                }
             }
             else
             {
-                // If an output device was provided, assign it to soundOut.Device.
-                // Only allow stream routing when the device was disconnected.
-                ((WasapiOut)this.wasapiOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
-                ((WasapiOut)this.wasapiOut).Device = this.outputDevice;
+                this.soundOut = new DirectSoundOut(this.latency, ThreadPriority.Highest);
+
+                // Initialize SoundOut
+                // Spectrum analyzer performance is only acceptable with WasapiOut,
+                // so we're not setting a notificationSource for DirectSoundOut
+                this.soundOut.Initialize(soundSource);
             }
 
-            // Initialize SoundOut 
-            this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
-            this.wasapiOut.Initialize(this.notificationSource.ToWaveSource(16));
-
-            if (inputStreamList.Count != 0)
-                foreach (var inputStream in inputStreamList)
-                {
-                    this.notificationSource.SingleBlockRead += inputStream;
-                }
-
-            this.wasapiOut.Stopped += this.SoundOutStoppedHandler;
-            this.wasapiOut.Volume = this.volume;
+            this.soundOut.Stopped += this.SoundOutStoppedHandler;
+            this.soundOut.Volume = this.volume;
         }
 
         private void NotifyPropertyChanged(string info)
@@ -376,28 +399,30 @@ namespace Dopamine.Core.Audio
 
         private void CloseSoundOut()
         {
-            // wasapiOut
-            if (this.wasapiOut != null)
+            // soundOut
+            if (this.soundOut != null)
             {
                 try
                 {
                     if (this.notificationSource != null)
+                    {
                         foreach (var inputStream in inputStreamList)
                         {
                             this.notificationSource.SingleBlockRead -= inputStream;
                         }
+                    }
 
                     // Remove the handler because we don't want to trigger this.soundOut.Stopped()
                     // when manually stopping the player. That event should only be triggered
                     // when CSCore reaches the end of the Track by itself.
-                    this.wasapiOut.Stopped -= this.SoundOutStoppedHandler;
-                    this.wasapiOut.Stop();
+                    this.soundOut.Stopped -= this.SoundOutStoppedHandler;
+                    this.soundOut.Stop();
 
-                    if (this.wasapiOut.WaveSource != null) this.wasapiOut.WaveSource.Dispose();
+                    if (this.soundOut.WaveSource != null) this.soundOut.WaveSource.Dispose();
                     if (this.equalizer != null) this.equalizer.Dispose();
 
-                    this.wasapiOut.Dispose();
-                    this.wasapiOut = null;
+                    this.soundOut.Dispose();
+                    this.soundOut = null;
                 }
                 catch (Exception)
                 {
@@ -481,7 +506,7 @@ namespace Dopamine.Core.Audio
             {
                 this.player = player;
                 this.player.PropertyChanged += (_, __) => PropertyChanged(_, __);
-                this.soundOut = player.wasapiOut;
+                this.soundOut = player.soundOut;
 
                 fftProvider = new FftProvider(2, FftSize.Fft1024);
 

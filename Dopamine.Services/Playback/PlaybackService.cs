@@ -72,6 +72,13 @@ namespace Dopamine.Services.Playback
         private MMDevice outputDevice;
         private AudioDevicesWatcher watcher = new AudioDevicesWatcher();
 
+        private bool supportsWindowsMediaFoundation;
+
+        public bool SupportsWindowsMediaFoundation
+        {
+            get { return this.supportsWindowsMediaFoundation; }
+        }
+
         public bool IsSavingQueuedTracks
         {
             get { return this.isSavingQueuedTracks; }
@@ -923,25 +930,31 @@ namespace Dopamine.Services.Playback
             return await this.AddToQueueAsync(tracks);
         }
 
-        private void CheckWindowsMediaFoundationAsync()
+        private void CheckWindowsMediaFoundation()
         {
+            bool supportsWindowsMediaFoundation = true; // Assume true
+
             try
             {
                 if (!System.IO.File.Exists(Path.Combine(Environment.SystemDirectory, "mf.dll")))
                 {
                     LogClient.Error("Windows Media Foundation could not be found.");
+                    supportsWindowsMediaFoundation = false;
                 }
             }
             catch (Exception ex)
             {
                 LogClient.Error("An error occurred while trying to locate Windows Media Foundation. Exception: {0}", ex.Message);
+                supportsWindowsMediaFoundation = false;
             }
+
+            this.supportsWindowsMediaFoundation = supportsWindowsMediaFoundation;
         }
 
         private async void Initialize()
         {
             // Check if Windows Media Foundation is available
-            this.CheckWindowsMediaFoundationAsync();
+            this.CheckWindowsMediaFoundation();
 
             // PlayerFactory
             this.playerFactory = new PlayerFactory();
@@ -1100,7 +1113,7 @@ namespace Dopamine.Services.Playback
             this.SetPlaybackSettings();
 
             // Play the Track from its runtime path (current or temporary)
-            this.player = this.playerFactory.Create(Path.GetExtension(track.Value.Path));
+            this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
 
             this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands, this.UseAllAvailableChannels);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);

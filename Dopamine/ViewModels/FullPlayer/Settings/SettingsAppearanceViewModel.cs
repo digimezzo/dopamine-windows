@@ -29,6 +29,14 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         public string ColorSchemesDirectory { get; set; }
 
+        public bool SupportsWindowsMediaFoundation
+        {
+            get
+            {
+                return this.playbackService != null ? this.playbackService.SupportsWindowsMediaFoundation : false;
+            }
+        }
+
         public bool CheckBoxCheckBoxShowWindowBorderChecked
         {
             get { return this.checkBoxCheckBoxShowWindowBorderChecked; }

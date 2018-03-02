@@ -6,6 +6,7 @@ namespace Dopamine.Services.Contracts.Notification
 {
     public interface INotificationService
     {
+        bool SupportsSystemNotification { get; }
         bool SystemNotificationIsEnabled { get; set; }
         bool ShowNotificationWhenPlaying { get; set; }
         bool ShowNotificationWhenPausing { get; set; }
