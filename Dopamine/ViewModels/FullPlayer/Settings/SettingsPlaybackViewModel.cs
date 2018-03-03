@@ -64,6 +64,9 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxEnableExternalControlChecked;
         private bool checkBoxEnableSystemNotificationChecked;
         private bool checkBoxLoopWhenShuffleChecked;
+        private bool checkBoxShowSpectrumAnalyzerChecked;
+        private ObservableCollection<NameValue> spectrumStyles;
+        private NameValue selectedSpectrumStyle;
         private ObservableCollection<NameValue> notificationPositions;
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
@@ -75,19 +78,18 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
-        public bool SupportsWindowsMediaFoundation
-        {
-            get
-            {
-                return this.playbackService != null ? this.playbackService.SupportsWindowsMediaFoundation : false;
-            }
-        }
+        public bool SupportsWindowsMediaFoundation => this.playbackService.SupportsWindowsMediaFoundation;
 
-        public bool SupportsSystemNotification
+        public bool SupportsSystemNotification => this.notificationService.SupportsSystemNotification;        
+
+        public bool CheckBoxShowSpectrumAnalyzerChecked
         {
-            get
+            get { return this.checkBoxShowSpectrumAnalyzerChecked; }
+            set
             {
-                return this.notificationService != null ? this.notificationService.SupportsSystemNotification : false;
+                SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
+                SetProperty<bool>(ref this.checkBoxShowSpectrumAnalyzerChecked, value);
+                this.playbackService.IsSpectrumVisible = value;
             }
         }
 
@@ -109,6 +111,22 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 {
                     this.playbackService.Latency = value.Value;
                 }
+            }
+        }
+
+        public ObservableCollection<NameValue> SpectrumStyles
+        {
+            get { return this.spectrumStyles; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.spectrumStyles, value); }
+        }
+
+        public NameValue SelectedSpectrumStyle
+        {
+            get { return this.selectedSpectrumStyle; }
+            set
+            {
+                SetProperty<NameValue>(ref this.selectedSpectrumStyle, value);
+                SettingsClient.Set<int>("Playback", "SpectrumStyle", value.Value, true);
             }
         }
 
@@ -315,6 +333,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.GetNotificationSecondsAsync();
             this.GetLatenciesAsync();
             this.GetOutputDevicesAsync();
+            this.GetSpectrumStylesAsync();
         }
 
         private async void GetOutputDevicesAsync()
@@ -420,6 +439,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
+                this.checkBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
                 this.checkBoxUseAllAvailableChannelsChecked = SettingsClient.Get<bool>("Playback", "WasapiUseAllAvailableChannels");
                 this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
                 this.checkBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
@@ -432,6 +452,25 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxLoopWhenShuffleChecked = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle");
                 this.checkBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
             });
+        }
+
+        private async void GetSpectrumStylesAsync()
+        {
+            var localSpectrumStyles = new ObservableCollection<NameValue>();
+
+            await Task.Run(() =>
+            {
+                localSpectrumStyles.Add(new NameValue { Name = "Flames", Value = 1 });
+                localSpectrumStyles.Add(new NameValue { Name = "Lines", Value = 2 });
+                localSpectrumStyles.Add(new NameValue { Name = "Bars", Value = 3 });
+                localSpectrumStyles.Add(new NameValue { Name = "Stripes", Value = 4 });
+            });
+
+            this.SpectrumStyles = localSpectrumStyles;
+
+            NameValue localSelectedSpectrumStyle = null;
+            await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
+            this.SelectedSpectrumStyle = localSelectedSpectrumStyle;
         }
 
         private void ConfirmEnableExclusiveMode()

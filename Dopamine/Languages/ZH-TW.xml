@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">垂直對齊播放清單</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">當播放器處於隱藏狀態時才顯示通知</Text>
   <Text Key="Transparency">透明度</Text>
-  <Text Key="Enable_Transparency">讓一些元素透明（只限Windows10）</Text>
+  <Text Key="Enable_Transparency">讓一些元素透明</Text>
   <Text Key="All">所有</Text>
   <Text Key="Close_To_Tray">關閉時隱藏到通知區域</Text>
   <Text Key="Edit">編輯</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Enable_System_Notification">Enable System Notification</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>

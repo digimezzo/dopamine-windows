@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Afspeellijst verticaal uitlijnen</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Toon de popup enkel als de speler niet zichtbaar is</Text>
   <Text Key="Transparency">Doorzichtigheid</Text>
-  <Text Key="Enable_Transparency">Maak bepaalde elementen doorzichtig (uitsluitend Windows 10)</Text>
+  <Text Key="Enable_Transparency">Maak bepaalde elementen doorzichtig</Text>
   <Text Key="All">Alle</Text>
   <Text Key="Close_To_Tray">Sluiten naar systeemvak</Text>
   <Text Key="Edit">Aanpassen</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Er is een fout opgetreden bij het afspelen van de geslecteerde nummers. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="External_Control">Externe besturing</Text>
   <Text Key="Enable_External_Control">Externe besturing activeren besturing</Text>
-  <Text Key="Enable_System_Notification">Systeem notificatie activeren (uitsluitend Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Systeem notificatie activeren</Text>
   <Text Key="Unknown_Album">Onbekend album</Text>
   <Text Key="Unknown_Genre">Onbekend genre</Text>
   <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>

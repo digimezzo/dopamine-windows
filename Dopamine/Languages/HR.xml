@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Poravnaj popis za izvođenje vertikalno</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Prikaži obavijest samo kada svirač nije vidljiv</Text>
   <Text Key="Transparency">Prozirnost</Text>
-  <Text Key="Enable_Transparency">Neka neki elementi budu prozirni (samo Windows 10)</Text>
+  <Text Key="Enable_Transparency">Neka neki elementi budu prozirni</Text>
   <Text Key="All">Sve</Text>
   <Text Key="Close_To_Tray">Zatvori u područje obavijesti</Text>
   <Text Key="Edit">Uredi</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Dogodila se greška tijekom reprodukcije odabranih pjesama. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="External_Control">Vanjsko upravljanje</Text>
   <Text Key="Enable_External_Control">Omogući vanjsko upravljanje</Text>
-  <Text Key="Enable_System_Notification">Omogući obavijesti sustava (samo Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Omogući obavijesti sustava</Text>
   <Text Key="Unknown_Album">Nepoznati album</Text>
   <Text Key="Unknown_Genre">Nepoznati žanr</Text>
   <Text Key="Refresh_Collection_Automatically">Automatski osvježi kolekciju</Text>

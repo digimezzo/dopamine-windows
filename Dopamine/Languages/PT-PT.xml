@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Alinhar lista de reprodução na vertical</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Mostrar apenas a notificação se o reprodutor não estiver visível</Text>
   <Text Key="Transparency">Transparência</Text>
-  <Text Key="Enable_Transparency">Ativar transparência (apenas Windows 10)</Text>
+  <Text Key="Enable_Transparency">Ativar transparência</Text>
   <Text Key="All">Todos</Text>
   <Text Key="Close_To_Tray">Fechar para a área de notificação</Text>
   <Text Key="Edit">Editar</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Ocorreu um erro ao reproduzir as faixas selecionadas. Consulte o registo para obter mais informações.</Text>
   <Text Key="External_Control">Controlo externo</Text>
   <Text Key="Enable_External_Control">Ativar controlo externo</Text>
-  <Text Key="Enable_System_Notification">Ativar notificações do sistema (apenas Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Ativar notificações do sistema</Text>
   <Text Key="Unknown_Album">Álbum desconhecido</Text>
   <Text Key="Unknown_Genre">Género desconhecido</Text>
   <Text Key="Refresh_Collection_Automatically">Atualizar coleção automaticamente</Text>

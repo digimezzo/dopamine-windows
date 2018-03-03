@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Κάθετη ευθυγράμμιση λίστας</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Εμφάνιση ειδοποίησης μόνο όταν το player δεν είναι ορατό</Text>
   <Text Key="Transparency">Διαφάνεια</Text>
-  <Text Key="Enable_Transparency">Ενεργοποιεί τη διαφάνεια κάποιων στοιχείων (μόνο σε Windows 10)</Text>
+  <Text Key="Enable_Transparency">Ενεργοποιεί τη διαφάνεια κάποιων στοιχείων</Text>
   <Text Key="All">All</Text>
   <Text Key="Close_To_Tray">Σμίκρυνση στην περιοχή ειδοποιήσεων</Text>
   <Text Key="Edit">Επεξεργασία</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Προέκυψε σφάλμα κατά την αναπαραγωγή των επιλεγμένων τραγουδιών. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="External_Control">Εξωτερικός έλεγχος</Text>
   <Text Key="Enable_External_Control">Ενεργοποίηση εξωτερικού ελέγχου</Text>
-  <Text Key="Enable_System_Notification">Ενεργοποίηση ειδοποιήσεων συστήματος (μόνο Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Ενεργοποίηση ειδοποιήσεων συστήματος</Text>
   <Text Key="Unknown_Album">Άγνωστο άλμπουμ</Text>
   <Text Key="Unknown_Genre">Άγνωστο είδος</Text>
   <Text Key="Refresh_Collection_Automatically">Αυτόματη ανανέωση συλλογής</Text>

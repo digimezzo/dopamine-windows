@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Çalma listesini dikey hizala</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Oynatıcı gizli olduğunda sadece bildirim göster</Text>
   <Text Key="Transparency">Saydamlık</Text>
-  <Text Key="Enable_Transparency">Bazı öğeleri saydamlaştır (sadece Windows 10 için)</Text>
+  <Text Key="Enable_Transparency">Bazı öğeleri saydamlaştır</Text>
   <Text Key="All">Tümü</Text>
   <Text Key="Close_To_Tray">Bildirim alanına küçült</Text>
   <Text Key="Edit">Düzenle</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Seçili şarkıları oynatırken bir sorun oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="External_Control">Harici Kontrol</Text>
   <Text Key="Enable_External_Control">Harici Kontrolü Etkinleştir</Text>
-  <Text Key="Enable_System_Notification">Sistem Bildirimlerini etkinleştir (sadece Windows 10 için)</Text>
+  <Text Key="Enable_System_Notification">Sistem Bildirimlerini etkinleştir</Text>
   <Text Key="Unknown_Album">Bilinmeyen albüm</Text>
   <Text Key="Unknown_Genre">Bilinmeyen tür</Text>
   <Text Key="Refresh_Collection_Automatically">Koleksiyonu otomatik olarak yenile</Text>
