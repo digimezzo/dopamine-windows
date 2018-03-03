@@ -22,8 +22,8 @@
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Language}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Choose_Language}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
             <commonviews:AppearanceLanguage Margin="0,15,0,0"/>
-            <StackPanel Margin="0,20,0,0" Visibility="{Binding IsWindows10, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Transparency}" />
+            <StackPanel Visibility="{Binding IsWindows10, Converter={StaticResource BooleanToCollapsedConverter}}">
+                <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Transparency}" />
                 <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Enable_Transparency}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableTransparency" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableTransparencyChecked}"/>
             </StackPanel>
