@@ -2,6 +2,6 @@
 {
     public interface IPlayerFactory
     {
-        IPlayer Create(bool supportsWasapi);
+        IPlayer Create(bool supportsWindowsMediaFoundation);
     }
 }
