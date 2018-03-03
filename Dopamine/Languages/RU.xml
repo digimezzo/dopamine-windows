@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Выравнивать плейлист вертикально</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Показывать уведомление только когда проигрыватель скрыт</Text>
   <Text Key="Transparency">Прозрачность</Text>
-  <Text Key="Enable_Transparency">Сделать некоторые элементы прозрачными (только для Windows 10)</Text>
+  <Text Key="Enable_Transparency">Сделать некоторые элементы прозрачными</Text>
   <Text Key="All">Все</Text>
   <Text Key="Close_To_Tray">Закрыть в область уведомлений</Text>
   <Text Key="Edit">Редактировать</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">При воспроизведении выбранных песен произошла ошибка. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="External_Control">Внешний контроль</Text>
   <Text Key="Enable_External_Control">Включить внешний контроль</Text>
-  <Text Key="Enable_System_Notification">Включить системные уведомления (только для Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Включить системные уведомления</Text>
   <Text Key="Unknown_Album">Неизвестный альбом</Text>
   <Text Key="Unknown_Genre">Неизвестный жанр</Text>
   <Text Key="Refresh_Collection_Automatically">Обновлять коллекцию автоматически</Text>

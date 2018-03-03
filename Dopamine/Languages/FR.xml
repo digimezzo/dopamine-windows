@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Aligner la playlist verticalement</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Afficher la notification uniquement quand le lecteur n'est pas visible</Text>
   <Text Key="Transparency">Transparence</Text>
-  <Text Key="Enable_Transparency">Rendre certains éléments transparents (Windows 10 uniquement)</Text>
+  <Text Key="Enable_Transparency">Rendre certains éléments transparents</Text>
   <Text Key="All">Tous</Text>
   <Text Key="Close_To_Tray">Fermer vers la zone de notification</Text>
   <Text Key="Edit">Éditer</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Une erreur s'est produite lors de la lecture des morceaux sélectionnés. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="External_Control">Contrôle externe</Text>
   <Text Key="Enable_External_Control">Activer le contrôle externe</Text>
-  <Text Key="Enable_System_Notification">Activer les notifications système (Windows 10 uniquement)</Text>
+  <Text Key="Enable_System_Notification">Activer les notifications système</Text>
   <Text Key="Unknown_Album">Album inconnu</Text>
   <Text Key="Unknown_Genre">Genre inconnu</Text>
   <Text Key="Refresh_Collection_Automatically">Actualiser la collection automatiquement</Text>

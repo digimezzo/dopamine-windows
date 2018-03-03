@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Căn chỉnh playlist theo chiều dọc</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Chỉ hiển thị thông báo khi người chơi không thấy được</Text>
   <Text Key="Transparency">Trong suốt</Text>
-  <Text Key="Enable_Transparency">Làm cho một số phần tử trong suốt (Chỉ trên Windows 10)</Text>
+  <Text Key="Enable_Transparency">Làm cho một số phần tử trong suốt</Text>
   <Text Key="All">Tất cả</Text>
   <Text Key="Close_To_Tray">Nhấn nút đóng sẽ thu nhỏ xuống khay hệ thống</Text>
   <Text Key="Edit">Chỉnh sửa</Text>
@@ -398,7 +398,7 @@
   <Text Key="Error_Playing_Selected_Songs">Đã xảy ra lỗi khi phát bài hát đã chọn. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="External_Control">Điều khiển bên ngoài</Text>
   <Text Key="Enable_External_Control">Bật điều khiển bên ngoài</Text>
-  <Text Key="Enable_System_Notification">Bật Thông báo hệ thống (Chỉ trên Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Bật Thông báo hệ thống</Text>
   <Text Key="Unknown_Album">Album không xác định</Text>
   <Text Key="Unknown_Genre">Thể loại không xác định</Text>
   <Text Key="Refresh_Collection_Automatically">Tự động làm mới thư viện nhạc</Text>

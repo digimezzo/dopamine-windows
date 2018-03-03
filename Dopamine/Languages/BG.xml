@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Изравни плейлиста вертикално</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Покажи уведомлението само когато плеъра не се вижда</Text>
   <Text Key="Transparency">Прозрачност</Text>
-  <Text Key="Enable_Transparency">Направи някои елементи прозрачни (Само за Windows 10 )</Text>
+  <Text Key="Enable_Transparency">Направи някои елементи прозрачни</Text>
   <Text Key="All">All</Text>
   <Text Key="Close_To_Tray">Затвори в зоната на известията</Text>
   <Text Key="Edit">Редакция</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Възникна грешка при възпроизвеждане на избраните песни. Моля, консултирайте се с регистрационния файл за повече информация.</Text>
   <Text Key="External_Control">Външен контрол</Text>
   <Text Key="Enable_External_Control">Активиране на външния контрол</Text>
-  <Text Key="Enable_System_Notification">Активирай системни известия (само за Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Активирай системни известия</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Автоматично обновяване на колекцията</Text>

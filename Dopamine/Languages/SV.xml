@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Justera spellistan vertikalt</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Visa avisering endast när spelaren inte är synlig</Text>
   <Text Key="Transparency">Transparens</Text>
-  <Text Key="Enable_Transparency">Gör vissa element transparenta (endast Windows 10)</Text>
+  <Text Key="Enable_Transparency">Gör vissa element transparenta</Text>
   <Text Key="All">Alla</Text>
   <Text Key="Close_To_Tray">Stäng till meddelandefältet</Text>
   <Text Key="Edit">Redigera</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Ett fel uppstod vid uppspelning av valda låtar. Läs loggfilen för mer information.</Text>
   <Text Key="External_Control">Extern Kontroll</Text>
   <Text Key="Enable_External_Control">Använd Extern Kontroll</Text>
-  <Text Key="Enable_System_Notification">Använd Systemnotifiering (endast Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Använd Systemnotifiering</Text>
   <Text Key="Unknown_Album">Okänt album</Text>
   <Text Key="Unknown_Genre">Okänd genre</Text>
   <Text Key="Refresh_Collection_Automatically">Uppdatera samlingen automatiskt</Text>

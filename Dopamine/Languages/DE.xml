@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Wiedergabeliste vertikal ausrichten</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Zeige Benachrichtigungen nur, wenn der Player nicht sichtbar ist</Text>
   <Text Key="Transparency">Transparenz</Text>
-  <Text Key="Enable_Transparency">Einige Elemente transparent darstellen (nur Windows 10)</Text>
+  <Text Key="Enable_Transparency">Einige Elemente transparent darstellen</Text>
   <Text Key="All">Alle</Text>
   <Text Key="Close_To_Tray">Schließe in den Benachrichtigungsbereich</Text>
   <Text Key="Edit">Bearbeiten</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Beim Abspielen der ausgewählten Titel ist ein Fehler geschehen. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="External_Control">Externe Steuerung</Text>
   <Text Key="Enable_External_Control">Externe Steuerung aktivieren</Text>
-  <Text Key="Enable_System_Notification">System Benachrichtigungen aktivieren (nur in Windows 10)</Text>
+  <Text Key="Enable_System_Notification">System Benachrichtigungen aktivieren</Text>
   <Text Key="Unknown_Album">Unbekanntes Album</Text>
   <Text Key="Unknown_Genre">Unbekanntes Genre</Text>
   <Text Key="Refresh_Collection_Automatically">Aktualisiere die Sammlung automatisch</Text>

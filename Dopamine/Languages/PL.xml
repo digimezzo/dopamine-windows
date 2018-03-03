@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Wyrównanie playlisty w pionie</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Pokaż powiadomienie tylko wtedy, gdy odtwarzacz nie jest widoczny</Text>
   <Text Key="Transparency">Przezroczystość</Text>
-  <Text Key="Enable_Transparency">Dodaj niektóre elementy przeźroczyste (tylko Windows 10)</Text>
+  <Text Key="Enable_Transparency">Dodaj niektóre elementy przeźroczyste</Text>
   <Text Key="All">Wszystko</Text>
   <Text Key="Close_To_Tray">Zamknij do obszaru powiadomień</Text>
   <Text Key="Edit">Edytuj</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Enable_System_Notification">Enable System Notification</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>

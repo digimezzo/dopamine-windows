@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Srovnat seznam vertikálně</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Zobrazit oznámení pouze pokud je přehrávač schovaný</Text>
   <Text Key="Transparency">Průhlednost</Text>
-  <Text Key="Enable_Transparency">Zprůhlednit některé části (pouze Windows 10)</Text>
+  <Text Key="Enable_Transparency">Zprůhlednit některé části</Text>
   <Text Key="All">Vše</Text>
   <Text Key="Close_To_Tray">Poblíž oznamovací oblasti</Text>
   <Text Key="Edit">Upravit</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Enable_System_Notification">Enable System Notification</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
