@@ -47,7 +47,7 @@ namespace Dopamine.Core.Audio
 
         // Flags
         private bool isPlaying;
-        private bool supportsWasapi = false;
+        private bool supportsWindowsMediaFoundation = false;
 
         public CSCorePlayer()
         {
@@ -70,10 +70,10 @@ namespace Dopamine.Core.Audio
 
         public SingleBlockNotificationStream NotificationSource => this.notificationSource;
 
-        public bool SupportsWasapi
+        public bool SupportsWindowsMediaFoundation
         {
-            get { return this.supportsWasapi; }
-            set { this.supportsWasapi = value; }
+            get { return this.supportsWindowsMediaFoundation; }
+            set { this.supportsWindowsMediaFoundation = value; }
         }
 
         public string Filename
@@ -257,7 +257,7 @@ namespace Dopamine.Core.Audio
 
             // FfmpegDecoder doesn't support WMA lossless. If Windows Media Foundation is available,
             // we can use MediaFoundationDecoder for WMA files, which supports WMA lossless.
-            if (this.supportsWasapi && Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
+            if (this.supportsWindowsMediaFoundation && Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
             {
                 try
                 {
@@ -344,7 +344,7 @@ namespace Dopamine.Core.Audio
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // Create SoundOut
-            if (this.supportsWasapi)
+            if (this.supportsWindowsMediaFoundation)
             {
                 this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
 

@@ -5,7 +5,7 @@
         public IPlayer Create(bool supportsWasapi)
         {
             IPlayer player = CSCorePlayer.Instance;
-            player.SupportsWasapi = supportsWasapi;
+            player.SupportsWindowsMediaFoundation = supportsWasapi;
 
             return player;
         }

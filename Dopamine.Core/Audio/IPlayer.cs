@@ -16,7 +16,7 @@ namespace Dopamine.Core.Audio
 
         string Filename { get; }
 
-        bool SupportsWasapi { get; set; }
+        bool SupportsWindowsMediaFoundation { get; set; }
 
         void Stop();
 
