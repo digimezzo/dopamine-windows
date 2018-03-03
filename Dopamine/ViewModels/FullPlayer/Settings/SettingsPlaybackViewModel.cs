@@ -80,7 +80,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         public bool SupportsWindowsMediaFoundation => this.playbackService.SupportsWindowsMediaFoundation;
 
-        public bool SupportsSystemNotification => this.notificationService.SupportsSystemNotification;        
+        public bool IsWindows10 => Constants.IsWindows10;        
 
         public bool CheckBoxShowSpectrumAnalyzerChecked
         {
@@ -302,8 +302,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                     this.externalControlService.Stop();
             }
         }
-
-        public bool IsWindows10 => Constants.IsWindows10;
 
         public bool CheckBoxEnableSystemNotificationChecked
         {

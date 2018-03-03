@@ -21,7 +21,7 @@
                 <TextBlock Text="{DynamicResource Language_Wasapi_Event_Mode}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxWasapiEventMode"  Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxWasapiEventModeChecked}"/>
             </StackPanel>-->
-            <StackPanel Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding SupportsWindowsMediaFoundation}">
+            <StackPanel Visibility="{Binding SupportsWindowsMediaFoundation, Converter={StaticResource BooleanToCollapsedConverter}}">
                 <StackPanel Margin="0,20,0,0">
                     <TextBlock Text="{DynamicResource Language_Use_All_Available_Speakers}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                     <dc:Windows10ToggleSwitch x:Name="CheckBoxUseAllAvailableChannels" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxUseAllAvailableChannelsChecked}"/>
@@ -32,7 +32,7 @@
                 </StackPanel>
             </StackPanel>
             <!-- Spectrum analyzer -->
-            <StackPanel Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding SupportsWindowsMediaFoundation}">
+            <StackPanel Visibility="{Binding SupportsWindowsMediaFoundation, Converter={StaticResource BooleanToCollapsedConverter}}">
                 <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Spectrum_Analyzer}" />
                 <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Show_Spectrum_Analyzer}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxShowSpectrumAnalyzer" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxShowSpectrumAnalyzerChecked}"/>
@@ -43,7 +43,7 @@
             </StackPanel>
             <!-- Notification -->
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Notification}" />
-            <StackPanel Margin="0,5,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding SupportsSystemNotification}">
+            <StackPanel Margin="0,5,0,0" Visibility="{Binding IsWindows10, Converter={StaticResource BooleanToCollapsedConverter}}">
                 <TextBlock Text="{DynamicResource Language_Enable_System_Notification}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableSystemNotification" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnableSystemNotificationChecked}"/>
             </StackPanel>
