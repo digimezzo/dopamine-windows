@@ -11,7 +11,7 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.ViewModels.Common;
 using GongSolutions.Wpf.DragDrop;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;

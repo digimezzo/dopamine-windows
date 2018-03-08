@@ -1,6 +1,6 @@
 ﻿using Dopamine.Services.Contracts.Dialog;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace Dopamine.ViewModels.Common
 {

@@ -14,7 +14,6 @@ using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
 using Dopamine.Views.Common;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections;
@@ -24,6 +23,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Unity;
+using Unity.Resolution;
 
 namespace Dopamine.ViewModels.Common.Base
 {

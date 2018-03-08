@@ -7,14 +7,13 @@ using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Services.Contracts.Update;
 using Ionic.Zip;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -24,13 +23,13 @@ namespace Dopamine.Services.Update
     internal class OnlineVersionResult
     {
         [DataMember]
-        internal string status;
+        internal string status = null;
 
         [DataMember]
-        internal string status_message;
+        internal string status_message = null;
 
         [DataMember]
-        internal string data;
+        internal string data = null;
     }
 
     public class UpdateService : IUpdateService
@@ -85,15 +84,11 @@ namespace Dopamine.Services.Update
                     jsonResult = await response.Content.ReadAsStringAsync();
                 }
 
-                using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonResult)))
-                {
-                    var deserializer = new DataContractJsonSerializer(typeof(OnlineVersionResult));
-                    OnlineVersionResult newOnlineVersionResult = (OnlineVersionResult)deserializer.ReadObject(ms);
+                var newOnlineVersionResult = JsonConvert.DeserializeObject<OnlineVersionResult>(jsonResult);
 
-                    if (!string.IsNullOrEmpty(newOnlineVersionResult.data))
-                    {
-                        newVersion = this.CreateDummyPackage(new Version(newOnlineVersionResult.data));
-                    }
+                if (!string.IsNullOrEmpty(newOnlineVersionResult.data))
+                {
+                    newVersion = this.CreateDummyPackage(new Version(newOnlineVersionResult.data));
                 }
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;

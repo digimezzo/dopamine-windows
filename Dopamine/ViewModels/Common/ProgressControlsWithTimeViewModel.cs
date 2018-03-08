@@ -1,6 +1,6 @@
 ﻿using Dopamine.Core.Utils;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 
 namespace Dopamine.ViewModels.Common

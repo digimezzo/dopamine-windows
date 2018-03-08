@@ -10,7 +10,7 @@ using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

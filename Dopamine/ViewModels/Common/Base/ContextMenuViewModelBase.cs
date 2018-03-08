@@ -5,7 +5,7 @@ using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

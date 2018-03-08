@@ -11,12 +11,13 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Views.Common;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity;
+using Unity.Resolution;
 
 namespace Dopamine.ViewModels.Common.Base
 {

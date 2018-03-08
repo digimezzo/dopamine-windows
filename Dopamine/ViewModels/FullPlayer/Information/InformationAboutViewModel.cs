@@ -5,7 +5,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Views.FullPlayer.Information;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

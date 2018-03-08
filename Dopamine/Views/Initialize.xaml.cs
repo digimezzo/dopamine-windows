@@ -25,9 +25,6 @@ namespace Dopamine.Views
             // Small delay
             await Task.Delay(1000);
 
-            // Start the bootstrapper
-            Bootstrapper bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
             this.Close();
         }
     }

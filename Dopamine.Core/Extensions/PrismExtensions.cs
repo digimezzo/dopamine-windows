@@ -1,8 +1,9 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Unity;
+using Unity.Lifetime;
 
 namespace Dopamine.Core.Extensions
 {
-    public static class UnityExtensions
+    public static class PrismExtensions
     {
         public static void RegisterSingletonType<TFrom, TTo>(this IUnityContainer container) where TTo : TFrom
         {
