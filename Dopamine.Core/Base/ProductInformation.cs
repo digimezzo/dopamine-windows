@@ -56,6 +56,13 @@ namespace Dopamine.Core.Base
             },
             new ExternalComponent
             {
+                Name = "Json.NET",
+                Description = "Popular high-performance JSON framework for .NET",
+                Url = "https://github.com/JamesNK/Newtonsoft.Json",
+                LicenseUrl = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"
+            },
+            new ExternalComponent
+            {
                 Name = "NVorbis",
                 Description = "A .NET library for decoding Xiph.org Vorbis files.",
                 Url = "https://github.com/ioctlLR/NVorbis",
