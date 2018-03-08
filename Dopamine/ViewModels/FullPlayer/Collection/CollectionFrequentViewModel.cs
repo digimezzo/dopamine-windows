@@ -6,7 +6,7 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;

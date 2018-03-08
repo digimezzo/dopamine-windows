@@ -4,7 +4,7 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Views.Common;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 
 namespace Dopamine.ViewModels.Common.Base

@@ -11,7 +11,7 @@ using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;

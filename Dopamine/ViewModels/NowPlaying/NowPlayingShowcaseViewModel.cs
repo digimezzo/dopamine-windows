@@ -1,5 +1,5 @@
 ﻿using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace Dopamine.ViewModels.NowPlaying
 {

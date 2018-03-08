@@ -6,7 +6,7 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using GongSolutions.Wpf.DragDrop;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

@@ -1,39 +1,39 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Animations.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Buttons.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ColorSchemeButtons.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ContextMenu.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ContextMenuButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/CountLabel.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/DataGridTracks.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Geometries.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/HotKey.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/LinkButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxAlbums.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxArtists.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxFolders.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxGenres.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxNowPlayingTracks.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxPlaylists.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxPlaylistTracks.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxSemanticZoom.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxSimilarArtists.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxTracks.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroCheckBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroComboBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroListBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroTextBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/NowPlayingContextMenu.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/PivotItemStyle.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/SpectrumAnalyzer.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Texts.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Tooltip.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/WindowButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ScrollBar.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/SpectrumAnimation.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/StackPanelConditionEnabled.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Animations.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Buttons.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ColorSchemeButtons.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ContextMenu.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ContextMenuButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/CountLabel.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/DataGridTracks.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Geometries.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/HotKey.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/LinkButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxAlbums.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxArtists.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxFolders.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxGenres.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxNowPlayingTracks.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxPlaylists.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxPlaylistTracks.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxSemanticZoom.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxSimilarArtists.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ListBoxTracks.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroCheckBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroComboBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroListBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/MetroTextBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/NowPlayingContextMenu.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/PivotItemStyle.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/SpectrumAnalyzer.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Texts.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/Tooltip.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/WindowButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/ScrollBar.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/SpectrumAnimation.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/StackPanelConditionEnabled.xaml" />
+  </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

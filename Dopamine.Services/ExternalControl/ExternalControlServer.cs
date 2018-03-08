@@ -6,7 +6,6 @@ using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.ExternalControl;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +15,7 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using Unity.Interception.Utilities;
 
 namespace Dopamine.Services.ExternalControl
 {

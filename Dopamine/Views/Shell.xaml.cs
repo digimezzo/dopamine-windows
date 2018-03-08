@@ -17,7 +17,6 @@ using Dopamine.Services.Contracts.Win32Input;
 using Dopamine.Services.Contracts.WindowsIntegration;
 using Dopamine.Views.Common;
 using Dopamine.Views.MiniPlayer;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -28,6 +27,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using Unity;
+using Unity.Resolution;
 
 namespace Dopamine.Views
 {

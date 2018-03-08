@@ -1,18 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/AccentTextBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/CombiLabel.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/CrossFadeContentControl.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconMenuButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconTextButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/ListCheckBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/LoveButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/RatingButton.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SearchBox.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SyncRing.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/Tile.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/TotalsInformation.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/AccentTextBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/CombiLabel.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/CrossFadeContentControl.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconMenuButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/IconTextButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/ListCheckBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/LoveButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/RatingButton.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SearchBox.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/SyncRing.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/Tile.xaml" />
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Themes/TotalsInformation.xaml" />
+  </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

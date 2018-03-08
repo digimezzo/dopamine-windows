@@ -10,7 +10,7 @@ using Dopamine.Services.Contracts.Command;
 using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Views;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 using System.Linq;
 using System.ServiceModel;
@@ -18,10 +18,74 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using Dopamine.Core.Helpers;
+using Dopamine.Data.Contracts;
+using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Data.Metadata;
+using Dopamine.Data.Repositories;
+using Dopamine.Presentation.Utils;
+using Dopamine.Services.Appearance;
+using Dopamine.Services.Cache;
+using Dopamine.Services.Collection;
+using Dopamine.Services.Command;
+using Dopamine.Services.Contracts.Appearance;
+using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Contracts.Collection;
+using Dopamine.Services.Contracts.Dialog;
+using Dopamine.Services.Contracts.Equalizer;
+using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.I18n;
+using Dopamine.Services.Contracts.Indexing;
+using Dopamine.Services.Contracts.JumpList;
+using Dopamine.Services.Contracts.Metadata;
+using Dopamine.Services.Contracts.Notification;
+using Dopamine.Services.Contracts.Playlist;
+using Dopamine.Services.Contracts.Provider;
+using Dopamine.Services.Contracts.Scrobbling;
+using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Contracts.Shell;
+using Dopamine.Services.Contracts.Taskbar;
+using Dopamine.Services.Contracts.Update;
+using Dopamine.Services.Contracts.Win32Input;
+using Dopamine.Services.Contracts.WindowsIntegration;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.Equalizer;
+using Dopamine.Services.ExternalControl;
+using Dopamine.Services.File;
+using Dopamine.Services.I18n;
+using Dopamine.Services.Indexing;
+using Dopamine.Services.JumpList;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Notification;
+using Dopamine.Services.Playback;
+using Dopamine.Services.Playlist;
+using Dopamine.Services.Provider;
+using Dopamine.Services.Scrobbling;
+using Dopamine.Services.Search;
+using Dopamine.Services.Shell;
+using Dopamine.Services.Taskbar;
+using Dopamine.Services.Update;
+using Dopamine.Services.Win32Input;
+using Dopamine.Services.WindowsIntegration;
+using Dopamine.Views.Common;
+using Dopamine.Views.FullPlayer;
+using Dopamine.Views.FullPlayer.Collection;
+using Dopamine.Views.FullPlayer.Information;
+using Dopamine.Views.FullPlayer.Settings;
+using Dopamine.Views.MiniPlayer;
+using Dopamine.Views.NowPlaying;
+using Prism.Ioc;
+using Prism.Unity;
+using Dopamine.Presentation.Views;
+using Prism.Mvvm;
+using Prism.Regions;
+using Unity;
+using Unity.Wcf;
 
 namespace Dopamine
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
         private Mutex instanceMutex = null;
 
@@ -33,8 +97,8 @@ namespace Dopamine
             JumpList.SetJumpList(Application.Current, new JumpList());
 
             // Check that there is only one instance of the application running
-            bool isNewInstance = false;
-            instanceMutex = new Mutex(true, string.Format("{0}-{1}", ProductInformation.ApplicationGuid, ProcessExecutable.AssemblyVersion()), out isNewInstance);
+            instanceMutex = new Mutex(true,
+                $"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out var isNewInstance);
 
             // Process the command-line arguments
             this.ProcessCommandLineArguments(isNewInstance);
@@ -51,12 +115,253 @@ namespace Dopamine
             }
         }
 
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            base.RegisterRequiredTypes(containerRegistry);
+            var unityContainer = containerRegistry.GetContainer();
+
+            RegisterCoreComponents();
+            RegisterFactories();
+            RegisterRepositories();
+            RegisterServices();
+            InitializeServices();
+            RegisterViews();
+            RegisterViewModels();
+
+            void RegisterCoreComponents()
+            {
+                containerRegistry.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
+            }
+
+            void RegisterFactories()
+            {
+                containerRegistry.RegisterSingleton<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
+                containerRegistry.RegisterSingleton<IFileMetadataFactory, FileMetadataFactory>();
+            }
+
+            void RegisterRepositories()
+            {
+                containerRegistry.RegisterSingleton<IFolderRepository, FolderRepository>();
+                containerRegistry.RegisterSingleton<IAlbumRepository, AlbumRepository>();
+                containerRegistry.RegisterSingleton<IArtistRepository, ArtistRepository>();
+                containerRegistry.RegisterSingleton<IGenreRepository, GenreRepository>();
+                containerRegistry.RegisterSingleton<ITrackRepository, TrackRepository>();
+                containerRegistry.RegisterSingleton<ITrackStatisticRepository, TrackStatisticRepository>();
+                containerRegistry.RegisterSingleton<IQueuedTrackRepository, QueuedTrackRepository>();
+            }
+
+            void RegisterServices()
+            {
+                containerRegistry.RegisterSingleton<ICacheService, CacheService>();
+                containerRegistry.RegisterSingleton<IUpdateService, UpdateService>();
+                containerRegistry.RegisterSingleton<IAppearanceService, AppearanceService>();
+                containerRegistry.RegisterSingleton<II18nService, I18nService>();
+                containerRegistry.RegisterSingleton<IDialogService, DialogService>();
+                containerRegistry.RegisterSingleton<IIndexingService, IndexingService>();
+                containerRegistry.RegisterSingleton<IPlaybackService, PlaybackService>();
+                containerRegistry.RegisterSingleton<IWin32InputService, Win32InputService>();
+                containerRegistry.RegisterSingleton<ISearchService, SearchService>();
+                containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
+                containerRegistry.RegisterSingleton<ICollectionService, CollectionService>();
+                containerRegistry.RegisterSingleton<IJumpListService, JumpListService>();
+                containerRegistry.RegisterSingleton<IFileService, FileService>();
+                containerRegistry.RegisterSingleton<ICommandService, CommandService>();
+                containerRegistry.RegisterSingleton<IMetadataService, MetadataService>();
+                containerRegistry.RegisterSingleton<IEqualizerService, EqualizerService>();
+                containerRegistry.RegisterSingleton<IProviderService, ProviderService>();
+                containerRegistry.RegisterSingleton<IScrobblingService, LastFmScrobblingService>();
+                containerRegistry.RegisterSingleton<IPlaylistService, PlaylistService>();
+                containerRegistry.RegisterSingleton<IExternalControlService, ExternalControlService>();
+                containerRegistry.RegisterSingleton<IWindowsIntegrationService, WindowsIntegrationService>();
+                containerRegistry.RegisterSingleton<IShellService, ShellService>();
+
+                INotificationService notificationService;
+
+                // NotificationService contains code that is only supported on Windows 10
+                if (Core.Base.Constants.IsWindows10)
+                {
+                    // On some editions of Windows 10, constructing NotificationService still fails
+                    // (e.g. Windows 10 Enterprise N 2016 LTSB). Hence the try/catch block.
+                    try
+                    {
+                        notificationService = new NotificationService(
+                        Container.Resolve<IPlaybackService>(),
+                        Container.Resolve<ICacheService>(),
+                        Container.Resolve<IMetadataService>());
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Constructing NotificationService failed. Falling back to LegacyNotificationService. Exception: {0}", ex.Message);
+                        notificationService = new LegacyNotificationService(
+                        Container.Resolve<IPlaybackService>(),
+                        Container.Resolve<ICacheService>(),
+                        Container.Resolve<IMetadataService>());
+                    }
+                }
+                else
+                {
+                    notificationService = new LegacyNotificationService(
+                        Container.Resolve<IPlaybackService>(),
+                        Container.Resolve<ICacheService>(),
+                        Container.Resolve<IMetadataService>());
+                }
+
+                containerRegistry.RegisterInstance(notificationService);
+            }
+
+            void InitializeServices()
+            {
+                // Making sure resources are set before we need them
+                Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
+                Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
+                Container.Resolve<IAppearanceService>().ApplyColorSchemeAsync(
+                    SettingsClient.Get<string>("Appearance", "ColorScheme"),
+                    SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
+                    SettingsClient.Get<bool>("Appearance", "FollowAlbumCoverColor")
+                );
+                Container.Resolve<IExternalControlService>();
+            }
+
+            void RegisterViews()
+            {
+                // Misc.
+                unityContainer.RegisterType<object, Oobe>(typeof(Oobe).FullName);
+                unityContainer.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
+                unityContainer.RegisterType<object, Shell>(typeof(Shell).FullName);
+                unityContainer.RegisterType<object, Empty>(typeof(Empty).FullName);
+                unityContainer.RegisterType<object, FullPlayer>(typeof(FullPlayer).FullName);
+                unityContainer.RegisterType<object, CoverPlayer>(typeof(CoverPlayer).FullName);
+                unityContainer.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);
+                unityContainer.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
+                unityContainer.RegisterType<object, NowPlaying>(typeof(NowPlaying).FullName);
+
+                // Collection
+                unityContainer.RegisterType<object, CollectionMenu>(typeof(CollectionMenu).FullName);
+                unityContainer.RegisterType<object, Collection>(typeof(Collection).FullName);
+                unityContainer.RegisterType<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
+                unityContainer.RegisterType<object, CollectionArtists>(typeof(CollectionArtists).FullName);
+                unityContainer.RegisterType<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
+                unityContainer.RegisterType<object, CollectionGenres>(typeof(CollectionGenres).FullName);
+                unityContainer.RegisterType<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
+                unityContainer.RegisterType<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+
+                // Settings
+                unityContainer.RegisterType<object, SettingsMenu>(typeof(SettingsMenu).FullName);
+                unityContainer.RegisterType<object, Settings>(typeof(Settings).FullName);
+                unityContainer.RegisterType<object, SettingsAppearance>(typeof(SettingsAppearance).FullName);
+                unityContainer.RegisterType<object, SettingsBehaviour>(typeof(SettingsBehaviour).FullName);
+                unityContainer.RegisterType<object, SettingsCollection>(typeof(SettingsCollection).FullName);
+                unityContainer.RegisterType<object, SettingsOnline>(typeof(SettingsOnline).FullName);
+                unityContainer.RegisterType<object, SettingsPlayback>(typeof(SettingsPlayback).FullName);
+                unityContainer.RegisterType<object, SettingsStartup>(typeof(SettingsStartup).FullName);
+
+                // Information
+                unityContainer.RegisterType<object, InformationMenu>(typeof(InformationMenu).FullName);
+                unityContainer.RegisterType<object, Information>(typeof(Information).FullName);
+                unityContainer.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
+                unityContainer.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);
+
+                // Now playing
+                unityContainer.RegisterType<object, NowPlayingArtistInformation>(typeof(NowPlayingArtistInformation).FullName);
+                unityContainer.RegisterType<object, NowPlayingLyrics>(typeof(NowPlayingLyrics).FullName);
+                unityContainer.RegisterType<object, NowPlayingPlaylist>(typeof(NowPlayingPlaylist).FullName);
+                unityContainer.RegisterType<object, NowPlayingShowcase>(typeof(NowPlayingShowcase).FullName);
+            }
+
+            void RegisterViewModels()
+            {
+            }
+        }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory(type => Container.Resolve(type));
+        }
+
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings mappings)
+        {
+            base.ConfigureRegionAdapterMappings(mappings);
+            mappings.RegisterMapping(typeof(SlidingContentControl), Container.Resolve<SlidingContentControlRegionAdapter>());
+        }
+
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<Shell>();
+        }
+
+        protected override void InitializeShell(Window shell)
+        {
+            this.InitializeWcfServices();
+
+            Current.MainWindow = shell;
+
+            if (SettingsClient.Get<bool>("General", "ShowOobe"))
+            {
+                BorderlessWindows10Window oobeWin = Container.Resolve<Oobe>();
+
+                // These 2 lines are required to set the RegionManager of the child window.
+                // If we don't do this, regions on child windows are never known by the Shell 
+                // RegionManager and navigation doesn't work
+                RegionManager.SetRegionManager(oobeWin, Container.Resolve<IRegionManager>());
+                RegionManager.UpdateRegions();
+
+                // Show the OOBE window. Don't tell the Indexer to start. 
+                // It will get a signal to start when the OOBE window closes.
+                LogClient.Info("Showing Oobe screen");
+                oobeWin.Show();
+                oobeWin.ForceActivate();
+            }
+            else
+            {
+                LogClient.Info("Showing Main screen");
+                Current.MainWindow.Show();
+
+                // We're not showing the OOBE screen, tell the IndexingService to start.
+                Container.Resolve<IIndexingService>().RefreshCollectionAsync();
+            }
+        }
+
+        protected void InitializeWcfServices()
+        {
+            var unityContainer = Container.GetContainer();
+
+            // CommandService
+            // --------------
+            var commandServicehost = new UnityServiceHost(unityContainer, Container.Resolve<ICommandService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/CommandService", ProductInformation.ApplicationName)) });
+            commandServicehost.AddServiceEndpoint(typeof(ICommandService), new StrongNetNamedPipeBinding(), "CommandServiceEndpoint");
+
+            try
+            {
+                commandServicehost.Open();
+                LogClient.Info("CommandService was started successfully");
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not start CommandService. Exception: {0}", ex.Message);
+            }
+
+            // FileService
+            // -----------
+            var fileServicehost = new UnityServiceHost(unityContainer, Container.Resolve<IFileService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/FileService", ProductInformation.ApplicationName)) });
+            fileServicehost.AddServiceEndpoint(typeof(IFileService), new StrongNetNamedPipeBinding(), "FileServiceEndpoint");
+
+            try
+            {
+                fileServicehost.Open();
+                LogClient.Info("FileService was started successfully");
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
+            }
+        }
+
         private void ExecuteStartup()
         {
-            LogClient.Info($"### STARTING {ProductInformation.ApplicationName}, version {ProcessExecutable.AssemblyVersion()}, IsPortable = {SettingsClient.BaseGet<bool>("Configuration", "IsPortable")}, Windows version = {EnvironmentUtils.GetFriendlyWindowsVersion()} ({EnvironmentUtils.GetInternalWindowsVersion()}), IsWindows10 = {Constants.IsWindows10} ###");
+            LogClient.Info($"### STARTING {ProductInformation.ApplicationName}, version {ProcessExecutable.AssemblyVersion()}, IsPortable = {SettingsClient.BaseGet<bool>("Configuration", "IsPortable")}, Windows version = {EnvironmentUtils.GetFriendlyWindowsVersion()} ({EnvironmentUtils.GetInternalWindowsVersion()}), IsWindows10 = {Core.Base.Constants.IsWindows10} ###");
 
             // Handler for unhandled AppDomain exceptions
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var initializer = new Initializer();
 
@@ -70,16 +375,15 @@ namespace Dopamine
             else
             {
                 // Start the bootstrapper
-                Bootstrapper bootstrapper = new Bootstrapper();
-                bootstrapper.Run();
+                //Bootstrapper bootstrapper = new Bootstrapper();
+                //bootstrapper.Run();
             }
         }
 
         private void ProcessCommandLineArguments(bool isNewInstance)
         {
             // Get the command-line arguments
-            string[] args = Environment.GetCommandLineArgs();
-
+            var args = Environment.GetCommandLineArgs();
 
             if (args.Length > 1)
             {
@@ -127,12 +431,11 @@ namespace Dopamine
 
         private void TryShowRunningInstance()
         {
-            ICommandService commandServiceProxy = default(ICommandService);
-            ChannelFactory<ICommandService> commandServiceFactory = new ChannelFactory<ICommandService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/CommandService/CommandServiceEndpoint", ProductInformation.ApplicationName)));
+            var commandServiceFactory = new ChannelFactory<ICommandService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/CommandService/CommandServiceEndpoint", ProductInformation.ApplicationName)));
 
             try
             {
-                commandServiceProxy = commandServiceFactory.CreateChannel();
+                var commandServiceProxy = commandServiceFactory.CreateChannel();
                 commandServiceProxy.ShowMainWindowCommand();
                 LogClient.Info("Trying to show the running instance");
             }
@@ -146,11 +449,10 @@ namespace Dopamine
         {
             LogClient.Info("Trying to send {0} command-line arguments to the running instance", args.Count());
 
-            bool needsSending = true;
-            DateTime startTime = DateTime.Now;
+            var needsSending = true;
+            var startTime = DateTime.Now;
 
-            IFileService fileServiceProxy = default(IFileService);
-            ChannelFactory<IFileService> fileServiceFactory = new ChannelFactory<IFileService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/FileService/FileServiceEndpoint", ProductInformation.ApplicationName)));
+            var fileServiceFactory = new ChannelFactory<IFileService>(new StrongNetNamedPipeBinding(), new EndpointAddress(string.Format("net.pipe://localhost/{0}/FileService/FileServiceEndpoint", ProductInformation.ApplicationName)));
 
 
             while (needsSending)
@@ -158,7 +460,7 @@ namespace Dopamine
                 try
                 {
                     // Try to send the command-line arguments to the running instance
-                    fileServiceProxy = fileServiceFactory.CreateChannel();
+                    var fileServiceProxy = fileServiceFactory.CreateChannel();
                     fileServiceProxy.ProcessArguments(args);
                     LogClient.Info("Sent {0} command-line arguments to the running instance", args.Count());
 
@@ -194,7 +496,7 @@ namespace Dopamine
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Exception ex = e.ExceptionObject as Exception;
+            var ex = e.ExceptionObject as Exception;
 
             // Log the exception and stop the application
             this.ExecuteEmergencyStop(ex);
