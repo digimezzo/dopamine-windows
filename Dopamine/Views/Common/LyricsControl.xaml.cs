@@ -2,7 +2,7 @@
 using Dopamine.Presentation.Utils;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Events;
 using System;
 using System.Windows;

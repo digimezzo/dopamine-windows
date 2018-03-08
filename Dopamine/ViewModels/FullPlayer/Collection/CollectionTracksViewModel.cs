@@ -5,7 +5,7 @@ using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Views.FullPlayer.Collection;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
