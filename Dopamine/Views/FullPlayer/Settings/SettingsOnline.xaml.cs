@@ -1,5 +1,5 @@
 ﻿using Dopamine.Services.Contracts.Scrobbling;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System.Windows.Controls;
 
 namespace Dopamine.Views.FullPlayer.Settings

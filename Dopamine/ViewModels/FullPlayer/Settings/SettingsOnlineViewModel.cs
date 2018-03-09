@@ -8,7 +8,6 @@ using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Scrobbling;
 using Dopamine.Views.FullPlayer.Settings;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -17,6 +16,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity;
+using Unity.Resolution;
 
 namespace Dopamine.ViewModels.FullPlayer.Settings
 {

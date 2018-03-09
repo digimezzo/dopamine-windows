@@ -1,94 +1,98 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="MetroTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="ContextMenu">
-            <Setter.Value>
-                <ContextMenu>
-                    <MenuItem Command="ApplicationCommands.Cut"/>
-                    <MenuItem Command="ApplicationCommands.Copy"/>
-                    <MenuItem Command="ApplicationCommands.Paste"/>
-                </ContextMenu>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
-                                             BorderBrush="{TemplateBinding BorderBrush}" 
-                                             Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                          Height="24" 
-                                          Background="{TemplateBinding Background}" 
-                                          Foreground="{TemplateBinding Foreground}" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="MetroTextBox" TargetType="{x:Type TextBox}">
+    <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+    <Setter Property="OverridesDefaultStyle" Value="True" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="ContextMenu">
+      <Setter.Value>
+        <ContextMenu>
+          <MenuItem Command="ApplicationCommands.Cut" />
+          <MenuItem Command="ApplicationCommands.Copy" />
+          <MenuItem Command="ApplicationCommands.Paste" />
+        </ContextMenu>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type TextBoxBase}">
+          <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer
+              x:Name="PART_ContentHost"
+              Height="24"
+              Background="{TemplateBinding Background}"
+              Foreground="{TemplateBinding Foreground}"
+              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="LargeMetroTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="VerticalContentAlignment" Value="Top" />
-        <Setter Property="ContextMenu">
-            <Setter.Value>
-                <ContextMenu>
-                    <MenuItem Command="ApplicationCommands.Cut"/>
-                    <MenuItem Command="ApplicationCommands.Copy"/>
-                    <MenuItem Command="ApplicationCommands.Paste"/>
-                </ContextMenu>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
-                                             BorderBrush="{TemplateBinding BorderBrush}" 
-                                             Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                          Background="{TemplateBinding Background}" 
-                                          Foreground="{TemplateBinding Foreground}" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="LargeMetroTextBox" TargetType="{x:Type TextBox}">
+    <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+    <Setter Property="OverridesDefaultStyle" Value="True" />
+    <Setter Property="VerticalContentAlignment" Value="Top" />
+    <Setter Property="ContextMenu">
+      <Setter.Value>
+        <ContextMenu>
+          <MenuItem Command="ApplicationCommands.Cut" />
+          <MenuItem Command="ApplicationCommands.Copy" />
+          <MenuItem Command="ApplicationCommands.Paste" />
+        </ContextMenu>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type TextBoxBase}">
+          <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer
+              x:Name="PART_ContentHost"
+              Background="{TemplateBinding Background}"
+              Foreground="{TemplateBinding Foreground}"
+              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="MetroPasswordBox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ContextMenu">
-            <Setter.Value>
-                <ContextMenu>
-                    <MenuItem Command="ApplicationCommands.Paste"/>
-                </ContextMenu>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                          Height="24" 
-                                          Background="{TemplateBinding Background}" 
-                                          Foreground="{TemplateBinding Foreground}" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="MetroPasswordBox" TargetType="{x:Type PasswordBox}">
+    <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="ContextMenu">
+      <Setter.Value>
+        <ContextMenu>
+          <MenuItem Command="ApplicationCommands.Paste" />
+        </ContextMenu>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type PasswordBox}">
+          <Grid Background="{TemplateBinding Background}">
+            <ScrollViewer
+              x:Name="PART_ContentHost"
+              Height="24"
+              Background="{TemplateBinding Background}"
+              Foreground="{TemplateBinding Foreground}"
+              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

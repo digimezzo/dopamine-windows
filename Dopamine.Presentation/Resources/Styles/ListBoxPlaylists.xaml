@@ -1,131 +1,161 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Dopamine.Presentation.Converters">
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:converters="clr-namespace:Dopamine.Presentation.Converters">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/FontStyles.xaml" />
+  </ResourceDictionary.MergedDictionaries>
 
-    <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
+  <converters:AddEllipsisConverter x:Key="AddEllipsisConverter" />
 
-    <!-- ContextMenu -->
-    <ContextMenu x:Key="ListBoxPlaylistsContextMenu" x:Shared="False">
-        <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewPlaylistInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Rename}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}"/>
-        <MenuItem Header="{DynamicResource Language_Delete}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeleteSelectedPlaylistCommand}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AddPlaylistToNowPlayingCommand}"/>
-        <Separator/>
-        <MenuItem Header="{DynamicResource Language_Shuffle}" Command="{Binding DataContext.ShuffleSelectedPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-            <MenuItem.Icon>
-                <TextBlock Margin="0,1,0,0" Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="15"/>
-            </MenuItem.Icon>
-        </MenuItem>
-    </ContextMenu>
+  <!--  ContextMenu  -->
+  <ContextMenu x:Key="ListBoxPlaylistsContextMenu" x:Shared="False">
+    <MenuItem
+      Command="{Binding ViewPlaylistInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+      Header="{DynamicResource Language_View_In_Explorer}"
+      InputGestureText="{DynamicResource Language_Ctrl_E}" />
+    <Separator />
+    <MenuItem
+      Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RenameSelectedPlaylistCommand}"
+      Header="{DynamicResource Language_Rename}"
+      InputGestureText="{DynamicResource Language_Key_F2}" />
+    <MenuItem
+      Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeleteSelectedPlaylistCommand}"
+      Header="{DynamicResource Language_Delete}"
+      InputGestureText="{DynamicResource Language_Key_Del}" />
+    <Separator />
+    <MenuItem Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddPlaylistToNowPlayingCommand}" Header="{DynamicResource Language_Add_To_Now_Playing}" />
+    <Separator />
+    <MenuItem Command="{Binding DataContext.ShuffleSelectedPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Header="{DynamicResource Language_Shuffle}">
+      <MenuItem.Icon>
+        <TextBlock
+          Margin="0,1,0,0"
+          FontSize="15"
+          Style="{StaticResource SegoeAssets}"
+          Text="&#xE8B1;" />
+      </MenuItem.Icon>
+    </MenuItem>
+  </ContextMenu>
 
-    <!-- ListBoxItem -->
-    <Style x:Key="ListBoxPlaylistsItem" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Margin" Value="0,0,0,2" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource RG_AccentBrush}" Visibility="Collapsed" Height="0"/>
-                        <ContentPresenter/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
-                            <Setter TargetName="DummyLabel" Property="Visibility" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <!--  ListBoxItem  -->
+  <Style x:Key="ListBoxPlaylistsItem" TargetType="{x:Type ListBoxItem}">
+    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="Margin" Value="0,0,0,2" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+          <Grid>
+            <Label
+              x:Name="DummyLabel"
+              Height="0"
+              Foreground="{DynamicResource RG_AccentBrush}"
+              Visibility="Collapsed" />
+            <ContentPresenter />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" />
+              <Setter TargetName="DummyLabel" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}" />
+              <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+              <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="False" />
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <!-- ListBox -->
-    <Style x:Key="ListBoxPlaylists" TargetType="{x:Type ListBox}">
-        <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistsContextMenu}"/>
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxPlaylistsItem}" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <DockPanel>
-                        <Grid>
-                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" Height="24" Opacity="0"/>
-                            <Border Panel.ZIndex="1" Background="{Binding Background,ElementName=DummyLabel}" Height="24">
-                                <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                                    <Button 
-                                    DockPanel.Dock="Right"
-                                    VerticalAlignment="Center" 
-                                    Style="{DynamicResource TransparentButton}"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeletePlaylistByNameCommand}" 
-                                    CommandParameter="{Binding Name}"
-                                    ToolTip="{DynamicResource Language_Delete_This_Playlist}"
-                                    Visibility="{Binding Path=Visibility,ElementName=DummyLabel}">
-                                        <TextBlock 
-                                                    DockPanel.Dock="Right"
-                                                    Margin="0,0,7,0"
-                                                    Text="&#xE894;"
-                                                    Style="{StaticResource SegoeAssets}"
-                                                    HorizontalAlignment="Center" 
-                                                    VerticalAlignment="Center" 
-                                                    Foreground="{Binding Path=Foreground,ElementName=DummyLabel}" 
-                                                    FontSize="10"/>
-                                    </Button>
-                                    <TextBlock Text="{Binding Name}" 
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch" 
-                                   TextTrimming="CharacterEllipsis"
-                                   FontSize="13"
-                                   Margin="2,0,2,0"
-                                   ToolTip="{Binding Name}"/>
-                                </DockPanel>
-                            </Border>
-                            <Grid.Triggers>
-                                <EventTrigger RoutedEvent="Button.DragEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                   Storyboard.TargetName="DragBorder"
-                                                   Storyboard.TargetProperty="Opacity"
-                                                   Duration="0:0:0.01" From="0" To="1"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="Button.DragLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                   Storyboard.TargetName="DragBorder"
-                                                   Storyboard.TargetProperty="Opacity"
-                                                   Duration="0:0:0.01" From="1" To="0"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Grid.Triggers>
-                        </Grid>
-                    </DockPanel>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <!--  ListBox  -->
+  <Style x:Key="ListBoxPlaylists" TargetType="{x:Type ListBox}">
+    <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistsContextMenu}" />
+    <Setter Property="Padding" Value="10,0,10,0" />
+    <Setter Property="Margin" Value="5,0,5,0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxPlaylistsItem}" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+    <Setter Property="ItemTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <DockPanel>
+            <Grid>
+              <Border
+                x:Name="DragBorder"
+                Height="24"
+                Panel.ZIndex="0"
+                Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"
+                Opacity="0" />
+              <Border
+                Height="24"
+                Panel.ZIndex="1"
+                Background="{Binding Background, ElementName=DummyLabel}">
+                <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
+                  <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeletePlaylistByNameCommand}"
+                    CommandParameter="{Binding Name}"
+                    DockPanel.Dock="Right"
+                    Style="{DynamicResource TransparentButton}"
+                    ToolTip="{DynamicResource Language_Delete_This_Playlist}"
+                    Visibility="{Binding Path=Visibility, ElementName=DummyLabel}">
+                    <TextBlock
+                      Margin="0,0,7,0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      DockPanel.Dock="Right"
+                      FontSize="10"
+                      Foreground="{Binding Path=Foreground, ElementName=DummyLabel}"
+                      Style="{StaticResource SegoeAssets}"
+                      Text="&#xE894;" />
+                  </Button>
+                  <TextBlock
+                    Margin="2,0,2,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="13"
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"
+                    ToolTip="{Binding Name}" />
+                </DockPanel>
+              </Border>
+              <Grid.Triggers>
+                <EventTrigger RoutedEvent="Button.DragEnter">
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <DoubleAnimation
+                        Storyboard.TargetName="DragBorder"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.01" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.DragLeave">
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <DoubleAnimation
+                        Storyboard.TargetName="DragBorder"
+                        Storyboard.TargetProperty="Opacity"
+                        From="1"
+                        To="0"
+                        Duration="0:0:0.01" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </EventTrigger>
+              </Grid.Triggers>
+            </Grid>
+          </DockPanel>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

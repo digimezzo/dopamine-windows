@@ -18,7 +18,7 @@ using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;

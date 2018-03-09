@@ -1,17 +1,33 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pc="clr-namespace:Dopamine.Presentation.Controls">
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:pc="clr-namespace:Dopamine.Presentation.Controls">
 
-    <Style x:Key="{x:Type pc:CombiLabel}" TargetType="{x:Type pc:CombiLabel}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Margin="0" Padding="0" FontStyle="{TemplateBinding FontStyle}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
-                        <Label Margin="1,0,0,0" Padding="0" FontStyle="{TemplateBinding FontStyle2}" Style="{TemplateBinding Style}" FontWeight="{TemplateBinding FontWeight2}" FontSize="{TemplateBinding FontSize2}" Content="{TemplateBinding Content2}" Foreground="{TemplateBinding Foreground2}"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="{x:Type pc:CombiLabel}" TargetType="{x:Type pc:CombiLabel}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
+          <StackPanel Orientation="Horizontal">
+            <Label
+              Margin="0"
+              Padding="0"
+              Content="{TemplateBinding Content}"
+              FontSize="{TemplateBinding FontSize}"
+              FontStyle="{TemplateBinding FontStyle}"
+              FontWeight="{TemplateBinding FontWeight}"
+              Foreground="{TemplateBinding Foreground}" />
+            <Label
+              Margin="1,0,0,0"
+              Padding="0"
+              Content="{TemplateBinding Content2}"
+              FontSize="{TemplateBinding FontSize2}"
+              FontStyle="{TemplateBinding FontStyle2}"
+              FontWeight="{TemplateBinding FontWeight2}"
+              Foreground="{TemplateBinding Foreground2}"
+              Style="{TemplateBinding Style}" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

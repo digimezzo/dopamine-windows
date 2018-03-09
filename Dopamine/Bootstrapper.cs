@@ -2,7 +2,6 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
-using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
@@ -67,76 +66,71 @@ using Dopamine.Views.FullPlayer.Information;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
 using Unity.Wcf;
+using Prism.Ioc;
 
 namespace Dopamine
 {
-    public class Bootstrapper : UnityBootstrapper
+    public class Bootstrapper : PrismApplication
     {
-        protected override void ConfigureContainer()
+        protected IContainerRegistry ContainerRegistry { get; set; }
+        protected IUnityContainer Container { get; set; }
+
+        public override void Initialize()
         {
-            base.ConfigureContainer();
 
-            this.RegisterCoreComponents();
-            this.RegisterFactories();
-            this.RegisterRepositories();
-            this.RegisterServices();
-            this.InitializeServices();
-            this.RegisterViews();
-            this.RegisterViewModels();
-
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => { return Container.Resolve(type); });
         }
 
-        protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
+        protected override void ConfigureViewModelLocator()
         {
+            ViewModelLocationProvider.SetDefaultViewModelFactory(type => Container.Resolve(type));
+        }
 
-            RegionAdapterMappings mappings = base.ConfigureRegionAdapterMappings();
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings mappings)
+        {
             mappings.RegisterMapping(typeof(SlidingContentControl), Container.Resolve<SlidingContentControlRegionAdapter>());
-
-            return mappings;
         }
 
         private void RegisterCoreComponents()
         {
-            Container.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
+            ContainerRegistry.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
         }
 
         private void RegisterServices()
         {
-            Container.RegisterSingletonType<ICacheService, CacheService>();
-            Container.RegisterSingletonType<IUpdateService, UpdateService>();
-            Container.RegisterSingletonType<IAppearanceService, AppearanceService>();
-            Container.RegisterSingletonType<II18nService, I18nService>();
-            Container.RegisterSingletonType<IDialogService, DialogService>();
-            Container.RegisterSingletonType<IIndexingService, IndexingService>();
-            Container.RegisterSingletonType<IPlaybackService, PlaybackService>();
-            Container.RegisterSingletonType<IWin32InputService, Win32InputService>();
-            Container.RegisterSingletonType<ISearchService, SearchService>();
-            Container.RegisterSingletonType<ITaskbarService, TaskbarService>();
-            Container.RegisterSingletonType<ICollectionService, CollectionService>();
-            Container.RegisterSingletonType<IJumpListService, JumpListService>();
-            Container.RegisterSingletonType<IFileService, FileService>();
-            Container.RegisterSingletonType<ICommandService, CommandService>();
-            Container.RegisterSingletonType<IMetadataService, MetadataService>();
-            Container.RegisterSingletonType<IEqualizerService, EqualizerService>();
-            Container.RegisterSingletonType<IProviderService, ProviderService>();
-            Container.RegisterSingletonType<IScrobblingService, LastFmScrobblingService>();
-            Container.RegisterSingletonType<IPlaylistService, PlaylistService>();
-            Container.RegisterSingletonType<IExternalControlService, ExternalControlService>();
-            Container.RegisterSingletonType<IWindowsIntegrationService, WindowsIntegrationService>();
-            Container.RegisterSingletonType<IShellService, ShellService>();
+            ContainerRegistry.RegisterSingleton<ICacheService, CacheService>();
+            ContainerRegistry.RegisterSingleton<IUpdateService, UpdateService>();
+            ContainerRegistry.RegisterSingleton<IAppearanceService, AppearanceService>();
+            ContainerRegistry.RegisterSingleton<II18nService, I18nService>();
+            ContainerRegistry.RegisterSingleton<IDialogService, DialogService>();
+            ContainerRegistry.RegisterSingleton<IIndexingService, IndexingService>();
+            ContainerRegistry.RegisterSingleton<IPlaybackService, PlaybackService>();
+            ContainerRegistry.RegisterSingleton<IWin32InputService, Win32InputService>();
+            ContainerRegistry.RegisterSingleton<ISearchService, SearchService>();
+            ContainerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
+            ContainerRegistry.RegisterSingleton<ICollectionService, CollectionService>();
+            ContainerRegistry.RegisterSingleton<IJumpListService, JumpListService>();
+            ContainerRegistry.RegisterSingleton<IFileService, FileService>();
+            ContainerRegistry.RegisterSingleton<ICommandService, CommandService>();
+            ContainerRegistry.RegisterSingleton<IMetadataService, MetadataService>();
+            ContainerRegistry.RegisterSingleton<IEqualizerService, EqualizerService>();
+            ContainerRegistry.RegisterSingleton<IProviderService, ProviderService>();
+            ContainerRegistry.RegisterSingleton<IScrobblingService, LastFmScrobblingService>();
+            ContainerRegistry.RegisterSingleton<IPlaylistService, PlaylistService>();
+            ContainerRegistry.RegisterSingleton<IExternalControlService, ExternalControlService>();
+            ContainerRegistry.RegisterSingleton<IWindowsIntegrationService, WindowsIntegrationService>();
+            ContainerRegistry.RegisterSingleton<IShellService, ShellService>();
 
             INotificationService notificationService;
 
             // NotificationService contains code that is only supported on Windows 10
-            if (Constants.IsWindows10)
+            if (Core.Base.Constants.IsWindows10)
             {
 
                 // On some editions of Windows 10, constructing NotificationService still fails
@@ -165,7 +159,7 @@ namespace Dopamine
                     Container.Resolve<IMetadataService>());
             }
 
-            Container.RegisterInstance<INotificationService>(notificationService);
+            ContainerRegistry.RegisterInstance<INotificationService>(notificationService);
         }
 
         private void InitializeServices()
@@ -183,82 +177,81 @@ namespace Dopamine
 
         protected void RegisterRepositories()
         {
-            Container.RegisterSingletonType<IFolderRepository, FolderRepository>();
-            Container.RegisterSingletonType<IAlbumRepository, AlbumRepository>();
-            Container.RegisterSingletonType<IArtistRepository, ArtistRepository>();
-            Container.RegisterSingletonType<IGenreRepository, GenreRepository>();
-            Container.RegisterSingletonType<ITrackRepository, TrackRepository>();
-            Container.RegisterSingletonType<ITrackStatisticRepository, TrackStatisticRepository>();
-            Container.RegisterSingletonType<IQueuedTrackRepository, QueuedTrackRepository>();
+            ContainerRegistry.RegisterSingleton<IFolderRepository, FolderRepository>();
+            ContainerRegistry.RegisterSingleton<IAlbumRepository, AlbumRepository>();
+            ContainerRegistry.RegisterSingleton<IArtistRepository, ArtistRepository>();
+            ContainerRegistry.RegisterSingleton<IGenreRepository, GenreRepository>();
+            ContainerRegistry.RegisterSingleton<ITrackRepository, TrackRepository>();
+            ContainerRegistry.RegisterSingleton<ITrackStatisticRepository, TrackStatisticRepository>();
+            ContainerRegistry.RegisterSingleton<IQueuedTrackRepository, QueuedTrackRepository>();
         }
 
         protected void RegisterFactories()
         {
-            Container.RegisterSingletonType<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
-            Container.RegisterSingletonType<IFileMetadataFactory, FileMetadataFactory>();
+            ContainerRegistry.RegisterSingleton<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
+            ContainerRegistry.RegisterSingleton<IFileMetadataFactory, FileMetadataFactory>();
         }
 
         protected void RegisterViews()
         {
             // Misc.
-            Container.RegisterType<object, Oobe>(typeof(Oobe).FullName);
-            Container.RegisterType<object, TrayControls>(typeof(TrayControls).FullName);
-            Container.RegisterType<object, Shell>(typeof(Shell).FullName);
-            Container.RegisterType<object, Empty>(typeof(Empty).FullName);
-            Container.RegisterType<object, FullPlayer>(typeof(FullPlayer).FullName);
-            Container.RegisterType<object, CoverPlayer>(typeof(CoverPlayer).FullName);
-            Container.RegisterType<object, MicroPlayer>(typeof(MicroPlayer).FullName);
-            Container.RegisterType<object, NanoPlayer>(typeof(NanoPlayer).FullName);
-            Container.RegisterType<object, NowPlaying>(typeof(NowPlaying).FullName);
+            ContainerRegistry.RegisterSingleton<Oobe>();
+            ContainerRegistry.RegisterSingleton<TrayControls>();
+            ContainerRegistry.RegisterSingleton<Shell>();
+            ContainerRegistry.RegisterSingleton<Empty>();
+            ContainerRegistry.RegisterSingleton<FullPlayer>();
+            ContainerRegistry.RegisterSingleton<CoverPlayer>();
+            ContainerRegistry.RegisterSingleton<MicroPlayer>();
+            ContainerRegistry.RegisterSingleton<NanoPlayer>();
+            ContainerRegistry.RegisterSingleton<NowPlaying>();
 
             // Collection
-            Container.RegisterType<object, CollectionMenu>(typeof(CollectionMenu).FullName);
-            Container.RegisterType<object, Collection>(typeof(Collection).FullName);
-            Container.RegisterType<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
-            Container.RegisterType<object, CollectionArtists>(typeof(CollectionArtists).FullName);
-            Container.RegisterType<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
-            Container.RegisterType<object, CollectionGenres>(typeof(CollectionGenres).FullName);
-            Container.RegisterType<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
-            Container.RegisterType<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+            ContainerRegistry.RegisterSingleton<CollectionMenu>();
+            ContainerRegistry.RegisterSingleton<Collection>();
+            ContainerRegistry.RegisterSingleton<CollectionAlbums>();
+            ContainerRegistry.RegisterSingleton<CollectionArtists>();
+            ContainerRegistry.RegisterSingleton<CollectionFrequent>();
+            ContainerRegistry.RegisterSingleton<CollectionGenres>();
+            ContainerRegistry.RegisterSingleton<CollectionPlaylists>();
+            ContainerRegistry.RegisterSingleton<CollectionTracks>();
 
             // Settings
-            Container.RegisterType<object, SettingsMenu>(typeof(SettingsMenu).FullName);
-            Container.RegisterType<object, Settings>(typeof(Settings).FullName);
-            Container.RegisterType<object, SettingsAppearance>(typeof(SettingsAppearance).FullName);
-            Container.RegisterType<object, SettingsBehaviour>(typeof(SettingsBehaviour).FullName);
-            Container.RegisterType<object, SettingsCollection>(typeof(SettingsCollection).FullName);
-            Container.RegisterType<object, SettingsOnline>(typeof(SettingsOnline).FullName);
-            Container.RegisterType<object, SettingsPlayback>(typeof(SettingsPlayback).FullName);
-            Container.RegisterType<object, SettingsStartup>(typeof(SettingsStartup).FullName);
+            ContainerRegistry.RegisterSingleton<SettingsMenu>();
+            ContainerRegistry.RegisterSingleton<Settings>();
+            ContainerRegistry.RegisterSingleton<SettingsAppearance>();
+            ContainerRegistry.RegisterSingleton<SettingsBehaviour>();
+            ContainerRegistry.RegisterSingleton<SettingsCollection>();
+            ContainerRegistry.RegisterSingleton<SettingsOnline>();
+            ContainerRegistry.RegisterSingleton<SettingsPlayback>();
+            ContainerRegistry.RegisterSingleton<SettingsStartup>();
 
             // Information
-            Container.RegisterType<object, InformationMenu>(typeof(InformationMenu).FullName);
-            Container.RegisterType<object, Information>(typeof(Information).FullName);
-            Container.RegisterType<object, InformationHelp>(typeof(InformationHelp).FullName);
-            Container.RegisterType<object, InformationAbout>(typeof(InformationAbout).FullName);
+            ContainerRegistry.RegisterSingleton<InformationMenu>();
+            ContainerRegistry.RegisterSingleton<Information>();
+            ContainerRegistry.RegisterSingleton<InformationHelp>();
+            ContainerRegistry.RegisterSingleton<InformationAbout>();
 
             // Now playing
-            Container.RegisterType<object, NowPlayingArtistInformation>(typeof(NowPlayingArtistInformation).FullName);
-            Container.RegisterType<object, NowPlayingLyrics>(typeof(NowPlayingLyrics).FullName);
-            Container.RegisterType<object, NowPlayingPlaylist>(typeof(NowPlayingPlaylist).FullName);
-            Container.RegisterType<object, NowPlayingShowcase>(typeof(NowPlayingShowcase).FullName);
+            ContainerRegistry.RegisterSingleton<NowPlayingArtistInformation>();
+            ContainerRegistry.RegisterSingleton<NowPlayingLyrics>();
+            ContainerRegistry.RegisterSingleton<NowPlayingPlaylist>();
+            ContainerRegistry.RegisterSingleton<NowPlayingShowcase>();
         }
 
         protected void RegisterViewModels()
         {
         }
 
-        protected override DependencyObject CreateShell()
+        protected override Window CreateShell()
         {
-            return Container.Resolve<Shell>();
+            return CommonServiceLocator.ServiceLocator.Current.GetInstance<Shell>();
         }
 
-        protected override void InitializeShell()
+        protected override void InitializeShell(Window shell)
         {
-            base.InitializeShell();
             this.InitializeWCFServices();
 
-            Application.Current.MainWindow = (Window)this.Shell;
+            Application.Current.MainWindow = (Window)shell;
 
             if (SettingsClient.Get<bool>("General", "ShowOobe"))
             {
@@ -317,6 +310,22 @@ namespace Dopamine
             {
                 LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            base.RegisterRequiredTypes(containerRegistry);
+
+            this.ContainerRegistry = containerRegistry;
+            this.Container = containerRegistry.GetContainer();
+
+            this.RegisterCoreComponents();
+            this.RegisterFactories();
+            this.RegisterRepositories();
+            this.RegisterServices();
+            this.InitializeServices();
+            this.RegisterViews();
+            this.RegisterViewModels();
         }
     }
 }
