@@ -8,11 +8,13 @@ namespace Dopamine.Core.Api.Lyrics
 {
     public class LyricsFactory
     {
-        private List<ILyricsApi> lyricsApis;
+        private readonly IList<ILyricsApi> lyricsApis;
+        private readonly IList<ILyricsApi> lyricsApisPipe;
 
         public LyricsFactory(int timeoutSeconds, string providers, ILocalizationInfo info)
         {
             lyricsApis = new List<ILyricsApi>();
+            lyricsApisPipe = new List<ILyricsApi>();
 
             if (providers.ToLower().Contains("chartlyrics")) lyricsApis.Add(new ChartLyricsApi(timeoutSeconds));
             if (providers.ToLower().Contains("lololyrics")) lyricsApis.Add(new LololyricsApi(timeoutSeconds));
@@ -25,7 +27,11 @@ namespace Dopamine.Core.Api.Lyrics
         public async Task<Lyrics> GetLyricsAsync(string artist, string title)
         {
             Lyrics lyrics = null;
-            ILyricsApi api = this.GetRandomApi();
+            foreach (var item in lyricsApis)
+            {
+                lyricsApisPipe.Add(item);
+            }
+            var api = this.GetRandomApi();
 
             while (api != null && (lyrics == null || !lyrics.HasText))
             {
@@ -48,12 +54,12 @@ namespace Dopamine.Core.Api.Lyrics
         {
             ILyricsApi api = null;
 
-            if (lyricsApis.Count > 0)
+            if (lyricsApisPipe.Count > 0)
             {
                 var rnd = new Random();
-                int index = rnd.Next(lyricsApis.Count);
-                api = lyricsApis[index];
-                lyricsApis.RemoveAt(index);
+                int index = rnd.Next(lyricsApisPipe.Count);
+                api = lyricsApisPipe[index];
+                lyricsApisPipe.RemoveAt(index);
             }
 
             return api;
