@@ -45,10 +45,10 @@ namespace Dopamine.Core.Api.Lyrics
                 BaseAddress = new Uri(apiRootUrl)
             };
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate,sdch");
-            httpClient.DefaultRequestHeaders.Add("Accept-Language", "en-US,zh-CN;q=0.8,zh;q=0.6,en;q=0.4");
+            httpClient.DefaultRequestHeaders.Add("Accept-Language", "en-US,zh-CN;q=0.8,zh;q=0.6,en;q=0.7");
             httpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
             httpClient.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("Referer", "http://music.163.com/");
             httpClient.DefaultRequestHeaders.Add("Host", "music.163.com");
             httpClient.DefaultRequestHeaders.Add("Accept",
