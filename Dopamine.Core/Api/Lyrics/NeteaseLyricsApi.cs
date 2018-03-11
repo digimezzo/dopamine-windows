@@ -32,11 +32,13 @@ namespace Dopamine.Core.Api.Lyrics
         private const string apiRootUrl = "http://music.163.com/api/";
         private int timeoutSeconds;
         private HttpClient httpClient;
+        private bool enableTLyric;
 
         public NeteaseLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
             this.timeoutSeconds = timeoutSeconds;
             this.info = info;
+            this.enableTLyric = SettingsClient.Get<string>("Appearance", "Language") == "ZH-CN";
 
             httpClient = new HttpClient(new HttpClientHandler() {AutomaticDecompression = DecompressionMethods.GZip})
             {
@@ -77,7 +79,7 @@ namespace Dopamine.Core.Api.Lyrics
         {
             var resJson = await httpClient.GetStringAsync(String.Format(apiLyricsFormat, trackId));
             var res = JsonConvert.DeserializeObject<LyricModel>(resJson);
-            if (string.IsNullOrEmpty(res.tlyric.lyric) || SettingsClient.Get<string>("Appearance", "Language") != "ZH-CN")
+            if (string.IsNullOrEmpty(res.tlyric.lyric) || !this.enableTLyric)
             {
                 return res.lrc.lyric;
             }
