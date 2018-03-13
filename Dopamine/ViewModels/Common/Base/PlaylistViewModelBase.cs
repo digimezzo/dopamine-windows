@@ -13,7 +13,6 @@ using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -23,12 +22,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
     public abstract class PlaylistViewModelBase : CommonViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private ISearchService searchService;
@@ -68,7 +68,7 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty(ref this.showTrackArt, value); }
         }
 
-        public PlaylistViewModelBase(IUnityContainer container) : base(container)
+        public PlaylistViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;

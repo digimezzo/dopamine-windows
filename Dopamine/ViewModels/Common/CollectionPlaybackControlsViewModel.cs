@@ -1,6 +1,6 @@
 ﻿using Dopamine.Services.Contracts.Dialog;
 using Dopamine.ViewModels.Common.Base;
-using Unity;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -11,7 +11,7 @@ namespace Dopamine.ViewModels.Common
             get { return !this.PlaybackService.IsStopped & this.PlaybackService.IsPlaying; }
         }
 
-        public CollectionPlaybackControlsViewModel(IUnityContainer container, IDialogService dialogService) : base(container)
+        public CollectionPlaybackControlsViewModel(IContainerProvider container, IDialogService dialogService) : base(container)
         {
             this.PlaybackService.PlaybackStopped += (_, __) =>
             {

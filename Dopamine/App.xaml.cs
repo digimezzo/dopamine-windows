@@ -1,30 +1,20 @@
-﻿using Digimezzo.Utilities.IO;
+﻿using CommonServiceLocator;
+using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Services.Contracts.Command;
-using Dopamine.Services.Contracts.File;
-using Dopamine.Services.Contracts.Playback;
-using Dopamine.Views;
-using CommonServiceLocator;
-using System;
-using System.Linq;
-using System.ServiceModel;
-using System.Threading;
-using System.Windows;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using Dopamine.Core.Helpers;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Metadata;
 using Dopamine.Data.Contracts.Repositories;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Presentation.Utils;
+using Dopamine.Presentation.Views;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
@@ -32,14 +22,17 @@ using Dopamine.Services.Command;
 using Dopamine.Services.Contracts.Appearance;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Collection;
+using Dopamine.Services.Contracts.Command;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Equalizer;
 using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.File;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.JumpList;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Notification;
+using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Scrobbling;
@@ -68,6 +61,7 @@ using Dopamine.Services.Taskbar;
 using Dopamine.Services.Update;
 using Dopamine.Services.Win32Input;
 using Dopamine.Services.WindowsIntegration;
+using Dopamine.Views;
 using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
 using Dopamine.Views.FullPlayer.Collection;
@@ -75,12 +69,17 @@ using Dopamine.Views.FullPlayer.Information;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
+using DryIoc.Wcf;
+using Prism.DryIoc;
 using Prism.Ioc;
-using Prism.Unity;
-using Dopamine.Presentation.Views;
-using Prism.Mvvm;
 using Prism.Regions;
-using Unity.Wcf;
+using System;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading;
+using System.Windows;
+using System.Windows.Shell;
+using System.Windows.Threading;
 
 namespace Dopamine
 {
@@ -169,7 +168,7 @@ namespace Dopamine
 
             // CommandService
             // --------------
-            var commandServicehost = new UnityServiceHost(unityContainer, Container.Resolve<ICommandService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/CommandService", ProductInformation.ApplicationName)) });
+            var commandServicehost = new DryIocServiceHost(unityContainer, Container.Resolve<ICommandService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/CommandService", ProductInformation.ApplicationName)) });
             commandServicehost.AddServiceEndpoint(typeof(ICommandService), new StrongNetNamedPipeBinding(), "CommandServiceEndpoint");
 
             try
@@ -184,7 +183,7 @@ namespace Dopamine
 
             // FileService
             // -----------
-            var fileServicehost = new UnityServiceHost(unityContainer, Container.Resolve<IFileService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/FileService", ProductInformation.ApplicationName)) });
+            var fileServicehost = new DryIocServiceHost(unityContainer, Container.Resolve<IFileService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/FileService", ProductInformation.ApplicationName)) });
             fileServicehost.AddServiceEndpoint(typeof(IFileService), new StrongNetNamedPipeBinding(), "FileServiceEndpoint");
 
             try
@@ -200,8 +199,6 @@ namespace Dopamine
       
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            base.RegisterRequiredTypes(containerRegistry);
-
             RegisterCoreComponents();
             RegisterFactories();
             RegisterRepositories();
@@ -212,6 +209,7 @@ namespace Dopamine
 
             void RegisterCoreComponents()
             {
+                containerRegistry.RegisterInstance<IContainerProvider>(Container);
                 containerRegistry.RegisterInstance<ILocalizationInfo>(new LocalizationInfo());
             }
 

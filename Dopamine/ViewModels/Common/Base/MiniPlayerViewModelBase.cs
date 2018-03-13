@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Unity;
 using Prism.Commands;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -55,7 +55,7 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<bool>(ref this.isMiniPlayerPositionLocked, value); }
         }
 
-        public MiniPlayerViewModelBase(IUnityContainer container) : base(container)
+        public MiniPlayerViewModelBase(IContainerProvider container) : base(container)
         {
             // Commands
             this.ChangePlayerTypeCommand = new DelegateCommand<string>(miniPlayerType => this.SetPlayerContextMenuCheckBoxes((MiniPlayerType)(int.Parse(miniPlayerType))));

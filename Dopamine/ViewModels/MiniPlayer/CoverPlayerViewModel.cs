@@ -1,9 +1,9 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Core.Prism;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.MiniPlayer
 {
@@ -29,7 +29,7 @@ namespace Dopamine.ViewModels.MiniPlayer
             set { SetProperty<bool>(ref this.alignPlaylistVertically, value); }
         }
 
-        public CoverPlayerViewModel(IUnityContainer container) : base(container)
+        public CoverPlayerViewModel(IContainerProvider container) : base(container)
         {
             this.eventAggregator = container.Resolve<IEventAggregator>();
 

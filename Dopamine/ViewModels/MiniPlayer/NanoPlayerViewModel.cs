@@ -1,8 +1,8 @@
 ﻿using Dopamine.ViewModels.Common.Base;
 using Dopamine.Core.Prism;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.MiniPlayer
 {
@@ -12,7 +12,7 @@ namespace Dopamine.ViewModels.MiniPlayer
 
         public DelegateCommand<bool?> NanoPlayerPlaylistButtonCommand { get; set; }
 
-        public NanoPlayerViewModel(IUnityContainer container) : base(container)
+        public NanoPlayerViewModel(IContainerProvider container) : base(container)
         {
             this.eventAggregator = container.Resolve<IEventAggregator>();
 

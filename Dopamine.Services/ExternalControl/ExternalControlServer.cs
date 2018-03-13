@@ -15,7 +15,6 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using Unity.Interception.Utilities;
 
 namespace Dopamine.Services.ExternalControl
 {
@@ -256,7 +255,10 @@ namespace Dopamine.Services.ExternalControl
                     }
                 }
 
-                deadClients.ForEach(c => clients.Remove(c));
+                foreach (var c in deadClients)
+                {
+                    clients.Remove(c);
+                }
                 deadClients.Clear();
             }
         }

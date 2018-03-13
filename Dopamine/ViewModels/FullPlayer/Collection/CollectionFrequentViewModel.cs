@@ -6,13 +6,13 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Playback;
-using Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -70,7 +70,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<AlbumViewModel>(ref this.albumViewModel6, value); }
         }
 
-        public CollectionFrequentViewModel(IUnityContainer container)
+        public CollectionFrequentViewModel(IContainerProvider container)
         {
             // Dependency injection
             this.albumRepository = container.Resolve<IAlbumRepository>();

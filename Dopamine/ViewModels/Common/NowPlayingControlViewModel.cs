@@ -6,12 +6,12 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using GongSolutions.Wpf.DragDrop;
-using Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -20,7 +20,7 @@ namespace Dopamine.ViewModels.Common
         private IPlaybackService playbackService;
         private IDialogService dialogService;
 
-        public NowPlayingControlViewModel(IUnityContainer container) : base(container)
+        public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.playbackService = container.Resolve<IPlaybackService>();
