@@ -4,7 +4,6 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Prism;
-using Dopamine.Data;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -18,9 +17,9 @@ using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +33,7 @@ namespace Dopamine.ViewModels.Common.Base
 {
     public abstract class TracksViewModelBase : CommonViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IDialogService dialogService;
         private ITrackRepository trackRepository;
         private ISearchService searchService;
@@ -71,7 +70,7 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
         }
 
-        public TracksViewModelBase(IUnityContainer container) : base(container)
+        public TracksViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;

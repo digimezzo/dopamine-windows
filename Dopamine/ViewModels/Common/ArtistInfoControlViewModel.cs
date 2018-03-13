@@ -5,13 +5,12 @@ using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
-using Dopamine.Data;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
-using Unity;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace Dopamine.ViewModels.Common
 {
     public class ArtistInfoControlViewModel : BindableBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
@@ -49,7 +48,7 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty<bool>(ref this.isBusy, value); }
         }
 
-        public ArtistInfoControlViewModel(IUnityContainer container, IPlaybackService playbackService, II18nService i18nService)
+        public ArtistInfoControlViewModel(IContainerProvider container, IPlaybackService playbackService, II18nService i18nService)
         {
             this.container = container;
             this.playbackService = playbackService;

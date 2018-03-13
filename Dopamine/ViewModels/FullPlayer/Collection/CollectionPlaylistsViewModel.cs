@@ -11,7 +11,6 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.ViewModels.Common;
 using GongSolutions.Wpf.DragDrop;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -21,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<long>(ref this.playlistsCount, value); }
         }
 
-        public CollectionPlaylistsViewModel(IUnityContainer container) : base(container)
+        public CollectionPlaylistsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.fileService = container.Resolve<IFileService>();

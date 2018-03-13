@@ -16,14 +16,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Unity;
-using Unity.Resolution;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Settings
 {
     public class SettingsOnlineViewModel : BindableBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IProviderService providerService;
         private IDialogService dialogService;
         private IEventAggregator eventAggregator;
@@ -194,7 +193,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get { return this.scrobblingService.SignInState == SignInState.Error; }
         }
 
-        public SettingsOnlineViewModel(IUnityContainer container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService, IEventAggregator eventAggregator)
+        public SettingsOnlineViewModel(IContainerProvider container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService, IEventAggregator eventAggregator)
         {
             this.container = container;
             this.providerService = providerService;
@@ -256,7 +255,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private void AddSearchProvider()
         {
             SettingsOnlineAddEditSearchProvider view = this.container.Resolve<SettingsOnlineAddEditSearchProvider>();
-            view.DataContext = this.container.Resolve<SettingsOnlineAddEditSearchProviderViewModel>(new DependencyOverride(typeof(SearchProvider), new SearchProvider()));
+            view.DataContext = this.container.Resolve<Func<SearchProvider, SettingsOnlineAddEditSearchProviderViewModel>>()(new SearchProvider());
 
             string dialogTitle = ResourceUtils.GetString("Language_Add");
 
@@ -279,7 +278,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private void EditSearchProvider()
         {
             SettingsOnlineAddEditSearchProvider view = this.container.Resolve<SettingsOnlineAddEditSearchProvider>();
-            view.DataContext = this.container.Resolve<SettingsOnlineAddEditSearchProviderViewModel>(new DependencyOverride(typeof(SearchProvider), this.selectedSearchProvider));
+            view.DataContext = this.container.Resolve<Func<SearchProvider, SettingsOnlineAddEditSearchProviderViewModel>>()(this.selectedSearchProvider);
 
             string dialogTitle = ResourceUtils.GetString("Language_Edit");
 

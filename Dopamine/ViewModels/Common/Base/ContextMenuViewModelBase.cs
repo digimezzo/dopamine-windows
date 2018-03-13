@@ -5,8 +5,8 @@ using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Provider;
-using Unity;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        public ContextMenuViewModelBase(IUnityContainer container)
+        public ContextMenuViewModelBase(IContainerProvider container)
         {
             // Dependency injection
             this.providerService = container.Resolve<IProviderService>();

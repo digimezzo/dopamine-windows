@@ -4,8 +4,8 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Views.Common;
-using Unity;
 using Prism.Commands;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -24,7 +24,7 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<PlaybackInfoViewModel>(ref this.playbackInfoViewModel, value); }
         }
 
-        public PlaybackControlsViewModelBase(IUnityContainer container) : base(container)
+        public PlaybackControlsViewModelBase(IContainerProvider container) : base(container)
         {
             this.PlaybackService = container.Resolve<IPlaybackService>();
             this.DialogService = container.Resolve<IDialogService>();

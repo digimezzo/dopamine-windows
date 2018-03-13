@@ -6,12 +6,12 @@ using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.ViewModels.Common.Base;
-using Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -35,7 +35,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public override bool CanOrderByAlbum => this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0;
 
-        public CollectionAlbumsViewModel(IUnityContainer container) : base(container)
+        public CollectionAlbumsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.indexingService = container.Resolve<IIndexingService>();

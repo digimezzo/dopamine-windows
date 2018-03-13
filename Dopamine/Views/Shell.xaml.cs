@@ -27,14 +27,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
-using Unity;
-using Unity.Resolution;
+using Prism.Ioc;
 
 namespace Dopamine.Views
 {
     public partial class Shell : BorderlessWindows10Window
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IWindowsIntegrationService windowsIntegrationService;
         private INotificationService notificationService;
         private IWin32InputService win32InputService;
@@ -58,7 +57,7 @@ namespace Dopamine.Views
         public DelegateCommand CloseWindowCommand { get; set; }
         public DelegateCommand ShowMainWindowCommand { get; set; }
 
-        public Shell(IUnityContainer container, IWindowsIntegrationService windowsIntegrationService, II18nService i18nService,
+        public Shell(IContainerProvider container, IWindowsIntegrationService windowsIntegrationService, II18nService i18nService,
             INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
             IPlaybackService playbackService, IMetadataService metadataService, IEventAggregator eventAggregator)
         {
@@ -74,13 +73,9 @@ namespace Dopamine.Views
             this.i18nService = i18nService;
             this.eventAggregator = eventAggregator;
 
-            this.shellService = container.Resolve<IShellService>(
-                new ParameterOverride("nowPlayingPage", typeof(NowPlaying.NowPlaying).FullName),
-                new ParameterOverride("fullPlayerPage", typeof(FullPlayer.FullPlayer).FullName),
-                new ParameterOverride("coverPlayerPage", typeof(CoverPlayer).FullName),
-                new ParameterOverride("microplayerPage", typeof(MicroPlayer).FullName),
-                new ParameterOverride("nanoPlayerPage", typeof(NanoPlayer).FullName)
-                );
+            this.shellService = container.Resolve<Func<string, string, string, string, string, IShellService>>()(
+                typeof(NowPlaying.NowPlaying).FullName, typeof(FullPlayer.FullPlayer).FullName, typeof(CoverPlayer).FullName,
+                typeof(MicroPlayer).FullName, typeof(NanoPlayer).FullName);
 
             this.InitializeServices();
             this.InitializeWindows();
@@ -258,7 +253,7 @@ namespace Dopamine.Views
             this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
-            this.miniPlayerPlaylist = this.container.Resolve<MiniPlayerPlaylist>(new DependencyOverride(typeof(BorderlessWindows10Window), this));
+            this.miniPlayerPlaylist = this.container.Resolve<Func<BorderlessWindows10Window, MiniPlayerPlaylist>>()(this);
 
             // NotificationService needs to know about the application windows
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);

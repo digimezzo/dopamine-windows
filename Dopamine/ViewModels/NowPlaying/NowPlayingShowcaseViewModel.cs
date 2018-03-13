@@ -1,11 +1,11 @@
 ﻿using Dopamine.ViewModels.Common.Base;
-using Unity;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.NowPlaying
 {
     public class NowPlayingShowcaseViewModel : ContextMenuViewModelBase
     {
-        public NowPlayingShowcaseViewModel(IUnityContainer container) : base(container)
+        public NowPlayingShowcaseViewModel(IContainerProvider container) : base(container)
         {
         }
 
