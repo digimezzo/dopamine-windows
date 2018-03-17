@@ -7,7 +7,6 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -120,7 +120,7 @@ namespace Dopamine.ViewModels.Common
             get { return this.lyricsLines; }
         }
 
-        public LyricsViewModel(IUnityContainer container, PlayableTrack track) : base(container)
+        public LyricsViewModel(IContainerProvider container, PlayableTrack track) : base(container)
         {
             this.track = track;
 
@@ -164,7 +164,7 @@ namespace Dopamine.ViewModels.Common
             await this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
-        public LyricsViewModel(IUnityContainer container) : base(container)
+        public LyricsViewModel(IContainerProvider container) : base(container)
         {
         }
 

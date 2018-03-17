@@ -13,6 +13,13 @@ namespace Dopamine.Core.Base
         {
             new ExternalComponent
             {
+                Name = "CommonServiceLocator",
+                Description = "The library provides an abstraction over IoC containers and service locators.",
+                Url = "https://github.com/unitycontainer/commonservicelocator",
+                LicenseUrl = "https://opensource.org/licenses/MS-PL"
+            },
+            new ExternalComponent
+            {
                 Name = "CSCore – .NET Sound Library",
                 Description = "A free .NET audio library which is completely written in C#.",
                 Url = "https://github.com/filoe/cscore",
@@ -32,6 +39,20 @@ namespace Dopamine.Core.Base
                     "A FAST, FREE class library and toolset for manipulating zip files. Use VB, C# or any .NET language to easily create, extract, or update zip files.",
                 Url = "http://dotnetzip.codeplex.com",
                 LicenseUrl = "http://dotnetzip.codeplex.com/license"
+            },
+            new ExternalComponent
+            {
+                Name = "DryIoc",
+                Description = "DryIoc is fast, small, full-featured IoC Container for .NET",
+                Url = "https://bitbucket.org/dadhi/dryioc",
+                LicenseUrl = "https://opensource.org/licenses/MIT"
+            },
+            new ExternalComponent
+            {
+                Name = "DryIoc.Wcf",
+                Description = "WCF integration for DryIoc",
+                Url = "https://github.com/jasper-d/dryioc.wcf/",
+                LicenseUrl = "https://github.com/jasper-d/dryioc.wcf/blob/master/license.md"
             },
             new ExternalComponent
             {
@@ -61,13 +82,6 @@ namespace Dopamine.Core.Base
                 Url = "https://github.com/JamesNK/Newtonsoft.Json",
                 LicenseUrl = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"
             },
-            new ExternalComponent
-            {
-                Name = "NVorbis",
-                Description = "A .NET library for decoding Xiph.org Vorbis files.",
-                Url = "https://github.com/ioctlLR/NVorbis",
-                LicenseUrl = "https://github.com/ioctlLR/NVorbis/blob/master/LICENSE"
-            },
             new ExternalComponent {
                 Name = "Prism",
                 Description = "Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms.",
@@ -85,20 +99,6 @@ namespace Dopamine.Core.Base
                 Description = "A library for reading and writing metadata in media files, including video, audio, and photo formats.",
                 Url = "https://github.com/mono/taglib-sharp",
                 LicenseUrl = "https://github.com/mono/taglib-sharp/blob/master/COPYING"
-            },
-            new ExternalComponent {
-                Name = "Unity",
-                Description = "A lightweight extensible dependency injection container with support for constructor, property, and method call injection.",
-                Url = "https://github.com/unitycontainer/unity",
-                LicenseUrl = "https://github.com/unitycontainer/container/blob/master/LICENSE"
-            },
-            new ExternalComponent
-            {
-                Name = "Unity.WCF",
-                Description =
-                    "A library that allows the simple integration of Microsoft's Unity IoC container with WCF.",
-                Url = "https://github.com/Uriil/unitywcf",
-                LicenseUrl = "https://github.com/Uriil/unitywcf/blob/master/LICENSE"
             },
             new ExternalComponent
             {

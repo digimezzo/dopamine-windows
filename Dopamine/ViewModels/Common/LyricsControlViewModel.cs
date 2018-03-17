@@ -11,7 +11,6 @@ using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -19,12 +18,13 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
     public class LyricsControlViewModel : ContextMenuViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private ILocalizationInfo info;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
@@ -70,7 +70,7 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        public LyricsControlViewModel(IUnityContainer container) : base(container)
+        public LyricsControlViewModel(IContainerProvider container) : base(container)
         {
             this.container = container;
             this.info = container.Resolve<ILocalizationInfo>();

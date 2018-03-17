@@ -3,10 +3,10 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -36,7 +36,7 @@ namespace Dopamine.ViewModels.Common
             get { return this.PlaybackService.Queue.Count > 0; }
         }
 
-        public NowPlayingPlaybackControlsViewModel(IUnityContainer container, IEventAggregator eventAggregator) : base(container)
+        public NowPlayingPlaybackControlsViewModel(IContainerProvider container, IEventAggregator eventAggregator) : base(container)
         {
             this.eventAggregator = eventAggregator;
 

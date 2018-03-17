@@ -6,7 +6,6 @@ using Dopamine.Data.Contracts.Entities;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.ExternalControl;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -256,7 +255,10 @@ namespace Dopamine.Services.ExternalControl
                     }
                 }
 
-                deadClients.ForEach(c => clients.Remove(c));
+                foreach (var c in deadClients)
+                {
+                    clients.Remove(c);
+                }
                 deadClients.Clear();
             }
         }
