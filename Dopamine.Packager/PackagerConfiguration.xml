@@ -54,6 +54,7 @@
         <File>taglib-sharp.dll</File>
         <File>Unity.Wcf.dll</File>
         <File>WPFFolderBrowser.dll</File>
+        <File>Newtonsoft.Json.dll</File>
       </Files>
     </Portable>
   </Packaging>
