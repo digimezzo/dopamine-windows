@@ -14,8 +14,8 @@ using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
 using Dopamine.Views.Common;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
+using Prism.Ioc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Dopamine.ViewModels.Common.Base
 {
     public abstract class AlbumsViewModelBase : TracksViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private ICollectionService collectionService;
         private IPlaybackService playbackService;
         private IDialogService dialogService;
@@ -129,7 +129,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        public AlbumsViewModelBase(IUnityContainer container) : base(container)
+        public AlbumsViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;
@@ -238,7 +238,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
 
             EditAlbum view = this.container.Resolve<EditAlbum>();
-            view.DataContext = this.container.Resolve<EditAlbumViewModel>(new DependencyOverride(typeof(long), this.SelectedAlbumIds.First()));
+            view.DataContext = this.container.Resolve<Func<long, EditAlbumViewModel>>()(this.SelectedAlbumIds.First());
 
             this.dialogService.ShowCustomDialog(
                 0xe104,

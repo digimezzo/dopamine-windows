@@ -3,7 +3,7 @@ using Dopamine.Views.Common.Base;
 using Dopamine.Presentation.Views.Base;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 using System.Timers;
 using System.Windows;

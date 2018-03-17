@@ -5,16 +5,16 @@ using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Views.FullPlayer.Collection;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
     public class CollectionTracksViewModel : TracksViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IDialogService dialogService;
         private IMetadataService metadataService;
         private IEventAggregator eventAggregator;
@@ -125,7 +125,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public DelegateCommand ChooseColumnsCommand { get; set; }
 
-        public CollectionTracksViewModel(IUnityContainer container) : base(container)
+        public CollectionTracksViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;

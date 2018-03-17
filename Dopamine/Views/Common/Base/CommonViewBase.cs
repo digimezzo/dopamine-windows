@@ -1,5 +1,5 @@
 ﻿using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Commands;
 using Prism.Events;
 using System;

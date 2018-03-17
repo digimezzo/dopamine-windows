@@ -1,6 +1,6 @@
 ﻿using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System.Windows;
 using System.Windows.Controls;
 
