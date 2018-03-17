@@ -201,6 +201,7 @@
             <File Source="WPFFolderBrowser.dll" />
             <File Source="DryIoc.dll" />
             <File Source="DryIoc.Wcf.dll" />
+            <File Source="Newtonsoft.Json.dll" />
             <!-- Registry -->
             <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine">
               <RegistryValue Type="string" Value="Play with Dopamine"/>
