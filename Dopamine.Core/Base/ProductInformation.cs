@@ -75,6 +75,13 @@ namespace Dopamine.Core.Base
                 Url = "https://github.com/punker76/gong-wpf-dragdrop",
                 LicenseUrl = "https://github.com/punker76/gong-wpf-dragdrop/blob/dev/LICENSE"
             },
+            new ExternalComponent
+            {
+                Name = "Json.NET",
+                Description = "Popular high-performance JSON framework for .NET",
+                Url = "https://github.com/JamesNK/Newtonsoft.Json",
+                LicenseUrl = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"
+            },
             new ExternalComponent {
                 Name = "Prism",
                 Description = "Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms.",

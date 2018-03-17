@@ -85,10 +85,18 @@ namespace Dopamine.Core.Utils
         {
             try
             {
-                int minutes = Convert.ToInt32(input.Split(':')[0]);
-                string secondsAndMilliseconds = input.Split(':')[1];
-                int seconds = Convert.ToInt32(secondsAndMilliseconds.Split('.')[0]);
-                int milliseconds = Convert.ToInt32(secondsAndMilliseconds.Split('.')[1]);
+                var split = input.Split(':');
+                if (split.Length == 0)
+                {
+                    result = new TimeSpan();
+                    return false;
+                }
+                int minutes = Convert.ToInt32(split[0]);
+                string secondsAndMilliseconds = split[1];
+
+                split = secondsAndMilliseconds.Split('.');
+                int seconds = Convert.ToInt32(split[0]);
+                int milliseconds = split.Length == 1 ? 0 : Convert.ToInt32(split[1]);
 
                 result = TimeSpan.FromMilliseconds(minutes * 60000 + seconds * 1000 + milliseconds);
                 return true;
