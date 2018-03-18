@@ -306,9 +306,13 @@ namespace Dopamine.Core.Audio
         private void UpdateSpectrumShapes()
         {
             bool allZero = true;
-            double height = spectrumCanvas.RenderSize.Height, dbValue = 0d, barHeight = 0d, xCoord = 0d;
+            double height = spectrumCanvas.RenderSize.Height;
+            double dbValue = 0d;
+            double barHeight = 0d;
+            double xCoord = 0d;
             float tPeek = 0f;
-            double barWidth = this.BarWidth, barSpacing = this.BarSpacing;
+            double barWidth = this.BarWidth;
+            double barSpacing = this.BarSpacing;
 
             for (var barIndex = 0; barIndex < barIndexMax.Length; barIndex++)
             {
