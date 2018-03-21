@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.5.10.0" ?>
+<?define Version="1.5.11.0" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -86,12 +86,12 @@
           <!-- SQLite -->
           <Directory Id="X64FOLDER" Name="x64">
             <Component Id="X64CMP" DiskId="1" Guid="89332F0B-AF41-49AC-9B8D-D1E8AD9E50F1">
-              <File Id="ESQLITEX64" Source="x64\esqlite3.dll" />
+              <File Id="ESQLITEX64" Source="x64\e_sqlite3.dll" />
             </Component>
           </Directory>
           <Directory Id="X86FOLDER" Name="x86">
             <Component Id="X86CMP" DiskId="1" Guid="4A1279BA-C6C3-43D3-A1BB-EBA723DEF405">
-              <File Id="ESQLITEX86" Source="x86\esqlite3.dll" />
+              <File Id="ESQLITEX86" Source="x86\e_sqlite3.dll" />
             </Component>
           </Directory>
           <!-- Icons -->
