@@ -271,14 +271,7 @@ namespace Dopamine.Core.Audio
 
             if (useFfmpegDecoder)
             {
-                // FfmpegDecoder constructor which uses string as parameter throws exception 
-                // "Exception: avformat_open_input returned 0xffffffea: Invalid argument."  
-                // when the file name contains special characters.
-                // See: https://github.com/filoe/cscore/issues/298
-                // Workaround: use the constructor which uses stream as parameter.
-                // IWaveSource waveSource = new FfmpegDecoder(this.filename);
-                this.audioStream = File.OpenRead(filename);
-                waveSource = new FfmpegDecoder(this.audioStream);
+                waveSource = new FfmpegDecoder(this.filename);
             }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
