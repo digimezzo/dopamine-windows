@@ -14,12 +14,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 
 namespace Dopamine.Services.File
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class FileService : IFileService
     {
         private ICacheService cacheService;
@@ -35,6 +37,7 @@ namespace Dopamine.Services.File
         public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
             IFileMetadataFactory fileMetadataFactory, ILocalizationInfo info)
         {
+            LogClient.Info("FileService()");
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
             this.fileMetadataFactory = fileMetadataFactory;
