@@ -1,3 +1,9 @@
+2018-03-22: Dopamine 1.5.12
+---------------------------
+
+- [Fixed] Files cannot be enqueued from Windows Explorer since version 1.5.11
+
+
 2018-03-21: Dopamine 1.5.11
 ---------------------------
 
