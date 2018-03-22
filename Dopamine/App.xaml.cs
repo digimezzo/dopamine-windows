@@ -69,7 +69,6 @@ using Dopamine.Views.FullPlayer.Information;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
-using DryIoc.Wcf;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Regions;

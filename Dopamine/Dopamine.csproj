@@ -64,9 +64,6 @@
     <Reference Include="DryIoc, Version=2.12.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DryIoc.dll.2.12.8\lib\net45\DryIoc.dll</HintPath>
     </Reference>
-    <Reference Include="DryIoc.Wcf, Version=0.6.3.52944, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DryIoc.Wcf.dll.0.6.3.52944\lib\net46\DryIoc.Wcf.dll</HintPath>
-    </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>True</Private>
