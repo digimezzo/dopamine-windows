@@ -85,7 +85,7 @@ namespace Dopamine
 {
     public partial class App : PrismApplication
     {
-        private Mutex _instanceMutex = null;
+        private Mutex instanceMutex = null;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -93,23 +93,22 @@ namespace Dopamine
             JumpList.SetJumpList(Application.Current, new JumpList());
 
             // Check that there is only one instance of the application running
-            _instanceMutex = new Mutex(true,
-                $"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out var isNewInstance);
+            this.instanceMutex = new Mutex(true,$"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
 
             // Process the command-line arguments
             this.ProcessCommandLineArguments(isNewInstance);
 
             if (isNewInstance)
             {
-                _instanceMutex.ReleaseMutex();
+                this.instanceMutex.ReleaseMutex();
+                base.OnStartup(e);
             }
             else
             {
+                // TODO: because shutdown is too fast, some logging might be missing in the log file.
                 LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }    
-            
-            base.OnStartup(e);
         }
 
         protected override Window CreateShell()
