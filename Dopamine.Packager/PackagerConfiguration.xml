@@ -52,7 +52,6 @@
         <File>WPFFolderBrowser.dll</File>
         <File>CommonServiceLocator.dll</File>
         <File>DryIoc.dll</File>
-        <File>DryIoc.Wcf.dll</File>
         <File>Newtonsoft.Json.dll</File>
       </Files>
     </Portable>

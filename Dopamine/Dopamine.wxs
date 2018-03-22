@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.5.11.0" ?>
+<?define Version="1.5.12.0" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -200,7 +200,6 @@
             <File Source="taglib-sharp.dll" />
             <File Source="WPFFolderBrowser.dll" />
             <File Source="DryIoc.dll" />
-            <File Source="DryIoc.Wcf.dll" />
             <File Source="Newtonsoft.Json.dll" />
             <!-- Registry -->
             <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine">

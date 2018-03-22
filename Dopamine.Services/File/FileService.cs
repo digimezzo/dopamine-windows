@@ -37,7 +37,6 @@ namespace Dopamine.Services.File
         public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
             IFileMetadataFactory fileMetadataFactory, ILocalizationInfo info)
         {
-            LogClient.Info("FileService()");
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
             this.fileMetadataFactory = fileMetadataFactory;

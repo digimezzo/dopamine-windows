@@ -49,13 +49,6 @@ namespace Dopamine.Core.Base
             },
             new ExternalComponent
             {
-                Name = "DryIoc.Wcf",
-                Description = "WCF integration for DryIoc",
-                Url = "https://github.com/jasper-d/dryioc.wcf/",
-                LicenseUrl = "https://github.com/jasper-d/dryioc.wcf/blob/master/license.md"
-            },
-            new ExternalComponent
-            {
                 Name = "FFmpeg",
                 Description = "A collection of libraries and tools to process multimedia content such as audio, video, subtitles and related metadata.",
                 Url = "https://github.com/FFmpeg/FFmpeg",
