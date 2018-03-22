@@ -163,11 +163,9 @@ namespace Dopamine
 
         protected void InitializeWcfServices()
         {
-            var unityContainer = Container.GetContainer();
-
             // CommandService
             // --------------
-            var commandServicehost = new DryIocServiceHost(unityContainer, Container.Resolve<ICommandService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/CommandService", ProductInformation.ApplicationName)) });
+            var commandServicehost = new ServiceHost(Container.Resolve<ICommandService>(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/CommandService", ProductInformation.ApplicationName)) });
             commandServicehost.AddServiceEndpoint(typeof(ICommandService), new StrongNetNamedPipeBinding(), "CommandServiceEndpoint");
 
             try
@@ -182,7 +180,7 @@ namespace Dopamine
 
             // FileService
             // -----------
-            var fileServicehost = new DryIocServiceHost(unityContainer, Container.Resolve<IFileService>().GetType(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/FileService", ProductInformation.ApplicationName)) });
+            var fileServicehost = new ServiceHost(Container.Resolve<IFileService>(), new Uri[] { new Uri(string.Format("net.pipe://localhost/{0}/FileService", ProductInformation.ApplicationName)) });
             fileServicehost.AddServiceEndpoint(typeof(IFileService), new StrongNetNamedPipeBinding(), "FileServiceEndpoint");
 
             try
