@@ -65,31 +65,45 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        public async void Drop(IDropInfo dropInfo)
+        private async Task UpdateQueueOrderAsync(IDropInfo dropInfo)
         {
             base.isDroppingTracks = true;
 
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+            var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
 
+            // TargetCollection contains all tracks of the queue, in the new order.
+            foreach (var item in dropInfo.TargetCollection)
+            {
+                KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
+                droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+            }
+
+            await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
+
+            base.isDroppingTracks = false;
+        }
+
+        public async void Drop(IDropInfo dropInfo)
+        {
             try
             {
-                var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
-
-                // TargetCollection contains all tracks of the queue, in the new order.
-                foreach (var item in dropInfo.TargetCollection)
+                if (base.IsDraggingFiles(dropInfo))
                 {
-                    KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
-                    droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+                    if (base.IsDraggingMediaFiles(dropInfo))
+                    {
+                        // TODO: convert dragged files to tracks and enqueue at end of queue.
+                    }
                 }
-
-                await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
+                else
+                {
+                    DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs built-in reorder
+                    await this.UpdateQueueOrderAsync(dropInfo);
+                }
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
-
-            base.isDroppingTracks = false;
         }
 
         private async Task RemoveSelectedTracksFromNowPlayingAsync()
