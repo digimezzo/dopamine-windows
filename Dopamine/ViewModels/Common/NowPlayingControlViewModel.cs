@@ -30,7 +30,7 @@ namespace Dopamine.ViewModels.Common
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
+            this.playbackService.QueueChanged += async (_, __) => { if (!base.isDroppingTracks) await this.FillListsAsync(); };
         }
 
         protected async Task GetTracksAsync()
@@ -67,7 +67,7 @@ namespace Dopamine.ViewModels.Common
 
         public async void Drop(IDropInfo dropInfo)
         {
-            isDroppingTracks = true;
+            base.isDroppingTracks = true;
 
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
 
@@ -75,6 +75,7 @@ namespace Dopamine.ViewModels.Common
             {
                 var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
 
+                // TargetCollection contains all tracks of the queue, in the new order.
                 foreach (var item in dropInfo.TargetCollection)
                 {
                     KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
@@ -88,7 +89,7 @@ namespace Dopamine.ViewModels.Common
                 LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
             }
 
-            isDroppingTracks = false;
+            base.isDroppingTracks = false;
         }
 
         private async Task RemoveSelectedTracksFromNowPlayingAsync()
