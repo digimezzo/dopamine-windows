@@ -707,9 +707,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (dropInfo.Data is PlaylistViewModel) return;
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
+                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
                 bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingMediaFiles(dropInfo);
+                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
                 if (isDraggingFiles & !isDraggingValidFiles) return;
 
                 // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.
@@ -741,7 +741,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (target.Name.Equals(this.playlistsTarget))
                 {
                     // Dragging to the Playlists listbox
-                    if (this.IsDraggingFiles(dropInfo))
+                    if (base.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToPlaylists(dropInfo);
                     }
@@ -753,7 +753,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 else if (target.Name.Equals(this.tracksTarget))
                 {
                     // Dragging to the Tracks listbox
-                    if (this.IsDraggingFiles(dropInfo))
+                    if (base.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
                     }
