@@ -540,46 +540,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private bool IsDraggingFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as IDataObject;
-                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
-        private bool IsDraggingValidFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as DataObject;
-
-                var filenames = dataObject.GetFileDropList();
-                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
-
-                foreach (string filename in filenames)
-                {
-                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
         private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)
         {
             var tracks = new List<PlayableTrack>();
@@ -749,7 +709,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 // If we're dragging files, we need to be dragging valid files.
                 bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
                 bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
+                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingMediaFiles(dropInfo);
                 if (isDraggingFiles & !isDraggingValidFiles) return;
 
                 // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.

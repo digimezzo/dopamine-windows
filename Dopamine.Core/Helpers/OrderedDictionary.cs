@@ -39,7 +39,7 @@ namespace Dopamine.Core.Helpers
     /// A dictionary that remembers the order that keys were first inserted. If a new entry overwrites an existing entry, the original insertion position is left unchanged. Deleting an entry and reinserting it will move it to the end.
     /// See: https://gist.github.com/hickford/5137384
     /// </summary>
-    /// <typeparam name="TKey">The type of keys. Musn't be <see cref="int"/></typeparam>
+    /// <typeparam name="TKey">The type of keys.<see cref="int"/></typeparam>
     /// <typeparam name="TValue">The type of values.</typeparam>
     public sealed class OrderedDictionary<TKey, TValue> : IOrderedDictionary<TKey, TValue>
     {
@@ -247,7 +247,7 @@ namespace Dopamine.Core.Helpers
         }
 
         /// <summary>
-        /// Remove the element with the given key key. If there is no element with the key, no exception is thrown.
+        /// Remove the element with the given key. If there is no element with the key, no exception is thrown.
         /// </summary>
         public bool Remove(TKey key)
         {
@@ -267,7 +267,7 @@ namespace Dopamine.Core.Helpers
         }
 
         /// <summary>
-        /// Copy the elements of the dictionary to an array, starting at at the given index.
+        /// Copy the elements of the dictionary to an array, starting at the given index.
         /// </summary>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
         {

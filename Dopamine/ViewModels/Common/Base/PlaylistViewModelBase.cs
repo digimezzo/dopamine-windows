@@ -23,6 +23,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using Prism.Ioc;
+using GongSolutions.Wpf.DragDrop;
+using Dopamine.Core.Base;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -433,6 +435,46 @@ namespace Dopamine.ViewModels.Common
             });
 
             this.ConditionalScrollToPlayingTrack();
+        }
+
+        protected bool IsDraggingFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as IDataObject;
+                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        protected bool IsDraggingMediaFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as DataObject;
+
+                var filenames = dataObject.GetFileDropList();
+                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
+
+                foreach (string filename in filenames)
+                {
+                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+            }
+
+            return false;
         }
     }
 }
