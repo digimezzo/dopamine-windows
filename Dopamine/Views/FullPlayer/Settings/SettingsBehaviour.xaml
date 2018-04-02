@@ -27,11 +27,6 @@
                 <TextBlock Text="{DynamicResource Language_Automatically_Scroll_To_The_Playing_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxFollowTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxFollowTrackChecked}"/>
             </StackPanel>
-            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Now_Playing}"/>
-            <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Also_Enqueue_Other_Files_In_Folder}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnqueueOtherFilesInFolder" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxEnqueueOtherFilesInFolderChecked}"/>
-            </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Rating}" />
             <StackPanel Margin="0,5,0,0">
                 <TextBlock Text="{DynamicResource Language_Show_Rating_Button}" Foreground="{DynamicResource RG_ForegroundBrush}"/>

@@ -414,7 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">Recarregar capas apenas para os álbuns que ainda não possuem capa</Text>
   <Text Key="Added_Songs">Adicionadas {number} músicas ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Baixar da internet as capas de álbum que estão faltando</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Quando reproduzir um arquivo de áudio a partir do Windows Explorer, também adicionar à lista de reprodução outros arquivos de áudio que estejam na mesma pasta.</Text>
   <Text Key="Use_All_Available_Speakers">Utilizar todos os auto-falantes disponíveis</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
 </Language>

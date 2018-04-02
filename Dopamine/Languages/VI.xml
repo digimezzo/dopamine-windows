@@ -311,7 +311,6 @@
   <Text Key="Delete_Preset">Xóa Tệp mẫu</Text>
   <Text Key="Delete_Preset_Confirmation">Bạn có chắc chắn muốn xóa Tệp mẫu '{preset}'?</Text>
   <Text Key="Error_While_Deleting_Preset">Không thể xóa Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Error_While_Deleting_Preset">Không thể xóa Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Exclusive_Mode">Chế độ ưu tiên</Text>
   <Text Key="Exclusive_Mode_Confirmation">Bạn có chắc chắn muốn bật Chế độ ưu tiên không? Các ứng dụng khác sẽ không thể phát bất kỳ âm thanh nào nữa.</Text>
   <Text Key="Search_Online">Tìm kiếm trực tuyến</Text>
@@ -415,7 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">Tải về ảnh bìa cho các album chưa có ảnh bìa</Text>
   <Text Key="Added_Songs">Đã thêm {number} bài hát ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Tải ảnh bìa album còn thiếu từ Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Khi bạn mở một tệp âm thanh trong Windows Explorer, Dopamine cũng sẽ thêm tất cả các tệp âm thanh trong cùng thư mục đó vào hàng đợi.</Text>
   <Text Key="Use_All_Available_Speakers">Sử dụng mọi đầu ra có sẵn</Text>
   <Text Key="Center_Lyrics">Căn giữa lời</Text>
 </Language>
