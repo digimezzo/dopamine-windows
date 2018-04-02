@@ -759,7 +759,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     }
                     else
                     {
-                        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs builtin reorder
+                        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs built-in reorder
                         await this.ReorderSelectedPlaylistTracksAsync(dropInfo);
                     }
                 }
