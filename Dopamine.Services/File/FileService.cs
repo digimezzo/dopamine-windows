@@ -61,21 +61,7 @@ namespace Dopamine.Services.File
             var tracks = new List<PlayableTrack>();
             PlayableTrack selectedTrack = await this.CreateTrackAsync(path);
 
-            if (SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder"))
-            {
-                // Get all files in the current (top) directory
-                List<string> scannedPaths = this.ProcessDirectory(Path.GetDirectoryName(path), SearchOption.TopDirectoryOnly);
-
-                // Add all files from that directory
-                foreach (string scannedPath in scannedPaths)
-                {
-                    tracks.Add(await this.CreateTrackAsync(scannedPath));
-                }
-            }
-            else
-            {
-                tracks.Add(await this.CreateTrackAsync(path));
-            }
+            tracks.Add(await this.CreateTrackAsync(path));
 
             return new Tuple<List<PlayableTrack>, PlayableTrack>(tracks, selectedTrack);
         }
@@ -226,20 +212,7 @@ namespace Dopamine.Services.File
                 });
 
                 List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
-                PlayableTrack selectedTrack = null;
-
-                if (tempFiles.Count.Equals(1) && FileFormats.IsSupportedAudioFile(tempFiles.First()))
-                {
-                    // If there is only 1 file and it's a supported audio format, we do something special.
-                    Tuple<List<PlayableTrack>, PlayableTrack> processedTracks = await this.ProcessFileAsync(tempFiles.First());
-                    tracks = processedTracks.Item1;
-                    selectedTrack = processedTracks.Item2;
-                }
-                else
-                {
-                    tracks = await this.ProcessFilesAsync(tempFiles);
-                    selectedTrack = tracks.First();
-                }
+                PlayableTrack selectedTrack = tracks.First();
 
                 LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
 

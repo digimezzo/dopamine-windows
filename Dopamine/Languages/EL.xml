@@ -414,7 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">Επαναφόρτωση εξωφύλλων για άλμπουμ που δεν έχουν ήδη εξώφυλλο</Text>
   <Text Key="Added_Songs">Προστέθηκαν {number} τραγούδια ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Λήψη εξωφύλλων που λείπουν από το internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Κατά την αναπαραγωγή αρχείου ήχου από την Εξερεύνηση Windows, πρόσθεσε στην ουρά και άλλα αρχεία ήχου στον ίδιο φάκελο</Text>
   <Text Key="Use_All_Available_Speakers">Χρήση όλων των διαθέσιμων ηχείων</Text>
   <Text Key="Center_Lyrics">Κεντρική στοίχιση στίχων</Text>
 </Language>

@@ -414,7 +414,6 @@
   <Text Key="Reload_Missing_Covers_Description">Ladda om skivomslag endast för album som inte än har ett skivomslag</Text>
   <Text Key="Added_Songs">Tillagt {number} låtar ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Ladda ner saknade skivomslag från Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Vid uppspelning av en ljudfil via Windows Utforskaren, köa också andra ljudfiler belägna i samma mapp.</Text>
   <Text Key="Use_All_Available_Speakers">Använd alla tillgängliga högtalare</Text>
   <Text Key="Center_Lyrics">Centrera Låttexter</Text>
 </Language>

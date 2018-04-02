@@ -19,7 +19,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
         private bool checkBoxShowRemoveFromDiskChecked;
-        private bool checkBoxEnqueueOtherFilesInFolderChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
 
@@ -30,16 +29,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Behaviour", "ShowTrayIcon", value, true);
                 SetProperty<bool>(ref this.checkBoxShowTrayIconChecked, value);
-            }
-        }
-
-        public bool CheckBoxEnqueueOtherFilesInFolderChecked
-        {
-            get { return this.checkBoxEnqueueOtherFilesInFolderChecked; }
-            set
-            {
-                SettingsClient.Set<bool>("Behaviour", "EnqueueOtherFilesInFolder", value);
-                SetProperty<bool>(ref this.checkBoxEnqueueOtherFilesInFolderChecked, value);
             }
         }
 
@@ -149,7 +138,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
                 this.checkBoxShowRemoveFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
                 this.checkBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
-                this.checkBoxEnqueueOtherFilesInFolderChecked = SettingsClient.Get<bool>("Behaviour", "EnqueueOtherFilesInFolder");
             });
         }
 
