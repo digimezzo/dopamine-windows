@@ -601,29 +601,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private List<string> GetDroppedFilenames(IDropInfo dropInfo)
-        {
-            var dataObject = dropInfo.Data as DataObject;
-
-            List<string> filenames = new List<string>();
-
-            try
-            {
-                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
-            }
-
-            return filenames;
-        }
-
         private async Task AddDroppedFilesToSelectedPlaylist(IDropInfo dropInfo)
         {
             try
             {
-                var filenames = this.GetDroppedFilenames(dropInfo);
+                var filenames = base.GetDroppedFilenames(dropInfo);
                 List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
             }
@@ -641,7 +623,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
-                var filenames = this.GetDroppedFilenames(dropInfo);
+                var filenames = base.GetDroppedFilenames(dropInfo);
                 tracks = await this.fileService.ProcessFilesAsync(filenames);
 
                 if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
@@ -662,7 +644,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 try
                 {
                     PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
-                    var filenames = this.GetDroppedFilenames(dropInfo);
+                    var filenames = base.GetDroppedFilenames(dropInfo);
                     List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
 
                     if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
@@ -675,7 +657,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             else if (dropInfo.TargetItem == null)
             {
                 string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
-                List<string> allFilenames = this.GetDroppedFilenames(dropInfo);
+                List<string> allFilenames = base.GetDroppedFilenames(dropInfo);
                 List<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
                 List<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();
 

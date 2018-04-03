@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Ioc;
+using Dopamine.Services.Contracts.File;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -19,12 +20,14 @@ namespace Dopamine.ViewModels.Common
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
+        private IFileService fileService;
 
         public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.playbackService = container.Resolve<IPlaybackService>();
             this.dialogService = container.Resolve<IDialogService>();
+            this.fileService = container.Resolve<IFileService>();
 
             // Commands
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
@@ -91,7 +94,7 @@ namespace Dopamine.ViewModels.Common
                 {
                     if (base.IsDraggingMediaFiles(dropInfo))
                     {
-                        // TODO: convert dragged files to tracks and enqueue at end of queue.
+                        await this.AddDroppedFilesToQueue(dropInfo);
                     }
                 }
                 else
@@ -103,6 +106,20 @@ namespace Dopamine.ViewModels.Common
             catch (Exception ex)
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
+            }
+        }
+
+        private async Task AddDroppedFilesToQueue(IDropInfo dropInfo)
+        {
+            try
+            {
+                var filenames = base.GetDroppedFilenames(dropInfo);
+                List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                await this.playbackService.AddToQueueAsync(tracks);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not add dropped files to playback queue. Exception: {0}", ex.Message);
             }
         }
 

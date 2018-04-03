@@ -476,5 +476,23 @@ namespace Dopamine.ViewModels.Common
 
             return false;
         }
+
+        protected List<string> GetDroppedFilenames(IDropInfo dropInfo)
+        {
+            var dataObject = dropInfo.Data as DataObject;
+
+            List<string> filenames = new List<string>();
+
+            try
+            {
+                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
+            }
+
+            return filenames;
+        }
     }
 }
