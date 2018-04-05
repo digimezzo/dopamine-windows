@@ -1,7 +1,7 @@
 2018-04-02: Dopamine 1.5.12
 ---------------------------
 
-- [Added] Songs can now be added to Now Playing by dragging them from Explorer
+- [Added] Songs can now be added to Now Playing by dragging audio and playlist files from Explorer
 - [Changed] Updated the Russian translation
 - [Changed] Updated the Vietnamese translation
 - [Fixed] Files cannot be enqueued from Windows Explorer since version 1.5.11

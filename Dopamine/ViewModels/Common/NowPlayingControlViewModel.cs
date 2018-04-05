@@ -59,6 +59,17 @@ namespace Dopamine.ViewModels.Common
 
             try
             {
+                // We don't allow dragging playlists
+                if (dropInfo.Data is PlaylistViewModel) return;
+
+                // If we're dragging files, we need to be dragging valid files.
+                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
+                bool isDraggingValidFiles = false;
+                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
+                if (isDraggingFiles & !isDraggingValidFiles) return;
+
+                // In all other cases, allow dragging.
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
                 dropInfo.NotHandled = true;
             }
             catch (Exception ex)

@@ -416,4 +416,8 @@
   <Text Key="Download_Missing_Album_Covers">Искать ненайденные обложки в Интернете</Text>
   <Text Key="Use_All_Available_Speakers">Использовать все доступные динамики</Text>
   <Text Key="Center_Lyrics">Централизовать тексты песен</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
 </Language>

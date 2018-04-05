@@ -416,4 +416,8 @@
   <Text Key="Download_Missing_Album_Covers">Свали липсващи обложки от интернет</Text>
   <Text Key="Use_All_Available_Speakers">Използвайте всички налични високоговорители</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
 </Language>
