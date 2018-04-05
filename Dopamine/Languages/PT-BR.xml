@@ -416,4 +416,8 @@
   <Text Key="Download_Missing_Album_Covers">Baixar da internet as capas de álbum que estão faltando</Text>
   <Text Key="Use_All_Available_Speakers">Utilizar todos os auto-falantes disponíveis</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
 </Language>

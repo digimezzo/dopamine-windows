@@ -416,4 +416,8 @@
   <Text Key="Download_Missing_Album_Covers">Tải ảnh bìa album còn thiếu từ Internet</Text>
   <Text Key="Use_All_Available_Speakers">Sử dụng mọi đầu ra có sẵn</Text>
   <Text Key="Center_Lyrics">Căn giữa lời</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
 </Language>
