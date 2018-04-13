@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Vietnamese translation
+- [Fixed] Fixed MetroLyrics parsing issues
 
 
 2018-04-02: Dopamine 1.5.12
