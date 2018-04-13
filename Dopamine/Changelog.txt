@@ -1,3 +1,10 @@
+2018-04-13: Dopamine 1.5.13
+---------------------------
+
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Vietnamese translation
+
+
 2018-04-02: Dopamine 1.5.12
 ---------------------------
 
