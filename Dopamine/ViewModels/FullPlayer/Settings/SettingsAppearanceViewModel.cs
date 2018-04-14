@@ -1,5 +1,4 @@
-﻿using Digimezzo.Utilities.Helpers;
-using Digimezzo.Utilities.IO;
+﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
@@ -9,8 +8,6 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.FullPlayer.Settings
