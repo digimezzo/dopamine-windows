@@ -178,75 +178,88 @@ namespace Dopamine.ViewModels.Common
         private void ParseLyrics(Lyrics lyrics)
         {
             Application.Current.Dispatcher.Invoke(() => this.lyricsLines = null);
-            var localLyricsLines = new ObservableCollection<LyricsLineViewModel>();
+            var linesWithTimestamps = new ObservableCollection<LyricsLineViewModel>();
+            var linesWithoutTimestamps = new ObservableCollection<LyricsLineViewModel>();
             var reader = new StringReader(lyrics.Text);
             string line;
 
-            bool allLinesHaveTimeStamps = true; // Assume true
-            bool hasLinesWithMultipleTimeStamps = false; // Assume false
-
             while (true)
             {
+                // Process 1 line
                 line = reader.ReadLine();
-                if (line != null)
+
+                if (line == null)
                 {
-                    if (line.Length > 0 && line.StartsWith("["))
+                    // No line found, we reached the end. Exit while loop.
+                    break;
+                }
+
+                // Check if the line has characters and is enclosed in brackets (starts with [ and ends with ]).
+                if (line.Length == 0 || !(line.StartsWith("[") && line.LastIndexOf(']') > 0))
+                {
+                    // This line is not enclosed in brackets, so it cannot have timestamps.
+                    linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
+
+                    // Process the next line
+                    continue; 
+                }
+
+                // Check if the line is a tag
+                MatchCollection tagMatches = Regex.Matches(line, @"\[[a-z]+?:.*?\]");
+
+                if (tagMatches.Count > 0)
+                {
+                    // This is a tag: ignore this line and process the next line.
+                    continue;
+                }
+
+                // Get all substrings between square brackets for this line
+                MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
+                var timestamps = new List<TimeSpan>();
+                bool couldParseAllTimestamps = true;
+
+                // Loop through all matches
+                foreach (Match m in ms)
+                {
+                    var time = TimeSpan.Zero;
+                    string subString = m.Value.Trim('[', ']');
+
+                    if (FormatUtils.ParseLyricsTime(subString, out time))
                     {
-                        int index = line.LastIndexOf(']');
-
-                        var time = TimeSpan.Zero;
-
-
-                        // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
-                        if (index > 0)
-                        {
-                            MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
-
-                            if(ms.Count > 1)
-                            {
-                                hasLinesWithMultipleTimeStamps = true;
-                            }
-
-                            foreach (Match m in ms)
-                            {
-                                string subString = m.Value.Trim('[', ']');
-
-                                if (FormatUtils.ParseLyricsTime(subString, out time))
-                                {
-                                    localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                                }
-                                else
-                                {
-                                    // The string between square brackets could not be parsed to a timestamp.
-                                    // In such case, just add the complete lyrics line.
-                                    localLyricsLines.Add(new LyricsLineViewModel(line));
-                                    allLinesHaveTimeStamps = false;
-                                }
-                            }
-                        }
+                        timestamps.Add(time);
                     }
                     else
                     {
-                        localLyricsLines.Add(new LyricsLineViewModel(line));
-                        allLinesHaveTimeStamps = false;
+                        couldParseAllTimestamps = false;
+                    }
+                }
+
+                // Check if all timestamps could be parsed
+                if (couldParseAllTimestamps)
+                {
+                    int startIndex = line.LastIndexOf(']') + 1;
+
+                    foreach (TimeSpan timestamp in timestamps)
+                    {
+                        linesWithTimestamps.Add(new LyricsLineViewModel(timestamp, line.Substring(startIndex)));
                     }
                 }
                 else
                 {
-                    break;
+                    // The line has mistakes. Consider it as a line without timestamps.
+                    linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
                 }
             }
 
-            if (allLinesHaveTimeStamps && hasLinesWithMultipleTimeStamps)
-            {
-                // Only sort when all lines have timestamps and there are lines with multiple timestamps. 
-                // This works around a sorting issue when timestamping lyrics and not all lines have timestamps
-                localLyricsLines = new ObservableCollection<LyricsLineViewModel>(localLyricsLines.OrderBy(p => p.Time));
-            }
+            // Order the time stamped lines
+            linesWithTimestamps = new ObservableCollection<LyricsLineViewModel>(linesWithTimestamps.OrderBy(p => p.Time));
+
+            // Merge both collections, lines with timestamps first.
+            linesWithTimestamps.AddRange(linesWithoutTimestamps);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.lyricsLines = localLyricsLines;
+                this.lyricsLines = linesWithTimestamps;
                 RaisePropertyChanged(nameof(this.LyricsLines));
             });
         }
