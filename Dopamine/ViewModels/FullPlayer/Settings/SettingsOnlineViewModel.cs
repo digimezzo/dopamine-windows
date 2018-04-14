@@ -59,7 +59,11 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get { return this.selectedTimeout; }
             set
             {
-                SettingsClient.Set<int>("Lyrics", "TimeoutSeconds", value.Value);
+                if (value.Value != null)
+                {
+                    SettingsClient.Set<int>("Lyrics", "TimeoutSeconds", value.Value);
+                }
+                
                 SetProperty<NameValue>(ref this.selectedTimeout, value);
             }
         }
@@ -367,7 +371,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             await Task.Run(() =>
             {
-                localTimeouts.Add(new NameValue { Name = "None", Value = 0 });
+                localTimeouts.Add(new NameValue { Name = ResourceUtils.GetString("Language_None"), Value = 0 });
                 localTimeouts.Add(new NameValue { Name = "1", Value = 1 });
                 localTimeouts.Add(new NameValue { Name = "2", Value = 2 });
                 localTimeouts.Add(new NameValue { Name = "5", Value = 5 });
@@ -383,7 +387,11 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             NameValue localSelectedTimeout = null;
             await Task.Run(() => localSelectedTimeout = this.Timeouts.Where((svp) => svp.Value == SettingsClient.Get<int>("Lyrics", "TimeoutSeconds")).Select((svp) => svp).First());
-            this.SelectedTimeout = localSelectedTimeout;
+
+            this.selectedTimeout = null;
+            RaisePropertyChanged(nameof(this.SelectedTimeout));
+            this.selectedTimeout = localSelectedTimeout;
+            RaisePropertyChanged(nameof(this.SelectedTimeout));
         }
     }
 }
