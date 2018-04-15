@@ -420,4 +420,5 @@
   <Text Key="Spectrum_Lines">Linhas</Text>
   <Text Key="Spectrum_Bars">Barras</Text>
   <Text Key="Spectrum_Stripes">Riscas</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
 </Language>

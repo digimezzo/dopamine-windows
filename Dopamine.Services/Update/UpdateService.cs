@@ -34,7 +34,7 @@ namespace Dopamine.Services.Update
 
     public class UpdateService : IUpdateService
     {
-        private string apiRootFormat = Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}";
+        private string apiRootFormat = Constants.HomeLink + "/content/software/updateapi.php?function=getnewversion&application=Dopamine&version={0}&getprerelease={1}";
         private Timer checkTimer = new Timer();
         private string updatesSubDirectory;
         private bool canCheck;
@@ -74,7 +74,11 @@ namespace Dopamine.Services.Update
             try
             {
                 // Download a new version from Internet
-                Uri uri = new Uri(string.Format(apiRootFormat, currentVersion.UnformattedVersion));
+                Uri uri = new Uri(string.Format(
+                    apiRootFormat,
+                    currentVersion.UnformattedVersion,
+                    SettingsClient.Get<bool>("Updates", "CheckForPrereleases") ? "yes" : "no"
+                    ));
                 string jsonResult = string.Empty;
 
                 using (var client = new HttpClient())

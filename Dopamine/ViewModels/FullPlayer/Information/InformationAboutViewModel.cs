@@ -9,6 +9,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using Prism.Ioc;
+using Dopamine.Core.Extensions;
 
 namespace Dopamine.ViewModels.FullPlayer.Information
 {
