@@ -5,6 +5,7 @@
 - [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Vietnamese translation
+- [Changed] Updated the Spanish translation
 - [Changed] Updated the Swedish translation
 - [Fixed] Fixed MetroLyrics parsing issues
 - [Fixed] Spectrum styles are not localized
