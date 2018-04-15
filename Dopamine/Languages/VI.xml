@@ -420,4 +420,5 @@
   <Text Key="Spectrum_Lines">Đường</Text>
   <Text Key="Spectrum_Bars">Thanh</Text>
   <Text Key="Spectrum_Stripes">Sọc</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
 </Language>

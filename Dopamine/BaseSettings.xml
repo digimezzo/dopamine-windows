@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>101</Value>
+      <Value>102</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -168,6 +168,9 @@
       <Value>true</Value>
     </Setting>
     <Setting Name="CheckPeriodically">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="CheckForPrereleases">
       <Value>False</Value>
     </Setting>
     <Setting Name="CheckIntervalMinutes">
