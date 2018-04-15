@@ -416,8 +416,8 @@
   <Text Key="Download_Missing_Album_Covers">없는 앨범 커버를 인터넷에서 다운로드하기</Text>
   <Text Key="Use_All_Available_Speakers">가능한 모든 스피커 사용</Text>
   <Text Key="Center_Lyrics">가사 가운데 정렬</Text>
-  <Text Key="Spectrum_Flames">Flames</Text>
-  <Text Key="Spectrum_Lines">Lines</Text>
-  <Text Key="Spectrum_Bars">Bars</Text>
-  <Text Key="Spectrum_Stripes">Stripes</Text>
+  <Text Key="Spectrum_Flames">화염</Text>
+  <Text Key="Spectrum_Lines">선</Text>
+  <Text Key="Spectrum_Bars">막대</Text>
+  <Text Key="Spectrum_Stripes">줄</Text>
 </Language>
