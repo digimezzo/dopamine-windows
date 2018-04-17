@@ -2,6 +2,7 @@
 ---------------------------
 
 - [Changed] Improved parsing of timestamped lyrics
+- [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Vietnamese translation
