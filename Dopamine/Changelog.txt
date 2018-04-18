@@ -1,4 +1,4 @@
-2018-04-15: Dopamine 1.5.13
+2018-04-18: Dopamine 1.5.13
 ---------------------------
 
 - [Changed] Improved parsing of timestamped lyrics
