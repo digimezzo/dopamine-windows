@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.IO;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
@@ -132,7 +133,19 @@ namespace Dopamine.ViewModels.Common
                 try
                 {
                     this.IsLoadingFolders = true;
-                    AddFolderResult result = await this.folderRepository.AddFolderAsync(dlg.FileName);
+
+                    AddFolderResult result = AddFolderResult.Error; // Initial value
+
+                    // First, check if the folder's content is accessible. If not, don't add the folder.
+                    if (FileOperations.IsDirectoryContentAccessible(dlg.FileName))
+                    {
+                        result = await this.folderRepository.AddFolderAsync(dlg.FileName);
+                    }
+                    else
+                    {
+                        result = AddFolderResult.Inaccessible;
+                    }
+
                     this.IsLoadingFolders = false;
 
                     switch (result)
@@ -158,6 +171,17 @@ namespace Dopamine.ViewModels.Common
                                 16,
                                 ResourceUtils.GetString("Language_Already_Exists"),
                                 ResourceUtils.GetString("Language_Folder_Already_In_Collection"),
+                                ResourceUtils.GetString("Language_Ok"),
+                                false,
+                                "");
+                            break;
+                        case AddFolderResult.Inaccessible:
+
+                            this.dialogService.ShowNotification(
+                                0xe711,
+                                16,
+                                ResourceUtils.GetString("Language_Error"),
+                                ResourceUtils.GetString("Language_Folder_Could_Not_Be_Added_Check_Permissions").Replace("{foldername}", dlg.FileName),
                                 ResourceUtils.GetString("Language_Ok"),
                                 false,
                                 "");
@@ -241,7 +265,8 @@ namespace Dopamine.ViewModels.Common
         {
             if (this.Folders == null) return;
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 lock (this.Folders)
                 {
                     foreach (FolderViewModel fol in this.Folders)

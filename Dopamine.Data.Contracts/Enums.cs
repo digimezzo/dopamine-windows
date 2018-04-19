@@ -4,7 +4,8 @@
     {
         Error = 0,
         Success = 1,
-        Duplicate = 2
+        Duplicate = 2,
+        Inaccessible = 3
     }
 
     public enum RemoveFolderResult

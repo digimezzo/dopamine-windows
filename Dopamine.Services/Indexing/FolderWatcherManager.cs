@@ -1,4 +1,5 @@
-﻿using Dopamine.Data.Contracts.Entities;
+﻿using Digimezzo.Utilities.Log;
+using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,16 @@ namespace Dopamine.Services.Indexing
         private IFolderRepository folderRepository;
         private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         private Timer folderWatcherTimer;
-       
+
         public event EventHandler FoldersChanged = delegate { };
-      
+
         public FolderWatcherManager(IFolderRepository folderRepository)
         {
             this.folderRepository = folderRepository;
             folderWatcherTimer = new Timer(2000);
             folderWatcherTimer.Elapsed += FolderWatcherTimer_Elapsed;
         }
-     
+
         private void FolderWatcherTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.StopFolderWatcherTimer();
@@ -72,14 +73,22 @@ namespace Dopamine.Services.Indexing
             {
                 if (Directory.Exists(fol.Path))
                 {
-                    var watcher = new FileSystemWatcher(fol.Path) { EnableRaisingEvents = true, IncludeSubdirectories = true };
+                    try
+                    {
+                        // When the folder exists, but access is denied, creating the FileSystemWatcher throws an exception.
+                        var watcher = new FileSystemWatcher(fol.Path) { EnableRaisingEvents = true, IncludeSubdirectories = true };
 
-                    watcher.Changed += Watcher_Changed;
-                    watcher.Created += Watcher_Changed;
-                    watcher.Deleted += Watcher_Changed;
-                    watcher.Renamed += Watcher_Renamed;
+                        watcher.Changed += Watcher_Changed;
+                        watcher.Created += Watcher_Changed;
+                        watcher.Deleted += Watcher_Changed;
+                        watcher.Renamed += Watcher_Renamed;
 
-                    this.watchers.Add(watcher);
+                        this.watchers.Add(watcher);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error($"Could not watch folder '{fol.Path}', even though it exists. Please check folder permissions. Exception: {ex.Message}");
+                    }
                 }
             }
         }
