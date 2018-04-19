@@ -18,7 +18,6 @@ using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -29,6 +28,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -149,7 +149,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public CollectionGenresViewModel(IUnityContainer container) : base(container)
+        public CollectionGenresViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.collectionService = container.Resolve<ICollectionService>();

@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using System;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts;
@@ -11,18 +12,18 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Views.Common;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common.Base
 {
     public abstract class CommonViewModelBase : ContextMenuViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IIndexingService indexingService;
         private ICollectionService collectionService;
         private IMetadataService metadataService;
@@ -94,7 +95,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        public CommonViewModelBase(IUnityContainer container) : base(container)
+        public CommonViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;
@@ -210,7 +211,7 @@ namespace Dopamine.ViewModels.Common.Base
             if (this.CheckAllSelectedFilesExist(paths))
             {
                 FileInformation view = this.container.Resolve<FileInformation>();
-                view.DataContext = this.container.Resolve<FileInformationViewModel>(new DependencyOverride(typeof(string), paths.First()));
+                view.DataContext = this.container.Resolve<Func<string,FileInformationViewModel>>()(paths.First());
 
                 this.dialogService.ShowCustomDialog(
                     0xe8d6,
@@ -234,7 +235,7 @@ namespace Dopamine.ViewModels.Common.Base
             if (this.CheckAllSelectedFilesExist(paths))
             {
                 EditTrack view = this.container.Resolve<EditTrack>();
-                view.DataContext = this.container.Resolve<EditTrackViewModel>(new DependencyOverride(typeof(IList<string>), paths));
+                view.DataContext = this.container.Resolve<Func<IList<string>, EditTrackViewModel>>()(paths);
 
                 this.dialogService.ShowCustomDialog(
                     0xe104,

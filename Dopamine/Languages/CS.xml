@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Srovnat seznam vertikálně</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Zobrazit oznámení pouze pokud je přehrávač schovaný</Text>
   <Text Key="Transparency">Průhlednost</Text>
-  <Text Key="Enable_Transparency">Zprůhlednit některé části (pouze Windows 10)</Text>
+  <Text Key="Enable_Transparency">Zprůhlednit některé části</Text>
   <Text Key="All">Vše</Text>
   <Text Key="Close_To_Tray">Poblíž oznamovací oblasti</Text>
   <Text Key="Edit">Upravit</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">An error occurred while playing selected songs. Please consult the log file for more information.</Text>
   <Text Key="External_Control">External Control</Text>
   <Text Key="Enable_External_Control">Enable External Control</Text>
-  <Text Key="Enable_System_Notification">Enable System Notification (Windows 10 only)</Text>
+  <Text Key="Enable_System_Notification">Enable System Notification</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Refresh the collection automatically</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Reload covers only for albums that have no cover yet</Text>
   <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
   <Text Key="Use_All_Available_Speakers">Use all available speakers</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

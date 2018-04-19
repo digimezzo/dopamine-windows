@@ -118,8 +118,8 @@
   <Text Key="By_Album">Theo Album</Text>
   <Text Key="Taskbar">Taskbar</Text>
   <Text Key="Show_Audio_Progress_In_Taskbar">Hiển thị tiến trình phát trong Windows Taskbar</Text>
-  <Text Key="Spectrum_Analyzer">Hiệu ứng phổ</Text>
-  <Text Key="Show_Spectrum_Analyzer">Hiển thị hiệu ứng phổ</Text>
+  <Text Key="Spectrum_Analyzer">Hiệu ứng trực quan</Text>
+  <Text Key="Show_Spectrum_Analyzer">Hiển thị hiệu ứng trực quan</Text>
   <Text Key="Columns">Sửa cột</Text>
   <Text Key="Length">Độ dài</Text>
   <Text Key="Album_Artist">Nghệ sĩ của Album</Text>
@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Căn chỉnh playlist theo chiều dọc</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Chỉ hiển thị thông báo khi người chơi không thấy được</Text>
   <Text Key="Transparency">Trong suốt</Text>
-  <Text Key="Enable_Transparency">Làm cho một số phần tử trong suốt (Chỉ trên Windows 10)</Text>
+  <Text Key="Enable_Transparency">Làm cho một số phần tử trong suốt</Text>
   <Text Key="All">Tất cả</Text>
   <Text Key="Close_To_Tray">Nhấn nút đóng sẽ thu nhỏ xuống khay hệ thống</Text>
   <Text Key="Edit">Chỉnh sửa</Text>
@@ -311,7 +311,6 @@
   <Text Key="Delete_Preset">Xóa Tệp mẫu</Text>
   <Text Key="Delete_Preset_Confirmation">Bạn có chắc chắn muốn xóa Tệp mẫu '{preset}'?</Text>
   <Text Key="Error_While_Deleting_Preset">Không thể xóa Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Error_While_Deleting_Preset">Không thể xóa Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Exclusive_Mode">Chế độ ưu tiên</Text>
   <Text Key="Exclusive_Mode_Confirmation">Bạn có chắc chắn muốn bật Chế độ ưu tiên không? Các ứng dụng khác sẽ không thể phát bất kỳ âm thanh nào nữa.</Text>
   <Text Key="Search_Online">Tìm kiếm trực tuyến</Text>
@@ -381,7 +380,7 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Bạn có chắc chắn muốn xóa các bài hát này khỏi playlist '{playlistname}'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Spectrum_Style">Phong cách phổ</Text>
+  <Text Key="Spectrum_Style">Phong cách hiệu ứng</Text>
   <Text Key="Follow_Album_Cover_Color">Theo màu bìa album</Text>
   <Text Key="Lyrics_File">Tệp lời</Text>
   <Text Key="Long_Jump_Backward">Lùi về trước 15 giây</Text>
@@ -398,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Đã xảy ra lỗi khi phát bài hát đã chọn. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="External_Control">Điều khiển bên ngoài</Text>
   <Text Key="Enable_External_Control">Bật điều khiển bên ngoài</Text>
-  <Text Key="Enable_System_Notification">Bật Thông báo hệ thống (Chỉ trên Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Bật Thông báo hệ thống</Text>
   <Text Key="Unknown_Album">Album không xác định</Text>
   <Text Key="Unknown_Genre">Thể loại không xác định</Text>
   <Text Key="Refresh_Collection_Automatically">Tự động làm mới thư viện nhạc</Text>
@@ -415,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Tải về ảnh bìa cho các album chưa có ảnh bìa</Text>
   <Text Key="Added_Songs">Đã thêm {number} bài hát ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Tải ảnh bìa album còn thiếu từ Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Khi bạn mở một tệp âm thanh trong Windows Explorer, Dopamine cũng sẽ thêm tất cả các tệp âm thanh trong cùng thư mục đó vào hàng đợi.</Text>
   <Text Key="Use_All_Available_Speakers">Sử dụng mọi đầu ra có sẵn</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Center_Lyrics">Căn giữa lời</Text>
+  <Text Key="Spectrum_Flames">Lửa cháy</Text>
+  <Text Key="Spectrum_Lines">Đường</Text>
+  <Text Key="Spectrum_Bars">Thanh</Text>
+  <Text Key="Spectrum_Stripes">Sọc</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

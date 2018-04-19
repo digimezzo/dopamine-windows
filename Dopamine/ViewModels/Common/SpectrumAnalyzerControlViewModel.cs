@@ -134,7 +134,9 @@ namespace Dopamine.ViewModels.Common
                 }
             };
 
-            this.ShowSpectrumAnalyzer = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
+            // Spectrum analyzer performance is only acceptable with Windows Media Foundation
+            this.ShowSpectrumAnalyzer = this.playbackService.SupportsWindowsMediaFoundation && 
+                SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
             // Initial value
             if (!this.playbackService.IsStopped & this.playbackService.IsPlaying)

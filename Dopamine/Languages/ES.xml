@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Alinear la lista de reproducción verticalmente</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Mostrar notificación únicamente cuando el reproductor no esté visible</Text>
   <Text Key="Transparency">Transparencia</Text>
-  <Text Key="Enable_Transparency">Mostrar algunos elementos transparentes (sólo en Windows 10)</Text>
+  <Text Key="Enable_Transparency">Mostrar algunos elementos transparentes</Text>
   <Text Key="All">Todos</Text>
   <Text Key="Close_To_Tray">Mantener minimizado en el área de notificación al cerrar</Text>
   <Text Key="Edit">Editar</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Se ha producido un error mientras se reproducían las canciones seleccionadas. Consulte el archivo 'log' para más información por favor.</Text>
   <Text Key="External_Control">Control Externo</Text>
   <Text Key="Enable_External_Control">Activar Control Externo</Text>
-  <Text Key="Enable_System_Notification">Activar el Sistema de Notificaciones (Solo para Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Activar el Sistema de Notificaciones</Text>
   <Text Key="Unknown_Album">Álbum desconocido</Text>
   <Text Key="Unknown_Genre">Género desconocido</Text>
   <Text Key="Refresh_Collection_Automatically">Actualizar la colección automáticamente</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Recargar solo las portadas de aquellos álbumes que no tienen ninguna</Text>
   <Text Key="Added_Songs">Añadidas {number} canciones ({porcentaje}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Descargar de Internet portadas de álbumes sin las mismas</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Al reproducir un archivo desde el Explorador de Windows, añadir también a la cola el resto de archivos de la misma carpeta.</Text>
   <Text Key="Use_All_Available_Speakers">Usar todos los altavoces disponibles</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Center_Lyrics">Centrar Letras</Text>
+  <Text Key="Spectrum_Flames">Flamas</Text>
+  <Text Key="Spectrum_Lines">Lineas</Text>
+  <Text Key="Spectrum_Bars">Barras</Text>
+  <Text Key="Spectrum_Stripes">Franjas</Text>
+  <Text Key="Also_Check_For_Prereleases">También revisar los pre-lanzamientos</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

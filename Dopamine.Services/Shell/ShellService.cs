@@ -53,7 +53,7 @@ namespace Dopamine.Services.Shell
             this.regionManager = regionManager;
             this.windowsIntegrationService = windowsIntegrationService;
             this.eventAggregator = eventAggregator;
-             this.nowPlayingPage = nowPlayingPage;
+            this.nowPlayingPage = nowPlayingPage;
             this.fullPlayerPage = fullPlayerPage;
             this.coverPlayerPage = coverPlayerPage;
             this.microplayerPage = microplayerPage;

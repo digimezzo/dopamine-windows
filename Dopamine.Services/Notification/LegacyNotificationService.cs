@@ -70,6 +70,8 @@ namespace Dopamine.Services.Notification
             }
         }
 
+        public virtual bool SupportsSystemNotification => false;
+
         public virtual bool SystemNotificationIsEnabled
         {
             get => false;
@@ -77,7 +79,7 @@ namespace Dopamine.Services.Notification
             {
             }
         }
-   
+
         public LegacyNotificationService(IPlaybackService playbackService, ICacheService cacheService, IMetadataService metadataService)
         {
             this.playbackService = playbackService;

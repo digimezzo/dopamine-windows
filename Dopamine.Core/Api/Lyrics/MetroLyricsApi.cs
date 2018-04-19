@@ -47,14 +47,28 @@ namespace Dopamine.Core.Api.Lyrics
 
             await Task.Run(() =>
             {
-                int start = html.IndexOf("<div id=\"lyrics-body-text\" class=\"js-lyric-text\">");
-                int end = html.IndexOf("</div>", start);
+                int[] possibleStarts = {
+                    html.IndexOf("<div id=\"lyrics-body-text\" class=\"js-lyric-text\">"),
+                    html.IndexOf("<!-- First Section -->") };
+
+                int start = possibleStarts.Max();
+
+                int[] possibleEnds = {
+                    html.IndexOf("</div>", start),
+                    html.IndexOf("<div style=", start),
+                    html.IndexOf("<!--WIDGET - RELATED-->", start)
+                };
+
+                int end = possibleEnds.Min();
 
                 if (start > 0 && end > 0)
                 {
-                    int correctedStart = start + 49;
-                    int correctedEnd = end;
-                    lyrics = html.Substring(correctedStart, correctedEnd - correctedStart).Replace("<p class='verse'>", "").Replace("</p>", Environment.NewLine + Environment.NewLine).Replace("<br>", "").Trim();
+                    lyrics = html.Substring(start, end - start)
+                    .Replace("<div id=\"lyrics-body-text\" class=\"js-lyric-text\">", "")
+                    .Replace("<!-- First Section -->", "")
+                    .Replace("<p class='verse'>", "")
+                    .Replace("</p>", Environment.NewLine + Environment.NewLine).Replace("<br>", "")
+                    .Trim();
                 }
             });
 

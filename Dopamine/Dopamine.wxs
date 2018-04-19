@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="1.5.10.0" ?>
+<?define Version="1.5.13.4000" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -86,12 +86,12 @@
           <!-- SQLite -->
           <Directory Id="X64FOLDER" Name="x64">
             <Component Id="X64CMP" DiskId="1" Guid="89332F0B-AF41-49AC-9B8D-D1E8AD9E50F1">
-              <File Id="ESQLITEX64" Source="x64\esqlite3.dll" />
+              <File Id="ESQLITEX64" Source="x64\e_sqlite3.dll" />
             </Component>
           </Directory>
           <Directory Id="X86FOLDER" Name="x86">
             <Component Id="X86CMP" DiskId="1" Guid="4A1279BA-C6C3-43D3-A1BB-EBA723DEF405">
-              <File Id="ESQLITEX86" Source="x86\esqlite3.dll" />
+              <File Id="ESQLITEX86" Source="x86\e_sqlite3.dll" />
             </Component>
           </Directory>
           <!-- Icons -->
@@ -174,12 +174,9 @@
             <File Source="License.txt" />
             <File Source="Changelog.txt" />
             <File Source="BaseSettings.xml" />
-            <File Source="Microsoft.Practices.ServiceLocation.dll" />
-            <File Source="Microsoft.Practices.Unity.Configuration.dll" />
-            <File Source="Microsoft.Practices.Unity.dll" />
-            <File Source="Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+            <File Source="CommonServiceLocator.dll" />
             <File Source="Prism.dll" />
-            <File Source="Prism.Unity.Wpf.dll" />
+            <File Source="Prism.DryIoc.Wpf.dll" />
             <File Source="Prism.Wpf.dll" />
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
@@ -195,13 +192,15 @@
             <File Source="Digimezzo.Utilities.dll" />
             <File Source="Digimezzo.WPFControls.dll" />
             <File Source="SQLite-net.dll" />
-            <File Source="SQLitePCL.batteries.dll" />
-            <File Source="SQLitePCL.raw.dll" />
-            <File Source="SQLitePCLPlugin_esqlite3.dll" />
+            <File Source="SQLitePCLRaw.batteries_green.dll" />
+            <File Source="SQLitePCLRaw.batteries_v2.dll" />
+            <File Source="SQLitePCLRaw.core.dll" />
+            <File Source="SQLitePCLRaw.provider.e_sqlite3.dll" />
             <File Source="System.Windows.Interactivity.dll" />
             <File Source="taglib-sharp.dll" />
-            <File Source="Unity.Wcf.dll" />
             <File Source="WPFFolderBrowser.dll" />
+            <File Source="DryIoc.dll" />
+            <File Source="Newtonsoft.Json.dll" />
             <!-- Registry -->
             <RegistryKey Root="HKCR" Key="Directory\Shell\PlayWithDopamine">
               <RegistryValue Type="string" Value="Play with Dopamine"/>

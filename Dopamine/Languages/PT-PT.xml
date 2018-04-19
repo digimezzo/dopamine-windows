@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Alinhar lista de reprodução na vertical</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Mostrar apenas a notificação se o reprodutor não estiver visível</Text>
   <Text Key="Transparency">Transparência</Text>
-  <Text Key="Enable_Transparency">Ativar transparência (apenas Windows 10)</Text>
+  <Text Key="Enable_Transparency">Ativar transparência</Text>
   <Text Key="All">Todos</Text>
   <Text Key="Close_To_Tray">Fechar para a área de notificação</Text>
   <Text Key="Edit">Editar</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Ocorreu um erro ao reproduzir as faixas selecionadas. Consulte o registo para obter mais informações.</Text>
   <Text Key="External_Control">Controlo externo</Text>
   <Text Key="Enable_External_Control">Ativar controlo externo</Text>
-  <Text Key="Enable_System_Notification">Ativar notificações do sistema (apenas Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Ativar notificações do sistema</Text>
   <Text Key="Unknown_Album">Álbum desconhecido</Text>
   <Text Key="Unknown_Genre">Género desconhecido</Text>
   <Text Key="Refresh_Collection_Automatically">Atualizar coleção automaticamente</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as imagens para os álbuns que ainda não a tenham</Text>
   <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Descarregar imagens automaticamente através da Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Ao reproduzir uma faixa a partir do Explorador do Windows, colocar na fila todas as faixas que estejam na mesma pasta da que foi escolhida.</Text>
   <Text Key="Use_All_Available_Speakers">Usar todos os altifalantes disponíveis</Text>
   <Text Key="Center_Lyrics">Centrar letra da música</Text>
+  <Text Key="Spectrum_Flames">Chamas</Text>
+  <Text Key="Spectrum_Lines">Linhas</Text>
+  <Text Key="Spectrum_Bars">Barras</Text>
+  <Text Key="Spectrum_Stripes">Riscas</Text>
+  <Text Key="Also_Check_For_Prereleases">Procurar também por versões de teste</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

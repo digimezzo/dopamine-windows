@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>100</Value>
+      <Value>102</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -154,9 +154,6 @@
     <Setting Name="ShowRemoveFromDisk">
       <Value>False</Value>
     </Setting>
-    <Setting Name="EnqueueOtherFilesInFolder">
-      <Value>True</Value>
-    </Setting>
   </Namespace>
   <Namespace Name="Startup">
     <Setting Name="ShowLastSelectedPage">
@@ -171,6 +168,9 @@
       <Value>true</Value>
     </Setting>
     <Setting Name="CheckPeriodically">
+      <Value>False</Value>
+    </Setting>
+    <Setting Name="CheckForPrereleases">
       <Value>False</Value>
     </Setting>
     <Setting Name="CheckIntervalMinutes">
