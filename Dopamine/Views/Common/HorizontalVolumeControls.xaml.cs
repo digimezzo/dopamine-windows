@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Presentation.Views.Base;
 using Dopamine.Services.Contracts.Playback;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 using System.Windows;
 using System.Windows.Input;

@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Изравни плейлиста вертикално</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Покажи уведомлението само когато плеъра не се вижда</Text>
   <Text Key="Transparency">Прозрачност</Text>
-  <Text Key="Enable_Transparency">Направи някои елементи прозрачни (Само за Windows 10 )</Text>
+  <Text Key="Enable_Transparency">Направи някои елементи прозрачни</Text>
   <Text Key="All">All</Text>
   <Text Key="Close_To_Tray">Затвори в зоната на известията</Text>
   <Text Key="Edit">Редакция</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Възникна грешка при възпроизвеждане на избраните песни. Моля, консултирайте се с регистрационния файл за повече информация.</Text>
   <Text Key="External_Control">Външен контрол</Text>
   <Text Key="Enable_External_Control">Активиране на външния контрол</Text>
-  <Text Key="Enable_System_Notification">Активирай системни известия (само за Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Активирай системни известия</Text>
   <Text Key="Unknown_Album">Unknown album</Text>
   <Text Key="Unknown_Genre">Unknown genre</Text>
   <Text Key="Refresh_Collection_Automatically">Автоматично обновяване на колекцията</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Презареди обложките на албумите, които все още нямат обложка</Text>
   <Text Key="Added_Songs">Added {number} songs ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Свали липсващи обложки от интернет</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Когато възпроизвеждате аудио файл от Windows Explorer, изпълнете и другите аудио файлове, които са във същата папка.</Text>
   <Text Key="Use_All_Available_Speakers">Използвайте всички налични високоговорители</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

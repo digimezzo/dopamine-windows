@@ -6,7 +6,7 @@ using Dopamine.Data.Contracts.Entities;
 using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Playlist;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -120,7 +120,7 @@ namespace Dopamine.Views.Common.Base
 
                 // This should provide a smoother experience because after this wait,
                 // other animations on the UI should have finished executing.
-                await Task.Delay(Convert.ToInt32(Constants.ScrollToPlayingTrackTimeoutSeconds * 1000));
+                await Task.Delay(Convert.ToInt32(Core.Base.Constants.ScrollToPlayingTrackTimeoutSeconds * 1000));
 
                 await Application.Current.Dispatcher.Invoke(async () =>
                 {

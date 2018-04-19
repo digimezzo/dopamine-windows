@@ -11,9 +11,15 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxCheckForUpdatesPeriodicallyChecked;
         private bool checkBoxInstallUpdatesAutomaticallyChecked;
         private bool checkBoxStartupPageChecked;
-        private bool checkBoxRembemberLastPlayedTrackChecked;
+        private bool checkBoxRememberLastPlayedTrackChecked;
+        private bool checkBoxCheckForPrereleasesChecked;
         private IUpdateService updateService;
         private bool isportable;
+
+        public bool IsUpdateCheckEnabled
+        {
+            get { return this.checkBoxCheckForUpdatesAtStartupChecked | checkBoxCheckForUpdatesPeriodicallyChecked; }
+        }
 
         public bool CheckBoxCheckForUpdatesAtStartupChecked
         {
@@ -22,6 +28,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "CheckAtStartup", value);
                 SetProperty<bool>(ref this.checkBoxCheckForUpdatesAtStartupChecked, value);
+                RaisePropertyChanged(nameof(this.IsUpdateCheckEnabled));
                 this.updateService.Reset();
             }
         }
@@ -33,6 +40,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Updates", "CheckPeriodically", value);
                 SetProperty<bool>(ref this.checkBoxCheckForUpdatesPeriodicallyChecked, value);
+                RaisePropertyChanged(nameof(this.IsUpdateCheckEnabled));
                 this.updateService.Reset();
             }
         }
@@ -48,6 +56,17 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
+        public bool CheckBoxCheckForPrereleasesChecked
+        {
+            get { return this.checkBoxCheckForPrereleasesChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Updates", "CheckForPrereleases", value);
+                SetProperty<bool>(ref this.checkBoxCheckForPrereleasesChecked, value);
+                this.updateService.Reset();
+            }
+        }
+
         public bool CheckBoxStartupPageChecked
         {
             get { return this.checkBoxStartupPageChecked; }
@@ -58,13 +77,13 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public bool CheckBoxRembemberLastPlayedTrackChecked
+        public bool CheckBoxRememberLastPlayedTrackChecked
         {
-            get { return this.checkBoxRembemberLastPlayedTrackChecked; }
+            get { return this.checkBoxRememberLastPlayedTrackChecked; }
             set
             {
                 SettingsClient.Set<bool>("Startup", "RememberLastPlayedTrack", value);
-                SetProperty<bool>(ref this.checkBoxRembemberLastPlayedTrackChecked, value);
+                SetProperty<bool>(ref this.checkBoxRememberLastPlayedTrackChecked, value);
             }
         }
 
@@ -99,9 +118,10 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             await Task.Run(() =>
             {
                 this.checkBoxCheckForUpdatesAtStartupChecked = SettingsClient.Get<bool>("Updates", "CheckAtStartup");
+                this.checkBoxCheckForPrereleasesChecked = SettingsClient.Get<bool>("Updates", "CheckForPrereleases");
                 this.checkBoxCheckForUpdatesPeriodicallyChecked = SettingsClient.Get<bool>("Updates", "CheckPeriodically");
                 this.checkBoxStartupPageChecked = SettingsClient.Get<bool>("Startup", "ShowLastSelectedPage");
-                this.checkBoxRembemberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
+                this.checkBoxRememberLastPlayedTrackChecked = SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack");
             });
         }
     }

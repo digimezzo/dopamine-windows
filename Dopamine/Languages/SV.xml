@@ -62,7 +62,7 @@
   <Text Key="Minimize">Minimera</Text>
   <Text Key="Minimize_To_Tray">Minimera till meddelandefältet</Text>
   <Text Key="Add_A_Folder">Lägg till en mapp</Text>
-  <Text Key="Start">Start</Text>
+  <Text Key="Start">Starta</Text>
   <Text Key="Done">Klart!</Text>
   <Text Key="We_Are_Done">Nu är det klart. Låt oss starta Dopamine.</Text>
   <Text Key="What_Will_Your_Dopamine_Look_Like">Hur skall Dopamine se ut?</Text>
@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Justera spellistan vertikalt</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Visa avisering endast när spelaren inte är synlig</Text>
   <Text Key="Transparency">Transparens</Text>
-  <Text Key="Enable_Transparency">Gör vissa element transparenta (endast Windows 10)</Text>
+  <Text Key="Enable_Transparency">Gör vissa element transparenta</Text>
   <Text Key="All">Alla</Text>
   <Text Key="Close_To_Tray">Stäng till meddelandefältet</Text>
   <Text Key="Edit">Redigera</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Ett fel uppstod vid uppspelning av valda låtar. Läs loggfilen för mer information.</Text>
   <Text Key="External_Control">Extern Kontroll</Text>
   <Text Key="Enable_External_Control">Använd Extern Kontroll</Text>
-  <Text Key="Enable_System_Notification">Använd Systemnotifiering (endast Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Använd Systemnotifiering</Text>
   <Text Key="Unknown_Album">Okänt album</Text>
   <Text Key="Unknown_Genre">Okänd genre</Text>
   <Text Key="Refresh_Collection_Automatically">Uppdatera samlingen automatiskt</Text>
@@ -413,8 +413,13 @@
   <Text Key="Reload_Missing_Covers">Ladda om saknade skivomslag</Text>
   <Text Key="Reload_Missing_Covers_Description">Ladda om skivomslag endast för album som inte än har ett skivomslag</Text>
   <Text Key="Added_Songs">Tillagt {number} låtar ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Download missing album covers from the Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
-  <Text Key="Use_All_Available_Speakers">Use all available speakers</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Download_Missing_Album_Covers">Ladda ner saknade skivomslag från Internet</Text>
+  <Text Key="Use_All_Available_Speakers">Använd alla tillgängliga högtalare</Text>
+  <Text Key="Center_Lyrics">Centrera Låttexter</Text>
+  <Text Key="Spectrum_Flames">Flammor</Text>
+  <Text Key="Spectrum_Lines">Linjer</Text>
+  <Text Key="Spectrum_Bars">Stolpar</Text>
+  <Text Key="Spectrum_Stripes">Ränder</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

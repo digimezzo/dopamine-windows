@@ -7,11 +7,10 @@ using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Metadata;
-using Dopamine.Data.Metadata;
+using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -19,15 +18,17 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.Common
 {
     public class LyricsControlViewModel : ContextMenuViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private ILocalizationInfo info;
         private IMetadataService metadataService;
         private IPlaybackService playbackService;
+        private II18nService i18NService;
         private LyricsViewModel lyricsViewModel;
         private PlayableTrack previousTrack;
         private int contentSlideInFrom;
@@ -43,6 +44,7 @@ namespace Dopamine.ViewModels.Common
         private int refreshTimerIntervalMilliseconds = 500;
         private bool isNowPlayingPageActive;
         private bool isNowPlayingLyricsPageActive;
+        private LyricsFactory lyricsFactory;
 
         public DelegateCommand RefreshLyricsCommand { get; set; }
 
@@ -68,13 +70,14 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        public LyricsControlViewModel(IUnityContainer container) : base(container)
+        public LyricsControlViewModel(IContainerProvider container) : base(container)
         {
             this.container = container;
             this.info = container.Resolve<ILocalizationInfo>();
             this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
+            this.i18NService = container.Resolve<II18nService>();
 
             this.highlightTimer.Interval = this.highlightTimerIntervalMilliseconds;
             this.highlightTimer.Elapsed += HighlightTimer_Elapsed;
@@ -89,6 +92,9 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackResumed += (_, __) => this.highlightTimer.Start();
 
             this.metadataService.MetadataChanged += (_) => this.RestartRefreshTimer();
+
+            I18NService_LanguageChanged(null, null);
+            this.i18NService.LanguageChanged += I18NService_LanguageChanged;                  
 
             SettingsClient.SettingChanged += (_, e) =>
             {
@@ -126,6 +132,12 @@ namespace Dopamine.ViewModels.Common
             };
 
             this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
+        }
+
+        private void I18NService_LanguageChanged(object sender, EventArgs e)
+        {
+            this.lyricsFactory = new LyricsFactory(SettingsClient.Get<int>("Lyrics", "TimeoutSeconds"),
+                SettingsClient.Get<string>("Lyrics", "Providers"), this.info);
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -249,8 +261,7 @@ namespace Dopamine.ViewModels.Common
 
                     try
                     {
-                        var factory = new LyricsFactory(SettingsClient.Get<int>("Lyrics", "TimeoutSeconds"), SettingsClient.Get<string>("Lyrics", "Providers"), this.info);
-                        lyrics = await factory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
+                        lyrics = await this.lyricsFactory.GetLyricsAsync(fmd.Artists.Values[0], fmd.Title.Value);
                         lyrics.SourceType = SourceTypeEnum.Online;
                     }
                     catch (Exception ex)

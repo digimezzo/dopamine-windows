@@ -6,12 +6,13 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using GongSolutions.Wpf.DragDrop;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Ioc;
+using Dopamine.Services.Contracts.File;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -19,18 +20,20 @@ namespace Dopamine.ViewModels.Common
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
+        private IFileService fileService;
 
-        public NowPlayingControlViewModel(IUnityContainer container) : base(container)
+        public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.playbackService = container.Resolve<IPlaybackService>();
             this.dialogService = container.Resolve<IDialogService>();
+            this.fileService = container.Resolve<IFileService>();
 
             // Commands
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) => { if (!isDroppingTracks) await this.FillListsAsync(); };
+            this.playbackService.QueueChanged += async (_, __) => { if (!base.isDroppingTracks) await this.FillListsAsync(); };
         }
 
         protected async Task GetTracksAsync()
@@ -56,6 +59,17 @@ namespace Dopamine.ViewModels.Common
 
             try
             {
+                // We don't allow dragging playlists
+                if (dropInfo.Data is PlaylistViewModel) return;
+
+                // If we're dragging files, we need to be dragging valid files.
+                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
+                bool isDraggingValidFiles = false;
+                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
+                if (isDraggingFiles & !isDraggingValidFiles) return;
+
+                // In all other cases, allow dragging.
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
                 dropInfo.NotHandled = true;
             }
             catch (Exception ex)
@@ -65,30 +79,59 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
+        private async Task UpdateQueueOrderAsync(IDropInfo dropInfo)
+        {
+            base.isDroppingTracks = true;
+
+            var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+
+            // TargetCollection contains all tracks of the queue, in the new order.
+            foreach (var item in dropInfo.TargetCollection)
+            {
+                KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
+                droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+            }
+
+            await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
+
+            base.isDroppingTracks = false;
+        }
+
         public async void Drop(IDropInfo dropInfo)
         {
-            isDroppingTracks = true;
-
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-
             try
             {
-                var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
-
-                foreach (var item in dropInfo.TargetCollection)
+                if (base.IsDraggingFiles(dropInfo))
                 {
-                    KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
-                    droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+                    if (base.IsDraggingMediaFiles(dropInfo))
+                    {
+                        await this.AddDroppedFilesToQueue(dropInfo);
+                    }
                 }
-
-                await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
+                else
+                {
+                    DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs built-in reorder
+                    await this.UpdateQueueOrderAsync(dropInfo);
+                }
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not drop tracks. Exception: {0}", ex.Message);
+                LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
+        }
 
-            isDroppingTracks = false;
+        private async Task AddDroppedFilesToQueue(IDropInfo dropInfo)
+        {
+            try
+            {
+                var filenames = base.GetDroppedFilenames(dropInfo);
+                List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                await this.playbackService.AddToQueueAsync(tracks);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not add dropped files to playback queue. Exception: {0}", ex.Message);
+            }
         }
 
         private async Task RemoveSelectedTracksFromNowPlayingAsync()

@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Poravnaj popis za izvođenje vertikalno</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Prikaži obavijest samo kada svirač nije vidljiv</Text>
   <Text Key="Transparency">Prozirnost</Text>
-  <Text Key="Enable_Transparency">Neka neki elementi budu prozirni (samo Windows 10)</Text>
+  <Text Key="Enable_Transparency">Neka neki elementi budu prozirni</Text>
   <Text Key="All">Sve</Text>
   <Text Key="Close_To_Tray">Zatvori u područje obavijesti</Text>
   <Text Key="Edit">Uredi</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Dogodila se greška tijekom reprodukcije odabranih pjesama. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="External_Control">Vanjsko upravljanje</Text>
   <Text Key="Enable_External_Control">Omogući vanjsko upravljanje</Text>
-  <Text Key="Enable_System_Notification">Omogući obavijesti sustava (samo Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Omogući obavijesti sustava</Text>
   <Text Key="Unknown_Album">Nepoznati album</Text>
   <Text Key="Unknown_Genre">Nepoznati žanr</Text>
   <Text Key="Refresh_Collection_Automatically">Automatski osvježi kolekciju</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Ponovno učitaj samo naslovnice albuma koji je nemaju</Text>
   <Text Key="Added_Songs">Dodano {number} pjesama ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Preuzmi naslovnice albuma koje nedostaju s Interneta</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">Tijekom reprodukcije audio datoteke iz Windows Explorera, dodaj i ostale datoteke iz iste mape u red za preprodukciju.</Text>
   <Text Key="Use_All_Available_Speakers">Koristi sve dostupne zvučnike</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Center_Lyrics">Centriranje teksta</Text>
+  <Text Key="Spectrum_Flames">Flames</Text>
+  <Text Key="Spectrum_Lines">Lines</Text>
+  <Text Key="Spectrum_Bars">Bars</Text>
+  <Text Key="Spectrum_Stripes">Stripes</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

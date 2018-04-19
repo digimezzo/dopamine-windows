@@ -21,6 +21,8 @@ namespace Dopamine.Services.Notification
         private MusicDisplayProperties musicProperties;
         private InMemoryRandomAccessStream artworkStream;
 
+        public override bool SupportsSystemNotification => true;
+
         public override bool SystemNotificationIsEnabled
         {
             get => this.systemNotificationIsEnabled;

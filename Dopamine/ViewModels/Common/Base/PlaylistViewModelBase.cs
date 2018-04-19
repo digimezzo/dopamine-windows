@@ -13,7 +13,6 @@ using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -23,12 +22,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Prism.Ioc;
+using GongSolutions.Wpf.DragDrop;
+using Dopamine.Core.Base;
 
 namespace Dopamine.ViewModels.Common
 {
     public abstract class PlaylistViewModelBase : CommonViewModelBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private ISearchService searchService;
@@ -68,7 +70,7 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty(ref this.showTrackArt, value); }
         }
 
-        public PlaylistViewModelBase(IUnityContainer container) : base(container)
+        public PlaylistViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;
@@ -433,6 +435,64 @@ namespace Dopamine.ViewModels.Common
             });
 
             this.ConditionalScrollToPlayingTrack();
+        }
+
+        protected bool IsDraggingFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as IDataObject;
+                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        protected bool IsDraggingMediaFiles(IDropInfo dropInfo)
+        {
+            try
+            {
+                var dataObject = dropInfo.Data as DataObject;
+
+                var filenames = dataObject.GetFileDropList();
+                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
+
+                foreach (string filename in filenames)
+                {
+                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        protected List<string> GetDroppedFilenames(IDropInfo dropInfo)
+        {
+            var dataObject = dropInfo.Data as DataObject;
+
+            List<string> filenames = new List<string>();
+
+            try
+            {
+                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
+            }
+
+            return filenames;
         }
     }
 }

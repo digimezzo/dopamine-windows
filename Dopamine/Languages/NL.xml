@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">Afspeellijst verticaal uitlijnen</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Toon de popup enkel als de speler niet zichtbaar is</Text>
   <Text Key="Transparency">Doorzichtigheid</Text>
-  <Text Key="Enable_Transparency">Maak bepaalde elementen doorzichtig (uitsluitend Windows 10)</Text>
+  <Text Key="Enable_Transparency">Maak bepaalde elementen doorzichtig</Text>
   <Text Key="All">Alle</Text>
   <Text Key="Close_To_Tray">Sluiten naar systeemvak</Text>
   <Text Key="Edit">Aanpassen</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">Er is een fout opgetreden bij het afspelen van de geslecteerde nummers. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="External_Control">Externe besturing</Text>
   <Text Key="Enable_External_Control">Externe besturing activeren besturing</Text>
-  <Text Key="Enable_System_Notification">Systeem notificatie activeren (uitsluitend Windows 10)</Text>
+  <Text Key="Enable_System_Notification">Systeem notificatie activeren</Text>
   <Text Key="Unknown_Album">Onbekend album</Text>
   <Text Key="Unknown_Genre">Onbekend genre</Text>
   <Text Key="Refresh_Collection_Automatically">Collectie automatisch verversen</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">Herlaad albumafbeeldingen alleen voor albums die nog geen afbeelding hebben</Text>
   <Text Key="Added_Songs">{number} nummers toegevoegd ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Ontbrekende albumafbeeldingen downloaden van het Internet</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">When playing an audio file from Windows Explorer, also enqueue other audio files which are in the same folder.</Text>
   <Text Key="Use_All_Available_Speakers">Gebruik alle beschikbare luidsprekers</Text>
   <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Spectrum_Flames">Vlammen</Text>
+  <Text Key="Spectrum_Lines">Lijnen</Text>
+  <Text Key="Spectrum_Bars">Balken</Text>
+  <Text Key="Spectrum_Stripes">Strepen</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Map '{foldername}' kon niet worden toegevoegd omdat zijn inhoud niet toegankelijk is. Controleer de rechten op de map.</Text>
 </Language>

@@ -5,16 +5,17 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Views.FullPlayer.Information;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using Prism.Ioc;
+using Dopamine.Core.Extensions;
 
 namespace Dopamine.ViewModels.FullPlayer.Information
 {
     public class InformationAboutViewModel : BindableBase
     {
-        private IUnityContainer container;
+        private IContainerProvider container;
         private IDialogService dialogService;
         private Package package;
 
@@ -43,7 +44,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
 
         public string InstagramLink => ContactInformation.InstagramLink;
 
-        public InformationAboutViewModel(IUnityContainer container, IDialogService dialogService)
+        public InformationAboutViewModel(IContainerProvider container, IDialogService dialogService)
         {
             this.container = container;
             this.dialogService = dialogService;

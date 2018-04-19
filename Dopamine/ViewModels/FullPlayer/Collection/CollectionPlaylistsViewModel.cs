@@ -11,7 +11,6 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.ViewModels.Common;
 using GongSolutions.Wpf.DragDrop;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -21,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<long>(ref this.playlistsCount, value); }
         }
 
-        public CollectionPlaylistsViewModel(IUnityContainer container) : base(container)
+        public CollectionPlaylistsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.fileService = container.Resolve<IFileService>();
@@ -540,46 +540,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private bool IsDraggingFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as IDataObject;
-                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
-        private bool IsDraggingValidFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as DataObject;
-
-                var filenames = dataObject.GetFileDropList();
-                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
-
-                foreach (string filename in filenames)
-                {
-                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
         private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)
         {
             var tracks = new List<PlayableTrack>();
@@ -641,29 +601,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private List<string> GetDroppedFilenames(IDropInfo dropInfo)
-        {
-            var dataObject = dropInfo.Data as DataObject;
-
-            List<string> filenames = new List<string>();
-
-            try
-            {
-                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
-            }
-
-            return filenames;
-        }
-
         private async Task AddDroppedFilesToSelectedPlaylist(IDropInfo dropInfo)
         {
             try
             {
-                var filenames = this.GetDroppedFilenames(dropInfo);
+                var filenames = base.GetDroppedFilenames(dropInfo);
                 List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
             }
@@ -681,7 +623,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
-                var filenames = this.GetDroppedFilenames(dropInfo);
+                var filenames = base.GetDroppedFilenames(dropInfo);
                 tracks = await this.fileService.ProcessFilesAsync(filenames);
 
                 if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
@@ -702,7 +644,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 try
                 {
                     PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
-                    var filenames = this.GetDroppedFilenames(dropInfo);
+                    var filenames = base.GetDroppedFilenames(dropInfo);
                     List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
 
                     if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
@@ -715,7 +657,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             else if (dropInfo.TargetItem == null)
             {
                 string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
-                List<string> allFilenames = this.GetDroppedFilenames(dropInfo);
+                List<string> allFilenames = base.GetDroppedFilenames(dropInfo);
                 List<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
                 List<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();
 
@@ -747,9 +689,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (dropInfo.Data is PlaylistViewModel) return;
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = this.IsDraggingFiles(dropInfo);
+                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
                 bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = this.IsDraggingValidFiles(dropInfo);
+                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
                 if (isDraggingFiles & !isDraggingValidFiles) return;
 
                 // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.
@@ -781,7 +723,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (target.Name.Equals(this.playlistsTarget))
                 {
                     // Dragging to the Playlists listbox
-                    if (this.IsDraggingFiles(dropInfo))
+                    if (base.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToPlaylists(dropInfo);
                     }
@@ -793,13 +735,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 else if (target.Name.Equals(this.tracksTarget))
                 {
                     // Dragging to the Tracks listbox
-                    if (this.IsDraggingFiles(dropInfo))
+                    if (base.IsDraggingFiles(dropInfo))
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
                     }
                     else
                     {
-                        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs builtin reorder
+                        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo); // Automatically performs built-in reorder
                         await this.ReorderSelectedPlaylistTracksAsync(dropInfo);
                     }
                 }

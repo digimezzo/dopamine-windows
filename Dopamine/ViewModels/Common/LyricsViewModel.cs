@@ -7,7 +7,6 @@ using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.ViewModels.Common.Base;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism.Ioc;
+using Dopamine.Presentation.Utils;
+using Digimezzo.Utilities.Log;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -120,11 +122,30 @@ namespace Dopamine.ViewModels.Common
             get { return this.lyricsLines; }
         }
 
-        public LyricsViewModel(IUnityContainer container, PlayableTrack track) : base(container)
+        public LyricsViewModel(IContainerProvider container, PlayableTrack track) : this(container)
         {
             this.track = track;
+        }
 
-            // Dependency injection
+        private async Task SaveLyricsInAudioFileAsync()
+        {
+            this.IsEditing = false;
+            this.ParseLyrics(this.lyrics);
+
+            // Save to the file
+            var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
+            fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
+
+            var fmdList = new List<IFileMetadata>
+            {
+                fmd
+            };
+
+            await this.metadataService.UpdateTracksAsync(fmdList, false);
+        }
+
+        public LyricsViewModel(IContainerProvider container) : base(container)
+        {
             this.metadataService = container.Resolve<IMetadataService>();
             this.providerService = container.Resolve<IProviderService>();
 
@@ -147,27 +168,6 @@ namespace Dopamine.ViewModels.Common
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
         }
 
-        private async Task SaveLyricsInAudioFileAsync()
-        {
-            this.IsEditing = false;
-            this.ParseLyrics(this.lyrics);
-
-            // Save to the file
-            var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
-            fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
-
-            var fmdList = new List<IFileMetadata>
-            {
-                fmd
-            };
-
-            await this.metadataService.UpdateTracksAsync(fmdList, false);
-        }
-
-        public LyricsViewModel(IUnityContainer container) : base(container)
-        {
-        }
-
         public void SetLyrics(Lyrics lyrics)
         {
             this.Lyrics = lyrics;
@@ -178,77 +178,13 @@ namespace Dopamine.ViewModels.Common
         private void ParseLyrics(Lyrics lyrics)
         {
             Application.Current.Dispatcher.Invoke(() => this.lyricsLines = null);
-            var localLyricsLines = new ObservableCollection<LyricsLineViewModel>();
-            var reader = new StringReader(lyrics.Text);
-            string line;
-
-            bool allLinesHaveTimeStamps = true; // Assume true
-            bool hasLinesWithMultipleTimeStamps = false; // Assume false
-
-            while (true)
-            {
-                line = reader.ReadLine();
-                if (line != null)
-                {
-                    if (line.Length > 0 && line.StartsWith("["))
-                    {
-                        int index = line.LastIndexOf(']');
-
-                        var time = TimeSpan.Zero;
-
-
-                        // -1 means: not found (We check for > 0, because > -1 makes no sense in this case)
-                        if (index > 0)
-                        {
-                            MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
-
-                            if(ms.Count > 1)
-                            {
-                                hasLinesWithMultipleTimeStamps = true;
-                            }
-
-                            foreach (Match m in ms)
-                            {
-                                string subString = m.Value.Trim('[', ']');
-
-                                if (FormatUtils.ParseLyricsTime(subString, out time))
-                                {
-                                    localLyricsLines.Add(new LyricsLineViewModel(time, line.Substring(index + 1)));
-                                }
-                                else
-                                {
-                                    // The string between square brackets could not be parsed to a timestamp.
-                                    // In such case, just add the complete lyrics line.
-                                    localLyricsLines.Add(new LyricsLineViewModel(line));
-                                    allLinesHaveTimeStamps = false;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        localLyricsLines.Add(new LyricsLineViewModel(line));
-                        allLinesHaveTimeStamps = false;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (allLinesHaveTimeStamps && hasLinesWithMultipleTimeStamps)
-            {
-                // Only sort when all lines have timestamps and there are lines with multiple timestamps. 
-                // This works around a sorting issue when timestamping lyrics and not all lines have timestamps
-                localLyricsLines = new ObservableCollection<LyricsLineViewModel>(localLyricsLines.OrderBy(p => p.Time));
-            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.lyricsLines = localLyricsLines;
+                this.lyricsLines = new ObservableCollection<LyricsLineViewModel>(LyricsUtils.ParseLyrics(lyrics));
                 RaisePropertyChanged(nameof(this.LyricsLines));
             });
+            ;
         }
 
         protected override void SearchOnline(string id)

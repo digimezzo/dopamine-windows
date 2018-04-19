@@ -216,7 +216,7 @@
   <Text Key="Align_Playlist_Vertically">재생 목록 세로로 정렬</Text>
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">플레이어가 보이지 않을 때만 알림 보이기</Text>
   <Text Key="Transparency">투명도</Text>
-  <Text Key="Enable_Transparency">일부 요소 투명하게 만들기 (윈도우 10 전용)</Text>
+  <Text Key="Enable_Transparency">일부 요소 투명하게 만들기</Text>
   <Text Key="All">모두</Text>
   <Text Key="Close_To_Tray">알림 영역으로 닫기</Text>
   <Text Key="Edit">편집</Text>
@@ -397,7 +397,7 @@
   <Text Key="Error_Playing_Selected_Songs">선택한 노래를 재생하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="External_Control">외부 조작</Text>
   <Text Key="Enable_External_Control">외부 조작 사용</Text>
-  <Text Key="Enable_System_Notification">시스템 알림 사용 (윈도우 10 전용)</Text>
+  <Text Key="Enable_System_Notification">시스템 알림 사용</Text>
   <Text Key="Unknown_Album">알 수 없는 앨범</Text>
   <Text Key="Unknown_Genre">알 수 없는 장르</Text>
   <Text Key="Refresh_Collection_Automatically">자동으로 컬렉션 새로 고침</Text>
@@ -414,7 +414,12 @@
   <Text Key="Reload_Missing_Covers_Description">아직 커버가 없는 앨범의 커버만 다시 불러옵니다.</Text>
   <Text Key="Added_Songs">{Number}곡 추가됨 ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">없는 앨범 커버를 인터넷에서 다운로드하기</Text>
-  <Text Key="Also_Enqueue_Other_Files_In_Folder">윈도우 탐색기에서 오디오 파일을 재생하면 같은 폴더의 다른 오디오 파일도 재생 대기 목록에 추가</Text>
   <Text Key="Use_All_Available_Speakers">가능한 모든 스피커 사용</Text>
   <Text Key="Center_Lyrics">가사 가운데 정렬</Text>
+  <Text Key="Spectrum_Flames">화염</Text>
+  <Text Key="Spectrum_Lines">선</Text>
+  <Text Key="Spectrum_Bars">막대</Text>
+  <Text Key="Spectrum_Stripes">줄</Text>
+  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>

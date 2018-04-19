@@ -5,6 +5,7 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.ExternalControl;
+using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Notification;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Taskbar;
@@ -53,6 +54,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private INotificationService notificationService;
         private IDialogService dialogService;
         private IExternalControlService externalControlService;
+        private II18nService i18nService;
         private bool checkBoxUseAllAvailableChannelsChecked;
         private bool checkBoxWasapiExclusiveModeChecked;
         private bool checkBoxShowNotificationWhenPlayingChecked;
@@ -64,6 +66,9 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxEnableExternalControlChecked;
         private bool checkBoxEnableSystemNotificationChecked;
         private bool checkBoxLoopWhenShuffleChecked;
+        private bool checkBoxShowSpectrumAnalyzerChecked;
+        private ObservableCollection<NameValue> spectrumStyles;
+        private NameValue selectedSpectrumStyle;
         private ObservableCollection<NameValue> notificationPositions;
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
@@ -74,6 +79,21 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         public DelegateCommand ShowTestNotificationCommand { get; set; }
 
         public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
+
+        public bool SupportsWindowsMediaFoundation => this.playbackService.SupportsWindowsMediaFoundation;
+
+        public bool IsWindows10 => Constants.IsWindows10;
+
+        public bool CheckBoxShowSpectrumAnalyzerChecked
+        {
+            get { return this.checkBoxShowSpectrumAnalyzerChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
+                SetProperty<bool>(ref this.checkBoxShowSpectrumAnalyzerChecked, value);
+                this.playbackService.IsSpectrumVisible = value;
+            }
+        }
 
         public ObservableCollection<NameValue> Latencies
         {
@@ -86,13 +106,37 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get => this.selectedLatency;
             set
             {
-                SettingsClient.Set<int>("Playback", "AudioLatency", value.Value);
+                if (value != null)
+                {
+                    SettingsClient.Set<int>("Playback", "AudioLatency", value.Value);
+                }
+
                 SetProperty<NameValue>(ref this.selectedLatency, value);
 
                 if (this.playbackService != null)
                 {
                     this.playbackService.Latency = value.Value;
                 }
+            }
+        }
+
+        public ObservableCollection<NameValue> SpectrumStyles
+        {
+            get { return this.spectrumStyles; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.spectrumStyles, value); }
+        }
+
+        public NameValue SelectedSpectrumStyle
+        {
+            get { return this.selectedSpectrumStyle; }
+            set
+            {
+                if (value != null)
+                {
+                    SettingsClient.Set<int>("Playback", "SpectrumStyle", value.Value, true);
+                }
+
+                SetProperty<NameValue>(ref this.selectedSpectrumStyle, value);
             }
         }
 
@@ -211,7 +255,11 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get => this.selectedNotificationPosition;
             set
             {
-                SettingsClient.Set<int>("Behaviour", "NotificationPosition", value.Value);
+                if (value != null)
+                {
+                    SettingsClient.Set<int>("Behaviour", "NotificationPosition", value.Value);
+                }
+
                 SetProperty<NameValue>(ref this.selectedNotificationPosition, value);
             }
         }
@@ -269,8 +317,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public bool IsWindows10 => Constants.IsWindows10;
-
         public bool CheckBoxEnableSystemNotificationChecked
         {
             get => this.checkBoxEnableSystemNotificationChecked;
@@ -282,23 +328,33 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public SettingsPlaybackViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, INotificationService notificationService, IDialogService dialogService, IExternalControlService externalControlService)
+        public SettingsPlaybackViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, INotificationService notificationService, IDialogService dialogService, IExternalControlService externalControlService, II18nService i18nService)
         {
             this.playbackService = playbackService;
             this.taskbarService = taskbarService;
             this.notificationService = notificationService;
             this.dialogService = dialogService;
             this.externalControlService = externalControlService;
+            this.i18nService = i18nService;
 
             this.ShowTestNotificationCommand = new DelegateCommand(() => this.notificationService.ShowNotificationAsync());
 
             this.playbackService.AudioDevicesChanged += (_, __) => Application.Current.Dispatcher.Invoke(() => this.GetOutputDevicesAsync());
+
+            this.i18nService.LanguageChanged += (_, __) =>
+            {
+                this.GetNotificationPositionsAsync();
+                this.GetLatenciesAsync();
+                this.GetOutputDevicesAsync();
+                this.GetSpectrumStylesAsync();
+            };
 
             this.GetCheckBoxesAsync();
             this.GetNotificationPositionsAsync();
             this.GetNotificationSecondsAsync();
             this.GetLatenciesAsync();
             this.GetOutputDevicesAsync();
+            this.GetSpectrumStylesAsync();
         }
 
         private async void GetOutputDevicesAsync()
@@ -316,6 +372,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             MMDevice savedDevice = await this.playbackService.GetSavedAudioDeviceAsync();
 
+            this.selectedOutputDevice = null;
+            RaisePropertyChanged(nameof(this.SelectedOutputDevice));
             this.selectedOutputDevice = savedDevice == null ? this.OutputDevices.First() : new OutputDevice() { Name = savedDevice.FriendlyName, Device = savedDevice };
             RaisePropertyChanged(nameof(this.SelectedOutputDevice));
         }
@@ -351,10 +409,12 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.Latencies = localLatencies;
 
             NameValue localSelectedLatency = null;
-
             await Task.Run(() => localSelectedLatency = this.Latencies.Where((pa) => pa.Value == SettingsClient.Get<int>("Playback", "AudioLatency")).Select((pa) => pa).First());
 
-            this.SelectedLatency = localSelectedLatency;
+            this.selectedLatency = null;
+            RaisePropertyChanged(nameof(this.SelectedLatency));
+            this.selectedLatency = localSelectedLatency;
+            RaisePropertyChanged(nameof(this.SelectedLatency));
         }
 
         private async void GetNotificationPositionsAsync()
@@ -372,10 +432,12 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.NotificationPositions = localNotificationPositions;
 
             NameValue localSelectedNotificationPosition = null;
-
             await Task.Run(() => localSelectedNotificationPosition = NotificationPositions.Where((np) => np.Value == SettingsClient.Get<int>("Behaviour", "NotificationPosition")).Select((np) => np).First());
 
-            this.SelectedNotificationPosition = localSelectedNotificationPosition;
+            this.selectedNotificationPosition = null;
+            RaisePropertyChanged(nameof(this.SelectedNotificationPosition));
+            this.selectedNotificationPosition = localSelectedNotificationPosition;
+            RaisePropertyChanged(nameof(this.SelectedNotificationPosition));
         }
 
         private async void GetNotificationSecondsAsync()
@@ -394,7 +456,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.NotificationSeconds = localNotificationSeconds;
 
             int localSelectedNotificationSecond = 0;
-
             await Task.Run(() => localSelectedNotificationSecond = NotificationSeconds.Where((ns) => ns == SettingsClient.Get<int>("Behaviour", "NotificationAutoCloseSeconds")).Select((ns) => ns).First());
 
             this.SelectedNotificationSecond = localSelectedNotificationSecond;
@@ -404,6 +465,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
+                this.checkBoxShowSpectrumAnalyzerChecked = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
                 this.checkBoxUseAllAvailableChannelsChecked = SettingsClient.Get<bool>("Playback", "WasapiUseAllAvailableChannels");
                 this.checkBoxWasapiExclusiveModeChecked = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
                 this.checkBoxShowNotificationWhenPlayingChecked = this.notificationService.ShowNotificationWhenPlaying;
@@ -416,6 +478,29 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxLoopWhenShuffleChecked = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle");
                 this.checkBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
             });
+        }
+
+        private async void GetSpectrumStylesAsync()
+        {
+            var localSpectrumStyles = new ObservableCollection<NameValue>();
+
+            await Task.Run(() =>
+            {
+                localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Flames"), Value = 1 });
+                localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Lines"), Value = 2 });
+                localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Bars"), Value = 3 });
+                localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Stripes"), Value = 4 });
+            });
+
+            this.SpectrumStyles = localSpectrumStyles;
+
+            NameValue localSelectedSpectrumStyle = null;
+            await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
+
+            this.selectedSpectrumStyle = null;
+            RaisePropertyChanged(nameof(this.SelectedSpectrumStyle));
+            this.selectedSpectrumStyle = localSelectedSpectrumStyle;
+            RaisePropertyChanged(nameof(this.SelectedSpectrumStyle));
         }
 
         private void ConfirmEnableExclusiveMode()

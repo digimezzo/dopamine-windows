@@ -1,3 +1,47 @@
+2018-04-19: Dopamine 1.5.14 Beta 1
+----------------------------------
+
+- [Changed] Before adding a collection folder, a check is now performed to ensure its content is accessible.
+- [Fixed] We now don't crash anymore when a collection folder's content is not accessible.
+
+
+2018-04-18: Dopamine 1.5.13
+---------------------------
+
+- [Changed] Improved parsing of timestamped lyrics
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Korean translation
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Vietnamese translation
+- [Changed] Updated the Spanish translation
+- [Changed] Updated the Swedish translation
+- [Fixed] Fixed MetroLyrics parsing issues
+- [Fixed] Spectrum styles are not localized
+
+
+2018-04-02: Dopamine 1.5.12
+---------------------------
+
+- [Added] Songs can now be added to Now Playing by dragging audio and playlist files from Explorer
+- [Changed] Updated the Russian translation
+- [Changed] Updated the Vietnamese translation
+- [Fixed] Files cannot be enqueued from Windows Explorer since version 1.5.11
+
+
+2018-03-21: Dopamine 1.5.11
+---------------------------
+
+- [Added] Added support for N editions of Windows (Even without Media Feature Pack)
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Croatian translation
+- [Changed] Updated the Greek translation
+- [Changed] Updated the Korean translation
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Swedish translation
+- [Fixed] Fixed a crash which happens just after startup on some editions of Windows 10
+- [Fixed] Playback fails on 32 bit Windows versions
+
+
 2018-02-10: Dopamine 1.5.10
 ----------------------------
 
