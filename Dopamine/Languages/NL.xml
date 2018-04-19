@@ -421,4 +421,5 @@
   <Text Key="Spectrum_Bars">Balken</Text>
   <Text Key="Spectrum_Stripes">Strepen</Text>
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Map '{foldername}' kon niet worden toegevoegd omdat zijn inhoud niet toegankelijk is. Controleer de rechten op de map.</Text>
 </Language>

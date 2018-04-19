@@ -63,5 +63,25 @@ namespace Dopamine.Core.IO
                     }
                 }));
         }
+
+        public static bool IsDirectoryContentAccessible(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                return false;
+            }
+
+            try
+            {
+                var watcher = new FileSystemWatcher(directoryPath) { EnableRaisingEvents = true, IncludeSubdirectories = true };
+                watcher.Dispose();
+                watcher = null;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

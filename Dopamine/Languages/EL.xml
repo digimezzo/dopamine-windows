@@ -421,4 +421,5 @@
   <Text Key="Spectrum_Bars">Bars</Text>
   <Text Key="Spectrum_Stripes">Stripes</Text>
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
+<Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
 </Language>
