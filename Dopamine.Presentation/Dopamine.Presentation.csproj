@@ -128,6 +128,7 @@
     <Compile Include="Interfaces\ISemanticZoomSelector.cs" />
     <Compile Include="Interfaces\ISemanticZoomViewModel.cs" />
     <Compile Include="Utils\BindingProxy.cs" />
+    <Compile Include="Utils\LyricsUtils.cs" />
     <Compile Include="Utils\OpenFileUtils.cs" />
     <Compile Include="Utils\SaveFileUtils.cs" />
     <Compile Include="Utils\ScrollUtils.cs" />
