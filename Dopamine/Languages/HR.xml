@@ -416,10 +416,10 @@
   <Text Key="Download_Missing_Album_Covers">Preuzmi naslovnice albuma koje nedostaju s Interneta</Text>
   <Text Key="Use_All_Available_Speakers">Koristi sve dostupne zvučnike</Text>
   <Text Key="Center_Lyrics">Centriranje teksta</Text>
-  <Text Key="Spectrum_Flames">Flames</Text>
-  <Text Key="Spectrum_Lines">Lines</Text>
-  <Text Key="Spectrum_Bars">Bars</Text>
-  <Text Key="Spectrum_Stripes">Stripes</Text>
-  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
-  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
+  <Text Key="Spectrum_Flames">Plamen</Text>
+  <Text Key="Spectrum_Lines">Crte</Text>
+  <Text Key="Spectrum_Bars">Stupci</Text>
+  <Text Key="Spectrum_Stripes">Trake</Text>
+  <Text Key="Also_Check_For_Prereleases">Provjeri jesu li dostupna i predizdanja</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Nije moguće dodati mapu '{foldername}' jer nije moguće pristupiti sadržaju te mape. Molimo provjerite dopuštenja za tu mapu.</Text>
 </Language>
