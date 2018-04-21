@@ -421,5 +421,5 @@
   <Text Key="Spectrum_Bars">Barras</Text>
   <Text Key="Spectrum_Stripes">Riscas</Text>
   <Text Key="Also_Check_For_Prereleases">Procurar também por versões de teste</Text>
-  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Não foi possível adicionar a pasta '{foldername}' porque o seu conteúdo não está acessível. Verifique as permissões da pasta.</Text>
 </Language>
