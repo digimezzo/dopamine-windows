@@ -1,24 +1,18 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lyrics;
-using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Presentation.Utils;
 using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
-using System;
+using Prism.Ioc;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Prism.Ioc;
-using Dopamine.Presentation.Utils;
-using Digimezzo.Utilities.Log;
 
 namespace Dopamine.ViewModels.Common
 {

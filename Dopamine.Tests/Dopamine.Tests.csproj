@@ -89,16 +89,21 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="LastfmApi.cs" />
-    <Compile Include="LyricsApi.cs" />
+    <Compile Include="LastfmApiTest.cs" />
+    <Compile Include="LyricsApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PlaylistDecoder.cs" />
+    <Compile Include="PlaylistDecoderTest.cs" />
     <Compile Include="TestCategories.cs" />
+    <Compile Include="LyricsParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dopamine.Core\Dopamine.Core.csproj">
       <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
       <Name>Dopamine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
+      <Project>{D4CC27BA-1089-47FD-86C0-F6C12FF0D344}</Project>
+      <Name>Dopamine.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +114,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\PlaylistDecoder\Test.wpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\LyricsParser\MixedLyrics.lrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\LyricsParser\UnsynchronizedLyrics.lrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\LyricsParser\ExtendedSynchronizedLyrics.lrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\LyricsParser\SynchronizedLyrics.lrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Dopamine.Tests
 {
     [TestClass]
-    public class LyricsApi
+    public class LyricsApiTest
     {
         [TestMethod(), TestCategory(TestCategories.LyricsApi)]
         public async Task LyricWikiaApiGetNormalLyrics()

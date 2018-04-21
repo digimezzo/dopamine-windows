@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dopamine.Tests
 {
     [TestClass]
-    public class PlaylistDecoder
+    public class PlaylistDecoderTest
     {
         [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
         public void DecodeM3uPlaylist()
@@ -88,7 +88,7 @@ namespace Dopamine.Tests
         public void GenerateFullPath()
         {
             // Arrange
-            var decoder = new PlaylistDecoder();
+            var decoder = new PlaylistDecoderTest();
             PrivateObject obj = new PrivateObject(decoder);
 
             string expectedPath1 = @"C:\Music\Folder\File.mp3";
