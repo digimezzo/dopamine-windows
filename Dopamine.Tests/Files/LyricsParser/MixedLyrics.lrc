@@ -1,0 +1,15 @@
+[ar:Lyrics artist]
+[al:Album where the song is from]
+[ti:Lyrics (song) title]
+[au:Creator of the Songtext]
+[length:How long the song is]
+[by:Creator of the LRC file]
+[offset:+/- Overall timestamp adjustment in milliseconds, + shifts time up, - shifts down]
+[Incorrect line 1]
+[00:12.00]Synchronized line 1
+Unsynchronized line 1
+[00:17.20][00:25.20]Repeating synchronized line 1
+[00:17.20][00:ss.20]Incorrect line 2
+[00:21.10]Synchronized line 2
+Unsynchronized line 2
+Unsynchronized line 3

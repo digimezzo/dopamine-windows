@@ -18,6 +18,8 @@ namespace Dopamine.Presentation.Utils
 
             var reader = new StringReader(lyrics.Text);
 
+            TimeSpan previousTimestamp = TimeSpan.Zero;
+            bool isLyricsStart = true;
             string line;
 
             while (true)
@@ -31,11 +33,32 @@ namespace Dopamine.Presentation.Utils
                     break;
                 }
 
+                if (line.Length == 0)
+                {
+                    if (!isLyricsStart)
+                    {
+                        // Empty lines, which are not at the start of the lyrics, need special treatment.
+                        if (previousTimestamp > TimeSpan.Zero)
+                        {
+                            linesWithTimestamps.Add(new LyricsLineViewModel(previousTimestamp, string.Empty));
+                        }
+                        else
+                        {
+                            linesWithoutTimestamps.Add(new LyricsLineViewModel(string.Empty));
+                        }
+                    }
+
+                    // Process the next line
+                    continue;
+                }
+
                 // Check if the line has characters and is enclosed in brackets (starts with [ and ends with ]).
-                if (line.Length == 0 || !(line.StartsWith("[") && line.LastIndexOf(']') > 0))
+                if (!(line.StartsWith("[") && line.LastIndexOf(']') > 0))
                 {
                     // This line is not enclosed in brackets, so it cannot have timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
+                    previousTimestamp = TimeSpan.Zero;
+                    isLyricsStart = false;
 
                     // Process the next line
                     continue;
@@ -79,17 +102,21 @@ namespace Dopamine.Presentation.Utils
                     foreach (TimeSpan timestamp in timestamps)
                     {
                         linesWithTimestamps.Add(new LyricsLineViewModel(timestamp, line.Substring(startIndex)));
+                        previousTimestamp = timestamp;
+                        isLyricsStart = false;
                     }
                 }
                 else
                 {
                     // The line has mistakes. Consider it as a line without timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
+                    previousTimestamp = TimeSpan.Zero;
+                    isLyricsStart = false;
                 }
             }
 
             // Order the time stamped lines
-            linesWithTimestamps = new List<LyricsLineViewModel>(linesWithTimestamps.OrderBy(p => p.Time));
+            linesWithTimestamps = new List<LyricsLineViewModel>(linesWithTimestamps.OrderBy(p => p.Time).ThenByDescending(p => p.Text));
 
             // Merge both collections, lines with timestamps first.
             linesWithTimestamps.AddRange(linesWithoutTimestamps);
