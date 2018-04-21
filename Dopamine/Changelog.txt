@@ -3,6 +3,7 @@
 
 - [Changed] Before adding a collection folder, a check is now performed to ensure its content is accessible.
 - [Fixed] We now don't crash anymore when a collection folder's content is not accessible.
+- [Fixed] Fixed a small issue displaying lyrics download timeouts
 
 
 2018-04-18: Dopamine 1.5.13

@@ -371,7 +371,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
             await Task.Run(() =>
             {
-                localTimeouts.Add(new NameValue { Name = ResourceUtils.GetString("Language_None"), Value = 0 });
+                localTimeouts.Add(new NameValue { Name = ResourceUtils.GetString("0"), Value = 0 });
                 localTimeouts.Add(new NameValue { Name = "1", Value = 1 });
                 localTimeouts.Add(new NameValue { Name = "2", Value = 2 });
                 localTimeouts.Add(new NameValue { Name = "5", Value = 5 });
