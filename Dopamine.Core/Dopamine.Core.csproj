@@ -115,6 +115,7 @@
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
+    <Compile Include="Helpers\PeekingStreamReader.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\FolderPathInfo.cs" />
