@@ -4,6 +4,7 @@ using Dopamine.Core.Utils;
 using Dopamine.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -11,14 +12,14 @@ namespace Dopamine.Presentation.Utils
 {
     public static class LyricsUtils
     {
-        private static void ProcessFollowingEmptyLines(ref PeekingStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
+        private static void ProcessPossibleNextEmptyLine(ref PeekingStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
         {
-            string nextLine = reader.PeekReadLine();
+            string peekedLine = reader.PeekLine();
 
-            // Continue processing next lines as long as they are not null and they are empty
-            while (nextLine != null && nextLine.Length == 0){
-                lines.Add(new LyricsLineViewModel(span, nextLine));
-                nextLine = reader.PeekReadLine();
+            if (peekedLine != null && peekedLine.Length == 0)
+            {
+                // The next line is an empty line
+                lines.Add(new LyricsLineViewModel(span, peekedLine));
             }
         }
 
@@ -27,7 +28,7 @@ namespace Dopamine.Presentation.Utils
             var linesWithTimestamps = new List<LyricsLineViewModel>();
             var linesWithoutTimestamps = new List<LyricsLineViewModel>();
 
-            var reader = new PeekingStringReader(lyrics.Text);
+            var reader = new PeekingStringReader(new StringReader(lyrics.Text));
 
             string line;
 
@@ -63,9 +64,7 @@ namespace Dopamine.Presentation.Utils
                 {
                     // This line is not enclosed in brackets, so it cannot have timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-
-                    // Process following empty lines
-                    ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+                    ProcessPossibleNextEmptyLine(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
 
                     // Process the next line
                     continue;
@@ -100,18 +99,14 @@ namespace Dopamine.Presentation.Utils
                     foreach (TimeSpan span in spans)
                     {
                         linesWithTimestamps.Add(new LyricsLineViewModel(span, line.Substring(startIndex)));
-
-                        // Process following empty lines
-                        ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+                        ProcessPossibleNextEmptyLine(ref reader, linesWithTimestamps, span);
                     }
                 }
                 else
                 {
                     // The line has mistakes. Consider it as a line without timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-
-                    // Process following empty lines
-                    ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+                    ProcessPossibleNextEmptyLine(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
                 }
             }
 
