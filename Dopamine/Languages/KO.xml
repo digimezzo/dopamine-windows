@@ -420,6 +420,6 @@
   <Text Key="Spectrum_Lines">선</Text>
   <Text Key="Spectrum_Bars">막대</Text>
   <Text Key="Spectrum_Stripes">줄</Text>
-  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
-  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
+  <Text Key="Also_Check_For_Prereleases">출시 전 버전도 확인</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">폴더 내용에 접근할 수 없어 '{foldername}' 폴더를 추가할 수 없습니다. 폴더 권한을 확인하세요.</Text>
 </Language>
