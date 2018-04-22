@@ -4,7 +4,6 @@ using Dopamine.Core.Utils;
 using Dopamine.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -12,7 +11,7 @@ namespace Dopamine.Presentation.Utils
 {
     public static class LyricsUtils
     {
-        private static void ProcessPossibleNextEmptyLine(ref PeekingStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
+        private static void ProcessPossibleNextEmptyLine(ref PeekStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
         {
             string peekedLine = reader.PeekLine();
 
@@ -28,7 +27,7 @@ namespace Dopamine.Presentation.Utils
             var linesWithTimestamps = new List<LyricsLineViewModel>();
             var linesWithoutTimestamps = new List<LyricsLineViewModel>();
 
-            var reader = new PeekingStringReader(new StringReader(lyrics.Text));
+            var reader = new PeekStringReader(lyrics.Text);
 
             string line;
 
