@@ -1,7 +1,8 @@
-2018-04-19: Dopamine 1.5.14 Beta 1
+2018-04-22: Dopamine 1.5.14 Beta 1
 ----------------------------------
 
 - [Changed] Before adding a collection folder, a check is now performed to ensure its content is accessible.
+- [Changed] Improved parsing of lyrics
 - [Changed] Updated the Korean translation
 - [Fixed] We now don't crash anymore when a collection folder's content is not accessible.
 - [Fixed] Fixed a small issue displaying lyrics download timeouts
