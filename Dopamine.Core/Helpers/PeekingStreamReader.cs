@@ -3,32 +3,42 @@ using System.IO;
 
 namespace Dopamine.Core.Helpers
 {
-    public class PeekingStringReader : StringReader
+    public class PeekingStringReader
     {
-        private Queue<string> peeks;
+        private readonly StringReader reader;
+        private readonly Queue<string> readAheadQueue = new Queue<string>();
 
-        public PeekingStringReader(string text) : base(text)
+        public PeekingStringReader(StringReader reader)
         {
-            this.peeks = new Queue<string>();
+            this.reader = reader;
+
         }
 
-        public override string ReadLine()
+        public string ReadLine()
         {
-            if (this.peeks.Count > 0)
+            if (readAheadQueue.Count > 0)
             {
-                string nextLine = this.peeks.Dequeue();
-                return nextLine;
+                return readAheadQueue.Dequeue();
             }
 
-            return base.ReadLine();
+            return reader.ReadLine();
         }
 
-        public string PeekReadLine()
+        public string PeekLine()
         {
-            string nextLine = ReadLine();
-            this.peeks.Enqueue(nextLine);
+            if (readAheadQueue.Count > 0)
+            {
+                return readAheadQueue.Peek();
+            }
 
-            return nextLine;
+            string line = reader.ReadLine();
+
+            if (line != null)
+            {
+                readAheadQueue.Enqueue(line);
+            }
+
+            return line;
         }
     }
 }
