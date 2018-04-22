@@ -1,9 +1,9 @@
 ﻿using Dopamine.Core.Api.Lyrics;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.Utils;
 using Dopamine.Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -11,15 +11,24 @@ namespace Dopamine.Presentation.Utils
 {
     public static class LyricsUtils
     {
+        private static void ProcessFollowingEmptyLines(ref PeekingStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
+        {
+            string nextLine = reader.PeekReadLine();
+
+            // Continue processing next lines as long as they are not null and they are empty
+            while (nextLine != null && nextLine.Length == 0){
+                lines.Add(new LyricsLineViewModel(span, nextLine));
+                nextLine = reader.PeekReadLine();
+            }
+        }
+
         public static IList<LyricsLineViewModel> ParseLyrics(Lyrics lyrics)
         {
             var linesWithTimestamps = new List<LyricsLineViewModel>();
             var linesWithoutTimestamps = new List<LyricsLineViewModel>();
 
-            var reader = new StringReader(lyrics.Text);
+            var reader = new PeekingStringReader(lyrics.Text);
 
-            TimeSpan previousTimestamp = TimeSpan.Zero;
-            bool isLyricsStart = true;
             string line;
 
             while (true)
@@ -33,38 +42,14 @@ namespace Dopamine.Presentation.Utils
                     break;
                 }
 
+                // Ignore empty lines
                 if (line.Length == 0)
                 {
-                    if (!isLyricsStart)
-                    {
-                        // Empty lines, which are not at the start of the lyrics, need special treatment.
-                        if (previousTimestamp > TimeSpan.Zero)
-                        {
-                            linesWithTimestamps.Add(new LyricsLineViewModel(previousTimestamp, string.Empty));
-                        }
-                        else
-                        {
-                            linesWithoutTimestamps.Add(new LyricsLineViewModel(string.Empty));
-                        }
-                    }
-
-                    // Process the next line
+                    // Process the next line.
                     continue;
                 }
 
-                // Check if the line has characters and is enclosed in brackets (starts with [ and ends with ]).
-                if (!(line.StartsWith("[") && line.LastIndexOf(']') > 0))
-                {
-                    // This line is not enclosed in brackets, so it cannot have timestamps.
-                    linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-                    previousTimestamp = TimeSpan.Zero;
-                    isLyricsStart = false;
-
-                    // Process the next line
-                    continue;
-                }
-
-                // Check if the line is a tag
+                // Ignore lines with tags
                 MatchCollection tagMatches = Regex.Matches(line, @"\[[a-z]+?:.*?\]");
 
                 if (tagMatches.Count > 0)
@@ -73,9 +58,22 @@ namespace Dopamine.Presentation.Utils
                     continue;
                 }
 
+                // Check if the line has characters and is enclosed in brackets (starts with [ and ends with ]).
+                if (!(line.StartsWith("[") && line.LastIndexOf(']') > 0))
+                {
+                    // This line is not enclosed in brackets, so it cannot have timestamps.
+                    linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
+
+                    // Process following empty lines
+                    ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+
+                    // Process the next line
+                    continue;
+                }
+
                 // Get all substrings between square brackets for this line
                 MatchCollection ms = Regex.Matches(line, @"\[.*?\]");
-                var timestamps = new List<TimeSpan>();
+                var spans = new List<TimeSpan>();
                 bool couldParseAllTimestamps = true;
 
                 // Loop through all matches
@@ -86,7 +84,7 @@ namespace Dopamine.Presentation.Utils
 
                     if (FormatUtils.ParseLyricsTime(subString, out time))
                     {
-                        timestamps.Add(time);
+                        spans.Add(time);
                     }
                     else
                     {
@@ -99,19 +97,21 @@ namespace Dopamine.Presentation.Utils
                 {
                     int startIndex = line.LastIndexOf(']') + 1;
 
-                    foreach (TimeSpan timestamp in timestamps)
+                    foreach (TimeSpan span in spans)
                     {
-                        linesWithTimestamps.Add(new LyricsLineViewModel(timestamp, line.Substring(startIndex)));
-                        previousTimestamp = timestamp;
-                        isLyricsStart = false;
+                        linesWithTimestamps.Add(new LyricsLineViewModel(span, line.Substring(startIndex)));
+
+                        // Process following empty lines
+                        ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
                     }
                 }
                 else
                 {
                     // The line has mistakes. Consider it as a line without timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-                    previousTimestamp = TimeSpan.Zero;
-                    isLyricsStart = false;
+
+                    // Process following empty lines
+                    ProcessFollowingEmptyLines(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
                 }
             }
 
