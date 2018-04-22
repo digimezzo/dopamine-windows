@@ -3,11 +3,11 @@ using System.IO;
 
 namespace Dopamine.Core.Helpers
 {
-    public class PeekingStreamReader : StreamReader
+    public class PeekingStringReader : StringReader
     {
         private Queue<string> peeks;
 
-        public PeekingStreamReader(Stream stream) : base(stream)
+        public PeekingStringReader(string text) : base(text)
         {
             this.peeks = new Queue<string>();
         }
@@ -27,6 +27,7 @@ namespace Dopamine.Core.Helpers
         {
             string nextLine = ReadLine();
             this.peeks.Enqueue(nextLine);
+
             return nextLine;
         }
     }
