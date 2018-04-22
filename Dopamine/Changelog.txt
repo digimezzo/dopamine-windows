@@ -2,6 +2,7 @@
 ----------------------------------
 
 - [Changed] Before adding a collection folder, a check is now performed to ensure its content is accessible.
+- [Changed] Updated the Korean translation
 - [Fixed] We now don't crash anymore when a collection folder's content is not accessible.
 - [Fixed] Fixed a small issue displaying lyrics download timeouts
 
