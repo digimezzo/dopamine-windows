@@ -86,7 +86,7 @@ namespace Dopamine.Tests
             var lyrics = new Lyrics(lyricsText, "Not important");
             IList<LyricsLineViewModel> lyricsLines = LyricsUtils.ParseLyrics(lyrics);
 
-            Assert.AreEqual(lyricsLines.Count, 20);
+            Assert.AreEqual(lyricsLines.Count, 24);
             Assert.AreEqual(lyricsLines[0].Text, "Synchronized line 1");
             Assert.AreEqual(lyricsLines[1].Text, "Synchronized line 2");
             Assert.AreEqual(lyricsLines[2].Text, "");
@@ -98,15 +98,19 @@ namespace Dopamine.Tests
             Assert.AreEqual(lyricsLines[8].Text, "");
             Assert.AreEqual(lyricsLines[9].Text, "Synchronized line 7");
             Assert.AreEqual(lyricsLines[10].Text, "Repeating synchronized line 2");
-            Assert.AreEqual(lyricsLines[11].Text, "Repeating synchronized line 1");
+            Assert.AreEqual(lyricsLines[11].Text, "");
             Assert.AreEqual(lyricsLines[12].Text, "");
-            Assert.AreEqual(lyricsLines[13].Text, "Synchronized line 8");
-            Assert.AreEqual(lyricsLines[14].Text, "Synchronized line 9");
-            Assert.AreEqual(lyricsLines[15].Text, "");
-            Assert.AreEqual(lyricsLines[16].Text, "Repeating synchronized line 2");
-            Assert.AreEqual(lyricsLines[17].Text, "Repeating synchronized line 1");
-            Assert.AreEqual(lyricsLines[18].Text, "");
-            Assert.AreEqual(lyricsLines[19].Text, "Synchronized line 10");
+            Assert.AreEqual(lyricsLines[13].Text, "Repeating synchronized line 1");
+            Assert.AreEqual(lyricsLines[14].Text, "");
+            Assert.AreEqual(lyricsLines[15].Text, "Synchronized line 8");
+            Assert.AreEqual(lyricsLines[16].Text, "Synchronized line 9");
+            Assert.AreEqual(lyricsLines[17].Text, "");
+            Assert.AreEqual(lyricsLines[18].Text, "Repeating synchronized line 2");
+            Assert.AreEqual(lyricsLines[19].Text, "");
+            Assert.AreEqual(lyricsLines[20].Text, "");
+            Assert.AreEqual(lyricsLines[21].Text, "Repeating synchronized line 1");
+            Assert.AreEqual(lyricsLines[22].Text, "");
+            Assert.AreEqual(lyricsLines[23].Text, "Synchronized line 10");
         }
     }
 }

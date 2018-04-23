@@ -11,14 +11,28 @@ namespace Dopamine.Presentation.Utils
 {
     public static class LyricsUtils
     {
-        private static void ProcessPossibleNextEmptyLine(ref PeekStringReader reader, List<LyricsLineViewModel> lines, TimeSpan span)
+        private static int GetNumberOfFollowingEmptyLines(ref PeekStringReader reader)
         {
+            int numberOfEmptyLines = 0;
+
             string peekedLine = reader.PeekLine();
 
-            if (peekedLine != null && peekedLine.Length == 0)
+            while (peekedLine != null && peekedLine.Length == 0)
             {
                 // The next line is an empty line
-                lines.Add(new LyricsLineViewModel(span, peekedLine));
+                numberOfEmptyLines++;
+                reader.ReadLine();
+                peekedLine = reader.PeekLine();
+            }
+
+            return numberOfEmptyLines;
+        }
+
+        private static void AddEmptyLines(int numberOfEmptyLines, List<LyricsLineViewModel> lines, TimeSpan span)
+        {
+            for (int i = 0; i < numberOfEmptyLines; i++)
+            {
+                lines.Add(new LyricsLineViewModel(span, string.Empty));
             }
         }
 
@@ -63,7 +77,10 @@ namespace Dopamine.Presentation.Utils
                 {
                     // This line is not enclosed in brackets, so it cannot have timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-                    ProcessPossibleNextEmptyLine(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+                    int numberOfEmptyLines = GetNumberOfFollowingEmptyLines(ref reader);
+
+                    // Add empty lines
+                    AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.Zero);
 
                     // Process the next line
                     continue;
@@ -94,18 +111,24 @@ namespace Dopamine.Presentation.Utils
                 if (couldParseAllTimestamps)
                 {
                     int startIndex = line.LastIndexOf(']') + 1;
+                    int numberOfEmptyLines = GetNumberOfFollowingEmptyLines(ref reader);
 
                     foreach (TimeSpan span in spans)
                     {
                         linesWithTimestamps.Add(new LyricsLineViewModel(span, line.Substring(startIndex)));
-                        ProcessPossibleNextEmptyLine(ref reader, linesWithTimestamps, span);
+
+                        // Add empty lines
+                        AddEmptyLines(numberOfEmptyLines, linesWithTimestamps, span);
                     }
                 }
                 else
                 {
                     // The line has mistakes. Consider it as a line without timestamps.
                     linesWithoutTimestamps.Add(new LyricsLineViewModel(line));
-                    ProcessPossibleNextEmptyLine(ref reader, linesWithoutTimestamps, TimeSpan.Zero);
+                    int numberOfEmptyLines = GetNumberOfFollowingEmptyLines(ref reader);
+
+                    // Add empty lines
+                    AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.Zero);
                 }
             }
 
