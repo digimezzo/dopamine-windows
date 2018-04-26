@@ -1,6 +1,7 @@
 2018-04-26: Dopamine 1.5.14 Beta 2
 ----------------------------------
 
+- [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed a crash which occurs when indexing MP3 files which have corrupt headers
 
 
