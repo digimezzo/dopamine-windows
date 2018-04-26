@@ -2,6 +2,7 @@
 ----------------------------------
 
 - [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Decreased the minimum window size for people using vertical monitors
 - [Fixed] Fixed a crash which occurs when indexing MP3 files which have corrupt headers
 
 
