@@ -42,12 +42,10 @@ namespace Dopamine.Core.Audio
         private const double dbScale = (maxDBValue - minDBValue);
         private const int defaultRefreshInterval = 25;
 
-        private readonly DispatcherTimer animationTimer;
         //private Canvas spectrumCanvas;
         private Path spectrumPath;
         private ISpectrumPlayer soundPlayer;
         //private readonly List<Shape> barShapes = new List<Shape>();
-        private double[] barHeights;
         private float[] channelData = new float[1024];
         private float[] preBarHeight;
         private double bandWidth = 1.0;
@@ -56,9 +54,9 @@ namespace Dopamine.Core.Audio
         private int minimumFrequency = 20;
         private int minimumFrequencyIndex;
         private int[] barIndexMax;
-        private int[] barLogScaleIndexMax;
+        //private int[] barLogScaleIndexMax;
         private int peakFallDelay = 10;
-
+        private bool Running;
         public static readonly DependencyProperty AnimationStyleProperty = DependencyProperty.Register("AnimationStyle", typeof(SpectrumAnimationStyle), typeof(SpectrumAnalyzer), new PropertyMetadata(SpectrumAnimationStyle.Nervous, null));
 
         public SpectrumAnimationStyle AnimationStyle
@@ -197,44 +195,6 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public static readonly DependencyProperty RefreshIntervalProperty = DependencyProperty.Register("RefreshInterval", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(defaultRefreshInterval, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
-
-        private static object OnCoerceRefreshInterval(DependencyObject o, object value)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null) return spectrumAnalyzer.OnCoerceRefreshInterval((int)value);
-            return value;
-        }
-
-        private static void OnRefreshIntervalChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null) spectrumAnalyzer.OnRefreshIntervalChanged((int)e.OldValue, (int)e.NewValue);
-        }
-
-        protected virtual int OnCoerceRefreshInterval(int value)
-        {
-            value = Math.Min(1000, Math.Max(10, value));
-            return value;
-        }
-
-        protected virtual void OnRefreshIntervalChanged(int oldValue, int newValue)
-        {
-            animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
-        }
-
-        public int RefreshInterval
-        {
-            get
-            {
-                return (int)GetValue(RefreshIntervalProperty);
-            }
-            set
-            {
-                SetValue(RefreshIntervalProperty, value);
-            }
-        }
-
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumAnalyzer), new FrameworkPropertyMetadata(typeof(SpectrumAnalyzer)));
@@ -242,21 +202,14 @@ namespace Dopamine.Core.Audio
 
         public SpectrumAnalyzer()
         {
-            this.animationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-            {
-                Interval = TimeSpan.FromMilliseconds(defaultRefreshInterval)
-            };
-
-            this.animationTimer.Tick += animationTimer_Tick;
         }
 
         public override void OnApplyTemplate()
         {
             this.spectrumPath = (Path)GetTemplateChild("PART_SpectrumPath");
             this.spectrumPath.SizeChanged += spectrumCanvas_SizeChanged;
-            this.spectrumPath.Stroke = this.spectrumPath.Fill = BarBackground;
-            this.spectrumPath.StrokeThickness = BarWidth;
             this.UpdateBarLayout();
+            CompositionTarget.Rendering += UpdateSpectrum;
         }
 
         protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
@@ -265,18 +218,11 @@ namespace Dopamine.Core.Audio
             if (this.spectrumPath != null) this.spectrumPath.SizeChanged -= spectrumCanvas_SizeChanged;
         }
 
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
-            this.UpdateBarLayout();
-            this.UpdateSpectrum();
-        }
-
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
             this.UpdateBarLayout();
-            this.UpdateSpectrum();
+            //this.UpdateSpectrum();
         }
 
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
@@ -284,12 +230,13 @@ namespace Dopamine.Core.Audio
             this.soundPlayer = soundPlayer;
             this.soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             this.UpdateBarLayout();
-            this.animationTimer.Start();
+            Running = true;
         }
 
-        private void UpdateSpectrum()
+        private void UpdateSpectrum(object sender, EventArgs e)
         {
-            if (this.soundPlayer == null || this.spectrumPath == null || this.spectrumPath.RenderSize.Width < 1 || this.spectrumPath.RenderSize.Height < 1) return;
+            if (!Running) return;
+            if(this.soundPlayer == null || this.spectrumPath == null || this.spectrumPath.RenderSize.Width < 1 || this.spectrumPath.RenderSize.Height < 1) return;
             if (this.soundPlayer.IsPlaying && !this.soundPlayer.GetFFTData(ref this.channelData)) return;
             this.UpdateSpectrumShapes();
         }
@@ -364,7 +311,7 @@ namespace Dopamine.Core.Audio
             spectrumPath.Data = geo;
             if (allZero && !this.soundPlayer.IsPlaying)
             {
-                this.animationTimer.Stop();
+                Running = false;
             }
         }
 
@@ -413,15 +360,14 @@ namespace Dopamine.Core.Audio
             switch (e.PropertyName)
             {
                 case "IsPlaying":
-                    if (this.soundPlayer.IsPlaying && !this.animationTimer.IsEnabled) this.animationTimer.Start();
+                    if (this.soundPlayer.IsPlaying)
+                    {
+                        Running = true;
+                    }
                     break;
             }
         }
 
-        private void animationTimer_Tick(object sender, EventArgs e)
-        {
-            this.UpdateSpectrum();
-        }
 
         private void spectrumCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {

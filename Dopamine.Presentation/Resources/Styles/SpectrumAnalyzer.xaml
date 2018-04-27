@@ -5,15 +5,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dca:SpectrumAnalyzer}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Path Name="PART_SpectrumPath" IsHitTestVisible="False" ClipToBounds="True">
-                            <Path.CacheMode>
-                                <BitmapCache/>
-                            </Path.CacheMode>
-                        </Path>
-                    </Border>
+                    <Path Name="PART_SpectrumPath" IsHitTestVisible="False" Stroke="{TemplateBinding BarBackground}" StrokeThickness="{TemplateBinding BarWidth}" ClipToBounds="True">
+                        <Path.CacheMode>
+                            <BitmapCache/>
+                        </Path.CacheMode>
+                    </Path>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
