@@ -1,3 +1,9 @@
+2018-04-28: Dopamine 1.5.14 Beta 3
+----------------------------------
+
+- [Fixed] Further improved scaling for vertical monitors
+
+
 2018-04-26: Dopamine 1.5.14 Beta 2
 ----------------------------------
 
