@@ -21,7 +21,7 @@
   </Namespace>
   <Namespace Name="FullPlayer">
     <Setting Name="Width">
-      <Value>950</Value>
+      <Value>1024</Value>
     </Setting>
     <Setting Name="Height">
       <Value>600</Value>

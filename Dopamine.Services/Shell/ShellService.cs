@@ -244,7 +244,7 @@ namespace Dopamine.Services.Shell
             // Set MinWidth and MinHeight AFTER SetGeometry(). This prevents flicker.
             this.MinimumSizeChanged(this, new MinimumSizeChangedEventArgs()
             {
-                MinimumSize = new Size(Constants.MinShellWidth, Constants.MinShellHeight)
+                MinimumSize = new Size(0, 0)
             });
         }
 
