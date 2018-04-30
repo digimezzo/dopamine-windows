@@ -157,7 +157,7 @@ namespace Dopamine.ViewModels.Common
             });
 
             this.SaveCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync());
-            this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
+            this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => this.lyrics != null && !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
         }

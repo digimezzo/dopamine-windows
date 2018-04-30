@@ -93,14 +93,17 @@ namespace Dopamine.Services.Win32Input
                 switch (command)
                 {
                     case Command.APPCOMMAND_MEDIA_NEXTTRACK:
+                        LogClient.Info("AppCommand Key Next pressed");
                         this.MediaKeyNextPressed(this, new EventArgs());
                         break;
                     case Command.APPCOMMAND_MEDIA_PAUSE:
                     case Command.APPCOMMAND_MEDIA_PLAY:
                     case Command.APPCOMMAND_MEDIA_PLAY_PAUSE:
+                        LogClient.Info("AppCommand Key Play pressed");
                         this.MediaKeyPlayPressed(this, new EventArgs());
                         break;
                     case Command.APPCOMMAND_MEDIA_PREVIOUSTRACK:
+                        LogClient.Info("AppCommand Key Previous pressed");
                         this.MediaKeyPreviousPressed(this, new EventArgs());
                         break;
                     default:
