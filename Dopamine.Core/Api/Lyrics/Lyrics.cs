@@ -35,6 +35,12 @@
 
         public SourceTypeEnum SourceType { get; set; }
 
+        public Lyrics()
+        {
+            this.text = string.Empty;
+            this.source = string.Empty;
+        }
+
         public Lyrics(string text, string source)
         {
             this.text = text;

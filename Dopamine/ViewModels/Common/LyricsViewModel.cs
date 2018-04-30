@@ -116,15 +116,15 @@ namespace Dopamine.ViewModels.Common
             get { return this.lyricsLines; }
         }
 
-        public LyricsViewModel(IContainerProvider container, PlayableTrack track) : this(container)
-        {
-            this.track = track;
-        }
-
         private async Task SaveLyricsInAudioFileAsync()
         {
             this.IsEditing = false;
             this.ParseLyrics(this.lyrics);
+
+            if(this.track == null)
+            {
+                return;
+            }
 
             // Save to the file
             var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
@@ -138,10 +138,15 @@ namespace Dopamine.ViewModels.Common
             await this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
-        public LyricsViewModel(IContainerProvider container) : base(container)
+        public LyricsViewModel(IContainerProvider container, PlayableTrack track) : base(container)
         {
             this.metadataService = container.Resolve<IMetadataService>();
             this.providerService = container.Resolve<IProviderService>();
+
+            this.track = track;
+
+            this.lyrics = new Lyrics();
+            this.uneditedLyrics = new Lyrics();
 
             this.FontSize = SettingsClient.Get<double>("Lyrics", "FontSize");
             this.AutomaticScrolling = SettingsClient.Get<bool>("Lyrics", "AutomaticScrolling");
@@ -157,7 +162,7 @@ namespace Dopamine.ViewModels.Common
             });
 
             this.SaveCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync());
-            this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => this.lyrics != null && !string.IsNullOrWhiteSpace(this.lyrics.Text));
+            this.SaveIfNotEmptyCommand = new DelegateCommand(async () => await this.SaveLyricsInAudioFileAsync(), () => !string.IsNullOrWhiteSpace(this.lyrics.Text));
 
             this.SearchOnlineCommand = new DelegateCommand<string>((id) => this.SearchOnline(id));
         }
@@ -183,6 +188,11 @@ namespace Dopamine.ViewModels.Common
 
         protected override void SearchOnline(string id)
         {
+            if(this.track == null)
+            {
+                return;
+            }
+
             this.providerService.SearchOnline(id, new string[] { this.track.ArtistName, this.track.TrackTitle });
         }
     }
