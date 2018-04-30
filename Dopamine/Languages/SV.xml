@@ -420,6 +420,6 @@
   <Text Key="Spectrum_Lines">Linjer</Text>
   <Text Key="Spectrum_Bars">Stolpar</Text>
   <Text Key="Spectrum_Stripes">Ränder</Text>
-  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
-  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
+  <Text Key="Also_Check_For_Prereleases">Sök även förhandsversioner</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Mappen '{foldername}' kunde inte läggas till för att dens innehåll inte är tillgängligt. Vänligen kontrollera mappbehörigheterna.</Text>
 </Language>

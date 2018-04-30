@@ -1,6 +1,7 @@
-2018-04-28: Dopamine 1.5.14 Beta 3
-----------------------------------
+2018-04-29: Dopamine 1.5.14 Release Candidate 1
+-----------------------------------------------
 
+- [Changed] Updated the Swedish translation
 - [Fixed] Further improved scaling for narrower monitors
 
 

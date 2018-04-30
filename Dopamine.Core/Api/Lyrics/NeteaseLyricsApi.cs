@@ -77,9 +77,10 @@ namespace Dopamine.Core.Api.Lyrics
 
         private async Task<string> ParseLyricsAsync(string trackId)
         {
-            var resJson = await httpClient.GetStringAsync(String.Format(apiLyricsFormat, trackId));
-            var res = JsonConvert.DeserializeObject<LyricModel>(resJson);
-            if (string.IsNullOrEmpty(res.tlyric.lyric) || !this.enableTLyric)
+            string resJson = await httpClient.GetStringAsync(String.Format(apiLyricsFormat, trackId));
+            LyricModel res = JsonConvert.DeserializeObject<LyricModel>(resJson);
+
+            if (res.tlyric == null || string.IsNullOrEmpty(res.tlyric.lyric) || !this.enableTLyric)
             {
                 return res.lrc.lyric;
             }
