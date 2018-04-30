@@ -131,7 +131,7 @@ namespace Dopamine.ViewModels.Common
                 this.RestartRefreshTimer();
             };
 
-            this.ClearLyrics(); // Makes sure the loading animation can be shown even at first start
+            this.ClearLyrics(null); // Makes sure the loading animation can be shown even at first start
         }
 
         private void I18NService_LanguageChanged(object sender, EventArgs e)
@@ -177,9 +177,9 @@ namespace Dopamine.ViewModels.Common
             this.highlightTimer.Stop();
         }
 
-        private void ClearLyrics()
+        private void ClearLyrics(PlayableTrack track)
         {
-            this.LyricsViewModel = new LyricsViewModel(container);
+            this.LyricsViewModel = new LyricsViewModel(this.container, track);
         }
 
         private async void RefreshLyricsAsync(PlayableTrack track)
@@ -206,7 +206,7 @@ namespace Dopamine.ViewModels.Common
                 // No FileMetadata available: clear the lyrics.
                 if (fmd == null)
                 {
-                    this.ClearLyrics();
+                    this.ClearLyrics(track);
                     return;
                 }
             });
@@ -282,7 +282,7 @@ namespace Dopamine.ViewModels.Common
             {
                 this.IsDownloadingLyrics = false;
                 LogClient.Error("Could not show lyrics for Track {0}. Exception: {1}", track.Path, ex.Message);
-                this.ClearLyrics();
+                this.ClearLyrics(track);
                 return;
             }
 
