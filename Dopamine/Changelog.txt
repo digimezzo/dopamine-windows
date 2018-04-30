@@ -1,3 +1,9 @@
+2018-04-30: Dopamine 1.5.14 Release Candidate 2
+-----------------------------------------------
+
+- [Fixed] Fixed multiple crashes when searching for lyrics and when editing lyrics
+
+
 2018-04-29: Dopamine 1.5.14 Release Candidate 1
 -----------------------------------------------
 
