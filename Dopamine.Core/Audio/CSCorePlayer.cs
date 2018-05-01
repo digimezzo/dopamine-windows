@@ -271,7 +271,16 @@ namespace Dopamine.Core.Audio
 
             if (useFfmpegDecoder)
             {
-                waveSource = new FfmpegDecoder(this.filename);
+                // waveSource = new FfmpegDecoder(this.filename);
+
+                // On some systems, files with special characters (e.g. "æ", "ø") can't be opened by FfmpegDecoder.
+                // This exception is thrown: avformat_open_input returned 0xfffffffe: No such file or directory. 
+                // StackTrace: at CSCore.Ffmpeg.FfmpegCalls.AvformatOpenInput(AVFormatContext** formatContext, String url)
+                // This issue can't be reproduced for now, so we're using a stream as it works in all cases.
+                // See: https://github.com/digimezzo/Dopamine/issues/746
+                // And: https://github.com/filoe/cscore/issues/344
+                this.audioStream = File.OpenRead(filename);
+                waveSource = new FfmpegDecoder(this.audioStream);
             }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
