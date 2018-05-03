@@ -46,6 +46,8 @@ namespace Dopamine.Core.Base
         // Shell
         public static readonly double DefaultShellTop = 50;
         public static readonly double DefaultShellLeft = 50;
+        public static readonly double MinShellWidth = 730;
+        public static readonly double MinShellHeight = 480;
 
         // Cover Player
         public static readonly double CoverPlayerWidth = 350;
