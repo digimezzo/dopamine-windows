@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>102</Value>
+      <Value>103</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -21,7 +21,7 @@
   </Namespace>
   <Namespace Name="FullPlayer">
     <Setting Name="Width">
-      <Value>1024</Value>
+      <Value>950</Value>
     </Setting>
     <Setting Name="Height">
       <Value>600</Value>
