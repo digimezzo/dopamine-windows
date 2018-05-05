@@ -14,7 +14,9 @@ namespace Dopamine.Views.NowPlaying
         {
             Storyboard resizeCoverArtStoryboard = null;
 
-            if (this.ActualHeight < 250)
+            double factor = 1.5;
+
+            if (this.ActualHeight < factor * 250)
             {
                 resizeCoverArtStoryboard = this.PlaybackInfoPanel.Resources["ResizeCoverArt250"] as Storyboard;
             }
@@ -22,7 +24,7 @@ namespace Dopamine.Views.NowPlaying
             {
                 for (int index = 250; index <= 600; index += 50)
                 {
-                    if (this.ActualHeight >= 1.5 * index)
+                    if (this.ActualHeight >= factor * index)
                     {
                         resizeCoverArtStoryboard = this.PlaybackInfoPanel.Resources[string.Format("ResizeCoverArt{0}", index)] as Storyboard;
                     }
