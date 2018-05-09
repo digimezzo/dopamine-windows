@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,27 +10,35 @@ namespace Dopamine.Core.IO
 {
     public sealed class FileOperations
     {
-        public static List<FolderPathInfo> GetValidFolderPaths(long folderId, string directory, string[] validExtensions, SearchOption searchOption)
+        public static List<FolderPathInfo> GetValidFolderPaths(long folderId, string directory, string[] validExtensions)
         {
             var folderPaths = new List<FolderPathInfo>();
 
             try
             {
-                IEnumerable<String> allFilenames = GetAllFiles(directory, "*.*");
+                var files = new List<string>();
+                var exceptions = new ConcurrentQueue<Exception>();
 
-                foreach (string filename in allFilenames)
+                TryDirectoryRecursiveGetFiles(directory, files, exceptions);
+
+                foreach (Exception ex in exceptions)
+                {
+                    LogClient.Error("Error occurred while getting files recursively. Exception: {0}", ex.Message);
+                }
+
+                foreach (string file in files)
                 {
                     try
                     {
                         // Only add the file if they have a valid extension
-                        if (validExtensions.Contains(Path.GetExtension(filename.ToLower())))
+                        if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
                         {
-                            folderPaths.Add(new FolderPathInfo(folderId, filename, FileUtils.DateModifiedTicks(filename)));
+                            folderPaths.Add(new FolderPathInfo(folderId, file, FileUtils.DateModifiedTicks(file)));
                         }
                     }
                     catch (Exception ex)
                     {
-                        LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", filename, ex.Message);
+                        LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", file, ex.Message);
                     }
                 }
             }
@@ -41,27 +50,69 @@ namespace Dopamine.Core.IO
             return folderPaths;
         }
 
-        /// <summary>
-        /// Recursively gets all files in a directory without failing 
-        /// the complete operation when a directory inaccessible.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="searchPattern"></param>
-        /// <returns></returns>
-        private static IEnumerable<String> GetAllFiles(string path, string searchPattern)
+        private static void TryDirectoryRecursiveGetFiles(string path, List<String> files, ConcurrentQueue<Exception> exceptions)
         {
-            return Directory.EnumerateFiles(path, searchPattern).Union(
-                Directory.EnumerateDirectories(path).SelectMany(d =>
+            try
+            {
+                // Process the list of files found in the directory.
+                string[] fileEntries = null;
+
+                try
                 {
-                    try
+                    fileEntries = Directory.GetFiles(path);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Enqueue(ex);
+                }
+
+                if (fileEntries != null && fileEntries.Count() > 0)
+                {
+                    foreach (string fileName in fileEntries)
                     {
-                        return GetAllFiles(d, searchPattern);
+                        try
+                        {
+                            files.Add(fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            exceptions.Enqueue(ex);
+                        }
                     }
-                    catch (UnauthorizedAccessException e)
+                }
+
+                // Recurse into subdirectories of this directory. 
+                string[] subdirectoryEntries = null;
+
+                try
+                {
+                    subdirectoryEntries = Directory.GetDirectories(path);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Enqueue(ex);
+                }
+
+                if (subdirectoryEntries != null && subdirectoryEntries.Count() > 0)
+                {
+
+                    foreach (string subdirectory in subdirectoryEntries)
                     {
-                        return Enumerable.Empty<String>();
+                        try
+                        {
+                            TryDirectoryRecursiveGetFiles(subdirectory, files, exceptions);
+                        }
+                        catch (Exception ex)
+                        {
+                            exceptions.Enqueue(ex);
+                        }
                     }
-                }));
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptions.Enqueue(ex);
+            }
         }
 
         public static bool IsDirectoryContentAccessible(string directoryPath)
