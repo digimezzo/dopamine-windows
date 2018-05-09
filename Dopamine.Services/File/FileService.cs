@@ -96,7 +96,7 @@ namespace Dopamine.Services.File
                     else if (Directory.Exists(path))
                     {
                         // The file is a directory: get the audio files in that directory and all its sub directories.
-                        foreach (string audioFilePath in this.ProcessDirectory(path, SearchOption.AllDirectories))
+                        foreach (string audioFilePath in this.ProcessDirectory(path))
                         {
                             tracks.Add(await this.CreateTrackAsync(audioFilePath));
                         }
@@ -241,13 +241,13 @@ namespace Dopamine.Services.File
             return decodeResult.Paths;
         }
 
-        private List<string> ProcessDirectory(string directoryPath, SearchOption searchOption)
+        private List<string> ProcessDirectory(string directoryPath)
         {
             var folderPaths = new List<FolderPathInfo>();
 
             try
             {
-                folderPaths = FileOperations.GetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions, searchOption);
+                folderPaths = FileOperations.GetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions);
             }
             catch (Exception ex)
             {

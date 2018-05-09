@@ -1,44 +1,18 @@
-2018-05-05: Dopamine 1.5.14 Release Candidate 4
------------------------------------------------
-
-- [Fixed] Fixed a Now Playing sizing issue caused by adding support for narrower monitors
-
-
-2018-05-01: Dopamine 1.5.14 Release Candidate 3
------------------------------------------------
-
-- [Fixed] Fixed another issue playing files which contain special characters
-
-
-2018-04-30: Dopamine 1.5.14 Release Candidate 2
------------------------------------------------
-
-- [Fixed] Fixed multiple crashes when searching for lyrics and when editing lyrics
-
-
-2018-04-29: Dopamine 1.5.14 Release Candidate 1
------------------------------------------------
-
-- [Changed] Updated the Swedish translation
-- [Fixed] Further improved scaling for narrower monitors
-
-
-2018-04-26: Dopamine 1.5.14 Beta 2
-----------------------------------
+2018-05-09: Dopamine 1.5.14
+---------------------------
 
 - [Changed] Updated the Chinese (Simplified) translation
-- [Changed] Decreased the minimum window size for people using vertical monitors
-- [Fixed] Fixed a crash which occurs when indexing MP3 files which have corrupt headers
-
-
-2018-04-23: Dopamine 1.5.14 Beta 1
-----------------------------------
-
+- [Changed] Updated the Korean translation
+- [Changed] Updated the Swedish translation
+- [Changed] Decreased the minimum window size for people using narrow or vertical monitors
 - [Changed] Before adding a collection folder, a check is now performed to ensure its content is accessible.
 - [Changed] Improved parsing of lyrics
-- [Changed] Updated the Korean translation
 - [Fixed] We now don't crash anymore when a collection folder's content is not accessible.
-- [Fixed] Fixed a small issue displaying lyrics download timeouts
+- [Fixed] Indexing stops when encountering an unreadable file or folder
+- [Fixed] Fixed another issue playing files which contain special characters
+- [Fixed] Fixed multiple crashes when searching for lyrics and when editing lyrics
+- [Fixed] Fixed a crash which occurs when indexing MP3 files which have corrupt headers
+- [Fixed] Fixed a small issue displaying lyrics download timeout settings
 
 
 2018-04-18: Dopamine 1.5.13
