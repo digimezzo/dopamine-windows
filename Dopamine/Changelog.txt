@@ -1,4 +1,4 @@
-2018-05-09: Dopamine 1.5.14
+2018-05-16: Dopamine 1.5.14
 ---------------------------
 
 - [Changed] Updated the Chinese (Simplified) translation
