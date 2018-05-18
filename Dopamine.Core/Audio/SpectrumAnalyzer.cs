@@ -42,22 +42,21 @@ namespace Dopamine.Core.Audio
         private const double dbScale = (maxDBValue - minDBValue);
         private const int defaultRefreshInterval = 25;
 
-        private readonly DispatcherTimer animationTimer;
-        private Canvas spectrumCanvas;
+        //private Canvas spectrumCanvas;
+        private Path spectrumPath;
         private ISpectrumPlayer soundPlayer;
-        private readonly List<Shape> barShapes = new List<Shape>();
-        private double[] barHeights;
+        //private readonly List<Shape> barShapes = new List<Shape>();
         private float[] channelData = new float[1024];
-        private float[] channelPeakData;
+        private float[] preBarHeight;
         private double bandWidth = 1.0;
         private int maximumFrequency = 20000;
         private int maximumFrequencyIndex = 2047;
         private int minimumFrequency = 20;
         private int minimumFrequencyIndex;
         private int[] barIndexMax;
-        private int[] barLogScaleIndexMax;
+        //private int[] barLogScaleIndexMax;
         private int peakFallDelay = 10;
-
+        private bool Running;
         public static readonly DependencyProperty AnimationStyleProperty = DependencyProperty.Register("AnimationStyle", typeof(SpectrumAnimationStyle), typeof(SpectrumAnalyzer), new PropertyMetadata(SpectrumAnimationStyle.Nervous, null));
 
         public SpectrumAnimationStyle AnimationStyle
@@ -72,20 +71,7 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public static readonly DependencyProperty BarBackgroundProperty = DependencyProperty.Register("BarBackground", typeof(Brush), typeof(SpectrumAnalyzer), new PropertyMetadata(Brushes.White, OnBarBackgroundChanged));
-
-        private static void OnBarBackgroundChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-
-            if (spectrumAnalyzer.barShapes != null && spectrumAnalyzer.barShapes.Count > 0)
-            {
-                foreach (Shape bar in spectrumAnalyzer.barShapes)
-                {
-                    bar.Fill = spectrumAnalyzer.BarBackground;
-                }
-            }
-        }
+        public static readonly DependencyProperty BarBackgroundProperty = DependencyProperty.Register("BarBackground", typeof(Brush), typeof(SpectrumAnalyzer), new PropertyMetadata(Brushes.White));
 
         public Brush BarBackground
         {
@@ -99,25 +85,7 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0, OnBarWidthChanged, OnCoerceBarWidth));
-
-        private static object OnCoerceBarWidth(DependencyObject o, object value)
-        {
-            return value;
-        }
-
-        private static void OnBarWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-
-            if (spectrumAnalyzer.barShapes != null && spectrumAnalyzer.barShapes.Count > 0)
-            {
-                foreach (Shape bar in spectrumAnalyzer.barShapes)
-                {
-                    bar.Width = spectrumAnalyzer.BarWidth;
-                }
-            }
-        }
+        public static readonly DependencyProperty BarWidthProperty = DependencyProperty.Register("BarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(1.0));
 
         public double BarWidth
         {
@@ -208,44 +176,6 @@ namespace Dopamine.Core.Audio
             }
         }
 
-        public static readonly DependencyProperty RefreshIntervalProperty = DependencyProperty.Register("RefreshInterval", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(defaultRefreshInterval, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
-
-        private static object OnCoerceRefreshInterval(DependencyObject o, object value)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null) return spectrumAnalyzer.OnCoerceRefreshInterval((int)value);
-            return value;
-        }
-
-        private static void OnRefreshIntervalChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
-            if (spectrumAnalyzer != null) spectrumAnalyzer.OnRefreshIntervalChanged((int)e.OldValue, (int)e.NewValue);
-        }
-
-        protected virtual int OnCoerceRefreshInterval(int value)
-        {
-            value = Math.Min(1000, Math.Max(10, value));
-            return value;
-        }
-
-        protected virtual void OnRefreshIntervalChanged(int oldValue, int newValue)
-        {
-            animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
-        }
-
-        public int RefreshInterval
-        {
-            get
-            {
-                return (int)GetValue(RefreshIntervalProperty);
-            }
-            set
-            {
-                SetValue(RefreshIntervalProperty, value);
-            }
-        }
-
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumAnalyzer), new FrameworkPropertyMetadata(typeof(SpectrumAnalyzer)));
@@ -253,39 +183,27 @@ namespace Dopamine.Core.Audio
 
         public SpectrumAnalyzer()
         {
-            this.animationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-            {
-                Interval = TimeSpan.FromMilliseconds(defaultRefreshInterval)
-            };
-
-            this.animationTimer.Tick += animationTimer_Tick;
         }
 
         public override void OnApplyTemplate()
         {
-            this.spectrumCanvas = (Canvas)GetTemplateChild("PART_SpectrumCanvas");
-            this.spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
+            this.spectrumPath = (Path)GetTemplateChild("PART_SpectrumPath");
+            this.spectrumPath.SizeChanged += spectrumPath_SizeChanged;
             this.UpdateBarLayout();
+            CompositionTarget.Rendering += UpdateSpectrum;
         }
 
         protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
         {
             base.OnTemplateChanged(oldTemplate, newTemplate);
-            if (this.spectrumCanvas != null) this.spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
-        }
-
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
-            this.UpdateBarLayout();
-            this.UpdateSpectrum();
+            if (this.spectrumPath != null) this.spectrumPath.SizeChanged -= spectrumPath_SizeChanged;
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
             this.UpdateBarLayout();
-            this.UpdateSpectrum();
+            //this.UpdateSpectrum();
         }
 
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
@@ -293,99 +211,99 @@ namespace Dopamine.Core.Audio
             this.soundPlayer = soundPlayer;
             this.soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             this.UpdateBarLayout();
-            this.animationTimer.Start();
+            Running = true;
         }
 
-        private void UpdateSpectrum()
+        private void UpdateSpectrum(object sender, EventArgs e)
         {
-            if (this.soundPlayer == null || this.spectrumCanvas == null || this.spectrumCanvas.RenderSize.Width < 1 || this.spectrumCanvas.RenderSize.Height < 1) return;
+            if (!Running) return;
+            if (this.soundPlayer == null || this.spectrumPath == null || this.RenderSize.Width < 1 || this.RenderSize.Height < 1) return;
             if (this.soundPlayer.IsPlaying && !this.soundPlayer.GetFFTData(ref this.channelData)) return;
             this.UpdateSpectrumShapes();
         }
+        private double GetCurrentBarHeight(int barIndex, out bool isZero)
+        {
+            var i = barIndexMax[barIndex];
+            var controlHeight = this.RenderSize.Height;
+            var barHeight = 0d;
 
+
+            // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
+            if (this.soundPlayer.IsPlaying)
+            // Draw the maximum value for the bar's band
+            {
+                switch (this.AnimationStyle)
+                {
+                    case SpectrumAnimationStyle.Gentle:
+                        this.channelData[i] = Math.Max(0, this.channelData[i] - 0.003f);
+                        break;
+                    // Do nothing
+                    default: break;
+                }
+                var dbValue = 20 * Math.Log10(this.channelData[i]);
+
+                var fftBucketHeight = ((dbValue - minDBValue) / dbScale) * controlHeight;
+                barHeight = Math.Max(0f, fftBucketHeight);
+            }
+            // Peaks can't surpass the height of the control.
+            if (barHeight > controlHeight) barHeight = controlHeight;
+
+            var preData = this.preBarHeight[barIndex];
+
+            if (preData < barHeight)
+            {
+                preData = (float)barHeight;
+            }
+            else
+            {
+                preData = (float)(barHeight + (this.peakFallDelay * preData)) / ((float)(this.peakFallDelay + 1));
+            }
+
+            isZero = !(preData > 0.05);
+            this.preBarHeight[barIndex] = preData;
+            switch (this.AnimationStyle)
+            {
+                case SpectrumAnimationStyle.Nervous: return barHeight;
+                case SpectrumAnimationStyle.Gentle: return preData;
+                default: return 0;
+            }
+
+        }
         private void UpdateSpectrumShapes()
         {
             bool allZero = true;
-            double height = spectrumCanvas.RenderSize.Height;
-            double dbValue = 0d;
-            double barHeight = 0d;
-            double xCoord = 0d;
-            float tPeek = 0f;
-            double barWidth = this.BarWidth;
-            double barSpacing = this.BarSpacing;
-
-            for (var barIndex = 0; barIndex < barIndexMax.Length; barIndex++)
+            var barSpacing = BarSpacing;
+            var barWidth = BarWidth;
+            var geo = new StreamGeometry();
+            var controlHeight = spectrumPath.RenderSize.Height;
+            using (var context = geo.Open())
             {
-                var i = barIndexMax[barIndex];
-                barHeight = 0d;
-
-                // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
-                if (this.soundPlayer.IsPlaying)
-                // Draw the maximum value for the bar's band
+                for (var barIndex = 0; barIndex < barIndexMax.Length; barIndex++)
                 {
-                    switch (this.AnimationStyle)
-                    {
-                        case SpectrumAnimationStyle.Gentle:
-                            this.channelData[i] -= 0.003f;
-                            break;
-                        // Do nothing
-                        default:
-                            break;
-                    }
+                    var x = barSpacing + barWidth / 2 + (barWidth * barIndex) + (barSpacing * barIndex) + 1;
+                    var y = GetCurrentBarHeight(barIndex, out bool isZero);
 
-                    dbValue = 20 * Math.Log10(this.channelData[i]);
-
-                    var fftBucketHeight = ((dbValue - minDBValue) / dbScale) * height;
-
-                    if (barHeight < fftBucketHeight) barHeight = fftBucketHeight;
-                    if (barHeight < 0f) barHeight = 0f;
+                    context.BeginFigure(new Point(x, controlHeight), false, false);
+                    context.LineTo(new Point(x, controlHeight - y - 1), true, false);
+                    allZero &= isZero;
                 }
-
-                // Peaks can't surpass the height of the control.
-                if (barHeight > height) barHeight = height;
-
-                tPeek = this.channelPeakData[barIndex];
-                if (tPeek < barHeight)
-                {
-                    tPeek = (float)barHeight;
-                }
-                else
-                {
-                    tPeek = (float)(barHeight + (this.peakFallDelay * tPeek)) / ((float)(this.peakFallDelay + 1));
-                }
-
-                xCoord = barSpacing + (barWidth * barIndex) + (barSpacing * barIndex) + 1;
-
-                switch (this.AnimationStyle)
-                {
-                    case SpectrumAnimationStyle.Nervous:
-                        this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                        this.barShapes[barIndex].Height = barHeight;
-                        break;
-                    case SpectrumAnimationStyle.Gentle:
-                        this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - tPeek, 0, 0);
-                        this.barShapes[barIndex].Height = tPeek;
-                        break;
-                    default:
-                        break;
-                }
-
-                if (tPeek > 0.05) allZero = false;
-                this.channelPeakData[barIndex] = tPeek;
             }
-
-            if (!allZero || this.soundPlayer.IsPlaying)
-                return;
-            this.animationTimer.Stop();
+            geo.Freeze();
+            spectrumPath.Data = geo;
+            if (allZero && !this.soundPlayer.IsPlaying)
+            {
+                Running = false;
+                spectrumPath.Data = null;
+            }
         }
 
         private void UpdateBarLayout()
         {
-            if (this.soundPlayer == null || this.spectrumCanvas == null) return;
+            if (this.soundPlayer == null || this.spectrumPath == null) return;
 
             this.maximumFrequencyIndex = Math.Min(this.soundPlayer.GetFFTFrequencyIndex(this.maximumFrequency) + 1, 2047);
             this.minimumFrequencyIndex = Math.Min(this.soundPlayer.GetFFTFrequencyIndex(this.minimumFrequency), 2047);
-            this.bandWidth = Math.Max(((double)(this.maximumFrequencyIndex - this.minimumFrequencyIndex)) / this.spectrumCanvas.RenderSize.Width, 1.0);
+            this.bandWidth = Math.Max(((double)(this.maximumFrequencyIndex - this.minimumFrequencyIndex)) / this.RenderSize.Width, 1.0);
 
             int actualBarCount;
 
@@ -395,10 +313,10 @@ namespace Dopamine.Core.Audio
             }
             else
             {
-                actualBarCount = Math.Max((int)((this.spectrumCanvas.RenderSize.Width - this.BarSpacing) / (this.BarWidth + this.BarSpacing)), 1);
+                actualBarCount = Math.Max((int)((this.RenderSize.Width - this.BarSpacing) / (this.BarWidth + this.BarSpacing)), 1);
             }
 
-            this.channelPeakData = new float[actualBarCount];
+            this.preBarHeight = new float[actualBarCount];
 
             int indexCount = this.maximumFrequencyIndex - this.minimumFrequencyIndex;
             int linearIndexBucketSize = (int)Math.Round((double)indexCount / (double)actualBarCount, 0);
@@ -416,30 +334,7 @@ namespace Dopamine.Core.Audio
             maxIndexList.Add(this.maximumFrequencyIndex);
             maxLogScaleIndexList.Add(this.maximumFrequencyIndex);
             this.barIndexMax = maxIndexList.ToArray();
-            this.barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
-
-            this.barHeights = new double[actualBarCount];
-
-            this.spectrumCanvas.Children.Clear();
-            this.barShapes.Clear();
-
-            double height = this.spectrumCanvas.RenderSize.Height;
-
-            for (int i = 0; i < actualBarCount; i++)
-            {
-                double xCoord = this.BarSpacing + (this.BarWidth * i) + (this.BarSpacing * i) + 1;
-                Rectangle barRectangle = new Rectangle()
-                {
-                    Margin = new Thickness(xCoord, height, 0, 0),
-                    Width = this.BarWidth,
-                    Height = 0,
-                    Fill = this.BarBackground
-                };
-
-                this.barShapes.Add(barRectangle);
-            }
-
-            foreach (Shape shape in barShapes) this.spectrumCanvas.Children.Add(shape);
+            //this.barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
         }
 
         private void soundPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -447,19 +342,19 @@ namespace Dopamine.Core.Audio
             switch (e.PropertyName)
             {
                 case "IsPlaying":
-                    if (this.soundPlayer.IsPlaying && !this.animationTimer.IsEnabled) this.animationTimer.Start();
+                    if (this.soundPlayer.IsPlaying)
+                    {
+                        Running = true;
+                    }
                     break;
             }
         }
 
-        private void animationTimer_Tick(object sender, EventArgs e)
-        {
-            this.UpdateSpectrum();
-        }
 
-        private void spectrumCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void spectrumPath_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.UpdateBarLayout();
+            this.spectrumPath.Data = null;
         }
     }
 }

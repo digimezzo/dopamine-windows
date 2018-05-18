@@ -1,19 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dca="clr-namespace:Dopamine.Core.Audio;assembly=Dopamine.Core">
-
     <Style x:Key="SpectrumAnalyzer" TargetType="{x:Type dca:SpectrumAnalyzer}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dca:SpectrumAnalyzer}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Canvas Name="PART_SpectrumCanvas"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                ClipToBounds="True" />
-                    </Border>
+                     <Path Name="PART_SpectrumPath" IsHitTestVisible="False" Stroke="{TemplateBinding BarBackground}" StrokeThickness="{TemplateBinding BarWidth}">
+                        <Path.CacheMode>
+                            <BitmapCache/>
+                        </Path.CacheMode>
+                    </Path>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
