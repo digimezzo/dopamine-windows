@@ -136,7 +136,9 @@ namespace Dopamine
 
             Application.Current.MainWindow = shell;
 
-            if (SettingsClient.Get<bool>("General", "ShowOobe"))
+            bool showOobe = SettingsClient.Get<bool>("General", "ShowOobe");
+
+            if (showOobe)
             {
                 var oobeWin = Container.Resolve<Oobe>();
 
@@ -157,7 +159,10 @@ namespace Dopamine
             Application.Current.MainWindow.Show();
 
             // We're not showing the OOBE screen, tell the IndexingService to start.
-            Container.Resolve<IIndexingService>().RefreshCollectionAsync();
+            if (!showOobe)
+            {
+                Container.Resolve<IIndexingService>().RefreshCollectionAsync();
+            }
         }
 
         protected void InitializeWcfServices()
