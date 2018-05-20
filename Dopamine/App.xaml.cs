@@ -155,6 +155,7 @@ namespace Dopamine
                 oobeWin.ForceActivate();
             }
 
+            // Show the main window
             LogClient.Info("Showing Main screen");
             Application.Current.MainWindow.Show();
 
