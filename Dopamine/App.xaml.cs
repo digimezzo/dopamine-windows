@@ -89,7 +89,7 @@ namespace Dopamine
         protected override void OnStartup(StartupEventArgs e)
         {
             // Create a jump-list and assign it to the current application
-            JumpList.SetJumpList(Application.Current, new JumpList());
+            JumpList.SetJumpList(Current, new JumpList());
 
             // Check that there is only one instance of the application running
             this.instanceMutex = new Mutex(true,$"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
@@ -100,6 +100,7 @@ namespace Dopamine
             if (isNewInstance)
             {
                 this.instanceMutex.ReleaseMutex();
+                this.LaunchInitializer();
                 base.OnStartup(e);
             }
             else
@@ -108,6 +109,24 @@ namespace Dopamine
                 LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }    
+        }
+
+        private void LaunchInitializer()
+        {
+            var initializer = new Initializer();
+
+            if (initializer.IsMigrationNeeded())
+            {
+                // Show the Update Window
+                var initWin = new Initialize();
+
+                // Disable shutdown when the dialogs close
+                Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+                // Show as a dialog. This prevents further code execution until the dialog is closed.
+                initWin.ShowDialog();
+                initWin.ForceActivate();
+            }
         }
 
         protected override Window CreateShell()
@@ -122,19 +141,9 @@ namespace Dopamine
             // Handler for unhandled AppDomain exceptions
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            var initializer = new Initializer();
-
-            if (initializer.IsMigrationNeeded())
-            {
-                // Show the Update Window
-                var initWin = new Initialize();
-                initWin.ShowDialog();
-                initWin.ForceActivate();
-            }
-
             this.InitializeWcfServices();
 
-            Application.Current.MainWindow = shell;
+            Current.MainWindow = shell;
 
             bool showOobe = SettingsClient.Get<bool>("General", "ShowOobe");
 
@@ -151,13 +160,21 @@ namespace Dopamine
                 // Show the OOBE window. Don't tell the Indexer to start. 
                 // It will get a signal to start when the OOBE window closes.
                 LogClient.Info("Showing Oobe screen");
+
+                // Disable shutdown when the dialogs close
+                Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+                // Show as a dialog. This prevents further code execution until the dialog is closed.
                 oobeWin.ShowDialog();
                 oobeWin.ForceActivate();
             }
 
+            // Re-enable normal shutdown mode
+            Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             // Show the main window
             LogClient.Info("Showing Main screen");
-            Application.Current.MainWindow.Show();
+            shell.Show();
 
             // We're not showing the OOBE screen, tell the IndexingService to start.
             if (!showOobe)
@@ -516,7 +533,7 @@ namespace Dopamine
             // Emergency save of the settings
             SettingsClient.Write();
 
-            Application.Current.Shutdown();
+            Current.Shutdown();
         }
     }
 }
