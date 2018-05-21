@@ -1,5 +1,5 @@
 ﻿using Dopamine.Data;
-using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Entities;
 using System.ServiceModel;
 using System.Threading.Tasks;
 

@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls.Enums;
-using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Entities;
 using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Metadata;

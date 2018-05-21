@@ -1,5 +1,5 @@
 ﻿using Dopamine.Data;
-using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Entities;
 using System.Collections.Generic;
 
 namespace Dopamine.Services.Contracts.Playback

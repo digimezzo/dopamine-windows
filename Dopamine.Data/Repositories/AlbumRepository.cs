@@ -1,9 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
-using Dopamine.Data.Contracts;
-using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Contracts.Repositories;
+using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

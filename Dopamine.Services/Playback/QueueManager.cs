@@ -2,8 +2,8 @@
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
-using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Data.Entities;
+using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Playback;
 using System;
 using System.Collections.Generic;

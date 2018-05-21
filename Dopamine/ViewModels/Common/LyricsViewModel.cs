@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lyrics;
-using Dopamine.Data.Contracts.Entities;
-using Dopamine.Data.Contracts.Metadata;
+using Dopamine.Data.Entities;
+using Dopamine.Data.Metadata;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
 using Dopamine.Services.Lyrics;
