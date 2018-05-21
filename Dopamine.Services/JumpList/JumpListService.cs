@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Services.Contracts.JumpList;
+using Dopamine.Services.JumpList;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;

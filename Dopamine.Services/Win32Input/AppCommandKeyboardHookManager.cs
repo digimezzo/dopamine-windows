@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Services.Contracts.Win32Input;
+using Dopamine.Services.Win32Input;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;

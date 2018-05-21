@@ -2,7 +2,7 @@
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Dopamine.Views.NowPlaying;
 using Prism.Events;
 using Prism.Regions;

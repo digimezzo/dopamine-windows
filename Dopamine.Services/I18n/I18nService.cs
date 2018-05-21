@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Services.Contracts.I18n;
+using Dopamine.Services.I18n;
 using System;
 using System.Collections.Generic;
 using System.IO;

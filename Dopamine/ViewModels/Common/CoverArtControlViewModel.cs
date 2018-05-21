@@ -2,9 +2,9 @@
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Data.Entities;
 using Dopamine.ViewModels;
-using Dopamine.Services.Contracts.Cache;
-using Dopamine.Services.Contracts.Metadata;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Cache;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Playback;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;

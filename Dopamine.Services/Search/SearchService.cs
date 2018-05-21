@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Services.Contracts.Search;
+using Dopamine.Services.Search;
 using System;
 using System.Timers;
 

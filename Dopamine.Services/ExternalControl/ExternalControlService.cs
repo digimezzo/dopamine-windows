@@ -1,8 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
-using Dopamine.Services.Contracts.Cache;
-using Dopamine.Services.Contracts.ExternalControl;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Cache;
+using Dopamine.Services.ExternalControl;
+using Dopamine.Services.Playback;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;

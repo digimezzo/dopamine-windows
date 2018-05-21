@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

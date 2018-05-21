@@ -1,4 +1,4 @@
-﻿using Dopamine.Services.Contracts.Dialog;
+﻿using Dopamine.Services.Dialog;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Ioc;
 

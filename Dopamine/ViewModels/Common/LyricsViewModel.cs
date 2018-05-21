@@ -2,8 +2,8 @@
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
-using Dopamine.Services.Contracts.Metadata;
-using Dopamine.Services.Contracts.Provider;
+using Dopamine.Services.Metadata;
+using Dopamine.Services.Provider;
 using Dopamine.Services.Lyrics;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;

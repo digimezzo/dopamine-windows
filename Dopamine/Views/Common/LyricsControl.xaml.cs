@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Utils;
 using Dopamine.Core.Prism;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using CommonServiceLocator;
 using Prism.Events;
 using System;

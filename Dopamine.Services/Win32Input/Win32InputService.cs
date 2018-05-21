@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Services.Contracts.Playback;
-using Dopamine.Services.Contracts.Win32Input;
+using Dopamine.Services.Playback;
+using Dopamine.Services.Win32Input;
 using System;
 using System.Timers;
 

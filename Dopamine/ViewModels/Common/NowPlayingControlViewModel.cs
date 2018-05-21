@@ -3,8 +3,8 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.ViewModels;
-using Dopamine.Services.Contracts.Dialog;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Dialog;
+using Dopamine.Services.Playback;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using System;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Ioc;
-using Dopamine.Services.Contracts.File;
+using Dopamine.Services.File;
 
 namespace Dopamine.ViewModels.Common
 {

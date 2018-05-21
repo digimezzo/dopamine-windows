@@ -3,7 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
-using Dopamine.Services.Contracts.Cache;
+using Dopamine.Services.Cache;
 using System;
 using System.IO;
 using System.Net;
