@@ -1,9 +1,8 @@
-﻿using Dopamine.Services.Playback;
-using CommonServiceLocator;
-using System.Windows;
+﻿using CommonServiceLocator;
 using Dopamine.Core.Enums;
-using System.Windows.Controls;
 using Dopamine.Services.Playback;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Dopamine.Views.Common
 {
