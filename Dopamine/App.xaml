@@ -7,8 +7,8 @@
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Converters/Converters.xaml" />
-        <ResourceDictionary Source="/Dopamine.Presentation;component/Resources/Styles/AllStyles.xaml" />
+        <ResourceDictionary Source="/Dopamine;component/Converters/Converters.xaml" />
+        <ResourceDictionary Source="/Dopamine;component/Resources/Styles/AllStyles.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

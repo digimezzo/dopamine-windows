@@ -2,8 +2,8 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
-using Dopamine.Presentation.Utils;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.Utils;
+using Dopamine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

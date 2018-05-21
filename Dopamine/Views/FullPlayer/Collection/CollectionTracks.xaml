@@ -3,7 +3,7 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                           xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-                          xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+                          xmlns:pc="clr-namespace:Dopamine.Controls"
                           xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"

@@ -2,7 +2,7 @@
 using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Cache;
 using Dopamine.Services.Contracts.Indexing;
 using Dopamine.Services.Contracts.Playback;

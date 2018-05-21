@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using System;
 
-namespace Dopamine.Presentation.ViewModels
+namespace Dopamine.ViewModels
 {
     public class LyricsLineViewModel : BindableBase
     {

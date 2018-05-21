@@ -5,7 +5,7 @@ using Dopamine.Presentation.Interfaces;
 using Dopamine.Presentation.Utils;
 using Prism.Mvvm;
 
-namespace Dopamine.Presentation.ViewModels
+namespace Dopamine.ViewModels
 {
     public class ArtistViewModel : BindableBase, ISemanticZoomable
     {

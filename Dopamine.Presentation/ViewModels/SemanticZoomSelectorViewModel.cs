@@ -1,7 +1,7 @@
 ﻿using Dopamine.Presentation.Interfaces;
 using Prism.Mvvm;
 
-namespace Dopamine.Presentation.ViewModels
+namespace Dopamine.ViewModels
 {
     public class SemanticZoomSelectorViewModel : BindableBase, ISemanticZoomSelector
     {

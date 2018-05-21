@@ -6,7 +6,7 @@
                               xmlns:prism="http://www.codeplex.com/prism"
                               xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                               xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-                              xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+                              xmlns:pc="clr-namespace:Dopamine.Controls"
                               xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -148,7 +148,7 @@
                         <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource RG_WindowBackgroundColor}" Duration="{x:Static base:Constants.SourceChangedDuration}" />
                     </Storyboard>
                 </Border.Resources>
-                <pc:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static cp:RegionNames.PlayerTypeRegion}"/>
+                <pc:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" x:Name="PlayerTypeRegion" prism:RegionManager.RegionName="{x:Static cp:RegionNames.PlayerTypeRegion}"/>
             </Border>
         </Grid>
     </Border>

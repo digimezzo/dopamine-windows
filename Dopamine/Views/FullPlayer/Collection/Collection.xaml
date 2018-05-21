@@ -7,7 +7,7 @@
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+             xmlns:pc="clr-namespace:Dopamine.Controls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" 
@@ -20,7 +20,7 @@
             <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
         </Grid>
         <pc:TransitioningContentControl Margin="0,20,0,10" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                                              SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="CollectionRegion" 
+                                              SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="CollectionRegion" 
                                               prism:RegionManager.RegionName="{x:Static cp:RegionNames.CollectionRegion}"/>
     </DockPanel>
 </UserControl>

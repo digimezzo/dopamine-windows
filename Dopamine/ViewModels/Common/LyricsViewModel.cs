@@ -2,10 +2,9 @@
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Metadata;
-using Dopamine.Presentation.Utils;
-using Dopamine.Presentation.ViewModels;
 using Dopamine.Services.Contracts.Metadata;
 using Dopamine.Services.Contracts.Provider;
+using Dopamine.Services.Lyrics;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Ioc;
@@ -28,6 +27,7 @@ namespace Dopamine.ViewModels.Common
         private bool isEditing;
         private IMetadataService metadataService;
         private IProviderService providerService;
+        private ILyricsService lyricsService;
 
         public DelegateCommand DecreaseFontSizeCommand { get; set; }
         public DelegateCommand IncreaseFontSizeCommand { get; set; }
@@ -142,6 +142,7 @@ namespace Dopamine.ViewModels.Common
         {
             this.metadataService = container.Resolve<IMetadataService>();
             this.providerService = container.Resolve<IProviderService>();
+            this.lyricsService = container.Resolve<ILyricsService>();
 
             this.track = track;
 
@@ -180,7 +181,7 @@ namespace Dopamine.ViewModels.Common
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.lyricsLines = new ObservableCollection<LyricsLineViewModel>(LyricsUtils.ParseLyrics(lyrics));
+                this.lyricsLines = new ObservableCollection<LyricsLineViewModel>(this.lyricsService.ParseLyrics(lyrics));
                 RaisePropertyChanged(nameof(this.LyricsLines));
             });
             ;

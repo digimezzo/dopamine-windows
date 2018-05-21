@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Utils;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;
 using Dopamine.Views.Common;

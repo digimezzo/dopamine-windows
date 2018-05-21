@@ -6,9 +6,7 @@ using Dopamine.Core.Prism;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Presentation.Interfaces;
-using Dopamine.Presentation.Utils;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.Interfaces;
 using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Indexing;
@@ -17,9 +15,11 @@ using Dopamine.Services.Contracts.Playback;
 using Dopamine.Services.Contracts.Playlist;
 using Dopamine.Services.Contracts.Search;
 using Dopamine.Services.Utils;
+using Dopamine.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +28,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {

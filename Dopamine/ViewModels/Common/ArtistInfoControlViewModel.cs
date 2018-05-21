@@ -6,7 +6,7 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Data.Contracts.Entities;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.I18n;
 using Dopamine.Services.Contracts.Playback;
 using Prism.Commands;

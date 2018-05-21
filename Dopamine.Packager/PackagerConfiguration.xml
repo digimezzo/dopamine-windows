@@ -34,7 +34,6 @@
         <File>Dopamine.Data.dll</File>
         <File>Dopamine.Data.Contracts.dll</File>
         <File>Dopamine.Icons.dll</File>
-        <File>Dopamine.Presentation.dll</File>
         <File>Dopamine.Services.dll</File>
         <File>Dopamine.Services.Contracts.dll</File>
         <File>CSCore.dll</File>

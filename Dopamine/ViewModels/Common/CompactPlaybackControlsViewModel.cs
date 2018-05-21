@@ -1,4 +1,4 @@
-﻿using Dopamine.Presentation.ViewModels;
+﻿using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Playback;
 using CommonServiceLocator;
 using Prism.Events;

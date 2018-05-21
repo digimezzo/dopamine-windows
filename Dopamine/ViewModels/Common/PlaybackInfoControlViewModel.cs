@@ -2,7 +2,7 @@
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Contracts.Entities;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Playback;
 using Prism.Mvvm;
 using System;

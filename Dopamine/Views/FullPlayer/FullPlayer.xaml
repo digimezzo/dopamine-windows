@@ -8,7 +8,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+             xmlns:pc="clr-namespace:Dopamine.Controls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
@@ -34,14 +34,14 @@
                 <dc:PivotItem Header="{Binding Text,ElementName=InformationProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
             </dc:Pivot>
             <pc:TransitioningContentControl DockPanel.Dock="Top" Margin="85,0,0,0" FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
-                                                  SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="FullPlayerMenuRegion" 
+                                                  SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
                                                   prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
             <Grid DockPanel.Dock="Top" Margin="0,0,0,0">
                 <commonviews:UpdateStatus Panel.ZIndex="0"/>
                 <commonviews:IndexingStatus Panel.ZIndex="1"/>
             </Grid>
             <pc:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                                                  SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" Name="FullPlayerRegion" 
+                                                  SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
                                                   prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
         </DockPanel>
     </Grid>

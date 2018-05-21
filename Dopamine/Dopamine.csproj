@@ -97,6 +97,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Windows.Forms" />
@@ -117,6 +121,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -134,8 +141,75 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\AccentTextBox.cs" />
+    <Compile Include="Controls\CombiLabel.cs" />
+    <Compile Include="Controls\CrossFadeContentControl.cs" />
+    <Compile Include="Controls\DataGridEx.cs" />
+    <Compile Include="Controls\FullLogo.xaml.cs">
+      <DependentUpon>FullLogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IconButton.cs" />
+    <Compile Include="Controls\IconMenuButton.cs" />
+    <Compile Include="Controls\IconTextButton.cs" />
+    <Compile Include="Controls\ListCheckBox.cs" />
+    <Compile Include="Controls\Logo.xaml.cs">
+      <DependentUpon>Logo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoveButton.cs" />
+    <Compile Include="Controls\PopupEx.cs" />
+    <Compile Include="Controls\RatingButton.cs" />
+    <Compile Include="Controls\ScalingTextBlock.cs" />
+    <Compile Include="Controls\SearchBox.cs" />
+    <Compile Include="Controls\SelectionChangedComboBox.cs" />
+    <Compile Include="Controls\SourceChangedImage.cs" />
+    <Compile Include="Controls\SyncRing.cs" />
+    <Compile Include="Controls\Tile.cs" />
+    <Compile Include="Controls\TotalsInformation.cs" />
+    <Compile Include="Controls\TransitioningContentControl.cs" />
+    <Compile Include="Controls\ZoomInContentControl.cs" />
+    <Compile Include="Converters\AddEllipsisConverter.cs" />
+    <Compile Include="Converters\AddValueConverter.cs" />
+    <Compile Include="Converters\BooleanToCenterHorizontalAlignmentConverter.cs" />
+    <Compile Include="Converters\BooleanToCenterTextAlignmentConverter.cs" />
+    <Compile Include="Converters\BooleanToCollapsedConverter.cs" />
+    <Compile Include="Converters\BooleanToOpacityConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BrushOpacityConverter.cs" />
+    <Compile Include="Converters\EnumConverter.cs" />
+    <Compile Include="Converters\InvertingBooleanConverter.cs" />
+    <Compile Include="Converters\LoveConverter.cs" />
+    <Compile Include="Converters\LyricSourceVisibilityConverter.cs" />
+    <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="Converters\PathToImageConverter.cs" />
+    <Compile Include="Converters\PercentSizeConverter.cs" />
+    <Compile Include="Converters\RatingConverter.cs" />
+    <Compile Include="Converters\SolidColorBrushToColorConverter.cs" />
+    <Compile Include="Converters\SpectrumStyleEllipseConverter.cs" />
+    <Compile Include="Converters\StringEmptyToInvisibleConverter.cs" />
+    <Compile Include="Converters\StringEmptyToVisibleConverter.cs" />
+    <Compile Include="Converters\StringToLowerConverter.cs" />
+    <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="Initializer.cs" />
+    <Compile Include="Interfaces\ISemanticZoomable.cs" />
+    <Compile Include="Interfaces\ISemanticZoomSelector.cs" />
+    <Compile Include="Interfaces\ISemanticZoomViewModel.cs" />
+    <Compile Include="Services\Notification\LegacyNotificationService.cs" />
+    <Compile Include="Services\Notification\NotificationService.cs" />
+    <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
+      <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Shell\ShellService.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="Utils\BindingProxy.cs" />
+    <Compile Include="Utils\OpenFileUtils.cs" />
+    <Compile Include="Utils\SaveFileUtils.cs" />
+    <Compile Include="Utils\ScrollUtils.cs" />
+    <Compile Include="Utils\SemanticZoomUtils.cs" />
+    <Compile Include="Utils\SlidingContentControlRegionAdapter.cs" />
+    <Compile Include="Utils\UriUtils.cs" />
+    <Compile Include="ViewModels\AlbumViewModel.cs" />
+    <Compile Include="ViewModels\ArtistInfoViewModel.cs" />
+    <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\ArtistInfoControlViewModel.cs" />
@@ -178,6 +252,7 @@
     <Compile Include="ViewModels\Common\ShuffleAllControlViewModel.cs" />
     <Compile Include="ViewModels\Common\SpectrumAnalyzerControlViewModel.cs" />
     <Compile Include="ViewModels\Common\UpdateStatusViewModel.cs" />
+    <Compile Include="ViewModels\CoverArtViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
@@ -203,6 +278,7 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\GenreViewModel.cs" />
     <Compile Include="ViewModels\InitializeViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
@@ -211,7 +287,16 @@
     <Compile Include="ViewModels\NowPlaying\NowPlayingShowcaseViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
+    <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
+    <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
+    <Compile Include="ViewModels\PlaylistViewModel.cs" />
+    <Compile Include="ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
+    <Compile Include="ViewModels\TrackViewModel.cs" />
+    <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />
+    <Compile Include="ViewModels\VolumeControlsViewModel.cs" />
+    <Compile Include="Views\Base\VolumeControlViewBase.cs" />
     <Compile Include="Views\Common\AppearanceLanguage.xaml.cs">
       <DependentUpon>AppearanceLanguage.xaml</DependentUpon>
     </Compile>
@@ -339,6 +424,9 @@
     <Compile Include="Views\Common\UpdateStatus.xaml.cs">
       <DependentUpon>UpdateStatus.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Empty.xaml.cs">
+      <DependentUpon>Empty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\Collection.xaml.cs">
       <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
@@ -441,6 +529,9 @@
     <Compile Include="Views\MiniPlayer\MiniPlayerPlaylist.xaml.cs">
       <DependentUpon>MiniPlayerPlaylist.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PlaybackControls.xaml.cs">
+      <DependentUpon>PlaybackControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -449,6 +540,9 @@
     </Compile>
     <Compile Include="Views\Initialize.xaml.cs">
       <DependentUpon>Initialize.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VerticalVolumeControls.xaml.cs">
+      <DependentUpon>VerticalVolumeControls.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -537,6 +631,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\segmdl2.ttf" />
+    <Resource Include="Resources\Fonts\Monoglyceride.ttf" />
+    <Resource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
+    <Resource Include="Resources\Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Changelog.txt">
@@ -729,10 +827,6 @@
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
-      <Project>{d4cc27ba-1089-47fd-86c0-f6c12ff0d344}</Project>
-      <Name>Dopamine.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Services.Contracts\Dopamine.Services.Contracts.csproj">
       <Project>{90C71913-2055-422A-895F-66C37F459E06}</Project>
       <Name>Dopamine.Services.Contracts</Name>
@@ -743,6 +837,230 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\FullLogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Logo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Converters\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\AllStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Animations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ColorSchemeButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ContextMenuButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\CountLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\DataGridTracks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\FontStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Geometries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\HotKey.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\LinkButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxAlbums.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxArtists.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxFolders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxGenres.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxNowPlayingTracks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxPlaylists.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxPlaylistTracks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxSemanticZoom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxSimilarArtists.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxTracks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\MetroCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\MetroComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\MetroListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\MetroTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\NowPlayingContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\PivotItemStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\SpectrumAnalyzer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\SpectrumAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\StackPanelConditionEnabled.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Texts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Tooltip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\WindowButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\Dark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Services\Notification\NotificationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\AccentTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CombiLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CrossFadeContentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\IconButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\IconMenuButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\IconTextButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ListCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LoveButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\RatingButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SyncRing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Tile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TotalsInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Common\AppearanceLanguage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -907,6 +1225,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Empty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\FullPlayer\Collection\Collection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1043,6 +1365,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PlaybackControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1054,6 +1380,10 @@
     <Page Include="Views\Initialize.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VerticalVolumeControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

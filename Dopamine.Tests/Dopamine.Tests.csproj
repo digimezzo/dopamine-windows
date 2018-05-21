@@ -101,9 +101,9 @@
       <Project>{7FAAC843-6AA9-4B5B-8678-937137A61E47}</Project>
       <Name>Dopamine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
-      <Project>{D4CC27BA-1089-47FD-86C0-F6C12FF0D344}</Project>
-      <Name>Dopamine.Presentation</Name>
+    <ProjectReference Include="..\Dopamine.Services\Dopamine.Services.csproj">
+      <Project>{C7C13D3A-BEF1-4825-9C60-14AAEC9714B3}</Project>
+      <Name>Dopamine.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
