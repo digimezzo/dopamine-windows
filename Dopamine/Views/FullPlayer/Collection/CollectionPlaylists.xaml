@@ -4,7 +4,7 @@
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                            xmlns:pc="clr-namespace:Dopamine.Presentation.Controls;assembly=Dopamine.Presentation"
+                            xmlns:pc="clr-namespace:Dopamine.Controls"
                             xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
                             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"

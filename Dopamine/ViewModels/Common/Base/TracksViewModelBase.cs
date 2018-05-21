@@ -7,7 +7,7 @@ using Dopamine.Core.Prism;
 using Dopamine.Data.Contracts;
 using Dopamine.Data.Contracts.Entities;
 using Dopamine.Data.Contracts.Repositories;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Collection;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.I18n;

@@ -5,7 +5,7 @@
                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                                  xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                                 xmlns:baseviews="clr-namespace:Dopamine.Presentation.Views.Base;assembly=Dopamine.Presentation"
+                                 xmlns:baseviews="clr-namespace:Dopamine.Views.Base"
                                  xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
                                  xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                                  mc:Ignorable="d"

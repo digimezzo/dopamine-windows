@@ -2,8 +2,8 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Presentation.Utils;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.Utils;
+using Dopamine.ViewModels;
 using Dopamine.Views.Common.Base;
 using Dopamine.Core.Prism;
 using Prism.Commands;

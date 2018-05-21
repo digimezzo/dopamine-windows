@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Api.Lyrics;
-using Dopamine.Presentation.Utils;
-using Dopamine.Presentation.ViewModels;
+using Dopamine.Services.Lyrics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +9,14 @@ namespace Dopamine.Tests
     [TestClass]
     public class LyricsParserTest
     {
+        private ILyricsService service = new LyricsService();
+
         [TestMethod(), TestCategory(TestCategories.LyricsParser)]
         public void ParseMixedLyrics()
         {
             string lyricsText = File.ReadAllText(@"Files\LyricsParser\MixedLyrics.lrc");
             var lyrics = new Lyrics(lyricsText, "Not important");
-            IList<LyricsLineViewModel> lyricsLines = LyricsUtils.ParseLyrics(lyrics);
+            IList<LyricsLineViewModel> lyricsLines = this.service.ParseLyrics(lyrics);
 
             Assert.AreEqual(lyricsLines.Count, 9);
             Assert.AreEqual(lyricsLines[0].Text, "Synchronized line 1");
@@ -34,7 +35,7 @@ namespace Dopamine.Tests
         {
             string lyricsText = File.ReadAllText(@"Files\LyricsParser\UnsynchronizedLyrics.lrc");
             var lyrics = new Lyrics(lyricsText, "Not important");
-            IList<LyricsLineViewModel> lyricsLines = LyricsUtils.ParseLyrics(lyrics);
+            IList<LyricsLineViewModel> lyricsLines = this.service.ParseLyrics(lyrics);
 
             Assert.AreEqual(lyricsLines.Count, 15);
             Assert.AreEqual(lyricsLines[0].Text, "Unsynchronized line 1");
@@ -59,7 +60,7 @@ namespace Dopamine.Tests
         {
             string lyricsText = File.ReadAllText(@"Files\LyricsParser\SynchronizedLyrics.lrc");
             var lyrics = new Lyrics(lyricsText, "Not important");
-            IList<LyricsLineViewModel> lyricsLines = LyricsUtils.ParseLyrics(lyrics);
+            IList<LyricsLineViewModel> lyricsLines = this.service.ParseLyrics(lyrics);
 
             Assert.AreEqual(lyricsLines.Count, 15);
             Assert.AreEqual(lyricsLines[0].Text, "Synchronized line 1");
@@ -84,7 +85,7 @@ namespace Dopamine.Tests
         {
             string lyricsText = File.ReadAllText(@"Files\LyricsParser\ExtendedSynchronizedLyrics.lrc");
             var lyrics = new Lyrics(lyricsText, "Not important");
-            IList<LyricsLineViewModel> lyricsLines = LyricsUtils.ParseLyrics(lyrics);
+            IList<LyricsLineViewModel> lyricsLines = this.service.ParseLyrics(lyrics);
 
             Assert.AreEqual(lyricsLines.Count, 24);
             Assert.AreEqual(lyricsLines[0].Text, "Synchronized line 1");

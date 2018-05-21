@@ -2,7 +2,7 @@
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Presentation.Views;
+using Dopamine.Views;
 using Dopamine.Services.Contracts.Shell;
 using Dopamine.Services.Contracts.WindowsIntegration;
 using Prism.Commands;

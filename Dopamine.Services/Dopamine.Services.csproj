@@ -79,10 +79,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
-    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.0.0.336-pre\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -95,10 +91,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Windows">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath> 
-      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -135,12 +127,10 @@
     <Compile Include="Indexing\IndexerUtils.cs" />
     <Compile Include="Indexing\IndexingService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
+    <Compile Include="Lyrics\ILyricsService.cs" />
+    <Compile Include="Lyrics\LyricsLineViewModel.cs" />
+    <Compile Include="Lyrics\LyricsService.cs" />
     <Compile Include="Metadata\MetadataService.cs" />
-    <Compile Include="Notification\LegacyNotificationService.cs" />
-    <Compile Include="Notification\NotificationService.cs" />
-    <Compile Include="Notification\NotificationWindow.xaml.cs">
-      <DependentUpon>NotificationWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Playback\AudioDevicesWatcher.cs" />
     <Compile Include="Playback\PlaybackService.cs" />
     <Compile Include="Playback\QueueManager.cs" />
@@ -161,7 +151,6 @@
     <Compile Include="Provider\ProviderService.cs" />
     <Compile Include="Scrobbling\LastfmScrobblingService.cs" />
     <Compile Include="Search\SearchService.cs" />
-    <Compile Include="Shell\ShellService.cs" />
     <Compile Include="Taskbar\TaskbarService.cs" />
     <Compile Include="Update\UpdateService.cs" />
     <Compile Include="Utils\DataUtils.cs" />
@@ -190,10 +179,6 @@
       <Project>{4F692937-889B-4C09-B68D-858F9AA3F56A}</Project>
       <Name>Dopamine.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Presentation\Dopamine.Presentation.csproj">
-      <Project>{d4cc27ba-1089-47fd-86c0-f6c12ff0d344}</Project>
-      <Name>Dopamine.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Services.Contracts\Dopamine.Services.Contracts.csproj">
       <Project>{90C71913-2055-422A-895F-66C37F459E06}</Project>
       <Name>Dopamine.Services.Contracts</Name>
@@ -213,10 +198,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialog\NotificationDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Notification\NotificationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -3,7 +3,7 @@
     public static class Defaults
     {
         public static readonly string IconsLibrary = "Dopamine.Icons";
-        public static readonly string ResourcesLibrary = "Dopamine.Presentation";
+        // public static readonly string ResourcesLibrary = "Dopamine.Presentation";
         public static readonly string IndexerSafeGuardGuid = "f6273692-445c-4e90-8e32-63073dc71baf";
         public static readonly string[] ExternalCoverArtPatterns = {
                                                                         "front.png",

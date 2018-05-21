@@ -5,7 +5,7 @@ using CommonServiceLocator;
 using System;
 using System.Windows.Input;
 
-namespace Dopamine.Presentation.Views
+namespace Dopamine.Views
 {
     public partial class VerticalVolumeControls : VolumeControlViewBase
     {

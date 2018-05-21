@@ -10,7 +10,7 @@
   xmlns:lyrics="clr-namespace:Dopamine.Core.Api.Lyrics;assembly=Dopamine.Core"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
-  xmlns:utils="clr-namespace:Dopamine.Presentation.Utils;assembly=Dopamine.Presentation"
+  xmlns:utils="clr-namespace:Dopamine.Utils"
   d:DesignHeight="300"
   d:DesignWidth="300"
   prismMvvm:ViewModelLocator.AutoWireViewModel="True"
