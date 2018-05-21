@@ -1,4 +1,4 @@
-﻿using Dopamine.Data.Contracts.Metadata;
+﻿using Dopamine.Data.Metadata;
 
 namespace Dopamine.Data.Metadata
 {

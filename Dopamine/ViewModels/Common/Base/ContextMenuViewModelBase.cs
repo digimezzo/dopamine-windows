@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Entities;
 using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Dialog;
 using Dopamine.Services.Contracts.Playback;

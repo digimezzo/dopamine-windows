@@ -1,4 +1,4 @@
-﻿using Dopamine.Data.Contracts.Entities;
+﻿using Dopamine.Data.Entities;
 using Prism.Mvvm;
 
 namespace Dopamine.ViewModels.Common

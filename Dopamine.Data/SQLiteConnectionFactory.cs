@@ -1,9 +1,8 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
-using Dopamine.Data.Contracts;
 using SQLite;
-using System.IO;
 using System;
+using System.IO;
 
 namespace Dopamine.Data
 {

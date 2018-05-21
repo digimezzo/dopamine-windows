@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
-using Dopamine.Data.Contracts.Entities;
+using Dopamine.Data.Entities;
 using Dopamine.Utils;
 using Dopamine.ViewModels;
 using Dopamine.Services.Contracts.Playlist;
