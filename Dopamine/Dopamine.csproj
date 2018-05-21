@@ -823,10 +823,6 @@
       <Project>{f32533fd-96b4-4b94-8844-3efa1f63f52a}</Project>
       <Name>Dopamine.Packager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dopamine.Services.Contracts\Dopamine.Services.Contracts.csproj">
-      <Project>{90C71913-2055-422A-895F-66C37F459E06}</Project>
-      <Name>Dopamine.Services.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dopamine.Services\Dopamine.Services.csproj">
       <Project>{C7C13D3A-BEF1-4825-9C60-14AAEC9714B3}</Project>
       <Name>Dopamine.Services</Name>

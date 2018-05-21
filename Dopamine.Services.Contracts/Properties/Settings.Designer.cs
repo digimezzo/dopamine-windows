@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Dopamine.Services.Contracts.Properties
+namespace Dopamine.Services.Properties
 {
 
 

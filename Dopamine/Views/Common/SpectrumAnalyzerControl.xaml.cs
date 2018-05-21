@@ -3,7 +3,7 @@ using CommonServiceLocator;
 using System.Windows;
 using Dopamine.Core.Enums;
 using System.Windows.Controls;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 
 namespace Dopamine.Views.Common
 {

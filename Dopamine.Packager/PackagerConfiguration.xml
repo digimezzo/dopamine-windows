@@ -32,10 +32,8 @@
         <File>Prism.Wpf.dll</File>
         <File>Dopamine.Core.dll</File>
         <File>Dopamine.Data.dll</File>
-        <File>Dopamine.Data.Contracts.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.Services.dll</File>
-        <File>Dopamine.Services.Contracts.dll</File>
         <File>CSCore.dll</File>
         <File>CSCore.Ffmpeg.dll</File>
         <File>Ionic.Zip.dll</File>

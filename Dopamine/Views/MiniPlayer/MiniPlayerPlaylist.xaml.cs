@@ -4,7 +4,7 @@ using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Prism.Events;
 using Prism.Regions;
 using System;

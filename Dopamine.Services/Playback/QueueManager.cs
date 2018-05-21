@@ -4,7 +4,7 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
 using System.Linq;

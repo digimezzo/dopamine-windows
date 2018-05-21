@@ -1,7 +1,7 @@
 ﻿using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
-using Dopamine.Services.Contracts.Provider;
+using Dopamine.Services.Provider;
 using System;
 using System.Collections.Generic;
 using System.IO;

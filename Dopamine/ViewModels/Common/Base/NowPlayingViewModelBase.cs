@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Enums;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using Dopamine.Services.Playback;
 using Prism.Mvvm;
 

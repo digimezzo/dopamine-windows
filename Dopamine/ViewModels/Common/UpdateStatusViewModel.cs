@@ -4,7 +4,7 @@ using Digimezzo.Utilities.Packaging;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Services.Contracts.Update;
+using Dopamine.Services.Update;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;

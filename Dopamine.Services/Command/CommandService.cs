@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Prism;
-using Dopamine.Services.Contracts.Command;
+using Dopamine.Services.Command;
 using System.ServiceModel;
 
 namespace Dopamine.Services.Command

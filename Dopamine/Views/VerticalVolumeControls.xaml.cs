@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Views.Base;
-using Dopamine.Services.Contracts.Playback;
+using Dopamine.Services.Playback;
 using CommonServiceLocator;
 using System;
 using System.Windows.Input;
