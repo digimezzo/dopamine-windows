@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="Services\Shell\ShellService.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
+    <Compile Include="Controls\SpectrumAnalyzer.cs" />
     <Compile Include="Utils\BindingProxy.cs" />
     <Compile Include="Utils\OpenFileUtils.cs" />
     <Compile Include="Utils\SaveFileUtils.cs" />
