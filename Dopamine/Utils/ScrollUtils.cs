@@ -170,9 +170,12 @@ namespace Dopamine.Utils
 
         public static async Task ScrollToHighlightedLyricsLineAsync(ListBox box)
         {
-            if (box == null) return;
+            if (box == null)
+            {
+                return;
+            }
 
-            Object itemObject = null;
+            object itemObject = null;
 
             await Task.Run(() =>
             {

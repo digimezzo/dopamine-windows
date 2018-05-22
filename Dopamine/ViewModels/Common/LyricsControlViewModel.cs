@@ -291,8 +291,15 @@ namespace Dopamine.ViewModels.Common
 
         private async Task HighlightLyricsLineAsync()
         {
-            if (!this.canHighlight) return;
-            if (this.LyricsViewModel == null || this.LyricsViewModel.LyricsLines == null) return;
+            if (!this.canHighlight)
+            {
+                return;
+            }
+
+            if (this.LyricsViewModel == null || this.LyricsViewModel.LyricsLines == null)
+            {
+                return;
+            }
 
             await Task.Run(() =>
             {
@@ -300,9 +307,12 @@ namespace Dopamine.ViewModels.Common
                 {
                     for (int i = 0; i < this.LyricsViewModel.LyricsLines.Count; i++)
                     {
-                        if (!this.canHighlight) break;
-                        double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
+                        if (!this.canHighlight)
+                        {
+                            break;
+                        }
 
+                        double progressTime = this.playbackService.GetCurrentTime.TotalMilliseconds;
                         double lyricsLineTime = this.LyricsViewModel.LyricsLines[i].Time.TotalMilliseconds;
                         double nextLyricsLineTime = 0;
 
@@ -310,7 +320,11 @@ namespace Dopamine.ViewModels.Common
 
                         while (i + j < this.LyricsViewModel.LyricsLines.Count && nextLyricsLineTime <= lyricsLineTime)
                         {
-                            if (!this.canHighlight) break;
+                            if (!this.canHighlight)
+                            {
+                                break;
+                            }
+
                             nextLyricsLineTime = this.LyricsViewModel.LyricsLines[i + j].Time.TotalMilliseconds;
                             j++;
                         }
@@ -318,7 +332,11 @@ namespace Dopamine.ViewModels.Common
                         if (progressTime >= lyricsLineTime & (nextLyricsLineTime >= progressTime | nextLyricsLineTime == 0))
                         {
                             this.LyricsViewModel.LyricsLines[i].IsHighlighted = true;
-                            if (this.LyricsViewModel.AutomaticScrolling & this.canHighlight) this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
+
+                            if (this.LyricsViewModel.AutomaticScrolling & this.canHighlight)
+                            {
+                                this.eventAggregator.GetEvent<ScrollToHighlightedLyricsLine>().Publish(null);
+                            }
                         }
                         else
                         {
