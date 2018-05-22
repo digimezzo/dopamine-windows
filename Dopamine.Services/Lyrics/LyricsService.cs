@@ -31,7 +31,14 @@ namespace Dopamine.Services.Lyrics
         {
             for (int i = 0; i < numberOfEmptyLines; i++)
             {
-                lines.Add(new LyricsLineViewModel(span, string.Empty));
+                if (span.Equals(TimeSpan.MinValue))
+                {
+                    lines.Add(new LyricsLineViewModel(string.Empty));
+                }
+                else
+                {
+                    lines.Add(new LyricsLineViewModel(span, string.Empty));
+                }  
             }
         }
 
@@ -79,7 +86,7 @@ namespace Dopamine.Services.Lyrics
                     int numberOfEmptyLines = this.GetNumberOfFollowingEmptyLines(ref reader);
 
                     // Add empty lines
-                    this.AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.Zero);
+                    this.AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.MinValue);
 
                     // Process the next line
                     continue;
@@ -127,7 +134,7 @@ namespace Dopamine.Services.Lyrics
                     int numberOfEmptyLines = this.GetNumberOfFollowingEmptyLines(ref reader);
 
                     // Add empty lines
-                    this.AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.Zero);
+                    this.AddEmptyLines(numberOfEmptyLines, linesWithoutTimestamps, TimeSpan.MinValue);
                 }
             }
 
