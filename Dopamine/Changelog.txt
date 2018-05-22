@@ -1,6 +1,8 @@
 2018-05-22: Dopamine 2.0
 ------------------------
 
+- [Changed] Updated the Greek translation
+- [Changed] Updated the Spanish translation
 - [Fixed] Fixes a lyrics scrolling issue
 
 
