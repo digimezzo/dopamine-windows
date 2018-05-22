@@ -96,7 +96,6 @@
     <Compile Include="Audio\ISpectrumPlayer.cs" />
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
-    <Compile Include="Audio\SpectrumAnalyzer.cs" />
     <Compile Include="Base\Constants.cs" />
     <Compile Include="Base\ContactInformation.cs" />
     <Compile Include="Base\Defaults.cs" />
