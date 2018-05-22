@@ -1,7 +1,7 @@
-2018-05-18: Dopamine 2.0
+2018-05-22: Dopamine 2.0
 ------------------------
 
-- Work in progress
+- [Fixed] Fixes a lyrics scrolling issue
 
 
 2018-05-16: Dopamine 1.5.14
