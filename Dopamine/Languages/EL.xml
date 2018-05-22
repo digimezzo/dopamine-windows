@@ -413,13 +413,13 @@
   <Text Key="Reload_Missing_Covers">Επαναφόρτωση των εξωφύλλων που λείπουν</Text>
   <Text Key="Reload_Missing_Covers_Description">Επαναφόρτωση εξωφύλλων για άλμπουμ που δεν έχουν ήδη εξώφυλλο</Text>
   <Text Key="Added_Songs">Προστέθηκαν {number} τραγούδια ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">Λήψη εξωφύλλων που λείπουν από το internet</Text>
+  <Text Key="Download_Missing_Album_Covers">Λήψη εξωφύλλων που λείπουν από το διαδίκτυο</Text>
   <Text Key="Use_All_Available_Speakers">Χρήση όλων των διαθέσιμων ηχείων</Text>
   <Text Key="Center_Lyrics">Κεντρική στοίχιση στίχων</Text>
-  <Text Key="Spectrum_Flames">Flames</Text>
-  <Text Key="Spectrum_Lines">Lines</Text>
-  <Text Key="Spectrum_Bars">Bars</Text>
-  <Text Key="Spectrum_Stripes">Stripes</Text>
-  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
-<Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
+  <Text Key="Spectrum_Flames">Φλόγες</Text>
+  <Text Key="Spectrum_Lines">Γραμμές</Text>
+  <Text Key="Spectrum_Bars">Μπάρες</Text>
+  <Text Key="Spectrum_Stripes">Ρίγες</Text>
+  <Text Key="Also_Check_For_Prereleases">Πρόσθετος έλεγχος και για προεκδόσεις</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ο φάκελος '{foldername}' δεν προστέθηκε γιατί το περιεχόμενό του δεν είναι προσβάσιμο. Ελέγξτε τα δικαιώματα χρήστη.</Text>
 </Language>
