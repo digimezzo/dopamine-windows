@@ -106,12 +106,12 @@ namespace Dopamine.ViewModels.Common
 
             // Events
             this.i18nService.LanguageChanged += (_, __) => this.RefreshLanguage();
-            
-            SettingsClient.SettingChanged += (_,e) => 
+
+            SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowTrackArtOnPlaylists"))
                 {
-                    this.ShowTrackArt = (bool) e.SettingValue;
+                    this.ShowTrackArt = (bool)e.SettingValue;
                     this.UpdateShowTrackArtAsync();
                 }
             };
@@ -247,7 +247,10 @@ namespace Dopamine.ViewModels.Common
             {
                 foreach (KeyValuePair<string, TrackViewModel> trackPair in this.Tracks)
                 {
-                    trackPair.Value.ShowTrackArt = this.showTrackArt;
+                    if (trackPair.Value != null)
+                    {
+                        trackPair.Value.ShowTrackArt = this.showTrackArt;
+                    }
                 }
             });
         }
