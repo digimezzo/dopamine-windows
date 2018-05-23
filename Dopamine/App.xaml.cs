@@ -518,7 +518,17 @@ namespace Dopamine
             // This might be fixed in .Net 4.5.2. See here: https://connect.microsoft.com/VisualStudio/feedback/details/789438/scrolling-in-virtualized-wpf-treeview-is-very-unstable
             if (ex.GetType().ToString().Equals("System.ArgumentNullException") & ex.Source.ToString().Equals("PresentationCore"))
             {
-                LogClient.Warning("Avoided Unhandled Exception: {0}", ex.Message);
+                LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
+                return;
+            }
+
+            // This is a workaround for an exception which is thrown on a select number of systems. 
+            // This is the exception: System.ComponentModel.Win32Exception (0x80004005): Access is denied
+            // at MS.Win32.UnsafeNativeMethods.GetWindowText(HandleRef hWnd, StringBuilder lpString, Int32 nMaxCount)
+            // The cause of the exception is unknown. Most likely this is due to an external factor.
+            if (ex.GetType().ToString().Equals("System.ComponentModel.Win32Exception") & ex.Message.Contains("MS.Win32.UnsafeNativeMethods.GetWindowText"))
+            {
+                LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
                 return;
             }
 
