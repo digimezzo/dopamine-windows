@@ -1,9 +1,10 @@
-2018-05-22: Dopamine 2.0
+2018-05-23: Dopamine 2.0
 ------------------------
 
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Spanish translation
-- [Fixed] Fixes a lyrics scrolling issue
+- [Fixed] Lyrics scrolling issue when using lyrics which have no timestamps
+- [Fixed] Unable to fetch lyrics from LyricWikia when song artist or title have special casing and special characters
 
 
 2018-05-16: Dopamine 1.5.14
