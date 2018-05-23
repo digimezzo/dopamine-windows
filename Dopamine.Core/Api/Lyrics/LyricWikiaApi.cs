@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace Dopamine.Core.Api.Lyrics
 {
     /// <summary>
-    /// LyricWikia doesn't have a proper API anymore.
-    /// Idea borrowed from here: http://inversekarma.in/technology/net/fetching-lyrics-from-lyricwiki-in-/c
+    /// LyricWikia doesn't have a proper API. So we need to search using the URL.
+    /// The "edit" URL is case-sensitive. If casing of artist and track do not correspond,
+    /// no lyrics are returned. Even if there are lyrics available.
     /// </summary>
     public class LyricWikiaApi : ILyricsApi
     {
@@ -27,17 +28,25 @@ namespace Dopamine.Core.Api.Lyrics
         /// <param name="artist"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        private async Task<string> BuildUrlAsync(string artist, string title)
+        private async Task<string> BuildUrlAsync(string artist, string title, bool correctCasing)
         {
             string url = string.Empty;
 
             await Task.Run(() =>
             {
-                string[] artistPieces = artist.ToLower().Split(' ');
-                string[] titlePieces = title.ToLower().Split(' ');
+                // Split artist and title into pieces based on space " "
+                string[] artistPieces = (correctCasing ? artist.ToLower() : artist).Split(' ');
+                string[] titlePieces = (correctCasing ? title.ToLower() : title).Split(' ');
 
-                string joinedArtist = string.Join("_", artistPieces.Select(p => StringUtils.FirstCharToUpper(p)));
-                string joinedTitle = string.Join("_", titlePieces.Select(p => StringUtils.FirstCharToUpper(p)));
+                // Join artist and title pieces using "_"
+                string joinedArtist = string.Join("_", artistPieces.Select(p => correctCasing ? StringUtils.FirstCharToUpper(p) : p));
+                string joinedTitle = string.Join("_", titlePieces.Select(p => correctCasing ? StringUtils.FirstCharToUpper(p) : p));
+
+                // Replace special characters
+                joinedArtist = joinedArtist.Replace("?", "%3F");
+                joinedTitle = joinedTitle.Replace("?", "%3F");
+                joinedArtist = joinedArtist.Replace("'", "%27");
+                joinedTitle = joinedTitle.Replace("'", "%27");
 
                 url = string.Format(apiRootFormat, joinedArtist, joinedTitle);
             });
@@ -106,16 +115,8 @@ namespace Dopamine.Core.Api.Lyrics
             }
         }
 
-        /// <summary>
-        /// Searches for lyrics for the given artist and title
-        /// </summary>
-        /// <param name="artist"></param>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public async Task<string> GetLyricsAsync(string artist, string title)
+        private async Task<string> GetLyricsFromWeb(Uri uri, string artist, string title)
         {
-            Uri uri = new Uri(await BuildUrlAsync(artist, title));
-
             string result = string.Empty;
 
             using (var client = new HttpClient())
@@ -127,6 +128,29 @@ namespace Dopamine.Core.Api.Lyrics
             }
 
             string lyrics = await ParseLyricsFromHtmlAsync(result, artist, title);
+
+            return lyrics;
+        }
+
+        /// <summary>
+        /// Searches for lyrics for the given artist and title
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public async Task<string> GetLyricsAsync(string artist, string title)
+        {
+            // First, try without casing correction.
+            Uri uri = new Uri(await BuildUrlAsync(artist, title, false));
+            string lyrics = await this.GetLyricsFromWeb(uri, artist, title);
+
+            // If no lyrics were returned
+            if (string.IsNullOrEmpty(lyrics))
+            {
+                // Try again, with casing correction.
+                uri = new Uri(await BuildUrlAsync(artist, title, true));
+                lyrics = await this.GetLyricsFromWeb(uri, artist, title);
+            }
 
             return lyrics;
         }
