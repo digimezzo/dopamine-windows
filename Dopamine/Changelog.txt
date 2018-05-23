@@ -1,5 +1,5 @@
-2018-05-23: Dopamine 2.0
-------------------------
+2018-05-23: Dopamine 2.0 Preview 1
+----------------------------------
 
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Spanish translation
