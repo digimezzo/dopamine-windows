@@ -32,5 +32,50 @@ namespace Dopamine.Tests
 
             Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
         }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsApi)]
+        public async Task LyricWikiaApiGetSpecialCharactersLyrics()
+        {
+            var api = new Core.Api.Lyrics.LyricWikiaApi(0);
+            string lyrics = await api.GetLyricsAsync("Therapy?", "Loose");
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
+        }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsApi)]
+        public async Task LyricWikiaApiGetSpecialCharacters2Lyrics()
+        {
+            var api = new Core.Api.Lyrics.LyricWikiaApi(0);
+            string lyrics = await api.GetLyricsAsync("Skinny Puppy", "God's Gift (Maggot)");
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
+        }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsApi)]
+        public async Task LyricWikiaApiGetSpecialCasingLyrics()
+        {
+            var api = new Core.Api.Lyrics.LyricWikiaApi(0);
+            string lyrics = await api.GetLyricsAsync("KMFDM", "Splatter");
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
+        }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsApi)]
+        public async Task LyricWikiaApiGetSpecialCasing2Lyrics()
+        {
+            var api = new Core.Api.Lyrics.LyricWikiaApi(0);
+            string lyrics = await api.GetLyricsAsync("Out Out", "S.Y.O.");
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
+        }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsApi)]
+        public async Task LyricWikiaApiGetSpecialCasing3Lyrics()
+        {
+            var api = new Core.Api.Lyrics.LyricWikiaApi(0);
+            string lyrics = await api.GetLyricsAsync("BiGod 20", "The Big Bang");
+
+            Assert.IsTrue(!string.IsNullOrEmpty(lyrics));
+        }
     }
 }
