@@ -7,18 +7,30 @@ namespace Dopamine.Views.Common
 {
     public partial class PlaybackInfoControl : UserControl
     {
-        public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register("TextAlignment", typeof(TextAlignment), typeof(PlaybackInfoControl), new PropertyMetadata(TextAlignment.Left));
-        public static readonly DependencyProperty TitleFontSizeProperty = DependencyProperty.Register("TitleFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty TitleFontWeightProperty = DependencyProperty.Register("TitleFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
-        public static readonly DependencyProperty ArtistFontSizeProperty = DependencyProperty.Register("ArtistFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty ArtistFontWeightProperty = DependencyProperty.Register("ArtistFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
-        public static readonly DependencyProperty AlbumFontSizeProperty = DependencyProperty.Register("AlbumFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty AlbumFontWeightProperty = DependencyProperty.Register("AlbumFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
-        public static readonly DependencyProperty YearFontSizeProperty = DependencyProperty.Register("YearFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty YearFontWeightProperty = DependencyProperty.Register("YearFontWeight", typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
-        public static readonly DependencyProperty TimeFontSizeProperty = DependencyProperty.Register("TimeFontSize", typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty ShowAlbumInfoProperty = DependencyProperty.Register("ShowAlbumInfo", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
-        public static readonly DependencyProperty IsTopAlignedProperty = DependencyProperty.Register("IsTopAligned", typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty TextAlignmentProperty = 
+            DependencyProperty.Register(nameof(TextAlignment), typeof(TextAlignment), typeof(PlaybackInfoControl), new PropertyMetadata(TextAlignment.Left));
+        public static readonly DependencyProperty TitleFontSizeProperty = 
+            DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
+        public static readonly DependencyProperty TitleFontWeightProperty = 
+            DependencyProperty.Register(nameof(TitleFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
+        public static readonly DependencyProperty ArtistFontSizeProperty = 
+            DependencyProperty.Register(nameof(ArtistFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
+        public static readonly DependencyProperty ArtistFontWeightProperty = 
+            DependencyProperty.Register(nameof(ArtistFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
+        public static readonly DependencyProperty AlbumFontSizeProperty = 
+            DependencyProperty.Register(nameof(AlbumFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
+        public static readonly DependencyProperty AlbumFontWeightProperty = 
+            DependencyProperty.Register(nameof(AlbumFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
+        public static readonly DependencyProperty YearFontSizeProperty = 
+            DependencyProperty.Register(nameof(YearFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
+        public static readonly DependencyProperty YearFontWeightProperty = 
+            DependencyProperty.Register(nameof(YearFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
+        public static readonly DependencyProperty TimeFontSizeProperty = 
+            DependencyProperty.Register(nameof(TimeFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
+        public static readonly DependencyProperty ShowAlbumInfoProperty = 
+            DependencyProperty.Register(nameof(ShowAlbumInfo), typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsBottomAlignedProperty = 
+            DependencyProperty.Register(nameof(IsBottomAligned), typeof(bool), typeof(PlaybackInfoControl), new PropertyMetadata(false));
     
         public new object DataContext
         {
@@ -103,11 +115,11 @@ namespace Dopamine.Views.Common
             set { SetValue(ShowAlbumInfoProperty, value); }
         }
 
-        public bool IsTopAligned
+        public bool IsBottomAligned
         {
-            get { return Convert.ToBoolean(GetValue(IsTopAlignedProperty)); }
+            get { return Convert.ToBoolean(GetValue(IsBottomAlignedProperty)); }
 
-            set { SetValue(IsTopAlignedProperty, value); }
+            set { SetValue(IsBottomAlignedProperty, value); }
         }
      
         public PlaybackInfoControl()

@@ -24,23 +24,25 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <DockPanel HorizontalAlignment="Stretch" Height="{Binding ActualHeight,ElementName=ThisControl}">
+    <Grid>
         <dc:SlidingContentControl 
-            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
-            DockPanel.Dock="Bottom" 
+            Visibility="{Binding IsBottomAligned, ElementName=ThisControl,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
             HorizontalAlignment="Stretch" 
+            VerticalAlignment="Center"
             SlideDirection="{Binding SlideDirection}" 
             EasingAmplitude="0" 
             SlideFadeIn="True"
             Content="{Binding PlaybackInfoViewModel}"/>
-        <dc:SlidingContentControl 
-            Visibility="{Binding IsTopAligned, ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"
-            DockPanel.Dock="Top" 
-            HorizontalAlignment="Stretch" 
-            SlideDirection="{Binding SlideDirection}" 
-            EasingAmplitude="0" 
-            SlideFadeIn="True"
-            Content="{Binding PlaybackInfoViewModel}"/>
-        <ContentControl/>
-    </DockPanel>
+        <DockPanel HorizontalAlignment="Stretch" Height="{Binding ActualHeight,ElementName=ThisControl}"
+                   Visibility="{Binding IsBottomAligned, ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}">
+            <dc:SlidingContentControl 
+                DockPanel.Dock="Bottom" 
+                HorizontalAlignment="Stretch" 
+                SlideDirection="{Binding SlideDirection}" 
+                EasingAmplitude="0" 
+                SlideFadeIn="True"
+                Content="{Binding PlaybackInfoViewModel}"/>
+            <ContentControl/>
+        </DockPanel>
+    </Grid>
 </UserControl>

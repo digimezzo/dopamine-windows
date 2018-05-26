@@ -239,7 +239,6 @@
       <commonviews:PlaybackInfoControl
         Height="50"
         Margin="20,0,20,0"
-        IsTopAligned="True"
         ShowAlbumInfo="False"
         TitleFontSize="22"
         TitleFontWeight="Light" />
