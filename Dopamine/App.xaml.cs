@@ -495,13 +495,11 @@ namespace Dopamine
                 LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
                 return;
             }
-            else
-            {
-                //LogClient.Warning($"Ignored Unhandled Exception: Message=<<<<{ex.Message}>>>>");
-                //LogClient.Warning($"Ignored Unhandled Exception: Type=<<<<{ex.GetType().ToString()}>>>>");
-                //LogClient.Warning($"Ignored Unhandled Exception: Source=<<<<{ex.Source.ToString()}>>>>");
-                //return;
-            }
+
+            // LogClient.Warning($"Ignored Unhandled Exception: Message=<<<<{ex.Message}>>>>");
+            // LogClient.Warning($"Ignored Unhandled Exception: Type=<<<<{ex.GetType().ToString()}>>>>");
+            // LogClient.Warning($"Ignored Unhandled Exception: Source=<<<<{ex.Source.ToString()}>>>>");
+            // return;
 
             LogClient.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));
 
