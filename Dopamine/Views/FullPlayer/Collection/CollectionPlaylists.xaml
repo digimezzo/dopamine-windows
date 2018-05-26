@@ -25,7 +25,7 @@
         <Border DockPanel.Dock="Right" Width="280" Margin="0,45,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource RG_BorderBrush}">
             <StackPanel VerticalAlignment="Top" Width="250" Margin="15,0,15,0">
                 <commonviews:CoverArtControl x:Name="CoverArt" Width="250" Height="250"/>
-                <commonviews:PlaybackInfoControl Height="85" Margin="0,15,0,0" IsTopAligned="True" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
+                <commonviews:PlaybackInfoControl Height="85" Margin="0,15,0,0" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
             </StackPanel>
         </Border>
         <dc:MultiPanePanel 

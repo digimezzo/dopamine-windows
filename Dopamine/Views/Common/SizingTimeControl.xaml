@@ -11,11 +11,11 @@
         <Grid>
             <StackPanel DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" HorizontalAlignment="{Binding TimeHorizontalAlignment,ElementName=ThisControl}" VerticalAlignment="Center">
                 <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
-                <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
+                <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="14"/>
             </StackPanel>
             <StackPanel x:Name="TimeInnerBorder" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="{Binding TimeHorizontalAlignment,ElementName=ThisControl}" VerticalAlignment="Center" SizeChanged="TimeInnerBorder_SizeChanged">
                 <Label Padding="0" x:Name="DummyCurrentTime" Content="{Binding Content, ElementName=CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="14"/>
-                <Label Padding="0" x:Name="DummyTotalTime" Content="{Binding Content, ElementName=TotalTime}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="14"/>
+                <Label Padding="0" x:Name="DummyTotalTime" Content="{Binding Content, ElementName=TotalTime}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="14"/>
             </StackPanel>
         </Grid>
     </Border>

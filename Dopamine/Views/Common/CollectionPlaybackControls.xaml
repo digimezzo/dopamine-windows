@@ -19,17 +19,15 @@
 
     <DockPanel Height="80">
         <!-- Progress slider -->
-        <commonviews:ProgressControls DockPanel.Dock="Top"/>
+        <commonviews:ProgressControls DockPanel.Dock="Top" Panel.ZIndex="99"/>
         <Grid Margin="0,-6,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!-- Playback info -->
-            <DockPanel x:Name="PlaybackInfoPanel" Background="#00000000" Grid.Column="0" Height="50" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}" Margin="10,10,0,10">
+            <DockPanel x:Name="PlaybackInfoPanel" Background="#00000000" Grid.Column="0" Height="70" Cursor="Hand" ToolTip="{DynamicResource Language_Now_Playing}">
                 <DockPanel.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.Resources>
@@ -58,31 +56,41 @@
                         <i:InvokeCommandAction Command="{x:Static cp:ApplicationCommands.ShowNowPlayingCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="50" Height="50" Margin="0,0,10,0"/>
-                <commonviews:PlaybackInfoControl Height="50" Margin="0,0,0,0" TitleFontSize="22" TitleFontWeight="Light" VerticalAlignment="Bottom"/>
+                <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="70" Height="70"/>
+                <commonviews:PlaybackInfoControl Height="70" TitleFontWeight="Light" VerticalAlignment="Center" Margin="10,0,0,0"/>
             </DockPanel>
-            <!-- Time -->
-            <commonviews:SizingTimeControl Grid.Column="1" HorizontalAlignment="Stretch" TimeHorizontalAlignment="Right"/>
             <!-- Playback controls -->
-            <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-            <!-- Equalizer button -->
-            <ToggleButton 
-                Grid.Column="3" 
-                x:Name="EqualizerButton" 
-                Style="{StaticResource TransparentToggleButton}" 
-                Width="30" 
-                Height="30" 
-                HorizontalContentAlignment="Center" 
-                VerticalContentAlignment="Center" 
-                VerticalAlignment="Center" 
-                ToolTip="{DynamicResource Language_Equalizer}" 
-                Command="{Binding ShowEqualizerCommand}">
-                <ToggleButton.Content>
-                    <commonviews:EqualizerIcon/>
-                </ToggleButton.Content>
-            </ToggleButton>
-            <!-- Volume -->
-            <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
+            <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+            <!-- Right pane -->
+            <DockPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0">
+                <!-- Volume button -->
+                <commonviews:PopupVolumeControls 
+                    DockPanel.Dock="Right" 
+                    Margin="10,0,0,0" 
+                    Width="30" 
+                    Height="30" 
+                    ToolTip="{DynamicResource Language_Volume}" 
+                    VerticalAlignment="Center"/>
+                <!-- Equalizer button -->
+                <ToggleButton 
+                    x:Name="EqualizerButton" 
+                    Margin="10,0,0,0"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource TransparentToggleButton}" 
+                    Width="30" 
+                    Height="30" 
+                    HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    ToolTip="{DynamicResource Language_Equalizer}" 
+                    Command="{Binding ShowEqualizerCommand}">
+                    <ToggleButton.Content>
+                        <commonviews:EqualizerIcon/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <!-- Time -->
+                <commonviews:SizingTimeControl Margin="0,0,10,0" HorizontalAlignment="Stretch" TimeHorizontalAlignment="Right"/>
+            </DockPanel>
         </Grid>
     </DockPanel>
 </UserControl>
