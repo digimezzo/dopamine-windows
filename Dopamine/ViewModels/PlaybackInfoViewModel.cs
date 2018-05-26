@@ -10,6 +10,7 @@ namespace Dopamine.ViewModels
         private string year;
         private string currentTime;
         private string totalTime;
+
         public string Title
         {
             get { return this.title; }

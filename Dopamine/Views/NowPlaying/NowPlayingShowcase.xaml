@@ -115,6 +115,7 @@
         <commonviews:PlaybackInfoControl 
             x:Name="PlaybackInfo" Margin="30,0,0,20" VerticalAlignment="Bottom" IsBottomAligned="True" Height="230"
             ArtistFontSize="20" ArtistFontWeight="Light" TitleFontSize="40" TitleFontWeight="Light" AlbumFontSize="20" 
-            AlbumFontWeight="Light" YearFontSize="20" YearFontWeight="Light" ShowAlbumInfo="True"/>
+            AlbumFontWeight="Light" YearFontSize="20" YearFontWeight="Light" ShowAlbumInfo="True"
+            ShowLoveAndRating="False"/>
     </DockPanel>
 </UserControl>

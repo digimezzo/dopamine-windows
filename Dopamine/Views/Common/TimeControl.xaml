@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.TimeControl"
+             x:Name="ThisControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <StackPanel DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" VerticalAlignment="Center">
+        <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}"/>
+    </StackPanel>
+</UserControl>

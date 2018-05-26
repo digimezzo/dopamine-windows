@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
              xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
-             xmlns:pc="clr-namespace:Dopamine.Controls"
              xmlns:pv="clr-namespace:Dopamine.Views"
              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -25,16 +24,12 @@
         <commonviews:ProgressControls DockPanel.Dock="Top"/>
         <Grid Margin="0,-6,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <!-- Time -->
-            <commonviews:SizingTimeControl Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25,0,0,0" TimeHorizontalAlignment="Left"/>
             <!-- Buttons -->
-            <dc:Pivot Grid.Column="1" Visibility="{Binding HasPlaybackQueue,Converter={StaticResource BooleanToCollapsedConverter}}"
+            <dc:Pivot Grid.Column="0" Margin="25,0,0,0" Visibility="{Binding HasPlaybackQueue,Converter={StaticResource BooleanToCollapsedConverter}}"
                       VerticalAlignment="Center" SelectedIndex="{Binding SelectedNowPlayingSubPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingSubPage}}">
                 <!-- Showcase button -->
                 <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
@@ -82,24 +77,37 @@
                 </dc:PivotItem>
             </dc:Pivot>
             <!-- Playback controls -->
-            <pv:PlaybackControls Grid.Column="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-            <!-- Equalizer button -->
-            <pc:IconMenuButton  
-                Grid.Column="3" 
-                x:Name="EqualizerButton" 
-                Width="30" 
-                Height="30" 
-                HorizontalContentAlignment="Center" 
-                VerticalContentAlignment="Center" 
-                VerticalAlignment="Center" 
-                ToolTip="{DynamicResource Language_Equalizer}"
-                Command="{Binding ShowEqualizerCommand}">
-                <ToggleButton.Content>
-                    <commonviews:EqualizerIcon/>
-                </ToggleButton.Content>
-            </pc:IconMenuButton>
-            <!-- Volume -->
-            <commonviews:HorizontalVolumeControls Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0"/>
+            <pv:PlaybackControls Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+            <!-- Right pane -->
+            <DockPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,25,0">
+                <!-- Volume button -->
+                <commonviews:PopupVolumeControls 
+                    DockPanel.Dock="Right" 
+                    Margin="10,0,0,0" 
+                    Width="30" 
+                    Height="30" 
+                    ToolTip="{DynamicResource Language_Volume}" 
+                    VerticalAlignment="Center"/>
+                <!-- Equalizer button -->
+                <ToggleButton 
+                    x:Name="EqualizerButton" 
+                    Margin="10,0,0,0"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource TransparentToggleButton}" 
+                    Width="30" 
+                    Height="30" 
+                    HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    ToolTip="{DynamicResource Language_Equalizer}" 
+                    Command="{Binding ShowEqualizerCommand}">
+                    <ToggleButton.Content>
+                        <commonviews:EqualizerIcon/>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <!-- Time -->
+                <commonviews:TimeControl Margin="0,0,10,0"/>
+            </DockPanel>
         </Grid>
     </DockPanel>
 </UserControl>

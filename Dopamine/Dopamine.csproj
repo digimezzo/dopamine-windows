@@ -416,8 +416,8 @@
     <Compile Include="Views\Common\ShuffleAllControl.xaml.cs">
       <DependentUpon>ShuffleAllControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Common\SizingTimeControl.xaml.cs">
-      <DependentUpon>SizingTimeControl.xaml</DependentUpon>
+    <Compile Include="Views\Common\TimeControl.xaml.cs">
+      <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\SpectrumAnalyzerControl.xaml.cs">
       <DependentUpon>SpectrumAnalyzerControl.xaml</DependentUpon>
@@ -1206,7 +1206,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Common\SizingTimeControl.xaml">
+    <Page Include="Views\Common\TimeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

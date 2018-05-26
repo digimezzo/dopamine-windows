@@ -1,4 +1,5 @@
 ﻿using Dopamine.Core.Base;
+using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Scrobbling;
@@ -322,12 +323,11 @@ namespace Dopamine.ViewModels
 
         public int Rating
         {
-            get { return this.Track.Rating.HasValue ? Convert.ToInt32(this.Track.Rating.Value) : 0; }
+            get { return NumberUtils.ConvertToInt32(this.track.Rating); }
             set
             {
                 this.Track.Rating = (long?)value;
                 RaisePropertyChanged(nameof(this.Rating));
-
                 this.metadataService.UpdateTrackRatingAsync(this.Track.Path, value);
             }
         }
@@ -337,21 +337,16 @@ namespace Dopamine.ViewModels
             get { return this.Track.Love.HasValue && this.Track.Love.Value != 0 ? true : false; }
             set
             {
-                this.SetLoveAsync(value);
+                // Update the UI
+                this.Track.Love = value ? 1 : 0;
+                RaisePropertyChanged(nameof(this.Love));
+
+                // Update Love in the database
+                this.metadataService.UpdateTrackLoveAsync(this.Track.Path, value);
+
+                // Send Love/Unlove to the scrobbling service
+                this.scrobblingService.SendTrackLoveAsync(this.Track, value);
             }
-        }
-
-        private async void SetLoveAsync(bool love)
-        {
-            // Update the UI
-            this.Track.Love = love ? 1 : 0;
-            RaisePropertyChanged(nameof(this.Love));
-
-            // Update Love in the database
-            await this.metadataService.UpdateTrackLoveAsync(this.Track.Path, love);
-
-            // Send Love/Unlove to the scrobbling service
-            await this.scrobblingService.SendTrackLoveAsync(this.Track, love);
         }
 
         public string GroupHeader
