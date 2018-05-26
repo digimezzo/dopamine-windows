@@ -14,7 +14,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type pc:LoveButton}">
-                    <Button Margin="5,0,0,0" x:Name="PART_LoveButton">
+                    <Button x:Name="PART_LoveButton">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="OverridesDefaultStyle" Value="True" />

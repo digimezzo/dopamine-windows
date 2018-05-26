@@ -66,7 +66,7 @@ namespace Dopamine
             JumpList.SetJumpList(Current, new JumpList());
 
             // Check that there is only one instance of the application running
-            this.instanceMutex = new Mutex(true,$"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
+            this.instanceMutex = new Mutex(true, $"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
 
             // Process the command-line arguments
             this.ProcessCommandLineArguments(isNewInstance);
@@ -82,7 +82,7 @@ namespace Dopamine
                 // TODO: because shutdown is too fast, some logging might be missing in the log file.
                 LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
-            }    
+            }
         }
 
         private void LaunchInitializer()
@@ -189,7 +189,7 @@ namespace Dopamine
                 LogClient.Error("Could not start FileService. Exception: {0}", ex.Message);
             }
         }
-      
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             RegisterCoreComponents();
@@ -495,15 +495,12 @@ namespace Dopamine
                 LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
                 return;
             }
-
-            // This is a workaround for an exception which is thrown on a select number of systems. 
-            // This is the exception: System.ComponentModel.Win32Exception (0x80004005): Access is denied
-            // at MS.Win32.UnsafeNativeMethods.GetWindowText(HandleRef hWnd, StringBuilder lpString, Int32 nMaxCount)
-            // The cause of the exception is unknown. Most likely this is due to an external factor.
-            if (ex.GetType().ToString().Equals("System.ComponentModel.Win32Exception") & ex.Message.Contains("MS.Win32.UnsafeNativeMethods.GetWindowText"))
+            else
             {
-                LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
-                return;
+                //LogClient.Warning($"Ignored Unhandled Exception: Message=<<<<{ex.Message}>>>>");
+                //LogClient.Warning($"Ignored Unhandled Exception: Type=<<<<{ex.GetType().ToString()}>>>>");
+                //LogClient.Warning($"Ignored Unhandled Exception: Source=<<<<{ex.Source.ToString()}>>>>");
+                //return;
             }
 
             LogClient.Error("Unhandled Exception. {0}", LogClient.GetAllExceptions(ex));

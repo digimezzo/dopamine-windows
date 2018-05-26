@@ -1,9 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
-using Dopamine.ViewModels;
+using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
+using Dopamine.Services.Scrobbling;
 using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
@@ -15,11 +17,54 @@ namespace Dopamine.ViewModels.Common
     {
         private PlaybackInfoViewModel playbackInfoViewModel;
         private IPlaybackService playbackService;
+        private IMetadataService metadataService;
+        private IScrobblingService scrobblingService;
         private SlideDirection slideDirection;
         private PlayableTrack previousTrack;
         private PlayableTrack track;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
+        private bool enableRating;
+        private bool enableLove;
+
+        public int Rating
+        {
+            get
+            {
+                return this.track == null ? 0 : NumberUtils.ConvertToInt32(this.track.Rating);
+            }
+            set
+            {
+                if(this.track != null)
+                {
+                    this.track.Rating = (long?)value;
+                    RaisePropertyChanged(nameof(this.Rating));
+                    this.metadataService.UpdateTrackRatingAsync(this.track.Path, value);
+                } 
+            }
+        }
+
+        public bool Love
+        {
+            get {
+                return this.track == null ? false : NumberUtils.ConvertToBoolean(this.track.Love);
+            }
+            set
+            {
+                if (this.track != null)
+                {
+                    // Update the UI
+                    this.track.Love = value ? 1 : 0;
+                    RaisePropertyChanged(nameof(this.Love));
+
+                    // Update Love in the database
+                    this.metadataService.UpdateTrackLoveAsync(this.track.Path, value);
+
+                    // Send Love/Unlove to the scrobbling service
+                    this.scrobblingService.SendTrackLoveAsync(this.track, value);
+                }
+            }
+        }
 
         public PlaybackInfoViewModel PlaybackInfoViewModel
         {
@@ -33,9 +78,23 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty<SlideDirection>(ref this.slideDirection, value); }
         }
 
-        public PlaybackInfoControlViewModel(IPlaybackService playbackService)
+        public bool EnableRating
+        {
+            get { return this.enableRating; }
+            set { SetProperty<bool>(ref this.enableRating, value); }
+        }
+
+        public bool EnableLove
+        {
+            get { return this.enableLove; }
+            set { SetProperty<bool>(ref this.enableLove, value); }
+        }
+
+        public PlaybackInfoControlViewModel(IPlaybackService playbackService, IMetadataService metadataService, IScrobblingService scrobblingService)
         {
             this.playbackService = playbackService;
+            this.metadataService = metadataService;
+            this.scrobblingService = scrobblingService;
 
             this.refreshTimer.Interval = this.refreshTimerIntervalMilliseconds;
             this.refreshTimer.Elapsed += RefreshTimer_Elapsed;
@@ -50,9 +109,26 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
             this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, true);
 
+            // Settings
+            SettingsClient.SettingChanged += async (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                    
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                }
+            };
+
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
             this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
+            this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
+            this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
         }
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)

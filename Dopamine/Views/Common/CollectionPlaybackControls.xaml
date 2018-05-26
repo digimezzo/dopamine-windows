@@ -57,7 +57,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <commonviews:CoverArtControl x:Name="CoverArtControl" DockPanel.Dock="Left" Width="70" Height="70"/>
-                <commonviews:PlaybackInfoControl Height="70" TitleFontWeight="Light" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <commonviews:PlaybackInfoControl Height="70" TitleFontWeight="Light" VerticalAlignment="Center" Margin="10,0,0,0"
+                                                 ShowLoveAndRating="True"/>
             </DockPanel>
             <!-- Playback controls -->
             <commonviews:PlaybackControlsWithPlaylistNotification Grid.Column="1" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
@@ -89,7 +90,7 @@
                     </ToggleButton.Content>
                 </ToggleButton>
                 <!-- Time -->
-                <commonviews:SizingTimeControl Margin="0,0,10,0" HorizontalAlignment="Stretch" TimeHorizontalAlignment="Right"/>
+                <commonviews:TimeControl Margin="0,0,10,0"/>
             </DockPanel>
         </Grid>
     </DockPanel>

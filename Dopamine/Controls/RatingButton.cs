@@ -10,7 +10,6 @@ namespace Dopamine.Controls
         private Button ratingButton;
         private StackPanel ratingStars;
         private StackPanel adjustmentStars;
-        private TextBlock adjustmentStar0;
         private TextBlock adjustmentStar1;
         private TextBlock adjustmentStar2;
         private TextBlock adjustmentStar3;
@@ -39,7 +38,6 @@ namespace Dopamine.Controls
             this.ratingStars = (StackPanel)GetTemplateChild("PART_RatingStars");
             this.adjustmentStars = (StackPanel)GetTemplateChild("PART_AdjustmentStars");
 
-            this.adjustmentStar0 = (TextBlock)GetTemplateChild("PART_AdjustmentStar0");
             this.adjustmentStar1 = (TextBlock)GetTemplateChild("PART_AdjustmentStar1");
             this.adjustmentStar2 = (TextBlock)GetTemplateChild("PART_AdjustmentStar2");
             this.adjustmentStar3 = (TextBlock)GetTemplateChild("PART_AdjustmentStar3");
@@ -52,11 +50,6 @@ namespace Dopamine.Controls
                 this.ratingButton.MouseEnter += RatingButton_MouseEnter;
                 this.ratingButton.MouseLeave += RatingButton_MouseLeave;
                 this.ratingButton.PreviewMouseDoubleClick += RatingButton_PreviewMouseDoubleClick;
-            }
-
-            if (this.adjustmentStar0 != null)
-            {
-                this.adjustmentStar0.MouseEnter += AdjustmentStar0_MouseEnter;
             }
 
             if (this.adjustmentStar1 != null)
@@ -106,41 +99,40 @@ namespace Dopamine.Controls
             this.adjustmentStars.Visibility = Visibility.Hidden;
         }
 
+        private void ApplyRating(int newRating)
+        {
+            if(this.Rating.Equals(newRating))
+            {
+                // Clear rating
+                this.Rating = 0;
+                return;
+            }
+
+            this.Rating = newRating;
+        }
+
         private void RatingButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.adjustmentStar0.IsMouseOver)
+            if (this.adjustmentStar1.IsMouseOver)
             {
-                this.Rating = 0;
-            }
-            else if (this.adjustmentStar1.IsMouseOver)
-            {
-                this.Rating = 1;
+                this.ApplyRating(1);
             }
             else if (this.adjustmentStar2.IsMouseOver)
             {
-                this.Rating = 2;
+                this.ApplyRating(2);
             }
             else if (this.adjustmentStar3.IsMouseOver)
             {
-                this.Rating = 3;
+                this.ApplyRating(3);
             }
             else if (this.adjustmentStar4.IsMouseOver)
             {
-                this.Rating = 4;
+                this.ApplyRating(4);
             }
             else if (this.adjustmentStar5.IsMouseOver)
             {
-                this.Rating = 5;
+                this.ApplyRating(5);
             }
-        }
-
-        private void AdjustmentStar0_MouseEnter(object sender, MouseEventArgs e)
-        {
-            this.adjustmentStar1.Opacity = 0.2;
-            this.adjustmentStar2.Opacity = 0.2;
-            this.adjustmentStar3.Opacity = 0.2;
-            this.adjustmentStar4.Opacity = 0.2;
-            this.adjustmentStar5.Opacity = 0.2;
         }
 
         private void AdjustmentStar1_MouseEnter(object sender, MouseEventArgs e)
