@@ -22,7 +22,17 @@ namespace Dopamine.Controls
             set { SetValue(RatingProperty, value); }
         }
 
-        public static readonly DependencyProperty RatingProperty = DependencyProperty.Register("Rating", typeof(int), typeof(RatingButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty RatingProperty = 
+            DependencyProperty.Register(nameof(Rating), typeof(int), typeof(RatingButton), new PropertyMetadata(null));
+
+        public new double FontSize
+        {
+            get { return Convert.ToDouble(GetValue(FontSizeProperty)); }
+            set { SetValue(FontSizeProperty, value); }
+        }
+
+        public static new readonly DependencyProperty FontSizeProperty =
+            DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(RatingButton), new PropertyMetadata(11.0));
 
         static RatingButton()
         {
