@@ -7,6 +7,10 @@ namespace Dopamine.Views.Common
 {
     public partial class PlaybackInfoControl : UserControl
     {
+        public static readonly DependencyProperty LoveFontSizeProperty =
+            DependencyProperty.Register(nameof(LoveFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty RatingFontSizeProperty =
+           DependencyProperty.Register(nameof(RatingFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(null));
         public static readonly DependencyProperty TextAlignmentProperty = 
             DependencyProperty.Register(nameof(TextAlignment), typeof(TextAlignment), typeof(PlaybackInfoControl), new PropertyMetadata(TextAlignment.Left));
         public static readonly DependencyProperty TitleFontSizeProperty = 
@@ -38,6 +42,18 @@ namespace Dopamine.Views.Common
         {
             get { return base.DataContext; }
             set { base.DataContext = value; }
+        }
+
+        public double LoveFontSize
+        {
+            get { return Convert.ToDouble(GetValue(LoveFontSizeProperty)); }
+            set { SetValue(LoveFontSizeProperty, value); }
+        }
+
+        public double RatingFontSize
+        {
+            get { return Convert.ToDouble(GetValue(RatingFontSizeProperty)); }
+            set { SetValue(RatingFontSizeProperty, value); }
         }
 
         public TextAlignment TextAlignment

@@ -17,7 +17,17 @@ namespace Dopamine.Controls
             set { SetValue(LoveProperty, value); }
         }
 
-        public static readonly DependencyProperty LoveProperty = DependencyProperty.Register("Love", typeof(bool), typeof(LoveButton), new PropertyMetadata(false));
+        public static readonly DependencyProperty LoveProperty = 
+            DependencyProperty.Register(nameof(Love), typeof(bool), typeof(LoveButton), new PropertyMetadata(false));
+
+        public new double FontSize
+        {
+            get { return Convert.ToDouble(GetValue(FontSizeProperty)); }
+            set { SetValue(FontSizeProperty, value); }
+        }
+
+        public static new readonly DependencyProperty FontSizeProperty =
+            DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(LoveButton), new PropertyMetadata(14.0));
 
         static LoveButton()
         {
@@ -27,7 +37,7 @@ namespace Dopamine.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
+            
             this.loveButton = (Button)GetTemplateChild("PART_LoveButton");
             this.heartFill = (TextBlock)GetTemplateChild("PART_HeartFill");
             this.heart = (TextBlock)GetTemplateChild("PART_Heart");

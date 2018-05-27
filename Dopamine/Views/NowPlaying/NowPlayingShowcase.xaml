@@ -25,6 +25,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="20.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="20.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="20.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="15.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="18.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt300">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="300.0" Duration="0:0:0.05" />
@@ -33,6 +35,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="25.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="25.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="25.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="20.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="23.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt350">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="350.0" Duration="0:0:0.05" />
@@ -41,6 +45,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="30.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="30.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="30.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="25.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="28.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt400">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="400.0" Duration="0:0:0.05" />
@@ -49,6 +55,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="35.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="35.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="35.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="30.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="33.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt450">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="450.0" Duration="0:0:0.05" />
@@ -57,6 +65,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="40.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="40.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="40.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="35.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="38.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt500">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="500.0" Duration="0:0:0.05" />
@@ -65,6 +75,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="45.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="45.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="45.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="40.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="43.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt550">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="550.0" Duration="0:0:0.05" />
@@ -73,6 +85,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="50.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="50.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="50.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="45.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="48.0" Duration="0:0:0.05" />
             </Storyboard>
             <Storyboard x:Key="ResizeCoverArt600">
                 <DoubleAnimation Storyboard.TargetName="CoverArt" Storyboard.TargetProperty="Width" To="600.0" Duration="0:0:0.05" />
@@ -81,6 +95,8 @@
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="ArtistFontSize" To="55.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="AlbumFontSize" To="55.0" Duration="0:0:0.05" />
                 <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="YearFontSize" To="55.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="RatingFontSize" To="50.0" Duration="0:0:0.05" />
+                <DoubleAnimation Storyboard.TargetName="PlaybackInfo" Storyboard.TargetProperty="LoveFontSize" To="53.0" Duration="0:0:0.05" />
             </Storyboard>
         </DockPanel.Resources>
         <DockPanel.ContextMenu>
@@ -116,6 +132,6 @@
             x:Name="PlaybackInfo" Margin="30,0,0,20" VerticalAlignment="Bottom" IsBottomAligned="True" Height="230"
             ArtistFontSize="20" ArtistFontWeight="Light" TitleFontSize="40" TitleFontWeight="Light" AlbumFontSize="20" 
             AlbumFontWeight="Light" YearFontSize="20" YearFontWeight="Light" ShowAlbumInfo="True"
-            ShowLoveAndRating="False"/>
+            ShowLoveAndRating="True" LoveFontSize="18.0" RatingFontSize="15.0"/>
     </DockPanel>
 </UserControl>

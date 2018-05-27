@@ -30,8 +30,16 @@
                             </Style>
                         </Button.Style>
                         <Grid>
-                            <TextBlock x:Name="PART_HeartFill" Text="&#xE0A5;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Style="{StaticResource SegoeAssets}" Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource LoveConverter}}"/>
-                            <TextBlock x:Name="PART_Heart" Text="&#xE006;" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Opacity="0.2" Style="{StaticResource SegoeAssets}" Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource UnloveConverter}}"/>
+                            <TextBlock x:Name="PART_HeartFill" Text="&#xE0A5;" 
+                                       Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       Style="{StaticResource SegoeAssets}" 
+                                       Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource LoveConverter}}"/>
+                            <TextBlock x:Name="PART_Heart" Text="&#xE006;" 
+                                       Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       Opacity="0.2" Style="{StaticResource SegoeAssets}" 
+                                       Visibility="{Binding Love, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource UnloveConverter}}"/>
                         </Grid>
                     </Button>
                 </ControlTemplate>
