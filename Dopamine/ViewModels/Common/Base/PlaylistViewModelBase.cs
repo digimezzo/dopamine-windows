@@ -325,7 +325,7 @@ namespace Dopamine.ViewModels.Common
             {
                 foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                 {
-                    if (vm.Value.Track.Path.Equals(e.Path))
+                    if (vm.Value.Track.SafePath.Equals(e.SafePath))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
                         Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleRating(e.Rating));
@@ -342,7 +342,7 @@ namespace Dopamine.ViewModels.Common
             {
                 foreach (KeyValuePair<string, TrackViewModel> vm in this.Tracks)
                 {
-                    if (vm.Value.Track.Path.Equals(e.Path))
+                    if (vm.Value.Track.SafePath.Equals(e.SafePath))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
                         Application.Current.Dispatcher.Invoke(() => vm.Value.UpdateVisibleLove(e.Love));
