@@ -171,6 +171,7 @@
                                         <pc:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
+                                            SelectedForeground="{DynamicResource RG_AccentBrush}"
                                             Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                     </StackPanel>
