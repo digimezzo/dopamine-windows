@@ -6,6 +6,29 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Themes/Common.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Constants -->
+    <core:Double x:Key="Opacity_TertiaryBackgroundTransparent">0.15</core:Double>
+    
+    <!-- Palette (don't use these colors directly. Use them in brushes below. -->
+    <Color x:Key="Color_PrimaryBackground">#151515</Color>
+    <Color x:Key="Color_SecondaryBackground">#191919</Color>
+    <Color x:Key="Color_TertiaryBackground">#242424</Color>
+    <Color x:Key="Color_TertiaryBackgroundTransparent">#777777</Color>
+    
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush_WindowBackground" Color="{StaticResource Color_PrimaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_TertiaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}" Opacity="{StaticResource Opacity_TertiaryBackgroundTransparent}"/>
+
+
+
+
+
+
+
+
+
+
     <!-- This RG_AppearanceServiceBrush is used by the AppearanceService -->
     <SolidColorBrush x:Key="RG_AppearanceServiceBrush" Color="White" Opacity="1.0"/>
 
@@ -16,14 +39,14 @@
     <SolidColorBrush x:Key="RG_ContextMenuSeparatorBrush" Color="#BBBBBB" />
 
     <!-- Background Brushes -->
-    <Color x:Key="RG_WindowBackgroundColor">#0B0B0B</Color>
-    <SolidColorBrush x:Key="RG_WindowBackgroundBrush" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+    
+    
     <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#101010"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#1A1A1A"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighBrush" Color="#292929"/>
 
     <SolidColorBrush x:Key="RG_TextBoxInvisibleBackgroundBrush" Color="#00000000"/>
-    <SolidColorBrush x:Key="RG_SliderTrackBackgroundBrush" Color="#3A3A3A"/>
+    
 
     <!-- Transparent Background Brushes 
     (#AAAAAA is equivalent to #1A1A1A but with transparency)

@@ -33,7 +33,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource RG_WindowBackgroundBrush}">
+    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource Brush_WindowBackground}">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
         </Border.Effect>

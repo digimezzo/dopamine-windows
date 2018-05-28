@@ -73,6 +73,36 @@
             </Border>
             <!-- Window -->
             <Grid>
+                <!-- Background -->
+                <Border Panel.ZIndex="0" Background="{DynamicResource Brush_WindowBackground}" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="70">
+                    <Border.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=CanShowControls,ElementName=This}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
                 <!-- Playback controls + spectrum -->
                 <Grid Panel.ZIndex="1" VerticalAlignment="Bottom">
                     <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
@@ -106,7 +136,7 @@
                     </commonviews:NowPlayingPlaybackControls>
                 </Grid>
                 <!-- Content -->
-                <dc:Pivot HeaderVisibility="Collapsed" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" 
+                <dc:Pivot Panel.ZIndex="1" HeaderVisibility="Collapsed" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" 
                           FeatheringRadius="24" Margin="100,90,100,120" AnimationType="SlideHorizontal" SlideFadeIn="True">
                     <dc:PivotItem>
                         <!-- Displayed when no tracks are queued -->
