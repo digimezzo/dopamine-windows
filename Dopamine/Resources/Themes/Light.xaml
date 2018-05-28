@@ -6,6 +6,27 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Themes/Common.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Constants -->
+    <core:Double x:Key="Opacity_TertiaryBackgroundTransparent">0.15</core:Double>
+    
+    <!-- Palette (don't use these colors directly. Use them in brushes below. -->
+    <Color x:Key="Color_PrimaryBackground">#EEEEEE</Color>
+    <Color x:Key="Color_SecondaryBackground">#F4F4F4</Color>
+    <Color x:Key="Color_TertiaryBackground">#D5D5D5</Color>
+    <Color x:Key="Color_TertiaryBackgroundTransparent">#222222</Color>
+    
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush_WindowBackground" Color="{StaticResource Color_PrimaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_TertiaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}" Opacity="{StaticResource Opacity_TertiaryBackgroundTransparent}"/>
+
+
+
+
+
+
+
+
     <!-- This RG_AppearanceServiceBrush is used by the AppearanceService -->
     <SolidColorBrush x:Key="RG_AppearanceServiceBrush" Color="White" Opacity="1.0"/>
 
@@ -16,14 +37,12 @@
     <SolidColorBrush x:Key="RG_ContextMenuSeparatorBrush" Color="#BBBBBB" />
 
     <!-- Background Brushes -->
-    <Color x:Key="RG_WindowBackgroundColor">#FBFBFB</Color>
-    <SolidColorBrush x:Key="RG_WindowBackgroundBrush" Color="{DynamicResource RG_WindowBackgroundColor}"/>
+    
     <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#F0F0F0"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#DFDFDF"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighBrush" Color="#CBCBCB"/>
 
     <SolidColorBrush x:Key="RG_TextBoxInvisibleBackgroundBrush" Color="#00FFFFFF"/>
-    <SolidColorBrush x:Key="RG_SliderTrackBackgroundBrush" Color="#BABABA"/>
 
     <!-- Transparent Background Brushes 
     (#090909 is equivalent to #DFDFDF but with transparency) 
