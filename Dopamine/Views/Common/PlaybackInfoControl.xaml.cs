@@ -25,10 +25,6 @@ namespace Dopamine.Views.Common
             DependencyProperty.Register(nameof(AlbumFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty AlbumFontWeightProperty = 
             DependencyProperty.Register(nameof(AlbumFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
-        public static readonly DependencyProperty YearFontSizeProperty = 
-            DependencyProperty.Register(nameof(YearFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
-        public static readonly DependencyProperty YearFontWeightProperty = 
-            DependencyProperty.Register(nameof(YearFontWeight), typeof(FontWeight), typeof(PlaybackInfoControl), new PropertyMetadata(FontWeights.Normal));
         public static readonly DependencyProperty TimeFontSizeProperty = 
             DependencyProperty.Register(nameof(TimeFontSize), typeof(double), typeof(PlaybackInfoControl), new PropertyMetadata(Constants.GlobalFontSize));
         public static readonly DependencyProperty ShowAlbumInfoProperty = 
@@ -103,20 +99,6 @@ namespace Dopamine.Views.Common
             get { return (FontWeight)GetValue(AlbumFontWeightProperty); }
 
             set { SetValue(AlbumFontWeightProperty, value); }
-        }
-
-        public double YearFontSize
-        {
-            get { return Convert.ToDouble(GetValue(YearFontSizeProperty)); }
-
-            set { SetValue(YearFontSizeProperty, value); }
-        }
-
-        public FontWeight YearFontWeight
-        {
-            get { return (FontWeight)GetValue(YearFontWeightProperty); }
-
-            set { SetValue(YearFontWeightProperty, value); }
         }
 
         public double TimeFontSize

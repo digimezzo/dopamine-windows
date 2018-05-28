@@ -122,14 +122,14 @@ namespace Dopamine.Services.Metadata
                 }
             }
 
-            this.RatingChanged(new RatingChangedEventArgs { Path = path, Rating = rating });
+            this.RatingChanged(new RatingChangedEventArgs { SafePath = path.ToSafePath(), Rating = rating });
         }
 
         public async Task UpdateTrackLoveAsync(string path, bool love)
         {
             await this.trackStatisticRepository.UpdateLoveAsync(path, love);
 
-            this.LoveChanged(new LoveChangedEventArgs { Path = path, Love = love });
+            this.LoveChanged(new LoveChangedEventArgs { SafePath = path.ToSafePath(), Love = love });
         }
 
         public async Task UpdateTracksAsync(List<IFileMetadata> fileMetadatas, bool updateAlbumArtwork)

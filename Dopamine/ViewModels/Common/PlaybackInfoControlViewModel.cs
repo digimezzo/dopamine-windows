@@ -35,18 +35,19 @@ namespace Dopamine.ViewModels.Common
             }
             set
             {
-                if(this.track != null)
+                if (this.track != null)
                 {
                     this.track.Rating = (long?)value;
                     RaisePropertyChanged(nameof(this.Rating));
                     this.metadataService.UpdateTrackRatingAsync(this.track.Path, value);
-                } 
+                }
             }
         }
 
         public bool Love
         {
-            get {
+            get
+            {
                 return this.track == null ? false : NumberUtils.ConvertToBoolean(this.track.Love);
             }
             set
@@ -109,13 +110,31 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
             this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, true);
 
+            this.metadataService.RatingChanged += (e) =>
+            {
+                if (this.track != null && e.SafePath.Equals(this.track.SafePath))
+                {
+                    this.track.Rating = e.Rating;
+                    this.RaisePropertyChanged(nameof(Rating));
+                }
+            };
+
+            this.metadataService.LoveChanged += (e) =>
+            {
+                if (this.track != null && e.SafePath.Equals(this.track.SafePath))
+                {
+                    this.track.Love = e.Love ? 1 : 0;
+                    this.RaisePropertyChanged(nameof(Love));
+                }
+            };
+
             // Settings
             SettingsClient.SettingChanged += async (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {
                     this.EnableRating = (bool)e.SettingValue;
-                    
+
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
@@ -196,6 +215,8 @@ namespace Dopamine.ViewModels.Common
                     this.ClearPlaybackInfo();
                 }
 
+                this.RaisePropertyChanged(nameof(Rating));
+                this.RaisePropertyChanged(nameof(Love));
                 this.UpdateTime();
             });
         }
