@@ -9,6 +9,6 @@
 
     <StackPanel DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" VerticalAlignment="Center">
         <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-        <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_AccentBrush}"/>
+        <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource RG_InactiveForegroundBrush}"/>
     </StackPanel>
 </UserControl>
