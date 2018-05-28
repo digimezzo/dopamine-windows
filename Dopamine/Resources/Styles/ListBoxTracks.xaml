@@ -237,6 +237,8 @@
                                         <pc:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
+                                            LovedForeground="{DynamicResource RG_AccentBrush}"
+                                            UnlovedForeground="{DynamicResource RG_ForegroundBrush}"
                                             Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock

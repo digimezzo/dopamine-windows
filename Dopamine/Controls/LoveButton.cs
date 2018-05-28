@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Dopamine.Controls
 {
@@ -27,7 +28,25 @@ namespace Dopamine.Controls
         }
 
         public static new readonly DependencyProperty FontSizeProperty =
-            DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(LoveButton), new PropertyMetadata(14.0));
+           DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(LoveButton), new PropertyMetadata(14.0));
+
+        public Brush LovedForeground
+        {
+            get { return (Brush)GetValue(LovedForegroundProperty); }
+            set { SetValue(LovedForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty LovedForegroundProperty =
+            DependencyProperty.Register(nameof(LovedForeground), typeof(Brush), typeof(LoveButton), new PropertyMetadata(null));
+
+        public Brush UnlovedForeground
+        {
+            get { return (Brush)GetValue(UnlovedForegroundProperty); }
+            set { SetValue(UnlovedForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty UnlovedForegroundProperty =
+            DependencyProperty.Register(nameof(UnlovedForeground), typeof(Brush), typeof(LoveButton), new PropertyMetadata(null));
 
         static LoveButton()
         {
