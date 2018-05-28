@@ -30,23 +30,14 @@ namespace Dopamine.Controls
         public static new readonly DependencyProperty FontSizeProperty =
            DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(LoveButton), new PropertyMetadata(14.0));
 
-        public Brush LovedForeground
+        public Brush SelectedForeground
         {
-            get { return (Brush)GetValue(LovedForegroundProperty); }
-            set { SetValue(LovedForegroundProperty, value); }
+            get { return (Brush)GetValue(SelectedForegroundProperty); }
+            set { SetValue(SelectedForegroundProperty, value); }
         }
 
-        public static readonly DependencyProperty LovedForegroundProperty =
-            DependencyProperty.Register(nameof(LovedForeground), typeof(Brush), typeof(LoveButton), new PropertyMetadata(null));
-
-        public Brush UnlovedForeground
-        {
-            get { return (Brush)GetValue(UnlovedForegroundProperty); }
-            set { SetValue(UnlovedForegroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty UnlovedForegroundProperty =
-            DependencyProperty.Register(nameof(UnlovedForeground), typeof(Brush), typeof(LoveButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedForegroundProperty =
+            DependencyProperty.Register(nameof(SelectedForeground), typeof(Brush), typeof(LoveButton), new PropertyMetadata(null));
 
         static LoveButton()
         {
