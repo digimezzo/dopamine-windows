@@ -1,9 +1,7 @@
-﻿using Digimezzo.Utilities.Log;
-using Dopamine.Views.Common.Base;
+﻿using CommonServiceLocator;
+using Digimezzo.Utilities.Log;
+using Dopamine.Services.Playback;
 using Dopamine.Views.Base;
-using Dopamine.Services.Playback;
-using Dopamine.Services.Playback;
-using CommonServiceLocator;
 using System;
 using System.Timers;
 using System.Windows;
@@ -14,16 +12,18 @@ namespace Dopamine.Views.Common
     public partial class PopupVolumeControls : VolumeControlViewBase
     {
         private IPlaybackService playBackService;
-        private Timer mouseWheelTimer;
+        private Timer mouseWheelTimer = new Timer();
         private double mouseWheelTimeout = 0.5;
+        private Timer closeTimer = new Timer();
+        private double closeTimeout = 0.8;
         private bool keepOpenAfterScrolling;
-     
+
         public new object DataContext
         {
             get { return base.DataContext; }
             set { base.DataContext = value; }
         }
-      
+
         public PopupVolumeControls()
         {
             InitializeComponent();
@@ -32,28 +32,42 @@ namespace Dopamine.Views.Common
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
             this.playBackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
 
-            this.mouseWheelTimer = new Timer();
+            this.playBackService.PlaybackVolumeChanged += (_, __) =>
+            {
+                this.closeTimer.Stop();
+                this.closeTimer.Start();
+                this.VolumeButtonPopup.Open();
+            };
+
             this.mouseWheelTimer.Interval = TimeSpan.FromSeconds(this.mouseWheelTimeout).TotalMilliseconds;
             this.mouseWheelTimer.Elapsed += new ElapsedEventHandler(this.MouseWheelTimerElapsed);
+
+            this.closeTimer.Interval = TimeSpan.FromSeconds(this.closeTimeout).TotalMilliseconds;
+            this.closeTimer.Elapsed += (_, __) =>
+            {
+                this.closeTimer.Stop();
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => this.VolumeButtonPopup.Close()));
+            };
+
             this.VolumeButtonPopup.Closed += (sender, e) => this.keepOpenAfterScrolling = false;
 
             // This doesn't work with binding
             this.VolumeButton.Width = this.Width;
             this.VolumeButton.Height = this.Height;
         }
-    
+
         private void VolumeButton_Click(object sender, RoutedEventArgs e)
         {
             this.keepOpenAfterScrolling = true;
             this.mouseWheelTimer.Stop();
-            VolumeButtonPopup.Open();
+            this.VolumeButtonPopup.Open();
         }
 
         private void Grid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (!VolumeButtonPopup.IsOpen)
+            if (!this.VolumeButtonPopup.IsOpen)
             {
-                VolumeButtonPopup.Open();
+                this.VolumeButtonPopup.Open();
             }
 
             this.mouseWheelTimer.Stop();
@@ -76,7 +90,7 @@ namespace Dopamine.Views.Common
             if (this.mouseWheelTimer != null)
                 this.mouseWheelTimer.Stop();
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() => VolumeButtonPopup.Close()));
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => this.VolumeButtonPopup.Close()));
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
