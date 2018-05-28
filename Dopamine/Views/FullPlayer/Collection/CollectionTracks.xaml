@@ -91,8 +91,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <pc:LoveButton 
-                                            VerticalAlignment="Center" 
-                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                SelectedForeground="{DynamicResource RG_AccentBrush}"
+                                VerticalAlignment="Center" 
+                                Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -28,8 +28,8 @@
                     <pc:LoveButton 
                         VerticalAlignment="Center" 
                         FontSize="{Binding LoveFontSize,ElementName=ThisControl}"
-                        LovedForeground="{DynamicResource RG_AccentBrush}"
-                        UnlovedForeground="{DynamicResource RG_ForegroundBrush}"
+                        SelectedForeground="{DynamicResource RG_AccentBrush}"
+                        Foreground="{DynamicResource RG_ForegroundBrush}"
                         Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                         Love="{Binding DataContext.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                 </StackPanel>
