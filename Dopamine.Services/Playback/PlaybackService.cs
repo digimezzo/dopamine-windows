@@ -11,7 +11,6 @@ using Dopamine.Data.Repositories;
 using Dopamine.Services.Equalizer;
 using Dopamine.Services.File;
 using Dopamine.Services.I18n;
-using Dopamine.Services.Playback;
 using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
@@ -36,6 +35,8 @@ namespace Dopamine.Services.Playback
         private bool isPlayingPreviousTrack;
         private bool isSpectrumVisible;
         private IPlayer player;
+
+        private bool isLoadingSettings;
 
         private bool isQueueChanged;
         private bool canGetSavedQueuedTracks = true;
@@ -161,7 +162,7 @@ namespace Dopamine.Services.Playback
                 if (this.player != null && !this.mute) this.player.SetVolume(value);
 
                 SettingsClient.Set<double>("Playback", "Volume", Math.Round(value, 2));
-                this.PlaybackVolumeChanged(this, new EventArgs());
+                this.PlaybackVolumeChanged(this, new PlaybackVolumeChangedEventArgs(isLoadingSettings));
             }
         }
 
@@ -342,7 +343,7 @@ namespace Dopamine.Services.Playback
         public event EventHandler PlaybackProgressChanged = delegate { };
         public event EventHandler PlaybackResumed = delegate { };
         public event EventHandler PlaybackStopped = delegate { };
-        public event EventHandler PlaybackVolumeChanged = delegate { };
+        public event PlaybackVolumeChangedEventhandler PlaybackVolumeChanged = delegate { };
         public event EventHandler PlaybackMuteChanged = delegate { };
         public event EventHandler PlaybackLoopChanged = delegate { };
         public event EventHandler PlaybackShuffleChanged = delegate { };
@@ -1485,6 +1486,7 @@ namespace Dopamine.Services.Playback
 
         private void SetPlaybackSettings()
         {
+            this.isLoadingSettings = true;
             this.UseAllAvailableChannels = SettingsClient.Get<bool>("Playback", "WasapiUseAllAvailableChannels");
             this.LoopMode = (LoopMode)SettingsClient.Get<int>("Playback", "LoopMode");
             this.Latency = SettingsClient.Get<int>("Playback", "AudioLatency");
@@ -1495,6 +1497,7 @@ namespace Dopamine.Services.Playback
             //this.EventMode = SettingsClient.Get<bool>("Playback", "WasapiEventMode");
             //this.ExclusiveMode = false;
             this.ExclusiveMode = SettingsClient.Get<bool>("Playback", "WasapiExclusiveMode");
+            this.isLoadingSettings = false;
         }
 
         private async Task SetAudioDeviceAsync()

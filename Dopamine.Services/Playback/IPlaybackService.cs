@@ -14,6 +14,7 @@ namespace Dopamine.Services.Playback
     public delegate void PlaybackSuccessEventHandler(object sender, PlaybackSuccessEventArgs e);
     public delegate void PlaybackPausedEventHandler(object sender, PlaybackPausedEventArgs e);
     public delegate void TrackStatisticsChangedEventHandler(IList<TrackStatistic> statistics);
+    public delegate void PlaybackVolumeChangedEventhandler(object sender, PlaybackVolumeChangedEventArgs e);
 
     public interface IPlaybackService
     {
@@ -86,7 +87,7 @@ namespace Dopamine.Services.Playback
         event EventHandler PlaybackStopped;
         event EventHandler PlaybackResumed;
         event EventHandler PlaybackProgressChanged;
-        event EventHandler PlaybackVolumeChanged;
+        event PlaybackVolumeChangedEventhandler PlaybackVolumeChanged;
         event EventHandler PlaybackMuteChanged;
         event EventHandler PlaybackLoopChanged;
         event EventHandler PlaybackShuffleChanged;

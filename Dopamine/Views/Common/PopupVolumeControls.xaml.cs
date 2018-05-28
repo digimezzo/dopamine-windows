@@ -32,11 +32,14 @@ namespace Dopamine.Views.Common
             // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
             this.playBackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
 
-            this.playBackService.PlaybackVolumeChanged += (_, __) =>
+            this.playBackService.PlaybackVolumeChanged += (_, e) =>
             {
-                this.closeTimer.Stop();
-                this.closeTimer.Start();
-                this.VolumeButtonPopup.Open();
+                if (!e.IsChangedWhileLoadingSettings)
+                {
+                    this.closeTimer.Stop();
+                    this.closeTimer.Start();
+                    this.VolumeButtonPopup.Open();
+                }
             };
 
             this.mouseWheelTimer.Interval = TimeSpan.FromSeconds(this.mouseWheelTimeout).TotalMilliseconds;
@@ -73,7 +76,9 @@ namespace Dopamine.Views.Common
             this.mouseWheelTimer.Stop();
 
             if (!this.keepOpenAfterScrolling)
+            {
                 this.mouseWheelTimer.Start();
+            }
 
             try
             {
