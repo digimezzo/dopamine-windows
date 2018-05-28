@@ -206,7 +206,7 @@ namespace Dopamine.Services.ExternalControl
             ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackMuteChangedAsync));
         }
 
-        private void PlaybackVolumeChangedCallBack(object sender, EventArgs e)
+        private void PlaybackVolumeChangedCallBack(object sender, PlaybackVolumeChangedEventArgs e)
         {
             ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlaybackVolumeChangedAsync));
         }

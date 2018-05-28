@@ -163,6 +163,7 @@
     <Compile Include="Playback\PlaybackPausedEventArgs.cs" />
     <Compile Include="Playback\PlaybackService.cs" />
     <Compile Include="Playback\PlaybackSuccessEventArgs.cs" />
+    <Compile Include="Playback\PlaybackVolumeChangedEventArgs.cs" />
     <Compile Include="Playback\QueueManager.cs" />
     <Compile Include="Playback\UpdateQueueMetadataResult.cs" />
     <Compile Include="Playlist\Enums.cs" />
