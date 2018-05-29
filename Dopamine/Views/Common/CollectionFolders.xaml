@@ -30,7 +30,7 @@
             Margin="0,0,0,20" 
             HorizontalAlignment="Left" 
             Content="{DynamicResource Language_Add_A_Folder}" 
-            Foreground="{DynamicResource RG_AccentBrush}" 
+            Foreground="{DynamicResource Brush_Accent}" 
             Command="{Binding Path=AddFolderCommand}"
             IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}"/>
         <Grid>
@@ -53,11 +53,11 @@
                 <ListBox x:Name="ListBoxFolders" Style="{StaticResource ListBoxFolders}" ItemsSource="{Binding Folders}"/>
             </StackPanel>
             <Viewbox Panel.ZIndex="1" Width="48" Height="48" Visibility="{Binding IsLoadingFolders,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" HorizontalAlignment="Center" IsActive="{Binding IsLoadingFolders}"/>
+                <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" HorizontalAlignment="Center" IsActive="{Binding IsLoadingFolders}"/>
             </Viewbox>
             <DockPanel Panel.ZIndex="1" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <pc:SyncRing DockPanel.Dock="Left" Width="24" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <pc:SyncRing DockPanel.Dock="Left" Width="24" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
             </DockPanel>
         </Grid>
     </StackPanel>

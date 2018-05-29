@@ -3,7 +3,7 @@
 
     <Style x:Key="WindowButton" TargetType="{x:Type Button}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_WindowButtonForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryForeground}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -13,12 +13,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentTransparentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
@@ -31,22 +31,22 @@
 
     <Style x:Key="ActiveWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Border">
-                        <Rectangle x:Name="rect" Fill="{DynamicResource RG_AccentBrush}"/>
+                        <Rectangle x:Name="rect" Fill="{DynamicResource Brush_Accent}"/>
                         <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource RG_AccentTransparentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
@@ -58,10 +58,10 @@
     </Style>
     
     <Style x:Key="BrightWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
     </Style>
 
     <Style x:Key="WhiteWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
     </Style>
 </ResourceDictionary>

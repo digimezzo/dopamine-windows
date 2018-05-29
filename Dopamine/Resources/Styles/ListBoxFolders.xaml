@@ -14,18 +14,18 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
                         <Label x:Name="SelectionBackground" Foreground="Transparent" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="SelectionForegroundHigh" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="SelectionForegoundMedium" Foreground="{DynamicResource RG_InactiveForegroundBrush}" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="SelectionIconForeground" Foreground="{DynamicResource RG_AccentBrush}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="SelectionForegroundHigh" Foreground="{DynamicResource Brush_PrimaryForeground}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="SelectionForegoundMedium" Foreground="{DynamicResource Brush_SecondaryForeground}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="SelectionIconForeground" Foreground="{DynamicResource Brush_Accent}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="SelectionCloseVisibility" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="CheckBoxBackground" Foreground="{DynamicResource RG_ControlsBackgroundLowBrush}" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="CheckBoxBorder" Foreground="{DynamicResource RG_BorderBrush}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="CheckBoxBorder" Foreground="{DynamicResource Brush_Border}" Visibility="Collapsed" Height="0"/>
                         <ContentPresenter/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -34,13 +34,13 @@
                             
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="SelectionBackground" Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="SelectionForegroundHigh" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter TargetName="SelectionForegoundMedium" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter TargetName="SelectionIconForeground" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="SelectionBackground" Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter TargetName="SelectionForegroundHigh" Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="SelectionForegoundMedium" Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="SelectionIconForeground" Property="Foreground" Value="{DynamicResource Brush_White}"/>
                             <Setter TargetName="SelectionCloseVisibility" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="CheckBoxBackground" Property="Foreground" Value="Transparent"/>
-                            <Setter TargetName="CheckBoxBorder" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                         </Trigger>

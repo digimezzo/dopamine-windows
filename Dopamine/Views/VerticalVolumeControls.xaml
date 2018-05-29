@@ -11,7 +11,7 @@
                                  prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel VerticalAlignment="Center" Background="#00000000" HorizontalAlignment="Center" Width="30" PreviewMouseWheel="StackPanel_PreviewMouseWheel">
-        <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowBackground}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-        <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static base:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+        <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryForeground}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+        <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static base:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
     </StackPanel>
 </baseviews:VolumeControlViewBase>

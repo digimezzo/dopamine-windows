@@ -52,7 +52,7 @@
             <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                        <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                         <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <Setter Property="CommandParameter" Value="{Binding Name}"/>
                     </Style>
@@ -84,7 +84,7 @@
                 <!-- Cover controls -->
                 <DockPanel x:Name="CoverControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
-                        <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
+                        <Border Panel.ZIndex="0" Height="40" HorizontalAlignment="Stretch" Background="{DynamicResource Brush_TopBlackBottomTransparent}"/>
                         <commonviews:CoverPictureWindowControls Panel.ZIndex="1" ButtonHeight="29" ButtonWidth="45" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Arrow"/>
                     </Grid>
                 </DockPanel>

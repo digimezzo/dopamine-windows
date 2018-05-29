@@ -16,17 +16,17 @@
                               ResizeMode="NoResize"
                               WindowStartupLocation="CenterScreen"
                               Closing="Window_Closing"
-                              OverlayBackground="{DynamicResource RG_DimBackgroundBrush}"
+                              OverlayBackground="{DynamicResource Brush_DimBackground}"
                               IsOverlayVisible="{Binding Path=IsOverlayVisible}"
                               Background="Transparent"
                               CloseToolTip="{DynamicResource Language_Close}"
                               ApplyDefaultButtonColors="False"
-                              CloseForeground="{DynamicResource RG_WindowButtonForegroundBrush}"
-                              CloseHoveredForeground="{DynamicResource RG_WhiteBrush}"
-                              ClosePressedForeground="{DynamicResource RG_WhiteBrush}"
+                              CloseForeground="{DynamicResource Brush_SecondaryForeground}"
+                              CloseHoveredForeground="{DynamicResource Brush_White}"
+                              ClosePressedForeground="{DynamicResource Brush_White}"
                               CloseBackground="Transparent"
-                              CloseHoveredBackground="{DynamicResource RG_AccentBrush}"
-                              ClosePressedBackground="{DynamicResource RG_AccentTransparentBrush}"
+                              CloseHoveredBackground="{DynamicResource Brush_Accent}"
+                              ClosePressedBackground="{DynamicResource Brush_Accent80pct}"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <!-- Triggers -->
@@ -44,65 +44,74 @@
     </dc:BorderlessWindows10Window.Triggers>
 
     <!-- Background -->
-    <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0" Background="{DynamicResource Brush_WindowBackground}">
+    <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0">
+        <Border.Background>
+            <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource Color_PrimaryBackground}"/>
+        </Border.Background>
+        <Border.Resources>
+            <Storyboard x:Key="BackgroundAnimation">
+                <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" 
+                                To="{DynamicResource Color_PrimaryBackground}" Duration="0:0:0.2" />
+            </Storyboard>
+        </Border.Resources>
         <!-- Content -->
         <DockPanel>
-            <pc:FullLogo DockPanel.Dock="Top" Margin="30,30,30,0" Foreground="{DynamicResource RG_ForegroundBrush}" 
-                               Accent="{DynamicResource RG_AccentBrush}"/>
+            <pc:FullLogo DockPanel.Dock="Top" Margin="30,30,30,0" Foreground="{DynamicResource Brush_PrimaryForeground}" 
+                               Accent="{DynamicResource Brush_Accent}"/>
             <!-- Controls -->
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30">
                 <Grid>
                     <StackPanel Orientation="Horizontal" 
                                 Visibility="{Binding CanFinish,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                         <Button x:Name="ButtonGoBack" Style="{StaticResource TransparentButton}" Margin="0,0,15,0"
-                                ToolTip="{DynamicResource Language_Previous}" Foreground="{DynamicResource RG_AccentBrush}" 
+                                ToolTip="{DynamicResource Language_Previous}" Foreground="{DynamicResource Brush_Accent}" 
                                 Command="{Binding GoBackCommand}" 
                                 Visibility="{Binding CanGoBack,Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="&#xE00E;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="24"/>
+                            <TextBlock Text="&#xE00E;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="24"/>
                         </Button>
                         <Button x:Name="ButtonGoForward" Style="{StaticResource TransparentButton}"
-                                ToolTip="{DynamicResource Language_Next}" Foreground="{DynamicResource RG_AccentBrush}" 
+                                ToolTip="{DynamicResource Language_Next}" Foreground="{DynamicResource Brush_Accent}" 
                                 Command="{Binding GoForwardCommand}">
-                            <TextBlock Text="&#xE00F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="24"/>
+                            <TextBlock Text="&#xE00F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="24"/>
                         </Button>
                     </StackPanel>
                     <Button x:Name="ButtonFinish" Style="{StaticResource TransparentButton}" HorizontalAlignment="Right" 
                             VerticalAlignment="Center" ToolTip="{DynamicResource Language_Start}" 
-                            Foreground="{DynamicResource RG_AccentBrush}" Click="ButtonFinish_Click"
+                            Foreground="{DynamicResource Brush_Accent}" Click="ButtonFinish_Click"
                             Visibility="{Binding CanFinish,Converter={StaticResource BooleanToCollapsedConverter}}">
-                        <TextBlock Text="&#xE8FB;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="24"/>
+                        <TextBlock Text="&#xE8FB;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="24"/>
                     </Button>
                 </Grid>
             </DockPanel>
             <!-- Wizard -->
             <DockPanel Margin="0,30,0,30">
-                <Border x:Name="proxyborder" DockPanel.Dock="Top" Background="{DynamicResource RG_AccentBrush}" Visibility="Collapsed"/>
+                <Border x:Name="proxyborder" DockPanel.Dock="Top" Background="{DynamicResource Brush_Accent}" Visibility="Collapsed"/>
                 <dc:PageIndicator DockPanel.Dock="Bottom" ItemSize="8" ItemSpacing="10" 
                                   ItemFill="{Binding Path=Background,ElementName=proxyborder,Converter={StaticResource BrushOpacityConverter},ConverterParameter=0.3}" 
-                                  SelectedItemFill="{DynamicResource RG_AccentBrush}" Margin="10"
+                                  SelectedItemFill="{DynamicResource Brush_Accent}" Margin="10"
                                   NumberOfItems="6" ActiveItem="{Binding SelectedIndex,ElementName=oobewizard}"/>
                 <dc:Pivot x:Name="oobewizard" SelectedIndex="{Binding SelectedOobePage,Mode=TwoWay,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:OobePage}}" 
                           DisableTabKey="True" AnimationType="SlideHorizontal" FeatheringRadius="24" HeaderVisibility="Collapsed">
                     <!-- Welcome -->
                     <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
-                            <TextBlock Text="Hi!" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock Text="Welcome to Dopamine, you'll love it! First, let's set things up." Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                            <TextBlock Text="Hi!" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock Text="Welcome to Dopamine, you'll love it! First, let's set things up." Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Language -->
                     <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
-                            <Label Padding="0" Content="{DynamicResource Language_Language}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock Text="{DynamicResource Language_Pick_Your_Language}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                            <Label Padding="0" Content="{DynamicResource Language_Language}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock Text="{DynamicResource Language_Pick_Your_Language}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                             <commonviews:AppearanceLanguage Margin="0,15,0,0"/>
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Appearance -->
                     <dc:PivotItem>
                         <StackPanel Margin="30,0,30,0">
-                            <Label Padding="0" Content="{DynamicResource Language_Appearance}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_What_Will_Your_Dopamine_Look_Like}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                            <Label Padding="0" Content="{DynamicResource Language_Appearance}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_What_Will_Your_Dopamine_Look_Like}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                             <commonviews:AppearanceTheme Margin="0,15,0,0" ShowFollowAlbumCoverColor="False"/>
                         </StackPanel>
                     </dc:PivotItem>
@@ -110,8 +119,8 @@
                     <dc:PivotItem>
                         <ScrollViewer  Margin="30,0,30,0" VerticalScrollBarVisibility="Auto">
                             <StackPanel Background="#00000000">
-                                <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource RG_AccentBrush}"/>
-                                <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                                <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource Brush_Accent}"/>
+                                <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                                 <commonviews:CollectionFolders Margin="0,15,0,0" ShowControls="False"/>
                             </StackPanel>
                         </ScrollViewer>
@@ -119,16 +128,16 @@
                     <!-- Donate -->
                     <dc:PivotItem>
                         <StackPanel  Margin="30,0,30,0">
-                            <Label Padding="0" Content="{DynamicResource Language_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_You_Like_Dopamine_Please_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                            <Label Padding="0" Content="{DynamicResource Language_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_If_You_Like_Dopamine_Please_Donate}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                             <Button Style="{StaticResource LinkButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{Binding OpenLinkCommand}" CommandParameter="{x:Static base:ContactInformation.PayPalLink}" />
                         </StackPanel>
                     </dc:PivotItem>
                     <!-- Finish -->
                     <dc:PivotItem>
                         <StackPanel  Margin="30,0,30,0">
-                            <Label Padding="0" Content="{DynamicResource Language_Done}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource RG_AccentBrush}"/>
-                            <TextBlock Text="{DynamicResource Language_We_Are_Done}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource RG_ForegroundBrush}" TextWrapping="Wrap"/>
+                            <Label Padding="0" Content="{DynamicResource Language_Done}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock Text="{DynamicResource Language_We_Are_Done}" Margin="0,5,0,0" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
                         </StackPanel>
                     </dc:PivotItem>
                 </dc:Pivot>

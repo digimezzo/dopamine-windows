@@ -28,32 +28,32 @@
                     <Grid DockPanel.Dock="Left">
                         <Image Margin="20" MaxHeight="300" MaxWidth="300" Source="{Binding Image}" Visibility="{Binding HasImage, Converter={StaticResource BooleanToCollapsedConverter}}" RenderOptions.BitmapScalingMode="HighQuality">
                             <Image.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource Color_Black}" Opacity="{DynamicResource Opacity_CoverArtShadow}"/>
                             </Image.Effect>
                         </Image>
                         <Border Margin="20" Width="200" Height="200" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" Visibility="{Binding HasImage, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource Color_Black}" Opacity="{DynamicResource Opacity_CoverArtShadow}"/>
                             </Border.Effect>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="100" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
                         </Border>
                     </Grid>
-                    <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" FontWeight="Light" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                 </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,15,10,0" PanningMode="Both">
                     <StackPanel Margin="10,0,0,0">
                         <Label Margin="0,0,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Biography}" />
                         <Grid>
                             <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource RG_ForegroundBrush}" Text="{Binding Path=CleanedBiographyContent}" Visibility="{Binding HasBiography, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                                <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource RG_ForegroundBrush}" Content="{Binding UrlText}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
+                                <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryForeground}" Text="{Binding Path=CleanedBiographyContent}" Visibility="{Binding HasBiography, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                                <Button Margin="0,10,0,0" Style="{StaticResource LinkButton}" Foreground="{DynamicResource Brush_PrimaryForeground}" Content="{Binding UrlText}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding Path=Url}"/>
                             </StackPanel>
-                            <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasBiography, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            <TextBlock Foreground="{DynamicResource Brush_PrimaryForeground}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasBiography, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                         </Grid>
                         <Label Margin="0,20,0,20" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Similar}" />
                         <Grid>
                             <ListBox Style="{StaticResource ListBoxSimilarArtists}" ItemsSource="{Binding SimilarArtists}" Visibility="{Binding HasSimilarArtists, Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                            <TextBlock Foreground="{DynamicResource RG_ForegroundBrush}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasSimilarArtists, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            <TextBlock Foreground="{DynamicResource Brush_PrimaryForeground}" Text="{DynamicResource Language_Not_Available}" Visibility="{Binding HasSimilarArtists, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
@@ -89,7 +89,7 @@
                          Height="60" 
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
-                         Foreground="{DynamicResource RG_AccentBrush}" 
+                         Foreground="{DynamicResource Brush_Accent}" 
                          IsActive="{Binding IsBusy}" 
                          Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}"/>
     </Grid>

@@ -14,8 +14,8 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
             <StackPanel>
-                <pc:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" Margin="0,-2,0,0"  FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                <pc:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource Brush_White}"/>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" Margin="0,-2,0,0"  FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="Light" Foreground="{DynamicResource Brush_White}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

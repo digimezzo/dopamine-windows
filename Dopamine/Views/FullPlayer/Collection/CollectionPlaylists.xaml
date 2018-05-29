@@ -22,14 +22,14 @@
     </i:Interaction.Triggers>
 
     <DockPanel>
-        <Border DockPanel.Dock="Right" Width="280" Margin="0,45,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource RG_BorderBrush}">
+        <Border DockPanel.Dock="Right" Width="280" Margin="0,45,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource Brush_Border}">
             <StackPanel VerticalAlignment="Top" Width="250" Margin="15,0,15,0">
                 <commonviews:CoverArtControl x:Name="CoverArt" Width="250" Height="250"/>
                 <commonviews:PlaybackInfoControl Height="85" Margin="0,15,0,0" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
             </StackPanel>
         </Border>
         <dc:MultiPanePanel 
-            BorderBrush="{DynamicResource RG_BorderBrush}" 
+            BorderBrush="{DynamicResource Brush_Border}" 
             SeparatorMarginTop="45" 
             ContentResizeDelay="25" 
             IsRightPaneCollapsed="True" 
@@ -41,7 +41,7 @@
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
                         <Button x:Name="PlaylistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Playlists}" Style="{StaticResource TransparentButton}" Click="PlaylistsButton_Click">
                             <dc:LabelToLower Content="{DynamicResource Language_Playlists}" 
-                                                 Foreground="{DynamicResource RG_ForegroundBrush}"
+                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"/>
@@ -57,8 +57,8 @@
                             </CollectionViewSource>
                         </DockPanel.Resources>
                         <StackPanel DockPanel.Dock="Top" Margin="5,0,0,10">
-                            <pc:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="10,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=NewPlaylistCommand}"/>
-                            <pc:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="10,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
+                            <pc:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="10,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=NewPlaylistCommand}"/>
+                            <pc:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="10,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
                         </StackPanel>
                         <dc:MultiSelectListBox x:Name="ListBoxPlaylists"
                                  dd:DragDrop.IsDragSource="True" 
@@ -89,7 +89,7 @@
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
                         <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
-                                                 Foreground="{DynamicResource RG_ForegroundBrush}"
+                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"
@@ -103,16 +103,16 @@
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                                 <Grid>
                                     <Border ToolTip="{DynamicResource Language_Hide_Song_Covers}" Visibility="{Binding ShowTrackArt,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24"/>
+                                        <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_SecondaryForeground}" FontSize="24"/>
                                     </Border>
                                     <Border ToolTip="{DynamicResource Language_Show_Song_Covers}" Visibility="{Binding ShowTrackArt,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
-                                        <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource RG_InactiveForegroundBrush}" FontSize="24"/>
+                                        <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_SecondaryForeground}" FontSize="24"/>
                                     </Border>
                                 </Grid>
                             </ToggleButton>
                             <pc:TotalsInformation
                                 VerticalAlignment="Center"
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
+                                Foreground="{DynamicResource Brush_SecondaryForeground}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>

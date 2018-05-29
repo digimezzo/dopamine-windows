@@ -47,7 +47,7 @@
                 <commonviews:ProgressControlsWithTime HorizontalAlignment="Stretch" Margin="19,0,0,20" SliderLength="120"/>
                 <!-- Playback controls -->
                 <pv:PlaybackControls UseLayoutRounding="True" SnapsToDevicePixels="True" HorizontalAlignment="Left" Margin="48,0,0,20"/>
-                <Button HorizontalAlignment="Right" Margin="0,0,10,10" Content="{DynamicResource Language_Show_Dopamine}" Style="{StaticResource TextButton}" Foreground="{DynamicResource RG_AccentBrush}" Command="{x:Static cp:ApplicationCommands.ShowMainWindowCommand}"/>
+                <Button HorizontalAlignment="Right" Margin="0,0,10,10" Content="{DynamicResource Language_Show_Dopamine}" Style="{StaticResource TextButton}" Foreground="{DynamicResource Brush_Accent}" Command="{x:Static cp:ApplicationCommands.ShowMainWindowCommand}"/>
             </StackPanel>
         </DockPanel>
     </Grid>

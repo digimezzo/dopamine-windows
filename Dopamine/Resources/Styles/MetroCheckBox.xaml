@@ -9,7 +9,7 @@
     <Style x:Key="MetroCheckBox"
            TargetType="CheckBox">
         <Setter Property="Foreground"
-                Value="{DynamicResource RG_ForegroundBrush}" />
+                Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="HorizontalContentAlignment"
                 Value="Left" />
         <Setter Property="VerticalContentAlignment"
@@ -96,7 +96,7 @@
                             <Rectangle Fill="Transparent" />
                             <Rectangle x:Name="normal"
                                    Opacity="1"
-                                   Stroke="{DynamicResource RG_BorderBrush}"
+                                   Stroke="{DynamicResource Brush_Border}"
                                    StrokeThickness="1"
                                    Fill="{DynamicResource RG_ControlsBackgroundLowBrush}"
                                    Width="18"
@@ -129,7 +129,7 @@
                                 Opacity="0"
                                 HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" 
-                                Foreground="{DynamicResource RG_AccentBrush}" 
+                                Foreground="{DynamicResource Brush_Accent}" 
                                 FontSize="15" />
                             <Rectangle x:Name="IndeterminateCheck"
                                    Fill="Transparent"

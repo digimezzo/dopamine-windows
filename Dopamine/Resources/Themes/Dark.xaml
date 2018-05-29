@@ -6,19 +6,43 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Themes/Common.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Brush_AppearanceService is used by the AppearanceService -->
+    <SolidColorBrush x:Key="Brush_AppearanceService" Color="White"/>
+
     <!-- Constants -->
     <core:Double x:Key="Opacity_TertiaryBackgroundTransparent">0.15</core:Double>
+    <core:Double x:Key="Opacity_CoverArtShadow">0.5</core:Double>
     
-    <!-- Palette (don't use these colors directly. Use them in brushes below. -->
+    <!-- Palette  -->
     <Color x:Key="Color_PrimaryBackground">#151515</Color>
+    <Color x:Key="Color_PrimaryBackgroundInvisible">#00151515</Color>
     <Color x:Key="Color_SecondaryBackground">#191919</Color>
     <Color x:Key="Color_TertiaryBackground">#242424</Color>
     <Color x:Key="Color_TertiaryBackgroundTransparent">#777777</Color>
+    <Color x:Key="Color_PrimaryForeground">#E2E2E2</Color>
+    <Color x:Key="Color_SecondaryForeground">#5E5E5E</Color>
     
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush_WindowBackground" Color="{StaticResource Color_PrimaryBackground}"/>
     <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_TertiaryBackground}"/>
     <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}" Opacity="{StaticResource Opacity_TertiaryBackgroundTransparent}"/>
+    <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
+    <SolidColorBrush x:Key="Brush_PrimaryForeground" Color="{DynamicResource Color_PrimaryForeground}"/>
+    <SolidColorBrush x:Key="Brush_SecondaryForeground" Color="{DynamicResource Color_SecondaryForeground}"/>
+    <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
+    
+    <!-- Gradient Brushes -->
+    <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">
+        <RadialGradientBrush.GradientStops>
+            <GradientStop Color="{DynamicResource Color_Accent}" Offset="0" />
+            <GradientStop Color="{StaticResource Color_PrimaryBackgroundInvisible}" Offset="0.7" />
+        </RadialGradientBrush.GradientStops>
+    </RadialGradientBrush>
+
+    <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsbackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource Color_PrimaryBackground}" Offset="0.0" />
+        <GradientStop Color="{StaticResource Color_PrimaryBackgroundInvisible}" Offset="1.0"/>
+    </LinearGradientBrush>
 
 
 
@@ -26,26 +50,16 @@
 
 
 
-
-
-
-    <!-- This RG_AppearanceServiceBrush is used by the AppearanceService -->
-    <SolidColorBrush x:Key="RG_AppearanceServiceBrush" Color="White" Opacity="1.0"/>
-
-    <!-- Border Brushes -->
-    <SolidColorBrush x:Key="RG_BorderBrush" Color="#333333"/>
-
-    <!-- Separator Brushes -->
-    <SolidColorBrush x:Key="RG_ContextMenuSeparatorBrush" Color="#BBBBBB" />
+    
 
     <!-- Background Brushes -->
-    
-    
+
+
     <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#101010"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#1A1A1A"/>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighBrush" Color="#292929"/>
 
-    <SolidColorBrush x:Key="RG_TextBoxInvisibleBackgroundBrush" Color="#00000000"/>
+    
     
 
     <!-- Transparent Background Brushes 
@@ -55,38 +69,9 @@
     <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#AAAAAA" Opacity="0.1"/>
     <Color x:Key="RG_ControlsBackgroundMediumTransparentBrushColor">#AAAAAA</Color>
     <SolidColorBrush x:Key="RG_ControlsBackgroundHighTransparentBrush" Color="#CCCCCC" Opacity="0.15"/>
-    <Color x:Key="RG_ControlsBackgroundHighTransparentBrushColor">#CCCCCC</Color>
-    <SolidColorBrush x:Key="RG_DimBackgroundBrush" Color="White" Opacity="0.2"/>
-    <SolidColorBrush x:Key="RG_TooltipBackgroundBrush" Color="White" Opacity="0.9"/>
 
-    <!-- Foreground Brushes -->
-    <Color x:Key="RG_ForegroundColor">#E2E2E2</Color>
-    <SolidColorBrush x:Key="RG_ForegroundBrush" Color="{DynamicResource RG_ForegroundColor}"/>
-    <SolidColorBrush x:Key="RG_InactiveForegroundBrush" Color="#5E5E5E"/>
-    <SolidColorBrush x:Key="RG_WindowButtonForegroundBrush" Color="#414141"/>
-    <SolidColorBrush x:Key="RG_TooltipForegroundBrush" Color="Black"/>
 
-    <!-- Selection Brushes -->
-    <SolidColorBrush x:Key="RG_ContextMenuHoveredBrush" Color="#DCDCDC"/>
 
-    <!-- Gradient Brushes -->
-    <RadialGradientBrush x:Key="RG_SpectrumGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">
-        <RadialGradientBrush.GradientStops>
-            <GradientStop Color="{DynamicResource RG_AccentColor}" Offset="0" />
-            <GradientStop Color="#00000000" Offset="0.7" />
-        </RadialGradientBrush.GradientStops>
-    </RadialGradientBrush>
-
-    <LinearGradientBrush x:Key="RG_TransParentToBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#00000000" Offset="0.0" />
-        <GradientStop Color="{DynamicResource RG_WindowBackgroundColor}" Offset="0.2" />
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="RG_NanoPlayerWindowControlsGradientBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#0B0B0B" Offset="0.0" />
-        <GradientStop Color="#000B0B0B" Offset="1.0" />
-    </LinearGradientBrush>
-
-    <!-- Opacities -->
-    <core:Double x:Key="RG_CoverArtShadowOpacity">0.5</core:Double>
+    <!-- TODO: remove -->
+    <SolidColorBrush x:Key="Brush_Border" Color="#333333"/>
 </ResourceDictionary>

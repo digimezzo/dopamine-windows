@@ -3,8 +3,8 @@
 
     <Style x:Key="MetroTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -36,8 +36,8 @@
 
     <Style x:Key="LargeMetroTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="ContextMenu">
@@ -67,8 +67,8 @@
 
     <Style x:Key="MetroPasswordBox" TargetType="{x:Type PasswordBox}">
         <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ContextMenu">
             <Setter.Value>

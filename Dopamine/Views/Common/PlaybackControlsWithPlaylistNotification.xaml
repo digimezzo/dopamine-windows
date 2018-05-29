@@ -49,9 +49,9 @@
                     Style="{StaticResource SegoeAssets}"
                     DockPanel.Dock="Left" 
                     VerticalAlignment="Center" 
-                    Foreground="{DynamicResource RG_AccentBrush}" 
+                    Foreground="{DynamicResource Brush_Accent}" 
                     FontSize="14" />
-                <TextBlock Margin="10,0,0,0" Text="{Binding AddedTracksToPlaylistText}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}" VerticalAlignment="Center" />
+                <TextBlock Margin="10,0,0,0" Text="{Binding AddedTracksToPlaylistText}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryForeground}" VerticalAlignment="Center" />
             </DockPanel>
             <Border.Style>
                 <Style>

@@ -166,7 +166,7 @@ namespace Dopamine.ViewModels.Common
                     this.SpectrumPanelHeight = 60;
                     this.SpectrumOpacity = 0.65;
                     this.AnimationStyle = SpectrumAnimationStyle.Gentle;
-                    //var accentColor = (Color)Application.Current.TryFindResource("RG_AccentColor");
+                    //var accentColor = (Color)Application.Current.TryFindResource("Color_Accent");
                     //var gradientColor = HSLColor.GetFromRgb(accentColor).MoveNext(40).ToRgb();
                     //this.SpectrumBarBackground = new LinearGradientBrush(new GradientStopCollection()
                     //{
@@ -174,7 +174,7 @@ namespace Dopamine.ViewModels.Common
                     //    new GradientStop(accentColor, 0.45),
                     //    new GradientStop(gradientColor, 1),
                     //}, new Point(0.5, 1), new Point(0.5, 0));
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
                     break;
                 case SpectrumStyle.Lines:
                     this.SpectrumStyle = SpectrumStyle.Lines;
@@ -186,7 +186,7 @@ namespace Dopamine.ViewModels.Common
                     this.SpectrumPanelHeight = 30;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
                     break;
                 case SpectrumStyle.Bars:
                     this.SpectrumStyle = SpectrumStyle.Bars;
@@ -198,7 +198,7 @@ namespace Dopamine.ViewModels.Common
                     this.SpectrumPanelHeight = 30;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentBrush");
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
                     break;
                 case SpectrumStyle.Stripes:
                     this.SpectrumStyle = SpectrumStyle.Stripes;
@@ -210,7 +210,7 @@ namespace Dopamine.ViewModels.Common
                     this.SpectrumPanelHeight = 30;
                     this.SpectrumOpacity = 1.0;
                     this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("RG_AccentStripedBrush");
+                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_AccentStriped");
                     break;
                 default:
                     // Shouldn't happen

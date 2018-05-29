@@ -8,5 +8,5 @@
              mc:Ignorable="d"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <pc:IconTextButton Glyph="&#xE768;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Play_All}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding PlayAllCommand}"/>
+    <pc:IconTextButton Glyph="&#xE768;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Play_All}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding PlayAllCommand}"/>
 </UserControl>

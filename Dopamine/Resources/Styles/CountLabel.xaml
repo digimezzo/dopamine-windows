@@ -3,13 +3,13 @@
 
     <Style x:Key="CountLabel" TargetType="{x:Type Label}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_White}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}" >
                     <Border 
                         Margin="5,-5,0,0" 
-                        Background="{DynamicResource RG_AccentBrush}" 
+                        Background="{DynamicResource Brush_Accent}" 
                         MinWidth="18" 
                         Height="18" 
                         CornerRadius="9,0,9,9" 
@@ -20,7 +20,7 @@
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center" 
                             Content="{TemplateBinding Content}" 
-                            Foreground="{DynamicResource RG_WhiteBrush}"/>
+                            Foreground="{DynamicResource Brush_White}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

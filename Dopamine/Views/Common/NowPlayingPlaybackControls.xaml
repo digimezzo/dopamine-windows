@@ -32,8 +32,8 @@
             <dc:Pivot Grid.Column="0" Margin="25,0,0,0" Visibility="{Binding HasPlaybackQueue,Converter={StaticResource BooleanToCollapsedConverter}}"
                       VerticalAlignment="Center" SelectedIndex="{Binding SelectedNowPlayingSubPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingSubPage}}">
                 <!-- Showcase button -->
-                <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
-                              SelectedHeaderForeground="{DynamicResource RG_AccentBrush}">
+                <dc:PivotItem HeaderForeground="{DynamicResource Brush_PrimaryForeground}" 
+                              SelectedHeaderForeground="{DynamicResource Brush_Accent}">
                     <dc:PivotItem.HeaderTemplate>
                         <DataTemplate>
                             <Border ToolTip="{DynamicResource Language_Showcase}">
@@ -43,8 +43,8 @@
                     </dc:PivotItem.HeaderTemplate>
                 </dc:PivotItem>
                 <!-- Playlist button -->
-                <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
-                              SelectedHeaderForeground="{DynamicResource RG_AccentBrush}">
+                <dc:PivotItem HeaderForeground="{DynamicResource Brush_PrimaryForeground}" 
+                              SelectedHeaderForeground="{DynamicResource Brush_Accent}">
                     <dc:PivotItem.HeaderTemplate>
                         <DataTemplate>
                             <Border ToolTip="{DynamicResource Language_Playlist}">
@@ -54,8 +54,8 @@
                     </dc:PivotItem.HeaderTemplate>
                 </dc:PivotItem>
                 <!-- Lyrics button -->
-                <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
-                              SelectedHeaderForeground="{DynamicResource RG_AccentBrush}">
+                <dc:PivotItem HeaderForeground="{DynamicResource Brush_PrimaryForeground}" 
+                              SelectedHeaderForeground="{DynamicResource Brush_Accent}">
                     <dc:PivotItem.HeaderTemplate>
                         <DataTemplate>
                             <Border ToolTip="{DynamicResource Language_Lyrics}">
@@ -65,8 +65,8 @@
                     </dc:PivotItem.HeaderTemplate>
                 </dc:PivotItem>
                 <!-- Artist information button -->
-                <dc:PivotItem HeaderForeground="{DynamicResource RG_ForegroundBrush}" 
-                              SelectedHeaderForeground="{DynamicResource RG_AccentBrush}">
+                <dc:PivotItem HeaderForeground="{DynamicResource Brush_PrimaryForeground}" 
+                              SelectedHeaderForeground="{DynamicResource Brush_Accent}">
                     <dc:PivotItem.HeaderTemplate>
                         <DataTemplate>
                             <Border ToolTip="{DynamicResource Language_Artist_Information}">

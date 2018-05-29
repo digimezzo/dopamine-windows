@@ -38,7 +38,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddTracksToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -55,7 +55,7 @@
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>
@@ -106,13 +106,13 @@
                                    FontSize="20" 
                                    FontWeight="Light"
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                                   Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                                 <TextBlock Text="{Binding GroupSubHeader}" 
                                    DataContext="{Binding Items}" 
                                    Margin="0,0,0,10" 
                                    HorizontalAlignment="Stretch" 
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource RG_AccentBrush}"/>
+                                   Foreground="{DynamicResource Brush_Accent}"/>
                             </StackPanel>
                             <ItemsPresenter HorizontalAlignment="Stretch"/>
                         </StackPanel>
@@ -139,7 +139,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -163,7 +163,7 @@
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Grid.Triggers>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
+                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_SecondaryForeground}" 
                                Visibility="Collapsed">
                             <Label.Background>
                                 <SolidColorBrush Color="Transparent" Opacity="1"/>
@@ -173,13 +173,13 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}" />
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}" />
+                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                         </Trigger>
@@ -237,7 +237,7 @@
                                         <pc:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
-                                            SelectedForeground="{DynamicResource RG_AccentBrush}"
+                                            SelectedForeground="{DynamicResource Brush_Accent}"
                                             Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                             Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         <TextBlock

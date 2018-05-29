@@ -24,7 +24,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddArtistsToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -51,7 +51,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -68,10 +68,10 @@
                             Command="{Binding DataContext.ShowArtistsZoomCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                                 <Grid Width="26" Height="26" HorizontalAlignment="Left">
                                     <Viewbox Width="26" Height="26" Panel.ZIndex="0">
-                                        <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
+                                        <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                                     </Viewbox>
                                     <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="16" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                                           VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_White}"/>
                                 </Grid>
                             </Button>
                             <!-- Artist -->
@@ -112,8 +112,8 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False"/>
                     </ControlTemplate.Triggers>

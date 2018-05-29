@@ -234,9 +234,9 @@ namespace Dopamine.Services.Appearance
 
         private ResourceDictionary GetCurrentThemeDictionary()
         {
-            // Determine the current theme by looking at the application resources and return the first dictionary having the resource key 'RG_AppearanceServiceBrush' defined.
+            // Determine the current theme by looking at the application resources and return the first dictionary having the resource key 'Brush_AppearanceService' defined.
             return (from dict in Application.Current.Resources.MergedDictionaries
-                    where dict.Contains("RG_AppearanceServiceBrush")
+                    where dict.Contains("Brush_AppearanceService")
                     select dict).FirstOrDefault();
         }
 
@@ -382,7 +382,7 @@ namespace Dopamine.Services.Appearance
                 accentColor = HSLColor.Normalize(accentColor, 30);
             }
 
-            if (Application.Current.Resources["RG_AccentColor"] == null)
+            if (Application.Current.Resources["Color_Accent"] == null)
             {
                 this.ApplyAccentColor(accentColor);
                 return;
@@ -393,8 +393,8 @@ namespace Dopamine.Services.Appearance
 
         private void ApplyAccentColor(Color accentColor)
         {
-            Application.Current.Resources["RG_AccentColor"] = accentColor;
-            Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(accentColor);
+            Application.Current.Resources["Color_Accent"] = accentColor;
+            Application.Current.Resources["Brush_Accent"] = new SolidColorBrush(accentColor);
 
             // Re-apply theme to ensure brushes referencing AccentColor are updated
             this.ReApplyTheme();
@@ -407,15 +407,15 @@ namespace Dopamine.Services.Appearance
             {
                 int loop = 0;
                 int loopMax = 30;
-                var oldColor = (Color)Application.Current.Resources["RG_AccentColor"];
+                var oldColor = (Color)Application.Current.Resources["Color_Accent"];
 
                 while (loop < loopMax)
                 {
                     loop++;
                     Color color = ColorUtils.InterpolateColor(oldColor, accentColor, loop / (double)loopMax);
 
-                    Application.Current.Resources["RG_AccentColor"] = color;
-                    Application.Current.Resources["RG_AccentBrush"] = new SolidColorBrush(color);
+                    Application.Current.Resources["Color_Accent"] = color;
+                    Application.Current.Resources["Brush_Accent"] = new SolidColorBrush(color);
                     await Task.Delay(7);
                 }
             });

@@ -8,7 +8,7 @@
 
     <Style x:Key="{x:Type controls:SearchBox}" TargetType="{x:Type controls:SearchBox}">
         <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}"/>
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu>
@@ -45,7 +45,7 @@
                                             Style="{StaticResource SegoeAssets}"
                                             HorizontalAlignment="Center" 
                                             VerticalAlignment="Center" 
-                                            Foreground="{DynamicResource RG_WhiteBrush}" 
+                                            Foreground="{DynamicResource Brush_White}" 
                                             FontSize="10" />
                                     </Grid>
                                     <Border.Style>

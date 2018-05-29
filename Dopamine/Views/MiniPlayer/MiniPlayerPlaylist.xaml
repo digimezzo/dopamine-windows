@@ -23,7 +23,7 @@
     </i:Interaction.Triggers>
 
     <!-- ShowInTaskbar="False" and the fact that this window has the main window as a parent, assure that this window is not displayed in the Alt-Tab menu. -->
-    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource RG_AccentBrush}">
+    <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Brush_Accent}">
         <Grid>
             <Border x:Name="PlaylistBackground" Background="{DynamicResource Brush_WindowBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <dc:Pivot Panel.ZIndex="1" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="SlideHorizontal" SlideFadeIn="True">

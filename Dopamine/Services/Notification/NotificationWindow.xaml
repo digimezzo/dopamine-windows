@@ -63,7 +63,7 @@
                     </controls:Tile>
                     <Image x:Name="CoverPicture" Panel.ZIndex="1" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <Grid x:Name="CoverControls" Panel.ZIndex="2" Opacity="0">
-                        <Border x:Name="CloseBorder" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource RG_BlackToTransparentTopBottomBrush}"/>
+                        <Border x:Name="CloseBorder" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource Brush_TopBlackBottomTransparent}"/>
                         <Button x:Name="CloseButton" Style="{StaticResource WindowButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Height="22" Width="22" BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" ToolTip="{DynamicResource Language_Close}" Click="CloseButton_Click">
                             <Path Data="{StaticResource Close}"
                                 Fill="White" 
@@ -76,8 +76,8 @@
                     <views:VerticalVolumeControls x:Name="VolumePanel" Margin="0,0,10,0" DockPanel.Dock="Left" Width="30"/>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="5,0,5,0">
-                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                            <TextBlock x:Name="TextBoxArtist" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource RG_AccentBrush}"  />
+                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                            <TextBlock x:Name="TextBoxArtist" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_Accent}"  />
                             <StackPanel.ToolTip>
                                 <ToolTip>
                                     <StackPanel DockPanel.Dock="Top">
