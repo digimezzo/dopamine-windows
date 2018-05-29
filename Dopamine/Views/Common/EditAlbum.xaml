@@ -60,10 +60,10 @@
                             Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                            Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
+                            Background="{DynamicResource Brush_TertiaryBackground}">
                         <pc:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_SecondaryForeground}"/>
                             </Viewbox>
                         </pc:Tile.Content>
                     </pc:Tile>

@@ -31,11 +31,11 @@
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource Color_Black}" Opacity="{DynamicResource Opacity_CoverArtShadow}"/>
                             </Image.Effect>
                         </Image>
-                        <Border Margin="20" Width="200" Height="200" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" Visibility="{Binding HasImage, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                        <Border Margin="20" Width="200" Height="200" Background="{DynamicResource Brush_TertiaryBackground}" Visibility="{Binding HasImage, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource Color_Black}" Opacity="{DynamicResource Opacity_CoverArtShadow}"/>
                             </Border.Effect>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="100" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="&#xE13D;" FontSize="100" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_SecondaryForeground}"/>
                         </Border>
                     </Grid>
                     <TextBlock Margin="20,0,0,0" Text="{Binding ArtistName}" FontSize="22" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryForeground}"/>

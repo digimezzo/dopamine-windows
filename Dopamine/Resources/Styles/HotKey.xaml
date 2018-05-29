@@ -12,11 +12,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="48" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                        <Border Width="48" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                             <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                         </Border>
                         <Label Content="+" Foreground="{DynamicResource Brush_PrimaryForeground}" Padding="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                        <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                        <Border Width="26" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                             <Label Content="{TemplateBinding Content2}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                         </Border>
                     </StackPanel>
@@ -31,11 +31,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="48" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                        <Border Width="48" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                             <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                         </Border>
                         <Label Content="+" Foreground="{DynamicResource Brush_PrimaryForeground}" Padding="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                        <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                        <Border Width="26" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                             <Label Content="{TemplateBinding Content2}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                         </Border>
                     </StackPanel>
@@ -49,7 +49,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="48" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                    <Border Width="48" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                         <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                     </Border>
                 </ControlTemplate>
@@ -62,7 +62,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                    <Border Width="26" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                         <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                     </Border>
                 </ControlTemplate>
@@ -75,7 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="26" Height="26" Background="{DynamicResource RG_ControlsBackgroundMediumBrush}" VerticalAlignment="Center">
+                    <Border Width="26" Height="26" Background="{DynamicResource Brush_TertiaryBackground}" VerticalAlignment="Center">
                         <Label Content="{TemplateBinding Content}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                     </Border>
                 </ControlTemplate>

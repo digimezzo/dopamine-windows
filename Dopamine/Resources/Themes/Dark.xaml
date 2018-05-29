@@ -30,6 +30,7 @@
     <SolidColorBrush x:Key="Brush_PrimaryForeground" Color="{DynamicResource Color_PrimaryForeground}"/>
     <SolidColorBrush x:Key="Brush_SecondaryForeground" Color="{DynamicResource Color_SecondaryForeground}"/>
     <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
+    <SolidColorBrush x:Key="Brush_TertiaryBackground" Color="{DynamicResource Color_TertiaryBackground}"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">
@@ -56,11 +57,9 @@
 
 
     <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#101010"/>
-    <SolidColorBrush x:Key="RG_ControlsBackgroundMediumBrush" Color="#1A1A1A"/>
-    <SolidColorBrush x:Key="RG_ControlsBackgroundHighBrush" Color="#292929"/>
 
-    
-    
+
+
 
     <!-- Transparent Background Brushes 
     (#AAAAAA is equivalent to #1A1A1A but with transparency)
