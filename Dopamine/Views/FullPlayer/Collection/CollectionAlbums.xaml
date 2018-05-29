@@ -20,7 +20,7 @@
     </i:Interaction.Triggers>
 
     <dc:MultiPanePanel 
-        BorderBrush="{DynamicResource RG_BorderBrush}" 
+        BorderBrush="{DynamicResource Brush_Border}" 
         SeparatorMarginTop="45" 
         ContentResizeDelay="25" 
         IsRightPaneCollapsed="True" 
@@ -31,11 +31,11 @@
             <DockPanel>
                 <StackPanel Margin="5,0,5,15" DockPanel.Dock="Top" Orientation="Horizontal">
                     <Button x:Name="ShuffleAllButton" Margin="12,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
                     </Button>
                     <Button x:Name="AlbumsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
                         <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
-                                                 Foreground="{DynamicResource RG_ForegroundBrush}"
+                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"/>
@@ -46,7 +46,7 @@
                                 FontWeight="Light" 
                                 FontSize="20" 
                                 Margin="10,0,0,0"
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+                                Foreground="{DynamicResource Brush_SecondaryForeground}"
                                 Command="{Binding ToggleAlbumOrderCommand}"/>
                 </StackPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
@@ -73,7 +73,7 @@
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
                     <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
-                                                 Foreground="{DynamicResource RG_ForegroundBrush}"
+                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
                                                  FontWeight="Light"
                                                  FontSize="20"
                                                  Padding="0"
@@ -84,14 +84,14 @@
                                 FontWeight="Light" 
                                 FontSize="20" 
                                 Margin="10,0,0,0"
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+                                Foreground="{DynamicResource Brush_SecondaryForeground}"
                                 Command="{Binding ToggleTrackOrderCommand}"/>
                 </StackPanel>
                 <DockPanel>
                     <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="15,15,15,0" 
-                                Foreground="{DynamicResource RG_InactiveForegroundBrush}" 
+                                Foreground="{DynamicResource Brush_SecondaryForeground}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>

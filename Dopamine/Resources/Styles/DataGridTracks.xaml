@@ -15,7 +15,7 @@
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource RG_WhiteColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_PrimaryForeground}"/>
 
     <!-- ContextMenu -->
     <ContextMenu x:Key="DataGridTracksContextMenu">
@@ -47,7 +47,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddTracksToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -64,7 +64,7 @@
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>
@@ -116,7 +116,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
-        <!--<Setter Property="VerticalGridLinesBrush" Value="{DynamicResource RG_BorderBrush}"/>-->
+        <!--<Setter Property="VerticalGridLinesBrush" Value="{DynamicResource Brush_Border}"/>-->
         <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -133,17 +133,17 @@
     <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="ContextMenu" Value="{StaticResource DataGridTracksContextMenu}"/>
         <Setter Property="Height" Value="24" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
             </Trigger>
@@ -189,7 +189,7 @@
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Margin" Value="20,0,0,15"/>
         <Setter Property="Template">
@@ -220,17 +220,17 @@
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="{x:Null}">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Hidden" />
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Ascending">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Visible" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Hidden" />
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Descending">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Visible" />
                         </Trigger>

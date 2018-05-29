@@ -36,7 +36,7 @@
         <DockPanel x:Name="MenuPanel" DockPanel.Dock="Top" Margin="0,0,0,15">
             <Grid Width="56" Height="56">
                 <Viewbox Width="56" Height="56" Panel.ZIndex="0">
-                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource RG_AccentBrush}"/>
+                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                 </Viewbox>
                 <TextBlock
                       x:Name="Icon"
@@ -46,10 +46,10 @@
                       VerticalAlignment="Center" 
                       FontSize="22"
                       Text="&#xE104;"
-                      Foreground="{DynamicResource RG_WhiteBrush}" />
+                      Foreground="{DynamicResource Brush_White}" />
             </Grid>
             <DockPanel x:Name="Menu" Height="56">
-                <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                 <Grid DockPanel.Dock="Top" Margin="15,5,0,0">
                     <TextBlock x:Name="TagsProxy" Text="{DynamicResource Language_Tags}" Visibility="Collapsed"/>
                     <TextBlock x:Name="LyricsProxy" Text="{DynamicResource Language_Lyrics}" Visibility="Collapsed"/>
@@ -67,7 +67,7 @@
                 Margin="0,0,0,20" 
                 TextWrapping="Wrap" 
                 Text="{Binding MultipleTracksWarningText}" 
-                Foreground="{DynamicResource RG_AccentBrush}"
+                Foreground="{DynamicResource Brush_Accent}"
                 Visibility="{Binding ShowMultipleTracksWarning,Converter={StaticResource BooleanToCollapsedConverter}}"/>
         <!-- Content -->
         <Grid>
@@ -86,7 +86,7 @@
                 </Style>
             </Grid.Style>
             <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
-                <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
+                <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" IsActive="{Binding IsBusy}"/>
             </Viewbox>
             <pc:TransitioningContentControl Content="{Binding EditTrackContent}" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" 
                                                   SlideInTimeout="0.5" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0"/>

@@ -13,7 +13,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Rectangle Height="{TemplateBinding Height}" Fill="{DynamicResource RG_ContextMenuSeparatorBrush}"/>
+                    <Rectangle Height="{TemplateBinding Height}" Fill="{DynamicResource Brush_ContextMenuSeparator}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -22,10 +22,10 @@
     <!--Outer menu items-->
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}"/>
                 <Setter Property="Opacity" Value="0.5"/>
             </Trigger>
         </Style.Triggers>
@@ -40,7 +40,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
                     <Border>
-                        <Border x:Name="Border" Margin="10" Background="{DynamicResource RG_WhiteBrush}">
+                        <Border x:Name="Border" Margin="10" Background="{DynamicResource Brush_ContextMenuBackground}">
                             <StackPanel ClipToBounds="True" Orientation="Vertical" IsItemsHost="True" />
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
@@ -49,7 +49,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource RG_WhiteBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -112,11 +112,11 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource RG_AccentBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForegroundSelected}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}" />
                 <Setter Property="Opacity" Value="0.5" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -163,7 +163,7 @@
                        PopupAnimation="Fade">
                     <Border Name="SubmenuBorder"
                             Margin="10"
-                            Background="{DynamicResource RG_WhiteBrush}">
+                            Background="{DynamicResource Brush_ContextMenuBackground}">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
@@ -178,15 +178,15 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource RG_AccentBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForegroundSelected}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

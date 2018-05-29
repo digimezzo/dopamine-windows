@@ -8,15 +8,15 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
                         <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" BorderThickness="0" VerticalAlignment="Center"/>
-                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource RG_ForegroundBrush}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_PrimaryForeground}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource RG_ControlsBackgroundHighTransparentBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="label" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter TargetName="label" Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
@@ -33,8 +33,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
-                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource RG_AccentBrush}" BorderThickness="0" VerticalAlignment="Center"/>
-                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource RG_WhiteBrush}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource Brush_Accent}" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_White}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
@@ -120,7 +120,7 @@
                     <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <ControlTemplate.Triggers>
                         <!--<Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource RG_AccentBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Brush_Accent}"/>
                         </Trigger>-->
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Opacity" Value="0.7"/>

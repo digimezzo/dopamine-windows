@@ -29,12 +29,12 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource RG_AccentBrush}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_Accent}" Visibility="Collapsed" Height="0"/>
                         <ContentPresenter/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -43,9 +43,9 @@
                             <Setter TargetName="DummyLabel" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                         </Trigger>

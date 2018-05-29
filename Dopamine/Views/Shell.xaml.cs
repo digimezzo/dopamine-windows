@@ -49,6 +49,7 @@ namespace Dopamine.Views
         private MiniPlayerPlaylist miniPlayerPlaylist;
         private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
+        private Storyboard backgroundAnimation;
 
         public DelegateCommand RestoreWindowCommand { get; set; }
         public DelegateCommand MinimizeWindowCommand { get; set; }
@@ -80,6 +81,19 @@ namespace Dopamine.Views
             this.InitializeWindows();
             this.InitializeTrayIcon();
             this.InitializeCommands();
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Retrieve BackgroundAnimation storyboard
+            this.backgroundAnimation = this.BackgroundBorder.Resources["BackgroundAnimation"] as Storyboard;
+
+            if (this.backgroundAnimation != null)
+            {
+                this.backgroundAnimation.Begin();
+            }
         }
 
         private void TrayIconContextMenuAppName_Click(object sender, RoutedEventArgs e)
@@ -339,11 +353,19 @@ namespace Dopamine.Views
             // IWin32InputService
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
 
+            // IAppearanceService
+            this.appearanceService.ThemeChanged += this.ThemeChangedHandler;
+
             // IWindowsIntegrationService
             this.windowsIntegrationService.TabletModeChanged += (_, __) =>
             {
                 Application.Current.Dispatcher.Invoke(() => this.shellService.CheckIfTabletMode(false));
             };
+        }
+
+        private void ThemeChangedHandler(bool useLightTheme)
+        {
+            Application.Current.Dispatcher.Invoke(() => { if (this.backgroundAnimation != null) this.backgroundAnimation.Begin(); });
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)

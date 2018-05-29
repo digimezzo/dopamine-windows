@@ -19,12 +19,12 @@
                         <Path x:Name="Path"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Fill="{DynamicResource RG_AccentBrush}"
+            Fill="{DynamicResource Brush_Accent}"
             Data="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Path" Property="Fill" Value="{DynamicResource RG_AccentBrush}" />
+                            <Setter TargetName="Path" Property="Fill" Value="{DynamicResource Brush_Accent}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Path" Property="Opacity" Value="0.7" />
@@ -136,8 +136,8 @@
                     <Thumb 
           Style="{StaticResource ScrollBarThumb}" 
           Margin="0,0,0,0"  
-          Background="{DynamicResource RG_AccentBrush}"
-          BorderBrush="{DynamicResource RG_AccentBrush}" />
+          Background="{DynamicResource Brush_Accent}"
+          BorderBrush="{DynamicResource Brush_Accent}" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton 
@@ -192,8 +192,8 @@
                     <Thumb 
           Style="{StaticResource ScrollBarThumb}" 
           Margin="0,0,0,0"  
-          Background="{DynamicResource RG_AccentBrush}"
-          BorderBrush="{DynamicResource RG_AccentBrush}" />
+          Background="{DynamicResource Brush_Accent}"
+          BorderBrush="{DynamicResource Brush_Accent}" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton 

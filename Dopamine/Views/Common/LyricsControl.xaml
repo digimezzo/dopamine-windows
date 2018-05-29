@@ -25,7 +25,7 @@
           <StackPanel Visibility="{Binding DataContext.IsDownloadingLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
             <TextBlock
               FontSize="18"
-              Foreground="{DynamicResource RG_ForegroundBrush}"
+              Foreground="{DynamicResource Brush_PrimaryForeground}"
               Text="{DynamicResource Language_No_Lyrics_Found}" />
             <Button
               Margin="0,10,0,0"
@@ -39,7 +39,7 @@
           <TextBlock
             Margin="0,0,0,10"
             DockPanel.Dock="Top"
-            Foreground="{DynamicResource RG_AccentBrush}"
+            Foreground="{DynamicResource Brush_Accent}"
             Text="{DynamicResource Language_Play_Song_And_Insert_Timestamp}"
             TextWrapping="Wrap" />
           <StackPanel
@@ -61,7 +61,7 @@
             <TextBox
               x:Name="LyricsTextBox"
               AcceptsReturn="True"
-              Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"
+              Background="{DynamicResource Brush_TextBoxBackgroundInvisible}"
               KeyDown="TextBox_KeyDown"
               Loaded="LyricsTextBox_Loaded"
               Style="{StaticResource LargeMetroTextBox}"
@@ -86,14 +86,14 @@
                 <Grid Margin="0,0,10,0">
                   <TextBlock
                     FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                    Foreground="{DynamicResource RG_AccentBrush}"
+                    Foreground="{DynamicResource Brush_Accent}"
                     Text="{Binding Text}"
                     TextAlignment="{Binding DataContext.CenterLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Converter={StaticResource BooleanToCenterTextAlignmentConverter}}"
                     TextWrapping="Wrap"
                     Visibility="{Binding IsHighlighted, Converter={StaticResource BooleanToVisibilityConverter}}" />
                   <TextBlock
                     FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                    Foreground="{DynamicResource RG_ForegroundBrush}"
+                    Foreground="{DynamicResource Brush_PrimaryForeground}"
                     Text="{Binding Text}"
                     TextAlignment="{Binding DataContext.CenterLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Converter={StaticResource BooleanToCenterTextAlignmentConverter}}"
                     TextWrapping="Wrap"
@@ -159,7 +159,7 @@
                   ItemsSource="{Binding ContextMenuSearchProviders}">
                   <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
-                      <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                      <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                       <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}}" />
                       <Setter Property="CommandParameter" Value="{Binding Id}" />
                     </Style>
@@ -181,7 +181,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Panel.ZIndex="1"
-            Foreground="{DynamicResource RG_AccentBrush}"
+            Foreground="{DynamicResource Brush_Accent}"
             IsActive="{Binding DataContext.IsDownloadingLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
             Visibility="{Binding DataContext.IsDownloadingLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
         </Grid>
@@ -206,7 +206,7 @@
           <MenuItem DisplayMemberPath="Name" Header="{DynamicResource Language_Add_To_Playlist}">
             <MenuItem.ItemContainerStyle>
               <Style TargetType="MenuItem">
-                <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                 <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                 <Setter Property="CommandParameter" Value="{Binding Name}" />
               </Style>
@@ -231,9 +231,9 @@
         <Border.Effect>
           <DropShadowEffect
             BlurRadius="20"
-            Opacity="{DynamicResource RG_CoverArtShadowOpacity}"
+            Opacity="{DynamicResource Opacity_CoverArtShadow}"
             ShadowDepth="0"
-            Color="{DynamicResource RG_BlackColor}" />
+            Color="{DynamicResource Color_Black}" />
         </Border.Effect>
       </Border>
       <commonviews:PlaybackInfoControl
@@ -250,13 +250,13 @@
           <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE73E;" />
           <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Text="{DynamicResource Language_Audio_File}" />
         </StackPanel>
         <StackPanel
@@ -266,13 +266,13 @@
           <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE73E;" />
           <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Text="{DynamicResource Language_Lyrics_File}" />
         </StackPanel>
         <StackPanel
@@ -282,13 +282,13 @@
           <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE753;" />
           <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource RG_InactiveForegroundBrush}"
+            Foreground="{DynamicResource Brush_SecondaryForeground}"
             Text="{Binding LyricsViewModel.Lyrics.Source}" />
         </StackPanel>
       </Grid>

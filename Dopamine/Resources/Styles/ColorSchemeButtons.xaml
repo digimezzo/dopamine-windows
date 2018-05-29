@@ -23,15 +23,14 @@
                                 <SolidColorBrush Color="{Binding Path=AccentColor}" />
                             </StackPanel.Background>
                         </StackPanel>
-                        <Border x:Name="Overlay" Background="{DynamicResource RG_IconGradientBrush}" Panel.ZIndex="1" Height="36" Width="36"/>
                         <TextBlock x:Name="ColorSchemeSelector"
                                    Text="&#xE8FB;"
                                    Style="{StaticResource SegoeAssets}"
-                                   Panel.ZIndex="2"
+                                   Panel.ZIndex="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Opacity="0"
-                                   Foreground="{DynamicResource RG_WhiteBrush}" 
+                                   Foreground="{DynamicResource Brush_White}" 
                                    FontSize="18"/>
                     </Grid>
                     <ControlTemplate.Triggers>

@@ -57,7 +57,7 @@
                         Margin="0.5"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Background="{DynamicResource RG_AccentBrush}"
+                        Background="{DynamicResource Brush_Accent}"
                         Opacity="{Binding Opacity}"/>
                     <!-- ALBUM -->
                     <Grid 
@@ -71,7 +71,7 @@
                                 Panel.ZIndex="0" 
                                 HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Stretch" 
-                                Background="{DynamicResource RG_AccentBrush}"
+                                Background="{DynamicResource Brush_Accent}"
                                 Visibility="{Binding HasCover,Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
                         <!-- Image cover -->
                         <Image 
@@ -86,7 +86,7 @@
                                 Panel.ZIndex="2"
                                 HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Stretch" 
-                                Background="{DynamicResource RG_AccentBrush}"
+                                Background="{DynamicResource Brush_Accent}"
                                 Opacity="0">
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
@@ -111,7 +111,7 @@
                                    Margin="0,11,7,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
-                                   Foreground="{DynamicResource RG_WhiteBrush}" 
+                                   Foreground="{DynamicResource Brush_White}" 
                                    FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"/>
                                 <Border.Style>
                                     <Style TargetType="{x:Type Border}">
@@ -137,7 +137,7 @@
                                 VerticalAlignment="Bottom" 
                                 Margin="7" 
                                 FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"
-                                Foreground="{DynamicResource RG_WhiteBrush}">
+                                Foreground="{DynamicResource Brush_White}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>

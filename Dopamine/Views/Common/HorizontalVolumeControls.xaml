@@ -16,15 +16,15 @@
         <Grid Margin="0,0,8,0">
             <!-- Mute -->
             <Button x:Name="MuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Mute}" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}" Command="{Binding MuteCommand}">
-                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_ForegroundBrush}" FontSize="16"/>
+                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
             </Button>
             <!-- Unmute -->
             <Button x:Name="UnmuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Unmute}" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding UnmuteCommand}">
-                <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource RG_AccentBrush}" FontSize="16"/>
+                <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="16"/>
             </Button>
         </Grid>
 
-        <dc:HorizontalUWPSlider Width="{Binding SliderLength,ElementName=ThisControl}" Value="{Binding VolumeValue,Mode=TwoWay}" VerticalAlignment="Center" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowBackground}" ButtonBackground="{DynamicResource RG_ForegroundBrush}" BarBackground="{DynamicResource RG_AccentBrush}" ChangeValueWhileDragging="True"/>
-        <Label Padding="0" Width="20" Content="{Binding VolumeValuePercent}" HorizontalContentAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="{x:Static base:Constants.GlobalFontSize}" Margin="20,0,0,0" Foreground="{DynamicResource RG_ForegroundBrush}" Visibility="{Binding ShowPercent,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+        <dc:HorizontalUWPSlider Width="{Binding SliderLength,ElementName=ThisControl}" Value="{Binding VolumeValue,Mode=TwoWay}" VerticalAlignment="Center" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryForeground}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+        <Label Padding="0" Width="20" Content="{Binding VolumeValuePercent}" HorizontalContentAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="{x:Static base:Constants.GlobalFontSize}" Margin="20,0,0,0" Foreground="{DynamicResource Brush_PrimaryForeground}" Visibility="{Binding ShowPercent,ElementName=ThisControl,Converter={StaticResource BooleanToCollapsedConverter}}"/>
     </StackPanel>
 </baseviews:VolumeControlViewBase>

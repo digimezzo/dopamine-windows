@@ -10,11 +10,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="Border" RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True" BorderThickness="0,0,0,1" BorderBrush="Transparent">
-                        <TextBlock Name="TextBlock" Background="Transparent" Text="{TemplateBinding Content}" Foreground="{DynamicResource RG_AccentBrush}"/>
+                        <TextBlock Name="TextBlock" Background="Transparent" Text="{TemplateBinding Content}" Foreground="{DynamicResource Brush_Accent}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource RG_AccentBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Brush_Accent}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Opacity" Value="0.7"/>

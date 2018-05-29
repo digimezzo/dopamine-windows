@@ -11,8 +11,8 @@
 
     <Style x:Key="{x:Type pc:AccentTextBox}" TargetType="{x:Type pc:AccentTextBox}">
         <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource RG_AccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu>
@@ -50,7 +50,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ShowAccent,RelativeSource={RelativeSource Self}}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -17,7 +17,7 @@
     <DockPanel>
         <Grid DockPanel.Dock="Bottom">
             <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
-            <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+            <commonviews:CollectionPlaybackControls Panel.ZIndex="1" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
         </Grid>
         <pc:TransitioningContentControl Margin="0,20,0,10" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
                                               SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="CollectionRegion" 

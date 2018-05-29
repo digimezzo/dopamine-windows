@@ -10,10 +10,10 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <Border DockPanel.Dock="Top" Height="0" Opacity="0">
-        <Border Background="{DynamicResource RG_AccentBrush}" Height="30" Margin="0,20,0,0">
+        <Border Background="{DynamicResource Brush_Accent}" Height="30" Margin="0,20,0,0">
             <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <pc:SyncRing DockPanel.Dock="Left" Width="16" Margin="15,0,10,0" VerticalAlignment="Center" Foreground="{DynamicResource RG_WhiteBrush}"/>
-                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding IndexingStatus}" Foreground="{DynamicResource RG_WhiteBrush}"/>
+                <pc:SyncRing DockPanel.Dock="Left" Width="16" Margin="15,0,10,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush_White}"/>
+                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding IndexingStatus}" Foreground="{DynamicResource Brush_White}"/>
             </DockPanel>
         </Border>
         <Border.Style>

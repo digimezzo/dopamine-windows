@@ -1,45 +1,43 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- White -->
-    <Color x:Key="RG_WhiteColor">White</Color>
-    <SolidColorBrush x:Key="RG_WhiteBrush" Color="{DynamicResource RG_WhiteColor}"/>
-    <SolidColorBrush x:Key="RG_WhiteMediumBrush" Color="#E2E2E2"/>
-    <SolidColorBrush x:Key="RG_InactiveWhiteBrush" Color="#5E5E5E"/>
+    <!-- Palette -->
+    <Color x:Key="Color_White">#FFFFFF</Color>
+    <Color x:Key="Color_WhiteInvisible">#00FFFFFF</Color>
+    <Color x:Key="Color_Black">#000000</Color>
+    <Color x:Key="Color_BlackInvisible">#00000000</Color>
+    <Color x:Key="Color_LightGrey">#CCCCCC</Color>
     
-    <!-- Black -->
-    <Color x:Key="RG_BlackColor">Black</Color>
-    <SolidColorBrush x:Key="RG_BlackBrush" Color="{DynamicResource RG_BlackColor}"/>
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush_Accent80pct" Color="{DynamicResource Color_Accent}" Opacity="0.8"/>
+    <SolidColorBrush x:Key="Brush_White" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_Black" Color="{DynamicResource Color_Black}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuSeparator" Color="{DynamicResource Color_LightGrey}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuButton" Color="{DynamicResource Color_LightGrey}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuHovered" Color="{DynamicResource Color_Accent}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuBackground" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuForeground" Color="{DynamicResource Color_Black}"/>
+    <SolidColorBrush x:Key="Brush_ContextMenuForegroundSelected" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_ToolTipBackground" Color="{DynamicResource Color_Accent}"/>
+    <SolidColorBrush x:Key="Brush_ToolTipForeground" Color="{DynamicResource Color_White}"/>
 
-    <!-- Light grey -->
-    <SolidColorBrush x:Key="RG_LightGreyBrush" Color="#DFDFDF"/>
-
-    <!-- Accent striped -->
-    <LinearGradientBrush x:Key="RG_AccentStripedBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3" SpreadMethod="Repeat">
-        <GradientStop Offset="0" Color="Transparent"/>
-        <GradientStop Offset="0.25" Color="Transparent"/>
-        <GradientStop Offset="0.25" Color="{DynamicResource RG_AccentColor}"/>
-        <GradientStop Offset="0.5" Color="{DynamicResource RG_AccentColor}"/>
-        <GradientStop Offset="0.75" Color="Transparent"/>
-        <GradientStop Offset="1" Color="Transparent"/>
-    </LinearGradientBrush>
-
-    <!-- Gradients -->
-    <LinearGradientBrush x:Key="RG_BlackToTransparentTopBottomBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+    <!-- Gradient Brushes -->
+    <LinearGradientBrush x:Key="Brush_TopBlackBottomTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
         <GradientStop Color="#FF000000" Offset="0.0" />
         <GradientStop Color="#00000000" Offset="1.0" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="RG_BlackToTransparentBottomTopBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+    <LinearGradientBrush x:Key="Brush_BottomBlackTopTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
         <GradientStop Color="#00000000" Offset="0.0" />
         <GradientStop Color="#FF000000" Offset="1.0" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="RG_IconGradientBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.1">
-        <GradientStop Color="White" Offset="0.0" />
-        <GradientStop Color="Transparent" Offset="1.0" />
+    <LinearGradientBrush x:Key="Brush_AccentStriped" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3" SpreadMethod="Repeat">
+        <GradientStop Offset="0" Color="Transparent"/>
+        <GradientStop Offset="0.25" Color="Transparent"/>
+        <GradientStop Offset="0.25" Color="{DynamicResource Color_Accent}"/>
+        <GradientStop Offset="0.5" Color="{DynamicResource Color_Accent}"/>
+        <GradientStop Offset="0.75" Color="Transparent"/>
+        <GradientStop Offset="1" Color="Transparent"/>
     </LinearGradientBrush>
-    
-    <!-- Accent -->
-    <SolidColorBrush x:Key="RG_AccentTransparentBrush" Color="{DynamicResource RG_AccentColor}" Opacity="0.8"/>
 </ResourceDictionary>

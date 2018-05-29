@@ -9,5 +9,5 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <pc:SearchBox HorizontalAlignment="Stretch" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" Background="{DynamicResource RG_TextBoxInvisibleBackgroundBrush}"  VisibleBackground="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" SearchGlassForeground="{DynamicResource RG_ForegroundBrush}"/>
+    <pc:SearchBox HorizontalAlignment="Stretch" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" Background="{DynamicResource Brush_TextBoxBackgroundInvisible}"  VisibleBackground="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" SearchGlassForeground="{DynamicResource Brush_PrimaryForeground}"/>
 </UserControl>

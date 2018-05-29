@@ -3,7 +3,7 @@
 
     <Style x:Key="MetroListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource RG_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -34,8 +34,8 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource RG_AccentBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource RG_WhiteBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False"/>
                     </ControlTemplate.Triggers>

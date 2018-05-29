@@ -99,7 +99,7 @@
                 <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                     <MenuItem.ItemContainerStyle>
                         <Style TargetType="MenuItem">
-                            <Setter Property="Foreground" Value="{DynamicResource RG_BlackBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
                             <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                             <Setter Property="CommandParameter" Value="{Binding Name}"/>
                         </Style>
@@ -117,7 +117,7 @@
         <Border x:Name="CoverArt" DockPanel.Dock="Left" Width="250" Height="{Binding Width,ElementName=CoverArt}">
             <commonviews:CoverArtControl Margin="20"/>
             <Border.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource RG_BlackColor}" Opacity="{DynamicResource RG_CoverArtShadowOpacity}"/>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="{DynamicResource Color_Black}" Opacity="{DynamicResource Opacity_CoverArtShadow}"/>
             </Border.Effect>
         </Border>
         <commonviews:PlaybackInfoControl 

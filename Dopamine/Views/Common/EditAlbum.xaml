@@ -36,7 +36,7 @@
 
     <Grid>
         <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
-            <dc:ProgressRing Foreground="{DynamicResource RG_AccentBrush}" IsActive="{Binding IsBusy}"/>
+            <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" IsActive="{Binding IsBusy}"/>
         </Viewbox>
         <DockPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">
             <DockPanel.Style>
@@ -86,8 +86,8 @@
                             </StackPanel>
                         </ToolTip>
                     </StackPanel.ToolTip>
-                    <TextBlock Text="{Binding Album.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                    <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource RG_InactiveWhiteBrush}"/>
+                    <TextBlock Text="{Binding Album.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                    <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryForeground}"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">

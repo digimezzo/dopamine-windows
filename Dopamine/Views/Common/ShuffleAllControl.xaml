@@ -8,5 +8,5 @@
              mc:Ignorable="d"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <pc:IconTextButton Glyph="&#xE8B1;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Shuffle_All}" Foreground="{DynamicResource RG_AccentBrush}" Command="{Binding ShuffleAllCommand}"/>
+    <pc:IconTextButton Glyph="&#xE8B1;" GlyphSize="13" Margin="5" HorizontalAlignment="Left" Content="{DynamicResource Language_Shuffle_All}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding ShuffleAllCommand}"/>
 </UserControl>

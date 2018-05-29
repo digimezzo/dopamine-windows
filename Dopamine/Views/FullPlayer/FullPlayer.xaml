@@ -25,7 +25,7 @@
         <TextBlock x:Name="CollectionProxy" Text="{DynamicResource Language_Collection}" Visibility="Collapsed"/>
         <TextBlock x:Name="SettingsProxy" Text="{DynamicResource Language_Settings}" Visibility="Collapsed"/>
         <TextBlock x:Name="InformationProxy" Text="{DynamicResource Language_Information}" Visibility="Collapsed"/>
-        <pc:Logo Accent="{DynamicResource RG_AccentBrush}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
+        <pc:Logo Accent="{DynamicResource Brush_Accent}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
         <DockPanel>
             <dc:Pivot DockPanel.Dock="Top" Margin="85,20,0,0" 
                       SelectedIndex="{Binding SelectedFullPlayerPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:FullPlayerPage}}">

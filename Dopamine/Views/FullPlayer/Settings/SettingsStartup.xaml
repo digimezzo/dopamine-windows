@@ -13,10 +13,10 @@
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Updates}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Check_For_Updates_At_Startup}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForUpdatesAtStartup" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxCheckForUpdatesAtStartupChecked}"/>
-                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Check_For_Updates_Periodically}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForUpdatesPeriodically" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxCheckForUpdatesPeriodicallyChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Check_For_Updates_At_Startup}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForUpdatesAtStartup" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxCheckForUpdatesAtStartupChecked}"/>
+                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Check_For_Updates_Periodically}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForUpdatesPeriodically" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxCheckForUpdatesPeriodicallyChecked}"/>
             </StackPanel>
             <StackPanel Margin="0,20,0,0">
                 <StackPanel.Style>
@@ -34,27 +34,27 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Style>
-                <TextBlock Text="{DynamicResource Language_Also_Check_For_Prereleases}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForPrereleases" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxCheckForPrereleasesChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Also_Check_For_Prereleases}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxCheckForPrereleases" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxCheckForPrereleasesChecked}"/>
                 <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Automatically_Download_Updates}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                    <TextBlock Text="{DynamicResource Language_Automatically_Download_Updates}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsPortable,Converter={StaticResource BooleanToCollapsedConverter}}">
-                        <TextBlock Text=" (" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <TextBlock Text="{DynamicResource Language_Not_Available_In_Portable_Version}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                        <TextBlock Text=")" Foreground="{DynamicResource RG_ForegroundBrush}"/>
+                        <TextBlock Text=" (" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <TextBlock Text="{DynamicResource Language_Not_Available_In_Portable_Version}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <TextBlock Text=")" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
                     </StackPanel>
                 </StackPanel>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxInstallUpdatesAutomatically" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxInstallUpdatesAutomaticallyChecked}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxInstallUpdatesAutomatically" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxInstallUpdatesAutomaticallyChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Startup_Page}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Start_At_Last_Selected_Page}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxStartupPage" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxStartupPageChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Start_At_Last_Selected_Page}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxStartupPage" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxStartupPageChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Last_Played}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Remember_Last_played_Song}" Foreground="{DynamicResource RG_ForegroundBrush}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxRememberLastPlayedTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource RG_ForegroundBrush}" Accent="{DynamicResource RG_AccentBrush}" IsChecked="{Binding CheckBoxRememberLastPlayedTrackChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Remember_Last_played_Song}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxRememberLastPlayedTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxRememberLastPlayedTrackChecked}"/>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

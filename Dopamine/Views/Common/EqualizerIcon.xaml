@@ -13,10 +13,10 @@
             <Style TargetType="Border">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ElementName=EqualizerIconElement, Path=IsDialogIcon}" Value="False">
-                        <Setter Property="BorderBrush" Value="{DynamicResource RG_ForegroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource Brush_PrimaryForeground}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding ElementName=EqualizerIconElement, Path=IsDialogIcon}" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource RG_WhiteBrush}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource Brush_White}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

@@ -5,6 +5,6 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontWeight" Value="Light"/>
-        <Setter Property="Foreground" Value="{DynamicResource RG_AccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
     </Style>
 </ResourceDictionary>
