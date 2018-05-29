@@ -181,7 +181,7 @@
                         <Trigger SourceName="ToggleButton" Property="IsMouseOver" Value="true">
                             <!--<Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
                             <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />-->
-                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
                         </Trigger>
 
                         <MultiTrigger>
@@ -214,11 +214,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
                             <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource RG_ControlsBackgroundHighBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_SecondaryForeground}" />
                             <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

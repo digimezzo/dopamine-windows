@@ -47,7 +47,7 @@
     <Style x:Key="MetroListBox" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource MetroListBoxItem}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

@@ -54,10 +54,10 @@
                                              Width="{Binding ActualHeight,ElementName=Me}"
                                              Height="{Binding ActualHeight,ElementName=Me}"
                                              IconSizePercent="{x:Static mybase:Constants.HeadPhoneSmallSize}"
-                                             Background="{DynamicResource RG_ControlsBackgroundMediumBrush}">
+                                             Background="{DynamicResource Brush_TertiaryBackground}">
                         <controls:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource FullLogo}" Fill="{DynamicResource RG_ControlsBackgroundHighBrush}"/>
+                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_SecondaryForeground}"/>
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>
