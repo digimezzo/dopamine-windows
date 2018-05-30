@@ -98,7 +98,7 @@
                                    Opacity="1"
                                    Stroke="{DynamicResource Brush_Border}"
                                    StrokeThickness="1"
-                                   Fill="{DynamicResource RG_ControlsBackgroundLowBrush}"
+                                   Fill="{DynamicResource Brush_SecondaryBackground}"
                                    Width="18"
                                    Height="18" />
                             <Rectangle x:Name="hover"
@@ -139,7 +139,7 @@
                             <Rectangle x:Name="disabled"
                                    Opacity="0"
                                    StrokeThickness="1"
-                                   Fill="{DynamicResource RG_ControlsBackgroundLowBrush}"
+                                   Fill="{DynamicResource Brush_SecondaryBackground}"
                                    Width="18"
                                    Height="18" />
                         </Grid>
