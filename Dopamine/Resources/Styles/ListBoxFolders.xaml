@@ -24,7 +24,7 @@
                         <Label x:Name="SelectionForegoundMedium" Foreground="{DynamicResource Brush_SecondaryForeground}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="SelectionIconForeground" Foreground="{DynamicResource Brush_Accent}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="SelectionCloseVisibility" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="CheckBoxBackground" Foreground="{DynamicResource RG_ControlsBackgroundLowBrush}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="CheckBoxBackground" Foreground="{DynamicResource Brush_SecondaryBackground}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="CheckBoxBorder" Foreground="{DynamicResource Brush_Border}" Visibility="Collapsed" Height="0"/>
                         <ContentPresenter/>
                     </Grid>

@@ -23,6 +23,7 @@
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush_PrimaryBackground" Color="{StaticResource Color_PrimaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_SecondaryBackground" Color="{DynamicResource Color_SecondaryBackground}"/>
     <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_TertiaryBackground}"/>
     <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}"/>
     <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
@@ -33,6 +34,7 @@
     <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_SecondaryForeground}" Opacity="0.5"/>
     <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
     <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_SecondaryBackground}" Opacity="0.95"/>
+    <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_TertiaryBackground}" Opacity="0.5"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.7" RadiusY="0.7" Opacity="0.7">
@@ -51,17 +53,6 @@
 
 
 
-
-
-
-
-    
-
-  
-
-    <!-- Background Brushes -->
-
-    <SolidColorBrush x:Key="RG_ControlsBackgroundLowBrush" Color="#F0F0F0"/>
 
 
 
