@@ -33,7 +33,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource Brush_WindowBackground}">
+    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource Brush_PrimaryBackground}">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
         </Border.Effect>
@@ -57,7 +57,7 @@
                                              Background="{DynamicResource Brush_TertiaryBackground}">
                         <controls:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_SecondaryForeground}"/>
+                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>

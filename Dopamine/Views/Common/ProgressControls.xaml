@@ -10,7 +10,7 @@
 
     <dc:HorizontalUWPSlider x:Name="ProgressSlider" 
                             TrackBackground="{DynamicResource Brush_SliderBackgroundTransparent}" 
-                            ButtonInnerBackground="{DynamicResource Brush_WindowBackground}" 
+                            ButtonInnerBackground="{DynamicResource Brush_PrimaryBackground}" 
                             ButtonBackground="{DynamicResource Brush_PrimaryForeground}" 
                             BarBackground="{DynamicResource Brush_Accent}" 
                             Value="{Binding ProgressValue,Mode=TwoWay}" 

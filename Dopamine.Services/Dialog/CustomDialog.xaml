@@ -6,7 +6,7 @@
                               Background="Transparent"
                               ShowWindowControls="False">
 
-    <Border Background="{DynamicResource Brush_WindowBackground}" Margin="-2">
+    <Border Background="{DynamicResource Brush_PrimaryBackground}" Margin="-2">
         <DockPanel Margin="17">
             <StackPanel x:Name="TitlePanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,15">
                 <Grid>
