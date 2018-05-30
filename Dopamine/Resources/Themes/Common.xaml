@@ -1,6 +1,31 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Opacity % to hex conversions -->
+    <!-- 
+    0% — FF
+    5% — F2
+    10% — E6
+    15% — D9
+    20% — CC
+    25% — BF
+    30% — B3
+    35% — A6
+    40% — 99
+    45% — 8C
+    50% — 80
+    55% — 73
+    60% — 66
+    65% — 59
+    70% — 4D
+    75% — 40
+    80% — 33
+    85% — 26
+    90% — 1A
+    95% — 0D
+    100% — 00
+    -->
+    
     <!-- Palette -->
     <Color x:Key="Color_White">#FFFFFF</Color>
     <Color x:Key="Color_WhiteInvisible">#00FFFFFF</Color>
@@ -23,13 +48,13 @@
 
     <!-- Gradient Brushes -->
     <LinearGradientBrush x:Key="Brush_TopBlackBottomTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
-        <GradientStop Color="#FF000000" Offset="0.0" />
-        <GradientStop Color="#00000000" Offset="1.0" />
+        <GradientStop Color="{DynamicResource Color_Black}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_BlackInvisible}" Offset="1.0" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="Brush_BottomBlackTopTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
-        <GradientStop Color="#00000000" Offset="0.0" />
-        <GradientStop Color="#FF000000" Offset="1.0" />
+        <GradientStop Color="{DynamicResource Color_BlackInvisible}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_Black}" Offset="1.0" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="Brush_AccentStriped" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3" SpreadMethod="Repeat">

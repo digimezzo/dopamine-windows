@@ -7,10 +7,9 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Brush_AppearanceService is used by the AppearanceService -->
-    <SolidColorBrush x:Key="Brush_AppearanceService" Color="White"/>
+    <SolidColorBrush x:Key="Brush_AppearanceService" Color="#FFFFFF"/>
 
     <!-- Constants -->
-    <core:Double x:Key="Opacity_TertiaryBackgroundTransparent">0.15</core:Double>
     <core:Double x:Key="Opacity_CoverArtShadow">0.3</core:Double>
 
     <!-- Palette  -->
@@ -18,19 +17,21 @@
     <Color x:Key="Color_PrimaryBackgroundInvisible">#EEEEEE</Color>
     <Color x:Key="Color_SecondaryBackground">#F4F4F4</Color>
     <Color x:Key="Color_TertiaryBackground">#D5D5D5</Color>
-    <Color x:Key="Color_TertiaryBackgroundTransparent">#222222</Color>
+    <Color x:Key="Color_TertiaryBackgroundTransparent">#D9D5D5D5</Color>
     <Color x:Key="Color_PrimaryForeground">#000000</Color>
     <Color x:Key="Color_SecondaryForeground">#939393</Color>
-    
+
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_WindowBackground" Color="{StaticResource Color_PrimaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_PrimaryBackground" Color="{StaticResource Color_PrimaryBackground}"/>
     <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_TertiaryBackground}"/>
-    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}" Opacity="{StaticResource Opacity_TertiaryBackgroundTransparent}"/>
-    <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{DynamicResource Color_WhiteInvisible}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_TertiaryBackgroundTransparent}"/>
+    <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
     <SolidColorBrush x:Key="Brush_PrimaryForeground" Color="{DynamicResource Color_PrimaryForeground}"/>
     <SolidColorBrush x:Key="Brush_SecondaryForeground" Color="{DynamicResource Color_SecondaryForeground}"/>
-    <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_Black}" Opacity="0.2"/>
     <SolidColorBrush x:Key="Brush_TertiaryBackground" Color="{DynamicResource Color_TertiaryBackground}"/>
+    <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
+    <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_SecondaryForeground}" Opacity="0.5"/>
+    <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.7" RadiusY="0.7" Opacity="0.7">
