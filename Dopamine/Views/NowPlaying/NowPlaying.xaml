@@ -20,7 +20,10 @@
     <Grid>
         <!-- Background -->
         <commonviews:BackgroundCoverArtControl x:Name="BackgroundCoverArtControl" Panel.ZIndex="0"/>
-        <DockPanel Panel.ZIndex="1">
+        <Border Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                Background="{DynamicResource Brush_NowPlayingBackground}"/>
+        <Border x:Name="AccentBorder" Panel.ZIndex="2" Background="{DynamicResource Brush_AccentBackground}"/>
+        <DockPanel Panel.ZIndex="3">
             <!-- Titlebar -->
             <Border DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <DockPanel Height="29">
