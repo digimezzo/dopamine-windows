@@ -32,6 +32,7 @@
     <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
     <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_SecondaryForeground}" Opacity="0.5"/>
     <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
+    <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_SecondaryBackground}" Opacity="0.96"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">
@@ -45,14 +46,6 @@
         <GradientStop Color="{DynamicResource Color_PrimaryBackground}" Offset="0.0" />
         <GradientStop Color="{DynamicResource Color_PrimaryBackgroundInvisible}" Offset="1.0"/>
     </LinearGradientBrush>
-
-
-
-
-
-
-
-    
 
     <!-- Background Brushes -->
 
