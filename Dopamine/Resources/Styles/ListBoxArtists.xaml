@@ -77,13 +77,13 @@
                             <!-- Artist -->
                             <Border>
                                 <Border.Background>
-                                    <SolidColorBrush Color="{DynamicResource RG_ControlsBackgroundMediumTransparentBrushColor}" Opacity="0"/>
+                                    <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
                                 </Border.Background>
                                 <Border.Triggers>
                                     <EventTrigger RoutedEvent="MouseEnter">
                                         <BeginStoryboard>
                                             <Storyboard TargetProperty="Background.Opacity">
-                                                <DoubleAnimation To="0.1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                                <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
@@ -112,8 +112,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False"/>
                     </ControlTemplate.Triggers>

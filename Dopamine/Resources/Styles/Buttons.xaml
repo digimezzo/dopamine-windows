@@ -7,12 +7,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
-                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" BorderThickness="0" VerticalAlignment="Center"/>
+                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" BorderThickness="0" VerticalAlignment="Center"/>
                         <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_PrimaryForeground}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource RG_ControlsBackgroundHighTransparentBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush_ButtonHovered}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush_Accent}"/>

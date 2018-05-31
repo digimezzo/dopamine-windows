@@ -31,7 +31,7 @@
     <SolidColorBrush x:Key="Brush_SecondaryForeground" Color="{DynamicResource Color_SecondaryForeground}"/>
     <SolidColorBrush x:Key="Brush_TertiaryBackground" Color="{DynamicResource Color_TertiaryBackground}"/>
     <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
-    <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_SecondaryForeground}" Opacity="0.5"/>
+    <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_SecondaryForeground}" Opacity="0.4"/>
     <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
     <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_SecondaryBackground}" Opacity="0.95"/>
     <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_TertiaryBackground}" Opacity="0.5"/>
@@ -60,9 +60,9 @@
     (#090909 is equivalent to #DFDFDF but with transparency) 
     (#050505 is equivalent to #CBCBCB but with transparency)
     -->
-    <SolidColorBrush x:Key="RG_ControlsBackgroundMediumTransparentBrush" Color="#090909" Opacity="0.1"/>
-    <Color x:Key="RG_ControlsBackgroundMediumTransparentBrushColor">#090909</Color>
-    <SolidColorBrush x:Key="RG_ControlsBackgroundHighTransparentBrush" Color="#050505" Opacity="0.2"/>
+    <SolidColorBrush x:Key="Brush_ItemHovered" Color="#090909" Opacity="0.1"/>
+    <Color x:Key="Color_ItemHovered">#090909</Color>
+    <SolidColorBrush x:Key="Brush_ButtonHovered" Color="#050505" Opacity="0.2"/>
 
 
 
