@@ -30,7 +30,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="SelectionBackground" Property="Foreground" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
+                            <Setter TargetName="SelectionBackground" Property="Foreground" Value="{DynamicResource Brush_ItemHovered}"/>
                             
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">

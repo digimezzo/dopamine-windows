@@ -24,7 +24,7 @@
                                 <Style>
                                     <Style.Triggers>
                                         <Trigger Property="Border.IsMouseOver" Value="True">
-                                            <Setter Property="Border.Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
+                                            <Setter Property="Border.Background" Value="{DynamicResource Brush_ItemHovered}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>

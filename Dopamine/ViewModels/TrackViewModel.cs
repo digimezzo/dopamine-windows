@@ -187,7 +187,7 @@ namespace Dopamine.ViewModels
             {
                 if (this.Track.TrackNumber.HasValue && this.Track.TrackNumber.Value > 0)
                 {
-                    return string.Format(Convert.ToInt32(Track.TrackNumber.Value).ToString(), "0");
+                    return Track.TrackNumber.Value.ToString("00");
                 }
                 else
                 {

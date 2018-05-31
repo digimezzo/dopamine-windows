@@ -51,13 +51,13 @@
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
                         <Grid.Background>
-                            <SolidColorBrush Color="{DynamicResource RG_ControlsBackgroundMediumTransparentBrushColor}" Opacity="0"/>
+                            <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
                         </Grid.Background>
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="0.1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>

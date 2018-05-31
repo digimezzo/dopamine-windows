@@ -57,7 +57,7 @@
               Content="{DynamicResource Language_Cancel_Edit}"
               Style="{StaticResource RegularButton}" />
           </StackPanel>
-          <Border Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}">
+          <Border Background="{DynamicResource Brush_ItemHovered}">
             <TextBox
               x:Name="LyricsTextBox"
               AcceptsReturn="True"

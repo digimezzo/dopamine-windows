@@ -39,7 +39,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}"/>
+                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_ItemHovered}"/>
                             <Setter TargetName="DummyLabel" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
@@ -70,7 +70,7 @@
                 <DataTemplate>
                     <DockPanel>
                         <Grid>
-                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource RG_ControlsBackgroundMediumTransparentBrush}" Height="24" Opacity="0"/>
+                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" Height="24" Opacity="0"/>
                             <Border Panel.ZIndex="1" Background="{Binding Background,ElementName=DummyLabel}" Height="24">
                                 <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                                     <Button 
