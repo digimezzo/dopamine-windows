@@ -79,8 +79,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <pc:RatingButton 
-                                            VerticalAlignment="Center" 
-                                            Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                VerticalAlignment="Center" 
+                                Foreground="{DynamicResource Brush_PrimaryForeground}"
+                                Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -91,6 +92,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <pc:LoveButton 
+                                Foreground="{DynamicResource Brush_PrimaryForeground}"
                                 SelectedForeground="{DynamicResource Brush_Accent}"
                                 VerticalAlignment="Center" 
                                 Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
