@@ -25,8 +25,6 @@
     </i:Interaction.Triggers>
 
     <fwc:SplitView x:Name="MySplitView" IsPaneOpen="False" OpenPaneLength="300"
-                   ButtonHoveredBackground="{DynamicResource Brush_ItemHovered}" 
-                   ButtonPressedBackground="{DynamicResource Brush_ItemSelected}"
                    OverlayBackground="{DynamicResource Brush_DimBackground}"
                    ButtonHeight="56"
                    ButtonWidth="56"
