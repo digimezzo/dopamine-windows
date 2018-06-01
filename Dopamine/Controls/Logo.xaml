@@ -11,18 +11,8 @@
             <Viewbox Width="56" Height="56" Panel.ZIndex="0">
             <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{Binding Accent, ElementName=This}"/>
             </Viewbox>
-            <Viewbox Width="40" Height="40" Panel.ZIndex="1">
-                <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
-            </Viewbox>
-            <Viewbox Width="56" Height="56" Panel.ZIndex="2">
-                <Path x:Name="Overlay" Data="{StaticResource Droplet}">
-                    <Path.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.1">
-                            <GradientStop Color="White" Offset="0.0" />
-                            <GradientStop Color="Transparent" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Path.Fill>
-                </Path>
-            </Viewbox>
-        </Grid>
+        <Viewbox Width="40" Height="40" Panel.ZIndex="1">
+            <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
+        </Viewbox>
+    </Grid>
 </UserControl>
