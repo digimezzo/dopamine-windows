@@ -178,6 +178,8 @@
             <File Source="Prism.dll" />
             <File Source="Prism.DryIoc.Wpf.dll" />
             <File Source="Prism.Wpf.dll" />
+            <File Source="Digimezzo.Foundation.Core.dll" />
+            <File Source="Digimezzo.Foundation.WPF.dll" />
             <File Source="Dopamine.Core.dll" />
             <File Source="Dopamine.Data.dll" />
             <File Source="Dopamine.Icons.dll" />

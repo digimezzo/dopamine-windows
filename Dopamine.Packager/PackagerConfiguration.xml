@@ -30,6 +30,8 @@
         <File>Prism.dll</File>
         <File>Prism.DryIoc.Wpf.dll</File>
         <File>Prism.Wpf.dll</File>
+        <File>Digimezzo.Foundation.Core.dll</File>
+        <File>Digimezzo.Foundation.WPF.dll</File>
         <File>Dopamine.Core.dll</File>
         <File>Dopamine.Data.dll</File>
         <File>Dopamine.Icons.dll</File>
