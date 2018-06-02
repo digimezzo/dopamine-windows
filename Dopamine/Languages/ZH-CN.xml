@@ -422,4 +422,5 @@
   <Text Key="Spectrum_Stripes">纹路</Text>
   <Text Key="Also_Check_For_Prereleases">同时检查预览版本</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">文件夹 '{foldername}' 无法被添加，因为路径无法访问。请检查文件夹权限设置。</Text>
+  <Text Key="Search_Hint">Search...</Text>
 </Language>
