@@ -64,7 +64,7 @@
                         </Style>
                     </fwc:MaterialIcon.Style>
                 </fwc:MaterialIcon>
-                <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24">
+                <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
                     <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_White}" 
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Viewbox.Style>

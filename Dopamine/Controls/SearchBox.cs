@@ -2,15 +2,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Dopamine.Controls
 {
     public class SearchBox : TextBox
     {
-        private TextBlock searchIconCross;
-        private TextBlock searchIconGlass;
+        private TextBlock searchHint;
         private Border searchBorder;
+        private ScrollViewer contentHost;
 
         public bool HasText
         {
@@ -26,32 +25,10 @@ namespace Dopamine.Controls
             set { SetValue(HasFocusProperty, value); }
         }
 
-        public Brush Accent
-        {
-            get { return (Brush)GetValue(AccentProperty); }
-
-            set { SetValue(AccentProperty, value); }
-        }
-
-        public Brush SearchGlassForeground
-        {
-            get { return (Brush)GetValue(SearchGlassForegroundProperty); }
-
-            set { SetValue(SearchGlassForegroundProperty, value); }
-        }
-
-        public Brush VisibleBackground
-        {
-            get { return (Brush)GetValue(VisibleBackgroundProperty); }
-
-            set { SetValue(VisibleBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty HasTextProperty = DependencyProperty.Register("HasText", typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
-        public static readonly DependencyProperty HasFocusProperty = DependencyProperty.Register("HasFocus", typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
-        public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty SearchGlassForegroundProperty = DependencyProperty.Register("SearchGlassForeground", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty VisibleBackgroundProperty = DependencyProperty.Register("VisibleBackground", typeof(Brush), typeof(SearchBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty HasTextProperty = 
+            DependencyProperty.Register(nameof(HasText), typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
+        public static readonly DependencyProperty HasFocusProperty = 
+            DependencyProperty.Register(nameof(HasFocus), typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
 
         static SearchBox()
         {
@@ -62,42 +39,39 @@ namespace Dopamine.Controls
         {
             base.OnApplyTemplate();
 
-            this.searchIconCross = (TextBlock)GetTemplateChild("PART_SearchIconCross");
-            this.searchIconGlass = (TextBlock)GetTemplateChild("PART_SearchIconGlass");
+            this.searchHint = (TextBlock)GetTemplateChild("PART_SearchHint");
             this.searchBorder = (Border)GetTemplateChild("PART_SearchBorder");
+            this.contentHost = (ScrollViewer)GetTemplateChild("PART_ContentHost");
 
             if (this.searchBorder != null)
             {
                 this.searchBorder.MouseLeftButtonUp += SearchButton_MouseLeftButtonUphandler;
             }
 
-            this.SetButtonState();
+            if(this.contentHost != null)
+            {
+                this.contentHost.PreviewMouseLeftButtonUp += ContentHost_MouseLeftButtonUp;
+                this.contentHost.PreviewLostKeyboardFocus += ContentHost_PreviewLostKeyboardFocus; ;
+            }
         }
 
-
-        private void SetButtonState()
+        private void ContentHost_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-
-            if (this.searchIconCross != null && this.searchIconGlass != null)
+            if (!this.HasText)
             {
-                if (this.HasText)
-                {
-                    this.searchIconCross.Visibility = Visibility.Visible;
-                    this.searchIconGlass.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    this.searchIconCross.Visibility = Visibility.Collapsed;
-                    this.searchIconGlass.Visibility = Visibility.Visible;
-                }
+                this.searchHint.Visibility = Visibility.Visible;
             }
+        }
+
+        private void ContentHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this.searchHint.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
             this.HasText = this.Text.Length > 0;
-            this.SetButtonState();
         }
 
         private void SearchButton_MouseLeftButtonUphandler(object sender, MouseButtonEventArgs e)
@@ -105,8 +79,8 @@ namespace Dopamine.Controls
             if (this.HasText)
             {
                 this.Text = string.Empty;
+                this.searchHint.Visibility = Visibility.Visible;
             }
-            this.SetButtonState();
         }
     }
 }
