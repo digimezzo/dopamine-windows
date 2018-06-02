@@ -10,6 +10,7 @@ namespace Dopamine.Controls
         private TextBlock searchHint;
         private Border searchBorder;
         private ScrollViewer contentHost;
+        private bool hasKeyboardFocus;
 
         public bool HasText
         {
@@ -51,12 +52,20 @@ namespace Dopamine.Controls
             if(this.contentHost != null)
             {
                 this.contentHost.PreviewMouseLeftButtonUp += ContentHost_MouseLeftButtonUp;
-                this.contentHost.PreviewLostKeyboardFocus += ContentHost_PreviewLostKeyboardFocus; ;
+                this.contentHost.PreviewLostKeyboardFocus += ContentHost_PreviewLostKeyboardFocus;
+                this.contentHost.PreviewGotKeyboardFocus += ContentHost_PreviewGotKeyboardFocus;
             }
+        }
+
+        private void ContentHost_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            this.hasKeyboardFocus = true;
         }
 
         private void ContentHost_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            this.hasKeyboardFocus = false;
+
             if (!this.HasText)
             {
                 this.searchHint.Visibility = Visibility.Visible;
@@ -79,7 +88,11 @@ namespace Dopamine.Controls
             if (this.HasText)
             {
                 this.Text = string.Empty;
-                this.searchHint.Visibility = Visibility.Visible;
+
+                if (!this.hasKeyboardFocus)
+                {
+                    this.searchHint.Visibility = Visibility.Visible;
+                }
             }
         }
     }

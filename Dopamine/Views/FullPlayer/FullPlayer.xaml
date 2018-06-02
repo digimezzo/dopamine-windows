@@ -112,7 +112,7 @@
         <!-- SplitView Content -->
         <fwc:SplitView.Content>
             <Grid x:Name="SplitViewContent">
-                <Border VerticalAlignment="Top" HorizontalAlignment="Stretch" Opacity="0.5"
+                <Border VerticalAlignment="Top" HorizontalAlignment="Stretch"
                         Height="56" Background="{DynamicResource Brush_PrimaryBackground}"/>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
