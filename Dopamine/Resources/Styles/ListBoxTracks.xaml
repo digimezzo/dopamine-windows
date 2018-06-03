@@ -112,7 +112,7 @@
                                    Margin="0,0,0,10" 
                                    HorizontalAlignment="Stretch" 
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource Brush_Accent}"/>
+                                   Foreground="{DynamicResource Brush_SecondaryForeground}"/>
                             </StackPanel>
                             <ItemsPresenter HorizontalAlignment="Stretch"/>
                         </StackPanel>

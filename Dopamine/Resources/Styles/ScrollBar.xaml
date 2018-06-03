@@ -62,7 +62,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border 
                         Name="Border"
-          CornerRadius="2" 
+          CornerRadius="0" 
           Background="{TemplateBinding Background}"
           BorderBrush="{TemplateBinding BorderBrush}"
           BorderThickness="0" />
