@@ -4,9 +4,8 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                           xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                          xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:pc="clr-namespace:Dopamine.Controls"
-                          xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+                          xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                           mc:Ignorable="d"
@@ -45,26 +44,30 @@
         RightPaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                    <Button x:Name="ShuffleAllButton" Margin="10,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
+                <DockPanel DockPanel.Dock="Top" Margin="15,0,0,15">
+                    <TextBlock Text="{Binding ArtistsCount}" FontSize="13"
+                                   Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                    <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="0,2,0,0" FontSize="13" 
+                                Style="{StaticResource TransparentButton}" 
+                                VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
+                                Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
+                                       Foreground="{DynamicResource Brush_SecondaryForeground}" />
                     </Button>
-                    <Button x:Name="ArtistsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Artists}" Style="{StaticResource TransparentButton}" Click="ArtistsButton_Click">
-                        <dc:LabelToLower Content="{DynamicResource Language_Artists}" 
-                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"/>
-                    </Button>
-                    <Label Content="{Binding ArtistsCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding ArtistOrderText,Converter={StaticResource StringToLowerConverter}}" 
+                    <Button Content="{Binding ArtistOrderText}" 
                                 Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
+                                FontSize="13" 
                                 Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_SecondaryForeground}"
-                                Command="{Binding ToggleArtistOrderCommand}"/>
-                </StackPanel>
+                                Foreground="{DynamicResource Brush_PrimaryForeground}"
+                                Click="ArtistsButton_Click">
+                        <Button.ToolTip>
+                            <Grid>
+                                <TextBlock Text="{DynamicResource Language_Select_None}" Visibility="{Binding HasSelectedArtists, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                                <TextBlock Text="{DynamicResource Language_Toggle_Artists}" Visibility="{Binding HasSelectedArtists, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            </Grid>
+                        </Button.ToolTip>
+                    </Button>
+                </DockPanel>
                 <Grid>
                     <Border Panel.ZIndex="0" Visibility="{Binding IsArtistsZoomVisible,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                         <dc:MultiSelectListBox x:Name="ListBoxArtists"

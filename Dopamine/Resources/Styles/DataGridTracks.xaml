@@ -218,8 +218,8 @@
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
-        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryForeground}"/>
+        <Setter Property="FontSize" Value="13"/>
         <Setter Property="Margin" Value="20,0,0,15"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -249,7 +249,7 @@
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="{x:Null}">
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
+                            <!--<Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>-->
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Hidden" />
                         </Trigger>

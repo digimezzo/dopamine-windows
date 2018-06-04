@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Der opstod en fejl ved gem af spillelister. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Error_Saving_Playlist">Der opstod en fejl ved gem af spillelisten. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Download_Latest_Version">Hent den seneste version</Text>
-  <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">Albumkunstner</Text>
   <Text Key="File">Fil</Text>
   <Text Key="Name">Navn</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Vis kun beskedvinduet når afspilleren ikke er synlig</Text>
   <Text Key="Transparency">Gennemsigtighed</Text>
   <Text Key="Enable_Transparency">Gør nogle elementer gennemsigtige</Text>
-  <Text Key="All">Alle</Text>
   <Text Key="Close_To_Tray">Luk til meddelelsesområdet</Text>
   <Text Key="Edit">Rediger</Text>
   <Text Key="Edit_Song">Rediger sang</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
 </Language>

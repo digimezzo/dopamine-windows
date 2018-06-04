@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Ett fel uppstod vid sparande av spellistorna. Läs loggfilen för mer information.</Text>
   <Text Key="Error_Saving_Playlist">Ett fel uppstod vid sparande av spellistan. Läs loggfilen för mer information.</Text>
   <Text Key="Download_Latest_Version">Ladda ner senaste versionen</Text>
-  <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">Album artist</Text>
   <Text Key="File">Fil</Text>
   <Text Key="Name">Namn</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Visa avisering endast när spelaren inte är synlig</Text>
   <Text Key="Transparency">Transparens</Text>
   <Text Key="Enable_Transparency">Gör vissa element transparenta</Text>
-  <Text Key="All">Alla</Text>
   <Text Key="Close_To_Tray">Stäng till meddelandefältet</Text>
   <Text Key="Edit">Redigera</Text>
   <Text Key="Edit_Song">Redigera låt</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Sök även förhandsversioner</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Mappen '{foldername}' kunde inte läggas till för att dens innehåll inte är tillgängligt. Vänligen kontrollera mappbehörigheterna.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
 </Language>

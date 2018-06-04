@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Er is een fout opgetreden bij het opslaan van de afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Error_Saving_Playlist">Er is een fout opgetreden bij het opslaan van de afspeellijst. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Download_Latest_Version">De laatste versie downloaden</Text>
-  <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">Per album artiest</Text>
   <Text Key="File">Bestand</Text>
   <Text Key="Name">Naam</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Toon de popup enkel als de speler niet zichtbaar is</Text>
   <Text Key="Transparency">Doorzichtigheid</Text>
   <Text Key="Enable_Transparency">Maak bepaalde elementen doorzichtig</Text>
-  <Text Key="All">Alle</Text>
   <Text Key="Close_To_Tray">Sluiten naar systeemvak</Text>
   <Text Key="Edit">Aanpassen</Text>
   <Text Key="Edit_Song">Nummer aanpassen</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Controleer ook op pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Map '{foldername}' kon niet worden toegevoegd omdat zijn inhoud niet toegankelijk is. Controleer de rechten op de map.</Text>
   <Text Key="Search_Hint">Zoeken...</Text>
+  <Text Key="Time">Tijd</Text>
+  <Text Key="Song_Artists">Nummer artiesten</Text>
+  <Text Key="Album_Artists">Album artiesten</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Niets selecteren</Text>
 </Language>
