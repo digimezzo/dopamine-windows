@@ -58,7 +58,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         public DelegateCommand ShowArtistsZoomCommand { get; set; }
         public DelegateCommand<string> SemanticJumpCommand { get; set; }
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
-        public DelegateCommand ToggleArtistOrderCommand { get; set; }
         public DelegateCommand ShuffleSelectedArtistsCommand { get; set; }
 
         public ArtistOrder ArtistOrder
@@ -152,6 +151,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
+        public bool HasSelectedArtists
+        {
+            get
+            {
+                return (this.SelectedArtists != null && this.SelectedArtists.Count > 0);
+            }
+        }
+
         public CollectionArtistsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
@@ -166,13 +173,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.artistRepository = container.Resolve<IArtistRepository>();
 
             // Commands
-            this.ToggleArtistOrderCommand = new DelegateCommand(async () => await this.ToggleArtistOrderAsync());
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-            this.AddArtistsToPlaylistCommand = new DelegateCommand<string>(async (iPlaylistName) => await this.AddArtistsToPlaylistAsync(this.SelectedArtists, iPlaylistName));
-            this.SelectedArtistsCommand = new DelegateCommand<object>(async (iParameter) => await this.SelectedArtistsHandlerAsync(iParameter));
+            this.AddArtistsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddArtistsToPlaylistAsync(this.SelectedArtists, playlistName));
+            this.SelectedArtistsCommand = new DelegateCommand<object>(async (parameter) => await this.SelectedArtistsHandlerAsync(parameter));
             this.ShowArtistsZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
             this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
             this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueArtistsAsync(this.SelectedArtists, true, false));
@@ -203,6 +209,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // PubSub Events
             this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
+            this.eventAggregator.GetEvent<ToggleArtistOrderCommand>().Subscribe((_) => this.ToggleArtistOrderAsync());
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
@@ -330,8 +337,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 }
             }
 
+            this.RaisePropertyChanged(nameof(this.HasSelectedArtists));
+
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
+            if (this.metadataService.IsUpdatingDatabaseMetadata)
+            {
+                return;
+            }
 
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
@@ -440,17 +452,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             switch (artistOrder)
             {
                 case ArtistOrder.All:
-                    this.artistOrderText = ResourceUtils.GetString("Language_All");
+                    this.artistOrderText = ResourceUtils.GetString("Language_All_Artists");
                     break;
                 case ArtistOrder.Track:
-                    this.artistOrderText = ResourceUtils.GetString("Language_Song");
+                    this.artistOrderText = ResourceUtils.GetString("Language_Song_Artists");
                     break;
                 case ArtistOrder.Album:
-                    this.artistOrderText = ResourceUtils.GetString("Language_Album");
+                    this.artistOrderText = ResourceUtils.GetString("Language_Album_Artists");
                     break;
                 default:
                     // Cannot happen, but just in case.
-                    this.artistOrderText = ResourceUtils.GetString("Language_All");
+                    this.artistOrderText = ResourceUtils.GetString("Language_All_Artists");
                     break;
             }
 

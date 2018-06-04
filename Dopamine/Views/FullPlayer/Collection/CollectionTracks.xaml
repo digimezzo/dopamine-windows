@@ -17,19 +17,19 @@
 
     <DockPanel>
         <pc:TotalsInformation
-                                DockPanel.Dock="Bottom"
-                                Margin="15,15,15,0" 
-                                Foreground="{DynamicResource Brush_SecondaryForeground}" 
-                                FontSize="13"
-                                TotalDurationInformation="{Binding TotalDurationInformation}"
-                                TotalSizeInformation="{Binding TotalSizeInformation}"/>
+            DockPanel.Dock="Bottom"
+            Margin="15,15,15,0" 
+            Foreground="{DynamicResource Brush_SecondaryForeground}" 
+            FontSize="13"
+            TotalDurationInformation="{Binding TotalDurationInformation}"
+            TotalSizeInformation="{Binding TotalSizeInformation}"/>
         <pc:DataGridEx 
-                        x:Name="DataGridTracks" 
-                        PreviewKeyDown="DataGridTracks_PreviewKeyDown"
-                        KeyUp="DataGridTracks_KeyUp"
-                        VirtualizingStackPanel.IsVirtualizing="True" 
-                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                        ItemsSource="{Binding TracksCvs.View,IsAsync=True}">
+            x:Name="DataGridTracks" 
+            PreviewKeyDown="DataGridTracks_PreviewKeyDown"
+            KeyUp="DataGridTracks_KeyUp"
+            VirtualizingStackPanel.IsVirtualizing="True" 
+            VirtualizingStackPanel.VirtualizationMode="Recycling" 
+            ItemsSource="{Binding TracksCvs.View,IsAsync=True}">
             <pc:DataGridEx.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
             </pc:DataGridEx.InputBindings>
@@ -54,7 +54,7 @@
                                 <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                     <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
                                 </Button>
-                                <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Song}"/>
+                                <TextBlock Text="{DynamicResource Language_Song}"/>
                                 <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
                             </StackPanel>
                         </DataTemplate>
@@ -74,7 +74,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="Rating" MinWidth="70" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).RatingVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <dc:LabelToLower Padding="0" Margin="10,0,0,0" Content="{DynamicResource Language_Rating}"/>
+                        <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Rating}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -87,7 +87,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="Love" MinWidth="50" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LoveVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <dc:LabelToLower Padding="0" Margin="5,0,0,0" Content="{DynamicResource Language_Love}"/>
+                        <TextBlock Margin="5,0,0,0" Text="{DynamicResource Language_Love}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -111,60 +111,60 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Width="2*" SortMemberPath="SortArtistName" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding ArtistName}" Visibility="{Binding (FrameworkElement.DataContext).ArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Artist}"/>
+                        <TextBlock Text="{DynamicResource Language_Artist}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <!-- SortAlbumTitle is used to sort by Album, but preserving track number order inside the album -->
                 <DataGridTextColumn Width="2*" SortMemberPath="SortAlbumTitle" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumTitle}" Visibility="{Binding (FrameworkElement.DataContext).AlbumVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Album}"/>
+                        <TextBlock Text="{DynamicResource Language_Album}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="2*" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Genre}" Visibility="{Binding (FrameworkElement.DataContext).GenreVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Genre}"/>
+                        <TextBlock Text="{DynamicResource Language_Genre}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <!-- SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00-->
-                <DataGridTextColumn Width="*" SortMemberPath="SortDuration" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Duration}" Visibility="{Binding (FrameworkElement.DataContext).LengthVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="*" SortMemberPath="SortDuration" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Duration}" Visibility="{Binding (FrameworkElement.DataContext).LengthVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <TextBlock Text="&#xE121;" Margin="0,5,0,0" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
+                        <TextBlock Text="{DynamicResource Language_Time}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="1.5*" SortMemberPath="SortPlayCount" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding PlayCount}" Visibility="{Binding (FrameworkElement.DataContext).PlayCountVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="1.5*" SortMemberPath="SortPlayCount" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding PlayCount}" Visibility="{Binding (FrameworkElement.DataContext).PlayCountVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Plays}"/>
+                        <TextBlock Text="{DynamicResource Language_Plays}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="1.5*" SortMemberPath="SortSkipCount" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding SkipCount}" Visibility="{Binding (FrameworkElement.DataContext).SkipCountVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="1.5*" SortMemberPath="SortSkipCount" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding SkipCount}" Visibility="{Binding (FrameworkElement.DataContext).SkipCountVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Skips}"/>
+                        <TextBlock Text="{DynamicResource Language_Skips}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="2*" SortMemberPath="SortDateLastPlayed" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding DateLastPlayed}" Visibility="{Binding (FrameworkElement.DataContext).DateLastPlayedVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Last_Played}"/>
+                        <TextBlock Text="{DynamicResource Language_Last_Played}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="2*" SortMemberPath="SortAlbumArtist" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumArtist}" Visibility="{Binding (FrameworkElement.DataContext).AlbumArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Album_Artist}"/>
+                        <TextBlock Text="{DynamicResource Language_Album_Artist}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" SortMemberPath="SortTrackNumber" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding FormattedTrackNumber}" Visibility="{Binding (FrameworkElement.DataContext).TrackNumberVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Track_Number_Short}"/>
+                        <TextBlock Text="#"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="1.5*" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Year}" Visibility="{Binding (FrameworkElement.DataContext).YearVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="1.5*" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Year}" Visibility="{Binding (FrameworkElement.DataContext).YearVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Year}"/>
+                        <TextBlock Text="{DynamicResource Language_Year}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <!-- SortBitrate is used to sort by Bitrate number, not by the string with "kbps" -->
-                <DataGridTextColumn Width="1.5*" SortMemberPath="SortBitrate" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Bitrate}" Visibility="{Binding (FrameworkElement.DataContext).BitrateVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="1.5*" SortMemberPath="SortBitrate" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Bitrate}" Visibility="{Binding (FrameworkElement.DataContext).BitrateVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
-                        <dc:LabelToLower Padding="0" Content="{DynamicResource Language_Bitrate}"/>
+                        <TextBlock Text="{DynamicResource Language_Bitrate}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </pc:DataGridEx.Columns>

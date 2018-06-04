@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">An error occurred while saving the playlists. Please consult the log file for more information.</Text>
   <Text Key="Error_Saving_Playlist">An error occurred while saving the playlist. Please consult the log file for more information.</Text>
   <Text Key="Download_Latest_Version">Download the latest version</Text>
-  <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">By album artist</Text>
   <Text Key="File">File</Text>
   <Text Key="Name">Name</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Show the notification only when the player is not visible</Text>
   <Text Key="Transparency">Transparency</Text>
   <Text Key="Enable_Transparency">Make some elements transparent</Text>
-  <Text Key="All">All</Text>
   <Text Key="Close_To_Tray">Close to the notification area</Text>
   <Text Key="Edit">Edit</Text>
   <Text Key="Edit_Song">Edit song</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
 </Language>

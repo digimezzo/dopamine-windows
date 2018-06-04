@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Возникла ошибка при сохранении плейлиста. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Error_Saving_Playlist">Возникла ошибка при сохранении плейлиста. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Download_Latest_Version">Скачать последнюю версию</Text>
-  <Text Key="Track_Number_Short">№</Text>
   <Text Key="By_Album_Artist">По исполнителю альбома</Text>
   <Text Key="File">Файл</Text>
   <Text Key="Name">Имя</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Показывать уведомление только когда проигрыватель скрыт</Text>
   <Text Key="Transparency">Прозрачность</Text>
   <Text Key="Enable_Transparency">Сделать некоторые элементы прозрачными</Text>
-  <Text Key="All">Все</Text>
   <Text Key="Close_To_Tray">Закрыть в область уведомлений</Text>
   <Text Key="Edit">Редактировать</Text>
   <Text Key="Edit_Song">Редактировать песню</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
 </Language>

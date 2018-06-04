@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Çalma listeleri kaydedilirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Error_Saving_Playlist">Çalma listesi kaydedilirken bir hata oluştu. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Download_Latest_Version">Son sürümü indir</Text>
-  <Text Key="Track_Number_Short">Nu</Text>
   <Text Key="By_Album_Artist">Albüm sanatçısına göre</Text>
   <Text Key="File">Dosya</Text>
   <Text Key="Name">İsim</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Oynatıcı gizli olduğunda sadece bildirim göster</Text>
   <Text Key="Transparency">Saydamlık</Text>
   <Text Key="Enable_Transparency">Bazı öğeleri saydamlaştır</Text>
-  <Text Key="All">Tümü</Text>
   <Text Key="Close_To_Tray">Bildirim alanına küçült</Text>
   <Text Key="Edit">Düzenle</Text>
   <Text Key="Edit_Song">Şarkıyı düzenle</Text>
@@ -423,4 +421,9 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
 </Language>
