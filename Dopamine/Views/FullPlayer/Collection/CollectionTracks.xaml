@@ -162,7 +162,7 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <!-- SortBitrate is used to sort by Bitrate number, not by the string with "kbps" -->
-                <DataGridTextColumn Width="1.5*" SortMemberPath="SortBitrate" CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Bitrate}" Visibility="{Binding (FrameworkElement.DataContext).BitrateVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                <DataGridTextColumn Width="1.5*" SortMemberPath="SortBitrate" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding Bitrate}" Visibility="{Binding (FrameworkElement.DataContext).BitrateVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <TextBlock Text="{DynamicResource Language_Bitrate}"/>
                     </DataGridTextColumn.Header>

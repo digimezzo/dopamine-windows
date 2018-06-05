@@ -38,7 +38,11 @@
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                 </Viewbox>
                 <fwc:MaterialIcon x:Name="HamburgerIcon" Panel.ZIndex="1" Text="&#xE5D2;" FontSize="1" Opacity="0"
-                                  Foreground="{DynamicResource Brush_White}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                  Foreground="{DynamicResource Brush_White}" HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center">
+                    <fwc:MaterialIcon.ToolTip>
+                        <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
+                    </fwc:MaterialIcon.ToolTip>
                     <fwc:MaterialIcon.Style>
                         <Style>
                             <Style.Triggers>
