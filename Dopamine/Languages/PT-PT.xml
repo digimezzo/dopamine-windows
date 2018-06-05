@@ -73,7 +73,7 @@
   <Text Key="Remove_Folder">Remover pasta</Text>
   <Text Key="Confirm_Remove_Folder">Tem a certeza de que deseja remover esta pasta da sua coleção?</Text>
   <Text Key="Error">Erro!</Text>
-  <Text Key="Error_Adding_Folder">Não foi possível adicionar à pasta à coleção. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Adding_Folder">Não foi possível adicionar a pasta à coleção. Consulte o registo para obter mais informações.</Text>
   <Text Key="Error_Removing_Folder">Não foi possível remover a pasta da coleção. Consulte o registo para obter mais informações.</Text>
   <Text Key="Already_Exists">Já existe</Text>
   <Text Key="Folder_Already_In_Collection">Esta pasta já existe na sua coleção.</Text>
@@ -420,10 +420,10 @@
   <Text Key="Spectrum_Stripes">Riscas</Text>
   <Text Key="Also_Check_For_Prereleases">Procurar também por versões de teste</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Não foi possível adicionar a pasta '{foldername}' porque o seu conteúdo não está acessível. Verifique as permissões da pasta.</Text>
-  <Text Key="Search_Hint">Search...</Text>
-  <Text Key="Time">Time</Text>
-  <Text Key="Song_Artists">Song artists</Text>
-  <Text Key="Album_Artists">Album artists</Text>
-  <Text Key="Toggle_Artists">Toggle artists</Text>
-  <Text Key="Select_None">Select none</Text>
+  <Text Key="Search_Hint">Pesquisa...</Text>
+  <Text Key="Time">Duração</Text>
+  <Text Key="Song_Artists">Artistas da faixa</Text>
+  <Text Key="Album_Artists">Artistas do álbum</Text>
+  <Text Key="Toggle_Artists">Alternar artistas</Text>
+  <Text Key="Select_None">Desmarcar tudo</Text>
 </Language>
