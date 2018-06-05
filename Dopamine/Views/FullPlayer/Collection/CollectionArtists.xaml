@@ -35,7 +35,7 @@
 
     <dc:MultiPanePanel 
         BorderBrush="{DynamicResource Brush_Border}" 
-        SeparatorMarginTop="45" 
+        SeparatorMarginTop="0" 
         ContentResizeDelay="25" 
         LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}" 
         RightPaneWidthPercent="{Binding RightPaneWidthPercent, Mode=TwoWay}" 
@@ -47,7 +47,7 @@
                 <DockPanel DockPanel.Dock="Top" Margin="15,0,15,15">
                     <TextBlock Text="{Binding ArtistsCount}" FontSize="13"
                                    Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
-                    <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="0,2,0,0" FontSize="13" 
+                    <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="0,1,0,0" FontSize="13" 
                                 Style="{StaticResource TransparentButton}" 
                                 VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
                                 Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">

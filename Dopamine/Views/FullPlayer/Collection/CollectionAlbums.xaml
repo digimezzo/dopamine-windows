@@ -21,7 +21,7 @@
 
     <dc:MultiPanePanel 
         BorderBrush="{DynamicResource Brush_Border}" 
-        SeparatorMarginTop="45" 
+        SeparatorMarginTop="0" 
         ContentResizeDelay="25" 
         IsRightPaneCollapsed="True" 
         LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}"
@@ -32,6 +32,17 @@
                 <DockPanel DockPanel.Dock="Top" Margin="15,0,15,15">
                     <TextBlock Text="{Binding AlbumsCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                    <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="20,0,0,0" FontSize="13" 
+                                Style="{StaticResource TransparentButton}" 
+                                VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
+                                Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
+                                       Margin="0,1,5,0" Foreground="{DynamicResource Brush_SecondaryForeground}" />
+                            <TextBlock FontSize="13" Text="{DynamicResource Language_Shuffle_All}"
+                                       Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+                        </StackPanel>
+                    </Button>
                     <Button DockPanel.Dock="Right" Content="{Binding AlbumOrderText}" 
                             Style="{StaticResource TransparentButton}"
                             FontSize="13" 

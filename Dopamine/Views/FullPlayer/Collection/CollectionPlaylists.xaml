@@ -30,7 +30,7 @@
         </Border>
         <dc:MultiPanePanel 
             BorderBrush="{DynamicResource Brush_Border}" 
-            SeparatorMarginTop="45" 
+            SeparatorMarginTop="0" 
             ContentResizeDelay="25" 
             IsRightPaneCollapsed="True" 
             LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}" 
