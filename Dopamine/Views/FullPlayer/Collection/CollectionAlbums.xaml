@@ -29,26 +29,20 @@
         MiddlePaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
             <DockPanel>
-                <StackPanel Margin="5,0,5,15" DockPanel.Dock="Top" Orientation="Horizontal">
-                    <Button x:Name="ShuffleAllButton" Margin="12,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
-                    </Button>
-                    <Button x:Name="AlbumsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
-                        <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
-                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"/>
-                    </Button>
-                    <Label Content="{Binding AlbumsCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding AlbumOrderText,Converter={StaticResource StringToLowerConverter}}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_SecondaryForeground}"
-                                Command="{Binding ToggleAlbumOrderCommand}"/>
-                </StackPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="15,0,15,15">
+                    <TextBlock Text="{Binding AlbumsCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                    <Button DockPanel.Dock="Right" Content="{Binding AlbumOrderText}" 
+                            Style="{StaticResource TransparentButton}"
+                            FontSize="13" 
+                            Margin="10,0,0,0"
+                            Foreground="{DynamicResource Brush_SecondaryForeground}"
+                            Command="{Binding ToggleAlbumOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Album_Order}"/>
+                    <Button x:Name="AlbumsButton" Content="{DynamicResource Language_Albums}" FontSize="13" Margin="10,0,0,0"
+                            Style="{StaticResource TransparentButton}"
+                            Foreground="{DynamicResource Brush_PrimaryForeground}"
+                            Click="AlbumsButton_Click" ToolTip="{DynamicResource Language_Select_None}"/>
+                </DockPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
                                                              Style="{StaticResource ListBoxAlbums}"
                                                              ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
@@ -71,22 +65,18 @@
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                    <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
-                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"
-                                                 Margin="10,0,0,0"/>
-                    <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding TrackOrderText,Converter={StaticResource StringToLowerConverter}}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_SecondaryForeground}"
-                                Command="{Binding ToggleTrackOrderCommand}"/>
-                </StackPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="15,0,15,15">
+                    <TextBlock Text="{Binding TracksCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                    <Button DockPanel.Dock="Right" Content="{Binding TrackOrderText}" 
+                            Style="{StaticResource TransparentButton}"
+                            FontSize="13" 
+                            Margin="10,0,0,0"
+                            Foreground="{DynamicResource Brush_SecondaryForeground}"
+                            Command="{Binding ToggleTrackOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Track_Order}"/>
+                    <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
+                               Foreground="{DynamicResource Brush_PrimaryForeground}" />
+                </DockPanel>
                 <DockPanel>
                     <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
