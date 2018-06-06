@@ -6,7 +6,7 @@
                               Background="Transparent"
                               ShowWindowControls="False">
 
-    <Border Background="{DynamicResource Brush_PrimaryBackground}" Margin="-2">
+    <Border Background="{DynamicResource Brush_Background1}" Margin="-2">
         <DockPanel Margin="17">
             <StackPanel x:Name="TitlePanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,15">
                 <Grid>
@@ -22,7 +22,7 @@
                       Foreground="{DynamicResource Brush_White}" />
                     <ContentControl x:Name="IconContentControl" Width="30" Height="30"/>
                 </Grid>
-                <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource Brush_Foreground1}"/>
             </StackPanel>
             <DockPanel x:Name="Content">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,30,0,0">

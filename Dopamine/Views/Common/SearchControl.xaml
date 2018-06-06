@@ -11,5 +11,5 @@
 
     <pc:SearchBox HorizontalAlignment="Stretch" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
                   Background="{DynamicResource Brush_TextBoxBackgroundInvisible}"  
-                  Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="15" />
+                  Foreground="{DynamicResource Brush_Foreground1}" FontSize="15" />
 </UserControl>

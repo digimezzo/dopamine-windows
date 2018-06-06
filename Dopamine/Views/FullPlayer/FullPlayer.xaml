@@ -32,7 +32,7 @@
                    PaneClosed="MySplitView_PaneClosed">
         <!-- SplitView ButtonContent -->
         <fwc:SplitView.ButtonContent>
-            <!--<fwc:MaterialIcon Text="&#xE5D2;" FontSize="24" Foreground="{DynamicResource Brush_PrimaryForeground}"/>-->
+            <!--<fwc:MaterialIcon Text="&#xE5D2;" FontSize="24" Foreground="{DynamicResource Brush_Foreground1}"/>-->
             <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
@@ -103,11 +103,11 @@
         <!-- SplitView Pane -->
         <fwc:SplitView.Pane>
             <Grid>
-                <Border Background="{DynamicResource Brush_SecondaryBackground}" Width="300"></Border>
+                <Border Background="{DynamicResource Brush_Background2}" Width="300"></Border>
                 <DockPanel>
-                    <Border Height="200" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_PrimaryBackground}">
+                    <Border Height="200" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
                         <pc:FullLogo x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                     Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}"/>
+                                     Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
                     </Border>
                     <ContentControl/>
                 </DockPanel>
@@ -117,7 +117,7 @@
         <fwc:SplitView.Content>
             <Grid x:Name="SplitViewContent">
                 <Border VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                        Height="56" Background="{DynamicResource Brush_PrimaryBackground}"/>
+                        Height="56" Background="{DynamicResource Brush_Background1}"/>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <Border DockPanel.Dock="Left" Width="65"/>

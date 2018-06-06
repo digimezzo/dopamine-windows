@@ -3,7 +3,7 @@
 
     <Style x:Key="MetroListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -47,7 +47,7 @@
     <Style x:Key="MetroListBox" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource MetroListBoxItem}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

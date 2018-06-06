@@ -10,8 +10,8 @@
     <converters:BooleanToCollapsedConverter x:Key="BooleanToCollapsedConverter" />
 
     <Style x:Key="{x:Type pc:AccentTextBox}" TargetType="{x:Type pc:AccentTextBox}">
-        <Setter Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="ContextMenu">
             <Setter.Value>

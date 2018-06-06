@@ -15,7 +15,7 @@
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_PrimaryForeground}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_Foreground1}"/>
 
     <!-- ContextMenu -->
     <ContextMenu x:Key="DataGridTracksContextMenu">
@@ -101,8 +101,6 @@
 
     <!-- DataGrid -->
     <Style TargetType="{x:Type pc:DataGridEx}">
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="RowBackground" Value="Transparent" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -133,7 +131,7 @@
         <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="BorderBrush" Value="{DynamicResource Brush_ItemSeparator}" />
         <Setter Property="Height" Value="32" />
-        <!--<Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />-->
+        <!--<Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />-->
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Background" Value="{DynamicResource Brush_ItemHovered}" />
@@ -177,7 +175,7 @@
                                             VerticalAlignment="Center"
                                             Margin="10,0,10,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                                            Foreground="{DynamicResource Brush_Foreground1}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -204,7 +202,7 @@
                                             VerticalAlignment="Center"
                                             Margin="10,2,10,2" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+                                            Foreground="{DynamicResource Brush_Foreground2}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -218,7 +216,7 @@
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground2}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Margin" Value="20,0,0,15"/>
         <Setter Property="Template">
@@ -249,7 +247,7 @@
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="{x:Null}">
-                            <!--<Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>-->
+                            <!--<Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}"/>-->
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Hidden" />
                         </Trigger>

@@ -14,17 +14,17 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
                         <Label x:Name="SelectionBackground" Foreground="Transparent" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="SelectionForegroundHigh" Foreground="{DynamicResource Brush_PrimaryForeground}" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="SelectionForegoundMedium" Foreground="{DynamicResource Brush_SecondaryForeground}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="SelectionForegroundHigh" Foreground="{DynamicResource Brush_Foreground1}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="SelectionForegoundMedium" Foreground="{DynamicResource Brush_Foreground2}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="SelectionIconForeground" Foreground="{DynamicResource Brush_Accent}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="SelectionCloseVisibility" Visibility="Collapsed" Height="0"/>
-                        <Label x:Name="CheckBoxBackground" Foreground="{DynamicResource Brush_SecondaryBackground}" Visibility="Collapsed" Height="0"/>
+                        <Label x:Name="CheckBoxBackground" Foreground="{DynamicResource Brush_Background2}" Visibility="Collapsed" Height="0"/>
                         <Label x:Name="CheckBoxBorder" Foreground="{DynamicResource Brush_Border}" Visibility="Collapsed" Height="0"/>
                         <ContentPresenter/>
                     </Grid>

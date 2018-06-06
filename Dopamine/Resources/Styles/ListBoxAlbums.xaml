@@ -70,14 +70,14 @@
     <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxAlbumsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Border x:Name="ProxyBorder" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_PrimaryForeground}"/>
-                        <Border x:Name="ProxyBorderLight" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_SecondaryForeground}"/>
+                        <Border x:Name="ProxyBorder" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_Foreground1}"/>
+                        <Border x:Name="ProxyBorderLight" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_Foreground2}"/>
                         <ContentPresenter/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -95,8 +95,6 @@
     <!-- ListBox -->
     <Style x:Key="ListBoxAlbums" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxAlbumsItem}" />
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
@@ -155,7 +153,7 @@
                                              Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                              Panel.ZIndex="0"
                                              IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                                             Background="{DynamicResource Brush_TertiaryBackground}">
+                                             Background="{DynamicResource Brush_Foreground3}">
                                     <pc:Tile.Content>
                                         <Viewbox>
                                             <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>

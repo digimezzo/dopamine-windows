@@ -13,43 +13,43 @@
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_System_Tray}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Tray_Icon}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowTrayIcon" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxShowTrayIconChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Show_Tray_Icon}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowTrayIcon" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxShowTrayIconChecked}"/>
             </StackPanel>
             <StackPanel Margin="0,20,0,0" Style="{StaticResource StackPanelConditionEnabled}" IsHitTestVisible="{Binding CheckBoxShowTrayIconChecked}">
-                <TextBlock Text="{DynamicResource Language_Minimize_To_Tray}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxMinimizeToTray" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxMinimizeToTrayChecked}"/>
-                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Close_To_Tray}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxCloseToTray" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxCloseToTrayChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Minimize_To_Tray}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxMinimizeToTray" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxMinimizeToTrayChecked}"/>
+                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Close_To_Tray}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxCloseToTray" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxCloseToTrayChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Follow_Song}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Automatically_Scroll_To_The_Playing_Song}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxFollowTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxFollowTrackChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Automatically_Scroll_To_The_Playing_Song}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxFollowTrack" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxFollowTrackChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Rating}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Rating_Button}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableRating" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxEnableRatingChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Show_Rating_Button}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableRating" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxEnableRatingChecked}"/>
             </StackPanel>
             <StackPanel Margin="0,20,0,0">
-                <TextBlock Text="{DynamicResource Language_Save_Rating_In_Audio_Files}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxSaveRatingInAudioFiles" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxSaveRatingInAudioFilesChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Save_Rating_In_Audio_Files}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxSaveRatingInAudioFiles" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxSaveRatingInAudioFilesChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Love}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Love_Button}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLove" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxEnableLoveChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Show_Love_Button}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxEnableLove" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxEnableLoveChecked}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Volume}" />
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Mouse_Scroll_Changes_Volume_By}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Text="{DynamicResource Language_Mouse_Scroll_Changes_Volume_By}" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <ComboBox x:Name="ComboBoxVolumePercentage" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="100" ItemsSource="{Binding ScrollVolumePercentages}" SelectedItem="{Binding SelectedScrollVolumePercentage}"/>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Remove}"/>
             <StackPanel Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Show_Remove_From_Disk}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowRemoveFromDisk" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxShowRemoveFromDiskChecked}"/>
+                <TextBlock Text="{DynamicResource Language_Show_Remove_From_Disk}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxShowRemoveFromDisk" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxShowRemoveFromDiskChecked}"/>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

@@ -3,7 +3,7 @@
 
     <Style x:Key="ListBoxSemanticZoomItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Margin" Value="8"/>
         <Setter Property="Template">
             <Setter.Value>

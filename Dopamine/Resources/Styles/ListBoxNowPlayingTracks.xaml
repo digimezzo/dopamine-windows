@@ -45,7 +45,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -69,7 +69,7 @@
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Grid.Triggers>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_SecondaryForeground}"  Visibility="Collapsed"/>
+                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_Foreground2}"  Visibility="Collapsed"/>
                         <ContentPresenter/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -120,7 +120,7 @@
                                     <pc:Tile Width="40" Height="40"
                                              Panel.ZIndex="0"
                                              IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
-                                             Background="{DynamicResource Brush_TertiaryBackground}">
+                                             Background="{DynamicResource Brush_Foreground3}">
                                         <pc:Tile.Content>
                                             <Viewbox>
                                                 <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
