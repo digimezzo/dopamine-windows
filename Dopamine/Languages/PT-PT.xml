@@ -426,4 +426,7 @@
   <Text Key="Album_Artists">Artistas do álbum</Text>
   <Text Key="Toggle_Artists">Alternar artistas</Text>
   <Text Key="Select_None">Desmarcar tudo</Text>
+  <Text Key="Open_Menu">Abrir menu</Text>
+  <Text Key="Toggle_Album_Order">Alternar ordem do álbum</Text>
+  <Text Key="Toggle_Track_Order">Alternar ordem da faixa</Text>
 </Language>
