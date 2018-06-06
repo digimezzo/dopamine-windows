@@ -14,8 +14,8 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
             <StackPanel VerticalAlignment="Center" Visibility="{Binding Title,Converter={StaticResource StringEmptyToInvisibleConverter}}">
-                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_SecondaryForeground}"/>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_Foreground2}"/>
+                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <StackPanel.ToolTip>
                     <ToolTip>
                         <StackPanel>

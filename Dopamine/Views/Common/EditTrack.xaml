@@ -49,7 +49,7 @@
                       Foreground="{DynamicResource Brush_White}" />
             </Grid>
             <DockPanel x:Name="Menu" Height="56">
-                <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <Grid DockPanel.Dock="Top" Margin="15,5,0,0">
                     <TextBlock x:Name="TagsProxy" Text="{DynamicResource Language_Tags}" Visibility="Collapsed"/>
                     <TextBlock x:Name="LyricsProxy" Text="{DynamicResource Language_Lyrics}" Visibility="Collapsed"/>

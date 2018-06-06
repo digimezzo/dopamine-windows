@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <StackPanel DataContext="{Binding PlaybackInfoViewModel}" Orientation="Horizontal" VerticalAlignment="Center">
-        <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-        <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+        <Label Padding="0" x:Name="CurrentTime" Content="{Binding CurrentTime}" Foreground="{DynamicResource Brush_Foreground1}"/>
+        <Label Padding="0" x:Name="TotalTime" Content="{Binding TotalTime}" Foreground="{DynamicResource Brush_Foreground2}"/>
     </StackPanel>
 </UserControl>

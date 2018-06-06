@@ -15,11 +15,11 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <DockPanel>
+    <DockPanel Margin="20">
         <pc:TotalsInformation
             DockPanel.Dock="Bottom"
-            Margin="15,15,15,0" 
-            Foreground="{DynamicResource Brush_SecondaryForeground}" 
+            Margin="0,20,0,0" 
+            Foreground="{DynamicResource Brush_Foreground2}" 
             FontSize="13"
             TotalDurationInformation="{Binding TotalDurationInformation}"
             TotalSizeInformation="{Binding TotalSizeInformation}"/>
@@ -52,7 +52,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
+                                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Foreground1}" FontSize="16"/>
                                 </Button>
                                 <TextBlock Text="{DynamicResource Language_Song}"/>
                                 <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
@@ -80,7 +80,7 @@
                         <DataTemplate>
                             <pc:RatingButton 
                                 VerticalAlignment="Center" 
-                                Foreground="{DynamicResource Brush_PrimaryForeground}"
+                                Foreground="{DynamicResource Brush_Foreground1}"
                                 Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -92,7 +92,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <pc:LoveButton 
-                                Foreground="{DynamicResource Brush_PrimaryForeground}"
+                                Foreground="{DynamicResource Brush_Foreground1}"
                                 SelectedForeground="{DynamicResource Brush_Accent}"
                                 VerticalAlignment="Center" 
                                 Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -101,7 +101,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="HasLyrics" MinWidth="30" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LyricsVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Margin="0,6,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <TextBlock Margin="0,6,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource Brush_Foreground1}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

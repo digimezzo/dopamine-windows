@@ -25,7 +25,7 @@
                             Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                            Background="{DynamicResource Brush_TertiaryBackground}">
+                            Background="{DynamicResource Brush_Foreground3}">
                     <pc:Tile.Content>
                         <Viewbox>
                             <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
@@ -41,7 +41,7 @@
                             VerticalAlignment="Center"
                             RenderOptions.BitmapScalingMode="HighQuality" 
                             Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
-                <TextBlock Panel.ZIndex="2" Text="{DynamicResource Language_Multiple_Images}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryForeground}" Visibility="{Binding HasMultipleArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                <TextBlock Panel.ZIndex="2" Text="{DynamicResource Language_Multiple_Images}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Foreground1}" Visibility="{Binding HasMultipleArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
             </Grid>
             <Button 
                         Style="{StaticResource RegularButton}" 
@@ -111,41 +111,41 @@
                 <RowDefinition Height="52"/>
             </Grid.RowDefinitions>
             <!-- Title -->
-            <Label Content="{DynamicResource Language_Title}" Grid.Row="0" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Title}" Grid.Row="0" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="0" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Title.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Title.IsValueChanged}"/>
             <!-- Artists -->
-            <Label Content="{DynamicResource Language_Artists}" Grid.Row="2" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Artists}" Grid.Row="2" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Artists.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Artists.IsValueChanged}"/>
             <!-- Album -->
-            <Label Content="{DynamicResource Language_Album}" Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Album}" Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Album.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Album.IsValueChanged}"/>
             <!-- Album artists -->
-            <Label Content="{DynamicResource Language_Album_Artists}" Grid.Row="6" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Album_Artists}" Grid.Row="6" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding AlbumArtists.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding AlbumArtists.IsValueChanged}"/>
             <!-- Year -->
-            <Label Content="{DynamicResource Language_Year}" Grid.Row="8" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Year}" Grid.Row="8" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Year.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Year.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding Year.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
             <!-- Genres -->
-            <Label Content="{DynamicResource Language_Genres}" Grid.Row="10" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Genres}" Grid.Row="10" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <!--<pc:SelectionChangedComboBox Grid.Row="10" Grid.Column="2" Style="{StaticResource MetroComboBox}" ItemsSource="{Binding AllGenres}" SelectedItem="{Binding Genre}" SelectionChangedForeground="{DynamicResource Brush_Accent}"/>-->
             <pc:AccentTextBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Genres.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Genres.IsValueChanged}"/>
             <!-- Track number -->
-            <Label Content="{DynamicResource Language_Track_Number}" Grid.Row="12" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Track_Number}" Grid.Row="12" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="12" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding TrackNumber.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding TrackNumber.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding TrackNumber.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
             <!-- Track count -->
-            <Label Content="{DynamicResource Language_Track_Count}" Grid.Row="14" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Track_Count}" Grid.Row="14" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="14" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding TrackCount.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding TrackCount.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding TrackCount.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
             <!-- Disc number -->
-            <Label Content="{DynamicResource Language_Disc_Number}" Grid.Row="16" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Disc_Number}" Grid.Row="16" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="16" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding DiscNumber.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding DiscNumber.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding DiscNumber.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
             <!-- Disc count -->
-            <Label Content="{DynamicResource Language_Disc_Count}" Grid.Row="18" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Disc_Count}" Grid.Row="18" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="18" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding DiscCount.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding DiscCount.IsValueChanged}" IconGlyph="&#xE783;" ShowIcon="{Binding DiscCount.IsNumeric,Converter={StaticResource InvertingBooleanConverter}}" IconToolTip="{DynamicResource Language_Only_Positive_Numbers_Allowed}"/>
             <!-- Grouping -->
-            <Label Content="{DynamicResource Language_Grouping}" Grid.Row="20" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Grouping}" Grid.Row="20" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="20" Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding Grouping.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Grouping.IsValueChanged}"/>
             <!-- Comment -->
-            <Label Content="{DynamicResource Language_Comment}" Grid.Row="22" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <Label Content="{DynamicResource Language_Comment}" Grid.Row="22" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
             <pc:AccentTextBox Grid.Row="22" Grid.Column="2" VerticalContentAlignment="Top" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding Comment.Value,UpdateSourceTrigger=PropertyChanged}" ShowAccent="{Binding Comment.IsValueChanged}"/>
         </Grid>
     </DockPanel>

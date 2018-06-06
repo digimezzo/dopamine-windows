@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type pv:CoverArtViewModel}">
             <Grid>
-                <Border Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Panel.ZIndex="0" Background="{DynamicResource Brush_TertiaryBackground}">
+                <Border Width="{Binding ActualWidth,ElementName=ThisControl}" Height="{Binding ActualHeight,ElementName=ThisControl}" Panel.ZIndex="0" Background="{DynamicResource Brush_Foreground3}">
                     <Viewbox Width="{Binding IconSize,ElementName=ThisControl}" Height="{Binding IconSize,ElementName=ThisControl}">
                         <Path x:Name="FullLogo" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
                     </Viewbox>

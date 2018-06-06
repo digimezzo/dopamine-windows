@@ -57,7 +57,7 @@
         <Setter Property="ScrollViewer.CanContentScroll"
           Value="true" />
         <Setter Property="Foreground"
-          Value="{DynamicResource Brush_PrimaryForeground}" />
+          Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -102,8 +102,8 @@
                         Focusable="false"
                         ClickMode="Press"
                         BorderBrush="{DynamicResource Brush_Border}"
-                        Foreground="{DynamicResource Brush_PrimaryForeground}"
-                        Background="{DynamicResource Brush_SecondaryBackground}"   
+                        Foreground="{DynamicResource Brush_Foreground1}"
+                        Background="{DynamicResource Brush_Background2}"   
                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, 
               RelativeSource={RelativeSource TemplatedParent}}"/>
                         <Label x:Name="ContentSite"
@@ -137,11 +137,11 @@
                                   MinWidth="{TemplateBinding ActualWidth}"
                                   MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <!-- This helper border avoids text coming through the sides of the popup at desktop scaling > 100% -->
-                                <Border BorderThickness="0" Margin="0.5" Background="{DynamicResource Brush_SecondaryBackground}"/>
+                                <Border BorderThickness="0" Margin="0.5" Background="{DynamicResource Brush_Background2}"/>
                                 <Border x:Name="DropDownBorder"
                                         BorderThickness="1" 
                                         BorderBrush="{DynamicResource Brush_Border}" 
-                                        Background="{DynamicResource Brush_SecondaryBackground}">
+                                        Background="{DynamicResource Brush_Background2}">
                                     <ScrollViewer>
                                         <StackPanel IsItemsHost="True"
                             KeyboardNavigation.DirectionalNavigation="Contained" />
@@ -179,9 +179,9 @@
                             <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_Accent}" />
                         </Trigger>
                         <Trigger SourceName="ToggleButton" Property="IsMouseOver" Value="true">
-                            <!--<Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
-                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />-->
-                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
+                            <!--<Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
+                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />-->
+                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_Foreground3}" />
                         </Trigger>
 
                         <MultiTrigger>
@@ -210,16 +210,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Border x:Name="Border" Background="Transparent">
-                        <Label x:Name="Label" Padding="10,3,10,3" Foreground="{DynamicResource Brush_PrimaryForeground}" Content="{TemplateBinding Content}"/>
+                        <Label x:Name="Label" Padding="10,3,10,3" Foreground="{DynamicResource Brush_Foreground1}" Content="{TemplateBinding Content}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_TertiaryBackground}" />
-                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_SecondaryForeground}" />
-                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Foreground2}" />
+                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -3,7 +3,7 @@
 
     <Style x:Key="WindowButton" TargetType="{x:Type Button}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground2}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -58,7 +58,7 @@
     </Style>
     
     <Style x:Key="BrightWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}"/>
     </Style>
 
     <Style x:Key="WhiteWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">

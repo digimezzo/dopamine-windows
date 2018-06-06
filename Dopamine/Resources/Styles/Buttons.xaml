@@ -8,7 +8,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
                         <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" BorderThickness="0" VerticalAlignment="Center"/>
-                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_PrimaryForeground}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_Foreground1}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">

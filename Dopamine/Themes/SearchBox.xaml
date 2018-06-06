@@ -32,7 +32,7 @@
                                     Text="&#xE1A3;"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" 
-                                    Foreground="{DynamicResource Brush_SecondaryForeground}"
+                                    Foreground="{DynamicResource Brush_Foreground2}"
                                     FontSize="16"
                                     Opacity="1">
                                     <fwc:SegoeIcon.Style>
@@ -65,7 +65,7 @@
                                     Text="&#xE894;"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" 
-                                    Foreground="{DynamicResource Brush_PrimaryForeground}"
+                                    Foreground="{DynamicResource Brush_Foreground1}"
                                     FontSize="1"
                                     Opacity="0">
                                 <fwc:SegoeIcon.Style>
@@ -100,7 +100,7 @@
                                           Foreground="{Binding Foreground,RelativeSource={RelativeSource TemplatedParent}}"/>
                             <TextBlock x:Name="PART_SearchHint" Panel.ZIndex="0" VerticalAlignment="Center" 
                                        Text="{DynamicResource Language_Search_Hint}" 
-                                       Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+                                       Foreground="{DynamicResource Brush_Foreground2}"/>
                         </Grid>
                     </DockPanel>
                 </ControlTemplate>

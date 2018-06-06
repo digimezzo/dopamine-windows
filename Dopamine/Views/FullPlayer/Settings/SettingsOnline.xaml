@@ -13,7 +13,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Search_Online}" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Add_Remove_Online_Search_Providers}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Add_Remove_Online_Search_Providers}" Foreground="{DynamicResource Brush_Foreground1}"/>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <ListBox Style="{StaticResource MetroListBox}" Width="300" ItemsSource="{Binding SearchProviders}" SelectedItem="{Binding SelectedSearchProvider}"/>
                 <StackPanel Margin="10,0,0,0">
@@ -26,7 +26,7 @@
                 </StackPanel>
             </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="Last.fm" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Sign_In_To_Enable_Lastfm}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Sign_In_To_Enable_Lastfm}" Foreground="{DynamicResource Brush_Foreground1}"/>
             <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" Foreground="{DynamicResource Brush_Accent}" Content="{DynamicResource Language_Create_A_Lastfm_Account}" Command="{Binding CreateLastFmAccountCommand}"/>
             <Grid Width="300" HorizontalAlignment="Left" Margin="0,15,0,0">
                 <Grid.Style>
@@ -53,9 +53,9 @@
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Language_Username}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Language_Username}" Foreground="{DynamicResource Brush_Foreground1}"/>
                         <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource MetroTextBox}" Text="{Binding LastFmUsername}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Language_Password}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Language_Password}" Foreground="{DynamicResource Brush_Foreground1}"/>
                         <PasswordBox x:Name="PasswordBox" Grid.Row="2" Grid.Column="2" Style="{StaticResource MetroPasswordBox}" PasswordChanged="PasswordBox_PasswordChanged"/>
                     </Grid>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -99,25 +99,25 @@
                     </StackPanel.Style>
                 </StackPanel>
             </Grid>
-            <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Artist_Information_From_Lastfm_Automatically}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-            <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadArtistInformation" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadArtistInformationChecked}"/>
+            <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Artist_Information_From_Lastfm_Automatically}" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadArtistInformation" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadArtistInformationChecked}"/>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Lyrics}" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Download_Lyrics_Automatically}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-            <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadLyricsChecked}"/>
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Download_Lyrics_Automatically}" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadLyricsChecked}"/>
             <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding CheckBoxDownloadLyricsChecked}">
-                <TextBlock Text="{DynamicResource Language_Lyrics_Download_Timeout}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Text="{DynamicResource Language_Lyrics_Download_Timeout}" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                     <ComboBox x:Name="ComboBoxTimeout" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="100" ItemsSource="{Binding Timeouts}" SelectedItem="{Binding SelectedTimeout}"/>
-                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Seconds}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Seconds}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Foreground1}"/>
                 </StackPanel>
-                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Lyrics_From}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Lyrics_From}" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <UniformGrid Columns="3" Width="450" HorizontalAlignment="Left">
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxChartLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="ChartLyrics" OffLabel="ChartLyrics" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxChartLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxLoloLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LoloLyrics" OffLabel="LoloLyrics" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxLoloLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxLyricWikia" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LyricWikia" OffLabel="LyricWikia" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxLyricWikiaChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxMetroLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="MetroLyrics" OffLabel="MetroLyrics" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxMetroLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxXiamiLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_XiamiLyrics}" OffLabel="{DynamicResource Language_XiamiLyrics}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxXiamiLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxNeteaseLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_NeteaseLyrics}" OffLabel="{DynamicResource Language_NeteaseLyrics}" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxNeteaseLyricsChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxChartLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="ChartLyrics" OffLabel="ChartLyrics" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxChartLyricsChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxLoloLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LoloLyrics" OffLabel="LoloLyrics" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxLoloLyricsChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxLyricWikia" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LyricWikia" OffLabel="LyricWikia" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxLyricWikiaChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxMetroLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="MetroLyrics" OffLabel="MetroLyrics" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxMetroLyricsChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxXiamiLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_XiamiLyrics}" OffLabel="{DynamicResource Language_XiamiLyrics}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxXiamiLyricsChecked}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxNeteaseLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_NeteaseLyrics}" OffLabel="{DynamicResource Language_NeteaseLyrics}" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxNeteaseLyricsChecked}"/>
                 </UniformGrid>
                 <StackPanel.Style>
                     <Style>
