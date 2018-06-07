@@ -39,7 +39,7 @@
         RightPaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
             <Border Background="{DynamicResource Brush_Background3}">
-                <DockPanel Margin="20">
+                <DockPanel Margin="20,20,20,26">
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                         <TextBlock Text="{Binding GenresCount}" FontSize="13"
                                    Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
@@ -114,7 +114,7 @@
             </Border>
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
-            <DockPanel Margin="20">
+            <DockPanel Margin="20,20,20,26">
                 <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                     <TextBlock Text="{Binding AlbumsCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
@@ -151,7 +151,7 @@
         </dc:MultiPanePanel.MiddlePaneContent>
         <dc:MultiPanePanel.RightPaneContent>
             <Border Background="{DynamicResource Brush_Background3}">
-                <DockPanel Margin="20">
+                <DockPanel Margin="20,20,20,26">
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                         <TextBlock Text="{Binding TracksCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
