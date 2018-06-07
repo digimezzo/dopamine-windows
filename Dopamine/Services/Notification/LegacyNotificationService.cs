@@ -4,7 +4,6 @@ using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Metadata;
-using Dopamine.Services.Notification;
 using Dopamine.Services.Playback;
 using System;
 using System.Threading.Tasks;
