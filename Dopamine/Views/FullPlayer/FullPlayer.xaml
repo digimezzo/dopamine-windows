@@ -32,7 +32,6 @@
                    PaneClosed="MySplitView_PaneClosed">
         <!-- SplitView ButtonContent -->
         <fwc:SplitView.ButtonContent>
-            <!--<fwc:MaterialIcon Text="&#xE5D2;" FontSize="24" Foreground="{DynamicResource Brush_Foreground1}"/>-->
             <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>

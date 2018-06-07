@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type pv:PlaybackInfoViewModel}">
-            <StackPanel>
+            <StackPanel Visibility="{Binding Title,Converter={StaticResource StringEmptyToInvisibleConverter}}">
                 <TextBlock Text="{Binding Artist}" TextTrimming="CharacterEllipsis" FontSize="{Binding ArtistFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding ArtistFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource Brush_Foreground2}"/>
                 <pc:ScalingTextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MinFontSize="{Binding ArtistFontSize,ElementName=ThisControl}" MaxFontSize="{Binding TitleFontSize,ElementName=ThisControl}" TextAlignment="{Binding TextAlignment,ElementName=ThisControl}" FontWeight="{Binding TitleFontWeight,ElementName=ThisControl}" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,5"
