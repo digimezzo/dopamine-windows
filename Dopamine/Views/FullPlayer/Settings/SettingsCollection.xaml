@@ -10,7 +10,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Folders}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Add_Folders_With_Your_Music}" Foreground="{DynamicResource Brush_Foreground1}"/>

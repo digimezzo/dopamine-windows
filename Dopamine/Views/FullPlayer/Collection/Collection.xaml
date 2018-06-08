@@ -14,16 +14,20 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Bottom">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <controls:TransitioningContentControl Grid.Row="0" Panel.ZIndex="0" Margin="0,0,0,-6"
+                                              FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                                              SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="CollectionRegion" 
+                                              prism:RegionManager.RegionName="{x:Static cp:RegionNames.CollectionRegion}"/>
+        <Grid Grid.Row="1" Panel.ZIndex="1" DockPanel.Dock="Bottom">
             <Border Panel.ZIndex="0" Background="{DynamicResource Brush_Background1}" 
                     HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="70"/>
             <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
             <commonviews:CollectionPlaybackControls Panel.ZIndex="2" Foreground="{DynamicResource Brush_Foreground1}"/>
         </Grid>
-        <controls:TransitioningContentControl Margin="0,0,0,-6"
-                                              FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                                              SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="CollectionRegion" 
-                                              prism:RegionManager.RegionName="{x:Static cp:RegionNames.CollectionRegion}"/>
-    </DockPanel>
+    </Grid>
 </UserControl>
