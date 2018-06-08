@@ -50,7 +50,8 @@
                             <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
                                        Foreground="{DynamicResource Brush_Foreground2}" />
                         </Button>
-                        <Button Content="{DynamicResource Language_Genres}" 
+                        <Button x:Name="GenresButton" 
+                                Content="{DynamicResource Language_Genres}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"

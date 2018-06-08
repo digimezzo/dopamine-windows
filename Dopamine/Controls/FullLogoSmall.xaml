@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Dopamine.Controls.FullLogo"
+﻿<UserControl x:Class="Dopamine.Controls.FullLogoSmall"
              x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,15 +9,15 @@
 
     <StackPanel Orientation="Horizontal">
         <Grid>
-            <Viewbox Width="56" Height="56" Panel.ZIndex="0">
+            <Viewbox Width="48" Height="48" Panel.ZIndex="0">
                 <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{Binding Accent, ElementName=This}"/>
             </Viewbox>
-            <Viewbox Width="40" Height="40" Panel.ZIndex="1">
+            <Viewbox Width="32" Height="32" Panel.ZIndex="1">
                 <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
             </Viewbox>
         </Grid>
-        <Label Margin="15,-4,0,0" Padding="0" Foreground="{Binding Foreground,ElementName=This}" 
-               FontFamily="/Dopamine;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="44"
+        <Label Margin="15,0,0,0" Padding="0" Foreground="{Binding Foreground,ElementName=This}" 
+               FontFamily="/Dopamine;component/Resources/Fonts/Monoglyceride.ttf#Monoglyceride" FontSize="36"
                Content="{Binding ApplicationName,ElementName=This,Converter={StaticResource StringToLowerConverter}}" />
     </StackPanel>
 </UserControl>

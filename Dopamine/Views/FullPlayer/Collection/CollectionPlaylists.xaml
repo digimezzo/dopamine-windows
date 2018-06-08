@@ -37,16 +37,19 @@
             <dc:MultiPanePanel.LeftPaneContent>
                 <Border Background="{DynamicResource Brush_Background3}">
                     <DockPanel Margin="20,20,20,26">
-                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,20">
-                            <Button x:Name="PlaylistsButton" ToolTip="{DynamicResource Language_All_Playlists}" Style="{StaticResource TransparentButton}" Click="PlaylistsButton_Click">
-                                <dc:LabelToLower Content="{DynamicResource Language_Playlists}" 
-                                                 Foreground="{DynamicResource Brush_Foreground1}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"/>
+                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                            <TextBlock Text="{Binding PlaylistsCount}" FontSize="13"
+                                       Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                            <Button 
+                                x:Name="PlaylistsButton"
+                                Content="{DynamicResource Language_Playlists}" 
+                                Style="{StaticResource TransparentButton}"
+                                FontSize="13" 
+                                Margin="10,0,0,0"
+                                Foreground="{DynamicResource Brush_Foreground1}"
+                                Click="PlaylistsButton_Click" ToolTip="{DynamicResource Language_Select_None}">
                             </Button>
-                            <Label Content="{Binding PlaylistsCount}" Style="{StaticResource CountLabel}"/>
-                        </StackPanel>
+                        </DockPanel>
                         <DockPanel>
                             <DockPanel.Resources>
                                 <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
@@ -87,14 +90,12 @@
             </dc:MultiPanePanel.LeftPaneContent>
             <dc:MultiPanePanel.MiddlePaneContent>
                 <DockPanel Margin="20,20,20,26">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,20">
-                        <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
-                                                 Foreground="{DynamicResource Brush_Foreground1}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"/>
-                        <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-                    </StackPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                        <TextBlock Text="{Binding TracksCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                        <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
+                               Foreground="{DynamicResource Brush_Foreground1}" />
+                    </DockPanel>
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Bottom">
                             <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center"

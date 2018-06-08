@@ -5,6 +5,7 @@ using Dopamine.Services.Indexing;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 
 namespace Dopamine.ViewModels.FullPlayer
 {
@@ -12,11 +13,11 @@ namespace Dopamine.ViewModels.FullPlayer
     {
         private IRegionManager regionManager;
         private FullPlayerPage previousSelectedFullPlayerPage;
-        private FullPlayerPage selectedFullPlayerPage;
         private IIndexingService indexingService;
         private int slideInFrom;
 
         public DelegateCommand LoadedCommand { get; set; }
+        public DelegateCommand<string> SetSelectedFullPlayerPageCommand { get; set; }
 
         public int SlideInFrom
         {
@@ -24,34 +25,20 @@ namespace Dopamine.ViewModels.FullPlayer
             set { SetProperty<int>(ref this.slideInFrom, value); }
         }
 
-        public FullPlayerPage SelectedFullPlayerPage
-        {
-            get { return selectedFullPlayerPage; }
-            set
-            {
-                SetProperty<FullPlayerPage>(ref this.selectedFullPlayerPage, value);
-                this.NagivateToSelectedPage();
-
-                if (value != FullPlayerPage.Settings)
-                {
-                    this.indexingService.RefreshCollectionIfFoldersChangedAsync();
-                }
-            }
-        }
-
         public FullPlayerViewModel(IIndexingService indexingService, IRegionManager regionManager)
         {
             this.regionManager = regionManager;
             this.indexingService = indexingService;
-            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage());
+            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
+            this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage) Int32.Parse(pageIndex)));
         }
 
-        private void NagivateToSelectedPage()
+        private void NagivateToSelectedPage(FullPlayerPage page)
         {
-            this.SlideInFrom = this.selectedFullPlayerPage <= this.previousSelectedFullPlayerPage ? -Constants.SlideDistance : Constants.SlideDistance;
-            this.previousSelectedFullPlayerPage = this.selectedFullPlayerPage;
+            this.SlideInFrom = page <= this.previousSelectedFullPlayerPage ? -Constants.SlideDistance : Constants.SlideDistance;
+            this.previousSelectedFullPlayerPage = page;
 
-            switch (this.selectedFullPlayerPage)
+            switch (page)
             {
                 case FullPlayerPage.Collection:
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Collection.Collection).FullName);
@@ -67,6 +54,11 @@ namespace Dopamine.ViewModels.FullPlayer
                     break;
                 default:
                     break;
+            }
+
+            if (page != FullPlayerPage.Settings)
+            {
+                this.indexingService.RefreshCollectionIfFoldersChangedAsync();
             }
         }
     }

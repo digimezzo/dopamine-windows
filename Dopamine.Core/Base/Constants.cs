@@ -20,7 +20,6 @@ namespace Dopamine.Core.Base
         // Fonts
         public static double GlobalFontSize = 12;
         public static string GlobalFontFamily = "Segoe UI";
-        public static double SplashAppNameFontSize = 44;
         public static double OobeAppNameFontSize = 44;
         public static double OobeTitleFontSize = 36;
         public static double OobeTextFontSize = 18;

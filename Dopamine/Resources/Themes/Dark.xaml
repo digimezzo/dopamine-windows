@@ -21,6 +21,7 @@
     <Color x:Key="Color_Background4Transparent">#D92F2F2F</Color>
     <Color x:Key="Color_Foreground1">#E2E2E2</Color>
     <Color x:Key="Color_Foreground2">#5E5E5E</Color>
+    <Color x:Key="Color_Overlay">#CCCCCC</Color>
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_Background1}"/>
@@ -32,7 +33,7 @@
     <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_Background4}"/>
     <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_Background4Transparent}"/>
     <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
-    <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
+    <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_Overlay}" Opacity="0.2"/>
     <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_Foreground2}" Opacity="0.4"/>
     <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
     <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_Background2}" Opacity="0.96"/>

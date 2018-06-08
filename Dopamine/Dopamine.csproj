@@ -152,6 +152,9 @@
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FullLogoSmall.xaml.cs">
+      <DependentUpon>FullLogoSmall.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\IconMenuButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
@@ -166,6 +169,7 @@
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
     <Compile Include="Controls\SourceChangedImage.cs" />
+    <Compile Include="Controls\SplitViewRadioButton.cs" />
     <Compile Include="Controls\SyncRing.cs" />
     <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
@@ -840,6 +844,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\FullLogoSmall.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Logo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1047,6 +1055,10 @@
     <Page Include="Themes\SearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SplitViewRadioButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\SyncRing.xaml">
       <Generator>MSBuild:Compile</Generator>
