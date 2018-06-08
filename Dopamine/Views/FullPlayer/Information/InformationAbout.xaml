@@ -4,7 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pc="clr-namespace:Dopamine.Controls"
+             xmlns:controls="clr-namespace:Dopamine.Controls"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -13,7 +14,8 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
-            <pc:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
+            <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" 
+                               Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock Text="{DynamicResource Language_Version}" Foreground="{DynamicResource Brush_Foreground1}"/>
                 <TextBlock Text=":" Margin="0,0,5,0" Foreground="{DynamicResource Brush_Foreground1}"/>

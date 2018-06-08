@@ -5,12 +5,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
-             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:fwc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
+             xmlns:controls="clr-namespace:Dopamine.Controls"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:pc="clr-namespace:Dopamine.Controls"
+             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
@@ -104,11 +103,34 @@
             <Grid>
                 <Border Background="{DynamicResource Brush_Background2}" Width="300"></Border>
                 <DockPanel>
-                    <Border Height="200" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
-                        <pc:FullLogo x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                     Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
+                    <Border Height="160" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
+                        <controls:FullLogoSmall x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
                     </Border>
-                    <ContentControl/>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Margin="0,18,0,0">
+                            <controls:SplitViewRadioButton x:Name="SettingsButton" 
+                                                           Content="{DynamicResource Language_Settings}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="1"
+                                                           Icon="&#xE713;" Checked="SettingsButton_Checked"/>
+                            <controls:SplitViewRadioButton x:Name="InformationButton" 
+                                                           Content="{DynamicResource Language_Information}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="2"
+                                                           Icon="&#xE946;" Checked="InformationButton_Checked" />
+                        </StackPanel>
+                        <StackPanel Margin="0,18,0,0">
+                            <controls:SplitViewRadioButton x:Name="CollectionButton" 
+                                                           Content="{DynamicResource Language_Collection}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="0"
+                                                           Icon="&#xE8D6;" Checked="CollectionButton_Checked"/>
+                        </StackPanel>
+                    </DockPanel>
                 </DockPanel>
             </Grid>
         </fwc:SplitView.Pane>
@@ -120,19 +142,19 @@
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <Border DockPanel.Dock="Left" Width="65"/>
-                        <pc:TransitioningContentControl 
-                        FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
-                        SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
-                        prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
+                        <controls:TransitioningContentControl 
+                            FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
+                            SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
+                            prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
                     </DockPanel>
                     <Grid DockPanel.Dock="Top" Margin="0,0,0,0">
                         <commonviews:UpdateStatus Panel.ZIndex="0"/>
                         <commonviews:IndexingStatus Panel.ZIndex="1"/>
                     </Grid>
-                    <pc:TransitioningContentControl 
-                    FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                    SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
-                    prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
+                    <controls:TransitioningContentControl 
+                        FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                        SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
+                        prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
                 </DockPanel>
             </Grid>
         </fwc:SplitView.Content>

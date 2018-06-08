@@ -5,7 +5,7 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
                               xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
-                              xmlns:pc="clr-namespace:Dopamine.Controls"
+                              xmlns:controls="clr-namespace:Dopamine.Controls"
                               xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
                               xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -56,7 +56,7 @@
         </Border.Resources>
         <!-- Content -->
         <DockPanel>
-            <pc:FullLogo DockPanel.Dock="Top" Margin="30,30,30,0" Foreground="{DynamicResource Brush_Foreground1}" 
+            <controls:FullLogo DockPanel.Dock="Top" Margin="30,30,30,0" Foreground="{DynamicResource Brush_Foreground1}" 
                                Accent="{DynamicResource Brush_Accent}"/>
             <!-- Controls -->
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30">
