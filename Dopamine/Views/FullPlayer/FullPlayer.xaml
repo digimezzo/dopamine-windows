@@ -103,7 +103,7 @@
             <Grid>
                 <Border Background="{DynamicResource Brush_Background2}" Width="300"></Border>
                 <DockPanel>
-                    <Border Height="160" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
+                    <Border Height="112" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
                         <controls:FullLogoSmall x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                 Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
                     </Border>
