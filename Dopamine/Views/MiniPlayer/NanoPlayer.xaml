@@ -11,7 +11,8 @@
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"
                               d:DesignHeight="300" d:DesignWidth="300"
-                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                              Background="{DynamicResource Brush_Background1}">
 
     <baseviews:MiniPlayerViewBase.Resources>
         <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>

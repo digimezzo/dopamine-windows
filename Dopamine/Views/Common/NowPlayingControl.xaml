@@ -28,20 +28,17 @@
                 <ColumnDefinition Width="0.01*" />
                 <ColumnDefinition MaxWidth="200" Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5,15,0,0" Panel.ZIndex="1">
-                <dc:LabelToLower Content="{DynamicResource Language_Playlist}" 
-                                                 Foreground="{DynamicResource Brush_Foreground1}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"
-                                                 Margin="10,0,0,0"/>
-                <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-            </StackPanel>
-            <commonviews:SearchControl Grid.Column="2" Margin="15,15,15,0"/>
+            <DockPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Text="{Binding TracksCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
+                               Foreground="{DynamicResource Brush_Foreground1}" />
+            </DockPanel>
+            <commonviews:SearchControl Grid.Column="2" VerticalAlignment="Center"/>
         </Grid>
-        <DockPanel Margin="0,15,0,15">
-            <DockPanel DockPanel.Dock="Bottom" Margin="15,15,15,0">
-                <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="15,0,5,0" 
+        <DockPanel Margin="0,0,0,0">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+                <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center"
                               IsChecked="{Binding ShowTrackArt}"
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
@@ -61,6 +58,7 @@
                     TotalSizeInformation="{Binding TotalSizeInformation}"/>
             </DockPanel>
             <dc:MultiSelectListBox x:Name="ListBoxTracks"
+                                    Margin="0,20,0,0"
                          dd:DragDrop.IsDragSource="True" 
                          dd:DragDrop.IsDropTarget="True" 
                          dd:DragDrop.DropHandler="{Binding}"
