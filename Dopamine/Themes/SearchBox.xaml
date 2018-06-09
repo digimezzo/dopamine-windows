@@ -23,13 +23,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:SearchBox}">
                     <DockPanel>
-                        <Border x:Name="PART_SearchBorder" DockPanel.Dock="Left" Margin="0,1,0,0" 
+                        <Border x:Name="PART_SearchBorder" DockPanel.Dock="Right" Margin="0,1,0,0" 
                                 Width="28" Height="28" CornerRadius="14,0,14,14" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid>
                                 <fwc:SegoeIcon
                                     x:Name="PART_SearchIconGlass" 
-                                    Text="&#xE1A3;"
+                                    Text="&#xE721;"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" 
                                     Foreground="{DynamicResource Brush_Foreground2}"

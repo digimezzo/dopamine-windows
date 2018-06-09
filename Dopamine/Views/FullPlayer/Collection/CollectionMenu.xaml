@@ -30,7 +30,7 @@
             <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}"/>
         </dc:Pivot>
         <commonviews:SearchControl 
-            Margin="0,14,20,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Right"
+            Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"
             Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </DockPanel>
 </UserControl>

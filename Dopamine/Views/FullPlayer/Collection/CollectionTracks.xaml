@@ -16,6 +16,23 @@
     </i:Interaction.Triggers>
 
     <DockPanel Margin="20,20,20,26">
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+            <TextBlock Text="{Binding TracksCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+            <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" FontSize="13" 
+                                Style="{StaticResource TransparentButton}" 
+                                VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
+                                Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
+                                       Margin="0,1,5,0" Foreground="{DynamicResource Brush_Foreground2}" />
+                    <TextBlock FontSize="13" Text="{DynamicResource Language_Shuffle_All}"
+                                       Foreground="{DynamicResource Brush_Foreground2}"/>
+                </StackPanel>
+            </Button>
+            <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
+                               Foreground="{DynamicResource Brush_Foreground1}" />
+        </DockPanel>
         <pc:TotalsInformation
             DockPanel.Dock="Bottom"
             Margin="0,20,0,0" 
@@ -45,20 +62,9 @@
             </pc:DataGridEx.Resources>
             <pc:DataGridEx.Columns>
                 <DataGridTextColumn x:Name="SongsColumn" Width="3*" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding TrackTitle}" Visibility="Visible">
-                    <!-- Using HeaderTemplate instead of Header to resolve the UserControls DataContext.
-                    Doing this directly on the Header property will not work because it cannot be resolved 
-                    in-place as the column is an abstract object not appearing in the tree. -->
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="ShuffleAllButton" Margin="0,5,10,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                    <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Foreground1}" FontSize="16"/>
-                                </Button>
-                                <TextBlock Text="{DynamicResource Language_Song}"/>
-                                <Label Content="{Binding DataContext.TracksCount,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource CountLabel}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Language_Song}"/>
+                    </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTemplateColumn Width="40" IsReadOnly="True" Visibility="Visible">
                     <DataGridTemplateColumn.CellTemplate>
@@ -74,7 +80,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="Rating" MinWidth="70" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).RatingVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Rating}"/>
+                        <TextBlock Text="{DynamicResource Language_Rating}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -87,7 +93,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="Love" MinWidth="50" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LoveVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Margin="5,0,0,0" Text="{DynamicResource Language_Love}"/>
+                        <TextBlock Text="{DynamicResource Language_Love}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -101,7 +107,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn SortMemberPath="HasLyrics" MinWidth="30" IsReadOnly="True" Visibility="{Binding (FrameworkElement.DataContext).LyricsVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Margin="0,6,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource Brush_Foreground1}"/>
+                        <TextBlock Margin="0,3,0,0" Text="&#xE720;" Style="{StaticResource SegoeAssets}" FontSize="15" Foreground="{DynamicResource Brush_Foreground2}"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
