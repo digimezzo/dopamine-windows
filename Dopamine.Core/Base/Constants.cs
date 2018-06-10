@@ -101,6 +101,8 @@ namespace Dopamine.Core.Base
 
         // ListBoxAlbums
         public static readonly double AlbumTileAlbumInfoHeight = 40;
+        public static readonly Thickness AlbumTilePadding = new Thickness(4);
+        public static readonly Thickness AlbumTileMargin = new Thickness(6);
 
         // Animation
         public static readonly Duration MouseEnterDuration = new Duration(TimeSpan.FromMilliseconds(50));
