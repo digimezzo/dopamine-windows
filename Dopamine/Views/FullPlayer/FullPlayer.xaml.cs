@@ -65,5 +65,10 @@ namespace Dopamine.Views.FullPlayer
         {
             this.MySplitView.IsPaneOpen = false;
         }
+
+        private void HeaderButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
+        }
     }
 }

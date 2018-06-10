@@ -103,10 +103,11 @@
             <Grid>
                 <Border Background="{DynamicResource Brush_Background2}" Width="300"></Border>
                 <DockPanel>
-                    <Border Height="112" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
+                    <Button x:Name="HeaderButton" Height="112" HorizontalAlignment="Stretch" Style="{DynamicResource TransparentButton}"
+                            DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}" Click="HeaderButton_Click">
                         <controls:FullLogoSmall x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                 Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
-                    </Border>
+                    </Button>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Bottom" Margin="0,18,0,0">
                             <controls:SplitViewRadioButton x:Name="SettingsButton" 
