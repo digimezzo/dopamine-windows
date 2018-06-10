@@ -514,8 +514,8 @@ namespace Dopamine.ViewModels.Common.Base
                         break;
                 }
 
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
-                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
+                this.AlbumWidth = this.CoverSize + Constants.AlbumTilePadding.Left + Constants.AlbumTilePadding.Right + Constants.AlbumTileMargin.Left + Constants.AlbumTileMargin.Right;
+                this.AlbumHeight = this.AlbumWidth + Constants.AlbumTileAlbumInfoHeight;
 
                 RaisePropertyChanged(nameof(this.CoverSize));
                 RaisePropertyChanged(nameof(this.AlbumWidth));

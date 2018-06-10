@@ -71,14 +71,13 @@
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxAlbumsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Margin" Value="{x:Static base:Constants.AlbumTileMargin}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border>
-                        <StackPanel Background="{TemplateBinding Background}">
-                            <!-- Margin="2" allows selection color to come through -->
-                            <Grid Margin="2">
+                        <StackPanel Background="{TemplateBinding Background}" Margin="{x:Static base:Constants.AlbumTilePadding}">
+                            <Grid>
                                 <!-- Tile -->
                                 <pc:Tile Panel.ZIndex="0"
                                      Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
@@ -113,7 +112,7 @@
                                     </pc:SourceChangedImage.Triggers>
                                 </pc:SourceChangedImage>
                             </Grid>
-                            <StackPanel Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
+                            <StackPanel Background="#272727" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
                                 <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                                     <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}"/>
                                     <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground2}"/>

@@ -44,7 +44,7 @@
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
 
-    <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsbackground" StartPoint="0,0" EndPoint="0,1">
+    <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsBackground" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{DynamicResource Color_Background1}" Offset="0.0" />
         <GradientStop Color="{DynamicResource Color_Background1Invisible}" Offset="1.0" />
     </LinearGradientBrush>

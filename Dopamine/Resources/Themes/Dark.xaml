@@ -19,6 +19,7 @@
     <Color x:Key="Color_Background3">#171717</Color>
     <Color x:Key="Color_Background4">#2F2F2F</Color>
     <Color x:Key="Color_Background4Transparent">#D92F2F2F</Color>
+    <Color x:Key="Color_Background4Invisible">#002F2F2F</Color>
     <Color x:Key="Color_Foreground1">#E2E2E2</Color>
     <Color x:Key="Color_Foreground2">#5E5E5E</Color>
     <Color x:Key="Color_Overlay">#CCCCCC</Color>
@@ -27,6 +28,7 @@
     <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_Background1}"/>
     <SolidColorBrush x:Key="Brush_Background2" Color="{DynamicResource Color_Background2}"/>
     <SolidColorBrush x:Key="Brush_Background3" Color="{DynamicResource Color_Background3}"/>
+    <SolidColorBrush x:Key="Brush_Background4" Color="{DynamicResource Color_Background4}"/>
     <SolidColorBrush x:Key="Brush_Foreground1" Color="{DynamicResource Color_Foreground1}"/>
     <SolidColorBrush x:Key="Brush_Foreground2" Color="{DynamicResource Color_Foreground2}"/>
     <SolidColorBrush x:Key="Brush_Foreground3" Color="{DynamicResource Color_Background4}"/>
@@ -47,9 +49,14 @@
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
 
-    <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsbackground" StartPoint="0,0" EndPoint="0,1">
+    <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsBackground" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{DynamicResource Color_Background1}" Offset="0.0" />
         <GradientStop Color="{DynamicResource Color_Background1Invisible}" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Brush_AlbumDescriptionBackground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{DynamicResource Color_Background4}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_Background4Invisible}" Offset="1.0"/>
     </LinearGradientBrush>
 
     <!-- Transparent Background Brushes 
