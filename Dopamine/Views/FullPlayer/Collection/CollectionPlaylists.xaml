@@ -97,8 +97,8 @@
                                Foreground="{DynamicResource Brush_Foreground1}" />
                     </DockPanel>
                     <DockPanel>
-                        <DockPanel DockPanel.Dock="Bottom">
-                            <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center"
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+                            <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="20,0,0,0"
                               IsChecked="{Binding ShowTrackArt}"
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                                 <Grid>
