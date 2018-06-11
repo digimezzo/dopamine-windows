@@ -28,7 +28,7 @@
                 <DockPanel Height="29">
                     <Button x:Name="BackButton" 
                             DockPanel.Dock="Left" 
-                            Style="{StaticResource ActiveWindowButton}" 
+                            Style="{StaticResource WindowButtonAccent}" 
                             Width="45" 
                             Height="29" 
                             BorderBrush="{x:Null}" 

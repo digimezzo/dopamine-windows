@@ -13,8 +13,8 @@
     <core:Double x:Key="Opacity_CoverArtShadow">0.3</core:Double>
 
     <!-- Palette  -->
-    <Color x:Key="Color_Background1">#EEEEEE</Color>
-    <Color x:Key="Color_Background1Invisible">#EEEEEE</Color>
+    <Color x:Key="Color_GreyDarker">#EEEEEE</Color>
+    <Color x:Key="Color_GreyDarkerInvisible">#EEEEEE</Color>
     <Color x:Key="Color_Background2">#F4F4F4</Color>
     <Color x:Key="Color_Background3">#D5D5D5</Color>
     <Color x:Key="Color_Background3Transparent">#D9D5D5D5</Color>
@@ -22,7 +22,7 @@
     <Color x:Key="Color_Foreground2">#939393</Color>
 
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_Background1}"/>
+    <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_GreyDarker}"/>
     <SolidColorBrush x:Key="Brush_Background2" Color="{DynamicResource Color_Background2}"/>
     <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_Background3}"/>
     <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_Background3Transparent}"/>
@@ -40,13 +40,13 @@
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.7" RadiusY="0.7" Opacity="0.7">
         <RadialGradientBrush.GradientStops>
             <GradientStop Color="{DynamicResource Color_Accent}" Offset="0" />
-            <GradientStop Color="{DynamicResource Color_Background1Invisible}" Offset="0.7" />
+            <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="0.7" />
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
 
     <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsBackground" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{DynamicResource Color_Background1}" Offset="0.0" />
-        <GradientStop Color="{DynamicResource Color_Background1Invisible}" Offset="1.0" />
+        <GradientStop Color="{DynamicResource Color_GreyDarker}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="1.0" />
     </LinearGradientBrush>
 
 

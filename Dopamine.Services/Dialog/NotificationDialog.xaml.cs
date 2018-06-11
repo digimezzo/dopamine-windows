@@ -16,7 +16,7 @@ namespace Dopamine.Services.Dialog
             this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
             this.Icon.FontSize = iconSize;
             this.Title = title;
-            this.TextBlockTitle.Text = title.ToLower();
+            this.TextBlockTitle.Text = title;
             this.TextBlockContent.Text = content;
             this.ButtonOK.Content = okText;
             this.ButtonViewLogs.Content = viewLogsText;

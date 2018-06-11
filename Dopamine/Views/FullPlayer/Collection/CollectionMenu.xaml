@@ -20,14 +20,14 @@
     </i:Interaction.Triggers>
 
     <DockPanel Margin="0,0,180,0">
-        <dc:Pivot DockPanel.Dock="Left" IndicatorHeight="2" IndicatorBackground="{DynamicResource Brush_Accent}" Margin="0,18,0,0"
+        <dc:Pivot DockPanel.Dock="Left" Style="{DynamicResource MenuPivot}"
                   SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:CollectionPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
         <commonviews:SearchControl 
             Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"

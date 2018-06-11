@@ -7,34 +7,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
-                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" BorderThickness="0" VerticalAlignment="Center"/>
-                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_Foreground1}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush_ButtonHovered}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter TargetName="label" Property="Foreground" Value="{DynamicResource Brush_White}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.5"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- RegularButtonAccent -->
-    <!--<Style x:Key="RegularButtonAccent" TargetType="{x:Type Button}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="grid">
-                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" MinWidth="80" Height="24" Panel.ZIndex="0" Background="{DynamicResource Brush_Accent}" BorderThickness="0" VerticalAlignment="Center"/>
-                        <Label x:Name="label" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_White}" Panel.ZIndex="2" Background="Transparent" Padding="10,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" CornerRadius="3" MinWidth="80" Panel.ZIndex="0" 
+                                Background="{DynamicResource Brush_Background4}" BorderThickness="0" VerticalAlignment="Center">
+                            <Label x:Name="label" Padding="10,6,10,6" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_RegularButtonText}" 
+                               Panel.ZIndex="2" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
@@ -50,7 +27,35 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
+
+    <!-- RegularButtonAccent -->
+    <Style x:Key="RegularButtonAccent" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="grid">
+                        <Border x:Name="border" Grid.Row="0" Grid.Column="0" CornerRadius="3" MinWidth="80" Panel.ZIndex="0" 
+                                Background="{DynamicResource Brush_Accent}" BorderThickness="0" VerticalAlignment="Center">
+                            <Label x:Name="label" Padding="10,6,10,6" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_RegularButtonText}" 
+                               Panel.ZIndex="2" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!-- TransparentButton -->
     <Style x:Key="TransparentButton" TargetType="{x:Type Button}">
@@ -119,9 +124,6 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Brush_Accent}"/>
-                        </Trigger>-->
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Opacity" Value="0.7"/>
                         </Trigger>

@@ -22,11 +22,11 @@
                               CloseToolTip="{DynamicResource Language_Close}"
                               ApplyDefaultButtonColors="False"
                               CloseForeground="{DynamicResource Brush_Foreground2}"
-                              CloseHoveredForeground="{DynamicResource Brush_White}"
-                              ClosePressedForeground="{DynamicResource Brush_White}"
+                              CloseHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
+                              ClosePressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               CloseBackground="Transparent"
-                              CloseHoveredBackground="{DynamicResource Brush_Accent}"
-                              ClosePressedBackground="{DynamicResource Brush_Accent80pct}"
+                              CloseHoveredBackground="{DynamicResource Brush_WindowButtonHoveredBackground}"
+                              ClosePressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <!-- Triggers -->

@@ -18,10 +18,10 @@
     </i:Interaction.Triggers>
 
     <Grid Margin="0,0,180,0">
-        <dc:Pivot IndicatorHeight="2" IndicatorBackground="{DynamicResource Brush_Accent}" Margin="0,18,0,0"
+        <dc:Pivot Style="{DynamicResource MenuPivot}"
             SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:InformationPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_About}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_About}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

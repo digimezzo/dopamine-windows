@@ -41,10 +41,10 @@
                             CommandParameter="{Binding Header}">
                             <Grid Width="34" Height="34" HorizontalAlignment="Left">
                                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
-                                    <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
+                                    <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_SemanticZoomBackground}"/>
                                 </Viewbox>
                                 <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="18" 
-                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_White}"/>
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_SemanticZoomText}"/>
                             </Grid>
                         </Button>
                     </Border>

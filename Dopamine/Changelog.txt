@@ -1,10 +1,11 @@
-2018-06-10: Dopamine 2.0 Preview 1
+2018-06-11: Dopamine 2.0 Preview 1
 ----------------------------------
 
 - [Changed] Changed the overall design
 - [Changed] Added rating and love to the bottom left now playing pane on the main screen
 - [Changed] Tweaked the now playing screen
 - [Changed] Started reorganizing the user interface
+- [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Polish translation
 - [Changed] Updated the Portuguese (Portugal) translation
