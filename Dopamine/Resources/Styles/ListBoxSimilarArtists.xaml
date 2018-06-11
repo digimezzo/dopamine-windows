@@ -33,7 +33,7 @@
                                                 <Grid Panel.ZIndex="2" VerticalAlignment="Bottom">
                                                     <Border Panel.ZIndex="0" Background="{DynamicResource Brush_BottomBlackTopTransparent}"/>
                                                     <TextBlock Panel.ZIndex="1" TextWrapping="Wrap" Text="{Binding Name}" 
-                                                           Foreground="{DynamicResource Brush_White}" Padding="5,5,5,5"
+                                                           Foreground="{DynamicResource Brush_ImageOverlayText}" Padding="5,5,5,5"
                                                            HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                                 </Grid>
                                             </Grid>
@@ -54,13 +54,6 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="False"/>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

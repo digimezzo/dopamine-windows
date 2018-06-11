@@ -33,44 +33,39 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <DockPanel x:Name="MenuPanel" DockPanel.Dock="Top" Margin="0,0,0,15">
-            <Grid Width="56" Height="56">
-                <Viewbox Width="56" Height="56" Panel.ZIndex="0">
-                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
-                </Viewbox>
-                <TextBlock
+        <Border DockPanel.Dock="Top" Height="56" Background="{DynamicResource Brush_Background1}">
+            <DockPanel x:Name="MenuPanel">
+                <Grid Width="30" Height="30" Margin="13,0,20,0">
+                    <Viewbox Width="30" Height="30" Panel.ZIndex="0">
+                        <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_WindowIconBackground}"/>
+                    </Viewbox>
+                    <TextBlock
                       x:Name="Icon"
                       Panel.ZIndex="1"
                       Style="{StaticResource SegoeAssets}"
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Center" 
-                      FontSize="22"
+                      FontSize="16"
                       Text="&#xE104;"
-                      Foreground="{DynamicResource Brush_White}" />
-            </Grid>
-            <DockPanel x:Name="Menu" Height="56">
-                <TextBlock DockPanel.Dock="Top" Margin="15,0,0,0" Text="{Binding DialogTitle}" FontWeight="Light" FontSize="24" Foreground="{DynamicResource Brush_Foreground1}"/>
-                <Grid DockPanel.Dock="Top" Margin="15,5,0,0">
-                    <TextBlock x:Name="TagsProxy" Text="{DynamicResource Language_Tags}" Visibility="Collapsed"/>
-                    <TextBlock x:Name="LyricsProxy" Text="{DynamicResource Language_Lyrics}" Visibility="Collapsed"/>
-                    <dc:Pivot SelectedIndex="{Binding SelectedEditTrackPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:EditTrackPage}}">
-                        <dc:PivotItem Header="{Binding Text,ElementName=TagsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
-                        <dc:PivotItem Header="{Binding Text,ElementName=LyricsProxy,Converter={StaticResource StringToUpperConverter}}" Style="{StaticResource MainMenuPivotItemStyle}"/>
-                    </dc:Pivot>
+                      Foreground="{DynamicResource Brush_WindowIcon}" />
                 </Grid>
-                
+                <dc:Pivot DockPanel.Dock="Top" Style="{DynamicResource MenuPivot}"
+                          SelectedIndex="{Binding SelectedEditTrackPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:EditTrackPage}}">
+                    <dc:PivotItem Header="{DynamicResource Language_Tags}" Style="{StaticResource MenuPivotItem}"/>
+                    <dc:PivotItem Header="{DynamicResource Language_Lyrics}" Style="{StaticResource MenuPivotItem}"/>
+                </dc:Pivot>
             </DockPanel>
-        </DockPanel>
+        </Border>
         <!-- Multiple Tracks notification -->
         <TextBlock 
                 DockPanel.Dock="Top" 
-                Margin="0,0,0,20" 
+                Margin="20,20,20,0" 
                 TextWrapping="Wrap" 
                 Text="{Binding MultipleTracksWarningText}" 
                 Foreground="{DynamicResource Brush_Accent}"
                 Visibility="{Binding ShowMultipleTracksWarning,Converter={StaticResource BooleanToCollapsedConverter}}"/>
         <!-- Content -->
-        <Grid>
+        <Grid Margin="20,20,20,0">
             <Grid.Style>
                 <Style>
                     <Style.Triggers>

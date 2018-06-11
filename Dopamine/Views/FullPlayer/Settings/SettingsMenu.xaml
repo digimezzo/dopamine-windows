@@ -18,14 +18,14 @@
     </i:Interaction.Triggers>
 
     <Grid Margin="0,0,180,0">
-        <dc:Pivot IndicatorHeight="2" IndicatorBackground="{DynamicResource Brush_Accent}" Margin="0,18,0,0"
+        <dc:Pivot Style="{DynamicResource MenuPivot}"
                   SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:SettingsPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

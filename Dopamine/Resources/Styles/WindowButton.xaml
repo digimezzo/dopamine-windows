@@ -13,12 +13,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonHoveredBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonPressedBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonPressedIcon}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
@@ -29,24 +29,24 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ActiveWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+    <Style x:Key="WindowButtonAccent" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonAccentIcon}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Border">
-                        <Rectangle x:Name="rect" Fill="{DynamicResource Brush_Accent}"/>
+                        <Rectangle x:Name="rect" Fill="{DynamicResource Brush_WindowButtonAccentBackground}"/>
                         <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonHoveredBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonPressedBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonPressedIcon}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>

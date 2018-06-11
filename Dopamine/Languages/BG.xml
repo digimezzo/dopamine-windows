@@ -267,7 +267,7 @@
   <Text Key="Second">секунда</Text>
   <Text Key="Seconds">секунди</Text>
   <Text Key="Show_In_Collection">Покажи в колекцията</Text>
-  <Text Key="Show_All_Folders_In_Collection">Покажи всичко папки в колекцията</Text>
+  <Text Key="Show_All_Folders_In_Collection">Покажи всички папки в колекцията</Text>
   <Text Key="Refreshing_Collection">Обновяване на колекцията</Text>
   <Text Key="Nothing_Is_Playing">Нищо не се възпроизвежда</Text>
   <Text Key="Remove_From_Now_Playing">Махни от изпълняване сега</Text>
@@ -345,8 +345,8 @@
   <Text Key="Play_Song_And_Insert_Timestamp">Възпроизвеждане на песента и натиснете Ctrl + T, за да вмъкнете времеви индикатор в началото на текущия ред</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Влезте в Last.fm за да можете да 'Scrobble' и 'Love'</Text>
   <Text Key="Create_A_Lastfm_Account">Създай акаунт в Last.fm </Text>
-  <Text Key="Love">Обичам</Text>
-  <Text Key="Show_Love_Button">Покажи 'Обичам' бутон</Text>
+  <Text Key="Love">Любими</Text>
+  <Text Key="Show_Love_Button">Покажи бутона 'Любими'</Text>
   <Text Key="Show_Rating_Button">Покажи 'Рейтинг' бутон</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Покажи известие, когато паузирате песен</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Покажи известие, когато се пусне пак песента</Text>
