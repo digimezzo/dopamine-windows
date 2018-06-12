@@ -28,7 +28,6 @@
     
     <!-- Palette -->
     <Color x:Key="Color_White">#FFFFFF</Color>
-    <Color x:Key="Color_WhiteInvisible">#00FFFFFF</Color>
     <Color x:Key="Color_Black">#000000</Color>
     <Color x:Key="Color_BlackInvisible">#00000000</Color>
     <Color x:Key="Color_Grey">#CCCCCC</Color>

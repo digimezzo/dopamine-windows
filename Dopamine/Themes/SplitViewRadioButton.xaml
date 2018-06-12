@@ -19,19 +19,19 @@
                             <StackPanel Orientation="Horizontal" Panel.ZIndex="1">
                                 <Border Margin="16,0,0,0" VerticalAlignment="Center">
                                     <fwc:SegoeIcon x:Name="MyIcon" Text="{TemplateBinding Icon}" Margin="0,2,0,0"
-                                                 Foreground="{DynamicResource Brush_Foreground1}"
+                                                 Foreground="{DynamicResource Brush_PrimaryText}"
                                                  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
                                 <Label Padding="0" x:Name="MyContent" Margin="16,0,0,0" 
                                    FontSize="13" Content="{TemplateBinding Content}" 
-                                   Foreground="{DynamicResource Brush_Foreground2}" VerticalAlignment="Center"/>
+                                   Foreground="{DynamicResource Brush_SecondaryText}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DockPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="controls:SplitViewRadioButton.IsChecked" Value="True">
                             <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="MyContent" Property="Foreground" Value="{DynamicResource Brush_Foreground1}"/>
+                            <Setter TargetName="MyContent" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}"/>
                             <Setter TargetName="SelectionBorder" Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

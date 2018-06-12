@@ -44,53 +44,53 @@
         <!-- SONG -->
         <Label Grid.Row="0" Margin="0,0,0,5" Style="{StaticResource TitleLabel}" Grid.ColumnSpan="2" Content="{DynamicResource Language_Song}" />
         <!-- Title -->
-        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Title}"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongTitle}"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Title}"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongTitle}"/>
         <!-- Artists -->
-        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Artists}"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongArtists}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Artists}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongArtists}"/>
         <!-- Album -->
-        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Album}"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongAlbum}"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Album}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongAlbum}"/>
         <!-- Year -->
-        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Year}"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongYear}"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Year}"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongYear}"/>
         <!-- Genres -->
-        <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Genres}"/>
-        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongGenres}"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Genres}"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongGenres}"/>
         <!-- Track number -->
-        <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Track_Number}"/>
-        <TextBlock Grid.Row="6" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding SongTrackNumber}"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Track_Number}"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding SongTrackNumber}"/>
         <!-- FILE -->
         <Label Grid.Row="7" Margin="0,20,0,5" Style="{StaticResource TitleLabel}" Grid.ColumnSpan="2" Content="{DynamicResource Language_File}" />
         <!-- Name -->
-        <TextBlock Grid.Row="8" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Name}"/>
-        <TextBlock Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding FileName}"/>
+        <TextBlock Grid.Row="8" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Name}"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding FileName}"/>
         <!-- Folder -->
-        <TextBlock Grid.Row="9" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Folder}"/>
-        <TextBlock Grid.Row="9" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding FileFolder}"/>
+        <TextBlock Grid.Row="9" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Folder}"/>
+        <TextBlock Grid.Row="9" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding FileFolder}"/>
         <!-- Path -->
-        <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Path}"/>
-        <TextBlock Grid.Row="10" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding FilePath}"/>
+        <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Path}"/>
+        <TextBlock Grid.Row="10" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding FilePath}"/>
         <!-- Size -->
-        <TextBlock Grid.Row="11" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Size}"/>
-        <TextBlock Grid.Row="11" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding FileSize}"/>
+        <TextBlock Grid.Row="11" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Size}"/>
+        <TextBlock Grid.Row="11" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding FileSize}"/>
         <!-- Last modified -->
-        <TextBlock Grid.Row="12" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Last_Modified}"/>
-        <TextBlock Grid.Row="12" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding FileLastModified}"/>
+        <TextBlock Grid.Row="12" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Last_Modified}"/>
+        <TextBlock Grid.Row="12" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding FileLastModified}"/>
         <!-- AUDIO -->
         <Label Grid.Row="13" Margin="0,20,0,5" Style="{StaticResource TitleLabel}" Grid.ColumnSpan="2" Content="{DynamicResource Language_Audio}" />
         <!-- Duration -->
-        <TextBlock Grid.Row="14" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Duration}"/>
-        <TextBlock Grid.Row="14" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding AudioDuration}"/>
+        <TextBlock Grid.Row="14" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Duration}"/>
+        <TextBlock Grid.Row="14" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding AudioDuration}"/>
         <!-- Type -->
-        <TextBlock Grid.Row="15" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Type}"/>
-        <TextBlock Grid.Row="15" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding AudioType}"/>
+        <TextBlock Grid.Row="15" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Type}"/>
+        <TextBlock Grid.Row="15" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding AudioType}"/>
         <!-- Sample rate -->
-        <TextBlock Grid.Row="16" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Sample_Rate}"/>
-        <TextBlock Grid.Row="16" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding AudioSampleRate}"/>
+        <TextBlock Grid.Row="16" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Sample_Rate}"/>
+        <TextBlock Grid.Row="16" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding AudioSampleRate}"/>
         <!-- Bitrate -->
-        <TextBlock Grid.Row="17" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_Foreground2}" Text="{DynamicResource Language_Bitrate}"/>
-        <TextBlock Grid.Row="17" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" Text="{Binding AudioBitrate}"/>
+        <TextBlock Grid.Row="17" Grid.Column="0" Margin="0,5,10,0" Foreground="{DynamicResource Brush_SecondaryText}" Text="{DynamicResource Language_Bitrate}"/>
+        <TextBlock Grid.Row="17" Grid.Column="1" Margin="0,5,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding AudioBitrate}"/>
     </Grid>
 </UserControl>

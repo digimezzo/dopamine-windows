@@ -101,13 +101,13 @@
         <!-- SplitView Pane -->
         <fwc:SplitView.Pane>
             <Grid>
-                <Border Background="{DynamicResource Brush_Background2}" Width="300"></Border>
+                <Border Background="{DynamicResource Brush_MainWindowBackground}" Width="300"></Border>
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="{DynamicResource Brush_Background1}">
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource Brush_WindowHeaderBackground}">
                         <Button x:Name="HeaderButton" Height="112" Style="{DynamicResource TransparentFixedButton}"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                             Click="HeaderButton_Click">
-                            <controls:FullLogoSmall x:Name="AppName" Foreground="{DynamicResource Brush_Foreground1}" Accent="{DynamicResource Brush_Accent}"/>
+                            <controls:FullLogoSmall x:Name="AppName" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}"/>
                         </Button>
                     </Border>
                     <DockPanel>
@@ -141,7 +141,7 @@
         <fwc:SplitView.Content>
             <Grid x:Name="SplitViewContent">
                 <Border VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                        Height="56" Background="{DynamicResource Brush_Background1}"/>
+                        Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <Border DockPanel.Dock="Left" Width="65"/>

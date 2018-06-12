@@ -32,7 +32,7 @@
                 <TextBlock Text="{Binding TracksCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                 <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
-                               Foreground="{DynamicResource Brush_Foreground1}" />
+                               Foreground="{DynamicResource Brush_PrimaryText}" />
             </DockPanel>
             <commonviews:SearchControl Grid.Column="2" VerticalAlignment="Center"/>
         </Grid>
@@ -43,16 +43,16 @@
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
                     <Grid>
                         <Border ToolTip="{DynamicResource Language_Hide_Song_Covers}" Visibility="{Binding ShowTrackArt,Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_Foreground2}" FontSize="24"/>
+                            <TextBlock Text="&#xE896;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_SecondaryText}" FontSize="24"/>
                         </Border>
                         <Border ToolTip="{DynamicResource Language_Show_Song_Covers}" Visibility="{Binding ShowTrackArt,Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
-                            <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_Foreground2}" FontSize="24"/>
+                            <TextBlock Text="&#xE8EF;" Style="{StaticResource Material}" Foreground="{DynamicResource Brush_SecondaryText}" FontSize="24"/>
                         </Border>
                     </Grid>
                 </ToggleButton>
                 <pc:TotalsInformation
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource Brush_Foreground2}" 
+                    Foreground="{DynamicResource Brush_SecondaryText}" 
                     FontSize="13"
                     TotalDurationInformation="{Binding TotalDurationInformation}"
                     TotalSizeInformation="{Binding TotalSizeInformation}"/>

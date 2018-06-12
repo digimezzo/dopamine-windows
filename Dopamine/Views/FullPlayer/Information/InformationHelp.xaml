@@ -12,7 +12,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_File_Types}" />
-            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_File_Types_Description}" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_File_Types_Description}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <Separator Height="20" Background="Transparent"/>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Keyboard_Shortcuts}" />
             <Grid Margin="0,5,0,0">
@@ -32,40 +32,40 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Plus}" Style="{StaticResource NormalKey}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Increase_Volume_By_5_Percent}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Increase_Volume_By_5_Percent}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <pc:CombiLabel Grid.Row="1" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="{StaticResource Language_Key_Plus}" Style="{StaticResource Hotkey}"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Increase_Volume_By_1_Percent}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Increase_Volume_By_1_Percent}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <Label Grid.Row="2" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Minus}" Style="{StaticResource NormalKey}"/>
-                <TextBlock Grid.Row="2" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Decrease_Volume_By_5_Percent}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Decrease_Volume_By_5_Percent}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <pc:CombiLabel Grid.Row="3" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="{StaticResource Language_Key_Minus}" Style="{StaticResource Hotkey}"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Decrease_Volume_By_1_Percent}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Decrease_Volume_By_1_Percent}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <Label Grid.Row="4" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="&#xE72B;" Style="{StaticResource SegoeNormalKey}"/>
-                <TextBlock Grid.Row="4" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Long_Jump_Backward}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Long_Jump_Backward}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <pc:CombiLabel Grid.Row="5" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="&#xE72B;" Style="{StaticResource SegoeHotkey}"/>
-                <TextBlock Grid.Row="5" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Short_Jump_Backward}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Short_Jump_Backward}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <Label Grid.Row="6" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="&#xE72A;" Style="{StaticResource SegoeNormalKey}"/>
-                <TextBlock Grid.Row="6" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Long_Jump_Forward}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="6" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Long_Jump_Forward}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <pc:CombiLabel Grid.Row="7" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="&#xE72A;" Style="{StaticResource SegoeHotkey}"/>
-                <TextBlock Grid.Row="7" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Short_Jump_Forward}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="7" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Short_Jump_Forward}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
                 <pc:CombiLabel Grid.Row="8" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="L" Style="{StaticResource Hotkey}"/>
-                <TextBlock Grid.Row="8" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Log_File}" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <TextBlock Grid.Row="8" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Log_File}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </Grid>
             <Separator Height="20" Background="Transparent" />
             <!-- Media keys -->
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Media_Keys}" />
-            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Supported_Media_Keys}" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Supported_Media_Keys}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <Separator Height="20" Background="Transparent" />
             <!-- Output device -->
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Audio_Device}" />
-            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Dopamine_Uses_WASAPI}" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <TextBlock Margin="0,5,0,0" TextWrapping="Wrap" Text="{DynamicResource Language_Dopamine_Uses_WASAPI}" Foreground="{DynamicResource Brush_PrimaryText}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

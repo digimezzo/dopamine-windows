@@ -24,18 +24,18 @@
 
         <!-- Name -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-            <TextBlock Text="{DynamicResource Language_Name}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <TextBlock Text="{DynamicResource Language_Name}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <TextBlock Text=" *" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Accent}"/>
         </StackPanel>
         <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="0" Grid.Column="2" Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <!-- Url -->
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
-            <TextBlock Text="{DynamicResource Language_Url}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Foreground1}"/>
+            <TextBlock Text="{DynamicResource Language_Url}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <TextBlock Text=" *" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Accent}"/>
         </StackPanel>
         <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="2" Grid.Column="2" Text="{Binding Path=Url,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <!-- Separator -->
-        <TextBlock Text="{DynamicResource Language_Separator}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource Brush_Foreground1}"/>
+        <TextBlock Text="{DynamicResource Language_Separator}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource Brush_PrimaryText}"/>
         <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="4" Grid.Column="2" Text="{Binding Path=Separator,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

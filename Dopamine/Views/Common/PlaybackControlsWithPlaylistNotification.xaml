@@ -51,7 +51,7 @@
                     VerticalAlignment="Center" 
                     Foreground="{DynamicResource Brush_Accent}" 
                     FontSize="14" />
-                <TextBlock Margin="10,0,0,0" Text="{Binding AddedTracksToPlaylistText}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}" VerticalAlignment="Center" />
+                <TextBlock Margin="10,0,0,0" Text="{Binding AddedTracksToPlaylistText}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center" />
             </DockPanel>
             <Border.Style>
                 <Style>

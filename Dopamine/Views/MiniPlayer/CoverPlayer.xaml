@@ -12,7 +12,7 @@
                               d:DesignHeight="300" d:DesignWidth="300"
                               Loaded="CommonMiniPlayerView_Loaded"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True"
-                              Background="{DynamicResource Brush_Background1}">
+                              Background="{DynamicResource Brush_WindowHeaderBackground}">
 
     <baseviews:MiniPlayerViewBase.Resources>
         <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>

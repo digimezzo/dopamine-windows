@@ -9,9 +9,9 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel Margin="20,20,20,0">
-        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_Foreground1}" Text="This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
-        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_Foreground1}" Margin="0,15,0,0" Text="This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details."/>
-        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_Foreground1}" Margin="0,15,0,0" Text="You should have received a copy of the GNU General Public License along with this program. If not, see"/>
+        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryText}" Text="This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."/>
+        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryText}" Margin="0,15,0,0" Text="This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details."/>
+        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryText}" Margin="0,15,0,0" Text="You should have received a copy of the GNU General Public License along with this program. If not, see"/>
         <Button Style="{StaticResource LinkButton}" Content="http://www.gnu.org/licenses/" Command="{Binding OpenLinkCommand}" CommandParameter="http://www.gnu.org/licenses/"/>
     </StackPanel>
 </UserControl>

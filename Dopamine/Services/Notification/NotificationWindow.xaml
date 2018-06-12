@@ -33,7 +33,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource Brush_Background1}">
+    <Border RenderTransformOrigin="0,1" Opacity="0" Margin="10" BorderThickness="0" Background="{DynamicResource Brush_WindowHeaderBackground}">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
         </Border.Effect>
@@ -54,10 +54,10 @@
                                              Width="{Binding ActualHeight,ElementName=Me}"
                                              Height="{Binding ActualHeight,ElementName=Me}"
                                              IconSizePercent="{x:Static mybase:Constants.HeadPhoneSmallSize}"
-                                             Background="{DynamicResource Brush_Foreground3}">
+                                             Background="{DynamicResource Brush_CoverTileBackground}">
                         <controls:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
+                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
                             </Viewbox>
                         </controls:Tile.Content>
                     </controls:Tile>
@@ -76,7 +76,7 @@
                     <views:VerticalVolumeControls x:Name="VolumePanel" Margin="0,0,10,0" DockPanel.Dock="Left" Width="30"/>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="5,0,5,0">
-                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource Brush_Foreground1}"/>
+                            <TextBlock x:Name="TextBoxTitle" TextTrimming="CharacterEllipsis" FontSize="22" FontWeight="Light" TextAlignment="Left" Foreground="{DynamicResource Brush_PrimaryText}"/>
                             <TextBlock x:Name="TextBoxArtist" TextTrimming="CharacterEllipsis" TextAlignment="Left" Foreground="{DynamicResource Brush_Accent}"  />
                             <StackPanel.ToolTip>
                                 <ToolTip>

@@ -9,7 +9,7 @@
     <Style x:Key="MetroCheckBox"
            TargetType="CheckBox">
         <Setter Property="Foreground"
-                Value="{DynamicResource Brush_Foreground1}" />
+                Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="HorizontalContentAlignment"
                 Value="Left" />
         <Setter Property="VerticalContentAlignment"
@@ -96,9 +96,9 @@
                             <Rectangle Fill="Transparent" />
                             <Rectangle x:Name="normal"
                                    Opacity="1"
-                                   Stroke="{DynamicResource Brush_Border}"
+                                   Stroke="{DynamicResource Brush_ControlBorder}"
                                    StrokeThickness="1"
-                                   Fill="{DynamicResource Brush_Background2}"
+                                   Fill="{DynamicResource Brush_MainWindowBackground}"
                                    Width="18"
                                    Height="18" />
                             <Rectangle x:Name="hover"
@@ -139,7 +139,7 @@
                             <Rectangle x:Name="disabled"
                                    Opacity="0"
                                    StrokeThickness="1"
-                                   Fill="{DynamicResource Brush_Background2}"
+                                   Fill="{DynamicResource Brush_MainWindowBackground}"
                                    Width="18"
                                    Height="18" />
                         </Grid>
