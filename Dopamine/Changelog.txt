@@ -1,4 +1,4 @@
-2018-06-11: Dopamine 2.0 Preview 1
+2018-06-12: Dopamine 2.0 Preview 1
 ----------------------------------
 
 - [Changed] Changed the overall design
@@ -6,6 +6,7 @@
 - [Changed] Tweaked the now playing screen
 - [Changed] Started reorganizing the user interface
 - [Changed] Updated the Bulgarian translation
+- [Changed] Updated the German translation
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Polish translation
 - [Changed] Updated the Portuguese (Portugal) translation
