@@ -106,13 +106,13 @@
                                    FontSize="20" 
                                    FontWeight="Light"
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource Brush_Foreground1}"/>
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                                 <TextBlock Text="{Binding GroupSubHeader}" 
                                    DataContext="{Binding Items}" 
                                    Margin="0,0,0,10" 
                                    HorizontalAlignment="Stretch" 
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource Brush_Foreground2}"/>
+                                   Foreground="{DynamicResource Brush_SecondaryText}"/>
                             </StackPanel>
                             <ItemsPresenter HorizontalAlignment="Stretch"/>
                         </StackPanel>
@@ -204,7 +204,7 @@
                                            VerticalAlignment="Center"
                                            FontSize="13"
                                            MinWidth="17"
-                                           Foreground="{DynamicResource Brush_Foreground2}"/>
+                                           Foreground="{DynamicResource Brush_SecondaryText}"/>
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                 <Label Style="{DynamicResource SpectrumAnimation}"
@@ -217,25 +217,25 @@
                                     VerticalAlignment="Center" 
                                     Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                     Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    Foreground="{DynamicResource Brush_Foreground1}"/>
+                                    Foreground="{DynamicResource Brush_PrimaryText}"/>
                                 <pc:LoveButton 
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center" 
-                                    Foreground="{DynamicResource Brush_Foreground1}"
+                                    Foreground="{DynamicResource Brush_PrimaryText}"
                                     SelectedForeground="{DynamicResource Brush_Accent}"
                                     Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
                                     Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                 <TextBlock
                                     Width="60"
                                     Text="{Binding Duration}" 
-                                    Foreground="{DynamicResource Brush_Foreground2}"
+                                    Foreground="{DynamicResource Brush_SecondaryText}"
                                     TextAlignment="Right"
                                     FontSize="13" 
                                     VerticalAlignment="Center"
                                     Margin="0,0,2,0"/>
                             </StackPanel>
                             <TextBlock Text="{Binding TrackTitle}"
-                                       Foreground="{DynamicResource Brush_Foreground1}"
+                                       Foreground="{DynamicResource Brush_PrimaryText}"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Stretch" 
                                        TextTrimming="CharacterEllipsis"

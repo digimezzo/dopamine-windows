@@ -70,7 +70,7 @@
     <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxAlbumsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Margin" Value="{x:Static base:Constants.AlbumTileMargin}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -84,10 +84,10 @@
                                      Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                                      Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"        
                                      IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                                     Background="#202020">
+                                     Background="{DynamicResource Brush_CoverTileBackground}">
                                         <pc:Tile.Content>
                                             <Viewbox>
-                                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_Foreground2}"/>
+                                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
                                             </Viewbox>
                                         </pc:Tile.Content>
                                     </pc:Tile>
@@ -113,15 +113,15 @@
                                         </pc:SourceChangedImage.Triggers>
                                     </pc:SourceChangedImage>
                                 </Grid>
-                                <StackPanel Background="{DynamicResource Brush_Background4}" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
+                                <StackPanel Background="{DynamicResource Brush_AlbumTileInfoBackground}" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
                                     <Grid Margin="6">
                                         <StackPanel Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}"/>
-                                            <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground2}"/>
+                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                            <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
                                         </StackPanel>
                                         <StackPanel Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                            <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground1}"/>
-                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_Foreground2}"/>
+                                            <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
                                         </StackPanel>
                                     </Grid>
                                     <StackPanel.ToolTip>

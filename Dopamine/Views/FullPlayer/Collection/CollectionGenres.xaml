@@ -38,7 +38,7 @@
         MiddlePaneMinimumWidth="250"
         RightPaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
-            <Border Background="{DynamicResource Brush_Background3}">
+            <Border Background="{DynamicResource Brush_PaneBackground}">
                 <DockPanel Margin="20,20,20,26">
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                         <TextBlock Text="{Binding GenresCount}" FontSize="13"
@@ -48,14 +48,14 @@
                                 VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
                                 Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                             <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
-                                       Foreground="{DynamicResource Brush_Foreground2}" />
+                                       Foreground="{DynamicResource Brush_SecondaryText}" />
                         </Button>
                         <Button x:Name="GenresButton" 
                                 Content="{DynamicResource Language_Genres}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_Foreground1}"
+                                Foreground="{DynamicResource Brush_PrimaryText}"
                                 Click="GenresButton_Click" ToolTip="{DynamicResource Language_Select_None}">
                         </Button>
                     </DockPanel>
@@ -123,11 +123,11 @@
                             Style="{StaticResource TransparentButton}"
                             FontSize="13" 
                             Margin="10,0,0,0"
-                            Foreground="{DynamicResource Brush_Foreground2}"
+                            Foreground="{DynamicResource Brush_SecondaryText}"
                             Command="{Binding ToggleAlbumOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Album_Order}"/>
                     <Button x:Name="AlbumsButton" Content="{DynamicResource Language_Albums}" FontSize="13" Margin="10,0,0,0"
                             Style="{StaticResource TransparentButton}"
-                            Foreground="{DynamicResource Brush_Foreground1}"
+                            Foreground="{DynamicResource Brush_PrimaryText}"
                             Click="AlbumsButton_Click" ToolTip="{DynamicResource Language_Select_None}"/>
                 </DockPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
@@ -151,7 +151,7 @@
             </DockPanel>
         </dc:MultiPanePanel.MiddlePaneContent>
         <dc:MultiPanePanel.RightPaneContent>
-            <Border Background="{DynamicResource Brush_Background3}">
+            <Border Background="{DynamicResource Brush_PaneBackground}">
                 <DockPanel Margin="20,20,20,26">
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                         <TextBlock Text="{Binding TracksCount}" FontSize="13"
@@ -160,16 +160,16 @@
                             Style="{StaticResource TransparentButton}"
                             FontSize="13" 
                             Margin="10,0,0,0"
-                            Foreground="{DynamicResource Brush_Foreground2}"
+                            Foreground="{DynamicResource Brush_SecondaryText}"
                             Command="{Binding ToggleTrackOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Track_Order}"/>
                         <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
-                               Foreground="{DynamicResource Brush_Foreground1}" />
+                               Foreground="{DynamicResource Brush_PrimaryText}" />
                     </DockPanel>
                     <DockPanel>
                         <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
                                 Margin="0,20,0,0" 
-                                Foreground="{DynamicResource Brush_Foreground2}" 
+                                Foreground="{DynamicResource Brush_SecondaryText}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>

@@ -45,7 +45,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -68,10 +68,10 @@
                                         <pc:Tile Width="40" Height="40"
                                              Panel.ZIndex="0"
                                              IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
-                                             Background="{DynamicResource Brush_Foreground3}">
+                                             Background="{DynamicResource Brush_CoverTileBackground}">
                                             <pc:Tile.Content>
                                                 <Viewbox>
-                                                    <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
+                                                    <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
                                                 </Viewbox>
                                             </pc:Tile.Content>
                                         </pc:Tile>
@@ -83,7 +83,7 @@
                                         Text="{Binding Value.FormattedTrackNumber}" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
-                                        Foreground="{DynamicResource Brush_Foreground2}"
+                                        Foreground="{DynamicResource Brush_SecondaryText}"
                                         FontSize="13"/>
                                     </Border>
                                 </Grid>
@@ -129,7 +129,7 @@
                                                TextTrimming="CharacterEllipsis"
                                                Margin="10,0,10,0"
                                                FontSize="11"
-                                               Foreground="{DynamicResource Brush_Foreground2}"/>
+                                               Foreground="{DynamicResource Brush_SecondaryText}"/>
                                     </DockPanel>
                                 </StackPanel>
                             </DockPanel>

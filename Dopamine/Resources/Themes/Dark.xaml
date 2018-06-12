@@ -12,75 +12,54 @@
     <!-- Constants -->
     <core:Double x:Key="Opacity_CoverArtShadow">0.5</core:Double>
 
-    <!-- Palette (1 = lighter, n = darker)  -->
-    <!--<Color x:Key="Color_DarkGrey1">#333333</Color>
-    <Color x:Key="Color_DarkGrey2">#2F2F2F</Color>
-    <Color x:Key="Color_DarkGrey2_85%">#D92F2F2F</Color>
-    <Color x:Key="Color_DarkGrey2_0%">#002F2F2F</Color>
-    <Color x:Key="Color_DarkGrey3">#272727</Color>
-    <Color x:Key="Color_DarkGrey4">#1A1A1A</Color>
-    <Color x:Key="Color_DarkGrey5">#171717</Color>
-    <Color x:Key="Color_DarkGrey6">#111111</Color>
-    <Color x:Key="Color_DarkGrey6_0%">#00111111</Color>
-    <Color x:Key="Color_LightGrey1">#E2E2E2</Color>
-    <Color x:Key="Color_LightGrey2">#5E5E5E</Color>-->
-
-    <Color x:Key="Color_GreyDarker">#111111</Color>
-    <Color x:Key="Color_GreyDarkerInvisible">#00111111</Color>
-    <Color x:Key="Color_Background3">#171717</Color>
-    <Color x:Key="Color_Background2">#1A1A1A</Color>
-    <Color x:Key="Color_Background4">#272727</Color>
-    <Color x:Key="Color_Background5">#2F2F2F</Color>
-    <Color x:Key="Color_Background5Transparent">#D92F2F2F</Color>
-    <Color x:Key="Color_Background5Invisible">#002F2F2F</Color>
-    <Color x:Key="Color_Border">#333333</Color>
-
-    <Color x:Key="Color_Foreground1">#E2E2E2</Color>
-    <Color x:Key="Color_Foreground2">#5E5E5E</Color>
-
+    <!-- Palette -->
+    <Color x:Key="Color_SoftWhite">#E2E2E2</Color>
+    <Color x:Key="Color_MediumGrey">#5E5E5E</Color>
+    <Color x:Key="Color_DarkGrey1">#111111</Color>
+    <Color x:Key="Color_DarkGrey1Invisible">#00111111</Color>
+    <Color x:Key="Color_DarkGrey2">#171717</Color>
+    <Color x:Key="Color_DarkGrey3">#1A1A1A</Color>
+    <Color x:Key="Color_DarkGrey4">#202020</Color>
+    <Color x:Key="Color_DarkGrey5">#272727</Color>
+    <Color x:Key="Color_DarkGrey6">#2F2F2F</Color>
+    <Color x:Key="Color_DarkGrey6Transparent">#D92F2F2F</Color>
+    <Color x:Key="Color_DarkGrey6Invisible">#002F2F2F</Color>
+    <Color x:Key="Color_DarkGrey7">#333333</Color>
+    <Color x:Key="Color_DarkGrey8">#666666</Color>
+    
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_GreyDarker}"/>
-    <SolidColorBrush x:Key="Brush_Background2" Color="{DynamicResource Color_Background2}"/>
-    <SolidColorBrush x:Key="Brush_Background3" Color="{DynamicResource Color_Background3}"/>
-    <SolidColorBrush x:Key="Brush_Background4" Color="{DynamicResource Color_Background4}"/>
-    <SolidColorBrush x:Key="Brush_Background5" Color="{DynamicResource Color_Background5}"/>
-    <SolidColorBrush x:Key="Brush_Foreground1" Color="{DynamicResource Color_Foreground1}"/>
-    <SolidColorBrush x:Key="Brush_Foreground2" Color="{DynamicResource Color_Foreground2}"/>
-    <SolidColorBrush x:Key="Brush_Foreground3" Color="{DynamicResource Color_Background5}"/>
-    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_Background5}"/>
-    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_Background5Transparent}"/>
+    <SolidColorBrush x:Key="Brush_PrimaryText" Color="{DynamicResource Color_SoftWhite}"/>
+    <SolidColorBrush x:Key="Brush_SecondaryText" Color="{DynamicResource Color_MediumGrey}"/>
+    <SolidColorBrush x:Key="Brush_WindowHeaderBackground" Color="{StaticResource Color_DarkGrey1}"/>
+    <SolidColorBrush x:Key="Brush_PaneBackground" Color="{DynamicResource Color_DarkGrey2}"/>
+    <SolidColorBrush x:Key="Brush_MainWindowBackground" Color="{DynamicResource Color_DarkGrey3}"/>
+    <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_DarkGrey3}" Opacity="0.96"/>
+    <SolidColorBrush x:Key="Brush_RegularButtonBackground" Color="{DynamicResource Color_DarkGrey5}"/>
+    <SolidColorBrush x:Key="Brush_HotKeyButtonBackground" Color="{DynamicResource Color_DarkGrey5}"/>
+    <SolidColorBrush x:Key="Brush_ListBoxBackground" Color="{DynamicResource Color_DarkGrey5}"/>
+    <SolidColorBrush x:Key="Brush_TextBoxBackground" Color="{DynamicResource Color_DarkGrey5}"/>
+    <SolidColorBrush x:Key="Brush_AlbumTileInfoBackground" Color="{DynamicResource Color_DarkGrey5}"/>
+    <SolidColorBrush x:Key="Brush_CoverTileBackground" Color="{DynamicResource Color_DarkGrey4}"/>
+    <SolidColorBrush x:Key="Brush_CoverTileIcon" Color="{DynamicResource Color_MediumGrey}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_DarkGrey6}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_DarkGrey6Transparent}"/>
     <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
     <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_Grey}" Opacity="0.2"/>
-    <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
-    <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_Background2}" Opacity="0.96"/>
-    <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_Background5}" Opacity="0.5"/>
-    <SolidColorBrush x:Key="Brush_Border" Color="{DynamicResource Color_Border}"/>
-    <SolidColorBrush x:Key="Brush_ButtonHovered" Color="{DynamicResource Color_Overlay}" Opacity="0.15"/>
-
+    <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_DarkGrey6}" Opacity="0.5"/>
+    <SolidColorBrush x:Key="Brush_ControlBorder" Color="{DynamicResource Color_DarkGrey7}"/>
+    <SolidColorBrush x:Key="Brush_ItemHovered" Color="{DynamicResource Color_DarkGrey8}" Opacity="0.05"/>
+    <SolidColorBrush x:Key="Brush_ItemSelected" Color="{DynamicResource Color_DarkGrey8}" Opacity="0.15"/>
+    
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">
         <RadialGradientBrush.GradientStops>
             <GradientStop Color="{DynamicResource Color_Accent}" Offset="0" />
-            <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="0.7" />
+            <GradientStop Color="{DynamicResource Color_DarkGrey1Invisible}" Offset="0.7" />
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
 
     <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsBackground" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{DynamicResource Color_GreyDarker}" Offset="0.0" />
-        <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="1.0"/>
+        <GradientStop Color="{DynamicResource Color_DarkGrey1}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_DarkGrey1Invisible}" Offset="1.0"/>
     </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Brush_AlbumDescriptionBackground" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{DynamicResource Color_Background5}" Offset="0.0" />
-        <GradientStop Color="{DynamicResource Color_Background5Invisible}" Offset="1.0"/>
-    </LinearGradientBrush>
-
-    <!-- Transparent Background Brushes 
-    (#AAAAAA is equivalent to #1A1A1A but with transparency)
-    (#CCCCCC is equivalent to #292929 but with transparency) 
-    -->
-    <Color x:Key="Color_ItemHovered">#0D666666</Color>
-    <Color x:Key="Color_ItemSelected">#26666666</Color>
-    <SolidColorBrush x:Key="Brush_ItemHovered" Color="{DynamicResource Color_ItemHovered}"/>
-    <SolidColorBrush x:Key="Brush_ItemSelected" Color="{DynamicResource Color_ItemSelected}"/>
 </ResourceDictionary>

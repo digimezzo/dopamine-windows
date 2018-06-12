@@ -21,7 +21,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <StackPanel>
+    <StackPanel Margin="20,20,20,0">
         <CheckBox DockPanel.Dock="Left" Style="{StaticResource MetroCheckBox}" Content="{DynamicResource Language_Enable_Equalizer}" Margin="0,0,0,15" IsChecked="{Binding IsEqualizerEnabled}"/>
         <StackPanel IsHitTestVisible="{Binding IsEqualizerEnabled}">
             <StackPanel.Style>
@@ -50,58 +50,58 @@
             </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" IsHitTestVisible="{Binding IsEqualizerEnabled}">
                 <Grid Height="215" VerticalAlignment="Top" Margin="0,0,20,0">
-                    <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource Brush_Foreground1}"/>
-                    <TextBlock Text="+0 dB" VerticalAlignment="Center" Foreground="{DynamicResource Brush_Foreground1}"/>
-                    <TextBlock Text="-20 dB" VerticalAlignment="Bottom" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <TextBlock Text="+20 dB" VerticalAlignment="Top" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <TextBlock Text="+0 dB" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <TextBlock Text="-20 dB" VerticalAlignment="Bottom" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 </Grid>
                 <StackPanel Margin="0,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band0,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="70" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band0,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="70" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band0Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band1,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="180" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band1,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="180" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band1Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band2,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="320" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band2,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="320" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band2Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band3,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="600" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band3,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="600" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band3Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band4,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="1K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band4,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="1K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band4Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band5,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="3K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band5,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="3K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band5Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band6,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="6K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band6,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="6K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band6Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band7,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="12K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band7,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="12K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band7Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band8,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="14K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band8,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="14K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band8Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" Width="30">
-                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band9,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_Background1}" ButtonBackground="{DynamicResource Brush_Foreground1}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                    <TextBlock HorizontalAlignment="Center" Text="16K" Foreground="{DynamicResource Brush_Foreground1}"/>
+                    <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="200" Minimum="-20" Maximum="20" Margin="0,10,0,20" Value="{Binding Band9,Mode=TwoWay}" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_MainWindowBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                    <TextBlock HorizontalAlignment="Center" Text="16K" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Band9Label}" Foreground="{DynamicResource Brush_Accent}"/>
                 </StackPanel>
             </StackPanel>

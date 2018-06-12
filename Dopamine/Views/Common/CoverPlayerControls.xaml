@@ -15,7 +15,7 @@
     <StackPanel Panel.ZIndex="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="70">
         <ToggleButton x:Name="PlaylistButton" Style="{StaticResource TransparentToggleButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Playlist}" Command="{x:Static cp:ApplicationCommands.CoverPlayerPlaylistButtonCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
             <Grid>
-                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Foreground1}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                 <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </ToggleButton>

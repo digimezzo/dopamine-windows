@@ -25,7 +25,7 @@
                     <StackPanel Visibility="{Binding DataContext.IsDownloadingLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InvertingBooleanToVisibilityConverter}}">
                         <TextBlock
               FontSize="18"
-              Foreground="{DynamicResource Brush_Foreground1}"
+              Foreground="{DynamicResource Brush_PrimaryText}"
               Text="{DynamicResource Language_No_Lyrics_Found}" />
                         <Button
               Margin="0,10,0,0"
@@ -93,7 +93,7 @@
                     Visibility="{Binding IsHighlighted, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     <TextBlock
                     FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                    Foreground="{DynamicResource Brush_Foreground1}"
+                    Foreground="{DynamicResource Brush_PrimaryText}"
                     Text="{Binding Text}"
                     TextAlignment="{Binding DataContext.CenterLyrics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Converter={StaticResource BooleanToCenterTextAlignmentConverter}}"
                     TextWrapping="Wrap"
@@ -250,13 +250,13 @@
                     <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE73E;" />
                     <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Text="{DynamicResource Language_Audio_File}" />
                 </StackPanel>
                 <StackPanel
@@ -266,13 +266,13 @@
                     <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE73E;" />
                     <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Text="{DynamicResource Language_Lyrics_File}" />
                 </StackPanel>
                 <StackPanel
@@ -282,13 +282,13 @@
                     <TextBlock
             VerticalAlignment="Center"
             FontSize="17"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Style="{StaticResource SegoeAssets}"
             Text="&#xE753;" />
                     <TextBlock
             Margin="5,0,0,0"
             VerticalAlignment="Center"
-            Foreground="{DynamicResource Brush_Foreground2}"
+            Foreground="{DynamicResource Brush_SecondaryText}"
             Text="{Binding LyricsViewModel.Lyrics.Source}" />
                 </StackPanel>
             </Grid>

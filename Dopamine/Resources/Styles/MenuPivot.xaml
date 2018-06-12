@@ -12,7 +12,7 @@
         <Setter Property="Padding" Value="10,0,10,16"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="HeaderFontSize" Value="15"/>
-        <Setter Property="HeaderForeground" Value="{DynamicResource Brush_Foreground2}"/>
-        <Setter Property="SelectedHeaderForeground" Value="{DynamicResource Brush_Foreground1}"/>
+        <Setter Property="HeaderForeground" Value="{DynamicResource Brush_SecondaryText}"/>
+        <Setter Property="SelectedHeaderForeground" Value="{DynamicResource Brush_PrimaryText}"/>
     </Style>
 </ResourceDictionary>

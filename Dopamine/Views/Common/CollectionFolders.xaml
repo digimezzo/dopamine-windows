@@ -56,8 +56,8 @@
                 <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" HorizontalAlignment="Center" IsActive="{Binding IsLoadingFolders}"/>
             </Viewbox>
             <DockPanel Panel.ZIndex="1" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <pc:SyncRing DockPanel.Dock="Left" Width="24" Foreground="{DynamicResource Brush_Foreground1}"/>
-                <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource Brush_Foreground1}"/>
+                <pc:SyncRing DockPanel.Dock="Left" Width="24" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </DockPanel>
         </Grid>
     </StackPanel>

@@ -13,7 +13,7 @@
     <StackPanel Orientation="Horizontal">
         <ToggleButton x:Name="PlaylistButton" Style="{StaticResource TransparentToggleButton}" Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,10,0" ToolTip="{DynamicResource Language_Playlist}" Command="{x:Static cp:ApplicationCommands.NanoPlayerPlaylistButtonCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
             <Grid>
-                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Foreground1}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                 <TextBlock Text="&#xEA37;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="20" Visibility="{Binding IsChecked,ElementName=PlaylistButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </ToggleButton>

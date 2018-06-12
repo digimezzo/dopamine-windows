@@ -15,7 +15,7 @@
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_Foreground1}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_SoftWhite}"/>
 
     <!-- ContextMenu -->
     <ContextMenu x:Key="DataGridTracksContextMenu">
@@ -174,7 +174,7 @@
                                             VerticalAlignment="Center"
                                             Margin="0,0,20,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_Foreground1}"/>
+                                            Foreground="{DynamicResource Brush_PrimaryText}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -201,7 +201,7 @@
                                             VerticalAlignment="Center"
                                             Margin="0,0,20,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_Foreground2}"/>
+                                            Foreground="{DynamicResource Brush_SecondaryText}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -215,7 +215,7 @@
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground2}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryText}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Margin" Value="0,0,0,15"/>
         <Setter Property="Template">

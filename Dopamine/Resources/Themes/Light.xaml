@@ -13,40 +13,40 @@
     <core:Double x:Key="Opacity_CoverArtShadow">0.3</core:Double>
 
     <!-- Palette  -->
-    <Color x:Key="Color_GreyDarker">#EEEEEE</Color>
-    <Color x:Key="Color_GreyDarkerInvisible">#EEEEEE</Color>
-    <Color x:Key="Color_Background2">#F4F4F4</Color>
-    <Color x:Key="Color_Background3">#D5D5D5</Color>
-    <Color x:Key="Color_Background3Transparent">#D9D5D5D5</Color>
-    <Color x:Key="Color_Foreground1">#000000</Color>
-    <Color x:Key="Color_Foreground2">#939393</Color>
+    <Color x:Key="Color_DarkGrey1">#EEEEEE</Color>
+    <Color x:Key="Color_DarkGrey1Invisible">#EEEEEE</Color>
+    <Color x:Key="Color_DarkGrey3">#F4F4F4</Color>
+    <Color x:Key="Color_Background7">#D5D5D5</Color>
+    <Color x:Key="Color_Background7Transparent">#D9D5D5D5</Color>
+    <Color x:Key="Color_SoftWhite">#000000</Color>
+    <Color x:Key="Color_MediumGrey">#939393</Color>
 
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_Background1" Color="{StaticResource Color_GreyDarker}"/>
-    <SolidColorBrush x:Key="Brush_Background2" Color="{DynamicResource Color_Background2}"/>
-    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_Background3}"/>
-    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_Background3Transparent}"/>
+    <SolidColorBrush x:Key="Brush_WindowHeaderBackground" Color="{StaticResource Color_DarkGrey1}"/>
+    <SolidColorBrush x:Key="Brush_MainWindowBackground" Color="{DynamicResource Color_DarkGrey3}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackground" Color="{StaticResource Color_Background7}"/>
+    <SolidColorBrush x:Key="Brush_SliderBackgroundTransparent" Color="{StaticResource Color_Background7Transparent}"/>
     <SolidColorBrush x:Key="Brush_TextBoxBackgroundInvisible" Color="{StaticResource Color_BlackInvisible}"/>
-    <SolidColorBrush x:Key="Brush_Foreground1" Color="{DynamicResource Color_Foreground1}"/>
-    <SolidColorBrush x:Key="Brush_Foreground2" Color="{DynamicResource Color_Foreground2}"/>
-    <SolidColorBrush x:Key="Brush_Foreground3" Color="{DynamicResource Color_Background3}"/>
+    <SolidColorBrush x:Key="Brush_PrimaryText" Color="{DynamicResource Color_SoftWhite}"/>
+    <SolidColorBrush x:Key="Brush_SecondaryText" Color="{DynamicResource Color_MediumGrey}"/>
+    <SolidColorBrush x:Key="Brush_Background5" Color="{DynamicResource Color_Background7}"/>
     <SolidColorBrush x:Key="Brush_DimBackground" Color="{DynamicResource Color_White}" Opacity="0.2"/>
-    <SolidColorBrush x:Key="Brush_TileIconBackground" Color="{DynamicResource Color_Foreground2}" Opacity="0.4"/>
+    <SolidColorBrush x:Key="Brush_CoverTileIcon" Color="{DynamicResource Color_MediumGrey}" Opacity="0.4"/>
     <SolidColorBrush x:Key="Brush_AccentBackground" Color="{DynamicResource Color_Accent}" Opacity="0.01"/>
-    <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_Background2}" Opacity="0.95"/>
-    <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_Background3}" Opacity="0.5"/>
+    <SolidColorBrush x:Key="Brush_NowPlayingBackground" Color="{DynamicResource Color_DarkGrey3}" Opacity="0.95"/>
+    <SolidColorBrush x:Key="Brush_ItemSeparator" Color="{DynamicResource Color_Background7}" Opacity="0.5"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.7" RadiusY="0.7" Opacity="0.7">
         <RadialGradientBrush.GradientStops>
             <GradientStop Color="{DynamicResource Color_Accent}" Offset="0" />
-            <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="0.7" />
+            <GradientStop Color="{DynamicResource Color_DarkGrey1Invisible}" Offset="0.7" />
         </RadialGradientBrush.GradientStops>
     </RadialGradientBrush>
 
     <LinearGradientBrush x:Key="Brush_NanoPlayerWindowControlsBackground" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{DynamicResource Color_GreyDarker}" Offset="0.0" />
-        <GradientStop Color="{DynamicResource Color_GreyDarkerInvisible}" Offset="1.0" />
+        <GradientStop Color="{DynamicResource Color_DarkGrey1}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource Color_DarkGrey1Invisible}" Offset="1.0" />
     </LinearGradientBrush>
 
 
@@ -70,5 +70,5 @@
 
 
     <!-- TODO: remove -->
-    <SolidColorBrush x:Key="Brush_Border" Color="#BBBBBB"/>
+    <SolidColorBrush x:Key="Brush_ControlBorder" Color="#BBBBBB"/>
 </ResourceDictionary>
