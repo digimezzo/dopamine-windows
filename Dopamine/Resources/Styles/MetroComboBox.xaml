@@ -173,10 +173,10 @@
                     Value="0,0,0,0" />
                         </Trigger>
                         <Trigger SourceName="Popup" Property="IsOpen" Value="true">
-                            <Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_White}" />
-                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Brush_Accent}" />
-                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_White}" />
-                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_Accent}" />
+                            <Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_ComboBoxText}" />
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Brush_ComboBoxSelected}" />
+                            <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_ComboBoxText}" />
+                            <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_ComboBoxSelected}" />
                         </Trigger>
                         <Trigger SourceName="ToggleButton" Property="IsMouseOver" Value="true">
                             <!--<Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
@@ -190,10 +190,10 @@
                                 <Condition SourceName="Popup" Property="IsOpen" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_White}" />
-                                <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Brush_Accent}" />
-                                <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_White}" />
-                                <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_Accent}" />
+                                <Setter TargetName="ContentSite" Property="Foreground" Value="{DynamicResource Brush_ComboBoxText}" />
+                                <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{DynamicResource Brush_ComboBoxSelected}" />
+                                <Setter TargetName="ToggleButton" Property="Foreground" Value="{DynamicResource Brush_ComboBoxText}" />
+                                <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_ComboBoxSelected}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

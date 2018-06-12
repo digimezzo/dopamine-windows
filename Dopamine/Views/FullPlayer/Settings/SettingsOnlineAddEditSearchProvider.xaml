@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="False">
 
-    <Grid>
+    <Grid Margin="20,20,20,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>

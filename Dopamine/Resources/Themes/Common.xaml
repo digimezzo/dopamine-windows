@@ -34,9 +34,8 @@
     <Color x:Key="Color_Grey">#CCCCCC</Color>
     
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_White" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_Black" Color="{DynamicResource Color_Black}"/>
-
+    <SolidColorBrush x:Key="Brush_ComboBoxText" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_WindowButtonCoverPictureText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ColorSchemeSelectorIcon" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ImageOverlayText" Color="{DynamicResource Color_White}"/>

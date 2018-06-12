@@ -57,11 +57,11 @@
         </Setter>
     </Style>
     
-    <Style x:Key="BrightWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+    <Style x:Key="WindowButtonNano" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
         <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}"/>
     </Style>
 
-    <Style x:Key="WhiteWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+    <Style x:Key="WindowButtonCoverPicture" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonCoverPictureText}"/>
     </Style>
 </ResourceDictionary>
