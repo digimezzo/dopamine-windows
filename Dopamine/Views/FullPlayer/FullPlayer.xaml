@@ -33,7 +33,7 @@
         <fwc:SplitView.ButtonContent>
             <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
-                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_WindowIconBackground}"/>
+                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                 </Viewbox>
                 <fwc:MaterialIcon x:Name="HamburgerIcon" Panel.ZIndex="1" Text="&#xE5D2;" FontSize="1" Opacity="0"
                                   Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 

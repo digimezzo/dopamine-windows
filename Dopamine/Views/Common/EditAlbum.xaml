@@ -34,7 +34,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="20,20,20,0">
         <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
             <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" IsActive="{Binding IsBusy}"/>
         </Viewbox>
@@ -77,7 +77,7 @@
                         RenderOptions.BitmapScalingMode="HighQuality" 
                         Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 </Grid>
-                <StackPanel Margin="2">
+                <StackPanel Margin="2,5,2,2">
                     <StackPanel.ToolTip>
                         <ToolTip>
                             <StackPanel>
