@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
     <Style x:Key="MetroListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -20,24 +21,31 @@
                                        ToolTip="{Binding ArtistName}"
                                        Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"/>
                             </Border>
-                            <Border.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <Trigger Property="Border.IsMouseOver" Value="True">
-                                            <Setter Property="Border.Background" Value="{DynamicResource Brush_ItemHovered}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
+                            </Border.Background>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="Background.Opacity">
+                                            <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="Background.Opacity">
+                                            <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
                         </Border>
-
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="False"/>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -47,7 +55,7 @@
     <Style x:Key="MetroListBox" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource MetroListBoxItem}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Background4}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

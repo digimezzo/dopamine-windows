@@ -38,7 +38,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddTracksToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -55,7 +55,7 @@
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>

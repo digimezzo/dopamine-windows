@@ -2,7 +2,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="MetroTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Background4}" />
         <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -35,7 +35,7 @@
     </Style>
 
     <Style x:Key="LargeMetroTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Background4}" />
         <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -66,7 +66,7 @@
     </Style>
 
     <Style x:Key="MetroPasswordBox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="Background" Value="{DynamicResource Brush_Foreground3}" />
+        <Setter Property="Background" Value="{DynamicResource Brush_Background4}" />
         <Setter Property="Foreground" Value="{DynamicResource Brush_Foreground1}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Brush_Accent}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
