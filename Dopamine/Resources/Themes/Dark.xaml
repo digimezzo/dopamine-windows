@@ -6,7 +6,7 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Themes/Common.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Brush_AppearanceService is used by the AppearanceService -->
+    <!-- Brush_AppearanceService is used by the AppearanceService to find this dictionary -->
     <SolidColorBrush x:Key="Brush_AppearanceService" Color="#FFFFFF"/>
 
     <!-- Constants -->
