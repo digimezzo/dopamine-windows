@@ -74,8 +74,8 @@
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
             <Border Background="{DynamicResource Brush_PaneBackground}">
-                <DockPanel Margin="20,20,20,26">
-                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                <DockPanel Margin="10,20,10,26">
+                    <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                         <TextBlock Text="{Binding TracksCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                         <Button DockPanel.Dock="Right" Content="{Binding TrackOrderText}" 
@@ -90,7 +90,7 @@
                     <DockPanel>
                         <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
-                                Margin="0,20,0,0" 
+                                Margin="10,20,10,0" 
                                 Foreground="{DynamicResource Brush_SecondaryText}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
