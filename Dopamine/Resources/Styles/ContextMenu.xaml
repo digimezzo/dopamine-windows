@@ -112,7 +112,7 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Accent}" />
                 <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuTextSelected}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
@@ -178,7 +178,7 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Accent}" />
                 <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuTextSelected}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">

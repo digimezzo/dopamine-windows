@@ -16,7 +16,7 @@
                 <StackPanel Orientation="Horizontal" Margin="13,0,20,0">
                     <Grid>
                         <Viewbox Width="30" Height="30" Panel.ZIndex="0">
-                            <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_WindowIconBackground}"/>
+                            <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                         </Viewbox>
                         <TextBlock
                           x:Name="Icon"

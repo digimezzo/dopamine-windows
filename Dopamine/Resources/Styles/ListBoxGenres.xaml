@@ -68,7 +68,7 @@
                             Command="{Binding DataContext.ShowGenresZoomCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
                             <Grid Width="26" Height="26" HorizontalAlignment="Left" Margin="0,8,0,8">
                                 <Viewbox Width="26" Height="26" Panel.ZIndex="0">
-                                    <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_SemanticZoomBackground}"/>
+                                    <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                                 </Viewbox>
                                 <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="16" 
                                        VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_SemanticZoomText}"/>

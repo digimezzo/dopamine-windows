@@ -25,7 +25,7 @@
                               CloseHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
                               ClosePressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               CloseBackground="Transparent"
-                              CloseHoveredBackground="{DynamicResource Brush_WindowButtonHoveredBackground}"
+                              CloseHoveredBackground="{DynamicResource Brush_Accent}"
                               ClosePressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 

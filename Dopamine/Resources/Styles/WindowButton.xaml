@@ -13,7 +13,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonHoveredBackground}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
@@ -36,12 +36,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid x:Name="Border">
-                        <Rectangle x:Name="rect" Fill="{DynamicResource Brush_WindowButtonAccentBackground}"/>
+                        <Rectangle x:Name="rect" Fill="{DynamicResource Brush_Accent}"/>
                         <ContentPresenter RecognizesAccessKey="True" Margin="0,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonHoveredBackground}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">

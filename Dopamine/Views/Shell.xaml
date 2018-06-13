@@ -41,13 +41,13 @@
                               MinMaxHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
                               MinMaxPressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               MinMaxBackground="Transparent"
-                              MinMaxHoveredBackground="{DynamicResource Brush_WindowButtonHoveredBackground}"
+                              MinMaxHoveredBackground="{DynamicResource Brush_Accent}"
                               MinMaxPressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
                               CloseForeground="{DynamicResource Brush_SecondaryText}"
                               CloseHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
                               ClosePressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               CloseBackground="Transparent"
-                              CloseHoveredBackground="{DynamicResource Brush_WindowButtonHoveredBackground}"
+                              CloseHoveredBackground="{DynamicResource Brush_Accent}"
                               ClosePressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
                               MouseDown="Window_MouseDown">
 
