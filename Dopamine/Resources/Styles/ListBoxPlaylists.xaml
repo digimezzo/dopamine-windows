@@ -34,11 +34,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <DockPanel Background="{TemplateBinding Background}" >
+                    <DockPanel Background="{TemplateBinding Background}" 
+                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                         <Grid>
-                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" Height="26" Opacity="0"/>
-                            <Border Panel.ZIndex="1" Height="26">
-                                <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
+                            <Border x:Name="MouseHoverHelper" Height="32" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" Height="32" Opacity="0"/>
+                            <Border Panel.ZIndex="1" Height="32" Margin="10,0,10,0">
+                                <DockPanel>
                                     <Button x:Name="DeletePlaylistButton"
                                             Visibility="Collapsed"
                                     DockPanel.Dock="Right"
@@ -64,25 +66,6 @@
                                    Margin="2,0,2,0"
                                    ToolTip="{Binding Name}"/>
                                 </DockPanel>
-                                <Border.Background>
-                                    <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
-                                </Border.Background>
-                                <Border.Triggers>
-                                    <EventTrigger RoutedEvent="MouseEnter">
-                                        <BeginStoryboard>
-                                            <Storyboard TargetProperty="Background.Opacity">
-                                                <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="MouseLeave">
-                                        <BeginStoryboard>
-                                            <Storyboard TargetProperty="Background.Opacity">
-                                                <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Border.Triggers>
                             </Border>
                             <Grid.Triggers>
                                 <EventTrigger RoutedEvent="Button.DragEnter">
@@ -115,6 +98,20 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

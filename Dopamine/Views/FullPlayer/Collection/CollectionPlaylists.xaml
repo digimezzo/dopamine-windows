@@ -36,8 +36,8 @@
             MiddlePaneMinimumWidth="250">
             <dc:MultiPanePanel.LeftPaneContent>
                 <Border Background="{DynamicResource Brush_PaneBackground}">
-                    <DockPanel Margin="20,20,20,26">
-                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                    <DockPanel Margin="10,20,10,26">
+                        <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                             <TextBlock Text="{Binding PlaylistsCount}" FontSize="13"
                                        Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                             <Button 
@@ -58,7 +58,7 @@
                                     </CollectionViewSource.SortDescriptions>
                                 </CollectionViewSource>
                             </DockPanel.Resources>
-                            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                            <StackPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                                 <pc:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=NewPlaylistCommand}"/>
                                 <pc:IconTextButton Glyph="&#xE8E5;" GlyphSize="13" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Open_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=OpenPlaylistCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
                             </StackPanel>
