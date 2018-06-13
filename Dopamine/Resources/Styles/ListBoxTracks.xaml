@@ -101,7 +101,7 @@
                             <StackPanel>
                                 <TextBlock Text="{Binding GroupHeader}" 
                                    DataContext="{Binding Items}" 
-                                   Margin="0,5,0,0" 
+                                   Margin="10,5,10,0" 
                                    HorizontalAlignment="Stretch" 
                                    FontSize="20" 
                                    FontWeight="Light"
@@ -109,7 +109,7 @@
                                    Foreground="{DynamicResource Brush_PrimaryText}"/>
                                 <TextBlock Text="{Binding GroupSubHeader}" 
                                    DataContext="{Binding Items}" 
-                                   Margin="0,0,0,10" 
+                                   Margin="10,0,10,10" 
                                    HorizontalAlignment="Stretch" 
                                    TextTrimming="CharacterEllipsis"
                                    Foreground="{DynamicResource Brush_SecondaryText}"/>
@@ -142,36 +142,84 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border x:Name="SelectionBorder">
-                        <Grid>
-                            <Grid.Background>
-                                <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
-                            </Grid.Background>
-                            <Grid.Triggers>
-                                <EventTrigger RoutedEvent="MouseEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard TargetProperty="Background.Opacity">
-                                            <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="MouseLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard TargetProperty="Background.Opacity">
-                                            <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Grid.Triggers>
-                            <ContentPresenter/>
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <Border x:Name="MouseHoverHelper" Height="32" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                        <Border Background="{TemplateBinding Background}"
+                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
+                            <DockPanel Height="32" Margin="10,0,10,0">
+                                <DockPanel.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding ArtistName}"/>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </DockPanel.ToolTip>
+                                <TextBlock x:Name="TrackNumber"
+                                           DockPanel.Dock="Left" Margin="0,0,5,0"
+                                           Visibility="{Binding ShowTrackNumber, Converter={StaticResource BooleanToCollapsedConverter}}"
+                                           Text="{Binding FormattedTrackNumber}" 
+                                           VerticalAlignment="Center"
+                                           FontSize="13"
+                                           MinWidth="17"
+                                           Foreground="{DynamicResource Brush_SecondaryText}"/>
+                                <DockPanel>
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Label Style="{DynamicResource SpectrumAnimation}"
+                                                Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                Foreground="{DynamicResource Brush_Accent}" 
+                                                Margin="10,0,10,0" 
+                                                VerticalAlignment="Center"/>
+                                        <pc:RatingButton 
+                                    VerticalAlignment="Center" 
+                                    Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
+                                    Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                        <pc:LoveButton 
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center" 
+                                    Foreground="{DynamicResource Brush_PrimaryText}"
+                                    SelectedForeground="{DynamicResource Brush_Accent}"
+                                    Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
+                                    Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        <TextBlock
+                                    Width="60"
+                                    Text="{Binding Duration}" 
+                                    Foreground="{DynamicResource Brush_SecondaryText}"
+                                    TextAlignment="Right"
+                                    FontSize="13" 
+                                    VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding TrackTitle}"
+                                       Foreground="{DynamicResource Brush_PrimaryText}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch" 
+                                       TextTrimming="CharacterEllipsis"
+                                       Margin="2,0,0,0"
+                                       FontSize="13"/>
+                                </DockPanel>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="SelectionBorder" Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                        </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -185,66 +233,5 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <DockPanel Height="32" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                        <DockPanel.ToolTip>
-                            <ToolTip>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding ArtistName}"/>
-                                </StackPanel>
-                            </ToolTip>
-                        </DockPanel.ToolTip>
-                        <TextBlock x:Name="TrackNumber"
-                                           DockPanel.Dock="Left" Margin="2,0,5,0"
-                                           Visibility="{Binding ShowTrackNumber, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                           Text="{Binding FormattedTrackNumber}" 
-                                           VerticalAlignment="Center"
-                                           FontSize="13"
-                                           MinWidth="17"
-                                           Foreground="{DynamicResource Brush_SecondaryText}"/>
-                        <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                <Label Style="{DynamicResource SpectrumAnimation}"
-                                                Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                Foreground="{DynamicResource Brush_Accent}" 
-                                                Margin="10,0,10,0" 
-                                                VerticalAlignment="Center"/>
-                                <pc:RatingButton 
-                                    VerticalAlignment="Center" 
-                                    Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                    Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    Foreground="{DynamicResource Brush_PrimaryText}"/>
-                                <pc:LoveButton 
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center" 
-                                    Foreground="{DynamicResource Brush_PrimaryText}"
-                                    SelectedForeground="{DynamicResource Brush_Accent}"
-                                    Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                    Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                <TextBlock
-                                    Width="60"
-                                    Text="{Binding Duration}" 
-                                    Foreground="{DynamicResource Brush_SecondaryText}"
-                                    TextAlignment="Right"
-                                    FontSize="13" 
-                                    VerticalAlignment="Center"
-                                    Margin="0,0,2,0"/>
-                            </StackPanel>
-                            <TextBlock Text="{Binding TrackTitle}"
-                                       Foreground="{DynamicResource Brush_PrimaryText}"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Stretch" 
-                                       TextTrimming="CharacterEllipsis"
-                                       Margin="2,0,0,0"
-                                       FontSize="13"/>
-                        </DockPanel>
-                    </DockPanel>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>
