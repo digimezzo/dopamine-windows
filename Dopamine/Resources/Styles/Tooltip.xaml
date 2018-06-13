@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolTip}" >
-                    <Border Margin="10" Background="{DynamicResource Brush_ToolTipBackground}" CornerRadius="3" Padding="10,6,10,6">
+                    <Border Margin="10" Background="{DynamicResource Brush_Accent}" CornerRadius="3" Padding="10,6,10,6">
                         <ContentPresenter />
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>

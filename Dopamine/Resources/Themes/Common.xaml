@@ -38,24 +38,19 @@
     <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ColorSchemeSelectorIcon" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ImageOverlayText" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_SemanticZoomBackground" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_SemanticZoomText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_StatustText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_WindowButtonHoveredIcon" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_WindowButtonPressedIcon" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_WindowButtonHoveredBackground" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_WindowButtonPressedBackground" Color="{DynamicResource Color_Accent}" Opacity="0.8"/>
     <SolidColorBrush x:Key="Brush_WindowButtonAccentIcon" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_WindowButtonAccentBackground" Color="{DynamicResource Color_Accent}"/>
-    <SolidColorBrush x:Key="Brush_WindowIconBackground" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_WindowIcon" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ContextMenuSeparator" Color="{DynamicResource Color_Grey}"/>
     <SolidColorBrush x:Key="Brush_ContextMenuButton" Color="{DynamicResource Color_Grey}"/>
-    <SolidColorBrush x:Key="Brush_ContextMenuHovered" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_ContextMenuBackground" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ContextMenuText" Color="{DynamicResource Color_Black}"/>
     <SolidColorBrush x:Key="Brush_ContextMenuTextSelected" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_ToolTipBackground" Color="{DynamicResource Color_Accent}"/>
+    <SolidColorBrush x:Key="Brush_Accent" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_ToolTipText" Color="{DynamicResource Color_White}"/>
 
     <!-- Gradient Brushes -->
