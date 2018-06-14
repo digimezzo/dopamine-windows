@@ -26,8 +26,8 @@
         LeftPaneMinimumWidth="250"
         MiddlePaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
-            <DockPanel Margin="20,20,20,26">
-                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+            <DockPanel Margin="10,20,10,26">
+                <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                     <TextBlock Text="{Binding AlbumsCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                     <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="20,0,0,0" FontSize="13" 
