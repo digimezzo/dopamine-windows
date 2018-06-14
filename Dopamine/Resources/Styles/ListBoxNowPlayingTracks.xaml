@@ -49,9 +49,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Height="44" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                        <Border 
-                            Background="{TemplateBinding Background}">
+                    <Grid>
+                        <Border x:Name="MouseHoverHelper" Height="46" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                        <Border Height="46" 
+                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
+                                Background="{TemplateBinding Background}">
                             <Border.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
@@ -60,10 +62,9 @@
                                     </StackPanel>
                                 </ToolTip>
                             </Border.ToolTip>
-                            <DockPanel>
+                            <DockPanel Margin="10,0,10,0">
                                 <Grid DockPanel.Dock="Left">
                                     <Grid Panel.ZIndex="0"
-                                      Margin="2,0,0,0"
                                       Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
                                         <pc:Tile Width="40" Height="40"
                                              Panel.ZIndex="0"
@@ -134,31 +135,25 @@
                                 </StackPanel>
                             </DockPanel>
                         </Border>
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
-                        </Border.Background>
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Border.Triggers>
-                    </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="False"/>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
