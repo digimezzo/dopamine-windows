@@ -59,6 +59,7 @@ namespace Dopamine
     public partial class App : PrismApplication
     {
         private Mutex instanceMutex = null;
+        private DateTime lastUnhandledExceptionLoggedTime = DateTime.MinValue;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -485,6 +486,21 @@ namespace Dopamine
             this.ExecuteEmergencyStop(e.Exception);
         }
 
+        private bool CanLogUnhandledException()
+        {
+            DateTime now = DateTime.Now;
+            double differenceInSeconds = now.Subtract(this.lastUnhandledExceptionLoggedTime).TotalSeconds;
+
+            // We only allow logging unhandled exceptions once every 5 seconds to avoid filling the logs too much.
+            if (differenceInSeconds >= 5)
+            {
+                this.lastUnhandledExceptionLoggedTime = now;
+                return true;
+            }
+
+            return false;
+        }
+
         private void ExecuteEmergencyStop(Exception ex)
         {
             // This is a workaround for a bug in the .Net framework, which randomly causes a System.ArgumentNullException when
@@ -493,7 +509,24 @@ namespace Dopamine
             // This might be fixed in .Net 4.5.2. See here: https://connect.microsoft.com/VisualStudio/feedback/details/789438/scrolling-in-virtualized-wpf-treeview-is-very-unstable
             if (ex.GetType().ToString().Equals("System.ArgumentNullException") & ex.Source.ToString().Equals("PresentationCore"))
             {
-                LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
+                if (this.CanLogUnhandledException())
+                {
+                    LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
+                }
+                
+                return;
+            }
+
+            // This is a workaround for an inexplicable issue which occurs on 1 user's computer (as far as I know).
+            // Exception "System.ComponentModel.Win32Exception (0x80004005): Access is denied" is thrown when performing
+            // function "MS.Win32.UnsafeNativeMethods.GetWindowText(HandleRef hWnd, StringBuilder lpString, Int32 nMaxCount)"
+            if (ex.GetType().ToString().Equals("System.ComponentModel.Win32Exception") & ex.Source.ToString().Equals("WindowsBase"))
+            {
+                if (this.CanLogUnhandledException())
+                {
+                    LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
+                }
+
                 return;
             }
 
