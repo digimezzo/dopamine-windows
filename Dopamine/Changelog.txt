@@ -8,9 +8,11 @@
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the German translation
 - [Changed] Updated the Greek translation
+- [Changed] Updated the Korean translation
 - [Changed] Updated the Polish translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Spanish translation
+- [Changed] Updated the Vietnamese translation
 - [Fixed] Lyrics scrolling issue when using lyrics which have no timestamps
 - [Fixed] Unable to fetch lyrics from LyricWikia when song artist or title have special casing and special characters
 
