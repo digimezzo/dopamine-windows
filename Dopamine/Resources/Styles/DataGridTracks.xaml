@@ -151,7 +151,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                        <ContentPresenter Margin="0,0,20,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <ContentPresenter Margin="10,0,10,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -172,7 +172,7 @@
                                     <Border HorizontalAlignment="Stretch" Background="#00000000">
                                         <TextBlock 
                                             VerticalAlignment="Center"
-                                            Margin="0,0,20,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
+                                            Margin="10,0,10,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
                                             Foreground="{DynamicResource Brush_PrimaryText}"/>
                                     </Border>
@@ -199,7 +199,7 @@
                                     <Border HorizontalAlignment="Stretch" Background="#00000000">
                                         <TextBlock 
                                             VerticalAlignment="Center"
-                                            Margin="0,0,20,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
+                                            Margin="10,0,10,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
                                             Foreground="{DynamicResource Brush_SecondaryText}"/>
                                     </Border>
@@ -217,7 +217,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryText}"/>
         <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Margin" Value="0,0,0,15"/>
+        <Setter Property="Margin" Value="10,0,10,15"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
