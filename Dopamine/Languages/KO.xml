@@ -77,12 +77,12 @@
   <Text Key="Error_Removing_Folder">이 폴더를 컬렉션에서 제거할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Already_Exists">중복 항목</Text>
   <Text Key="Folder_Already_In_Collection">이미 컬렉션에 존재하는 폴더입니다.</Text>
-  <Text Key="Log_File">로그 파일</Text>
+  <Text Key="Log_File">로그 파일 열기</Text>
   <Text Key="Play">재생</Text>
   <Text Key="Pause">일시 중지</Text>
   <Text Key="Next">다음</Text>
   <Text Key="Previous">이전</Text>
-  <Text Key="Loop">반복</Text>
+  <Text Key="Loop">반복 재생</Text>
   <Text Key="Shuffle">무작위 재생</Text>
   <Text Key="Mute">음소거</Text>
   <Text Key="Unmute">음소거 해제</Text>
@@ -420,13 +420,13 @@
   <Text Key="Spectrum_Stripes">줄무늬</Text>
   <Text Key="Also_Check_For_Prereleases">프리뷰 버전도 확인</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">폴더 내용에 접근할 수 없어 &apos;{foldername}&apos; 폴더를 추가할 수 없습니다. 폴더 권한을 확인하세요.</Text>
-  <Text Key="Search_Hint">Search...</Text>
-  <Text Key="Time">Time</Text>
-  <Text Key="Song_Artists">Song artists</Text>
-  <Text Key="Album_Artists">Album artists</Text>
-  <Text Key="Toggle_Artists">Toggle artists</Text>
-  <Text Key="Select_None">Select none</Text>
-  <Text Key="Open_Menu">Open menu</Text>
-  <Text Key="Toggle_Album_Order">Toggle album order</Text>
-  <Text Key="Toggle_Track_Order">Toggle song order</Text>
+  <Text Key="Search_Hint">검색...</Text>
+  <Text Key="Time">시간</Text>
+  <Text Key="Song_Artists">노래 아티스트</Text>
+  <Text Key="Album_Artists">앨범 아티스트</Text>
+  <Text Key="Toggle_Artists">아티스트 토글</Text>
+  <Text Key="Select_None">선택 취소</Text>
+  <Text Key="Open_Menu">메뉴 열기</Text>
+  <Text Key="Toggle_Album_Order">앨범 순서 토글</Text>
+  <Text Key="Toggle_Track_Order">노래 순서 토글</Text>
 </Language>
