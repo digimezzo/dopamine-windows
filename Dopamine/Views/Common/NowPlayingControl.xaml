@@ -22,7 +22,7 @@
     </i:Interaction.Triggers>
 
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top" Margin="10,0,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="0.01*" />
@@ -36,8 +36,8 @@
             </DockPanel>
             <commonviews:SearchControl Grid.Column="2" VerticalAlignment="Center"/>
         </Grid>
-        <DockPanel Margin="0,0,0,0">
-            <DockPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" Margin="10,20,10,0">
                 <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="20,0,0,0"
                               IsChecked="{Binding ShowTrackArt}"
                               Style="{StaticResource TransparentToggleButton}" Command="{Binding UpdateShowTrackArtCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
