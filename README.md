@@ -24,7 +24,7 @@ If both dependencies are met, Dopamine should compile without issues on Windows 
 
 ## Helping out with translations ##
 
-Currently, I'm getting language files via Facebook, Twitter, e-mail and GitHub. It's getting hard to track and I'm forgetting translations. I'd like to centralize translation contributions on GitHub. The instruction below should help you do this.
+Currently, I'm getting language files via Facebook, Twitter, e-mail and GitHub. It's getting hard to keep track of them and translations get lost. I'd like to centralize translation contributions on GitHub. The instruction below should help you do this.
 
 The most up to date translation files can be found in this repository, <a href="https://github.com/digimezzo/Dopamine/tree/master/Dopamine/Languages">over here</a>.
 
